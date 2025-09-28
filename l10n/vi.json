@@ -1,5 +1,12 @@
 { "translations": {
+    "Team" : "Đội",
+    "Contact group" : "Liên hệ nhóm",
     "Group" : "Nhóm",
+    "This email is sent to you to inform you about the result of a inquiry you participated in. At least your name or your email address was recorded in this inquiry. If you want to be removed from this inquiry, contact the site administrator or the inquiry initiator, where the mail is sent from." : "Email này được gửi để thông báo kết quả của cuộc khảo sát mà bạn đã tham gia. Ít nhất tên của bạn hoặc địa chỉ email đã được ghi lại trong cuộc khảo sát này. Nếu bạn muốn được xóa khỏi cuộc khảo sát này, vui lòng liên hệ với quản trị viên trang web hoặc người khởi tạo cuộc khảo sát, nơi email này được gửi từ. ",
+    "_Confirmed option:_::_Confirmed options:_" : ["Tùy chọn đã xác nhận:"],
+    "The used time zone is \"%s\", based on the detected time zone at your registration time. To view the times in your current time zone, enter the inquiry by clicking the button below." : "Múi giờ được sử dụng là \"%s\", dựa trên múi giờ được phát hiện tại thời điểm đăng ký của bạn. Để xem thời gian theo múi giờ hiện tại của bạn, hãy nhập yêu cầu bằng cách nhấp vào nút bên dưới.",
+    "This link gives you personal access to the inquiry named above. Press the button above or copy the following link and add it in your browser's location bar:" : "Liên kết này cung cấp quyền truy cập cá nhân vào cuộc điều tra như trên. Nhấn vào nút ở trên hoặc sao chép liên kết sau và thêm nó vào thanh địa chỉ của trình duyệt:",
+    "Do not share this link with other people, because it is connected to your supports." : "Không chia sẻ liên kết này với người khác, vì nó được kết nối với hỗ trợ của bạn.",
     "Legal Notice" : "Thông cáo pháp lý",
     "Contact" : "Liên hệ",
     "User" : "Người dùng",
