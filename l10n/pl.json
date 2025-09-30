@@ -1,7 +1,11 @@
 { "translations": {
+    "Inquiry changes" : "Zmiany w zapytaniu",
+    "Agora" : "Agora",
     "Team" : "Zespół",
     "Contact group" : "Kontakt grupy",
     "Group" : "Grupa",
+    "This email is sent to you to inform you about the result of a inquiry you participated in. At least your name or your email address was recorded in this inquiry. If you want to be removed from this inquiry, contact the site administrator or the inquiry initiator, where the mail is sent from." : "Ta wiadomość została wysłana, aby poinformować Cię o wyniku zapytania, w którym brałeś udział. Przynajmniej Twoje imię lub adres e-mail zostały zapisane w tym zapytaniu. Jeśli chcesz zostać usunięty z tego zapytania, skontaktuj się z administratorem strony lub inicjatorem zapytania, z którego pochodzi wiadomość.",
+    "{owner} wants to inform you about the final result of the inquiry \"{title}\"" : "{owner}właściciel chce poinformować Cię o ostatecznym wyniku zapytania \"{title}\"",
     "_Confirmed option:_::_Confirmed options:_" : ["Potwierdzona opcja:","Potwierdzone opcje:","Potwierdzone opcje:","Potwierdzone opcje:"],
     "Legal Notice" : "Nota prawna",
     "Privacy Policy" : "Polityka prywatności",
