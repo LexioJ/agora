@@ -9,6 +9,19 @@ This app has been built on top of [Nextcloud Polls](https://github.com/nextcloud
 A big thanks to the original Polls contributors for creating this wonderful application.
 
 Agora is a Nextcloud app for participatory democracy, inquiries, and proposals, similar to [Decidim](https://decidim.org/), written in PHP and JS/Vue.
+ Discover Agora: A Nextcloud App for Collaborative Decision-Making
+
+Agora lets your group or organization collaborate on ideas and decisions in a structured, inclusive way. With it, users can:
+
+- *Create Proposals, Debates, Petitions, or Projects*: Anyone can start a discussion or suggest an idea, whether it's about planning an event, improving a process, or launching something new.
+- *Gather Input and Support*: People can add comments, suggestions, or endorsements to shape ideas together. It's like a friendly, organized conversation where every voice matters.
+- *Sort by Location or Category*: Contributions can be tagged by topic or place, making it easy to keep things relevant and focused.
+
+Since it runs on your Nextcloud server, everything stays private and secure, with no external platforms involved.
+
+## Why Try It?
+Agora is a gentle way to encourage participation and make decisions together. Whether you're part of a community group, a small team, or a local initiative, it helps turn ideas into action without complexity. It’s a small addition that could make a big difference for your group’s collaboration.
+
 
 [![Dependabot status](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg?longCache=true&style=flat-square&logo=dependabot)](https://dependabot.com)
 [![Software License](https://img.shields.io/badge/license-AGPL-brightgreen.svg?style=flat-square)](COPYING)
