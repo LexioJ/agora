@@ -65,32 +65,31 @@ class TableManager
      * @psalm-return non-empty-list<string>
      */
     public function purgeTables(): array
-    {
-        $messages = [];
+{
+    $messages = [];
+    $droppedTables = [];
 
-        // drop all child tables
-        $droppedTables = [];
+    // Étape 1: Collecter toutes les tables dans l'ordre inverse des dépendances
+    $allTables = array_keys(TableSchema::TABLES);
 
-        // First drop all tables that have foreign key constraints
-        foreach (TableSchema::FK_INDICES as $parent => $child) {
-            // drop all child tables referencing the parent table
-            foreach (array_keys($child) as $table) {
-                if ($this->connection->tableExists($table)) {
-                    $this->connection->dropTable($table);
-                    $droppedTables[] = $this->dbPrefix . $table;
-                    $messages[] = 'Dropped ' . $this->dbPrefix . $table;
-                }
-            }
-            // drop the parent table
-            if ($this->connection->tableExists($parent)) {
-                $this->connection->dropTable($parent);
-                $droppedTables[] = $this->dbPrefix . $parent;
-                $messages[] = 'Dropped ' . $this->dbPrefix . $parent;
+    // Étape 2: Désactiver temporairement les contraintes de clés étrangères
+    $this->connection->executeStatement('SET FOREIGN_KEY_CHECKS = 0');
+    $messages[] = 'Foreign key constraints disabled';
+
+    try {
+        $tablesToDrop = [];
+
+        foreach ($allTables as $table) {
+            $isParent = isset(TableSchema::FK_INDICES[$table]);
+            if (!$isParent) {
+                $tablesToDrop[] = $table;
             }
         }
 
-        // Then if there are any tables left, drop them
-        foreach (array_keys(TableSchema::TABLES) as $tableName) {
+        $parentTables = array_reverse(array_keys(TableSchema::FK_INDICES));
+        $tablesToDrop = array_merge($tablesToDrop, $parentTables);
+
+        foreach ($tablesToDrop as $tableName) {
             if ($this->connection->tableExists($tableName)) {
                 $this->connection->dropTable($tableName);
                 $droppedTables[] = $this->dbPrefix . $tableName;
@@ -98,39 +97,31 @@ class TableManager
             }
         }
 
-        if (!$droppedTables) {
-            $this->logger->info('Dropped tables', $droppedTables);
-        }
-
-        // delete all migration records
-        // ATTENTION: This is more or less an illegal access
-        // to the migrations table which belong to the core
-        $query = $this->connection->getQueryBuilder();
-        $query->delete('migrations')
-            ->where('app = :appName')
-            ->setParameter('appName', AppConstants::APP_ID)
-            ->executeStatement();
-
-        $this->logger->info('Removed all migration records from {dbPrefix}migrations', ['dbPrefix' => $this->dbPrefix]);
-        $messages[] = 'Removed all migration records from ' . $this->dbPrefix . 'migrations';
-
-        // delete all app configs
-        // ATTENTION: This is more or less an illegal access
-        // to the migrations table which belong to the core
-        $query->delete('appconfig')
-            ->where('appid = :appid')
-            ->setParameter('appid', AppConstants::APP_ID)
-            ->executeStatement();
-
-        $this->logger->info('Removed all app config records from {dbPrefix}appconfig', ['dbPrefix' => $this->dbPrefix]);
-        $messages[] = 'Removed all app config records from ' . $this->dbPrefix . 'appconfig';
-        $messages[] = 'Done.';
-        $messages[] = '';
-        $messages[] = 'Please call \'occ app:remove inquiries\' now!';
-
-        return $messages;
+    } finally {
+        $this->connection->executeStatement('SET FOREIGN_KEY_CHECKS = 1');
+        $messages[] = 'Foreign key constraints re-enabled';
     }
 
+    $query = $this->connection->getQueryBuilder();
+    $query->delete('migrations')
+        ->where('app = :appName')
+        ->setParameter('appName', AppConstants::APP_ID)
+        ->executeStatement();
+
+    $messages[] = 'Removed all migration records from ' . $this->dbPrefix . 'migrations';
+
+    $query->delete('appconfig')
+        ->where('appid = :appid')
+        ->setParameter('appid', AppConstants::APP_ID)
+        ->executeStatement();
+
+    $messages[] = 'Removed all app config records from ' . $this->dbPrefix . 'appconfig';
+    $messages[] = 'Done.';
+    $messages[] = '';
+    $messages[] = 'Please call \'occ app:remove inquiries\' now!';
+
+    return $messages;
+}
     /**
      * @return string[]
      */
@@ -456,35 +447,35 @@ class TableManager
         return $messages;
     }
 
-    public function migrateOptionsToHash(): array
+    public function migrateSupportsToHash(): array
     {
         $messages = [];
 
-        if ($this->schema->hasTable($this->dbPrefix . OptionMapper::TABLE)) {
-            $table = $this->schema->getTable($this->dbPrefix . OptionMapper::TABLE);
+        if ($this->schema->hasTable($this->dbPrefix . SupportMapper::TABLE)) {
+            $table = $this->schema->getTable($this->dbPrefix . SupportMapper::TABLE);
             $count = 0;
-            if ($table->hasColumn('inquiry_option_hash')) {
-                foreach ($this->optionMapper->getAll(includeNull: true) as $option) {
+            if ($table->hasColumn('support_hash')) {
+                foreach ($this->supportMapper->getAll(includeNull: true) as $option) {
                     try {
                         $option->syncOption();
                         // $option->setInquiryOptionHash(hash('md5', $option->getInquiryId() . $option->getInquiryOptionText() . $option->getTimestamp()));
 
-                        $this->optionMapper->update($option);
+                        $this->supportMapper->update($support);
                         $count++;
                     } catch (Exception $e) {
-                        $messages[] = 'Skip hash update - Error updating option hash for optionId ' . $option->getId();
-                        $this->logger->error('Error updating option hash for optionId {id}', ['id' => $option->getId(), 'message' => $e->getMessage()]);
+                        $messages[] = 'Skip hash update - Error updating option hash for supportId ' . $option->getId();
+                        $this->logger->error('Error updating option hash for supportId {id}', ['id' => $option->getId(), 'message' => $e->getMessage()]);
                     }
                 }
 
-                $this->logger->info('Updated {number} hashes in {db}', ['number' => $count,'db' => $this->dbPrefix . OptionMapper::TABLE]);
-                $messages[] = 'Updated ' . $count . ' option hashes';
+                $this->logger->info('Updated {number} hashes in {db}', ['number' => $count,'db' => $this->dbPrefix . SupportMapper::TABLE]);
+                $messages[] = 'Updated ' . $count . ' support hashes';
 
             } else {
-                $this->logger->error('{db} is missing column \'inquiry_option_hash\' - aborted recalculating hashes', [ 'db' => $this->dbPrefix . OptionMapper::TABLE]);
+                $this->logger->error('{db} is missing column \'support_hash\' - aborted recalculating hashes', [ 'db' => $this->dbPrefix . SupportMapper::TABLE]);
             }
         } else {
-            $this->logger->error('{db} is missing - aborted recalculating hashes', [ 'db' => $this->dbPrefix . OptionMapper::TABLE]);
+            $this->logger->error('{db} is missing - aborted recalculating hashes', [ 'db' => $this->dbPrefix . SupportMapper::TABLE]);
         }
 
         if ($this->schema->hasTable($this->dbPrefix . SupportMapper::TABLE)) {

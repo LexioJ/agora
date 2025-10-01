@@ -17,12 +17,18 @@ use OCA\Agora\UserSession;
  * @psalm-api
  * @method    int getId()
  * @method    void setId(int $value)
+ * @method    int getParentId()
+ * @method    void setParentId(int $value)
  * @method    int getCreated()
  * @method    void setCreated(int $value)
  * @method    int getDeleted()
  * @method    void setDeleted(int $value)
  * @method    ?string getDescription()
  * @method    void setDescription(?string $value)
+ * @method    string getStatus()
+ * @method    void setStatus(string $value)
+ * @method    string getType()
+ * @method    void setType(string $value)
  * @method    string getOwner()
  * @method    void setOwner(string $value)
  * @method    string getTitle()
@@ -42,10 +48,13 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
 
     // schema columns
     public $id = null;
+    public $parentId = null;
     protected int $created = 0;
     protected int $deleted = 0;
     protected string $title = '';
     protected string $owner = '';
+    protected string $type = '';
+    protected string $status = '';
     protected ?string $description = '';
     protected ?string $titleExt = '';
     // joined inquiries
@@ -125,10 +134,13 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     {
         return [
         'id' => $this->getId(),
+        'parentId' => $this->getParentId(),
         'created' => $this->getCreated(),
         'deleted' => $this->getDeleted(),
         'description' => $this->getDescription(),
         'owner' => $this->getUser(),
+        'type' => $this->geType(),
+        'status' => $this->getStatus(),
         'name' => $this->getName(),
         'title' => $this->getTitle(),
         'titleExt' => $this->getTitleExt(),

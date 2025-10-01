@@ -6,6 +6,8 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+# [1.5.0-beta] - 2025-10-01
+- Rebuild backend and add, InquiryType, InquiryStatus, modify option etc
 
 # [1.0.0-rc5] - 2025-09-06
 - Fix UI bugs in edit and display

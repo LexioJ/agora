@@ -13,18 +13,18 @@ use OCP\IDBConnection;
 use OCP\AppFramework\Db\QBMapper;
 
 /**
- * @template-extends QBMapper<ModerationStatus>
+ * @template-extends QBMapper<InquiryStatus>
  */
-class ModerationStatusMapper extends QBMapper
+class InquiryStatusMapper extends QBMapper
 {
-    public const TABLE = ModerationStatus::TABLE;
+    public const TABLE = InquiryStatus::TABLE;
 
     public function __construct(IDBConnection $db)
     {
-        parent::__construct($db, self::TABLE, ModerationStatus::class);
+        parent::__construct($db, self::TABLE, InquiryStatus::class);
     }
 
-    public function find(int $id): ModerationStatus
+    public function find(int $id): InquiryStatus
     {
         $qb = $this->db->getQueryBuilder();
         $qb->select('*')
@@ -35,7 +35,7 @@ class ModerationStatusMapper extends QBMapper
     }
 
     /**
-     * @return ModerationStatus[]
+     * @return InquiryStatus[]
      */
     public function findAll(): array
     {
@@ -48,7 +48,7 @@ class ModerationStatusMapper extends QBMapper
     }
 
     /**
-     * @return ModerationStatus[]
+     * @return InquiryStatus[]
      */
     public function findByInquiryType(string $inquiryType): array
     {
@@ -61,7 +61,7 @@ class ModerationStatusMapper extends QBMapper
         return $this->findEntities($qb);
     }
 
-    public function findByStatusKey(string $inquiryType, string $statusKey): ?ModerationStatus
+    public function findByStatusKey(string $inquiryType, string $statusKey): ?InquiryStatus
     {
         $qb = $this->db->getQueryBuilder();
         $qb->select('*')
@@ -78,8 +78,8 @@ class ModerationStatusMapper extends QBMapper
 
     public function create(string $inquiryType, string $statusKey, string $label, 
         ?string $description, bool $isFinal, string $icon
-    ): ModerationStatus {
-        $status = new ModerationStatus();
+    ): InquiryStatus {
+        $status = new InquiryStatus();
         $status->setInquiryType($inquiryType);
         $status->setStatusKey($statusKey);
         $status->setLabel($label);
@@ -94,7 +94,7 @@ class ModerationStatusMapper extends QBMapper
         return $this->insert($status);
     }
 
-    public function updateStatus(ModerationStatus $status): ModerationStatus
+    public function updateStatus(InquiryStatus $status): InquiryStatus
     {
         return $this->update($status);
     }

@@ -267,8 +267,7 @@ class InquiryService
 	    $this->inquiry->setDescription($dto->description);
 	    $this->inquiry->setAccess(Inquiry::ACCESS_PRIVATE);
 	    $this->inquiry->setExpire(0);
-	    $this->inquiry->setAnonymousSafe(0);
-	    $this->inquiry->setSupportLimit(0);
+	    $this->inquiry->setQuorum(0);
 	    $this->inquiry->setShowResults(Inquiry::SHOW_RESULTS_ALWAYS);
 	    $this->inquiry->setAdminAccess(0);
 
@@ -278,6 +277,7 @@ class InquiryService
 	    $this->inquiry->setCategoryId($dto->categoryId);
 
 
+     	    $this->inquiryMapper->saveDynamicFields($this->inquiry);
 	    $this->inquiryMapper->update($this->inquiry);
 
 	    $this->eventDispatcher->dispatchTyped(new InquiryCreatedEvent($this->inquiry));
@@ -639,6 +639,16 @@ class InquiryService
 
 	    return $this->inquiry;
     }
+    /**
+     * Set status of inquiry
+     *
+     * @return Inquiry
+     */
+    public function setInquiryStatus(int $inquiryId,string $mstatus): void
+    {
+	    $this->inquiryMapper->setInquiryStatus($inquiryId, $mstatus);
+    }
+
 
     /**
      * Set Moderation status of inquiry

@@ -12,6 +12,7 @@ use OCA\Agora\Model\Settings\AppSettings;
 use OCA\Agora\Service\LocationService;
 use OCA\Agora\Service\CategoryService;
 use OCA\Agora\Service\ModerationStatusService;
+use OCA\Agora\Service\InquiryStatusService;
 
 
 
@@ -21,6 +22,7 @@ class SettingsService
     private LocationService $locationService;
     private CategoryService $categoryService;
     private ModerationStatusService $moderationStatusService;
+    private InquiryStatusService $inquiryStatusService;
     private AppSettings $appSettings;
 
     /**
@@ -31,11 +33,13 @@ class SettingsService
         LocationService $locationService,
         CategoryService $categoryService,
         ModerationStatusService $moderationStatusService
+        InquiryStatusService $inquiryStatusService
     ) {
         $this->appSettings = $appSettings;
-              $this->locationService = $locationService;
-                  $this->categoryService = $categoryService;
-                  $this->moderationStatusService = $moderationStatusService;
+        $this->locationService = $locationService;
+        $this->categoryService = $categoryService;
+        $this->moderationStatusService = $moderationStatusService;
+        $this->inquiryStatusService = $inquiryStatusService;
     }
 
     /**
@@ -131,6 +135,46 @@ class SettingsService
         $this->locationService->delete((int)$locationId);
     }
 
+    // INQUIRY STATUS
+    /**
+     * Add a inquiry status
+     */
+    public function addInquiryStatus(array $statusData)
+    {
+        return $this->inquiryStatusService->create(
+            $statusData['inquiryType'] ?? '',
+            $statusData['statusKey'] ?? '',
+            $statusData['label'] ?? '',
+            $statusData['description'] ?? null,
+            $statusData['isFinal'] ?? false,
+            $statusData['icon'] ?? ''
+        );
+    }
+
+    /**
+     * Update a inquiry status
+     */
+    public function updateInquiryStatus(string $statusId, array $statusData)
+    {
+        return $this->inquiryStatusService->update(
+            (int)$statusId,
+            $statusData['statusKey'] ?? '',
+            $statusData['label'] ?? '',
+            $statusData['description'] ?? null,
+            $statusData['isFinal'] ?? false,
+            $statusData['icon'] ?? ''
+        );
+    }
+
+    /**
+     * Delete a inquiry status
+     */
+    public function deleteInquiryStatus(string $statusId): void
+    {
+        $this->inquiryStatusService->delete((int)$statusId);
+    }
+
+    // MODERATION STATUS
     /**
      * Add a moderation status
      */

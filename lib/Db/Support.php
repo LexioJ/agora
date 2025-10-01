@@ -16,6 +16,14 @@ use JsonSerializable;
  * @psalm-suppress UnusedProperty
  * @method         int getId()
  * @method         void setId(int $value)
+ * @method         string getSupportHash()
+ * @method         void setSupportHash(string $value)
+ * @method         int getInquiryId()
+ * @method         void setInquiryId(int $value)
+ * @method         int getOptionId()
+ * @method         void setOptionId(int $value)
+ * @method         string getUserId()
+ * @method         void setUserId(string $value)
  * @method         int getCreated()
  * @method         void setCreated(int $value)
  * @method         int getInquiryId()
@@ -29,6 +37,8 @@ class Support extends Entity implements JsonSerializable
 
     // Schema columns
     protected int $inquiryId = 0;
+    protected int $optionId = 0;
+    protected string $supportHash = '';
     protected string $userId = '';
     protected string $created = '';
 
@@ -39,6 +49,7 @@ class Support extends Entity implements JsonSerializable
     {
         $this->addType('id', 'integer');
         $this->addType('inquiryId', 'integer');
+        $this->addType('optionId', 'integer');
         $this->addType('userId', 'string');
         $this->addType('created', 'integer');
     }
@@ -73,6 +84,8 @@ class Support extends Entity implements JsonSerializable
         return [
             'id' => $this->getId(),
             'inquiryId' => $this->getInquiryId(),
+            'optionId' => $this->getOptionId(),
+            'supportHash' => $this->getSupportHash(),
             'userId' => $this->getUserId(),
             'user' => $this->getUser(),
             'created' => $this->getCreated(),

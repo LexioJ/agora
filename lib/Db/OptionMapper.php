@@ -9,20 +9,19 @@ declare(strict_types=1);
 namespace OCA\Agora\Db;
 
 use OCA\Agora\UserSession;
+use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
+use OCP\Search\ISearchQuery;
 
 /**
- * @template-extends QBMapperWithUser<Option>
+ * @template-extends QBMapper<Option>
  */
-class OptionMapper extends QBMapperWithUser
+class OptionMapper extends QBMapper
 {
     public const TABLE = Option::TABLE;
+    public const CONCAT_SEPARATOR = ',';
 
-    /**
-     * @psalm-suppress PossiblyUnusedMethod
-     * @psalm-suppress UnusedProperty
-     */
     public function __construct(
         IDBConnection $db,
         private UserSession $userSession,
@@ -30,223 +29,427 @@ class OptionMapper extends QBMapperWithUser
         parent::__construct($db, Option::TABLE, Option::class);
     }
 
-    /**
-     * @throws       \OCP\AppFramework\Db\DoesNotExistException if not found
-     * @return       Option[]
-     * @psalm-return array<array-key, Option>
-     */
-    public function getAll(bool $includeNull = false): array
+    public function get(int $id, bool $getDeleted = false, bool $withRoles = false): Option
     {
         $qb = $this->db->getQueryBuilder();
+        $qb->select(self::TABLE . '.*')
+            ->from($this->getTableName(), self::TABLE)
+            ->where($qb->expr()->eq(self::TABLE . '.id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
-        $qb->select('*')->from($this->getTableName());
-
-        if (!$includeNull) {
-            $qb->where($qb->expr()->isNotNull(self::TABLE . '.inquiry_id'));
-        }
-
-        return $this->findEntities($qb);
-    }
-
-    /**
-     * @return       Option[]
-     * @param        int  $inquiryId
-     * @param        bool $hideResults Whether the results should be hidden
-     * @param        bool $getDeleted  also search for deleted options
-     * @psalm-return array<array-key, Option>
-     */
-    public function findByInquiry(int $inquiryId, bool $hideResults = false, bool $getDeleted = false): array
-    {
-        $qb = $this->buildQuery($hideResults);
-        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
         if (!$getDeleted) {
             $qb->andWhere($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
         }
 
-        return $this->findEntities($qb);
-    }
-
-    /**
-     * @return Option
-     * @param  int    $inquiryId
-     * @param  string $inquiryOptionText option text
-     * @param  bool   $getDeleted        also search for deleted options
-     */
-    public function findByInquiryAndText(int $inquiryId, string $inquiryOptionText, bool $getDeleted = false): Option
-    {
-        $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
-            ->andWhere($qb->expr()->eq(self::TABLE . '.inquiry_option_text', $qb->createNamedParameter($inquiryOptionText, IQueryBuilder::PARAM_STR)));
-        if (!$getDeleted) {
-            $qb->andWhere($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+        if ($withRoles) {
+            $optionGroupsAlias = 'option_groups';
+            $currentUserId = $this->userSession->getCurrentUserId();
+            $this->joinUserRole($qb, self::TABLE, $currentUserId);
+            $this->joinGroupShares($qb, self::TABLE);
+            $this->joinOptionGroups($qb, self::TABLE, $optionGroupsAlias);
+            $this->joinOptionGroupShares($qb, $optionGroupsAlias, $currentUserId, $optionGroupsAlias);
+            $this->joinParticipantsCount($qb, self::TABLE);
+            $this->joinMiscSettings($qb, self::TABLE);
         }
-
         return $this->findEntity($qb);
     }
 
-    /**
-     * @return Option
-     * @throws \OCP\AppFramework\Db\DoesNotExistException if not found
-     */
+    public function getChildOptionIds(int $parentId): array
+    {
+        $currentUserId = $this->userSession->getCurrentUserId();
+        $qb = $this->db->getQueryBuilder();
+        $qb->select(self::TABLE . '.id')
+            ->from($this->getTableName(), self::TABLE)
+            ->where($qb->expr()->eq(self::TABLE . '.parent_id', $qb->createNamedParameter($parentId, IQueryBuilder::PARAM_INT)));
+
+        $qb->andWhere($qb->expr()->neq(self::TABLE . '.access', $qb->createNamedParameter('private')));
+
+        if ($currentUserId !== null) {
+            $qb->andWhere($qb->expr()->neq(self::TABLE . '.owner', $qb->createNamedParameter($currentUserId)));
+        }
+
+        $stmt = $qb->executeQuery();
+        $rows = $stmt->fetchAll();
+        $stmt->closeCursor();
+
+        if (empty($rows)) {
+            return [];
+        }
+
+        return array_map(static fn(array $row): int => (int)$row['id'], $rows);
+    }
+
     public function find(int $id): Option
     {
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
-        $qb->andWhere($qb->expr()->isNotNull(self::TABLE . '.inquiry_id'));
 
-        return $this->findEntity($qb);
+        $option = $this->findEntity($qb);
+        
+        // Load dynamic fields from OptionMiscSetting
+        $this->loadDynamicFields($option);
+        
+        return $option;
     }
 
-    /**
-     * @return       Option[]
-     * @psalm-return array<array-key, Option>
-     */
-    public function findConfirmed(int $inquiryId): array
+    public function findForMe(string $userId): array
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
-            ->andWhere($qb->expr()->gt(self::TABLE . '.confirmed', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
-
-        return $this->findEntities($qb);
-    }
-
-    /**
-     * @return (int|null)[]
-     */
-    public function getOrderBoundaries(int $inquiryId): array
-    {
-        $qb = $this->db->getQueryBuilder();
-
-        $qb->selectAlias($qb->func()->max('order'), 'max')
-            ->selectAlias($qb->func()->min('order'), 'min')
-            ->from($this->getTableName())
-            ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
-
-        return $qb->executeQuery()->fetchAll()[0];
-    }
-
-    /**
-     * Get the minimum date of all options in a inquiry
-     *
-     * @param  int $inquiryId
-     * @return int|false Returns the minimum timestamp or false if no options are found
-     */
-    public function getMinDate(int $inquiryId): int|false
-    {
-        $qb = $this->db->getQueryBuilder();
-
-        $qb->selectAlias($qb->func()->min('timestamp'), 'min_date')
-            ->from($this->getTableName())
-            ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
-
-        return $qb->executeQuery()->fetchOne();
-    }
-
-
-    /**
-     * Get the maximum date of all options in a inquiry
-     *
-     * @param          int $inquiryId
-     * @return         int|false Returns the maximum timestamp or false if no options are found
-     * @psalm-suppress PossiblyUnusedMethod
-     */
-    public function getMaxDate(int $inquiryId): int|false
-    {
-        $qb = $this->db->getQueryBuilder();
-
-        $qb->selectAlias($qb->func()->max('timestamp'), 'max_date')
-            ->from($this->getTableName())
-            ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
-
-        return $qb->executeQuery()->fetchOne();
-    }
-
-    /**
-     * @return Option[]
-     */
-    public function findOptionsWithDuration(): array
-    {
-        $qb = $this->db->getQueryBuilder();
-
-        $qb->select('*')
-            ->from($this->getTableName())
-            ->where(
-                $qb->expr()->eq('duration', $qb->createNamedParameter(86400, IQueryBuilder::PARAM_INT))
-            )
-            ->orderBy('order', 'ASC');
-
-        return $this->findEntities($qb);
-    }
-
-    public function renameUserId(string $userId, string $replacementName, ?int $inquiryId = null): void
-    {
-        $query = $this->db->getQueryBuilder();
-        $query->update($this->getTableName())
-            ->set('owner', $query->createNamedParameter($replacementName))
-            ->where($query->expr()->eq('owner', $query->createNamedParameter($userId)));
-
-        if ($inquiryId !== null) {
-            $query->andWhere($query->expr()->eq('inquiry_id', $query->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)))
+            ->orWhere($qb->expr()->eq(self::TABLE . '.owner', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
+        
+        $options = $this->findEntities($qb);
+        
+        // Load dynamic fields for all options
+        foreach ($options as $option) {
+            $this->loadDynamicFields($option);
         }
-
-        $query->executeStatement();
+        
+        return $options;
     }
 
-    public function purgeDeletedOptions(int $offset): int
+    public function listByOwner(string $userId): array
     {
-        $query = $this->db->getQueryBuilder();
-        $query->delete($this->getTableName())
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->eq(self::TABLE . '.owner', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
+        
+        $options = $this->findEntities($qb);
+        
+        // Load dynamic fields for all options
+        foreach ($options as $option) {
+            $this->loadDynamicFields($option);
+        }
+        
+        return $options;
+    }
+
+    public function search(ISearchQuery $query): array
+    {
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)))
             ->andWhere(
-                $query->expr()->gt('deleted', $query->expr()->literal(0, IQueryBuilder::PARAM_INT))
-            )
-            ->andWhere(
-                $query->expr()->lt('deleted', $query->expr()->literal($offset, IQueryBuilder::PARAM_INT))
+                $qb->expr()->orX(
+                    ...array_map(
+                        function (string $token) use ($qb) {
+                            return $qb->expr()->orX(
+                                $qb->expr()->iLike(
+                                    self::TABLE . '.option_text',
+                                    $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($token) . '%', IQueryBuilder::PARAM_STR),
+                                    IQueryBuilder::PARAM_STR
+                                )
+                            );
+                        }, explode(' ', $query->getTerm())
+                    )
+                )
             );
-        return $query->executeStatement();
+        
+        $options = $this->findEntities($qb);
+        
+        // Load dynamic fields for all options
+        foreach ($options as $option) {
+            $this->loadDynamicFields($option);
+        }
+        
+        return $options;
     }
 
-    /**
-     * Build the enhanced query with joined tables
-     *
-     * @param bool $hideResults Whether inquiry results are defined as beeing hidden
-     *                          injects the inquiry permission allowdSeeResults into the query
-     */
-    protected function buildQuery(bool $hideResults = false): IQueryBuilder
+    public function findForAdmin(string $userId): array
     {
-        $currentUserId = $this->userSession->getCurrentUserId();
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->neq(self::TABLE . '.owner', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
+
+        $options = $this->findEntities($qb);
+        
+        // Load dynamic fields for all options
+        foreach ($options as $option) {
+            $this->loadDynamicFields($option);
+        }
+        
+        return $options;
+    }
+
+    public function archiveExpiredOptions(int $offset): int
+    {
+        $archiveDate = time();
+        $qb = $this->db->getQueryBuilder();
+        $qb->update($this->getTableName())
+            ->set('archived', $qb->createNamedParameter($archiveDate))
+            ->where($qb->expr()->eq('archived', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+        return $qb->executeStatement();
+    }
+
+    public function setModerationStatus(int $optionId, string $mstatus): void
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->update($this->getTableName())
+            ->set('status', $qb->createNamedParameter($mstatus))
+            ->where($qb->expr()->eq('id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
+        $qb->executeStatement();
+    }
+
+    public function deleteArchivedOptions(int $offset): int
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->delete($this->getTableName())
+            ->where($qb->expr()->lt('archived', $qb->createNamedParameter($offset)))
+            ->andWhere($qb->expr()->gt('archived', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+        return $qb->executeStatement();
+    }
+
+    public function setLastInteraction(int $optionId): void
+    {
+        $timestamp = time();
+        $qb = $this->db->getQueryBuilder();
+        $qb->update($this->getTableName())
+            ->set('updated', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
+            ->where($qb->expr()->eq('id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
+        $qb->executeStatement();
+    }
+
+    public function deleteByUserId(string $userId): void
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->delete($this->getTableName())
+            ->where('owner = :userId')
+            ->setParameter('userId', $userId);
+        $qb->executeStatement();
+    }
+
+    protected function buildQuery(): IQueryBuilder
+    {
         $qb = $this->db->getQueryBuilder();
 
         $qb->select(self::TABLE . '.*')
-            ->from($this->getTableName(), self::TABLE)
-            ->groupBy(self::TABLE . '.id')
-            ->orderBy('order', 'ASC');
+            ->from($this->getTableName(), self::TABLE);
 
-
-        $this->joinInquiryForLimits($qb, self::TABLE);
-        $this->joinAnon($qb, self::TABLE);
-        $this->joinShareRole($qb, self::TABLE, $currentUserId);
-
-
+        $currentUserId = $this->userSession->getCurrentUserId();
+        $optionGroupsAlias = 'option_groups';
+        $this->joinUserRole($qb, self::TABLE, $currentUserId);
+        $this->joinGroupShares($qb, self::TABLE);
+        $this->joinOptionGroups($qb, self::TABLE, $optionGroupsAlias);
+        $this->joinOptionGroupShares($qb, $optionGroupsAlias, $currentUserId, $optionGroupsAlias);
+        $this->joinParticipantsCount($qb, self::TABLE);
+        $this->joinSupportsCount($qb, self::TABLE);
+        $this->joinCommentsCount($qb, self::TABLE);
+        $this->joinMiscSettings($qb, self::TABLE);
+        
         return $qb;
     }
 
     /**
-     * Joins inquiry to fetch option_limit and support_limit
+     * Join misc settings from OptionMiscSetting table
      */
-    protected function joinInquiryForLimits(
+    protected function joinMiscSettings(
         IQueryBuilder &$qb,
         string $fromAlias,
-        string $joinAlias = 'limits',
+        string $joinAlias = 'option_misc_settings'
     ): void {
-        // force value into a MIN function to avoid grouping errors
-        $qb->selectAlias($qb->func()->min($joinAlias . '.support_limit'), 'support_limit');
+        $qb->addSelect($qb->createFunction('GROUP_CONCAT(DISTINCT CONCAT(' . $joinAlias . '.key, ":", ' . $joinAlias . '.value)) AS misc_settings_concat'));
 
         $qb->leftJoin(
             $fromAlias,
-            Inquiry::TABLE,
+            OptionMiscSetting::TABLE,
             $joinAlias,
-            $qb->expr()->eq($joinAlias . '.id', $fromAlias . '.inquiry_id'),
+            $qb->expr()->andX(
+                $qb->expr()->eq($joinAlias . '.option_id', $fromAlias . '.id'),
+                $qb->expr()->eq($joinAlias . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT))
+            )
         );
     }
 
+    /**
+     * Load dynamic fields from OptionMiscSetting for an option
+     */
+    private function loadDynamicFields(Option $option): void
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->select('*')
+            ->from(OptionMiscSetting::TABLE)
+            ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($option->getId(), IQueryBuilder::PARAM_INT)))
+            ->andWhere($qb->expr()->eq('deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+
+        $stmt = $qb->executeQuery();
+        $miscSettings = $stmt->fetchAll();
+        $stmt->closeCursor();
+
+        $dynamicFields = [];
+        foreach ($miscSettings as $setting) {
+            $dynamicFields[$setting['key']] = $setting['value'];
+        }
+
+        $option->setDynamicFields($dynamicFields);
+
+        // Also parse concatenated misc settings if available
+        if (method_exists($option, 'getMiscSettingsConcat') && $option->getMiscSettingsConcat()) {
+            $concatSettings = explode(',', $option->getMiscSettingsConcat());
+            foreach ($concatSettings as $concatSetting) {
+                if (strpos($concatSetting, ':') !== false) {
+                    [$key, $value] = explode(':', $concatSetting, 2);
+                    $dynamicFields[$key] = $value;
+                }
+            }
+            $option->setDynamicFields($dynamicFields);
+        }
+    }
+
+    /**
+     * Save dynamic fields to OptionMiscSetting
+     */
+    public function saveDynamicFields(Option $option): void
+    {
+        $dynamicFields = $option->getDynamicFieldsForStorage();
+        $optionId = $option->getId();
+
+        // First, mark existing settings as deleted
+        $qb = $this->db->getQueryBuilder();
+        $qb->update(OptionMiscSetting::TABLE)
+            ->set('deleted', $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
+            ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)))
+            ->andWhere($qb->expr()->eq('deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+        $qb->executeStatement();
+
+        // Then insert new settings
+        foreach ($dynamicFields as $key => $value) {
+            $qb = $this->db->getQueryBuilder();
+            $qb->insert(OptionMiscSetting::TABLE)
+                ->values([
+                    'option_id' => $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT),
+                    'key' => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
+                    'value' => $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR),
+                    'created' => $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT),
+                    'deleted' => $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+                ])
+                ->executeStatement();
+        }
+    }
+
+    protected function joinUserRole(
+        IQueryBuilder &$qb,
+        string $fromAlias,
+        string $currentUserId,
+        string $joinAlias = 'user_shares',
+    ): void {
+        $emptyString = $qb->expr()->literal('');
+
+        $qb->addSelect($qb->createFunction('coalesce(' . $joinAlias . '.type, ' . $emptyString . ') AS user_role'))
+            ->addGroupBy($joinAlias . '.type');
+
+        $qb->selectAlias($joinAlias . '.locked', 'is_current_user_locked')
+            ->addGroupBy($joinAlias . '.locked');
+
+        $qb->addSelect($qb->createFunction('coalesce(' . $joinAlias . '.token, ' . $emptyString . ') AS share_token'))
+            ->addGroupBy($joinAlias . '.token');
+
+        $qb->leftJoin(
+            $fromAlias,
+            Share::TABLE,
+            $joinAlias,
+            $qb->expr()->andX(
+                $qb->expr()->eq($joinAlias . '.option_id', $fromAlias . '.id'),
+                $qb->expr()->eq($joinAlias . '.user_id', $qb->createNamedParameter($currentUserId, IQueryBuilder::PARAM_STR)),
+                $qb->expr()->eq($joinAlias . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)),
+            )
+        );
+    }
+
+    protected function joinGroupShares(
+        IQueryBuilder &$qb,
+        string $fromAlias,
+        string $joinAlias = 'group_shares',
+    ): void {
+        $qb->addSelect($qb->createFunction('GROUP_CONCAT(DISTINCT ' . $joinAlias . '.user_id) AS group_shares'));
+
+        $qb->leftJoin(
+            $fromAlias,
+            Share::TABLE,
+            $joinAlias,
+            $qb->expr()->andX(
+                $qb->expr()->eq($joinAlias . '.option_id', $fromAlias . '.id'),
+                $qb->expr()->eq($joinAlias . '.type', $qb->expr()->literal('group')),
+                $qb->expr()->eq($joinAlias . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)),
+            )
+        );
+    }
+
+    protected function joinOptionGroups(
+        IQueryBuilder $qb,
+        string $fromAlias,
+        string $joinAlias = 'option_groups',
+    ): void {
+        $qb->addSelect($qb->createFunction('GROUP_CONCAT(DISTINCT ' . $joinAlias . '.group_id) AS option_groups'));
+
+        $qb->leftJoin(
+            $fromAlias,
+            OptionGroup::RELATION_TABLE,
+            $joinAlias,
+            $qb->expr()->andX(
+                $qb->expr()->eq(self::TABLE . '.id', $joinAlias . '.option_id'),
+            )
+        );
+    }
+
+    protected function joinOptionGroupShares(
+        IQueryBuilder $qb,
+        string $fromAlias,
+        string $currentUserId,
+        string $optionGroupsAlias,
+        string $joinAlias = 'option_group_shares',
+    ): void {
+        $qb->addSelect($qb->createFunction('GROUP_CONCAT(DISTINCT ' . $joinAlias . '.type) AS option_group_user_shares'));
+
+        $qb->leftJoin(
+            $fromAlias,
+            Share::TABLE,
+            $joinAlias,
+            $qb->expr()->andX(
+                $qb->expr()->eq($joinAlias . '.group_id', $optionGroupsAlias . '.group_id'),
+                $qb->expr()->eq($joinAlias . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)),
+                $qb->expr()->eq($joinAlias . '.user_id', $qb->createNamedParameter($currentUserId, IQueryBuilder::PARAM_STR)),
+            )
+        );
+    }
+
+    protected function joinSupportsCount(
+        IQueryBuilder &$qb,
+        string $fromAlias,
+        string $joinAlias = 'supports',
+    ): void {
+        $qb->leftJoin(
+            $fromAlias,
+            Support::TABLE,
+            $joinAlias,
+            $qb->expr()->eq($joinAlias . '.option_id', $fromAlias . '.id')
+        )->addSelect($qb->createFunction('COUNT(DISTINCT(' . $joinAlias . '.user_id)) AS count_supports'));
+        $qb->groupBy($fromAlias . '.id');
+    }
+
+    protected function joinCommentsCount(
+        IQueryBuilder &$qb,
+        string $fromAlias,
+        string $joinAlias = 'comments',
+    ): void {
+        $qb->leftJoin(
+            $fromAlias,
+            Comment::TABLE,
+            $joinAlias,
+            $qb->expr()->eq($joinAlias . '.option_id', $fromAlias . '.id')
+        )->addSelect($qb->createFunction('COUNT(DISTINCT(' . $joinAlias . '.id)) AS count_comments'));
+        $qb->groupBy($fromAlias . '.id');
+    }
+
+    protected function joinParticipantsCount(
+        IQueryBuilder &$qb,
+        string $fromAlias,
+        string $joinAlias = 'participants',
+    ): void {
+        $qb->leftJoin(
+            $fromAlias,
+            Option::TABLE,
+            $joinAlias,
+            $qb->expr()->andX(
+                $qb->expr()->eq($joinAlias . '.parent_id', $fromAlias . '.id'),
+                $qb->expr()->eq($joinAlias . '.access', $qb->createNamedParameter('open'))
+            )
+        );
+        $qb->addSelect($qb->createFunction('COUNT(DISTINCT(' . $joinAlias . '.id)) AS count_participants'));
+    }
 }

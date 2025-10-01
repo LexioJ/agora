@@ -54,6 +54,7 @@ class User extends UserBase
         $this->languageCode = $this->config->getUserValue($this->id, 'core', 'lang');
         $this->localeCode = $this->config->getUserValue($this->id, 'core', 'locale');
         $this->timeZoneName = $this->config->getUserValue($this->id, 'core', 'timezone');
+        $this->groups = [];
     }
     /**
      * Return the logical role of the user ('moderator', 'official'), or null

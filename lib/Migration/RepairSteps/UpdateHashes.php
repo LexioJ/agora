@@ -27,14 +27,14 @@ class UpdateHashes implements IRepairStep
 
     public function getName()
     {
-        return 'Agora - Create hashes for supports and options';
+        return 'Agora - Create hashes for supports';
     }
 
     public function run(IOutput $output): void
     {
         $this->tableManager->setConnection($this->connection);
 
-        $messages = $this->tableManager->migrateOptionsToHash();
+        $messages = $this->tableManager->migrateSupportsToHash();
         foreach ($messages as $message) {
             $output->info($message);
         }

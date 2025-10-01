@@ -46,7 +46,6 @@ class OptionService
         private OptionMapper $optionMapper,
         private InquiryMapper $inquiryMapper,
         private UserSession $userSession,
-        private Inquiry $inquiry,
         private SupportService $supportService,
     ) {
         $this->options = [];

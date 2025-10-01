@@ -18,6 +18,9 @@ use Psr\Log\LoggerInterface;
 use OCA\Agora\Service\CategoryService;
 use OCA\Agora\Service\LocationService;
 use OCA\Agora\Service\ModerationStatusService;
+use OCA\Agora\Service\InquiryStatusService;
+use OCA\Agora\Service\InquiryTypeService;
+use OCA\Agora\Service\InquiryFamilyService;
 
 class AppSettings implements JsonSerializable
 {
@@ -84,6 +87,9 @@ class AppSettings implements JsonSerializable
     public const SETTING_CATEGORY_TAB = 'categoryTab';
     public const SETTING_LOCATION_TAB = 'locationTab';
     public const SETTING_MODERATION_STATUS = 'moderationStatusTab';
+    public const SETTING_INQUIRY_TYPE = 'inquiryTypeTab';
+    public const SETTING_INQUIRY_FAMILY = 'inquiryFamilyTab';
+    public const SETTING_INQUIRY_STATUS = 'inquiryStatusTab';
     public const SETTING_MODERATOR_RIGHTS = 'moderatorRights';
     public const SETTING_OFFICIAL_RIGHTS = 'officialRights';
 
@@ -97,6 +103,9 @@ class AppSettings implements JsonSerializable
         private ?CategoryService $categoryService,
         private ?LocationService $locationService,
         private ?ModerationStatusService $moderationStatusService,
+        private ?InquiryStatusService $inquiryStatusService,
+        private ?InquiryTypeService $inquiryTypeService,
+        private ?InquiryFamilyService $inquiryFamilyService,
     ) {
     }
 
@@ -263,6 +272,9 @@ class AppSettings implements JsonSerializable
         'categoryTab' =>  $this->categoryService->findAll(),
         'locationTab' =>  $this->locationService->findAll(),
         'moderationStatusTab' =>  $this->moderationStatusService->findAll(),
+        'inquiryTypeTab' =>  $this->inquiryTypeService->findAll(),
+        'inquiryFamilyTab' =>  $this->inquiryFamilyService->findAll(),
+        'inquiryStatusTab' =>  $this->inquiryStatusService->findAll(),
         'inquiryTypeRights' => $this->getInquiryTypeRights(), 
         'moderatorRights' => $this->getModeratorRights(),
         'officialRights' => $this->getOfficialRights(),
@@ -677,6 +689,9 @@ class AppSettings implements JsonSerializable
         self::SETTING_CATEGORY_TAB => $this->categoryService->findAll(),
         self::SETTING_LOCATION_TAB => $this->locationService->findAll(),
         self::SETTING_MODERATION_STATUS => $this->moderationStatusService->findAll(),
+        self::SETTING_INQUIRY_STATUS => $this->inquiryStatusService->findAll(),
+        self::SETTING_INQUIRY_TYPE => $this->inquiryTypeService->findAll(),
+        self::SETTING_INQUIRY_FAMILY => $this->inquiryFamilyService->findAll(),
         self::SETTING_INQUIRY_TYPE_RIGHTS => $this->getInquiryTypeRights(),
         self::SETTING_MODERATOR_RIGHTS => $this->getModeratorRights(),
         self::SETTING_OFFICIAL_RIGHTS => $this->getOfficialRights(),

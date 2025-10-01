@@ -23,6 +23,24 @@ class SupportMapper extends QBMapper
     {
         parent::__construct($db, self::TABLE, Support::class);
     }
+    /**
+     * @throws       \OCP\AppFramework\Db\DoesNotExistException if not found
+     * @return       Option[]
+     * @psalm-return array<array-key, Support>
+     */
+    public function getAll(bool $includeNull = false): array
+    {
+        $qb = $this->db->getQueryBuilder();
+
+        $qb->select('*')->from($this->getTableName());
+
+        if (!$includeNull) {
+            $qb->where($qb->expr()->isNotNull(self::TABLE . '.inquiry_id'));
+        }
+
+        return $this->findEntities($qb);
+    }
+
 
     /**
      * @return Support[]
@@ -72,6 +90,9 @@ class SupportMapper extends QBMapper
         $support->setInquiryId($inquiryId);
         $support->setUserId($userId);
         $support->setCreated(time());
+    
+        $supportHash = hash('sha256', $inquiryId . '_' . $optionId . '_' . $userId);
+        $support->setSupportHash($supportHash);
 
         return $this->insert($support);
     }

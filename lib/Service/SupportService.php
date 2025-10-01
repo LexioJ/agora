@@ -67,7 +67,7 @@ class SupportService
         if ($existing !== null) {
             return $existing;
         }
-
+	
         return $this->supportMapper->addSupport($inquiryId, $userId);
     }
 

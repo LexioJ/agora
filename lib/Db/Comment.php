@@ -19,6 +19,8 @@ use OCA\Agora\Model\UserBase;
  * @method         void setId(int $value)
  * @method         int getInquiryId()
  * @method         void setInquiryId(int $value)
+ * @method         int getOptionId()
+ * @method         void setOptionId(int $value)
  * @method         string getUserId()
  * @method         void setUserId(string $value)
  * @method         string getComment()
@@ -43,6 +45,7 @@ class Comment extends EntityWithUser implements JsonSerializable
     // schema columns
     public $id = null;
     protected int $inquiryId = 0;
+    protected int $optionId = 0;
     protected string $userId = '';
     protected ?string $comment = null;
     protected int $timestamp = 0;
@@ -56,6 +59,7 @@ class Comment extends EntityWithUser implements JsonSerializable
     public function __construct()
     {
         $this->addType('inquiryId', 'integer');
+        $this->addType('optionId', 'integer');
         $this->addType('timestamp', 'integer');
         $this->addType('deleted', 'integer');
         $this->addType('confidential', 'integer');
@@ -88,6 +92,7 @@ class Comment extends EntityWithUser implements JsonSerializable
         return [
         'id' => $this->getId(),
         'inquiryId' => $this->getInquiryId(),
+        'optionId' => $this->getOptionId(),
         'timestamp' => $this->getTimestamp(),
         'comment' => $this->getComment(),
         'confidential' => $this->getConfidential(),

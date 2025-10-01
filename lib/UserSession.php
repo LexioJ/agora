@@ -15,11 +15,13 @@ use OCA\Agora\Db\LocationMapper;
 use OCA\Agora\Db\CategoryMapper;
 use OCA\Agora\Db\UserMapper;
 use OCA\Agora\Db\ModerationStatusMapper;
+use OCA\Agora\Db\InquiryTypeMapper;
 use OCA\Agora\Model\User\Cron;
 use OCA\Agora\Model\User\Ghost;
 use OCA\Agora\Model\UserBase;
 use OCP\ISession;
 use OCP\IUserSession;
+use OCP\IUser;
 
 class UserSession
 {
@@ -52,6 +54,8 @@ class UserSession
      */
     public const TABLE = Share::TABLE;
 
+    protected ?array $inquiryTypes = null;
+
     protected ?UserBase $currentUser = null;
     // protected Share|null $share = null;
 
@@ -67,6 +71,7 @@ class UserSession
         protected LocationMapper $locationMapper,
         protected CategoryMapper $categoryMapper,
         protected ModerationStatusMapper $moderationStatusMapper,
+        protected InquiryTypeMapper $inquiryTypeMapper,
     ) {
     }
 
@@ -199,6 +204,11 @@ class UserSession
         return (string)$this->session->get(self::SESSION_KEY_SHARE_TYPE);
     }
 
+    public function getUser(): IUser
+    {
+        return $this->userSession->getUser(self::CLIENT_ID);
+    }
+
     public function getClientId(): string
     {
         return (string)$this->session->get(self::CLIENT_ID);
@@ -219,6 +229,34 @@ class UserSession
         return [];
     }
 
+    public function getInquiryTypeFields(bool $isOption, ?string $specificType = null): array
+    {
+	    if ($this->inquiryTypes === null) {
+		    $this->inquiryTypes = $this->inquiryTypeMapper->findAll();
+	    }
+
+	    $result = [];
+
+	    foreach ($this->inquiryTypes as $type) {
+		    if ((int)$type->getIsOption() === (int)$isOption) {
+			    if ($specificType !== null && $type->getInquiryType() !== $specificType) {
+				    continue;
+			    }
+
+			    $fields = $type->getFields() ?? [];
+			    $result = is_array($fields) ? $fields : [];
+
+			    if ($specificType !== null) {
+				    return $result;
+			    }
+
+			    $result[$type->getInquiryType()] = $result;
+		    }
+	    }
+
+	    return $result;
+    }
+
     /**
      *
      * @return non-empty-string
@@ -226,12 +264,12 @@ class UserSession
 
     public function getClientIdHashed(): string
     {
-        return hash('md5', $this->getClientId());
+	    return hash('md5', $this->getClientId());
     }
 
     public function setClientId(string $clientId): void
     {
-        $this->session->set(self::CLIENT_ID, $clientId);
+	    $this->session->set(self::CLIENT_ID, $clientId);
     }
 
     /**
@@ -240,11 +278,11 @@ class UserSession
      */
     public function getClientTimeZone(): string
     {
-        return $this->session->get(self::CLIENT_TZ) ?? date_default_timezone_get();
+	    return $this->session->get(self::CLIENT_TZ) ?? date_default_timezone_get();
     }
 
     public function setClientTimeZone(string $clientTimeZone): void
     {
-        $this->session->set(self::CLIENT_TZ, $clientTimeZone);
+	    $this->session->set(self::CLIENT_TZ, $clientTimeZone);
     }
 }

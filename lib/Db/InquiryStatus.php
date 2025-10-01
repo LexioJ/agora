@@ -33,9 +33,9 @@ use OCP\AppFramework\Db\Entity;
  * @method int getSortOrder()
  * @method void setSortOrder(int $value)
  */
-class ModerationStatus extends Entity implements JsonSerializable
+class InquiryStatus extends Entity implements JsonSerializable
 {
-    public const TABLE = 'agora_mod_status';
+    public const TABLE = 'agora_inq_status';
 
     protected string $inquiryType = '';
     protected string $statusKey = '';
@@ -73,7 +73,7 @@ class ModerationStatus extends Entity implements JsonSerializable
             'description' => $this->getDescription(),
             'isFinal' => $this->getIsFinal(),
             'created' => $this->getCreated(),
-            'sort_order' => $this->getSortOrder(),
+	    'sort_order' => $this->getSortOrder(),
             'updated' => $this->getUpdated(),
             'icon' => $this->getIcon()
         ];

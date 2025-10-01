@@ -18,6 +18,7 @@ use OCA\Agora\Service\OptionService;
 use OCA\Agora\Service\InquiryGroupService;
 use OCA\Agora\Service\AttachmentService;
 use OCA\Agora\Service\InquiryService;
+use OCA\Agora\Service\InquiryLinkService;
 use OCA\Agora\Service\ShareService;
 use OCA\Agora\Service\SubscriptionService;
 use OCP\AppFramework\Http;
@@ -40,6 +41,7 @@ class InquiryController extends BaseController
         private OptionService $optionService,
         private InquiryService $inquiryService,
         private InquiryGroupService $inquiryGroupService,
+        private InquiryLinkService $inquiryLinkService,
         private CommentService $commentService,
         private SubscriptionService $subscriptionService,
         private ShareService $shareService,
@@ -158,6 +160,9 @@ class InquiryController extends BaseController
         $attachments = $this->attachmentService->getAll($inquiryId);
         $timerMicro['attachments'] = microtime(true);
 
+        $inquiryLink = $this->inquiryLinkService->getAll($inquiryId);
+	$timerMicro['inquiryLink'] = microtime(true);
+
         $diffMicro['total'] = microtime(true) - $timerMicro['start'];
         $diffMicro['inquiry'] = $timerMicro['inquiry'] - $timerMicro['start'];
         $diffMicro['options'] = $timerMicro['options'] - $timerMicro['inquiry'];
@@ -165,6 +170,7 @@ class InquiryController extends BaseController
         $diffMicro['shares'] = $timerMicro['shares'] - $timerMicro['comments'];
         $diffMicro['subscribed'] = $timerMicro['subscribed'] - $timerMicro['shares'];
         $diffMicro['attachments'] = $timerMicro['attachments'] - $timerMicro['subscribed'];
+        $diffMicro['inquiryLink'] = $timerMicro['inquiryLink'] - $timerMicro['attachments'];
         
 
         if ($withTimings) {
@@ -175,6 +181,7 @@ class InquiryController extends BaseController
             'shares' => $shares,
             'subscribed' => $subscribed,
             'attachments' => $attachments,
+            'inquiryLink' => $inquiryLink,
             'diffMicro' => $diffMicro,
             ];
         }
@@ -185,7 +192,7 @@ class InquiryController extends BaseController
         'shares' => $shares,
         'subscribed' => $subscribed,
         'attachments' => $attachments,
-        'childs' => $childs,
+        'inquiryLink' => $inquiryLink,
         ];
     }
 
@@ -335,6 +342,26 @@ class InquiryController extends BaseController
             ]
         );
     }
+
+    /*
+     * Update inquiry status 
+     *
+     * @param int $inquiryId Inquiry id
+     * @param status $inquirg
+     *
+     * psalm-return JSONResponse<boolean>
+     * */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'PUT', url: '/inquiry/updatestatus/{inquiryId}/{status}')]
+    public function updateInquiryStatus(int $inquiryId, string $status): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+            'inquiry' => $this->inquiryService->setInquiryStatus($inquiryId, $status),
+            ]
+        );
+    }
+
     /*
      * Update inquiry moderation status 
      *

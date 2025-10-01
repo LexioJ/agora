@@ -23,8 +23,9 @@ class GenericUser extends UserBase
         string $languageCode = '',
         string $localeCode = '',
         string $timeZoneName = '',
+        array $groups = [],
     ) {
-        parent::__construct($id, $type, $displayName, $emailAddress, $languageCode, $localeCode, $timeZoneName);
+        parent::__construct($id, $type, $displayName, $emailAddress, $languageCode, $localeCode, $timeZoneName,$groups);
 
         $this->description = $this->l10n->t('External participant');
         $this->richObjectType = UserBase::TYPE_GUEST;

@@ -94,6 +94,7 @@ class UserBase implements JsonSerializable
     protected string $description = '';
     protected string $richObjectType = self::TYPE_USER;
     protected string $organisation = '';
+    protected array $groups = [];
     protected IDateTimeZone $timeZone;
     protected IGroupManager $groupManager;
     protected IL10N $l10n;
@@ -108,7 +109,9 @@ class UserBase implements JsonSerializable
         protected string $languageCode = '',
         protected string $localeCode = '',
         protected string $timeZoneName = '',
+        array $groups = []
     ) {
+        $this->groups = $groups;
         $this->l10n = Container::getL10N();
         $this->groupManager = Container::queryClass(IGroupManager::class);
         $this->timeZone = Container::queryClass(IDateTimeZone::class);
@@ -193,6 +196,7 @@ class UserBase implements JsonSerializable
     {
         return !in_array($this->type, [User::TYPE, Admin::TYPE]);
     }
+
     /**
      * used for telling internal from guest users
      */
@@ -224,6 +228,27 @@ class UserBase implements JsonSerializable
         }
 
         return $this->localeCode;
+    }
+
+    /**
+     * @return string[]
+     */
+    public function getGroups(): array
+    {
+        $user = $this->userSession->getUser();
+        if (!$user) {
+            return [];
+        }
+        if ($this->groups) {
+            return $this->groups;
+        }
+
+        $this->groups = array_map(
+            fn(\OCP\IGroup $g) => $g->getGID(),
+            $this->groupManager->getUserGroups($user)
+        );
+
+        return $this->groups;
     }
 
     public function getLocaleCodeIntl(): string
@@ -271,7 +296,7 @@ class UserBase implements JsonSerializable
 
     public function getHasEmail(): bool
     {
-        return boolVal($this->getEmailAddress());
+        return (bool)$this->getEmailAddress();
     }
 
     /**
@@ -289,8 +314,6 @@ class UserBase implements JsonSerializable
 
     /**
      * @return string[]
-     *
-     * @psalm-return array<array-key, string>
      */
     public function getCategories(): array
     {
@@ -302,25 +325,30 @@ class UserBase implements JsonSerializable
         return $this->getSimpleType() !== self::TYPE_USER;
     }
 
-    public function getRichObjectString() : array
+    /**
+     * @return array{type: string, id: string, name: string}
+     */
+    public function getRichObjectString(): array
     {
         return [
-        'type' => $this->richObjectType,
-        'id' => $this->getId(),
-        'name' => $this->getDisplayName(),
+            'type' => $this->richObjectType,
+            'id' => $this->getId(),
+            'name' => $this->getDisplayName(),
         ];
     }
 
     /**
      * search all possible sharees - use ISearch to respect autocomplete restrictions
+     * 
+     * @return UserBase[]
      */
     public static function search(string $query = ''): array
     {
         $items = [];
         $types = [
-        IShare::TYPE_USER,
-        IShare::TYPE_GROUP,
-        IShare::TYPE_EMAIL
+            IShare::TYPE_USER,
+            IShare::TYPE_GROUP,
+            IShare::TYPE_EMAIL
         ];
         if (Circle::isEnabled() && class_exists('\OCA\Circles\ShareByCircleProvider')) {
             $types[] = IShare::TYPE_CIRCLE;
@@ -362,7 +390,7 @@ class UserBase implements JsonSerializable
     /**
      * Default is an array with self as single element
      *
-     * @return array
+     * @return UserBase[]
      */
     public function getMembers(): array
     {
@@ -371,6 +399,7 @@ class UserBase implements JsonSerializable
 
     /**
      * @psalm-suppress PossiblyUnusedMethod 
+     * @return array
      */
     public function jsonSerialize(): array
     {
@@ -384,33 +413,34 @@ class UserBase implements JsonSerializable
      * Full user array for inquiry owners, delegated inquiry admins and the current user himself
      * without obfuscating/anonymizing
      *
-     * @return (null|bool|string|string[])[]
+     * @return array
      */
     public function getRichUserArray(): array
     {
-        return    [
-        'array' => 'richArray',
-        'categories' => $this->getCategories(),
-        'desc' => $this->getDescription(),
-        'displayName' => $this->getDisplayName(),
-        'emailAddress' => $this->getEmailAddress(),
-        'id' => $this->getId(),
-        'user' => $this->getInternalUserId(),
-        'isAdmin' => $this->getIsAdmin(),
-        'isOfficial' => $this->getIsOfficial(),
-        'isModerator' => $this->getIsModerator(),
-        'isGuest' => $this->getIsGuest(),
-        'isUnrestrictedOwner' => $this->getIsUnrestrictedInquiryOwner(),
-        'languageCode' => $this->getLanguageCode(),
-        'languageCodeIntl' => $this->getLanguageCodeIntl(),
-        'localeCode' => $this->getLocaleCode(),
-        'localeCodeIntl' => $this->getLocaleCodeIntl(),
-        'organisation' => $this->getOrganisation(),
-        'subname' => $this->getSubName(),
-        'subtitle' => $this->getDescription(),
-        'timeZone' => $this->getTimeZoneName(),
-        'type' => $this->getType(),
-        'userId' => $this->getId(),
+        return [
+            'array' => 'richArray',
+            'categories' => $this->getCategories(),
+            'desc' => $this->getDescription(),
+            'displayName' => $this->getDisplayName(),
+            'emailAddress' => $this->getEmailAddress(),
+            'id' => $this->getId(),
+            'user' => $this->getInternalUserId(),
+            'isAdmin' => $this->getIsAdmin(),
+            'isOfficial' => $this->getIsOfficial(),
+            'isModerator' => $this->getIsModerator(),
+            'isGuest' => $this->getIsGuest(),
+            'isUnrestrictedOwner' => $this->getIsUnrestrictedInquiryOwner(),
+            'languageCode' => $this->getLanguageCode(),
+            'languageCodeIntl' => $this->getLanguageCodeIntl(),
+            'localeCode' => $this->getLocaleCode(),
+            'localeCodeIntl' => $this->getLocaleCodeIntl(),
+            'organisation' => $this->getOrganisation(),
+            'subname' => $this->getSubName(),
+            'subtitle' => $this->getDescription(),
+            'timeZone' => $this->getTimeZoneName(),
+            'type' => $this->getType(),
+            'userId' => $this->getId(),
+            'groups' => $this->getGroups(),
         ];
     }
 
@@ -421,31 +451,32 @@ class UserBase implements JsonSerializable
     /**
      * Simply user array returning safe attributes
      *
-     * @return (null|bool|null|string)[]
+     * @return array
      */
     protected function getSimpleUserArray(): array
     {
-        return    [
-        'array' => 'simpleArray',
-        'categories' => '',
-        'desc' => '',
-        'displayName' => $this->getSafeDisplayName(),
-        'emailAddress' => $this->getSafeEmailAddress(),
-        'id' => $this->getSafeId(),
-        'user' => null,
-        'isAdmin' => false,
-        'isOfficial' => false,
-        'isModerator' => false,
-        'isGuest' => $this->getIsGuest(),
-        'isUnrestrictedOwner' => false,
-        'languageCode' => '',
-        'localeCode' => '',
-        'organisation' => '',
-        'subname' => '',
-        'subtitle' => '',
-        'timeZone' => '',
-        'type' => $this->getSafeType(),
-        'userId' => $this->getSafeId(),
+        return [
+            'array' => 'simpleArray',
+            'categories' => '',
+            'desc' => '',
+            'displayName' => $this->getSafeDisplayName(),
+            'emailAddress' => $this->getSafeEmailAddress(),
+            'id' => $this->getSafeId(),
+            'user' => null,
+            'isAdmin' => false,
+            'isOfficial' => false,
+            'isModerator' => false,
+            'isGuest' => $this->getIsGuest(),
+            'isUnrestrictedOwner' => false,
+            'languageCode' => '',
+            'localeCode' => '',
+            'organisation' => '',
+            'subname' => '',
+            'subtitle' => '',
+            'timeZone' => '',
+            'type' => $this->getSafeType(),
+            'userId' => $this->getSafeId(),
+            'groups' => $this->getGroups(),
         ];
     }
 
@@ -512,7 +543,6 @@ class UserBase implements JsonSerializable
         return false;
     }
 
-
     /**
      * returns true, if the user is an admin
      * Only valid for User, false for other user types
@@ -521,7 +551,6 @@ class UserBase implements JsonSerializable
     {
         return false;
     }
-
 
     /**
      * returns true, if the user is an admin
@@ -585,6 +614,4 @@ class UserBase implements JsonSerializable
 
         return $this->getType();
     }
-
-
 }

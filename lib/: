@@ -1,0 +1,285 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCA\Agora\Controller;
+
+use OCA\Agora\Service\InquiryLinkService;
+use OCP\AppFramework\Http\Attribute\FrontpageRoute;
+use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCP\AppFramework\Http\JSONResponse;
+use OCP\IRequest;
+
+use OCA\Polls\Db\Poll;
+use OCA\Polls\Db\PollMapper;
+use OCA\Forms\Db\Form;
+use OCA\Forms\Db\Question;
+use OCA\Forms\Db\Option;
+use OCA\Deck\Db\Card;
+use OCA\Deck\Db\CardMapper;
+use OCA\Cospend\Db\Expense;
+use OCA\Cospend\Db\ExpenseMapper;
+use OCP\AppFramework\Controller;
+use OCP\AppFramework\Http\DataResponse;
+use OCP\IRequest;
+use OCP\IUserSession;
+
+/**
+ * @psalm-api
+ */
+class InquiryLinkController extends BaseController
+{
+    public function __construct(
+        string $appName,
+        IRequest $request,
+	private InquiryLinkService $inquiryLinkService,
+	 IRequest $request,
+        IUserSession $userSession,
+        PollMapper $pollMapper,
+        CardMapper $cardMapper,
+        ExpenseMapper $expenseMapper
+    ) {
+        parent::__construct($appName, $request);
+    }
+
+    public function createPoll(): DataResponse {
+        $user = $this->userSession->getUser();
+        $poll = new Poll();
+        $poll->setTitle($this->request->getParam('title'));
+        $poll->setDescription($this->request->getParam('description'));
+        $poll->setOwner($user->getUID());
+        $this->pollMapper->insert($poll);
+        return new DataResponse(['app' => 'polls', 'id' => $poll->getId()]);
+    }
+
+    public function createForm(): DataResponse {
+        $form = new Form();
+        $form->setTitle($this->request->getParam('title'));
+        $form->setDescription($this->request->getParam('description'));
+        $form->setOwner($this->userSession->getUser()->getUID());
+        $form->save();
+
+        // Exemple avec une question et 2 options
+        $question = new Question();
+        $question->setFormId($form->getId());
+        $question->setText('Quelle est votre couleur préférée ?');
+        $question->save();
+
+        $option1 = new Option();
+        $option1->setQuestionId($question->getId());
+        $option1->setText('Rouge');
+        $option1->save();
+
+        $option2 = new Option();
+        $option2->setQuestionId($question->getId());
+        $option2->setText('Bleu');
+        $option2->save();
+
+        return new DataResponse(['app' => 'forms', 'id' => $form->getId()]);
+    }
+
+    public function createDeckCard(): DataResponse {
+        $card = new Card();
+        $card->setTitle($this->request->getParam('title'));
+        $card->setDescription($this->request->getParam('description'));
+        $card->setStackId((int)$this->request->getParam('stackId', 1)); // ID du stack par défaut
+        $this->cardMapper->insert($card);
+
+        return new DataResponse(['app' => 'deck', 'id' => $card->getId()]);
+    }
+
+    public function createCospendExpense(): DataResponse {
+        $user = $this->userSession->getUser();
+        $expense = new Expense();
+        $expense->setAmount((float)$this->request->getParam('amount'));
+        $expense->setDescription($this->request->getParam('description'));
+        $expense->setUserId($user->getUID());
+        $this->expenseMapper->insert($expense);
+
+        return new DataResponse(['app' => 'cospend', 'id' => $expense->getId()]);
+    }
+
+    /**
+     * Get all links for an inquiry
+     *
+     * @param int $inquiryId Inquiry ID
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'GET', url: '/inquiry/{inquiryId}/links')]
+    public function listByInquiry(int $inquiryId): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'links' => $this->inquiryLinkService->findByInquiryId($inquiryId)
+            ]
+        );
+    }
+
+    /**
+     * Get links by target
+     *
+     * @param string $targetApp Target application
+     * @param string $targetType Target type
+     * @param string $targetId Target ID
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'GET', url: '/links/target/{targetApp}/{targetType}/{targetId}')]
+    public function listByTarget(string $targetApp, string $targetType, string $targetId): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'links' => $this->inquiryLinkService->findByTarget($targetApp, $targetType, $targetId)
+            ]
+        );
+    }
+
+    /**
+     * Get links by target application
+     *
+     * @param string $targetApp Target application
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'GET', url: '/links/target-app/{targetApp}')]
+    public function listByTargetApp(string $targetApp): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'links' => $this->inquiryLinkService->findByTargetApp($targetApp)
+            ]
+        );
+    }
+
+    /**
+     * Get a specific link
+     *
+     * @param int $id Link ID
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'GET', url: '/link/{id}')]
+    public function get(int $id): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'link' => $this->inquiryLinkService->find($id)
+            ]
+        );
+    }
+
+    /**
+     * Create a new link
+     *
+     * @param int $inquiryId Inquiry ID
+     * @param string $targetApp Target application
+     * @param string $targetType Target type
+     * @param string $targetId Target ID
+     * @param int $sortOrder Sort order
+     * @param int $createdBy Created by user ID
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'POST', url: '/link')]
+    public function create(
+        int $inquiryId,
+        string $targetApp,
+        string $targetType,
+        string $targetId,
+        int $sortOrder = 0,
+        int $createdBy = 0
+    ): JSONResponse {
+        return $this->response(
+            fn () => [
+                'link' => $this->inquiryLinkService->create(
+                    $inquiryId,
+                    $targetApp,
+                    $targetType,
+                    $targetId,
+                    $sortOrder,
+                    $createdBy
+                )
+            ]
+        );
+    }
+
+    /**
+     * Create multiple links for an inquiry
+     *
+     * @param int $inquiryId Inquiry ID
+     * @param array $links Array of links data
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'POST', url: '/inquiry/{inquiryId}/links')]
+    public function createMultiple(int $inquiryId, array $links): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'links' => $this->inquiryLinkService->createLinksForInquiry($inquiryId, $links)
+            ]
+        );
+    }
+
+    /**
+     * Update a link
+     *
+     * @param int $id Link ID
+     * @param string $targetApp Target application
+     * @param string $targetType Target type
+     * @param string $targetId Target ID
+     * @param int $sortOrder Sort order
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'PUT', url: '/link/{id}')]
+    public function update(
+        int $id,
+        string $targetApp,
+        string $targetType,
+        string $targetId,
+        int $sortOrder = 0
+    ): JSONResponse {
+        return $this->response(
+            fn () => [
+                'link' => $this->inquiryLinkService->update(
+                    $id,
+                    $targetApp,
+                    $targetType,
+                    $targetId,
+                    $sortOrder
+                )
+            ]
+        );
+    }
+
+    /**
+     * Delete a link
+     *
+     * @param int $id Link ID
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'DELETE', url: '/link/{id}')]
+    public function delete(int $id): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'link' => $this->inquiryLinkService->delete($id)
+            ]
+        );
+    }
+
+    /**
+     * Delete all links for an inquiry
+     *
+     * @param int $inquiryId Inquiry ID
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'DELETE', url: '/inquiry/{inquiryId}/links')]
+    public function deleteByInquiry(int $inquiryId): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'deleted' => $this->inquiryLinkService->deleteByInquiryId($inquiryId)
+            ]
+        );
+    }
+}
