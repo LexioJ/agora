@@ -48,7 +48,7 @@ class InquiryMapper extends QBMapper
             $this->joinInquiryGroups($qb, self::TABLE, $inquiryGroupsAlias);
             $this->joinInquiryGroupShares($qb, $inquiryGroupsAlias, $currentUserId, $inquiryGroupsAlias);
             $this->joinParticipantsCount($qb, self::TABLE);
-            $this->joinMiscSettings($qb, self::TABLE);
+            $this->joinMiscs($qb, self::TABLE);
         }
         return $this->findEntity($qb);
     }
@@ -85,7 +85,7 @@ class InquiryMapper extends QBMapper
 
         $inquiry = $this->findEntity($qb);
         
-        // Load dynamic fields from InquiryMiscSetting
+        // Load dynamic fields from InquiryMisc
         $this->loadDynamicFields($inquiry);
         
         return $inquiry;
@@ -263,15 +263,15 @@ class InquiryMapper extends QBMapper
         $this->joinParticipantsCount($qb, self::TABLE);
         $this->joinSupportsCount($qb, self::TABLE);
         $this->joinCommentsCount($qb, self::TABLE);
-        $this->joinMiscSettings($qb, self::TABLE);
+        $this->joinMiscs($qb, self::TABLE);
         
         return $qb;
     }
 
     /**
-     * Join misc settings from InquiryMiscSetting table
+     * Join misc settings from InquiryMisc table
      */
-    protected function joinMiscSettings(
+    protected function joinMiscs(
         IQueryBuilder &$qb,
         string $fromAlias,
         string $joinAlias = 'inquiry_misc_settings'
@@ -280,7 +280,7 @@ class InquiryMapper extends QBMapper
 
         $qb->leftJoin(
             $fromAlias,
-            InquiryMiscSetting::TABLE,
+            InquiryMisc::TABLE,
             $joinAlias,
             $qb->expr()->andX(
                 $qb->expr()->eq($joinAlias . '.inquiry_id', $fromAlias . '.id'),
@@ -297,12 +297,12 @@ class InquiryMapper extends QBMapper
 		    return;
 	    }
 
-	    // Charger depuis InquiryMiscSetting
+	    // Charger depuis InquiryMisc
 	    $inquiryId = $inquiry->getId();
 
 	    $qb = $this->db->getQueryBuilder();
 	    $qb->select('*')
-	->from(InquiryMiscSetting::TABLE)
+	->from(InquiryMisc::TABLE)
 	->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
 
 	    $stmt = $qb->executeQuery();
@@ -311,8 +311,8 @@ class InquiryMapper extends QBMapper
 
 	    $storedValues = [];
 	    foreach ($storedData as $data) {
-		    if (isset($data['setting_key'], $data['setting_value'])) {
-			    $storedValues[$data['setting_key']] = $data['setting_value'];
+		    if (isset($data['key'], $data['value'])) {
+			    $storedValues[$data['key']] = $data['value'];
 		    }
 	    }
 
@@ -325,7 +325,7 @@ class InquiryMapper extends QBMapper
     }
 
     /**
-     * Save dynamic fields to InquiryMiscSetting
+     * Save dynamic fields to InquiryMisc
      */
     public function saveDynamicFields(Inquiry $inquiry): void
     {
@@ -339,19 +339,18 @@ class InquiryMapper extends QBMapper
 
 	    // Delete existing records for this inquiry
 	    $qb = $this->db->getQueryBuilder();
-	    $qb->delete(InquiryMiscSetting::TABLE)
+	    $qb->delete(InquiryMisc::TABLE)
 	->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
 	    $qb->executeStatement();
 
 	    // Then insert new settings
 	    foreach ($dynamicFields as $key => $value) {
 		    $qb = $this->db->getQueryBuilder();
-		    $qb->insert(InquiryMiscSetting::TABLE)
+		    $qb->insert(InquiryMisc::TABLE)
 	 ->values([
 		 'inquiry_id' => $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT),
-		 'setting_key' => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
-		 'setting_value' => $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR),
-		 'created' => $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT),
+		 'key' => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
+		 'value' => $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR),
 	 ])
 	 ->executeStatement();
 	    }

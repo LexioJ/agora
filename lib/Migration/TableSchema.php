@@ -21,8 +21,8 @@ use OCA\Agora\Db\Support;
 use OCA\Agora\Db\ModerationStatus;
 use OCA\Agora\Db\InquiryStatus;
 use OCA\Agora\Db\InquiryType;
-use OCA\Agora\Db\InquiryMiscSetting;
-use OCA\Agora\Db\OptionMiscSetting;
+use OCA\Agora\Db\InquiryMisc;
+use OCA\Agora\Db\OptionMisc;
 use OCA\Agora\Db\InquiryFamily;
 use OCA\Agora\Db\InquiryLink;
 use OCA\Agora\Db\Location;
@@ -56,14 +56,14 @@ abstract class TableSchema
             Support::TABLE => ['constraintColumn' => 'inquiry_id','onDelete' => 'CASCADE'],
             Watch::TABLE => ['constraintColumn' => 'inquiry_id','onDelete' => 'CASCADE'],
             InquiryGroup::RELATION_TABLE => ['constraintColumn' => 'inquiry_id','onDelete' => 'CASCADE'],
-            InquiryMiscSetting::TABLE => ['constraintColumn' => 'inquiry_id','onDelete' => 'CASCADE'],
+            InquiryMisc::TABLE => ['constraintColumn' => 'inquiry_id','onDelete' => 'CASCADE'],
             InquiryLink::TABLE => ['constraintColumn' => 'inquiry_id','onDelete' => 'CASCADE'],
             Comment::TABLE => ['constraintColumn' => 'inquiry_id','onDelete' => 'CASCADE'],
             Attachment::TABLE => ['constraintColumn' => 'inquiry_id','onDelete' => 'CASCADE'],
         ],
 
         Option::TABLE => [
-            OptionMiscSetting::TABLE => ['constraintColumn' => 'option_id','onDelete' => 'CASCADE'],
+            OptionMisc::TABLE => ['constraintColumn' => 'option_id','onDelete' => 'CASCADE'],
         ],
 
         InquiryGroup::TABLE => [
@@ -121,8 +121,8 @@ abstract class TableSchema
         Preferences::TABLE => ['name' => 'UNIQ_preferences', 'unique' => true, 'columns' => ['user_id']],
         Watch::TABLE => ['name' => 'UNIQ_watch', 'unique' => true, 'columns' => ['inquiry_id', 'table', 'session_id']],
         InquiryGroup::RELATION_TABLE => ['name' => 'UNIQ_inquiry_group_relation', 'unique' => true, 'columns' => ['inquiry_id', 'group_id']],
-        InquiryMiscSetting::TABLE => ['name' => 'UNIQ_inquiry_misc', 'unique' => true, 'columns' => ['inquiry_id', 'key']],
-        OptionMiscSetting::TABLE => ['name' => 'UNIQ_option_misc', 'unique' => true, 'columns' => ['option_id', 'key']],
+        InquiryMisc::TABLE => ['name' => 'UNIQ_inquiry_misc', 'unique' => true, 'columns' => ['inquiry_id', 'key']],
+        OptionMisc::TABLE => ['name' => 'UNIQ_option_misc', 'unique' => true, 'columns' => ['option_id', 'key']],
     ];
 
     /**
@@ -192,7 +192,7 @@ abstract class TableSchema
     	    'allow_support' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
         ],
 
-        InquiryMiscSetting::TABLE => [
+        InquiryMisc::TABLE => [
             'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
             'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
             'key' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 64]],
@@ -299,7 +299,7 @@ abstract class TableSchema
             'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
         ],
 
-        OptionMiscSetting::TABLE => [
+        OptionMisc::TABLE => [
             'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
             'option_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
             'key' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 64]],

@@ -537,4 +537,33 @@ class InquiryController extends BaseController
     {
         return $this->response(fn () => $this->inquiryService->getParticipantsEmailAddresses($inquiryId));
     }
+
+    /**
+     * Set access inquiry
+  *
+     * @param int $inquiryId Inquiry id
+     * @param string $access Access
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'POST', url: '/inquiry/{inquiryId}/access')]
+    public function setAccess(int $inquiryId, string $access): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'inquiry' => $this->setInquiryAccess($inquiryId,$access)
+            ]
+        );
+    }
+
+    /**
+     * Get echance Text for inquiry
+     *
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'POST', url: '/inquiry/get-text-ai')]
+    public function getTextAi(string $text): JSONResponse
+    {
+       $rawData = $this->request->getParams('data');
+       return $this->response(fn () => $this->aiService->echanceText($rawData));
+    }
 }

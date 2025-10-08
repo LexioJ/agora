@@ -11,10 +11,12 @@ import { loadContext } from './composables/context.ts'
 import { AxiosError } from 'axios'
 
 import Navigation from './views/Navigation.vue'
+import NavigationMenu from './views/NavigationMenu.vue'
 
 import Combo from './views/Combo.vue'
 import Forbidden from './views/Forbidden.vue'
 import List from './views/InquiryList.vue'
+import Menu from './views/InquiryMenu.vue'
 import NotFound from './views/NotFound.vue'
 import InquiryView from './views/InquiryView.vue'
 
@@ -25,11 +27,14 @@ import SideBarCombo from './views/SideBarCombo.vue'
 import { useInquiryStore } from './stores/inquiry.ts'
 import { useSessionStore } from './stores/session.ts'
 
-async function validateToken(to: RouteLocationNormalized) {
+async function validateToken(to: RouteLocationNormalized, from: RouteLocationNormalized) {
   const sessionStore = useSessionStore()
+  
+  // Vérifier si c'est la même route pour éviter le rechargement
   if (to.name === from.name && sessionStore.isLoaded) {
     return true
   }
+  
   try {
     await sessionStore.loadShare()
 
@@ -81,7 +86,6 @@ async function validateToken(to: RouteLocationNormalized) {
 
   // finally load the inquiry
   const inquiryStore = useInquiryStore()
-
   inquiryStore.load()
 }
 
@@ -92,6 +96,42 @@ const routes: RouteRecordRaw[] = [
     components: {
       default: List,
       navigation: Navigation,
+    },
+    props: true,
+    meta: {
+      listPage: true,
+    },
+  },
+  {
+    name: 'menu',
+    path: '/menu',
+    components: {
+      default: Menu,
+      navigation: NavigationMenu,
+    },
+    props: true,
+    meta: {
+      listPage: true,
+    },
+  },
+  {
+    name: 'menu-family',
+    path: '/menu/:familyId',
+    components: {
+      default: Menu,
+      navigation: NavigationMenu,
+    },
+    props: true,
+    meta: {
+      listPage: true,
+    },
+  },
+  {
+    name: 'menu-family-type',
+    path: '/menu/:familyId/:typeId',
+    components: {
+      default: Menu,
+      navigation: NavigationMenu,
     },
     props: true,
     meta: {
@@ -110,18 +150,6 @@ const routes: RouteRecordRaw[] = [
     meta: {
       groupPage: true,
       listPage: true,
-    },
-  },
-  {
-    name: 'combo',
-    path: '/combo',
-    components: {
-      default: Combo,
-      navigation: Navigation,
-      sidebar: SideBarCombo,
-    },
-    meta: {
-      comboPage: true,
     },
   },
   {
@@ -153,9 +181,6 @@ const routes: RouteRecordRaw[] = [
       default: InquiryView,
       navigation: Navigation,
       sidebar: SideBar,
-      params: {
-        type: 'relevant',
-      },
     },
     props: true,
     meta: {
@@ -169,7 +194,7 @@ const routes: RouteRecordRaw[] = [
       default: InquiryView,
       sidebar: SideBar,
     },
-    beforeEnter: validateToken,
+    beforeEnter: (to, from) => validateToken(to, from),
     props: true,
     meta: {
       publicPage: true,
@@ -180,19 +205,13 @@ const routes: RouteRecordRaw[] = [
     name: 'root',
     path: '/',
     redirect: {
-      name: 'list',
-      params: {
-        type: 'relevant',
-      },
+      name: 'menu',
     },
   },
   {
-    path: '/list',
+    path: '/:pathMatch(.*)*',
     redirect: {
-      name: 'list',
-      params: {
-        type: 'relevant',
-      },
+      name: 'notfound',
     },
   },
 ]
@@ -217,6 +236,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
   if (to.name === 'login') {
     forceReload = true
   }
+  
   // first load app context -> session and preferences
   try {
     await loadContext(to, cheapLoading, forceReload)

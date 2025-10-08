@@ -15,7 +15,6 @@ import { Logger } from '../helpers/index.ts'
 import { PublicAPI, InquiriesAPI } from '../Api/index.ts'
 import { Chunking, createDefault, Event, StatusResults, User, UserType } from '../Types/index.ts'
 
-import { usePreferencesStore, ViewMode } from './preferences.ts'
 import { useOptionsStore } from './options.ts'
 import { useInquiriesStore } from './inquiries.ts'
 import { useSessionStore } from './session.ts'
@@ -289,6 +288,21 @@ export const useInquiryStore = defineStore('inquiry', {
       this.write()
     },
 
+    async getEchanceText(payload: {text: string}): Promise<void> {
+      try {
+        const response = await InquiriesAPI.getEchanceText(payload.text)
+        this.$patch(response.data.inquiry)
+      } catch (error) {
+        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+          return
+        }
+        Logger.error('Error getting IA response', {
+          error,
+        })
+        throw error
+      } 
+    },
+
     async resetInquiry(): Promise<void> {
       const inquiriesStore = useInquiriesStore()
       const optionsStore = useOptionsStore()
@@ -306,7 +320,6 @@ export const useInquiryStore = defineStore('inquiry', {
     },
 
     async load(inquiryId: number | null = null): Promise<void> {
-      const inquiriesStore = useInquiriesStore()
       const sessionStore = useSessionStore()
       const optionsStore = useOptionsStore()
       const sharesStore = useSharesStore()

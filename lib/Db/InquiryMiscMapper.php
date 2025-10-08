@@ -13,26 +13,26 @@ use OCP\IDBConnection;
 use OCP\AppFramework\Db\QBMapper;
 
 /**
- * @template-extends QBMapper<OptionMiscSetting>
+ * @template-extends QBMapper<InquiryMisc>
  */
-class OptionMiscSettingMapper extends QBMapper
+class InquiryMiscMapper extends QBMapper
 {
-    public const TABLE = OptionMiscSetting::TABLE;
+    public const TABLE = InquiryMisc::TABLE;
 
     /**
      * @psalm-suppress PossiblyUnusedMethod 
      */
     public function __construct(IDBConnection $db)
     {
-        parent::__construct($db, self::TABLE, OptionMiscSetting::class);
+        parent::__construct($db, self::TABLE, InquiryMisc::class);
     }
 
     /**
      * @throws \OCP\AppFramework\Db\DoesNotExistException if not found
      * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException if more than one result
-     * @return OptionMiscSetting
+     * @return InquiryMisc
      */
-    public function find(int $id): OptionMiscSetting
+    public function find(int $id): InquiryMisc
     {
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
@@ -40,30 +40,30 @@ class OptionMiscSettingMapper extends QBMapper
     }
 
     /**
-     * @return OptionMiscSetting[]
+     * @return InquiryMisc[]
      */
-    public function findByOptionId(int $optionId): array
+    public function findByInquiryId(int $inquiryId): array
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
         return $this->findEntities($qb);
     }
 
     /**
      * @throws \OCP\AppFramework\Db\DoesNotExistException if not found
      * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException if more than one result
-     * @return OptionMiscSetting
+     * @return InquiryMisc
      */
-    public function findByOptionIdAndKey(int $optionId, string $key): OptionMiscSetting
+    public function findByInquiryIdAndKey(int $inquiryId, string $key): InquiryMisc
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
         $qb->andWhere($qb->expr()->eq(self::TABLE . '.key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
         return $this->findEntity($qb);
     }
 
     /**
-     * @return OptionMiscSetting[]
+     * @return InquiryMisc[]
      */
     public function findByKey(string $key): array
     {
@@ -73,18 +73,18 @@ class OptionMiscSettingMapper extends QBMapper
     }
 
     /**
-     * Get a setting value by option ID and key
+     * Get a setting value by inquiry ID and key
      */
-    public function getValue(int $optionId, string $key): ?string
+    public function getValue(int $inquiryId, string $key): ?string
     {
         try {
-            $setting = $this->findByOptionIdAndKey($optionId, $key);
+            $setting = $this->findByInquiryIdAndKey($inquiryId, $key);
             return $setting->getValue();
         } catch (\OCP\AppFramework\Db\DoesNotExistException $e) {
             return null;
         } catch (\OCP\AppFramework\Db\MultipleObjectsReturnedException $e) {
             // En cas de doublon, on prend le premier
-            $settings = $this->findByOptionIdAndKeyMultiple($optionId, $key);
+            $settings = $this->findByInquiryIdAndKeyMultiple($inquiryId, $key);
             return !empty($settings) ? $settings[0]->getValue() : null;
         }
     }
@@ -92,17 +92,17 @@ class OptionMiscSettingMapper extends QBMapper
     /**
      * Set a setting value (create or update)
      */
-    public function setValue(int $optionId, string $key, ?string $value): OptionMiscSetting
+    public function setValue(int $inquiryId, string $key, ?string $value): InquiryMisc
     {
         try {
             // Update existing
-            $setting = $this->findByOptionIdAndKey($optionId, $key);
+            $setting = $this->findByInquiryIdAndKey($inquiryId, $key);
             $setting->setValue($value);
             return $this->update($setting);
         } catch (\OCP\AppFramework\Db\DoesNotExistException $e) {
             // Create new
-            $setting = new OptionMiscSetting();
-            $setting->setOptionId($optionId);
+            $setting = new InquiryMisc();
+            $setting->setInquiryId($inquiryId);
             $setting->setKey($key);
             $setting->setValue($value);
             return $this->insert($setting);
@@ -110,55 +110,39 @@ class OptionMiscSettingMapper extends QBMapper
     }
 
     /**
-     * Delete all settings for an option
+     * Delete all settings for an inquiry
      */
-    public function deleteByOptionId(int $optionId): int
+    public function deleteByInquiryId(int $inquiryId): int
     {
         $qb = $this->db->getQueryBuilder();
         $qb->delete($this->getTableName())
-            ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
+            ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
 
         return $qb->executeStatement();
     }
 
     /**
-     * Delete all settings for multiple options
+     * Delete a specific setting by inquiry ID and key
      */
-    public function deleteByOptionIds(array $optionIds): int
-    {
-        if (empty($optionIds)) {
-            return 0;
-        }
-
-        $qb = $this->db->getQueryBuilder();
-        $qb->delete($this->getTableName())
-            ->where($qb->expr()->in('option_id', $qb->createNamedParameter($optionIds, IQueryBuilder::PARAM_INT_ARRAY)));
-
-        return $qb->executeStatement();
-    }
-
-    /**
-     * Delete a specific setting by option ID and key
-     */
-    public function deleteByOptionIdAndKey(int $optionId, string $key): int
+    public function deleteByInquiryIdAndKey(int $inquiryId, string $key): int
     {
         $qb = $this->db->getQueryBuilder();
         $qb->delete($this->getTableName())
-            ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)))
+            ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
             ->andWhere($qb->expr()->eq('key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
 
         return $qb->executeStatement();
     }
 
     /**
-     * Find multiple settings by option ID and key (in case of duplicates)
+     * Find multiple settings by inquiry ID and key (in case of duplicates)
      *
-     * @return OptionMiscSetting[]
+     * @return InquiryMisc[]
      */
-    private function findByOptionIdAndKeyMultiple(int $optionId, string $key): array
+    private function findByInquiryIdAndKeyMultiple(int $inquiryId, string $key): array
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
         $qb->andWhere($qb->expr()->eq(self::TABLE . '.key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
         return $this->findEntities($qb);
     }

@@ -48,7 +48,7 @@ class OptionMapper extends QBMapper
             $this->joinOptionGroups($qb, self::TABLE, $optionGroupsAlias);
             $this->joinOptionGroupShares($qb, $optionGroupsAlias, $currentUserId, $optionGroupsAlias);
             $this->joinParticipantsCount($qb, self::TABLE);
-            $this->joinMiscSettings($qb, self::TABLE);
+            $this->joinMiscs($qb, self::TABLE);
         }
         return $this->findEntity($qb);
     }
@@ -85,7 +85,7 @@ class OptionMapper extends QBMapper
 
         $option = $this->findEntity($qb);
         
-        // Load dynamic fields from OptionMiscSetting
+        // Load dynamic fields from OptionMisc
         $this->loadDynamicFields($option);
         
         return $option;
@@ -230,15 +230,15 @@ class OptionMapper extends QBMapper
         $this->joinParticipantsCount($qb, self::TABLE);
         $this->joinSupportsCount($qb, self::TABLE);
         $this->joinCommentsCount($qb, self::TABLE);
-        $this->joinMiscSettings($qb, self::TABLE);
+        $this->joinMiscs($qb, self::TABLE);
         
         return $qb;
     }
 
     /**
-     * Join misc settings from OptionMiscSetting table
+     * Join misc settings from OptionMisc table
      */
-    protected function joinMiscSettings(
+    protected function joinMiscs(
         IQueryBuilder &$qb,
         string $fromAlias,
         string $joinAlias = 'option_misc_settings'
@@ -247,7 +247,7 @@ class OptionMapper extends QBMapper
 
         $qb->leftJoin(
             $fromAlias,
-            OptionMiscSetting::TABLE,
+            OptionMisc::TABLE,
             $joinAlias,
             $qb->expr()->andX(
                 $qb->expr()->eq($joinAlias . '.option_id', $fromAlias . '.id'),
@@ -257,13 +257,13 @@ class OptionMapper extends QBMapper
     }
 
     /**
-     * Load dynamic fields from OptionMiscSetting for an option
+     * Load dynamic fields from OptionMisc for an option
      */
     private function loadDynamicFields(Option $option): void
     {
         $qb = $this->db->getQueryBuilder();
         $qb->select('*')
-            ->from(OptionMiscSetting::TABLE)
+            ->from(OptionMisc::TABLE)
             ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($option->getId(), IQueryBuilder::PARAM_INT)))
             ->andWhere($qb->expr()->eq('deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
 
@@ -279,8 +279,8 @@ class OptionMapper extends QBMapper
         $option->setDynamicFields($dynamicFields);
 
         // Also parse concatenated misc settings if available
-        if (method_exists($option, 'getMiscSettingsConcat') && $option->getMiscSettingsConcat()) {
-            $concatSettings = explode(',', $option->getMiscSettingsConcat());
+        if (method_exists($option, 'getMiscsConcat') && $option->getMiscsConcat()) {
+            $concatSettings = explode(',', $option->getMiscsConcat());
             foreach ($concatSettings as $concatSetting) {
                 if (strpos($concatSetting, ':') !== false) {
                     [$key, $value] = explode(':', $concatSetting, 2);
@@ -292,7 +292,7 @@ class OptionMapper extends QBMapper
     }
 
     /**
-     * Save dynamic fields to OptionMiscSetting
+     * Save dynamic fields to OptionMisc
      */
     public function saveDynamicFields(Option $option): void
     {
@@ -301,7 +301,7 @@ class OptionMapper extends QBMapper
 
         // First, mark existing settings as deleted
         $qb = $this->db->getQueryBuilder();
-        $qb->update(OptionMiscSetting::TABLE)
+        $qb->update(OptionMisc::TABLE)
             ->set('deleted', $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
             ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)))
             ->andWhere($qb->expr()->eq('deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
@@ -310,7 +310,7 @@ class OptionMapper extends QBMapper
         // Then insert new settings
         foreach ($dynamicFields as $key => $value) {
             $qb = $this->db->getQueryBuilder();
-            $qb->insert(OptionMiscSetting::TABLE)
+            $qb->insert(OptionMisc::TABLE)
                 ->values([
                     'option_id' => $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT),
                     'key' => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),

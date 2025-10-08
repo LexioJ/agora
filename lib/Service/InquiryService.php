@@ -765,4 +765,15 @@ class InquiryService
     {
 	    return [Inquiry::SHOW_RESULTS_ALWAYS, Inquiry::SHOW_RESULTS_CLOSED, Inquiry::SHOW_RESULTS_NEVER];
     }
+    /**
+     * Set access
+     *
+     * @return access
+     */
+    public function setInquiryAccess(int $inquiryId,$access): String
+    {
+
+	$this->inquiryMapper->setModerationStatus($inquiryId, $access);
+	return $access;
+    }
 }

@@ -14,27 +14,27 @@ use JsonSerializable;
  * @psalm-suppress UnusedProperty
  * @method         int getId()
  * @method         void setId(int $value)
- * @method         int getInquiryId()
- * @method         void setInquiryId(int $value)
+ * @method         int getOptionId()
+ * @method         void setOptionId(int $value)
  * @method         string getKey()
  * @method         void setKey(string $value)
  * @method         ?string getValue()
  * @method         void setValue(?string $value)
  */
-class InquiryMiscSetting extends EntityWithUser implements JsonSerializable
+class OptionMisc extends EntityWithUser implements JsonSerializable
 {
-    public const TABLE = 'agora_inq_misc';
+    public const TABLE = 'agora_opt_misc';
 
     // schema columns
     public $id = null;
-    protected int $inquiryId = 0;
+    protected int $optionId = 0;
     protected string $key = '';
     protected ?string $value = null;
 
     public function __construct()
     {
         $this->addType('id', 'integer');
-        $this->addType('inquiryId', 'integer');
+        $this->addType('optionId', 'integer');
     }
 
     /**
@@ -46,7 +46,7 @@ class InquiryMiscSetting extends EntityWithUser implements JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'inquiry_id' => $this->getInquiryId(),
+            'option_id' => $this->getOptionId(),
             'key' => $this->getKey(),
             'value' => $this->getValue(),
         ];

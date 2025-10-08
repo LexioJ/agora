@@ -571,7 +571,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 
     public function getInquiryId(): int
     {
-	    return $this->getId();
+	    return (int)$this->getId();
     }
 
     public function getUserId(): string

@@ -12,11 +12,13 @@ import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import { Event } from '../Types/index.ts'
 
-import SidebarShareIcon from 'vue-material-design-icons/ShareVariant.vue'
-import SidebarCommentsIcon from 'vue-material-design-icons/CommentProcessing.vue'
-import SidebarActivityIcon from 'vue-material-design-icons/LightningBolt.vue'
-import SidebarAttachmentsIcon from 'vue-material-design-icons/FileDocument.vue'
-
+import { InquiryGeneralIcons } from '../utils/icons.ts'
+import {
+  canComment,
+  canShare,
+  createPermissionContextForContent,
+  ContentType,
+} from '../utils/permissions.ts'
 import {
   SideBarTabComments,
   SideBarTabShare,
@@ -28,6 +30,20 @@ import { useSessionStore } from '../stores/session.ts'
 
 const inquiryStore = useInquiryStore()
 const sessionStore = useSessionStore()
+
+const context = computed(() => createPermissionContextForContent(
+    ContentType.Inquiry,
+    inquiryStore.owner.id,
+    inquiryStore.configuration.access === 'public',
+    inquiryStore.status.isLocked,
+    inquiryStore.status.isExpired,
+    inquiryStore.status.deletionDate > 0,
+    inquiryStore.status.isArchived,
+    inquiryStore.inquiryGroups.length > 0,
+    inquiryStore.inquiryGroups,
+    inquiryStore.type
+  ))
+
 
 const showSidebar = ref(window.innerWidth > 920)
 const activeTab = ref(t('agora', 'Comments').toLowerCase())
@@ -67,13 +83,13 @@ function closeSideBar() {
       @close="closeSideBar()"
     >
       <NcAppSidebarTab
-        v-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type].commentInquiry"
+        v-if="canComment(context) && sessionStore.appSettings.inquiryTypeRights[inquiryStore.type].commentInquiry"
         id="comments"
         :order="1"
         :name="t('agora', 'Comments')"
       >
         <template #icon>
-          <SidebarCommentsIcon />
+	   <component :is="InquiryGeneralIcons.comment" />
         </template>
         <SideBarTabComments />
       </NcAppSidebarTab>
@@ -85,19 +101,19 @@ function closeSideBar() {
         :name="t('agora', 'Attachments')"
       >
         <template #icon>
-          <SidebarAttachmentsIcon />
+	   <component :is="InquiryGeneralIcons.attachment" />
         </template>
         <SideBarTabAttachments />
       </NcAppSidebarTab>
 
       <NcAppSidebarTab
-        v-if="inquiryStore.permissions.edit"
+        v-if="canShare(context)"
         id="sharing"
         :order="3"
         :name="t('agora', 'Sharing')"
       >
         <template #icon>
-          <SidebarShareIcon />
+	   <component :is="InquiryGeneralIcons.share" />
         </template>
         <SideBarTabShare />
       </NcAppSidebarTab>
@@ -109,7 +125,7 @@ function closeSideBar() {
         :name="t('agora', 'Activity')"
       >
         <template #icon>
-          <SidebarActivityIcon />
+	   <component :is="InquiryGeneralIcons.activity" />
         </template>
         <SideBarTabActivity />
       </NcAppSidebarTab>
