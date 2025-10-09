@@ -91,6 +91,33 @@ const inquiries = {
     })
   },
 
+  updateAccess(
+    inquiryId: number,
+    inquiryAccess: string
+  ): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
+    return httpInstance.request({
+      method: 'PUT',
+      url: `inquiry/updateaccess/${inquiryId}/${inquiryAccess}`,
+      cancelToken:
+        cancelTokenHandlerObject[this.updateAccess.name].handleRequestCancellation()
+          .token,
+    })
+  },
+
+
+  updateInquiryStatus(
+    inquiryId: number,
+    inquiryStatus: string
+  ): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
+    return httpInstance.request({
+      method: 'PUT',
+      url: `inquiry/updatestatus/${inquiryId}/${inquiryStatus}`,
+      cancelToken:
+        cancelTokenHandlerObject[this.updateInquiryStatus.name].handleRequestCancellation()
+          .token,
+    })
+  },
+
   updateModerationStatus(
     inquiryId: number,
     moderation: string

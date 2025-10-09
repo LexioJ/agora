@@ -24,9 +24,7 @@ import { useCommentsStore } from './comments.ts'
 import { useAttachmentsStore } from './attachments.ts'
 import { AxiosError } from '@nextcloud/axios'
 
-export type AccessType = 'private' | 'open' | 'public'
-export type ShowResults = 'always' | 'closed' | 'never'
-export type AllowSuggestions = 'allow' | 'disallow'
+export type AccessType = 'private' | 'moderate' | 'open' | 'public'
 export type SortParticipants = 'alphabetical' | 'supportCount' | 'unordered'
 
 type Meta = {
@@ -36,27 +34,21 @@ type Meta = {
 
 export type InquiryConfiguration = {
   access: AccessType
-  anonymous: boolean
   autoReminder: boolean
   collapseDescription: boolean
   description: string
   expire: number
   forceConfidentialComments: boolean
-  hideBookedUp: boolean
-  maxInquiriesPerOption: number
   maxInquiriesPerUser: number
-  suggestionsExpire: number
-  showResults: ShowResults
+  quorum: number
 }
 
 export type InquiryStatus = {
-  anonymizeLevel: string
   lastInteraction: number
   created: number
   isAnonymous: boolean
   isArchived: boolean
   isExpired: boolean
-  isRealAnonymous: boolean
   relevantThreshold: number
   deletionDate: number
   archivedDate: number
@@ -64,6 +56,7 @@ export type InquiryStatus = {
   countComments: number
   countSupports: number
   moderationStatus: ModerationWorkflowStatus
+  inquiryStatus: inquiryWorkflowStatus
 }
 
 export type InquiryPermissions = {
@@ -73,13 +66,10 @@ export type InquiryPermissions = {
   archive: boolean
   support: boolean
   comment: boolean
-  addOptions: boolean
   addShares: boolean
   addSharesExternal: boolean
   changeForeignInquiries: boolean
   changeOwner: boolean
-  confirmOptions: boolean
-  deanonymize: boolean
   reorderOptions: boolean
   seeResults: boolean
   seeUsernames: boolean
@@ -111,7 +101,6 @@ export type Inquiry = {
   categoryId: number
   owner: User
   inquiryGroups: number[]
-  status: InquiryStatus
   currentUserStatus: CurrentUserStatus
   permissions: InquiryPermissions
   revealParticipants: boolean
@@ -131,6 +120,7 @@ export const useInquiryStore = defineStore('inquiry', {
     description: '',
     descriptionSafe: '',
     moderationStatus: 'draft',
+    inquiryStatus: 'draft',
     parentId: 0,
     locationId: 0,
     categoryId: 0,
@@ -138,16 +128,12 @@ export const useInquiryStore = defineStore('inquiry', {
     configuration: {
       description: '',
       access: 'private',
-      anonymous: false,
       autoReminder: false,
       collapseDescription: true,
       expire: 0,
       forceConfidentialComments: false,
-      hideBookedUp: false,
       suggestionsExpire: 0,
-      showResults: 'always',
-      maxInquiriesPerOption: 0,
-      maxInquiriesPerUser: 0,
+      quorum: 0,
     },
     owner: createDefault<User>(),
     inquiryGroups: [],
@@ -166,6 +152,8 @@ export const useInquiryStore = defineStore('inquiry', {
       countParticipants: 0,
       countComments: 0,
       countSupports: 0,
+      moderationStatus: 'draft',
+      inquiryStatus: 'draft',
     },
     currentUserStatus: {
       groupInvitations: [],
@@ -199,8 +187,6 @@ export const useInquiryStore = defineStore('inquiry', {
       seeUsernames: false,
       subscribe: false,
       takeOver: false,
-      view: false,
-      suppport: false,
     },
     revealParticipants: false,
     sortParticipants: 'alphabetical',
@@ -222,13 +208,6 @@ export const useInquiryStore = defineStore('inquiry', {
         return [sessionStore.currentUser]
       }
       return inquiriesStore.getChunkedParticipants
-    },
-
-    displayResults(state): boolean {
-      return (
-        state.configuration.showResults === 'always' ||
-        (state.configuration.showResults === 'closed' && !this.status.isExpired)
-      )
     },
 
     isConfirmationAllowed(state): boolean {
@@ -447,6 +426,21 @@ export const useInquiryStore = defineStore('inquiry', {
         }
       }, 500)
       debouncedLoad()
+    },
+
+    async setInquiryStatus(inquiryStatus: string): Promise<void> {
+      try {
+        await InquiriesAPI.updateInquiryStatus(this.id, inquiryStatus)
+      } catch (error) {
+        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+          return
+        }
+        Logger.error('Error setting inquiry status:', {
+          error,
+          state: this.$state,
+        })
+        throw error
+      }
     },
 
     async setModerationStatus(moderation: string): Promise<void> {

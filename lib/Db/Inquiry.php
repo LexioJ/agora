@@ -51,8 +51,8 @@ use OCP\IURLGenerator;
  * @method    void setQuorum(int $value)
  * @method    string getShowResults()
  * @method    void setShowResults(string $value)
- * @method    int getOwnedGroup()
- * @method    void setOwnedGroup(int $value)
+ * @method    string getOwnedGroup()
+ * @method    void setOwnedGroup(string $value)
  * @method    int getLastInteraction()
  * @method    void setLastInteraction(int $value)
  * @method    int getCategoryId()
@@ -138,9 +138,8 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     protected int $archived = 0;
     protected int $expire = 0;
     protected int $deleted = 0;
-    protected int $ownedGroup = 0;
+    protected string $ownedGroup = '';
     protected string $access = '';
-    protected int $quorum = 0;
     protected string $showResults = '';
     protected int $lastInteraction = 0;
     protected int $parentId = 0;
@@ -175,7 +174,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         $this->addType('archived', 'integer');
         $this->addType('expire', 'integer');
         $this->addType('deleted', 'integer');
-        $this->addType('ownedGroup', 'integer');
+        $this->addType('ownedGroup', 'string');
         $this->addType('quorum', 'integer');
         $this->addType('lastInteraction', 'integer');
         $this->addType('parentId', 'integer');
@@ -457,7 +456,6 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 		    'showResults' => $this->getShowResults(),
 		    'allowComment' => $this->getAllowComment(),
 		    'allowSupport' => $this->getAllowSupport(),
-		    'quorum' => $this->getQuorum(),
 		    'expire' => $this->getExpire(),
 		    'archived' => $this->getArchived(),
 		    'deleted' => $this->getDeleted(),

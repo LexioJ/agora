@@ -1,5 +1,6 @@
 <!--
   - SPDX-FileCopyrightText: 2018 Nextcloud contributors
+  - SPDX-FileCopyrightText: 2018 Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -11,6 +12,7 @@ import { t } from '@nextcloud/l10n'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationNew from '@nextcloud/vue/components/NcAppNavigationNew'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
+import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 import InquiryNavigationItems from '../components/Navigation/InquiryNavigationItems.vue'
 import { NavigationIcons } from '../utils/icons.ts'
@@ -143,12 +145,12 @@ onMounted(() => {
       :button-mode="'navigation'"
     />
 
-    <div class="agora-navigation__header">
+    <div class="navigation-header">
       <NcAppNavigationNew
         v-if="preferencesStore.useNcAppNavigationNew && sessionStore.appPermissions.inquiryCreation"
         :text="t('agora', 'New inquiry')"
         button-class="icon-add"
-        class="agora-navigation__new-btn"
+        class="navigation-new-btn"
         @click="createDlgToggle = !createDlgToggle"
       >
         <template #icon>
@@ -166,11 +168,8 @@ onMounted(() => {
     <!-- Navigation List -->
     <template #list>
       <!-- Groups Section -->
-      <div
-        v-if="inquiryGroupsStore.inquiryGroupsSorted.length > 0"
-        class="agora-navigation__section"
-      >
-        <h3 class="agora-navigation__section-title">
+      <NcAppNavigationList v-if="inquiryGroupsStore.inquiryGroupsSorted.length > 0">
+        <h3 class="navigation-caption">
           {{ t('agora', 'Categories') }}
         </h3>
         <NcAppNavigationItem
@@ -183,7 +182,7 @@ onMounted(() => {
             name: 'group',
             params: { slug: inquiryGroup.slug },
           }"
-          class="agora-navigation__group-item"
+          class="navigation-item"
           :open="false"
         >
           <template #icon>
@@ -192,12 +191,12 @@ onMounted(() => {
           <template #counter>
             <NcCounterBubble
               :count="inquiryGroupsStore.countInquiriesInInquiryGroups[inquiryGroup.id]"
-              class="agora-navigation__counter"
+              class="navigation-counter"
             />
           </template>
           <ul
             v-if="sessionStore.appSettings.navigationInquiriesInList"
-            class="agora-navigation__sub-list"
+            class="navigation-sublist"
           >
             <InquiryNavigationItems
               v-for="inquiry in inquiriesStore.groupList(inquiryGroup.inquiryIds)"
@@ -209,7 +208,7 @@ onMounted(() => {
             <NcAppNavigationItem
               v-if="inquiriesStore.groupList(inquiryGroup.inquiryIds).length === 0"
               :name="t('agora', 'No inquiries found')"
-              class="agora-navigation__empty"
+              class="navigation-empty"
             />
             <NcAppNavigationItem
               v-if="inquiryGroup.inquiryIds.length > inquiriesStore.meta.maxInquiriesInNavigation"
@@ -226,13 +225,13 @@ onMounted(() => {
             </NcAppNavigationItem>
           </ul>
         </NcAppNavigationItem>
-      </div>
+      </NcAppNavigationList>
 
       <NcAppNavigationSpacer v-if="inquiryGroupsStore.inquiryGroups.length" />
 
       <!-- Filters Section -->
-      <div class="agora-navigation__section">
-        <h3 class="agora-navigation__section-title">
+      <NcAppNavigationList>
+        <h3 class="navigation-caption">
           {{ t('agora', 'Filters') }}
         </h3>
         <NcAppNavigationItem
@@ -246,7 +245,7 @@ onMounted(() => {
             name: 'list',
             params: { type: inquiryCategory.id },
           }"
-          class="agora-navigation__filter-item"
+          class="navigation-item"
           :open="false"
         >
           <template #icon>
@@ -255,12 +254,12 @@ onMounted(() => {
           <template #counter>
             <NcCounterBubble
               :count="inquiriesStore.inquiriesCount[inquiryCategory.id]"
-              class="agora-navigation__counter"
+              class="navigation-counter"
             />
           </template>
           <ul
             v-if="sessionStore.appSettings.navigationInquiriesInList"
-            class="agora-navigation__sub-list"
+            class="navigation-sublist"
           >
             <InquiryNavigationItems
               v-for="inquiry in inquiriesStore.navigationList(inquiryCategory.id)"
@@ -272,7 +271,7 @@ onMounted(() => {
             <NcAppNavigationItem
               v-if="inquiriesStore.navigationList(inquiryCategory.id).length === 0"
               :name="t('agora', 'No inquiries found')"
-              class="agora-navigation__empty"
+              class="navigation-empty"
             />
             <NcAppNavigationItem
               v-if="
@@ -292,141 +291,123 @@ onMounted(() => {
             </NcAppNavigationItem>
           </ul>
         </NcAppNavigationItem>
-      </div>
+      </NcAppNavigationList>
     </template>
 
-    <!-- Footer -->
-    <template #footer>
-      <ul class="agora-navigation__footer">
-        <NcAppNavigationItem
-          :name="t('agora', 'Settings')"
-          class="agora-navigation__footer-item"
-          @click="showSettings()"
-        >
-          <template #icon>
-            <Component :is="NavigationIcons.settings" />
-          </template>
-        </NcAppNavigationItem>
-      </ul>
-    </template>
   </NcAppNavigation>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .agora-navigation {
-  &__header {
-    padding: 12px;
-    border-bottom: 1px solid var(--color-border);
+  padding: 12px 0;
+}
+
+.navigation-header {
+  padding: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.navigation-new-btn {
+  width: 100%;
+  justify-content: center;
+}
+
+.navigation-caption {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-lighter);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 12px 8px 12px;
+  padding: 0;
+}
+
+.navigation-item {
+  margin: 2px 8px;
+  border-radius: 8px;
+
+  &:hover {
+    background-color: var(--color-background-hover);
   }
 
-  &__new-btn {
-    width: 100%;
-    justify-content: center;
-  }
+  &.active {
+    background-color: var(--color-primary-light);
 
-  &__section {
-    margin-top: 12px;
-
-    &-title {
-      font-size: 0.8rem;
+    :deep(.app-navigation-entry__title) {
       font-weight: 600;
-      text-transform: uppercase;
-      color: var(--color-text-lighter);
-      margin: 0 12px 8px;
-      letter-spacing: 0.5px;
-    }
-  }
-
-  &__group-item,
-  &__filter-item {
-    margin: 2px 8px;
-    border-radius: 8px;
-
-    &:hover {
-      background-color: var(--color-background-hover);
-    }
-
-    &.active {
-      background-color: var(--color-primary-light);
-
-      .app-navigation-entry__title {
-        font-weight: 600;
-      }
-    }
-  }
-
-  &__counter {
-    font-weight: 600;
-  }
-
-  &__sub-list {
-    margin-left: 12px;
-    border-left: 1px solid var(--color-border);
-  }
-
-  &__empty {
-    opacity: 0.7;
-    font-style: italic;
-  }
-
-  &__view-all {
-    color: var(--color-primary);
-    font-weight: 500;
-
-    &:hover {
-      color: var(--color-primary-text);
-    }
-  }
-
-  &__footer {
-    border-top: 1px solid var(--color-border);
-    padding: 8px 0;
-
-    &-item {
-      margin: 0 8px;
-      border-radius: 8px;
-
-      &:hover {
-        background-color: var(--color-background-hover);
-      }
     }
   }
 }
 
-// Override default navigation styles
-.app-agora {
-  .app-navigation {
-    &__body {
-      overflow: revert;
-    }
+.navigation-counter {
+  font-weight: 600;
+}
 
-    &-entry {
-      &-icon,
-      &__title {
-        transition: opacity 0.2s ease;
-      }
+.navigation-sublist {
+  margin-left: 12px;
+  border-left: 1px solid var(--color-border);
+  padding: 0;
 
-      &.active {
-        .app-navigation-entry-icon,
-        .app-navigation-entry__title {
-          opacity: 1;
-        }
-      }
+  :deep(.app-navigation-entry) {
+    padding-left: 20px;
+    
+    .app-navigation-entry__description {
+      font-size: 12px;
+      color: var(--color-text-lighter);
+      margin-top: 2px;
     }
   }
+}
+
+.navigation-empty {
+  opacity: 0.7;
+  font-style: italic;
+}
+
+
+// Override default navigation styles without :deep() nesting
+:deep(.app-navigation__body) {
+  overflow: revert;
+}
+
+:deep(.app-navigation-entry-icon),
+:deep(.app-navigation-entry__title) {
+  transition: opacity 0.2s ease;
+}
+
+:deep(.app-navigation-entry.active .app-navigation-entry-icon),
+:deep(.app-navigation-entry.active .app-navigation-entry__title) {
+  opacity: 1;
 }
 
 .closed {
-  .app-navigation-entry-icon,
-  .app-navigation-entry__title {
+  :deep(.app-navigation-entry-icon),
+  :deep(.app-navigation-entry__title) {
     opacity: 0.6;
   }
 }
 
-.app-navigation-entry-wrapper.force-not-active .app-navigation-entry.active {
-  background-color: transparent !important;
-  * {
-    color: unset !important;
+.force-not-active {
+  :deep(.app-navigation-entry.active) {
+    background-color: transparent !important;
+    
+    * {
+      color: unset !important;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .agora-navigation {
+    padding: 8px 0;
+  }
+}
+
+// Dark theme adjustments
+.theme--dark {
+  .navigation-sublist {
+    background: var(--color-background-darker);
   }
 }
 </style>

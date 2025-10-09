@@ -1,43 +1,37 @@
 <!--
-	- SPDX-FileCopyrightText: 2018 Nextcloud Contributors
-	- SPDX-FileCopyrightText: 2018 Nextcloud contributors
-	- SPDX-License-Identifier: AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: 2018 Nextcloud contributors
+  - SPDX-FileCopyrightText: 2018 Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
-
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { ref, computed, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
-
+import { NavigationIcons } from '../utils/icons.ts'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
-import { InquiryGeneralIcons, StatusIcons } from '../utils/icons.ts'
-
+import { 
+  getInquiryIcon,
+  getInquiryLabel,
+  getInquiryTypesByFamily,
+  getInquiryTypesForFamily,
+  type InquiryFamily,
+  type InquiryType
+} from '../helpers/modules/InquiryHelper.ts'
 
 const route = useRoute()
+const router = useRouter()
 const sessionStore = useSessionStore()
 const inquiriesStore = useInquiriesStore()
-
-// Function to get icon component for family
-const getFamilyIcon = (family: any) => {
-  const iconName = family?.icon?.toLowerCase() || 'accountgroup'
-  return InquiryGeneralIcons[iconName] || StatusIcons[iconName] || InquiryGeneralIcons.activity
-}
-
-// Function to get icon component for inquiry type
-const getInquiryTypeIcon = (inquiryType: any) => {
-  const iconName = inquiryType?.icon?.toLowerCase() || 'filedocumentedit'
-  return InquiryGeneralIcons[iconName] || StatusIcons[iconName] || InquiryGeneralIcons.activity
-}
 
 // State for expanded/collapsed families
 const expandedFamilies = ref<Set<string>>(new Set())
 
 // Computed for available families
-const inquiryFamilies = computed(() => {
+const inquiryFamilies = computed((): InquiryFamily[] => {
   return sessionStore.appSettings.inquiryFamilyTab || []
 })
 
@@ -46,20 +40,15 @@ const recentInquiries = computed(() => {
   return inquiriesStore.inquiries.slice(0, 5)
 })
 
-// Computed for inquiry types grouped by family
+// Computed for all inquiry types
+const allInquiryTypes = computed((): InquiryType[] => {
+  return sessionStore.appSettings.inquiryTypeTab || []
+})
+
+// Computed for inquiry types grouped by family (with filter isOption === 0)
 const inquiryTypesByFamily = computed(() => {
-  const types = sessionStore.appSettings.inquiryTypeTab || []
-  const grouped: Record<string, any[]> = {}
-  
-  types.forEach(type => {
-    const familyKey = type.family
-    if (!grouped[familyKey]) {
-      grouped[familyKey] = []
-    }
-    grouped[familyKey].push(type)
-  })
-  
-  return grouped
+  const types = allInquiryTypes.value.filter(type => type.isOption === 0)
+  return getInquiryTypesByFamily(types)
 })
 
 // Toggle family expansion
@@ -76,19 +65,23 @@ function isFamilyExpanded(familyId: string) {
   return expandedFamilies.value.has(familyId)
 }
 
-// Get inquiry types for a specific family
-function getInquiryTypesForFamily(familyInquiryType: string) {
-  return inquiryTypesByFamily.value[familyInquiryType] || []
+// Get inquiry types for a specific family (with filter isOption === 0)
+function getInquiryTypesForCurrentFamily(familyInquiryType: string) {
+  const types = getInquiryTypesForFamily(familyInquiryType, inquiryTypesByFamily.value, 0)
+  return types
 }
 
-// Check if a navigation item is active
-function isItemActive(itemRoute: string) {
-  return route.path === itemRoute || route.name === itemRoute
+// Function to show settings
+function showSettings() {
+  console.log('Opening settings...')
 }
 
-// Check if inquiry type is active
-function isInquiryTypeActive(typeId: string) {
-  return route.params.typeId === typeId.toString()
+// Function to navigate to family inquiries
+function navigateToFamilyInquiries(familyId: string) {
+  router.push({
+    name: 'family-inquiries',
+    params: { familyId }
+  })
 }
 </script>
 
@@ -128,22 +121,27 @@ function isInquiryTypeActive(typeId: string) {
       <NcAppNavigationItem
         v-for="family in inquiryFamilies"
         :key="family.id"
-        :name="family.label"
+        :name="getInquiryLabel(family)"
         :allow-collapse="true"
         :open="isFamilyExpanded(family.inquiry_type)"
         @update:open="toggleFamily(family.inquiry_type)"
+        @click="navigateToFamilyInquiries(family.id.toString())"
       >
+        <template #icon>
+          <component :is="getInquiryIcon(family)" />
+        </template>
+        
         <template #counter>
           <span class="family-counter">
-            {{ getInquiryTypesForFamily(family.inquiry_type).length }}
+            {{ getInquiryTypesForCurrentFamily(family.inquiry_type).length }}
           </span>
         </template>
 
-        <!-- Inquiry Types for this family -->
+        <!-- Inquiry Types for this family (only isOption === 0) -->
         <NcAppNavigationItem
-          v-for="inquiryType in getInquiryTypesForFamily(family.inquiry_type)"
+          v-for="inquiryType in getInquiryTypesForCurrentFamily(family.inquiry_type)"
           :key="inquiryType.id"
-          :name="inquiryType.label"
+          :name="getInquiryLabel(inquiryType)"
           :to="{ 
             name: 'menu-family-type', 
             params: { 
@@ -153,8 +151,8 @@ function isInquiryTypeActive(typeId: string) {
           }"
           :exact="true"
         >
-	  <template #icon>
-            <component :is="getInquiryTypeIcon(inquiryType)" />
+          <template #icon>
+            <component :is="getInquiryIcon(inquiryType)" />
           </template>
 
           <template v-if="inquiryType.description" #description>
@@ -163,7 +161,7 @@ function isInquiryTypeActive(typeId: string) {
         </NcAppNavigationItem>
 
         <NcAppNavigationItem
-          v-if="getInquiryTypesForFamily(family.inquiry_type).length === 0"
+          v-if="getInquiryTypesForCurrentFamily(family.inquiry_type).length === 0"
           :name="t('agora', 'No inquiry types')"
           :disabled="true"
         />
@@ -188,12 +186,28 @@ function isInquiryTypeActive(typeId: string) {
         :exact="true"
       />
     </NcAppNavigationList>
+
+    <!-- Footer Section -->
+    <NcAppNavigationList class="navigation-footer">
+      <NcAppNavigationItem
+        :name="t('agora', 'Settings')"
+        class="footer-item"
+        @click="showSettings()"
+      >
+        <template #icon>
+          <Component :is="NavigationIcons.settings" />
+        </template>
+      </NcAppNavigationItem>
+    </NcAppNavigationList>
   </nav>
 </template>
 
 <style lang="scss" scoped>
 .navigation-menu {
   padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .navigation-caption {
@@ -204,6 +218,21 @@ function isInquiryTypeActive(typeId: string) {
   letter-spacing: 0.5px;
   margin: 0 12px 8px 12px;
   padding: 0;
+}
+
+.navigation-footer {
+  margin-top: auto;
+  border-top: 1px solid var(--color-border);
+  padding-top: 8px;
+
+  .footer-item {
+    margin: 0 8px;
+    border-radius: 8px;
+
+    &:hover {
+      background-color: var(--color-background-hover);
+    }
+  }
 }
 
 .family-counter {

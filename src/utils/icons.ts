@@ -16,6 +16,21 @@ import FileTree from '@iconify-icons/mdi/file-tree'
 import AlertCircle from '@iconify-icons/mdi/alert-circle'
 import Bank from '@iconify-icons/mdi/bank'
 import CommentAlert from '@iconify-icons/mdi/comment-alert'
+import Gavel from '@iconify-icons/mdi/gavel'
+import OfficeBuilding from '@iconify-icons/mdi/office-building'
+import Seal from '@iconify-icons/mdi/seal'
+import ClipboardText from '@iconify-icons/mdi/clipboard-text'
+import BriefcaseCheck from '@iconify-icons/mdi/briefcase-check'
+import ChartBar from '@iconify-icons/mdi/chart-bar'
+import Map from '@iconify-icons/mdi/map'
+import RocketLaunch from '@iconify-icons/mdi/rocket-launch'
+import BookOpenVariant from '@iconify-icons/mdi/book-open-variant'
+import Library from '@iconify-icons/mdi/library'
+import AccountVoice from '@iconify-icons/mdi/account-voice'
+import ClipboardCheck from '@iconify-icons/mdi/clipboard-check'
+import Bullhorn from '@iconify-icons/mdi/bullhorn'
+import Check from '@iconify-icons/mdi/check'
+
 
 import Update from '@iconify-icons/mdi/update'
 import Calendar from '@iconify-icons/mdi/calendar'
@@ -140,32 +155,40 @@ export const makeIconComponent = (icon: Component, color = '#000', size = 24) =>
 
 export const InquiryGeneralIcons: Record<string, Component> = {
   flash: makeIconComponent(LightbulbOn, '#FF9800'),
-  commentProcessing: makeIconComponent(CommentProcessing, '#FF9800'),
+  commentprocessing: makeIconComponent(CommentProcessing, '#FF9800'),
+  plus: makeIconComponent(Plus, '#4CAF50'),
   share: makeIconComponent(ShareIcon, '#03A9F4'),
   update: makeIconComponent(Update, '#FF9800'),
   archive: makeIconComponent(Archive, '#607D8B'),
   delete: makeIconComponent(Delete, '#F44336'),
   back: makeIconComponent(ArrowLeft, '#2196F3'),
   minus: makeIconComponent(Minus, '#9E9E9E'),
-  plus: makeIconComponent(Plus, '#4CAF50'),
+  offer: makeIconComponent(Offer, '#4CAF50'),
   restore: makeIconComponent(Recycle, '#009688'),
   transfer: makeIconComponent(Transfer, '#3F51B5'),
   home: makeIconComponent(Home, '#3F51B5'),
   alphabetical: makeIconComponent(Alphabetical, '#3F51B5'),
   type: makeIconComponent(Type, '#3F51B3'),
-  accountCircle: makeIconComponent(AccountCircle, '#3F51B5'),
+  accountcircle: makeIconComponent(AccountCircle, '#3F51B5'),
+  accountmultiple: makeIconComponent(AccountMultiple, '#4CAF50'),
   sortAscending: makeIconComponent(SortAscending, '#1F11B8'),
   sortDescending: makeIconComponent(SortDescending, '#3F91B5'),
   gesture: makeIconComponent(Gesture, '#3F91B5'),
   activity: makeIconComponent(LightbulbOn, '#FF9800'),
-
+  chartbar: makeIconComponent(ChartBar, '#3F51B5'),
+  briefcasecheck: makeIconComponent(BriefcaseCheck, '#4CAF50'),
+  map: makeIconComponent(Map, '#2196F3'),
+  rocketlaunch: makeIconComponent(RocketLaunch, '#E91E63'),
+  gavel: makeIconComponent(Gavel, '#9C27B0'),
+  officebuilding: makeIconComponent(OfficeBuilding, '#607D8B'),
+  seal: makeIconComponent(Seal, '#FF9800'),
+  clipboardtext: makeIconComponent(ClipboardText, '#00BCD4'),
   comment: makeIconComponent(CommentIcon, '#2196F3'),
   thumb: makeIconComponent(ThumbUp, '#5996F3'),
   talk: makeIconComponent(ChatOutline, '#00BCD4'),
   collectives: makeIconComponent(AccountGroup, '#795548'),
   form: makeIconComponent(FormTextbox, '#9C27B0'),
   menu: makeIconComponent(Menu, '#607D8B'),
-
   unpublished: makeIconComponent(PublishOff, '#9E9E9E'),
   archived: makeIconComponent(Archive, '#9E9E9E'),
   closed: makeIconComponent(Lock, '#F44336'),
@@ -174,6 +197,27 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   suggestions: makeIconComponent(Offer, '#4CAF50'),
   expiration: makeIconComponent(CalendarEnd, '#E91E63'),
   attachment: makeIconComponent(FileDocument, '#607D8B'),
+  bookopenvariant: makeIconComponent(BookOpenVariant, '#3F51B5'),
+  library: makeIconComponent(Library, '#795548'),
+  accountvoice: makeIconComponent(AccountVoice, '#673AB7'),
+  clipboardcheck: makeIconComponent(ClipboardCheck, '#4CAF50'),
+  alertcircle: makeIconComponent(AlertCircle, '#F44336'),
+  alertoctagon: makeIconComponent(AlertCircleOutline, '#E53935'),
+  forum: makeIconComponent(Forum, '#2196F3'),
+  filedocumentedit: makeIconComponent(FileDocumentEdit, '#3F51B5'),
+  school: makeIconComponent(Seal, '#4CAF50'), 
+  babyface: makeIconComponent(HandHeart, '#E91E63'), 
+  homecity: makeIconComponent(Home, '#795548'),
+  calendarmultiselect: makeIconComponent(CalendarMultiple, '#4CAF50'),
+  city: makeIconComponent(OfficeBuilding, '#607D8B'),
+  accounttie: makeIconComponent(AccountVoice, '#673AB7'),
+  accountbalance: makeIconComponent(Bank, '#607D8B'),
+  accountgroup: makeIconComponent(AccountGroup, '#3F51B5'),
+  accountmultiplecheck: makeIconComponent(AccountMultipleCheck, '#4CAF50'),
+  lightbulb: makeIconComponent(LightbulbOn, '#FF9800'),
+  bullhorn: makeIconComponent(Bullhorn, '#FF9800'),        
+  check: makeIconComponent(Check, '#8BC34A'),          
+  commentquote: makeIconComponent(CommentQuote, '#9C27B0'),
 }
 
 export const ShareIcons: Record<string, Component> = {

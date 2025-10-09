@@ -545,8 +545,8 @@ class InquiryController extends BaseController
      * @param string $access Access
      */
     #[NoAdminRequired]
-    #[FrontpageRoute(verb: 'POST', url: '/inquiry/{inquiryId}/access')]
-    public function setAccess(int $inquiryId, string $access): JSONResponse
+    #[FrontpageRoute(verb: 'POST', url: '/inquiry/updateaccess/{inquiryId}/{access}')]
+    public function updateAccess(int $inquiryId, string $access): JSONResponse
     {
         return $this->response(
             fn () => [

@@ -111,149 +111,158 @@ const routes: RouteRecordRaw[] = [
     },
     props: true,
     meta: {
-      listPage: true,
+	    listPage: true,
     },
   },
   {
-    name: 'menu-family',
-    path: '/menu/:familyId',
-    components: {
-      default: Menu,
-      navigation: NavigationMenu,
-    },
-    props: true,
-    meta: {
-      listPage: true,
-    },
+	  path: '/family/:familyId/inquiries',
+	  name: 'family-inquiries',
+	  components: {
+		  default: Menu,
+		  navigation: NavigationMenu
+	  },
+	  props: true
   },
   {
-    name: 'menu-family-type',
-    path: '/menu/:familyId/:typeId',
-    components: {
-      default: Menu,
-      navigation: NavigationMenu,
-    },
-    props: true,
-    meta: {
-      listPage: true,
-    },
+	  name: 'menu-family',
+	  path: '/menu/:familyId',
+	  components: {
+		  default: Menu,
+		  navigation: NavigationMenu,
+	  },
+	  props: true,
+	  meta: {
+		  listPage: true,
+	  },
   },
   {
-    name: 'group',
-    path: '/group/:slug',
-    components: {
-      default: List,
-      navigation: Navigation,
-      sidebar: SideBarInquiryGroup,
-    },
-    props: true,
-    meta: {
-      groupPage: true,
-      listPage: true,
-    },
+	  name: 'menu-family-type',
+	  path: '/menu/:familyId/:typeId',
+	  components: {
+		  default: Menu,
+		  navigation: NavigationMenu,
+	  },
+	  props: true,
+	  meta: {
+		  listPage: true,
+	  },
   },
   {
-    name: 'notfound',
-    path: '/not-found',
-    components: {
-      default: NotFound,
-      navigation: Navigation,
-    },
-    meta: {
-      errorPage: true,
-    },
+	  name: 'group',
+	  path: '/group/:slug',
+	  components: {
+		  default: List,
+		  navigation: Navigation,
+		  sidebar: SideBarInquiryGroup,
+	  },
+	  props: true,
+	  meta: {
+		  groupPage: true,
+		  listPage: true,
+	  },
   },
   {
-    name: 'forbidden',
-    path: '/forbidden',
-    components: {
-      default: Forbidden,
-      navigation: Navigation,
-    },
-    meta: {
-      errorPage: true,
-    },
+	  name: 'notfound',
+	  path: '/not-found',
+	  components: {
+		  default: NotFound,
+		  navigation: Navigation,
+	  },
+	  meta: {
+		  errorPage: true,
+	  },
   },
   {
-    name: 'inquiry',
-    path: '/inquiry/:id',
-    components: {
-      default: InquiryView,
-      navigation: Navigation,
-      sidebar: SideBar,
-    },
-    props: true,
-    meta: {
-      inquiryPage: true,
-    },
+	  name: 'forbidden',
+	  path: '/forbidden',
+	  components: {
+		  default: Forbidden,
+		  navigation: Navigation,
+	  },
+	  meta: {
+		  errorPage: true,
+	  },
   },
   {
-    name: 'publicInquiry',
-    path: '/s/:token',
-    components: {
-      default: InquiryView,
-      sidebar: SideBar,
-    },
-    beforeEnter: (to, from) => validateToken(to, from),
-    props: true,
-    meta: {
-      publicPage: true,
-      inquiryPage: true,
-    },
+	  name: 'inquiry',
+	  path: '/inquiry/:id',
+	  components: {
+		  default: InquiryView,
+		  navigation: Navigation,
+		  sidebar: SideBar,
+	  },
+	  props: true,
+	  meta: {
+		  inquiryPage: true,
+	  },
   },
   {
-    name: 'root',
-    path: '/',
-    redirect: {
-      name: 'menu',
-    },
+	  name: 'publicInquiry',
+	  path: '/s/:token',
+	  components: {
+		  default: InquiryView,
+		  sidebar: SideBar,
+	  },
+	  beforeEnter: (to, from) => validateToken(to, from),
+		  props: true,
+	  meta: {
+		  publicPage: true,
+		  inquiryPage: true,
+	  },
   },
   {
-    path: '/:pathMatch(.*)*',
-    redirect: {
-      name: 'notfound',
-    },
+	  name: 'root',
+	  path: '/',
+	  redirect: {
+		  name: 'menu',
+	  },
+  },
+  {
+	  path: '/:pathMatch(.*)*',
+	  redirect: {
+		  name: 'notfound',
+	  },
   },
 ]
 
 const router = createRouter({
-  history: createWebHistory(generateUrl('/apps/agora')),
-  routes,
-  linkActiveClass: 'active',
+	history: createWebHistory(generateUrl('/apps/agora')),
+	routes,
+	linkActiveClass: 'active',
 })
 
 router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
-  const sessionStore = useSessionStore()
-  let forceReload = false
+	const sessionStore = useSessionStore()
+	let forceReload = false
 
-  // if the previous and the requested routes have the same name and
-  // the watcher is active, we can do a cheap loading
-  const cheapLoading =
-    to.name === from.name &&
-    sessionStore.watcher.mode !== 'noInquirying' &&
-    sessionStore.watcher.status !== 'stopped'
+	// if the previous and the requested routes have the same name and
+	// the watcher is active, we can do a cheap loading
+	const cheapLoading =
+		to.name === from.name &&
+		sessionStore.watcher.mode !== 'noInquirying' &&
+		sessionStore.watcher.status !== 'stopped'
 
-  if (to.name === 'login') {
-    forceReload = true
-  }
-  
-  // first load app context -> session and preferences
-  try {
-    await loadContext(to, cheapLoading, forceReload)
-  } catch (error) {
-    Logger.error('Could not load context', { error })
+	if (to.name === 'login') {
+		forceReload = true
+	}
 
-    if (!sessionStore.userStatus.isLoggedin) {
-      // if the user is not logged in, redirect to the login page
-      window.location.replace(generateUrl('login'))
-      return false
-    }
+	// first load app context -> session and preferences
+	try {
+		await loadContext(to, cheapLoading, forceReload)
+	} catch (error) {
+		Logger.error('Could not load context', { error })
 
-    // if context can't be loaded, redirect to not found page
-    return {
-      name: 'notfound',
-    }
-  }
+		if (!sessionStore.userStatus.isLoggedin) {
+			// if the user is not logged in, redirect to the login page
+			window.location.replace(generateUrl('login'))
+			return false
+		}
+
+		// if context can't be loaded, redirect to not found page
+		return {
+			name: 'notfound',
+		}
+	}
 })
 
 export { router }

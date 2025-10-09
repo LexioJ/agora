@@ -1,42 +1,78 @@
 <!--
-	- SPDX-FileCopyrightText: 2018 Nextcloud Contributors
-	- SPDX-License-Identifier: AGPL-3.0-or-later
+  - SPDX-FileCopyrightText: 2018 Nextcloud contributors
+  - SPDX-FileCopyrightText: 2018 Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { computed, ref, watch, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
-
+import NcDialog from '@nextcloud/vue/components/NcDialog'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
+import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-
+import InquiryCreateDlg from '../components/Create/InquiryCreateDlg.vue'
 import { HeaderBar } from '../components/Base/index.ts'
 import { AgoraAppIcon } from '../components/AppIcons/index.ts'
 import { useSessionStore } from '../stores/session.ts'
-import { InquiryGeneralIcons, StatusIcons } from '../utils/icons.ts'
+import { useInquiriesStore } from '../stores/inquiries.ts'
+import { 
+  getInquiryIcon,
+  getInquiryLabel,
+  type InquiryFamily,
+  type InquiryType
+} from '../helpers/modules/InquiryHelper.ts'
 
 const route = useRoute()
+const router = useRouter()
 const sessionStore = useSessionStore()
+const inquiriesStore = useInquiriesStore()
+const createDlgToggle = ref(false)
+const selectedInquiryTypeForCreation = ref<InquiryType | null>(null)
+const selectedGroups = ref<string[]>([])
+
+const availableGroups = computed(() => {
+  const groups = sessionStore.currentUser.groups || {}
+  if (typeof groups === 'object' && !Array.isArray(groups)) {
+    return Object.keys(groups)
+  }
+  return groups
+})
 
 // State for selected family
 const selectedFamily = ref<string | null>(route.params.familyId as string || null)
 
 // Computed for available families
-const inquiryFamilies = computed(() => {
+const inquiryFamilies = computed((): InquiryFamily[] => {
   return sessionStore.appSettings.inquiryFamilyTab || []
 })
 
-// Computed for inquiry types filtered by selected family
+// Computed for all inquiry types (templates)
+const allInquiryTypes = computed((): InquiryType[] => {
+  return sessionStore.appSettings.inquiryTypeTab || []
+})
+
+// DEBUG: Check data
+onMounted(() => {
+  console.log('🔍 DEBUG InquiryMenu - Families:', inquiryFamilies.value)
+  console.log('🔍 DEBUG InquiryMenu - Inquiry Types:', allInquiryTypes.value)
+  console.log('🔍 DEBUG InquiryMenu - Selected family:', selectedFamily.value)
+})
+
+// Computed for inquiry types filtered by selected family (only isOption === 0)
 const filteredInquiryTypes = computed(() => {
   if (!selectedFamily.value) return []
   
   const family = inquiryFamilies.value.find(f => f.id.toString() === selectedFamily.value)
   if (!family) return []
   
-  return sessionStore.appSettings.inquiryTypeTab?.filter(type => 
-    type.family === family.inquiry_type
-  ) || []
+  console.log('🔍 Filtering for family:', family)
+  
+  const filtered = allInquiryTypes.value.filter(type => 
+    type.family === family.inquiry_type && type.isOption === 0
+  )
+  return filtered
 })
 
 // Get family by ID
@@ -45,26 +81,45 @@ const currentFamily = computed(() => {
   return inquiryFamilies.value.find(f => f.id.toString() === selectedFamily.value)
 })
 
-// Function to get icon component for family
-const getFamilyIcon = (family: any) => {
-  const iconName = family?.icon?.toLowerCase() || 'accountgroup'
-  return InquiryGeneralIcons[iconName] || StatusIcons[iconName] || InquiryGeneralIcons.activity
-}
-
-// Function to get icon component for inquiry type
-const getInquiryTypeIcon = (inquiryType: any) => {
-  const iconName = inquiryType?.icon?.toLowerCase() || 'filedocumentedit'
-  return InquiryGeneralIcons[iconName] || StatusIcons[iconName] || InquiryGeneralIcons.activity
-}
+// Watch for route changes
+watch(
+  () => route.params.familyId,
+  (newFamilyId) => {
+    selectedFamily.value = newFamilyId as string || null
+  }
+)
 
 // Function to select a family
 function selectFamily(familyId: string) {
   selectedFamily.value = familyId
+  router.push({
+    name: 'family-inquiries',
+    params: { familyId }
+  })
 }
 
 // Function to clear family selection
 function clearFamilySelection() {
   selectedFamily.value = null
+  router.push({ name: 'menu' })
+}
+
+// Function to create new inquiry from type
+function createInquiry(inquiryType: InquiryType) {
+  console.log('Creating inquiry from type:', inquiryType)
+  selectedInquiryTypeForCreation.value = inquiryType
+  createDlgToggle.value = true
+
+}
+
+// Function to ad inquiry 
+function inquiryAdded(payLoad: { id: number; title: string }) {
+  createDlgToggle.value = false
+  selectedInquiryTypeForCreation.value = null
+  router.push({
+    name: 'inquiry',
+    params: { id: payLoad.id },
+  })
 }
 
 // Empty content props
@@ -73,10 +128,15 @@ const emptyContentProps = computed(() => ({
     ? t('agora', 'No inquiry types found for this family')
     : t('agora', 'No inquiry families configured'),
   description: selectedFamily.value
-    ? t('agora', 'Please check the configuration or select another family')
+    ? t('agora', 'There are no inquiry types available in this family')
     : t('agora', 'Please configure inquiry families in the settings'),
 }))
 
+function handleCloseDialog() {
+  createDlgToggle.value = false
+  selectedInquiryTypeForCreation.value = null
+  selectedGroups.value = []
+}
 </script>
 
 <template>
@@ -84,16 +144,14 @@ const emptyContentProps = computed(() => ({
     <HeaderBar>
       <template #title>
         {{ selectedFamily 
-          ? currentFamily?.label || t('agora', 'Inquiry Types')
+          ? getInquiryLabel(currentFamily, t('agora', 'Inquiry Types'))
           : t('agora', 'Select Inquiry Family') 
         }}
       </template>
-      <span v-if="selectedFamily && currentFamily?.description">
-        {{ currentFamily.description }}
-      </span>
-      <span v-else-if="!selectedFamily">
-        {{ t('agora', 'Choose a family to see available inquiry types') }}
-      </span>
+        <NcButton v-if="selectedFamily" class="back-button" @click="clearFamilySelection">
+          <span class="back-button__icon">←</span>
+          {{ t('agora', 'Back to families') }}
+	</NcButton>
     </HeaderBar>
 
     <!-- Family Selection Grid -->
@@ -106,20 +164,13 @@ const emptyContentProps = computed(() => ({
           @click="selectFamily(family.id.toString())"
         >
           <div class="family-card-large__icon">
-		<component :is="getFamilyIcon(family)" />
+            <component :is="getInquiryIcon(family)" />
           </div>
           <div class="family-card-large__content">
-            <h3 class="family-card-large__title">{{ family.label }}</h3>
+            <h3 class="family-card-large__title">{{ getInquiryLabel(family) }}</h3>
             <p class="family-card-large__description" v-if="family.description">
               {{ family.description }}
             </p>
-            <div class="family-card-large__meta">
-              <span class="inquiry-count">
-                {{ 
-                  sessionStore.appSettings.inquiryTypeTab?.filter(t => t.family === family.inquiry_type).length || 0 
-                }} inquiry types
-              </span>
-            </div>
           </div>
         </div>
       </div>
@@ -134,16 +185,11 @@ const emptyContentProps = computed(() => ({
       </NcEmptyContent>
     </div>
 
-    <!-- Inquiry Types Grid for Selected Family -->
+    <!-- Inquiry Types List for Selected Family -->
     <div v-else class="inquiry-types-container">
       <div class="inquiry-types-header">
-        <button class="back-button" @click="clearFamilySelection">
-          <span class="back-button__icon">←</span>
-          {{ t('agora', 'Back to families') }}
-        </button>
-        
         <div class="selected-family-info">
-          <h2>{{ currentFamily?.label }}</h2>
+          <h2>{{ getInquiryLabel(currentFamily) }}</h2>
           <p v-if="currentFamily?.description">{{ currentFamily.description }}</p>
         </div>
       </div>
@@ -153,21 +199,16 @@ const emptyContentProps = computed(() => ({
           v-for="inquiryType in filteredInquiryTypes"
           :key="inquiryType.id"
           class="inquiry-type-card"
-          @click="$emit('create-inquiry', inquiryType)"
+          @click="createInquiry(inquiryType)"
         >
           <div class="inquiry-type-card__icon">
-		  <component :is="getInquiryTypeIcon(inquiryType)" />
+            <component :is="getInquiryIcon(inquiryType)" />
           </div>
           <div class="inquiry-type-card__content">
-            <h4 class="inquiry-type-card__title">{{ inquiryType.label }}</h4>
+            <h4 class="inquiry-type-card__title">{{ getInquiryLabel(inquiryType) }}</h4>
             <p class="inquiry-type-card__description" v-if="inquiryType.description">
               {{ inquiryType.description }}
             </p>
-            <div class="inquiry-type-card__meta" v-if="inquiryType.allowed_response">
-              <span class="response-types">
-                Responses: {{ inquiryType.allowed_response.join(', ') }}
-              </span>
-            </div>
           </div>
         </div>
       </div>
@@ -181,6 +222,21 @@ const emptyContentProps = computed(() => ({
         </template>
       </NcEmptyContent>
     </div>
+    <NcDialog
+      v-if="createDlgToggle"
+      :name="t('agora', 'Create New Inquiry')"
+      :enable-slide-up="false"
+      @close="handleCloseDialog"
+    >
+      <InquiryCreateDlg
+        :inquiry-type="selectedInquiryTypeForCreation"
+        :selected-groups="selectedGroups"
+        :available-groups="availableGroups"
+        @added="inquiryAdded"
+        @close="handleCloseDialog"
+        @update:selected-groups="selectedGroups = $event"
+      />
+ </NcDialog>
   </NcAppContent>
 </template>
 
@@ -191,7 +247,6 @@ const emptyContentProps = computed(() => ({
   }
 }
 
-/* Large Family Cards Grid */
 .families-grid-container {
   padding: 20px;
 }
@@ -234,11 +289,6 @@ const emptyContentProps = computed(() => ({
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-
-    .family-icon {
-      font-size: 36px;
-      color: white;
-    }
   }
 
   &__title {
@@ -270,7 +320,7 @@ const emptyContentProps = computed(() => ({
   }
 }
 
-/* Inquiry Types Container */
+/* Inquiry Types List Styles */
 .inquiry-types-container {
   padding: 20px;
 }
@@ -322,12 +372,21 @@ const emptyContentProps = computed(() => ({
       color: var(--color-text-lighter);
       font-size: 16px;
       line-height: 1.5;
-      margin: 0;
+      margin-bottom: 12px;
+    }
+
+    .inquiry-types-count {
+      background: var(--color-background-dark);
+      color: var(--color-text-lighter);
+      border-radius: 8px;
+      padding: 6px 12px;
+      font-size: 14px;
+      font-weight: 600;
+      display: inline-block;
     }
   }
 }
 
-/* Standard Size Inquiry Types Grid */
 .inquiry-types-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -363,11 +422,6 @@ const emptyContentProps = computed(() => ({
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-
-    .inquiry-type-icon {
-      font-size: 24px;
-      color: var(--color-primary-element);
-    }
   }
 
   &__content {
@@ -390,7 +444,7 @@ const emptyContentProps = computed(() => ({
   }
 
   &__meta {
-    .response-types {
+    .inquiry-type-id {
       background: var(--color-background-darker);
       color: var(--color-text-lighter);
       border-radius: 8px;
@@ -402,51 +456,9 @@ const emptyContentProps = computed(() => ({
 }
 
 /* Responsive Design */
-@media (max-width: 1400px) {
-  .families-grid {
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .families-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 16px;
-  }
-  
-  .inquiry-types-grid {
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  }
-}
-
 @media (max-width: 768px) {
   .families-grid {
     grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .inquiry-types-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .family-card-large {
-    padding: 24px;
-    min-height: 200px;
-    
-    &__icon {
-      width: 64px;
-      height: 64px;
-      margin-bottom: 16px;
-      
-      .family-icon {
-        font-size: 28px;
-      }
-    }
-    
-    &__title {
-      font-size: 20px;
-    }
   }
   
   .inquiry-types-header {
@@ -457,24 +469,9 @@ const emptyContentProps = computed(() => ({
       font-size: 24px;
     }
   }
-}
-
-/* Dark theme adjustments */
-.theme--dark {
-  .family-card-large {
-    background: var(--color-background-dark);
-    
-    &:hover {
-      background: var(--color-background-darker);
-    }
-  }
   
-  .inquiry-type-card {
-    background: var(--color-background-dark);
-    
-    &:hover {
-      background: var(--color-background-darker);
-    }
+  .inquiry-types-grid {
+    grid-template-columns: 1fr;
   }
 }
 </style>

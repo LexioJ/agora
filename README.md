@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Agora 1.1.0
+# Agora 1.5.0
 
 [![Dependabot status](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg?longCache=true&style=flat-square&logo=dependabot)](https://dependabot.com)  
 [![Software License](https://img.shields.io/badge/license-AGPL-brightgreen.svg?style=flat-square)](COPYING)  
@@ -14,7 +14,7 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 
 ---
 
-## 🌟 Features in 1.1.0
+## 🌟 Features in 1.5.0
 
 - 🔍 **Improved Search Bar** – Quickly find proposals, debates, or projects  
 - 📝 **Create Contributions**  
@@ -83,9 +83,10 @@ occ app:enable agora
 
 ## 🖼 Screenshots
 
-| Edit Inquiry | Manage Category | Moderation Status | View as Non-owner | Grid View | List View |
-| :----------: | :-------------: | :---------------: | :---------------: | :-------: | :-------: |
-| ![Edit Inquiry](screenshots/Edit.png) | ![Category](screenshots/Category.png) | ![Moderation](screenshots/ModerationStatus.png) | ![View](screenshots/UserViewInquiry.png) | ![Grid](screenshots/GridView.png) | ![List](screenshots/ListView.png) |
+| Edit Inquiry | Manage Category | Moderation Status | View as Non-owner | Grid View | List View || Family | Creation | Inquiry Type |
+| :----------: | :-------------: | :---------------: | :---------------: | :-------: | :-------: |:-------: | :-------: |
+| :----------: | :-------------: | :---------------: | :---------------: | :-------: | :-------: |:-------: | :-------: |
+| ![Edit Inquiry](screenshots/Edit.png) | ![Category](screenshots/Category.png) | ![Moderation](screenshots/ModerationStatus.png) | ![View](screenshots/UserViewInquiry.png) | ![Grid](screenshots/GridView.png) | ![List](screenshots/ListView.png) | ![List](screenshots/Family.png) | ![List](screenshots/Creation.png) | ![List](screenshots/InquiryType.png) |
 
 ---
 
