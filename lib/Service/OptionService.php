@@ -65,11 +65,9 @@ class OptionService
      */
     public function list(int $inquiryId): array
     {
-        $this->getInquiry($inquiryId, Inquiry::PERMISSION_INQUIRY_VIEW);
 
         try {
-            $this->options = $this->optionMapper->findByInquiry($inquiryId, !$this->inquiry->getIsAllowed(Inquiry::PERMISSION_INQUIRY_RESULTS_VIEW));
-            $this->filterBookedUp();
+            $this->options = $this->optionMapper->findByInquiry($inquiryId);
 
         } catch (DoesNotExistException $e) {
             $this->options = [];
@@ -459,32 +457,14 @@ class OptionService
      * Load the inquiry and check permissions
      *
      * @return void
-     */
     private function getInquiry(int $inquiryId, string $permission = Inquiry::PERMISSION_INQUIRY_VIEW): void
     {
-        if ($this->inquiry->getId() !== $inquiryId) {
-            $this->inquiry = $this->inquiryMapper->get($inquiryId, withRoles: true);
+        if ($this->getInquiryId() !== $inquiryId) {
+            $inquiry= $this->inquiryMapper->get($inquiryId, withRoles: true);
+            $inquiry->request($permission);
         }
-        $this->inquiry->request($permission);
     }
-
-    /**
-     * Remove booked up options, because they are not votable
-     *
-     * @return void
      */
-    private function filterBookedUp()
-    {
-        if (!$this->inquiry->getHideBookedUp() || $this->inquiry->getIsAllowed(Inquiry::PERMISSION_INQUIRY_EDIT)) {
-            return;
-        }
-
-        $this->options = array_filter(
-            $this->options, function ($option) {
-                return (!$option->getIsLockedByOptionLimit());
-            }
-        );
-    }
 
     /**
      * Get the highest order number in $inquiryId

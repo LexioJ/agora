@@ -318,7 +318,7 @@ class InquiryMapper extends QBMapper
 
 	    $dynamicFields = [];
 	    foreach ($fieldNames as $fieldName) {
-		    $dynamicFields[$fieldName] = $storedValues[$fieldName] ?? $this->getDefaultValueForField($fieldName);
+		    $dynamicFields[$fieldName] = $storedValues[$fieldName] ?? $inquiry->getDefaultValueForField($fieldName);
 	    }
 
 	    $inquiry->setDynamicFields($dynamicFields);
@@ -332,7 +332,6 @@ class InquiryMapper extends QBMapper
 	    $dynamicFields = $inquiry->getDynamicFieldsForStorage();
 	    $inquiryId = $inquiry->getId();
 
-	    // Vérifier s'il y a des champs à sauvegarder
 	    if (empty($dynamicFields)) {
 		    return;
 	    }
@@ -367,9 +366,6 @@ class InquiryMapper extends QBMapper
 
 	    $qb->addSelect($qb->createFunction('coalesce(' . $joinAlias . '.type, ' . $emptyString . ') AS user_role'))
 	->addGroupBy($joinAlias . '.type');
-
-	    $qb->selectAlias($joinAlias . '.locked', 'is_current_user_locked')
-	->addGroupBy($joinAlias . '.locked');
 
 	    $qb->addSelect($qb->createFunction('coalesce(' . $joinAlias . '.token, ' . $emptyString . ') AS share_token'))
 	->addGroupBy($joinAlias . '.token');

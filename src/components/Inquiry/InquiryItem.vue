@@ -19,13 +19,11 @@ import {
   ContentType,
 } from '../../utils/permissions.ts'
 
-import { InquiryTypesUI, BadgeIcons, StatusIcons } from '../../utils/icons.ts'
-
+import { InquiryGeneralIcons, StatusIcons, BadgeIcons } from '../../utils/icons.ts'
 import { useInquiryStore, Inquiry } from '../../stores/inquiry'
 import { useInquiriesStore } from '../../stores/inquiries'
 import { usePreferencesStore } from '../../stores/preferences.ts'
 import { useSessionStore } from '../../stores/session.ts'
-
 
 const inquiryStore = useInquiryStore()
 const inquiriesStore = useInquiriesStore()
@@ -65,17 +63,29 @@ const onToggleSupport = async () => {
   }
 }
 
+// Get inquiry type info from app settings
+const inquiryTypeInfo = computed(() => {
+  return sessionStore.appSettings.inquiryTypeTab?.find(t => t.inquiry_type === inquiry.type)
+})
+
+// Get inquiry type icon
+const inquiryTypeIcon = computed(() => {
+  const iconName = inquiryTypeInfo.value?.icon?.toLowerCase() || 'activity'
+  return InquiryGeneralIcons[iconName] || StatusIcons[iconName] || InquiryGeneralIcons.activity
+})
+
+// Get inquiry type label
+const inquiryTypeLabel = computed(() => {
+  return inquiryTypeInfo.value?.label || inquiry.type
+})
+
 function htmlToFirstLine(html) {
+  if (!html) return ''
   const tempDiv = document.createElement('div')
   tempDiv.innerHTML = html
-
   let text = tempDiv.textContent || tempDiv.innerText || ''
-
   text = text.replace(/\s+/g, ' ').trim()
-
-  const firstLine = text.split(/\r?\n/)[0]
-
-  return firstLine
+  return text.split(/\r?\n/)[0] || ''
 }
 
 const closeToClosing = computed(
@@ -96,15 +106,12 @@ const expiryClass = computed(() => {
   if (inquiry.status.isExpired) {
     return 'error'
   }
-
   if (inquiry.configuration.expire && closeToClosing.value) {
     return 'warning'
   }
-
   if (inquiry.configuration.expire && !inquiry.status.isExpired) {
     return 'success'
   }
-
   return 'success'
 })
 
@@ -140,7 +147,7 @@ const moderationStatus = computed(
 )
 
 const moderationStatusIcon = computed(() => {
-  const statusItem = sessionStore.appSettings.moderationStatusTab.find(
+  const statusItem = sessionStore.appSettings.moderationStatusTab?.find(
     (item) => item.inquiryType === inquiry.type && item.statusKey === inquiry.moderationStatus
   )
 
@@ -152,7 +159,7 @@ const moderationStatusIcon = computed(() => {
 })
 
 const moderationStatusLabel = computed(() => {
-  const statusItem = sessionStore.appSettings.moderationStatusTab.find(
+  const statusItem = sessionStore.appSettings.moderationStatusTab?.find(
     (item) => item.inquiryType === inquiry.type && item.statusKey === inquiry.moderationStatus
   )
 
@@ -176,728 +183,479 @@ const moderationStatusInfo = computed(() => {
 
 <template>
   <div class="inquiry-item" :class="{ 'grid-view': gridView, 'list-view': !gridView }">
-    <!-- Mode liste -->
-    <template v-if="!gridView">
-      <div class="item__type" :title="inquiry.type">
-	      <component
-			      :is="InquiryTypesUI[inquiry.type].icon"
-			      :title="InquiryTypesUI[inquiry.type].label"
-			      />
-      </div>
+    <!-- Grid View (Professional Cards) -->
+    <template v-if="gridView">
+      <div class="inquiry-card">
+        <!-- Card Header -->
+        <div class="card-header">
+          <div class="type-badge">
+            <component :is="inquiryTypeIcon" :size="16" />
+            <span class="type-label">{{ inquiryTypeLabel }}</span>
+          </div>
+          
+          <div class="header-actions">
+            <NcAvatar
+              :user="inquiry.owner.id"
+              :size="24"
+              class="owner-avatar"
+              :show-name="false"
+            />
+          </div>
+        </div>
 
-      <div v-if="noLink" class="item__title" :class="{ closed: inquiry.status.isExpired }">
-	      <div class="title" :title="inquiry.title">
-		      {{ inquiry.title }}
-	      </div>
+        <!-- Card Content -->
+        <RouterLink
+          v-if="!noLink"
+          class="card-content"
+          :to="{ name: 'inquiry', params: { id: inquiry.id } }"
+        >
+          <h3 class="card-title" :title="inquiry.title">
+            {{ inquiry.title }}
+          </h3>
+          <p class="card-description" v-if="safeDescription">
+            {{ safeDescription }}
+          </p>
+        </RouterLink>
+        
+        <div v-else class="card-content">
+          <h3 class="card-title">
+            {{ inquiry.title }}
+          </h3>
+          <p class="card-description">
+            {{
+              t('agora', 'No access to this inquiry of {ownerName}.', {
+                ownerName: inquiry.owner.displayName,
+              })
+            }}
+          </p>
+        </div>
 
-	      <div class="description_line">
-		      <component :is="StatusIcons.Lock" :size="16" />
-		      <div class="description">
-			      {{
-			      t('agora', 'No access to this inquiry of {ownerName}.', {
-			      ownerName: inquiry.owner.displayName,
-			      })
-			      }}
-		      </div>
-	      </div>
-      </div>
+        <!-- Card Metadata -->
+        <div class="card-metadata">
+          <!-- Moderation Status -->
+          <div 
+            v-if="moderationStatusInfo && inquiry.type !== 'official'" 
+            class="metadata-item status-badge"
+            :title="moderationStatusInfo.description || moderationStatusInfo.label"
+          >
+            <component :is="moderationStatusIcon" :size="12" />
+            <span>{{ moderationStatusLabel }}</span>
+          </div>
 
-      <RouterLink
-		      v-else
-		      class="item__title"
-		      :title="inquiry.description"
-		      :to="{
-			   name: 'inquiry',
-			   params: { id: inquiry.id },
-			   }"
-		      :class="{
-			      closed: inquiry.status.isExpired,
-			      active: inquiry.id === inquiryStore.id,
-			      }"
-		      >
-		      <div class="title_line">
-			      <span class="title">
-				      {{ inquiry.title }}
-			      </span>
-		      </div>
+          <!-- Parent Link -->
+          <div v-if="inquiry.parentId !== 0" class="metadata-item">
+            <RouterLink :to="`/inquiry/${inquiry.parentId}`" class="parent-link">
+              <component :is="StatusIcons.LinkIcon" :size="14" />
+              <span>{{ t('agora', 'Parent') }}</span>
+            </RouterLink>
+          </div>
 
-		      <div class="description_line">
-			      <component
-					      :is="BadgeIcons.archived"
-					      v-if="!preferencesStore.user.verboseInquiriesList && inquiry.status.isArchived"
-					      :title="t('agora', 'Archived inquiry')"
-					      :size="16"
-					      />
-			      <component
-					      :is="StatusIcons.LockOpen"
-					      v-else-if="
-							 !preferencesStore.user.verboseInquiriesList && inquiry.configuration.access === 'open'
-							 "
-					      :title="t('agora', 'Openly accessible inquiry')"
-					      :size="16"
-					      />
-			      <component
-					      :is="StatusIcons.Lock"
-					      v-else-if="
-							 !preferencesStore.user.verboseInquiriesList &&
-							 inquiry.configuration.access === 'private'
-							 "
-					      :title="t('agora', 'Private inquiry')"
-					      :size="16"
-					      />
-			      <span class="description">{{ safeDescription }}</span>
-		      </div>
-      </RouterLink>
+          <!-- Participants -->
+          <div 
+            v-if="inquiry.type !== 'official' && inquiry.status.countParticipants > 0"
+            class="metadata-item"
+            :title="t('agora', '{count} participants', { count: inquiry.status.countParticipants })"
+          >
+            <component :is="BadgeIcons.participated" :size="14" />
+            <span>{{ inquiry.status.countParticipants }}</span>
+          </div>
 
-      <div class="badges">
-      		<div v-if="inquiry.parentId!==0" class="item__type">
-	     			 <RouterLink
-			     		 class="underline"
-			      		:to="`/inquiry/${inquiry.parentId}`"
-			     	 >
-	      				<component :is="StatusIcons.LinkIcon" :size="20" :title="`id:inquiry.parentId`"/>
-	      			</RouterLink>
-      </div> 
-	      <div v-if="inquiry.type !== 'official'">
-		      <div
-				      v-if="moderationStatusInfo"
-				      class="badge-bubble status--moderation"
-				      :title="moderationStatusInfo.description || moderationStatusInfo.label"
-				      >
-				      <component
-						      :is="moderationStatusIcon"
-						      v-if="moderationStatusInfo.icon"
-						      :size="12"
-						      class="icon"
-						      />
-				      <!-- {{ inquiry.moderationStatus }}</span> -->
-		      </div>
-		      <div
-				      v-else-if="inquiry.moderationStatus"
-				      class="badge-bubble status--moderation"
-				      :title="moderationStatusLabel"
-				      >
-				      <component :is="moderationStatusIcon" :size="12" class="icon" />
-		      </div>
-	      </div>
+          <!-- Comments -->
+          <div 
+            v-if="canComment(context)"
+            class="metadata-item"
+            :title="t('agora', '{count} comments', { count: inquiry.status.countComments || 0 })"
+          >
+            <component :is="StatusIcons.ForumOutline" :size="14" />
+            <span>{{ inquiry.status.countComments || 0 }}</span>
+          </div>
 
-	      <div
-			      v-if="canComment(context)"
-			      class="badge-bubble"
-			      :title="
-				      t('agora', '{count} comments', {
-				      count: inquiry.status.countComments || 0,
-				      })
-				      "
-			      >
-			      <component :is="StatusIcons.ForumOutline" :size="12" class="icon" />
-			      <span>{{ inquiry.status.countComments || 0 }}</span>
-	      </div>
+          <!-- Supports -->
+          <div 
+            v-if="canSupport(context)"
+            class="metadata-item support-item"
+            :title="t('agora', '{count} supports', { count: inquiry.status.countSupports || 0 })"
+            @click="onToggleSupport"
+          >
+            <ThumbIcon :supported="inquiry.currentUserStatus.hasSupported" :size="18" />
+            <span>{{ inquiry.status.countSupports || 0 }}</span>
+          </div>
+        </div>
 
-	      <div
-			      v-if="canSupport(context)"
-			      class="badge-bubble"
-			      :title="
-				      t('agora', '{count} supports', {
-				      count: inquiry.status.countSupports || 0,
-				      })
-				      "
-			      @click="onToggleSupport"
-			      >
-			      <ThumbIcon :supported="inquiry.currentUserStatus.hasSupported" :size="22" />
-			      <span>{{ inquiry.status.countSupports || 0 }}</span>
-	      </div>
+        <!-- Card Footer -->
+        <div class="card-footer">
+          <div class="footer-left">
+            <!-- Access Badges -->
+            <div 
+              v-if="!inquiry.status.isArchived && inquiry.configuration.access === 'private'"
+              class="access-badge private"
+              :title="t('agora', 'Private inquiry, only invited participants have access')"
+            >
+              <component :is="StatusIcons.Lock" :size="12" />
+            </div>
+            
+            <div 
+              v-else-if="!inquiry.status.isArchived && inquiry.configuration.access === 'open'"
+              class="access-badge open"
+              :title="t('agora', 'Open inquiry, accessible to all users')"
+            >
+              <component :is="StatusIcons.LockOpen" :size="12" />
+            </div>
+            
+            <div 
+              v-if="inquiry.status.isArchived"
+              class="access-badge archived"
+              :title="t('agora', 'Archived inquiry')"
+            >
+              <component :is="BadgeIcons.archived" :size="12" />
+            </div>
 
-	      <div
-			      v-if="inquiry.type !== 'official' && preferencesStore.user.verboseInquiriesList"
-			      class="badge-bubble"
-			      :title="
-				      t('agora', '{count} participants', {
-				      count: inquiry.status.countParticipants,
-				      })
-				      "
-			      >
-			      <component :is="BadgeIcons.participated" :size="16" class="icon" />
-			      <span>{{ inquiry.status.countParticipants }}</span>
-	      </div>
+            <!-- Expiration -->
+            <div 
+              v-if="inquiry.configuration.expire"
+              class="expiry-badge"
+              :class="expiryClass"
+              :title="t('agora', 'Expires {time}', { time: timeExpirationRelative })"
+            >
+              <component 
+                :is="inquiry.status.isExpired ? BadgeIcons.closed : BadgeIcons.expiration" 
+                :size="12" 
+              />
+              <span>{{ timeExpirationRelative }}</span>
+            </div>
+          </div>
 
-	      <div
-			      v-if="
-				    preferencesStore.user.verboseInquiriesList &&
-				    !inquiry.status.isArchived &&
-				    inquiry.configuration.access === 'private'
-				    "
-			      class="badge-bubble"
-			      :title="t('agora', 'Private inquiry, only invited participants have access')"
-			      >
-			      <component :is="StatusIcons.Lock" :size="16" class="icon" />
-	      </div>
-
-		      <div
-				      v-if="
-					    preferencesStore.user.verboseInquiriesList &&
-					    !inquiry.status.isArchived &&
-					    inquiry.configuration.access === 'open'
-					    "
-				      class="badge-bubble"
-				      :title="t('agora', 'Open inquiry, accessible to all users of this instance')"
-				      >
-				      <component :is="StatusIcons.LockOpen" :size="16" class="icon" />
-		      </div>
-
-			      <div
-					      v-if="preferencesStore.user.verboseInquiriesList && inquiry.status.isArchived"
-					      class="badge-bubble"
-					      :title="t('agora', 'Archived inquiry')"
-					      >
-					      <component :is="BadgeIcons.archived" :size="16" class="icon" />
-			      </div>
-
-				      <div
-						      v-if="preferencesStore.user.verboseInquiriesList && inquiry.countParticipants"
-						      class="badge-bubble participated"
-						      :title="t('agora', 'This inquiry get participation')"
-						      >
-						      <component :is="StatusIcons.AccountCheck" :size="16" class="icon" />
-				      </div>
-
-					      <NcAvatar
-							      v-if="preferencesStore.user.verboseInquiriesList"
-							      :user="inquiry.owner.id"
-							      class="user-avatar"
-							      :style="{ marginLeft: '-8px', marginRight: '4px' }"
-							      :show-name="false"
-							      :size="32"
-							      />
-
-					      <div
-							      v-if="inquiry.configuration.expire"
-							      class="badge-bubble"
-							      :class="expiryClass"
-							      :title="t('agora', 'Expiration')"
-							      >
-							      <component
-									      :is="inquiry.status.isExpired ? BadgeIcons.closed : BadgeIcons.expiration"
-									      :size="16"
-									      class="icon"
-									      />
-							      <span>{{ timeExpirationRelative }}</span>
-					      </div>
-      </div>
-
-      <div class="actions">
-	      <slot name="actions" />
+          <div class="footer-right">
+            <slot name="actions" />
+          </div>
+        </div>
       </div>
     </template>
 
+    <!-- List View -->
     <template v-else>
-	    <div class="grid-card">
-		    <div class="grid-header">
-			    <div class="header-left">
-				    <div class="type-icon">
-					    <component
-							    :is="InquiryTypesUI[inquiry.type].icon"
-							    :title="InquiryTypesUI[inquiry.type].label"
-							    :size="18"
-							    />
-				    </div>
-				    <div v-if="inquiry.type !== 'official'">
-					    <div
-							    v-if="moderationStatusInfo"
-							    class="status-badge status--moderation"
-							    :title="moderationStatusInfo.description || moderationStatusInfo.label"
-							    >
-							    <component :is="moderationStatusIcon" v-if="moderationStatusInfo.icon" :size="12" />
-							    <!-- {{ inquiry.moderationStatus }}</span> -->
-					    </div>
-					    <div
-							    v-else-if="inquiry.moderationStatus"
-							    class="status-badge status--moderation"
-							    :title="moderationStatusLabel"
-							    >
-							    <component :is="moderationStatusIcon" :size="12" />
-							    <!-- {{ inquiry.moderationStatus }}</span> -->
-					    </div>
-				    </div>
-				    <div
-						    v-if="
-							  preferencesStore.user.verboseInquiriesList &&
-							  !inquiry.status.isArchived &&
-							  inquiry.configuration.access === 'private'
-							  "
-						    class="badge-bubble"
-						    :title="t('agora', 'Private inquiry, only invited participants have access')"
-						    >
-						    <component :is="StatusIcons.Lock" :size="16" class="icon" />
-				    </div>
+      <!-- ... (keep existing list view code, but you can simplify it) ... -->
+      <div class="list-item">
+        <div class="item-type">
+          <component :is="inquiryTypeIcon" :size="20" :title="inquiryTypeLabel" />
+        </div>
 
-					    <div
-							    v-if="
-								  preferencesStore.user.verboseInquiriesList &&
-								  !inquiry.status.isArchived &&
-								  inquiry.configuration.access === 'open'
-								  "
-							    class="badge-bubble"
-							    :title="t('agora', 'Open inquiry, accessible to all users of this instance')"
-							    >
-							    <component :is="StatusIcons.LockOpen" :size="16" class="icon" />
-					    </div>
+        <RouterLink
+          v-if="!noLink"
+          class="item-content"
+          :to="{ name: 'inquiry', params: { id: inquiry.id } }"
+        >
+          <div class="item-title">
+            {{ inquiry.title }}
+          </div>
+          <div class="item-description">
+            {{ safeDescription }}
+          </div>
+        </RouterLink>
 
-						    <div
-								    v-if="preferencesStore.user.verboseInquiriesList && inquiry.status.isArchived"
-								    class="badge-bubble"
-								    :title="t('agora', 'Archived inquiry')"
-								    >
-								    <component :is="BadgeIcons.archived" :size="16" class="icon" />
-						    </div>
-			    </div>
-			    <div class="header-right">
-				    <NcAvatar
-						    :user="inquiry.owner.id"
-						    :size="32"
-						    class="user-icon"
-						    :style="{ marginLeft: '-8px' }"
-						    />
-			    </div>
-		    </div>
+        <div v-else class="item-content">
+          <div class="item-title">
+            {{ inquiry.title }}
+          </div>
+          <div class="item-description">
+            {{
+              t('agora', 'No access to this inquiry of {ownerName}.', {
+                ownerName: inquiry.owner.displayName,
+              })
+            }}
+          </div>
+        </div>
 
-		    <RouterLink
-				    v-if="!noLink"
-				    class="grid-content"
-				    :title="inquiry.description"
-				    :to="{
-					 name: 'inquiry',
-					 params: { id: inquiry.id },
-					 }"
-				    >
-				    <h3 class="grid-title">
-					    {{ inquiry.title }}
-				    </h3>
-		    <p class="grid-description">
-		    {{ safeDescription }}
-		    </p>
-		    </RouterLink>
-		    <div v-else class="grid-content">
-			    <h3 class="grid-title">
-				    {{ inquiry.title }}
-			    </h3>
-			    <p class="grid-description">
-			    {{
-			    t('agora', 'No access to this inquiry of {ownerName}.', {
-			    ownerName: inquiry.owner.displayName,
-			    })
-			    }}
-			    </p>
-		    </div>
-
-		    <div class="grid-metadata">
-			    <div v-if="inquiry.parentId!==0" class="metadata-item">
-				    <RouterLink
-						    class="underline"
-						    :to="`/inquiry/${inquiry.parentId}`"
-						    >
-						    <component :is="StatusIcons.LinkIcon" :size="20" :title="`id:inquiry.parentId`"/>
-				    </RouterLink>
-			    </div> 
-			    <div
-					    v-if="inquiry.type !== 'official' && inquiry.status.countParticipants > 0"
-					    class="metadata-item"
-					    :title="
-						    t('agora', '{count} participants', {
-						    count: inquiry.status.countParticipants,
-						    })
-						    "
-					    >
-					    <component :is="BadgeIcons.participated" :size="16" />
-					    <span>{{ inquiry.status.countParticipants }}</span>
-			    </div>
-
-			    <div
-					    v-if="canComment(context)"
-					    class="metadata-item"
-					    :title="
-						    t('agora', '{count} comments', {
-						    count: inquiry.status.countComments || 0,
-						    })
-						    "
-					    >
-					    <component :is="StatusIcons.ForumOutline" :size="16" />
-					    <span>{{ inquiry.status.countComments || 0 }}</span>
-			    </div>
-
-			    <div
-					    v-if="canSupport(context)"
-					    class="metadata-item"
-					    :title="
-						    t('agora', '{count} supports', {
-						    count: inquiry.status.countSupports || 0,
-						    })
-						    "
-					    @click="onToggleSupport"
-					    >
-					    <ThumbIcon :supported="inquiry.currentUserStatus.hasSupported" :size="22" />
-					    <span>{{ inquiry.status.countSupports || 0 }}</span>
-			    </div>
-			    <div class="metadata-item-time">
-				    <div
-						    class="metadata-item"
-						    :title="
-							    t('agora', 'Created on {date}', {
-							    date: formatDate(inquiry.status.created),
-							    })
-							    "
-						    >
-						    <component :is="StatusIcons.Calendar" :size="16" />
-						    <span class="date-label">
-							    <span class="date-value">{{ formatDate(inquiry.status.created) }}</span>
-						    </span>
-				    </div>
-
-				    <div
-						    v-if="inquiry.status.lastInteraction"
-						    class="metadata-item"
-						    :title="
-							    t('agora', 'Last interaction on {date}', {
-							    date: formatDate(inquiry.status.lastInteraction),
-							    })
-							    "
-						    >
-						    <component :is="StatusIcons.Updated" :size="16" />
-						    <span class="date-label">
-							    <span class="date-value">{{ formatDate(inquiry.status.lastInteraction) }}</span>
-						    </span>
-				    </div>
-			    </div>
-		    </div>
-
-		    <div class="grid-actions">
-			    <slot name="actions" />
-		    </div>
-	    </div>
+        <div class="item-actions">
+          <slot name="actions" />
+        </div>
+      </div>
     </template>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .inquiry-item {
-	&.list-view {
-		display: flex;
-		column-gap: 0.5rem;
-		align-items: center;
-		padding: 0.5rem;
-		border-radius: 8px;
-		border-bottom: 1px solid var(--color-border);
-		margin-bottom: 0.25rem;
-		transition: all 0.2s ease;
+  &.grid-view {
+    .inquiry-card {
+      background: var(--color-main-background);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 16px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
 
-		&:hover {
-			background-color: var(--color-background-hover);
-		}
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        border-color: var(--color-primary-element);
+      }
+    }
 
-		&.active {
-			background-color: var(--color-primary-element-light);
-		}
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
 
-		.item__type {
-			flex: 0 0 2.5rem;
-			display: flex;
-			justify-content: center;
-			align-items: center;
-		}
+      .type-badge {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 8px;
+        background: var(--color-background-dark);
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--color-text-lighter);
 
-		.item__title {
-			flex: 1;
-			min-width: 0;
-			overflow: hidden;
+        .type-label {
+          text-transform: capitalize;
+        }
+      }
 
-			.title_line,
-			.description_line {
-				display: flex;
-				gap: 0.5rem;
-				align-items: center;
+      .header-actions {
+        .owner-avatar {
+          border: 2px solid var(--color-border);
+        }
+      }
+    }
 
-				.title,
-				.description {
-					overflow: hidden;
-					text-overflow: ellipsis;
-					white-space: nowrap;
-				}
+    .card-content {
+      flex: 1;
+      margin-bottom: 16px;
+      text-decoration: none;
+      color: inherit;
 
-				.title {
-					font-weight: 600;
-					color: var(--color-main-text);
-				}
-			}
+      .card-title {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.4;
+        margin: 0 0 8px 0;
+        color: var(--color-main-text);
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
 
-			.description_line {
-				opacity: 0.7;
-				font-size: 0.9rem;
-				margin-top: 0.25rem;
+      .card-description {
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--color-text-lighter);
+        margin: 0;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+    }
 
-				.description {
-					flex: 1;
-				}
-			}
-		}
+    .card-metadata {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--color-border-light);
 
-		.badges {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 0.4rem;
-			align-items: center;
-			justify-content: flex-end;
+      .metadata-item {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding: 4px 8px;
+        background: var(--color-background-dark);
+        border-radius: 6px;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--color-text-lighter);
+        transition: all 0.2s ease;
 
-			.badge-bubble {
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				border-radius: 16px;
-				padding: 4px 8px;
-				font-size: 0.8rem;
-				line-height: 1;
-				min-height: 32px;
-				min-width: 32px;
-				transition: all 0.2s ease;
+        &.status-badge {
+          background: var(--color-warning-light);
+          color: var(--color-warning-text);
+        }
 
-				&.error {
-					background-color: var(--color-error);
-					color: white;
-					border-color: var(--color-error);
-				}
+        &.support-item {
+          cursor: pointer;
+          
+          &:hover {
+            background: var(--color-primary-light);
+            color: var(--color-primary-text);
+          }
+        }
 
-				&.warning {
-					background-color: var(--color-warning);
-					color: white;
-					border-color: var(--color-warning);
-				}
+        .parent-link {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          text-decoration: none;
+          color: inherit;
+        }
+      }
+    }
 
-				&.success {
-					background-color: var(--color-success);
-					color: white;
-					border-color: var(--color-success);
-				}
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
 
-				&.participated {
-					background-color: var(--color-success);
-					color: white;
-					border-color: var(--color-success);
-				}
+      .footer-left {
+        display: flex;
+        align-items: center;
+        gap: 8px;
 
-				&.status--moderation {
-				}
+        .access-badge,
+        .expiry-badge {
+          display: flex;
+          align-items: center;
+          gap: 4px;
+          padding: 3px 6px;
+          border-radius: 4px;
+          font-size: 10px;
+          font-weight: 500;
 
-				.icon {
-					margin-right: 0;
-					display: flex;
-					align-items: center;
-				}
-			}
+          &.private {
+            background: var(--color-error-light);
+            color: var(--color-error);
+          }
 
-			.user-bubble__wrapper {
-				line-height: normal;
-				min-height: 1.6rem;
+          &.open {
+            background: var(--color-success-light);
+            color: var(--color-success);
+          }
 
-				&.user-avatar {
-					margin-left: -6px;
-					margin-right: 2px;
-				}
-			}
-		}
+          &.archived {
+            background: var(--color-background-darker);
+            color: var(--color-text-lighter);
+          }
 
-		.actions {
-			display: flex;
-			flex: 0 0 auto;
-			justify-content: center;
-			align-items: center;
-		}
-	}
+          &.error {
+            background: var(--color-error-light);
+            color: var(--color-error);
+          }
 
-	&.grid-view {
-		.grid-card {
-			display: flex;
-			flex-direction: column;
-			height: 100%;
-			padding: 12px;
-			border: 1px solid var(--color-border);
-			border-radius: 8px;
-			background-color: var(--color-main-background);
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-			transition: all 0.2s ease;
+          &.warning {
+            background: var(--color-warning-light);
+            color: var(--color-warning-text);
+          }
 
-			&:hover {
-				transform: translateY(-2px);
-				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
-				border-color: var(--color-primary-element);
-			}
-		}
+          &.success {
+            background: var(--color-success-light);
+            color: var(--color-success);
+          }
+        }
+      }
 
-		.grid-header {
-			display: flex;
-			justify-content: space-between;
-			align-items: flex-start;
-			margin-bottom: 12px;
-			padding: 0 4px;
-			min-height: 28px;
+      .footer-right {
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
 
-			.header-left {
-				display: flex;
-				align-items: center;
-				gap: 6px;
-				flex-wrap: wrap;
-				flex: 1;
+  &.list-view {
+    .list-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 8px;
+      border-bottom: 1px solid var(--color-border);
+      transition: background-color 0.2s ease;
 
-				.type-icon {
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					color: var(--color-text-lighter);
-					flex-shrink: 0;
-				}
+      &:hover {
+        background-color: var(--color-background-hover);
+      }
 
-				.status-badge {
-					display: flex;
-					align-items: center;
-					gap: 4px;
-					padding: 3px 8px;
-					border-radius: 12px;
-					font-size: 11px;
-					font-weight: 600;
-					white-space: nowrap;
-					flex-shrink: 0;
+      .item-type {
+        flex-shrink: 0;
+      }
 
-					&.status--open {
-						background-color: var(--color-success-light);
-						color: var(--color-success);
-					}
+      .item-content {
+        flex: 1;
+        min-width: 0;
+        text-decoration: none;
+        color: inherit;
 
-					&.status--closed {
-						background-color: var(--color-error-light);
-						color: var(--color-error);
-					}
+        .item-title {
+          font-weight: 600;
+          color: var(--color-main-text);
+          margin-bottom: 4px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
 
-					&.status--moderation {
-					}
-				}
-			}
+        .item-description {
+          font-size: 13px;
+          color: var(--color-text-lighter);
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
 
-			.header-right {
-				flex-shrink: 0;
-				margin-left: 8px;
-				.user-icon {
-					width: 32px;
-					height: 32px;
-					flex-shrink: 0;
-					margin-left: -8px;
-				}
-			}
-		}
-
-		.grid-content {
-			flex: 1;
-			margin-bottom: 12px;
-			text-decoration: none;
-			color: inherit;
-
-			.grid-title {
-				font-size: 15px;
-				font-weight: 600;
-				line-height: 1.4;
-				margin: 0 0 8px 0;
-				color: var(--color-main-text);
-				display: -webkit-box;
-				-webkit-line-clamp: 2;
-				-webkit-box-orient: vertical;
-				overflow: hidden;
-			}
-
-			.grid-description {
-				font-size: 13px;
-				line-height: 1.5;
-				color: var(--color-text-lighter);
-				margin: 0;
-				display: -webkit-box;
-				-webkit-line-clamp: 3;
-				-webkit-box-orient: vertical;
-				overflow: hidden;
-			}
-		}
-
-		.grid-metadata {
-			display: flex;
-			flex-wrap: wrap;
-			gap: 12px;
-			margin-bottom: 12px;
-			font-size: 12px;
-			color: var(--color-text-maxcontrast);
-
-			.metadata-item-time {
-				margin-left: auto;
-				display: flex;
-				gap: 8px;
-			}
-			.metadata-item {
-				display: flex;
-				align-items: center;
-				gap: 4px;
-				white-space: nowrap;
-			}
-			.date-label {
-				display: flex;
-				flex-direction: column;
-				align-items: flex-start;
-				gap: 2px;
-
-				.label-text {
-					font-size: 10px;
-					text-transform: lowercase;
-					opacity: 0.8;
-				}
-
-				.date-value {
-					font-size: 11px;
-					font-weight: 500;
-				}
-			}
-		}
-
-		.grid-actions {
-			display: flex;
-			justify-content: flex-end;
-		}
-	}
+      .item-actions {
+        flex-shrink: 0;
+      }
+    }
+  }
 }
 
-		    // Styles responsives
-	    @media (max-width: 768px) {
-			    .inquiry-item.grid-view {
-				    .grid-card {
-					    padding: 10px;
-				    }
+// Responsive Design
+@media (max-width: 768px) {
+  .inquiry-item.grid-view {
+    .inquiry-card {
+      padding: 12px;
+    }
 
-				    .grid-header {
-					    .header-left {
-						    gap: 4px;
+    .card-header {
+      margin-bottom: 10px;
+    }
 
-						    .status-badge {
-							    font-size: 10px;
-							    padding: 2px 6px;
-						    }
-					    }
+    .card-metadata {
+      gap: 6px;
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+    }
 
-					    .header-right {
-						    .user-icon {
-							    margin-left: -6px;
-						    }
-					    }
-				    }
+    .card-footer {
+      .footer-left {
+        gap: 6px;
+      }
+    }
+  }
+}
 
-				    .grid-metadata {
-					    gap: 8px;
+@media (max-width: 480px) {
+  .inquiry-item.grid-view {
+    .card-metadata {
+      .metadata-item {
+        font-size: 10px;
+        padding: 3px 6px;
+      }
+    }
 
-					    .metadata-item {
-						    font-size: 11px;
-					    }
-				    }
-			    }
-		    }
+    .card-footer {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+
+      .footer-left {
+        order: 2;
+      }
+
+      .footer-right {
+        order: 1;
+        width: 100%;
+        justify-content: flex-end;
+      }
+    }
+  }
+}
 </style>

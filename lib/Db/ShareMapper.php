@@ -55,7 +55,6 @@ class ShareMapper extends QBMapper
         }
 
         $this->joinUserSupportCount($qb, self::TABLE);
-        $this->joinAnon($qb, self::TABLE);
 
         return $this->findEntities($qb);
     }
@@ -140,7 +139,6 @@ class ShareMapper extends QBMapper
             $qb->andWhere($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
         }
         $this->joinUserSupportCount($qb, self::TABLE);
-        $this->joinAnon($qb, self::TABLE);
 
         try {
             return $this->findEntity($qb);
@@ -166,7 +164,6 @@ class ShareMapper extends QBMapper
         }
 
         $this->joinUserSupportCount($qb, self::TABLE);
-        $this->joinAnon($qb, self::TABLE);
 
         try {
             return $this->findEntity($qb);
@@ -224,25 +221,4 @@ class ShareMapper extends QBMapper
         );
     }
 
-    /**
-     * Joins anonymous setting of inquiry
-     */
-    protected function joinAnon(
-        IQueryBuilder &$qb,
-        string $fromAlias,
-        string $joinAlias = 'anon',
-    ): void {
-
-        $qb->selectAlias($joinAlias . '.anonymous', 'anonymizedSupports')
-            ->addGroupBy(
-                $joinAlias . '.anonymous',
-            );
-
-        $qb->leftJoin(
-            $fromAlias,
-            Inquiry::TABLE,
-            $joinAlias,
-            $qb->expr()->eq($joinAlias . '.id', $fromAlias . '.inquiry_id'),
-        );
-    }
 }

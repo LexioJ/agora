@@ -130,7 +130,6 @@ class CommentMapper extends QBMapperWithUser
             ->from($this->getTableName(), self::TABLE)
             ->groupBy(self::TABLE . '.id');
 
-        $this->joinAnon($qb, self::TABLE);
         $this->joinShareRole($qb, self::TABLE, $currentUserId);
         return $qb;
     }

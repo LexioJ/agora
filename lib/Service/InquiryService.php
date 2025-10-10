@@ -10,6 +10,7 @@ namespace OCA\Agora\Service;
 
 use OCA\Agora\Db\Inquiry;
 use OCA\Agora\Db\InquiryMapper;
+use OCA\Agora\Db\InquiryMiscMapper;
 use OCA\Agora\Dto\InquiryDto;
 use OCA\Agora\Db\UserMapper;
 use OCA\Agora\Db\SupportMapper;
@@ -49,6 +50,7 @@ class InquiryService
         private IEventDispatcher $eventDispatcher,
         private Inquiry $inquiry,
         private InquiryMapper $inquiryMapper,
+        private InquiryMiscMapper $inquiryMiscMapper,
         private UserMapper $userMapper,
         private UserSession $userSession,
         private SupportMapper $supportMapper,
@@ -239,6 +241,8 @@ class InquiryService
      */
     public function createFromDto(InquiryDto $dto): Inquiry
     {
+	     $this->logger->error('ENTERRRING CREATE DTO');
+
 	    if (!$this->appSettings->getInquiryCreationAllowed()) {
 		    throw new ForbiddenException('Inquiry creation is disabled');
 	    }
@@ -247,42 +251,39 @@ class InquiryService
 		    throw new EmptyTitleException('Title must not be empty');
 	    }
 
-	    // create new inquiry before resetting all values to
-	    // ensure that the inquiry has all required values and an id
-	    // latter checks mai fail if the inquiry has no id
-
-
 	    $timestamp = time();
 	    $this->inquiry = new Inquiry();
+
+	    $this->logger->error('TITLE', ['value' => $dto->title]);
+	    $this->logger->error('TYPE', ['value' => $dto->type]);
+	    $this->logger->error('OWNED GROUP', ['value' => $dto->ownedGroup]);
+	    $this->logger->error('OWNED ID', ['value' => $this->userSession->getCurrentUserId()]);
 
 	    // Required fields
 	    $this->inquiry->setTitle($dto->title);
 	    $this->inquiry->setType($dto->type);
+	    $this->inquiry->setOwnedGroup($dto->ownedGroup);
 	    $this->inquiry->setCreated($timestamp);
 	    $this->inquiry->setLastInteraction($timestamp);
 	    $this->inquiry->setOwner($this->userSession->getCurrentUserId());
 
-	    $this->inquiry = $this->inquiryMapper->insert($this->inquiry);
-
-	    $this->inquiry->setDescription($dto->description);
+	    // Optional fields with defaults
+	    $this->inquiry->setDescription($dto->description ?? '');
 	    $this->inquiry->setAccess(Inquiry::ACCESS_PRIVATE);
 	    $this->inquiry->setExpire(0);
-	    $this->inquiry->setQuorum(0);
 	    $this->inquiry->setShowResults(Inquiry::SHOW_RESULTS_ALWAYS);
-	    $this->inquiry->setAdminAccess(0);
 
-	    // Relation fields
-	    $this->inquiry->setParentId($dto->parentId);
-	    $this->inquiry->setLocationId($dto->locationId);
-	    $this->inquiry->setCategoryId($dto->categoryId);
+	    $this->inquiry = $this->inquiryMapper->insert($this->inquiry);
 
+	    $this->logger->error('ENTERRRING CREATE DTO');
 
-     	    $this->inquiryMapper->saveDynamicFields($this->inquiry);
-	    $this->inquiryMapper->update($this->inquiry);
+	    $this->inquiryMapper->saveDynamicFields($this->inquiry);
+	    $this->logger->error('AFTER SAVE DYNAMIC FIELD');
 
 	    $this->eventDispatcher->dispatchTyped(new InquiryCreatedEvent($this->inquiry));
 
 	    return $this->inquiry;
+
     }
 
 
@@ -773,7 +774,7 @@ class InquiryService
     public function setInquiryAccess(int $inquiryId,$access): String
     {
 
-	$this->inquiryMapper->setModerationStatus($inquiryId, $access);
-	return $access;
+	    $this->inquiryMapper->setModerationStatus($inquiryId, $access);
+	    return $access;
     }
 }

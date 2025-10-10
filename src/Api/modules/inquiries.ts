@@ -145,16 +145,12 @@ const inquiries = {
   },
 
   addInquiry(dataInquiry: {
-    type: InquiryType
+    type: string
     title: string
-    description?: string
+    owner: string
+    ownedGroup: string
     configuration?: InquiryConfiguration
     parentId?: number
-    locationId?: number
-    categoryId?: number
-    formId?: number
-    pollId?: number
-    talkId?: number
   }): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
     return httpInstance.request({
       method: 'POST',

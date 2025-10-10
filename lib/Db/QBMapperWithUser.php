@@ -32,35 +32,6 @@ abstract class QBMapperWithUser extends QBMapper
     }
 
     /**
-     * Joins anonymous setting of inquiry
-     */
-    protected function joinAnon(
-        IQueryBuilder &$qb,
-        string $fromAlias,
-        string $joinAlias = 'anon',
-    ): void {
-
-        $qb->selectAlias($joinAlias . '.anonymous', 'anonymized')
-            ->selectAlias($joinAlias . '.owner', 'inquiry_owner_id')
-            ->selectAlias($joinAlias . '.show_results', 'inquiry_show_results')
-            ->selectAlias($joinAlias . '.expire', 'inquiry_expire')
-            ->addGroupBy(
-                $joinAlias . '.anonymous',
-                $joinAlias . '.owner',
-                $joinAlias . '.show_results',
-                $joinAlias . '.expire',
-            );
-
-        $qb->leftJoin(
-            $fromAlias,
-            Inquiry::TABLE,
-            $joinAlias,
-            $qb->expr()->eq($joinAlias . '.id', $fromAlias . '.inquiry_id'),
-        );
-
-
-    }
-    /**
      * Joins share type for evaluating current user's role in a inquiry
      */
     protected function joinShareRole(

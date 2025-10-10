@@ -10,6 +10,7 @@ import { t } from '@nextcloud/l10n'
 
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
+import InquiryCreateDlg from '../components/Create/InquiryCreateDlg.vue'
 import { NavigationIcons } from '../utils/icons.ts'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
@@ -26,6 +27,20 @@ const route = useRoute()
 const router = useRouter()
 const sessionStore = useSessionStore()
 const inquiriesStore = useInquiriesStore()
+const createDlgToggle = ref(false)
+const selectedInquiryTypeForCreation = ref<InquiryType | null>(null)
+const selectedGroups = ref<string[]>([])
+
+const availableGroups = computed(() => {
+  const groups = sessionStore.currentUser.groups || {}
+  if (typeof groups === 'object' && !Array.isArray(groups)) {
+    return Object.keys(groups)
+  }
+  return groups
+})
+
+// State for selected family
+const selectedFamily = ref<string | null>(route.params.familyId as string || null)
 
 // State for expanded/collapsed families
 const expandedFamilies = ref<Set<string>>(new Set())
@@ -49,6 +64,13 @@ const allInquiryTypes = computed((): InquiryType[] => {
 const inquiryTypesByFamily = computed(() => {
   const types = allInquiryTypes.value.filter(type => type.isOption === 0)
   return getInquiryTypesByFamily(types)
+})
+
+// DEBUG: Check data
+onMounted(() => {
+  console.log('🔍 DEBUG InquiryMenu - Families:', inquiryFamilies.value)
+  console.log('🔍 DEBUG InquiryMenu - Inquiry Types:', allInquiryTypes.value)
+  console.log('🔍 DEBUG InquiryMenu - Selected family:', selectedFamily.value)
 })
 
 // Toggle family expansion
@@ -83,126 +105,168 @@ function navigateToFamilyInquiries(familyId: string) {
     params: { familyId }
   })
 }
+
+// Function to create new inquiry from type
+function createInquiry(inquiryType: InquiryType) {
+  console.log('Creating inquiry from type:', inquiryType)
+  selectedInquiryTypeForCreation.value = inquiryType
+  createDlgToggle.value = true
+}
+
+// Function to handle inquiry added
+function inquiryAdded(payload: { id: number; title: string }) {
+  createDlgToggle.value = false
+  selectedInquiryTypeForCreation.value = null
+  selectedGroups.value = []
+  router.push({
+    name: 'inquiry',
+    params: { id: payload.id },
+  })
+}
+
+function handleCloseDialog() {
+  createDlgToggle.value = false
+  selectedInquiryTypeForCreation.value = null
+  selectedGroups.value = []
+}
+
+// Function to handle group selection update
+function handleGroupUpdate(groups: string[]) {
+  selectedGroups.value = groups
+}
 </script>
 
 <template>
-  <nav class="navigation-menu" aria-label="Inquiry navigation">
-    <!-- Recent Inquiries Section -->
-    <NcAppNavigationList>
-      <h3 class="navigation-caption">
-        {{ t('agora', 'Recent Inquiries') }}
-      </h3>
-      
-      <NcAppNavigationItem
-        v-for="inquiry in recentInquiries"
-        :key="inquiry.id"
-        :name="inquiry.title"
-        :to="{ name: 'inquiry', params: { id: inquiry.id } }"
-        :exact="true"
-      >
-        <template v-if="inquiry.unreadCount" #counter>
-          <span class="counter-bubble">{{ inquiry.unreadCount }}</span>
-        </template>
-      </NcAppNavigationItem>
-      
-      <NcAppNavigationItem
-        v-if="recentInquiries.length === 0"
-        :name="t('agora', 'No recent inquiries')"
-        :disabled="true"
-      />
-    </NcAppNavigationList>
-
-    <!-- Inquiry Families Section -->
-    <NcAppNavigationList>
-      <h3 class="navigation-caption">
-        {{ t('agora', 'Inquiry Families') }}
-      </h3>
-
-      <NcAppNavigationItem
-        v-for="family in inquiryFamilies"
-        :key="family.id"
-        :name="getInquiryLabel(family)"
-        :allow-collapse="true"
-        :open="isFamilyExpanded(family.inquiry_type)"
-        @update:open="toggleFamily(family.inquiry_type)"
-        @click="navigateToFamilyInquiries(family.id.toString())"
-      >
-        <template #icon>
-          <component :is="getInquiryIcon(family)" />
-        </template>
+  <div class="navigation-container">
+    <!-- Menu de navigation -->
+    <nav class="navigation-menu" aria-label="Inquiry navigation">
+      <!-- Recent Inquiries Section -->
+      <NcAppNavigationList>
+        <h3 class="navigation-caption">
+          {{ t('agora', 'Recent Inquiries') }}
+        </h3>
         
-        <template #counter>
-          <span class="family-counter">
-            {{ getInquiryTypesForCurrentFamily(family.inquiry_type).length }}
-          </span>
-        </template>
-
-        <!-- Inquiry Types for this family (only isOption === 0) -->
         <NcAppNavigationItem
-          v-for="inquiryType in getInquiryTypesForCurrentFamily(family.inquiry_type)"
-          :key="inquiryType.id"
-          :name="getInquiryLabel(inquiryType)"
-          :to="{ 
-            name: 'menu-family-type', 
-            params: { 
-              familyId: family.id, 
-              typeId: inquiryType.id 
-            } 
-          }"
+          v-for="inquiry in recentInquiries"
+          :key="inquiry.id"
+          :name="inquiry.title"
+          :to="{ name: 'inquiry', params: { id: inquiry.id } }"
           :exact="true"
         >
+          <template v-if="inquiry.unreadCount" #counter>
+            <span class="counter-bubble">{{ inquiry.unreadCount }}</span>
+          </template>
+        </NcAppNavigationItem>
+        
+        <NcAppNavigationItem
+          v-if="recentInquiries.length === 0"
+          :name="t('agora', 'No recent inquiries')"
+          :disabled="true"
+        />
+      </NcAppNavigationList>
+
+      <!-- Inquiry Families Section -->
+      <NcAppNavigationList>
+        <h3 class="navigation-caption">
+          {{ t('agora', 'Inquiry Families') }}
+        </h3>
+
+        <NcAppNavigationItem
+          v-for="family in inquiryFamilies"
+          :key="family.id"
+          :name="getInquiryLabel(family)"
+          :allow-collapse="true"
+          :open="isFamilyExpanded(family.inquiry_type)"
+          @update:open="toggleFamily(family.inquiry_type)"
+	  @click="navigateToFamilyInquiries(family.id.toString())"
+        >
           <template #icon>
-            <component :is="getInquiryIcon(inquiryType)" />
+            <component :is="getInquiryIcon(family)" />
+          </template>
+          
+          <template #counter>
+            <span class="family-counter">
+              {{ getInquiryTypesForCurrentFamily(family.inquiry_type).length }}
+            </span>
           </template>
 
-          <template v-if="inquiryType.description" #description>
-            {{ inquiryType.description }}
-          </template>
+          <!-- Inquiry Types for this family (only isOption === 0) -->
+          <NcAppNavigationItem
+            v-for="inquiryType in getInquiryTypesForCurrentFamily(family.inquiry_type)"
+            :key="inquiryType.id"
+            :name="getInquiryLabel(inquiryType)"
+            @click="createInquiry(inquiryType)"
+          >
+            <template #icon>
+              <component :is="getInquiryIcon(inquiryType)" />
+            </template>
+
+            <template v-if="inquiryType.description" #description>
+              {{ inquiryType.description }}
+            </template>
+          </NcAppNavigationItem>
+
+          <NcAppNavigationItem
+            v-if="getInquiryTypesForCurrentFamily(family.inquiry_type).length === 0"
+            :name="t('agora', 'No inquiry types')"
+            :disabled="true"
+          />
         </NcAppNavigationItem>
 
         <NcAppNavigationItem
-          v-if="getInquiryTypesForCurrentFamily(family.inquiry_type).length === 0"
-          :name="t('agora', 'No inquiry types')"
+          v-if="inquiryFamilies.length === 0"
+          :name="t('agora', 'No families configured')"
           :disabled="true"
         />
-      </NcAppNavigationItem>
+      </NcAppNavigationList>
 
-      <NcAppNavigationItem
-        v-if="inquiryFamilies.length === 0"
-        :name="t('agora', 'No families configured')"
-        :disabled="true"
-      />
-    </NcAppNavigationList>
+      <!-- Quick Actions Section -->
+      <NcAppNavigationList>
+        <h3 class="navigation-caption">
+          {{ t('agora', 'Quick Actions') }}
+        </h3>
+        
+        <NcAppNavigationItem
+          :name="t('agora', 'All Inquiries')"
+          :to="{ name: 'list', params: { type: 'relevant' } }"
+          :exact="true"
+        />
+      </NcAppNavigationList>
 
-    <!-- Quick Actions Section -->
-    <NcAppNavigationList>
-      <h3 class="navigation-caption">
-        {{ t('agora', 'Quick Actions') }}
-      </h3>
-      
-      <NcAppNavigationItem
-        :name="t('agora', 'All Inquiries')"
-        :to="{ name: 'list', params: { type: 'relevant' } }"
-        :exact="true"
-      />
-    </NcAppNavigationList>
 
-    <!-- Footer Section -->
-    <NcAppNavigationList class="navigation-footer">
-      <NcAppNavigationItem
-        :name="t('agora', 'Settings')"
-        class="footer-item"
-        @click="showSettings()"
-      >
-        <template #icon>
-          <Component :is="NavigationIcons.settings" />
-        </template>
-      </NcAppNavigationItem>
-    </NcAppNavigationList>
-  </nav>
+      <!-- Footer Section -->
+      <NcAppNavigationList class="navigation-footer">
+        <NcAppNavigationItem
+          :name="t('agora', 'Settings')"
+          class="footer-item"
+          @click="showSettings()"
+        >
+          <template #icon>
+            <Component :is="NavigationIcons.settings" />
+          </template>
+        </NcAppNavigationItem>
+      </NcAppNavigationList>
+    </nav>
+
+    <!-- Inquiry Creation Dialog - EN DEHORS du nav -->
+    <InquiryCreateDlg
+      v-if="createDlgToggle"
+      :inquiry-type="selectedInquiryTypeForCreation"
+      :selected-groups="selectedGroups"
+      :available-groups="availableGroups"
+      @close="handleCloseDialog"
+      @added="inquiryAdded"
+      @update:selected-groups="handleGroupUpdate"
+    />
+  </div>
 </template>
 
 <style lang="scss" scoped>
+.navigation-container {
+  position: relative;
+  height: 100%;
+}
+
 .navigation-menu {
   padding: 12px 0;
   display: flex;

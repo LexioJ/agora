@@ -76,6 +76,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     public const TABLE = 'agora_inquiries';
     public const ACCESS_HIDDEN = 'hidden';
     public const ACCESS_PUBLIC = 'public';
+    public const ACCESS_MODERATE = 'moderate';
     public const ACCESS_PRIVATE = 'private';
     public const ACCESS_OPEN = 'open';
     public const SHOW_RESULTS_ALWAYS = 'always';
@@ -155,15 +156,17 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     protected int $countParticipants = 0;
     protected int $countComments = 0;
     protected int $countSupports = 0;
-    protected string $groupShares = '';
-    protected string $inquiryGroups = '';
-    protected string $inquiryGroupUserShares = '';
+    protected ?string $groupShares = '';
+    protected ?string $inquiryGroups = '';
+    protected ?string $inquiryGroupUserShares = '';
+    protected ?string $miscSettingsConcat = '';
 
     // Dynamic fields for inquiry types
     private array $dynamicFields = [];
     private array $inquiryTypeFields = [];
 
     private array $children = [];
+    protected array $miscAttributes = [];
 
     public function __construct()
     {
@@ -186,6 +189,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         $this->addType('countParticipants', 'integer');
         $this->addType('countComments', 'integer');
         $this->addType('countSupports', 'integer');
+        $this->addType('miscSettingsConcat', 'string');
 
         $this->urlGenerator = Container::queryClass(IURLGenerator::class);
         $this->systemSettings = Container::queryClass(SystemSettings::class);
@@ -239,7 +243,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     /**
      * Detect field type based on field name patterns
      */
-    private function detectFieldType(string $fieldName): string
+    public function detectFieldType(string $fieldName): string
     {
 	    $patterns = [
 		    '/_id$/' => 'integer',
@@ -268,7 +272,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     /**
      * Get default value for field based on type
      */
-    private function getDefaultValueForField(string $fieldName)
+    public function getDefaultValueForField(string $fieldName)
     {
 	    $type = $this->detectFieldType($fieldName);
 
@@ -296,24 +300,6 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 	    }
 
 	    return false;
-    }
-
-    /**
-     * Handle dynamic field access with automatic type conversion
-     */
-    public function __call(string $name, array $arguments)
-    {
-	    if (str_starts_with($name, 'get')) {
-		    $fieldName = lcfirst(substr($name, 3));
-		    return $this->getDynamicField($fieldName);
-	    } elseif (str_starts_with($name, 'set')) {
-		    $fieldName = lcfirst(substr($name, 3));
-		    $value = $arguments[0] ?? null;
-		    $this->setDynamicField($fieldName, $value);
-		    return $this;
-	    }
-
-	    return parent::__call($name, $arguments);
     }
 
     /**
@@ -460,6 +446,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 		    'archived' => $this->getArchived(),
 		    'deleted' => $this->getDeleted(),
 		    'lastInteraction' => $this->getLastInteraction(),
+		    'forceConfidentialComments' => $this->getForceConfidentialComments(),
 		    'typeConfig' => [
 			    'fields' => $typeConfig['fields'] ?? [],
 		    ],
@@ -490,6 +477,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     public function getCurrentUserStatus(): array
     {
 	    return [
+        	    'groupInvitations' => $this->getGroupShares(),
 		    'isInvolved' => $this->getIsInvolved(),
 		    'hasSupported' => $this->hasSupported(),
 		    'isLoggedIn' => $this->userSession->getIsLoggedIn(),
@@ -499,6 +487,22 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 		    'userRole' => $this->getUserRole(),
 		    'inquiryGroupUserShares' => $this->getInquiryGroupUserShares(),
 	    ];
+    }
+    public function getConfigurationArray(): array
+    {
+        return [
+        'access' => $this->getAccess(),
+        'anonymous' => boolval($this->getAnonymous()),
+        'autoReminder' => $this->getAutoReminder(),
+        'collapseDescription' => $this->getCollapseDescription(),
+        'expire' => $this->getExpire(),
+        'forceConfidentialComments' => $this->getForceConfidentialComments(),
+        'allowComment' => boolval($this->getAllowComment()),
+        'hideBookedUp' => boolval($this->getHideBookedUp()),
+        'maxInquiriesPerUser' => $this->getSupportLimit(),
+        'suggestionsExpire' => $this->getSuggestionsExpire(),
+        'showResults' => $this->getShowResults(),
+        ];
     }
 
     public function getPermissionsArray(): array
@@ -562,6 +566,15 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 	    );
     }
 
+    public function getSupportUrl(): string
+    {
+        return $this->urlGenerator->linkToRouteAbsolute(
+            AppConstants::APP_ID . '.page.support',
+            ['id' => $this->getId()]
+        );
+    }
+    // Setting childs for setting rights
+
     public function setChildren(array $children): void
     {
 	    $this->children = $children;
@@ -585,7 +598,8 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     private function getGroupShares(): array
     {
 	    if ($this->groupShares !== null && $this->groupShares !== '') {
-		    return array_filter(explode(InquiryMapper::CONCAT_SEPARATOR, $this->groupShares));
+		    return array_filter(explode(InquiryMapper::CONCAT_SEPARATOR, InquiryMapper::CONCAT_SEPARATOR . $this->groupShares));
+
 	    }
 	    return [];
     }
@@ -605,6 +619,25 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 	    }
 	    return explode(InquiryGroup::CONCAT_SEPARATOR, $this->inquiryGroupUserShares);
     }
+
+    public function setMiscAttributes(string $key,string $value): void {
+	    $this->miscAttributes = $attributes;
+    }
+
+    public function getMiscAttributes(): array {
+	    return $this->miscAttributes;
+    }
+
+    private function setForceConfidentialComments(bool|int $value): void
+    {
+	    $this->setMiscAtributes('forceConfidentialComments', (bool)$value);
+    }
+
+    public function getForceConfidentialComments(): bool
+    {
+	    return $this->getMiscAttributes()['forceConfidentialComments'] ?? false;
+    }
+
 
     public function request(string $permission): bool
     {

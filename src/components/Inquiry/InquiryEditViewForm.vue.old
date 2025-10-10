@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
+import { ref, watch, computed, onMounted, onUnmounted, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { showSuccess, showError } from '@nextcloud/dialogs'
@@ -12,19 +12,13 @@ import { useInquiriesStore } from '../../stores/inquiries'
 import { useSupportsStore } from '../../stores/supports'
 import { useCommentsStore } from '../../stores/comments'
 import { useSessionStore } from '../../stores/session'
-import { Event } from '../../Types/index.ts'
+import { BaseEntry, Event } from '../../Types/index.ts'
 import { t } from '@nextcloud/l10n'
 import {
   InquiryTypesUI,
   InquiryTypeValues,
   confirmAction,
 } from '../../helpers/modules/InquiryHelper.ts'
-import {
-  useCategoryLocationSelection,
-  useInquiryPermissions,
-  useInquiryActions,
-  useHierarchicalSelect
-} from '../../helpers/modules/InquiryFormHelper.ts'
 
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -39,6 +33,8 @@ import {
   canSupport,
   canComment,
   canViewToggle,
+  createPermissionContextForContent,
+  ContentType,
 } from '../../utils/permissions.ts'
 
 // Store declarations
@@ -49,42 +45,165 @@ const inquiryStore = useInquiryStore()
 const inquiriesStore = useInquiriesStore()
 const router = useRouter()
 
-// Helpers
-const { 
-  selectedCategory, 
-  selectedLocation, 
-  hierarchicalLocation, 
-  hierarchicalCategory,
-  setupCategoryLocationWatchers,
-  initializeCategoryLocation,
-  getHierarchyPath
-} = useCategoryLocationSelection(inquiryStore)
-
-const {
-  context,
-  isReadonly,
-  isReadonlyDescription,
-  showCategoryAsLabel,
-  showLocationAsLabel,
-  setupDescriptionReadonly
-} = useInquiryPermissions(inquiryStore)
-
-const {
-  showActionsMenu,
-  showResponseButton,
-  showSaveButton
-} = useInquiryActions(inquiryStore)
+const context = computed(() => createPermissionContextForContent(
+  ContentType.Inquiry,
+  inquiryStore.owner.id,
+  inquiryStore.configuration.access === 'public',
+  inquiryStore.status.isLocked,
+  inquiryStore.status.isExpired,
+  inquiryStore.status.deletionDate > 0,
+  inquiryStore.status.isArchived,
+  inquiryStore.inquiryGroups.length > 0,
+  inquiryStore.inquiryGroups,
+  inquiryStore.type
+))
 
 const titleLabel = ref('')
+
+// Form fields
+const selectedCategory = ref(inquiryStore.categoryId || 0)
+const selectedLocation = ref(inquiryStore.locationId || 0)
+
 const isSaving = ref(false)
 const isLoaded = ref(false)
 
 const hasSupported = computed(() => inquiryStore.currentUserStatus.hasSupported)
 
-// Initialize watchers and data
-const { locationStop, categoryStop } = setupCategoryLocationWatchers()
-initializeCategoryLocation()
-setupDescriptionReadonly()
+const isReadonlyDescription = ref(true)
+
+// Get hierarchy path for location and category display
+function getHierarchyPath(items, targetId) {
+  const itemMap = {}
+
+  items.forEach((item) => {
+    itemMap[item.id] = item
+  })
+
+  if (!itemMap[targetId]) {
+    return 'ID not found'
+  }
+
+  function buildPath(item) {
+    if (item.parentId === 0) {
+      return item.name
+    }
+    const parent = itemMap[item.parentId]
+    if (parent) {
+      return `${buildPath(parent)} -> ${item.name}`
+    }
+    return item.name
+  }
+
+  return buildPath(itemMap[targetId])
+}
+
+// Watchers for location and category
+watch(
+  selectedLocation,
+  (newVal) => {
+    const rawValue = toRaw(newVal)
+    if (rawValue) {
+      inquiryStore.locationId = rawValue.value
+    }
+  },
+  { deep: true }
+)
+
+watch(
+  selectedCategory,
+  (newVal) => {
+    const rawValue = toRaw(newVal)
+    if (rawValue) {
+      inquiryStore.categoryId = rawValue.value
+    }
+  },
+  { deep: true }
+)
+
+// Build hierarchy for location and category dropdowns
+function buildHierarchy(list: BaseEntry[], parentId = 0, depth = 0): BaseEntry[] {
+  if (!Array.isArray(list)) return []
+  return list
+    .filter((item) => item?.parentId === parentId)
+    .map((item) => {
+      const children = buildHierarchy(list, item.id, depth + 1)
+      return {
+        ...item,
+        depth,
+        children,
+      }
+    })
+    .flatMap((item) => [item, ...item.children])
+}
+
+const hierarchicalLocation = computed(() => {
+  if (!Array.isArray(sessionStore.appSettings.locationTab)) return []
+  return buildHierarchy(sessionStore.appSettings.locationTab).map((item) => ({
+    value: item.id,
+    label: `${'— '.repeat(item.depth ?? 0)}${item.name ?? '[no name]'}`,
+    original: item,
+  }))
+})
+
+const hierarchicalCategory = computed(() => {
+  if (!Array.isArray(sessionStore.appSettings.categoryTab)) return []
+  return buildHierarchy(sessionStore.appSettings.categoryTab).map((item) => ({
+    value: item.id,
+    label: `${'— '.repeat(item.depth ?? 0)}${item.name ?? '[no name]'}`,
+    original: item,
+  }))
+})
+
+// Initialize location and category
+watch(
+  hierarchicalLocation,
+  (locations) => {
+    if (!locations.length) return
+    if (inquiryStore.locationId === 0) {
+      selectedLocation.value = locations[0]
+      inquiryStore.locationId = locations[0].value
+    } else {
+      const selected = locations.find((loc) => loc.value === inquiryStore.locationId)
+      selectedLocation.value = selected || locations[0]
+      inquiryStore.locationId = selected?.value || locations[0].value
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  hierarchicalCategory,
+  (categories) => {
+    if (!categories.length) return
+    if (inquiryStore.categoryId === 0) {
+      selectedCategory.value = categories[0]
+      inquiryStore.categoryId = categories[0].value
+    } else {
+      const selected = categories.find((loc) => loc.value === inquiryStore.categoryId)
+      selectedCategory.value = selected || categories[0]
+      inquiryStore.categoryId = selected?.value || categories[0].value
+    }
+  },
+  { immediate: true }
+)
+
+const isReadonly = computed(() => {
+  const user = sessionStore.currentUser
+  if (!user) return true
+  return !canEdit(context.value)
+})
+
+watch(
+  () => inquiryStore.type,
+  (newType) => {
+    if (newType === 'debate') {
+      isReadonlyDescription.value = false
+    } else {
+      isReadonlyDescription.value = isReadonly.value
+    }
+  },
+  { immediate: true }
+)
 
 // Toggle support
 const onToggleSupport = async () => {
@@ -111,8 +230,6 @@ onMounted(() => {
 onUnmounted(() => {
   isLoaded.value = false
   unsubscribe(Event.UpdateComments, () => commentsStore.load())
-  locationStop()
-  categoryStop()
 })
 
 // Save inquiry changes
@@ -143,6 +260,19 @@ const saveChanges = async () => {
     isSaving.value = false
   }
 }
+
+// Determine if category/location should be shown as select or label
+const showCategoryAsLabel = computed(() => {
+  if (inquiryStore.parentId !== 0) return true
+  if (isReadonly.value) return true
+  return false
+})
+
+const showLocationAsLabel = computed(() => {
+  if (inquiryStore.parentId !== 0) return true
+  if (isReadonly.value) return true
+  return false
+})
 
 // Create child inquiry
 const createChildInquiry = async (type: InquiryTypeValues): Promise<void> => {
@@ -185,6 +315,25 @@ const createChildInquiry = async (type: InquiryTypeValues): Promise<void> => {
     isSaving.value = false
   }
 }
+
+const allowedTypesForActions = computed(() => [
+  InquiryTypeValues.PROJECT,
+  InquiryTypeValues.PROPOSAL,
+  InquiryTypeValues.GRIEVANCE,
+])
+
+// Check if actions menu should be shown
+const showActionsMenu = computed(
+  () => isReadonly.value && allowedTypesForActions.value.includes(inquiryStore.type)
+)
+
+// Check if response button should be shown
+const showResponseButton = computed(
+  () => sessionStore.currentUser?.isOfficial && inquiryStore.type !== InquiryTypeValues.OFFICIAL
+)
+
+// Check if save button should be shown
+const showSaveButton = computed(() => !isReadonlyDescription.value)
 </script>
 
 <template>
@@ -679,3 +828,4 @@ const createChildInquiry = async (type: InquiryTypeValues): Promise<void> => {
   display: none !important;
 }
 </style>
+

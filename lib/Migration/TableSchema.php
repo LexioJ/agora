@@ -13,6 +13,7 @@ use OCA\Agora\Db\Comment;
 use OCA\Agora\Db\Log;
 use OCA\Agora\Db\Option;
 use OCA\Agora\Db\Inquiry;
+use OCA\Agora\Db\Quorum;
 use OCA\Agora\Db\InquiryGroup;
 use OCA\Agora\Db\Preferences;
 use OCA\Agora\Db\Share;

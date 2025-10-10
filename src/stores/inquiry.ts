@@ -93,13 +93,14 @@ export type CurrentUserStatus = {
 
 export type Inquiry = {
   id: number
-  type: InquiryType
+  type: string
   descriptionSafe: string
   configuration: InquiryConfiguration
   parentId: number
   locationId: number
   categoryId: number
   owner: User
+  ownedGroup: string 
   inquiryGroups: number[]
   currentUserStatus: CurrentUserStatus
   permissions: InquiryPermissions
@@ -136,6 +137,7 @@ export const useInquiryStore = defineStore('inquiry', {
       quorum: 0,
     },
     owner: createDefault<User>(),
+    ownedGroup: '',
     inquiryGroups: [],
     status: {
       forceEditMode: false,
@@ -344,31 +346,22 @@ export const useInquiryStore = defineStore('inquiry', {
     },
 
     async add(payload: {
-      type?: InquiryTypeValues
       title?: string
-      description?: string
-      configuration?: InquiryConfiguration
+      type?: string
       parentId?: number
-      locationId?: number
-      categoryId?: number
       owner?: User
-      currentUserStatus?: CurrentUserStatus
-      permissions?: InquiryPermissions
+      ownedGroup?: string
     }): Promise<Inquiry | void> {
       const inquiriesStore = useInquiriesStore()
 
       try {
+	      console.log(" INTO THE ADDDDDDDDDDDD ",payload.ownedGroup)
         const response = await InquiriesAPI.addInquiry({
           title: payload.title,
           type: payload.type,
-          configuration: payload.configuration,
-          description: payload.description,
           parentId: payload.parentId,
-          locationId: payload.locationId,
-          categoryId: payload.categoryId,
           owner: payload.owner,
-          currentUserStatus: payload.currentUserStatus,
-          permissions: payload.permissions,
+	  ownedGroup: payload.ownedGroup,
         })
 
         return response.data.inquiry
