@@ -3,260 +3,272 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { ref, computed, type Ref } from 'vue'
-import { toRaw } from 'vue'
+import { ref, computed, watch, type Ref } from 'vue'
 import { useSessionStore } from '../../stores/session'
 import { useInquiryStore } from '../../stores/inquiry'
 import { BaseEntry } from '../../Types/index.ts'
-import { createPermissionContextForContent, ContentType } from '../../utils/permissions.ts'
+import { canEdit, createPermissionContextForContent, ContentType } from '../../utils/permissions.ts'
+import { t } from '@nextcloud/l10n'
+
+interface HierarchyItem extends BaseEntry {
+	id: number | bigint
+	name: string
+	parent_id?: number | bigint
+	parentId?: number | bigint
+	depth?: number
+	children?: HierarchyItem[]
+}
+
+interface SelectOption {
+	value: number | bigint
+	label: string
+	original: HierarchyItem
+}
 
 /**
- * Gestionnaire pour les catégories et localisations hiérarchiques
  */
 export function useHierarchicalSelect(inquiryStore: ReturnType<typeof useInquiryStore>) {
-  const sessionStore = useSessionStore()
-  
-  // Build hierarchy for location and category dropdowns
-  function buildHierarchy(list: BaseEntry[], parentId = 0, depth = 0): BaseEntry[] {
-    if (!Array.isArray(list)) return []
-    return list
-      .filter((item) => item?.parentId === parentId)
-      .map((item) => {
-        const children = buildHierarchy(list, item.id, depth + 1)
-        return {
-          ...item,
-          depth,
-          children,
-        }
-      })
-      .flatMap((item) => [item, ...item.children])
-  }
+	const sessionStore = useSessionStore()
 
-  const hierarchicalLocation = computed(() => {
-    if (!Array.isArray(sessionStore.appSettings.locationTab)) return []
-    return buildHierarchy(sessionStore.appSettings.locationTab).map((item) => ({
-      value: item.id,
-      label: `${'— '.repeat(item.depth ?? 0)}${item.name ?? '[no name]'}`,
-      original: item,
-    }))
-  })
+	// Build hierarchy for location and category dropdowns
+	function buildHierarchy(list: HierarchyItem[], parentId: number | bigint = 0, depth = 0): HierarchyItem[] {
+		if (!Array.isArray(list)) return []
+		
+		return list
+			.filter((item) => {
+				const itemParentId = item.parent_id ?? item.parentId ?? 0
+				return itemParentId.toString() === parentId.toString()
+			})
+			.map((item) => {
+				const children = buildHierarchy(list, item.id, depth + 1)
+				return {
+					...item,
+					depth,
+					children,
+				}
+			})
+	}
 
-  const hierarchicalCategory = computed(() => {
-    if (!Array.isArray(sessionStore.appSettings.categoryTab)) return []
-    return buildHierarchy(sessionStore.appSettings.categoryTab).map((item) => ({
-      value: item.id,
-      label: `${'— '.repeat(item.depth ?? 0)}${item.name ?? '[no name]'}`,
-      original: item,
-    }))
-  })
+	const hierarchicalLocation = computed((): SelectOption[] => {
+		const locations = sessionStore.appSettings.locationTab
+		if (!Array.isArray(locations)) return []
 
-  // Get hierarchy path for location and category display
-  function getHierarchyPath(items: BaseEntry[], targetId: number): string {
-    const itemMap: Record<number, BaseEntry> = {}
+		const locationsArray = JSON.parse(JSON.stringify(locations))
+		const hierarchy = buildHierarchy(locationsArray as HierarchyItem[])
+		
+		return hierarchy.map((item) => ({
+			value: item.id,
+			label: `${'— '.repeat(item.depth ?? 0)}${item.name ?? '[no name]'}`,
+			original: item,
+		}))
+	})
 
-    items.forEach((item) => {
-      itemMap[item.id] = item
-    })
+	const hierarchicalCategory = computed((): SelectOption[] => {
+		const categories = sessionStore.appSettings.categoryTab
+		if (!Array.isArray(categories)) return []
 
-    if (!itemMap[targetId]) {
-      return 'ID not found'
-    }
+		const categoriesArray = JSON.parse(JSON.stringify(categories))
+		const hierarchy = buildHierarchy(categoriesArray as HierarchyItem[])
+		
+		return hierarchy.map((item) => ({
+			value: item.id,
+			label: `${'— '.repeat(item.depth ?? 0)}${item.name ?? '[no name]'}`,
+			original: item,
+		}))
+	})
 
-    function buildPath(item: BaseEntry): string {
-      if (item.parentId === 0) {
-        return item.name
-      }
-      const parent = itemMap[item.parentId]
-      if (parent) {
-        return `${buildPath(parent)} -> ${item.name}`
-      }
-      return item.name
-    }
+	// Get hierarchy path for location and category display
+	function getHierarchyPath(items: HierarchyItem[], targetId: number | bigint): string {
+		if (!items || !Array.isArray(items)) return t('agora', 'Not defined')
 
-    return buildPath(itemMap[targetId])
-  }
+		const itemsArray = JSON.parse(JSON.stringify(items))
+		const itemMap: Record<string, HierarchyItem> = {}
+		
+		itemsArray.forEach((item: HierarchyItem) => {
+			itemMap[item.id.toString()] = item
+		})
 
-  return {
-    hierarchicalLocation,
-    hierarchicalCategory,
-    getHierarchyPath
-  }
+		if (!itemMap[targetId.toString()]) {
+			return t('agora', 'Not found')
+		}
+
+		function buildPath(item: HierarchyItem): string {
+			const parentId = item.parent_id ?? item.parentId ?? 0
+			if (!parentId || parentId.toString() === '0') {
+				return item.name || t('agora', 'No name')
+			}
+			const parent = itemMap[parentId.toString()]
+			if (parent) {
+				return `${buildPath(parent)} → ${item.name}`
+			}
+			return item.name || t('agora', 'No name')
+		}
+
+		return buildPath(itemMap[targetId.toString()])
+	}
+
+	return {
+		hierarchicalLocation,
+		hierarchicalCategory,
+		getHierarchyPath
+	}
 }
 
 /**
- * Gestionnaire pour la sélection de catégorie et localisation
  */
 export function useCategoryLocationSelection(inquiryStore: ReturnType<typeof useInquiryStore>) {
-  const { hierarchicalLocation, hierarchicalCategory } = useHierarchicalSelect(inquiryStore)
-  
-  const selectedCategory = ref(inquiryStore.categoryId || 0)
-  const selectedLocation = ref(inquiryStore.locationId || 0)
+	const sessionStore = useSessionStore() // IMPORTANT: Ajouter cette ligne
+	const { hierarchicalLocation, hierarchicalCategory, getHierarchyPath } = useHierarchicalSelect(inquiryStore)
 
-  // Watchers for location and category
-  const setupCategoryLocationWatchers = () => {
-    const locationStop = watch(
-      selectedLocation,
-      (newVal) => {
-        const rawValue = toRaw(newVal)
-        if (rawValue) {
-          inquiryStore.locationId = rawValue.value
-        }
-      },
-      { deep: true }
-    )
+	const selectedCategory = ref<number | bigint>(inquiryStore.categoryId || 0)
+	const selectedLocation = ref<number | bigint>(inquiryStore.locationId || 0)
 
-    const categoryStop = watch(
-      selectedCategory,
-      (newVal) => {
-        const rawValue = toRaw(newVal)
-        if (rawValue) {
-          inquiryStore.categoryId = rawValue.value
-        }
-      },
-      { deep: true }
-    )
+	// Watchers for location and category
+	const setupCategoryLocationWatchers = () => {
+		const locationStop = watch(
+			selectedLocation,
+			(newVal) => {
+				if (newVal) {
+					inquiryStore.locationId = newVal
+				}
+			},
+			{ deep: true }
+		)
 
-    return { locationStop, categoryStop }
-  }
+		const categoryStop = watch(
+			selectedCategory,
+			(newVal) => {
+				if (newVal) {
+					inquiryStore.categoryId = newVal
+				}
+			},
+			{ deep: true }
+		)
 
-  // Initialize location and category
-  const initializeCategoryLocation = () => {
-    // Initialize location
-    const locations = hierarchicalLocation.value
-    if (locations.length) {
-      if (inquiryStore.locationId === 0) {
-        selectedLocation.value = locations[0]
-        inquiryStore.locationId = locations[0].value
-      } else {
-        const selected = locations.find((loc) => loc.value === inquiryStore.locationId)
-        selectedLocation.value = selected || locations[0]
-        inquiryStore.locationId = selected?.value || locations[0].value
-      }
-    }
+		return { locationStop, categoryStop }
+	}
 
-    // Initialize category
-    const categories = hierarchicalCategory.value
-    if (categories.length) {
-      if (inquiryStore.categoryId === 0) {
-        selectedCategory.value = categories[0]
-        inquiryStore.categoryId = categories[0].value
-      } else {
-        const selected = categories.find((loc) => loc.value === inquiryStore.categoryId)
-        selectedCategory.value = selected || categories[0]
-        inquiryStore.categoryId = selected?.value || categories[0].value
-      }
-    }
-  }
+	// Initialize location and category
+	const initializeCategoryLocation = () => {
+		// Convertir les Proxies pour l'initialisation
+		const locationsArray = JSON.parse(JSON.stringify(sessionStore.appSettings.locationTab))
+		const categoriesArray = JSON.parse(JSON.stringify(sessionStore.appSettings.categoryTab))
 
-  return {
-    selectedCategory,
-    selectedLocation,
-    hierarchicalLocation,
-    hierarchicalCategory,
-    setupCategoryLocationWatchers,
-    initializeCategoryLocation
-  }
+		// Initialize location
+		if (Array.isArray(locationsArray) && locationsArray.length > 0) {
+			if (!inquiryStore.locationId || inquiryStore.locationId.toString() === '0') {
+				selectedLocation.value = locationsArray[0].id
+				inquiryStore.locationId = locationsArray[0].id
+			} else {
+				const selected = locationsArray.find((loc: any) => loc.id.toString() === inquiryStore.locationId.toString())
+				selectedLocation.value = selected?.id || locationsArray[0].id
+				inquiryStore.locationId = selected?.id || locationsArray[0].id
+			}
+		}
+
+		// Initialize category
+		if (Array.isArray(categoriesArray) && categoriesArray.length > 0) {
+			if (!inquiryStore.categoryId || inquiryStore.categoryId.toString() === '0') {
+				selectedCategory.value = categoriesArray[0].id
+				inquiryStore.categoryId = categoriesArray[0].id
+			} else {
+				const selected = categoriesArray.find((cat: any) => cat.id.toString() === inquiryStore.categoryId.toString())
+				selectedCategory.value = selected?.id || categoriesArray[0].id
+				inquiryStore.categoryId = selected?.id || categoriesArray[0].id
+			}
+		}
+	}
+
+	return {
+		selectedCategory,
+		selectedLocation,
+		hierarchicalLocation,
+		hierarchicalCategory,
+		getHierarchyPath,
+		setupCategoryLocationWatchers,
+		initializeCategoryLocation
+	}
 }
 
 /**
- * Gestionnaire pour les permissions et états de lecture seule
  */
 export function useInquiryPermissions(inquiryStore: ReturnType<typeof useInquiryStore>) {
-  const sessionStore = useSessionStore()
-  
-  const context = computed(() => createPermissionContextForContent(
-    ContentType.Inquiry,
-    inquiryStore.owner.id,
-    inquiryStore.configuration.access === 'public',
-    inquiryStore.status.isLocked,
-    inquiryStore.status.isExpired,
-    inquiryStore.status.deletionDate > 0,
-    inquiryStore.status.isArchived,
-    inquiryStore.inquiryGroups.length > 0,
-    inquiryStore.inquiryGroups,
-    inquiryStore.type
-  ))
+	const sessionStore = useSessionStore()
 
-  const isReadonly = computed(() => {
-    const user = sessionStore.currentUser
-    if (!user) return true
-    return !canEdit(context.value)
-  })
+	const context = computed(() => createPermissionContextForContent(
+		ContentType.Inquiry,
+		inquiryStore.owner.id,
+		inquiryStore.configuration.access === 'public',
+		inquiryStore.status.isLocked,
+		inquiryStore.status.isExpired,
+		inquiryStore.status.deletionDate > 0,
+		inquiryStore.status.isArchived,
+		inquiryStore.inquiryGroups.length > 0,
+		inquiryStore.inquiryGroups,
+		inquiryStore.type
+	))
 
-  const isReadonlyDescription = ref(true)
+	const isReadonly = computed(() => {
+		const user = sessionStore.currentUser
+		if (!user) return true
+		return !canEdit(context.value)
+	})
 
-  const setupDescriptionReadonly = () => {
-    watch(
-      () => inquiryStore.type,
-      (newType) => {
-        if (newType === 'debate') {
-          isReadonlyDescription.value = false
-        } else {
-          isReadonlyDescription.value = isReadonly.value
-        }
-      },
-      { immediate: true }
-    )
-  }
+	const isReadonlyDescription = computed(() => {
+		if (inquiryStore.type === 'debate') {
+			return false
+		}
+		return isReadonly.value
+	})
 
-  // Determine if category/location should be shown as select or label
-  const showCategoryAsLabel = computed(() => {
-    if (inquiryStore.parentId !== 0) return true
-    if (isReadonly.value) return true
-    return false
-  })
+	// Determine if category/location should be shown as select or label
+	const showCategoryAsLabel = computed(() => {
+		if (inquiryStore.parentId !== 0) return true
+		if (isReadonly.value) return true
+		return false
+	})
 
-  const showLocationAsLabel = computed(() => {
-    if (inquiryStore.parentId !== 0) return true
-    if (isReadonly.value) return true
-    return false
-  })
+	const showLocationAsLabel = computed(() => {
+		if (inquiryStore.parentId !== 0) return true
+		if (isReadonly.value) return true
+		return false
+	})
 
-  return {
-    context,
-    isReadonly,
-    isReadonlyDescription,
-    showCategoryAsLabel,
-    showLocationAsLabel,
-    setupDescriptionReadonly
-  }
+	return {
+		context,
+		isReadonly,
+		isReadonlyDescription,
+		showCategoryAsLabel,
+		showLocationAsLabel
+	}
 }
 
 /**
- * Gestionnaire pour les actions d'enquête
+ * Fonction for UI actions
  */
 export function useInquiryActions(inquiryStore: ReturnType<typeof useInquiryStore>) {
-  const sessionStore = useSessionStore()
-  
-  const allowedTypesForActions = computed(() => [
-    InquiryTypeValues.PROJECT,
-    InquiryTypeValues.PROPOSAL,
-    InquiryTypeValues.GRIEVANCE,
-  ])
+	const sessionStore = useSessionStore()
+	const { isReadonly, isReadonlyDescription } = useInquiryPermissions(inquiryStore)
 
-  // Check if actions menu should be shown
-  const showActionsMenu = computed(
-    () => {
-      const { isReadonly } = useInquiryPermissions(inquiryStore)
-      return isReadonly.value && allowedTypesForActions.value.includes(inquiryStore.type)
-    }
-  )
+	const allowedTypesForActions = ref(['standard', 'debate', 'official'])
 
-  // Check if response button should be shown
-  const showResponseButton = computed(
-    () => sessionStore.currentUser?.isOfficial && inquiryStore.type !== InquiryTypeValues.OFFICIAL
-  )
+	// Check if actions menu should be shown
+	const showActionsMenu = computed(() => {
+		return !isReadonly.value && allowedTypesForActions.value.includes(inquiryStore.type)
+	})
 
-  // Check if save button should be shown
-  const showSaveButton = computed(() => {
-    const { isReadonlyDescription } = useInquiryPermissions(inquiryStore)
-    return !isReadonlyDescription.value
-  })
+	const showResponseButton = computed(() => {
+		return sessionStore.currentUser?.isOfficial
+	})
 
-  return {
-    allowedTypesForActions,
-    showActionsMenu,
-    showResponseButton,
-    showSaveButton
-  }
+	const showSaveButton = computed(() => {
+		return !isReadonlyDescription.value
+	})
+
+	return {
+		allowedTypesForActions,
+		showActionsMenu,
+		showResponseButton,
+		showSaveButton
+	}
 }

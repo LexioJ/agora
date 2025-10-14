@@ -18,8 +18,8 @@ import { AgoraAppIcon } from '../components/AppIcons/index.ts'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
 import { 
-  getInquiryIcon,
-  getInquiryLabel,
+  getInquiryItemData,
+  getInquiryTypeData,
   type InquiryFamily,
   type InquiryType
 } from '../helpers/modules/InquiryHelper.ts'
@@ -81,6 +81,11 @@ const currentFamily = computed(() => {
   return inquiryFamilies.value.find(f => f.id.toString() === selectedFamily.value)
 })
 
+// Get current family data (icon, label, description)
+const currentFamilyData = computed(() => {
+  return getInquiryItemData(currentFamily.value, t('agora', 'Inquiry Types'))
+})
+
 // Watch for route changes
 watch(
   () => route.params.familyId,
@@ -109,10 +114,9 @@ function createInquiry(inquiryType: InquiryType) {
   console.log('Creating inquiry from type:', inquiryType)
   selectedInquiryTypeForCreation.value = inquiryType
   createDlgToggle.value = true
-
 }
 
-// Function to ad inquiry 
+// Function to add inquiry 
 function inquiryAdded(payLoad: { id: number; title: string }) {
   createDlgToggle.value = false
   selectedInquiryTypeForCreation.value = null
@@ -144,14 +148,14 @@ function handleCloseDialog() {
     <HeaderBar>
       <template #title>
         {{ selectedFamily 
-          ? getInquiryLabel(currentFamily, t('agora', 'Inquiry Types'))
+          ? currentFamilyData.label
           : t('agora', 'Select Inquiry Family') 
         }}
       </template>
-        <NcButton v-if="selectedFamily" class="back-button" @click="clearFamilySelection">
-          <span class="back-button__icon">←</span>
-          {{ t('agora', 'Back to families') }}
-	</NcButton>
+      <NcButton v-if="selectedFamily" class="back-button" @click="clearFamilySelection">
+        <span class="back-button__icon">←</span>
+        {{ t('agora', 'Back to families') }}
+      </NcButton>
     </HeaderBar>
 
     <!-- Family Selection Grid -->
@@ -164,12 +168,12 @@ function handleCloseDialog() {
           @click="selectFamily(family.id.toString())"
         >
           <div class="family-card-large__icon">
-            <component :is="getInquiryIcon(family)" />
+            <component :is="getInquiryItemData(family).icon" />
           </div>
           <div class="family-card-large__content">
-            <h3 class="family-card-large__title">{{ getInquiryLabel(family) }}</h3>
-            <p class="family-card-large__description" v-if="family.description">
-              {{ family.description }}
+            <h3 class="family-card-large__title">{{ getInquiryItemData(family).label }}</h3>
+            <p class="family-card-large__description" v-if="getInquiryItemData(family).description">
+              {{ getInquiryItemData(family).description }}
             </p>
           </div>
         </div>
@@ -189,8 +193,8 @@ function handleCloseDialog() {
     <div v-else class="inquiry-types-container">
       <div class="inquiry-types-header">
         <div class="selected-family-info">
-          <h2>{{ getInquiryLabel(currentFamily) }}</h2>
-          <p v-if="currentFamily?.description">{{ currentFamily.description }}</p>
+          <h2>{{ currentFamilyData.label }}</h2>
+          <p v-if="currentFamilyData.description">{{ currentFamilyData.description }}</p>
         </div>
       </div>
 
@@ -202,12 +206,14 @@ function handleCloseDialog() {
           @click="createInquiry(inquiryType)"
         >
           <div class="inquiry-type-card__icon">
-            <component :is="getInquiryIcon(inquiryType)" />
+            <component :is="getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).icon" />
           </div>
           <div class="inquiry-type-card__content">
-            <h4 class="inquiry-type-card__title">{{ getInquiryLabel(inquiryType) }}</h4>
-            <p class="inquiry-type-card__description" v-if="inquiryType.description">
-              {{ inquiryType.description }}
+            <h4 class="inquiry-type-card__title">
+              {{ getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).label }}
+            </h4>
+            <p class="inquiry-type-card__description" v-if="getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description">
+              {{ getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description }}
             </p>
           </div>
         </div>
@@ -222,6 +228,7 @@ function handleCloseDialog() {
         </template>
       </NcEmptyContent>
     </div>
+
     <NcDialog
       v-if="createDlgToggle"
       :name="t('agora', 'Create New Inquiry')"
@@ -236,7 +243,7 @@ function handleCloseDialog() {
         @close="handleCloseDialog"
         @update:selected-groups="selectedGroups = $event"
       />
- </NcDialog>
+    </NcDialog>
   </NcAppContent>
 </template>
 

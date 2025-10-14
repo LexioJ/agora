@@ -14,6 +14,11 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import HomeIcon from 'vue-material-design-icons/Home.vue'
 import { useCommentsStore } from '../../stores/comments'
 import { usePreferencesStore } from '../../stores/preferences.ts'
+import {
+  getInquiryTypeData
+} from '../../helpers/modules/InquiryHelper.ts'
+
+
 
 const props = defineProps({
   isLoadedParent: {
@@ -55,13 +60,16 @@ const childrenByType = computed(() => {
   const grouped: Record<string, any[]> = {}
   
   inquiryStore.childs.forEach(child => {
-    const typeInfo = inquiryTypes.value.find(t => t.inquiry_type === child.type)
-    const typeKey = typeInfo?.label || child.type
+    const typeLabel = getInquiryTypeData(
+      child.type, 
+      sessionStore.appSettings.inquiryTypeTab || [], 
+      child.type
+    ).label
     
-    if (!grouped[typeKey]) {
-      grouped[typeKey] = []
+    if (!grouped[typeLabel]) {
+      grouped[typeLabel] = []
     }
-    grouped[typeKey].push(child)
+    grouped[typeLabel].push(child)
   })
   
   return grouped

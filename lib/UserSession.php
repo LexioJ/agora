@@ -11,10 +11,9 @@ namespace OCA\Agora;
 use Exception;
 use OCA\Agora\Db\Share;
 use OCA\Agora\Db\ShareMapper;
-use OCA\Agora\Db\LocationMapper;
-use OCA\Agora\Db\CategoryMapper;
 use OCA\Agora\Db\UserMapper;
 use OCA\Agora\Db\ModerationStatusMapper;
+use OCA\Agora\Db\InquiryStatusMapper;
 use OCA\Agora\Db\InquiryTypeMapper;
 use OCA\Agora\Model\User\Cron;
 use OCA\Agora\Model\User\Ghost;
@@ -68,9 +67,8 @@ class UserSession
         protected UserMapper $userMapper,
         protected ShareMapper $shareMapper,
         protected Share $share,
-        protected LocationMapper $locationMapper,
-        protected CategoryMapper $categoryMapper,
         protected ModerationStatusMapper $moderationStatusMapper,
+        protected InquiryStatusMapper $inquiryStatusMapper,
         protected InquiryTypeMapper $inquiryTypeMapper,
     ) {
     }
@@ -213,20 +211,15 @@ class UserSession
     {
         return (string)$this->session->get(self::CLIENT_ID);
     }
-    public function getCategory(): array
-    {
-        return (array)$this->categoryMapper->findall();
-    }
-
-    public function getLocation(): array
-    {
-        return (array)$this->locationMapper->findall();
-    }
 
     public function getModerationStatus(): array
     {
         return (array)$this->moderationStatusMapper->findall();
-        return [];
+    }
+
+    public function getInquiryStatus(): array
+    {
+        return (array)$this->inquiryStatusMapper->findall();
     }
 
     public function getInquiryTypeFields(bool $isOption, ?string $specificType = null): array
@@ -244,19 +237,17 @@ class UserSession
 			    }
 
 			    $fields = $type->getFields() ?? [];
-			    $result = is_array($fields) ? $fields : [];
 
 			    if ($specificType !== null) {
-				    return $result;
+				    return is_array($fields) ? $fields : [];
 			    }
 
-			    $result[$type->getInquiryType()] = $result;
+			    $result[$type->getInquiryType()] = is_array($fields) ? $fields : [];
 		    }
 	    }
 
 	    return $result;
     }
-
     /**
      *
      * @return non-empty-string

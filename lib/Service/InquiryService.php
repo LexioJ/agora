@@ -10,7 +10,7 @@ namespace OCA\Agora\Service;
 
 use OCA\Agora\Db\Inquiry;
 use OCA\Agora\Db\InquiryMapper;
-use OCA\Agora\Db\InquiryMiscMapper;
+use OCA\Agora\Db\InquiryTypeMapper;
 use OCA\Agora\Dto\InquiryDto;
 use OCA\Agora\Db\UserMapper;
 use OCA\Agora\Db\SupportMapper;
@@ -41,7 +41,6 @@ use Psr\Log\LoggerInterface;
 
 class InquiryService
 {
-
     /**
      * @psalm-suppress PossiblyUnusedMethod
      */
@@ -50,7 +49,7 @@ class InquiryService
         private IEventDispatcher $eventDispatcher,
         private Inquiry $inquiry,
         private InquiryMapper $inquiryMapper,
-        private InquiryMiscMapper $inquiryMiscMapper,
+        private InquiryTypeMapper $inquiryTypeMapper,
         private UserMapper $userMapper,
         private UserSession $userSession,
         private SupportMapper $supportMapper,
@@ -185,7 +184,6 @@ class InquiryService
         return $inquiry;
     }
 
-
     /**
      * get inquiry configuration
      *
@@ -208,28 +206,52 @@ class InquiryService
 
     public function getChildsInquiryIds(int $inquiryId)
     {
-	    try {
-		    $childInquiriesData = $this->inquiryMapper->getChildInquiryIds($inquiryId);
+        try {
+            $childInquiriesData = $this->inquiryMapper->getChildInquiryIds($inquiryId);
 
-		    $children = [];
-		    foreach ($childInquiriesData as $childData) {
-		    	 $children[] = $this->inquiryMapper->find($childData, true);
-		    }
+            $children = [];
+            foreach ($childInquiriesData as $childData) {
+                 $children[] = $this->inquiryMapper->find($childData, true);
+            }
 
-		    return $children;
-	    } catch (DoesNotExistException $e) {
-		    throw new NotFoundException('Inquiry children not found for inquiry parent');
-	    }
+            return $children;
+        } catch (DoesNotExistException $e) {
+            throw new NotFoundException('Inquiry children not found for inquiry parent');
+        }
     }
 
     public function getInquiryOwnerFromDB(int $inquiryId): UserBase
     {
-	    try {
-		    $inquiry = $this->inquiryMapper->get($inquiryId, withRoles: true);
-		    return $inquiry->getUser();
-	    } catch (DoesNotExistException $e) {
-		    throw new NotFoundException('Inquiry not found');
-	    }
+        try {
+            $inquiry = $this->inquiryMapper->get($inquiryId, withRoles: true);
+            return $inquiry->getUser();
+        } catch (DoesNotExistException $e) {
+            throw new NotFoundException('Inquiry not found');
+        }
+    }
+
+    /**
+     * Get fields configuration for specific inquiry type
+     */
+    public function getFields(string $inquiryType): array
+    {
+        return $this->inquiryTypeMapper->getFields($inquiryType);
+    }
+
+    /**
+     * Get allowed response configuration for specific inquiry type
+     */
+    public function getAllowedResponse(string $inquiryType): array
+    {
+        return $this->inquiryTypeMapper->getAllowedResponse($inquiryType);
+    }
+
+    /**
+     * Get allowed transformation configuration for specific inquiry type
+     */
+    public function getAllowedTransformation(string $inquiryType): array
+    {
+        return $this->inquiryTypeMapper->getAllowedTransformation($inquiryType);
     }
 
     /**
@@ -241,51 +263,54 @@ class InquiryService
      */
     public function createFromDto(InquiryDto $dto): Inquiry
     {
-	     $this->logger->error('ENTERRRING CREATE DTO');
 
-	    if (!$this->appSettings->getInquiryCreationAllowed()) {
-		    throw new ForbiddenException('Inquiry creation is disabled');
-	    }
+        if (!$this->appSettings->getInquiryCreationAllowed()) {
+            throw new ForbiddenException('Inquiry creation is disabled');
+        }
 
-	    if (!$dto->title) {
-		    throw new EmptyTitleException('Title must not be empty');
-	    }
+        if (!$dto->title) {
+            throw new EmptyTitleException('Title must not be empty');
+        }
 
-	    $timestamp = time();
-	    $this->inquiry = new Inquiry();
+        $timestamp = time();
+        $this->inquiry = new Inquiry();
+        $this->inquiry->setTitle($dto->title);
+        $this->inquiry->setType($dto->type);
+        $this->inquiry->setOwnedGroup($dto->ownedGroup);
+        $this->inquiry->setCreated($timestamp);
+        $this->inquiry->setLastInteraction($timestamp);
+        $this->inquiry->setOwner($this->userSession->getCurrentUserId());
 
-	    $this->logger->error('TITLE', ['value' => $dto->title]);
-	    $this->logger->error('TYPE', ['value' => $dto->type]);
-	    $this->logger->error('OWNED GROUP', ['value' => $dto->ownedGroup]);
-	    $this->logger->error('OWNED ID', ['value' => $this->userSession->getCurrentUserId()]);
+        // Optional fields with defaults
+        $this->inquiry->setDescription($dto->description ?? '');
+        $this->inquiry->setAccess(Inquiry::ACCESS_PRIVATE);
+        $this->inquiry->setExpire(0);
+        $this->inquiry->setShowResults(Inquiry::SHOW_RESULTS_ALWAYS);
 
-	    // Required fields
-	    $this->inquiry->setTitle($dto->title);
-	    $this->inquiry->setType($dto->type);
-	    $this->inquiry->setOwnedGroup($dto->ownedGroup);
-	    $this->inquiry->setCreated($timestamp);
-	    $this->inquiry->setLastInteraction($timestamp);
-	    $this->inquiry->setOwner($this->userSession->getCurrentUserId());
+        $this->inquiry = $this->inquiryMapper->insert($this->inquiry);
 
-	    // Optional fields with defaults
-	    $this->inquiry->setDescription($dto->description ?? '');
-	    $this->inquiry->setAccess(Inquiry::ACCESS_PRIVATE);
-	    $this->inquiry->setExpire(0);
-	    $this->inquiry->setShowResults(Inquiry::SHOW_RESULTS_ALWAYS);
 
-	    $this->inquiry = $this->inquiryMapper->insert($this->inquiry);
+	// Get fields configuration for this inquiry type
+	$fieldsDefinition = $this->getFields($dto->type);
+	$inquiryId = $this->inquiry->getId();
 
-	    $this->logger->error('ENTERRRING CREATE DTO');
+	if (!empty($fieldsDefinition) && is_array($fieldsDefinition) && !empty($dto->miscFields)) {
+	    foreach ($fieldsDefinition as &$fieldDef) {
+        	$key = $fieldDef['key'];
+        	if (array_key_exists($key, $dto->miscFields)) {
+            		$fieldDef['default'] = $dto->miscFields[$key];
+       	 		}
+    		}
+    	unset($fieldDef); 
+	}
 
-	    $this->inquiryMapper->saveDynamicFields($this->inquiry);
-	    $this->logger->error('AFTER SAVE DYNAMIC FIELD');
 
-	    $this->eventDispatcher->dispatchTyped(new InquiryCreatedEvent($this->inquiry));
+	$this->inquiryMapper->saveDynamicFields($this->inquiry, $fieldsDefinition);
 
-	    return $this->inquiry;
+	$this->eventDispatcher->dispatchTyped(new InquiryCreatedEvent($this->inquiry));
 
+	return $this->inquiry;
     }
-
 
     /**
      * Partially update an inquiry from DTO
@@ -298,23 +323,19 @@ class InquiryService
     public function updatePartial(int $inquiryId, InquiryDto $dto): Inquiry
     {
 	    $this->inquiry = $this->inquiryMapper->find($inquiryId);
-	    if ($dto->type != Inquiry::TYPE_DEBATE ) $this->inquiry->request(Inquiry::PERMISSION_INQUIRY_EDIT);
+	    if ($dto->type != Inquiry::TYPE_DEBATE) {
+		    $this->inquiry->request(Inquiry::PERMISSION_INQUIRY_EDIT);
+	    }
 
-	    $inquiryCongiguration=$dto->configuration;
-	    // Validate valuess
+	    $inquiryConfiguration = $dto->configuration ?? [];
+
+	    // Validate values
 	    if (isset($inquiryConfiguration['showResults']) && !in_array($inquiryConfiguration['showResults'], $this->getValidShowResults())) {
 		    throw new InvalidShowResultsException('Invalid value for prop showResults');
 	    }
 
 	    if (isset($inquiryConfiguration['title']) && !$inquiryConfiguration['title']) {
 		    throw new EmptyTitleException('Title must not be empty');
-	    }
-
-	    if (isset($inquiryConfiguration['anonymous'])
-		    && $inquiryConfiguration['anonymous'] === 0
-		    && $this->inquiry->getAnonymous() < 0
-	    ) {
-		    throw new ForbiddenException('Deanonimization is not allowed');
 	    }
 
 	    if (isset($inquiryConfiguration['access'])) {
@@ -331,7 +352,6 @@ class InquiryService
 	    // expiry misinterpration when using permission checks
 	    if (isset($inquiryConfiguration['expire']) && $inquiryConfiguration['expire'] < 0) {
 		    $inquiryConfiguration['expire'] = time();
-
 	    }
 
 	    $timestamp = time();
@@ -349,26 +369,18 @@ class InquiryService
 	    $this->inquiry->setParentId($dto->parentId);
 	    $this->inquiry->setLocationId($dto->locationId);
 	    $this->inquiry->setCategoryId($dto->categoryId);
-
-
 	    $this->inquiry = $this->inquiryMapper->update($this->inquiry);
+
+	    // Update misc fields if provided
+	    $fields = $this->getFields($this->inquiry->getType());
+
+	    $this->inquiryMapper->updateDynamicFields($this->inquiry, $fields);
 
 	    $this->eventDispatcher->dispatchTyped(new InquiryUpdatedEvent($this->inquiry));
 
 	    return $this->inquiry;
     }
 
-    /**
-     * Add inquiry simple
-     public function add(string $type, string $title): Inquiry {
-	     if (!$this->appSettings->getInquiryCreationAllowed()) {
-		     throw new ForbiddenException('Inquiry creation is disabled');
-
-		     throw new InvalidInquiryTypeException('Invalid inquiry type');
-
-
-		     throw new EmptyTitleException('Title must not be empty');
-     */
     /**
      * Update inquiry configuration
      *
@@ -379,7 +391,7 @@ class InquiryService
 	    $this->inquiry = $this->inquiryMapper->find($inquiryId);
 	    $this->inquiry->request(Inquiry::PERMISSION_INQUIRY_EDIT);
 
-	    // Validate valuess
+	    // Validate values
 	    if (isset($inquiryConfiguration['showResults']) && !in_array($inquiryConfiguration['showResults'], $this->getValidShowResults())) {
 		    throw new InvalidShowResultsException('Invalid value for prop showResults');
 	    }
@@ -413,6 +425,9 @@ class InquiryService
 
 	    $this->inquiry->deserializeArray($inquiryConfiguration);
 	    $this->inquiry = $this->inquiryMapper->update($this->inquiry);
+	    // Update misc fields if provided
+	    $fields = $this->getFields($this->inquiry->getType());
+	    $this->inquiryMapper->updateDynamicFields($this->inquiry, $fields);
 
 	    $this->eventDispatcher->dispatchTyped(new InquiryUpdatedEvent($this->inquiry));
 
@@ -454,7 +469,6 @@ class InquiryService
 	    }
     }
 
-
     /**
      * Move to archive or restore with optional recursive functionality
      *
@@ -465,12 +479,10 @@ class InquiryService
 	    $this->inquiry = $this->inquiryMapper->find($inquiryId);
 	    $this->inquiry->request(Inquiry::PERMISSION_INQUIRY_DELETE);
 
-
 	    $archiveState = !$this->inquiry->getDeleted();
 	    $deletedTime = $archiveState ? time() : 0;
 
 	    try {
-
 		    $this->inquiry->setArchived($deletedTime);
 		    $this->inquiry->setDeleted($deletedTime);
 		    $this->inquiry = $this->inquiryMapper->update($this->inquiry);
@@ -487,7 +499,6 @@ class InquiryService
 		    } else {
 			    $this->eventDispatcher->dispatchTyped(new InquiryRestoredEvent($this->inquiry));
 		    }
-
 
 		    return [
 			    'inquiry' => $this->inquiry,
@@ -507,7 +518,6 @@ class InquiryService
 	    $count = 0;
 	    $children = $this->inquiryMapper->getChildInquiryIds($parent->getId());
 
-
 	    foreach ($children as $childId) {
 		    try {
 			    $child = $this->inquiryMapper->find($childId);
@@ -524,8 +534,8 @@ class InquiryService
 
 			    $count += $this->archiveChildrenRecursive($child, $archiveState);
 
-		    } catch (PermissionException $e) {
-			    error_log("Permission denied for child inquiry {$child->getId()}");
+		    } catch (ForbiddenException $e) {
+			    error_log("Permission denied for child inquiry {$childId}");
 			    continue;
 		    }
 	    }
@@ -617,8 +627,6 @@ class InquiryService
 	    return    $this->inquiryMapper->updateFormById($inquiryId, $formId);
     }
 
-
-
     /**
      * Close inquiry
      *
@@ -640,6 +648,7 @@ class InquiryService
 
 	    return $this->inquiry;
     }
+
     /**
      * Set status of inquiry
      *
@@ -649,7 +658,6 @@ class InquiryService
     {
 	    $this->inquiryMapper->setInquiryStatus($inquiryId, $mstatus);
     }
-
 
     /**
      * Set Moderation status of inquiry
@@ -685,7 +693,6 @@ class InquiryService
 	    // deanonymize cloned inquiries by default, to avoid locked anonymous inquiries
 	    $this->inquiry->setAnonymous(0);
 	    $this->inquiry->setAllowMaybe($origin->getAllowMaybe());
-	    $this->inquiry->setSupportLimit($origin->getSupportLimit());
 	    $this->inquiry->setShowResults($origin->getShowResults());
 	    $this->inquiry->setAdminAccess($origin->getAdminAccess());
 
@@ -702,7 +709,7 @@ class InquiryService
 	    $this->inquiry = $this->inquiryMapper->get($inquiryId, withRoles: true);
 	    $this->inquiry->request(Inquiry::PERMISSION_INQUIRY_EDIT);
 
-	    $supports = $this->supportMapper->findParticipantsByInquiry($this->inquiry->getId());
+	    $supports = $this->inquiryMapper->findParticipantsByInquiry($this->inquiry->getId());
 	    $list = [];
 	    foreach ($supports as $support) {
 		    $user = $support->getUser();
@@ -740,7 +747,7 @@ class InquiryService
      */
     private function getValidInquiryType(): array
     {
-	    return [Inquiry::TYPE_PROPOSAL, Inquiry::TYPE_PETITION,Inquiry::TYPE_GRIEVANCE,Inquiry::TYPE_DEBATE,Inquiry::TYPE_PROJECT::TYPE_SUGGESTION::TYPE_OFFICIAL];
+	    return [Inquiry::TYPE_PROPOSAL, Inquiry::TYPE_PETITION, Inquiry::TYPE_GRIEVANCE, Inquiry::TYPE_DEBATE, Inquiry::TYPE_PROJECT, Inquiry::TYPE_SUGGESTION, Inquiry::TYPE_OFFICIAL];
     }
 
     /**
@@ -766,15 +773,15 @@ class InquiryService
     {
 	    return [Inquiry::SHOW_RESULTS_ALWAYS, Inquiry::SHOW_RESULTS_CLOSED, Inquiry::SHOW_RESULTS_NEVER];
     }
+
     /**
      * Set access
      *
      * @return access
      */
-    public function setInquiryAccess(int $inquiryId,$access): String
+    public function setInquiryAccess(int $inquiryId,$access): string
     {
-
-	    $this->inquiryMapper->setModerationStatus($inquiryId, $access);
+	    $this->inquiryMapper->setInquiryAccess($inquiryId, $access);
 	    return $access;
     }
 }

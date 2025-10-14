@@ -355,7 +355,6 @@ export const useInquiryStore = defineStore('inquiry', {
       const inquiriesStore = useInquiriesStore()
 
       try {
-	      console.log(" INTO THE ADDDDDDDDDDDD ",payload.ownedGroup)
         const response = await InquiriesAPI.addInquiry({
           title: payload.title,
           type: payload.type,
@@ -377,6 +376,7 @@ export const useInquiryStore = defineStore('inquiry', {
 
         throw error
       } finally {
+
         inquiriesStore.load()
       }
     },

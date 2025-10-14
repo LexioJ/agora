@@ -1,0 +1,152 @@
+<?php
+
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2024 Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCA\Agora\Db;
+
+use OCP\DB\QueryBuilder\IQueryBuilder;
+use OCP\IDBConnection;
+use OCP\AppFramework\Db\QBMapper;
+
+/**
+ * @template-extends QBMapper<InquiryStatus>
+ */
+class InquiryStatusMapper extends QBMapper
+{
+    public const TABLE = InquiryStatus::TABLE;
+
+    public function __construct(IDBConnection $db)
+    {
+        parent::__construct($db, self::TABLE, InquiryStatus::class);
+    }
+
+    public function find(int $id): InquiryStatus
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->select('*')
+            ->from($this->getTableName())
+            ->where($qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+        
+        return $this->findEntity($qb);
+    }
+
+    /**
+     * @return InquiryStatus[]
+     */
+    public function findAll(): array
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->select('*')
+            ->from($this->getTableName())
+            ->orderBy('sort_order', 'ASC'); 
+        
+        return $this->findEntities($qb);
+    }
+
+    /**
+     * @return InquiryStatus[]
+     */
+    public function findByInquiryType(string $inquiryType): array
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->select('*')
+            ->from($this->getTableName())
+            ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType, IQueryBuilder::PARAM_STR)))
+            ->orderBy('sort_order', 'ASC'); 
+        
+        return $this->findEntities($qb);
+    }
+
+    public function findByStatusKey(string $inquiryType, string $statusKey): ?InquiryStatus
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->select('*')
+            ->from($this->getTableName())
+            ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType, IQueryBuilder::PARAM_STR)))
+            ->andWhere($qb->expr()->eq('status_key', $qb->createNamedParameter($statusKey, IQueryBuilder::PARAM_STR)));
+        
+        try {
+            return $this->findEntity($qb);
+        } catch (\Exception $e) {
+            return null;
+        }
+    }
+
+    public function create(string $inquiryType, string $statusKey, string $label, 
+        ?string $description, bool $isFinal, string $icon
+    ): InquiryStatus {
+        $status = new InquiryStatus();
+        $status->setInquiryType($inquiryType);
+        $status->setStatusKey($statusKey);
+        $status->setLabel($label);
+        $status->setDescription($description);
+        $status->setIsFinal($isFinal);
+        $status->setIcon($icon);
+        
+        // Set order to last position
+        $maxOrder = $this->getMaxOrderForInquiryType($inquiryType);
+        $status->setOrder($maxOrder + 1);
+        
+        return $this->insert($status);
+    }
+
+    public function updateStatus(InquiryStatus $status): InquiryStatus
+    {
+        return $this->update($status);
+    }
+
+    public function deleteById(int $id): void
+    {
+        $status = $this->find($id);
+        $this->delete($status);
+        
+        // Reorder remaining statuses
+        $this->reorderAfterDeletion($status->getInquiryType());
+    }
+
+    private function getMaxOrderForInquiryType(string $inquiryType): int
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->select($qb->func()->max('sort_order'))
+            ->from($this->getTableName())
+            ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType, IQueryBuilder::PARAM_STR)));
+        
+        $result = $qb->executeQuery();
+        $maxOrder = (int)$result->fetchOne();
+        $result->closeCursor();
+        
+        return $maxOrder;
+    }
+
+    public function reorderStatuses(string $inquiryType, array $newOrder): void
+    {
+        $qb = $this->db->getQueryBuilder();
+        
+        foreach ($newOrder as $index => $statusId) {
+            $qb->update($this->getTableName())
+                ->set('sort_order', $qb->createNamedParameter($index, IQueryBuilder::PARAM_INT)) 
+                ->where($qb->expr()->eq('id', $qb->createNamedParameter($statusId, IQueryBuilder::PARAM_INT)))
+                ->andWhere($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType, IQueryBuilder::PARAM_STR)))
+                ->executeStatement();
+        }
+    }
+
+        
+
+    private function reorderAfterDeletion(string $inquiryType): void
+    {
+        $statuses = $this->findByInquiryType($inquiryType);
+        
+        $qb = $this->db->getQueryBuilder();
+        foreach ($statuses as $index => $status) {
+            $qb->update($this->getTableName())
+                ->set('sort_order', $qb->createNamedParameter($index, IQueryBuilder::PARAM_INT)) 
+                ->where($qb->expr()->eq('id', $qb->createNamedParameter($status->getId(), IQueryBuilder::PARAM_INT)))
+                ->executeStatement();
+        }
+    }
+}

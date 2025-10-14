@@ -12,9 +12,9 @@
 })();
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { d as defineComponent, s as translate, v as onMounted, D as purify, E as _, _ as _export_sfc, c as createElementBlock, o as openBlock, j as createVNode, g as withCtx, k as createBaseVNode, f as createBlock, h as resolveDynamicComponent, t as toDisplayString, z as createApp, A as pinia } from "./NcEmptyContent-q-geAf0w-BAJc0MM2.chunk.mjs";
-import { a as useInquiriesStore, L as Logger, s as showError, I as InquiryTypesUI, N as NcDashboardWidget } from "./NcDashboardWidget-BEUtfCxs-B3Khd2X8.chunk.mjs";
-import { A as AgoraAppIcon } from "./AgoraAppIcon-BAFudtTo.chunk.mjs";
+import { d as defineComponent, s as translate, v as onMounted, D as purify, E as _, _ as _export_sfc, c as createElementBlock, o as openBlock, j as createVNode, g as withCtx, k as createBaseVNode, f as createBlock, h as resolveDynamicComponent, t as toDisplayString, z as createApp, A as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DJxNeHUx.chunk.mjs";
+import { a as useInquiriesStore, L as Logger, s as showError, N as NcDashboardWidget } from "./NcDashboardWidget-BEUtfCxs-CzOVsmN5.chunk.mjs";
+import { A as AgoraAppIcon } from "./AgoraAppIcon-1PQhGNJl.chunk.mjs";
 
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "Dashboard",
@@ -44,8 +44,6 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       return purify;
     }, get NcDashboardWidget() {
       return NcDashboardWidget;
-    }, get InquiryTypesUI() {
-      return InquiryTypesUI;
     }, get AgoraAppIcon() {
       return AgoraAppIcon;
     } };
@@ -76,7 +74,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         }, [
           createBaseVNode("div", _hoisted_2, [
             createBaseVNode("div", _hoisted_3, [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryTypesUI[item.type].icon)))
+              (openBlock(), createBlock(resolveDynamicComponent(_ctx.InquiryTypesUI[item.type].icon)))
             ]),
             createBaseVNode("div", _hoisted_4, [
               createBaseVNode(

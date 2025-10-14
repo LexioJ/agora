@@ -67,7 +67,6 @@ class SupportService
         if ($existing !== null) {
             return $existing;
         }
-	
         return $this->supportMapper->addSupport($inquiryId, $userId);
     }
 
@@ -81,6 +80,11 @@ class SupportService
         return $this->supportMapper->removeAllSupportForInquiry($inquiryId);
     }
 
+    public function generateHash(Support $support): string {
+	    return hash('sha256', $support->getInquiryId() . '|' . $support->getUserId());
+	}
+
+
     public function countByInquiry(int $inquiryId): int
     {
         return $this->supportMapper->countByInquiry($inquiryId);
@@ -90,4 +94,5 @@ class SupportService
     {
         return $this->supportMapper->countByUser($userId);
     }
+    
 }

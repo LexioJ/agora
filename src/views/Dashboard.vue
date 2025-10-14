@@ -12,7 +12,6 @@ import DOMPurify from 'dompurify'
 
 import NcDashboardWidget from '@nextcloud/vue/components/NcDashboardWidget'
 
-import { InquiryTypesUI } from '../helpers/modules/InquiryHelper.ts'
 import { AgoraAppIcon } from '../components/AppIcons/index.ts'
 import { Logger } from '../helpers/index.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'

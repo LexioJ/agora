@@ -104,7 +104,7 @@ const routes: RouteRecordRaw[] = [
   },
   {
     name: 'menu',
-    path: '/menu',
+    path: '/',
     components: {
       default: Menu,
       navigation: NavigationMenu,

@@ -218,6 +218,8 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   bullhorn: makeIconComponent(Bullhorn, '#FF9800'),        
   check: makeIconComponent(Check, '#8BC34A'),          
   commentquote: makeIconComponent(CommentQuote, '#9C27B0'),
+  viewlistoutline: makeIconComponent(ViewListOutline, '#2196F3'),
+  table: makeIconComponent(Table, '#795548'),
 }
 
 export const ShareIcons: Record<string, Component> = {
@@ -301,39 +303,14 @@ export const BadgeIcons: Record<string, Component> = {
 // -------------------------------
 export const getBadgeIcon = (name: string) => BadgeIcons[name] || BadgeIcons.comments
 
-// -------------------------------
-export const InquiryIcons: Record<string, Component> = {
-  proposal: makeIconComponent(LightbulbOn, '#FFC107'),
-  debate: makeIconComponent(Forum, '#2196F3'),
-  petition: makeIconComponent(HandHeart, '#E91E63'),
-  project: makeIconComponent(FileTree, '#4CAF50'),
-  grievance: makeIconComponent(AlertCircle, '#F44336'),
-  suggestion: makeIconComponent(CommentQuote, '#9C27B0'),
-  official: makeIconComponent(Bank, '#3F51B5'),
-}
 
 // -------------------------------
-export const InquiryTypesUI: Record<string, { label: string; icon: Component }> = {
-  proposal: { label: 'Proposal', icon: InquiryIcons.proposal },
-  debate: { label: 'Debate', icon: InquiryIcons.debate },
-  petition: { label: 'Petition', icon: InquiryIcons.petition },
-  project: { label: 'Project', icon: InquiryIcons.project },
-  grievance: { label: 'Grievance', icon: InquiryIcons.grievance },
-  suggestion: { label: 'Suggestion', icon: InquiryIcons.suggestion },
-  official: { label: 'Official', icon: InquiryIcons.official },
-}
-
-// -------------------------------
-export const StateIcons: Record<string, Component> = {
+export const StatusIcons: Record<string, Component> = {
   unpublished: makeIconComponent(PublishOff, '#9E9E9E'),
   archived: makeIconComponent(Archive, '#607D8B'),
   closed: makeIconComponent(Lock, '#795548'),
   creation: makeIconComponent(ClockOutline, '#FF9800'),
   expiration: makeIconComponent(CalendarEnd, '#F44336'),
-}
-
-// -------------------------------
-export const StatusIcons: Record<string, Component> = {
   Updated: makeIconComponent(Update, '#FF9800'),
   Calendar: makeIconComponent(Calendar, '#3F51B5'),
   ClockOutline: makeIconComponent(ClockOutline, '#2196F3'),

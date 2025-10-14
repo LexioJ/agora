@@ -109,13 +109,6 @@ function deleteInquiry(inquiryId: number) {
 }
 
 /**
- * Show the settings dialog
- */
-function showSettings() {
-  emit(Event.ShowSettings, null)
-}
-
-/**
  * Handle inquiry creation
  * @param payLoad
  * @param payLoad.id
@@ -136,35 +129,6 @@ onMounted(() => {
 
 <template>
   <NcAppNavigation class="agora-navigation" aria-label="Agora Navigation">
-    <!-- New Inquiry Button -->
-    <ActionAddInquiry
-      v-if="
-        preferencesStore.useActionAddInquiryInNavigation &&
-        sessionStore.appPermissions.inquiryCreation
-      "
-      :button-mode="'navigation'"
-    />
-
-    <div class="navigation-header">
-      <NcAppNavigationNew
-        v-if="preferencesStore.useNcAppNavigationNew && sessionStore.appPermissions.inquiryCreation"
-        :text="t('agora', 'New inquiry')"
-        button-class="icon-add"
-        class="navigation-new-btn"
-        @click="createDlgToggle = !createDlgToggle"
-      >
-        <template #icon>
-          <Component :is="NavigationIcons.add" />
-        </template>
-      </NcAppNavigationNew>
-    </div>
-
-    <InquiryCreateDlg
-      v-show="createDlgToggle"
-      @added="inquiryAdded"
-      @close="createDlgToggle = false"
-    />
-
     <!-- Navigation List -->
     <template #list>
       <!-- Groups Section -->

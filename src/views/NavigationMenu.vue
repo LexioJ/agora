@@ -7,16 +7,17 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
-
+import { emit } from '@nextcloud/event-bus'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
 import InquiryCreateDlg from '../components/Create/InquiryCreateDlg.vue'
 import { NavigationIcons } from '../utils/icons.ts'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
+import { Event } from '../Types/index.ts'
 import { 
-  getInquiryIcon,
-  getInquiryLabel,
+  getInquiryItemData,
+  getInquiryTypeData,
   getInquiryTypesByFamily,
   getInquiryTypesForFamily,
   type InquiryFamily,
@@ -68,9 +69,9 @@ const inquiryTypesByFamily = computed(() => {
 
 // DEBUG: Check data
 onMounted(() => {
-  console.log('🔍 DEBUG InquiryMenu - Families:', inquiryFamilies.value)
-  console.log('🔍 DEBUG InquiryMenu - Inquiry Types:', allInquiryTypes.value)
-  console.log('🔍 DEBUG InquiryMenu - Selected family:', selectedFamily.value)
+  console.log('🔍 DEBUG NavigationMenu - Families:', inquiryFamilies.value)
+  console.log('🔍 DEBUG NavigationMenu - Inquiry Types:', allInquiryTypes.value)
+  console.log('🔍 DEBUG NavigationMenu - Selected family:', selectedFamily.value)
 })
 
 // Toggle family expansion
@@ -93,9 +94,21 @@ function getInquiryTypesForCurrentFamily(familyInquiryType: string) {
   return types
 }
 
-// Function to show settings
+// Get family data (icon, label, description)
+function getFamilyData(family: InquiryFamily) {
+  return getInquiryItemData(family)
+}
+
+// Get inquiry type data (icon, label, description)
+function getInquiryTypeDisplayData(inquiryType: InquiryType) {
+  return getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes.value)
+}
+
+/**
+ * Show the settings dialog
+ */
 function showSettings() {
-  console.log('Opening settings...')
+  emit(Event.ShowSettings, null)
 }
 
 // Function to navigate to family inquiries
@@ -174,14 +187,14 @@ function handleGroupUpdate(groups: string[]) {
         <NcAppNavigationItem
           v-for="family in inquiryFamilies"
           :key="family.id"
-          :name="getInquiryLabel(family)"
+          :name="getFamilyData(family).label"
           :allow-collapse="true"
           :open="isFamilyExpanded(family.inquiry_type)"
           @update:open="toggleFamily(family.inquiry_type)"
-	  @click="navigateToFamilyInquiries(family.id.toString())"
+          @click="navigateToFamilyInquiries(family.id.toString())"
         >
           <template #icon>
-            <component :is="getInquiryIcon(family)" />
+            <component :is="getFamilyData(family).icon" />
           </template>
           
           <template #counter>
@@ -194,15 +207,15 @@ function handleGroupUpdate(groups: string[]) {
           <NcAppNavigationItem
             v-for="inquiryType in getInquiryTypesForCurrentFamily(family.inquiry_type)"
             :key="inquiryType.id"
-            :name="getInquiryLabel(inquiryType)"
+            :name="getInquiryTypeDisplayData(inquiryType).label"
             @click="createInquiry(inquiryType)"
           >
             <template #icon>
-              <component :is="getInquiryIcon(inquiryType)" />
+              <component :is="getInquiryTypeDisplayData(inquiryType).icon" />
             </template>
 
-            <template v-if="inquiryType.description" #description>
-              {{ inquiryType.description }}
+            <template v-if="getInquiryTypeDisplayData(inquiryType).description" #description>
+              {{ getInquiryTypeDisplayData(inquiryType).description }}
             </template>
           </NcAppNavigationItem>
 
@@ -233,7 +246,6 @@ function handleGroupUpdate(groups: string[]) {
         />
       </NcAppNavigationList>
 
-
       <!-- Footer Section -->
       <NcAppNavigationList class="navigation-footer">
         <NcAppNavigationItem
@@ -248,7 +260,6 @@ function handleGroupUpdate(groups: string[]) {
       </NcAppNavigationList>
     </nav>
 
-    <!-- Inquiry Creation Dialog - EN DEHORS du nav -->
     <InquiryCreateDlg
       v-if="createDlgToggle"
       :inquiry-type="selectedInquiryTypeForCreation"

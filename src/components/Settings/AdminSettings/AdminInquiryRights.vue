@@ -9,7 +9,6 @@ import { ref, computed, onMounted, watch } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useAppSettingsStore } from '../../../stores/appSettings.js'
-import { InquiryTypesUI } from '../../../helpers/modules/InquiryHelper.ts'
 
 const appSettingsStore = useAppSettingsStore()
 const selectedInquiryType = ref('')

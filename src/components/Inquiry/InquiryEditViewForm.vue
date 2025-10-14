@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script setup lang="ts">
-import { ref, watch, computed, onMounted, onUnmounted } from 'vue'
+import { ref, watch, computed, onMounted, onUnmounted, toRaw } from 'vue'
 import { useRouter } from 'vue-router'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { showSuccess, showError } from '@nextcloud/dialogs'
@@ -12,22 +12,20 @@ import { useInquiriesStore } from '../../stores/inquiries'
 import { useSupportsStore } from '../../stores/supports'
 import { useCommentsStore } from '../../stores/comments'
 import { useSessionStore } from '../../stores/session'
-import { Event } from '../../Types/index.ts'
+import { BaseEntry, Event } from '../../Types/index.ts'
 import { t } from '@nextcloud/l10n'
 import {
-  InquiryTypesUI,
-  InquiryTypeValues,
+  getInquiryTypeData,
+  getAvailableResponseTypes,
+  getAvailableTransformTypes,
   confirmAction,
 } from '../../helpers/modules/InquiryHelper.ts'
-import {
-  useCategoryLocationSelection,
-  useInquiryPermissions,
-  useInquiryActions,
-  useHierarchicalSelect
-} from '../../helpers/modules/InquiryFormHelper.ts'
 
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcButton from '@nextcloud/vue/components/NcButton'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import InquiryItemActions from './InquiryItemActions.vue'
 import { InputDiv } from '../Base/index.ts'
 import { ThumbIcon } from '../AppIcons'
@@ -39,6 +37,8 @@ import {
   canSupport,
   canComment,
   canViewToggle,
+  createPermissionContextForContent,
+  ContentType,
 } from '../../utils/permissions.ts'
 
 // Store declarations
@@ -49,42 +49,193 @@ const inquiryStore = useInquiryStore()
 const inquiriesStore = useInquiriesStore()
 const router = useRouter()
 
-// Helpers
-const { 
-  selectedCategory, 
-  selectedLocation, 
-  hierarchicalLocation, 
-  hierarchicalCategory,
-  setupCategoryLocationWatchers,
-  initializeCategoryLocation,
-  getHierarchyPath
-} = useCategoryLocationSelection(inquiryStore)
+const context = computed(() => createPermissionContextForContent(
+  ContentType.Inquiry,
+  inquiryStore.owner.id,
+  inquiryStore.configuration.access === 'public',
+  inquiryStore.status.isLocked,
+  inquiryStore.status.isExpired,
+  inquiryStore.status.deletionDate > 0,
+  inquiryStore.status.isArchived,
+  inquiryStore.inquiryGroups.length > 0,
+  inquiryStore.inquiryGroups,
+  inquiryStore.type
+))
 
-const {
-  context,
-  isReadonly,
-  isReadonlyDescription,
-  showCategoryAsLabel,
-  showLocationAsLabel,
-  setupDescriptionReadonly
-} = useInquiryPermissions(inquiryStore)
-
-const {
-  showActionsMenu,
-  showResponseButton,
-  showSaveButton
-} = useInquiryActions(inquiryStore)
+const inquiryAccess = computed({
+  get() {
+    return inquiryStore.configuration.access === 'moderatate'
+  },
+  set(value) {
+    inquiryStore.configuration.access = value ? 'moderate' : 'private'
+    inquiryStore.write()
+  },
+})
 
 const titleLabel = ref('')
+
+// Form fields
+const selectedCategory = ref(inquiryStore.categoryId || 0)
+const selectedLocation = ref(inquiryStore.locationId || 0)
+
 const isSaving = ref(false)
 const isLoaded = ref(false)
 
 const hasSupported = computed(() => inquiryStore.currentUserStatus.hasSupported)
 
-// Initialize watchers and data
-const { locationStop, categoryStop } = setupCategoryLocationWatchers()
-initializeCategoryLocation()
-setupDescriptionReadonly()
+const isReadonlyDescription = ref(true)
+
+// Get current inquiry type data
+const currentInquiryTypeData = computed(() => {
+  const inquiryTypes = sessionStore.appSettings.inquiryTypeTab || []
+  return getInquiryTypeData(inquiryStore.type, inquiryTypes)
+})
+
+// Get available transformation types for current inquiry
+const availableTransformTypes = computed(() => {
+  const inquiryTypes = sessionStore.appSettings.inquiryTypeTab || []
+  return getAvailableTransformTypes(inquiryStore.type, inquiryTypes)
+})
+
+// Get available response types for current inquiry
+const availableResponseTypes = computed(() => {
+  const inquiryTypes = sessionStore.appSettings.inquiryTypeTab || []
+  return getAvailableResponseTypes(inquiryStore.type, inquiryTypes)
+})
+
+// Get hierarchy path for location and category display
+function getHierarchyPath(items, targetId) {
+  const itemMap = {}
+
+  items.forEach((item) => {
+    itemMap[item.id] = item
+  })
+
+  if (!itemMap[targetId]) {
+    return 'ID not found'
+  }
+
+  function buildPath(item) {
+    if (item.parentId === 0) {
+      return item.name
+    }
+    const parent = itemMap[item.parentId]
+    if (parent) {
+      return `${buildPath(parent)} -> ${item.name}`
+    }
+    return item.name
+  }
+
+  return buildPath(itemMap[targetId])
+}
+
+// Watchers for location and category
+watch(
+  selectedLocation,
+  (newVal) => {
+    const rawValue = toRaw(newVal)
+    if (rawValue) {
+      inquiryStore.locationId = rawValue.value
+    }
+  },
+  { deep: true }
+)
+
+watch(
+  selectedCategory,
+  (newVal) => {
+    const rawValue = toRaw(newVal)
+    if (rawValue) {
+      inquiryStore.categoryId = rawValue.value
+    }
+  },
+  { deep: true }
+)
+
+// Build hierarchy for location and category dropdowns
+function buildHierarchy(list: BaseEntry[], parentId = 0, depth = 0): BaseEntry[] {
+  if (!Array.isArray(list)) return []
+  return list
+    .filter((item) => item?.parentId === parentId)
+    .map((item) => {
+      const children = buildHierarchy(list, item.id, depth + 1)
+      return {
+        ...item,
+        depth,
+        children,
+      }
+    })
+    .flatMap((item) => [item, ...item.children])
+}
+
+const hierarchicalLocation = computed(() => {
+  if (!Array.isArray(sessionStore.appSettings.locationTab)) return []
+  return buildHierarchy(sessionStore.appSettings.locationTab).map((item) => ({
+    value: item.id,
+    label: `${'— '.repeat(item.depth ?? 0)}${item.name ?? '[no name]'}`,
+    original: item,
+  }))
+})
+
+const hierarchicalCategory = computed(() => {
+  if (!Array.isArray(sessionStore.appSettings.categoryTab)) return []
+  return buildHierarchy(sessionStore.appSettings.categoryTab).map((item) => ({
+    value: item.id,
+    label: `${'— '.repeat(item.depth ?? 0)}${item.name ?? '[no name]'}`,
+    original: item,
+  }))
+})
+
+// Initialize location and category
+watch(
+  hierarchicalLocation,
+  (locations) => {
+    if (!locations.length) return
+    if (inquiryStore.locationId === 0) {
+      selectedLocation.value = locations[0]
+      inquiryStore.locationId = locations[0].value
+    } else {
+      const selected = locations.find((loc) => loc.value === inquiryStore.locationId)
+      selectedLocation.value = selected || locations[0]
+      inquiryStore.locationId = selected?.value || locations[0].value
+    }
+  },
+  { immediate: true }
+)
+
+watch(
+  hierarchicalCategory,
+  (categories) => {
+    if (!categories.length) return
+    if (inquiryStore.categoryId === 0) {
+      selectedCategory.value = categories[0]
+      inquiryStore.categoryId = categories[0].value
+    } else {
+      const selected = categories.find((loc) => loc.value === inquiryStore.categoryId)
+      selectedCategory.value = selected || categories[0]
+      inquiryStore.categoryId = selected?.value || categories[0].value
+    }
+  },
+  { immediate: true }
+)
+
+const isReadonly = computed(() => {
+  const user = sessionStore.currentUser
+  if (!user) return true
+  return !canEdit(context.value)
+})
+
+watch(
+  () => inquiryStore.type,
+  (newType) => {
+    if (newType === 'debate') {
+      isReadonlyDescription.value = false
+    } else {
+      isReadonlyDescription.value = isReadonly.value
+    }
+  },
+  { immediate: true }
+)
 
 // Toggle support
 const onToggleSupport = async () => {
@@ -95,7 +246,7 @@ const onToggleSupport = async () => {
     inquiriesStore
   )
   if (inquiryStore.currentUserStatus.hasSupported) {
-    showSuccess(t('agora', 'Thank you for your support!'), { timeout: 2000 })
+    showSuccess(t('agora', 'Support added, thank you for your support'), { timeout: 2000 })
   } else {
     showSuccess(t('agora', 'Support removed!'), { timeout: 2000 })
   }
@@ -111,8 +262,6 @@ onMounted(() => {
 onUnmounted(() => {
   isLoaded.value = false
   unsubscribe(Event.UpdateComments, () => commentsStore.load())
-  locationStop()
-  categoryStop()
 })
 
 // Save inquiry changes
@@ -144,25 +293,68 @@ const saveChanges = async () => {
   }
 }
 
-// Create child inquiry
-const createChildInquiry = async (type: InquiryTypeValues): Promise<void> => {
+// Determine if category/location should be shown as select or label
+const showCategoryAsLabel = computed(() => {
+  if (inquiryStore.parentId !== 0) return true
+  if (isReadonly.value) return true
+  return false
+})
+
+const showLocationAsLabel = computed(() => {
+  if (inquiryStore.parentId !== 0) return true
+  if (isReadonly.value) return true
+  return false
+})
+
+// Transform child inquiry
+const transformChildInquiry = async (transformType: string): Promise<void> => {
   if (isSaving.value) return
 
   titleLabel.value = ``
+  const transformTypeData = getInquiryTypeData(transformType, sessionStore.appSettings.inquiryTypeTab || [])
   const confirmed = await confirmAction(
-    `Do you really want to reply to this inquiry with a ${type}?`
+    t('agora', 'Do you really want to reply to this inquiry with a {type}?', { 
+      type: transformTypeData.label 
+    })
+  )
+  if (!confirmed) return
+
+  //isSaving.value = true
+
+  if (transformType === 'official') {
+    titleLabel.value = `${t('agora', 'Official response for')}: ${inquiryStore.title.trim()}`
+  } else {
+    titleLabel.value = `${t('agora', 'Response for')}: ${inquiryStore.title.trim()}`
+  }
+//Clone old to transform
+//Delete old 
+
+}
+
+// Create child inquiry
+const createChildInquiry = async (responseType: string): Promise<void> => {
+  if (isSaving.value) return
+
+  titleLabel.value = ``
+  const responseTypeData = getInquiryTypeData(responseType, sessionStore.appSettings.inquiryTypeTab || [])
+  const confirmed = await confirmAction(
+    t('agora', 'Do you really want to reply to this inquiry with a {type}?', { 
+      type: responseTypeData.label 
+    })
   )
   if (!confirmed) return
 
   isSaving.value = true
 
-  if (type === 'official')
+  if (responseType === 'official') {
     titleLabel.value = `${t('agora', 'Official response for')}: ${inquiryStore.title.trim()}`
-  else titleLabel.value = `${t('agora', 'Response for')}: ${inquiryStore.title.trim()}`
+  } else {
+    titleLabel.value = `${t('agora', 'Response for')}: ${inquiryStore.title.trim()}`
+  }
 
   try {
     const inquiry = await inquiryStore.add({
-      type,
+      type: responseType,
       title: titleLabel.value,
       categoryId: inquiryStore.categoryId,
       locationId: inquiryStore.locationId,
@@ -185,6 +377,24 @@ const createChildInquiry = async (type: InquiryTypeValues): Promise<void> => {
     isSaving.value = false
   }
 }
+
+// Check if actions transform menu should be shown
+const showTransformActionsMenu = computed(() => {
+  return !isReadonly.value && availableTransformTypes.value.length > 0
+})
+
+// Check if actions menu should be shown
+const showActionsMenu = computed(() => {
+  return !isReadonly.value && availableResponseTypes.value.length > 0
+})
+
+// Check if response button should be shown
+const showResponseButton = computed(() => {
+  return sessionStore.currentUser?.isOfficial
+})
+
+// Check if save button should be shown
+const showSaveButton = computed(() => !isReadonlyDescription.value)
 </script>
 
 <template>
@@ -192,68 +402,6 @@ const createChildInquiry = async (type: InquiryTypeValues): Promise<void> => {
     <!-- Action buttons toolbar - ALL ON LEFT -->
     <div class="action-toolbar">
       <div class="left-actions">
-        <!-- Action buttons (GRIEVANCE, SUGGESTION, etc.) -->
-        <div v-if="showActionsMenu" class="action-buttons">
-          <template v-if="inquiryStore.type === InquiryTypeValues.PROJECT">
-            <NcButton
-              type="secondary"
-              :title="t('agora', 'Create Proposal')"
-              @click="createChildInquiry(InquiryTypeValues.PROPOSAL)"
-            >
-              <template #icon>
-                <component :is="InquiryTypesUI[InquiryTypeValues.PROPOSAL].icon" class="action-icon" />
-              </template>
-              {{ t('agora', 'Proposal') }}
-            </NcButton>
-            <NcButton
-              type="secondary"
-              :title="t('agora', 'Create Grievance')"
-              @click="createChildInquiry(InquiryTypeValues.GRIEVANCE)"
-            >
-              <template #icon>
-                <component :is="InquiryTypesUI[InquiryTypeValues.GRIEVANCE].icon" class="action-icon" />
-              </template>
-              {{ t('agora', 'Grievance') }}
-            </NcButton>
-          </template>
-
-          <template v-else-if="inquiryStore.type === InquiryTypeValues.PROPOSAL">
-            <NcButton
-              type="secondary"
-              :title="t('agora', 'Create Suggestion')"
-              @click="createChildInquiry(InquiryTypeValues.SUGGESTION)"
-            >
-              <template #icon>
-                <component :is="InquiryTypesUI[InquiryTypeValues.SUGGESTION].icon" class="action-icon" />
-              </template>
-              {{ t('agora', 'Suggestion') }}
-            </NcButton>
-            <NcButton
-              type="secondary"
-              :title="t('agora', 'Create Grievance')"
-              @click="createChildInquiry(InquiryTypeValues.GRIEVANCE)"
-            >
-              <template #icon>
-                <component :is="InquiryTypesUI[InquiryTypeValues.GRIEVANCE].icon" class="action-icon" />
-              </template>
-              {{ t('agora', 'Grievance') }}
-            </NcButton>
-          </template>
-
-          <template v-else-if="inquiryStore.type === InquiryTypeValues.GRIEVANCE">
-            <NcButton
-              type="secondary"
-              :title="t('agora', 'Create Suggestion')"
-              @click="createChildInquiry(InquiryTypeValues.SUGGESTION)"
-            >
-              <template #icon>
-                <component :is="InquiryTypesUI[InquiryTypeValues.SUGGESTION].icon" class="action-icon" />
-              </template>
-              {{ t('agora', 'Suggestion') }}
-            </NcButton>
-          </template>
-        </div>
-
         <!-- Save and Response buttons -->
         <div class="primary-actions">
           <NcButton
@@ -269,19 +417,53 @@ const createChildInquiry = async (type: InquiryTypeValues): Promise<void> => {
             {{ t('agora', 'Save') }}
           </NcButton>
 
-          <NcButton
-            v-if="showResponseButton"
-            type="primary"
-            class="response-button"
-            @click="createChildInquiry(InquiryTypeValues.OFFICIAL)"
+          <!-- Response types menu -->
+          <NcActions
+            v-if="showActionsMenu && availableResponseTypes.length > 0"
+            menu-name="Response types"
+            class="response-actions"
           >
-            {{ t('agora', 'Official Response') }}
-          </NcButton>
+            <template #icon>
+              <component :is="InquiryGeneralIcons.reply" :size="20" />
+            </template>
+            <NcActionButton
+              v-for="responseType in availableResponseTypes"
+              :key="responseType.inquiry_type"
+              @click="createChildInquiry(responseType.inquiry_type)"
+            >
+              <template #icon>
+                <component :is="getInquiryTypeData(responseType.inquiry_type, sessionStore.appSettings.inquiryTypeTab || []).icon" :size="20" />
+              </template>
+              {{ responseType.label }}
+            </NcActionButton>
+          </NcActions>
+
+	  <!-- Transformation Type -->
+	  <NcActions
+            v-if="showTransformActionsMenu && availableTransformTypes.length > 0"
+            menu-name="Transformation types"
+            class="transform-actions"
+          >
+            <template #icon>
+              <component :is="InquiryGeneralIcons.reply" :size="20" />
+            </template>
+            <NcActionButton
+              v-for="transformType in availableTransformTypes"
+              :key="transformType.inquiry_type"
+              @click="transformChildInquiry(transformType.inquiry_type)"
+            >
+              <template #icon>
+                <component :is="getInquiryTypeData(transformType.inquiry_type, sessionStore.appSettings.inquiryTypeTab || []).icon" :size="20" />
+              </template>
+              {{ transformType.label }}
+            </NcActionButton>
+          </NcActions>
         </div>
       </div>
 
       <!-- Right: Item actions toggle -->
       <div class="right-actions">
+       <NcCheckboxRadioSwitch v-model="inquiryAccess" type="switch" />
         <div
           v-if="canViewToggle(context)"
           class="item-actions"
@@ -462,10 +644,20 @@ const createChildInquiry = async (type: InquiryTypeValues): Promise<void> => {
   height: 16px;
 }
 
-.save-button,
-.response-button {
-  min-width: 120px;
-  white-space: nowrap;
+.save-button {
+	background-color: var(--color-primary);
+	color: white;
+	border: none;
+	padding: 8px 16px;
+	border-radisave-us: var(--border-radius);
+	font-weight: 500;
+  	min-width: 120px;
+ 	white-space: nowrap;
+}
+
+
+.response-actions {
+  min-width: 140px;
 }
 
 .item-actions {
@@ -645,7 +837,6 @@ const createChildInquiry = async (type: InquiryTypeValues): Promise<void> => {
     width: 100%;
   }
   
-  .action-buttons,
   .primary-actions {
     flex-wrap: wrap;
     justify-content: center;

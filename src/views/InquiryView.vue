@@ -13,6 +13,7 @@ import  moment  from 'moment'
 
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
 import InquiryInfoLine from '../components/Inquiry/InquiryInfoLine.vue'
 import InquiryHeaderButtons from '../components/Inquiry/InquiryHeaderButtons.vue'
@@ -37,6 +38,7 @@ const inquiriesStore = useInquiriesStore()
 const tableSticky = ref(false)
 const editMode = ref(false)
 const isAppLoaded = ref(false)
+
 
 const showMore = computed(
   () =>
@@ -172,14 +174,22 @@ const collapsibleProps = computed<CollapsibleProps>(() => ({
       <template #avatar>
         <div class="header-left-content">
           <component
+            v-if="inquiryStore.ownedGroup !== null"
+            :is="NcAvatar"
+            display-name="inquiryStore.ownedGroup"
+	    :show-name=false
+            :size="32"
+          />
+          <component
+            v-else
             :is="NcUserBubble"
             :user="inquiryStore.owner.id"
             :display-name="inquiryStore.owner.displayName"
             :size="32"
           />
         </div>
-      </template>
-      <template #right>
+      </template>  
+    <template #right>
         <div class="header-right-content">
           <div class="dates-container">
             <div
@@ -262,7 +272,7 @@ const collapsibleProps = computed<CollapsibleProps>(() => ({
       <InquiryInfoCards class="sticky-left" />
 
       <IntersectionObserver
-        v-if="showMore"
+        v-if="!editMode && showMore"
         key="observer"
         class="observer_section"
         @visible="loadMore"

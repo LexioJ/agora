@@ -85,9 +85,6 @@ class InquiryMapper extends QBMapper
 
         $inquiry = $this->findEntity($qb);
         
-        // Load dynamic fields from InquiryMisc
-        $this->loadDynamicFields($inquiry);
-        
         return $inquiry;
     }
 
@@ -258,6 +255,7 @@ class InquiryMapper extends QBMapper
         $inquiryGroupsAlias = 'inquiry_groups';
         $this->joinUserRole($qb, self::TABLE, $currentUserId);
         $this->joinGroupShares($qb, self::TABLE);
+        $this->joinHasSupported($qb, self::TABLE,$currentUserId);
         $this->joinInquiryGroups($qb, self::TABLE, $inquiryGroupsAlias);
         $this->joinInquiryGroupShares($qb, $inquiryGroupsAlias, $currentUserId, $inquiryGroupsAlias);
         $this->joinParticipantsCount($qb, self::TABLE);
@@ -290,14 +288,6 @@ class InquiryMapper extends QBMapper
 
     private function loadDynamicFields(Inquiry $inquiry): void
     {
-	    $fieldNames = $inquiry->getFieldNames();
-
-	    if (empty($fieldNames)) {
-		    $inquiry->setDynamicFields([]);
-		    return;
-	    }
-
-	    // Charger depuis InquiryMisc
 	    $inquiryId = $inquiry->getId();
 
 	    $qb = $this->db->getQueryBuilder();
@@ -309,52 +299,144 @@ class InquiryMapper extends QBMapper
 	    $storedData = $stmt->fetchAll();
 	    $stmt->closeCursor();
 
-	    $storedValues = [];
+	    $miscFields = [];
+
 	    foreach ($storedData as $data) {
-		    if (isset($data['key'], $data['value'])) {
-			    $storedValues[$data['key']] = $data['value'];
+		    if (is_array($data) && isset($data['key'], $data['value'])) {
+			    $key = (string) $data['key'];
+			    $value = $data['value']; 
+
+			    $miscFields[$key] = $value;
+
+			    $inquiry->setMiscField($key, $value);
 		    }
 	    }
 
-	    $dynamicFields = [];
-	    foreach ($fieldNames as $fieldName) {
-		    $dynamicFields[$fieldName] = $storedValues[$fieldName] ?? $inquiry->getDefaultValueForField($fieldName);
-	    }
-
-	    $inquiry->setDynamicFields($dynamicFields);
     }
 
     /**
-     * Save dynamic fields to InquiryMisc
+     * Convert a value to the type defined in fields
      */
-    public function saveDynamicFields(Inquiry $inquiry): void
-    {
-	    $dynamicFields = $inquiry->getDynamicFieldsForStorage();
-	    $inquiryId = $inquiry->getId();
+    private function castValueByType($value, array $fieldDef) {
+	    $type = $fieldDef['type'] ?? 'string';
 
-	    if (empty($dynamicFields)) {
-		    return;
+	    // Si la valeur est null, retourner null
+	    if ($value === null) {
+		    return null;
 	    }
 
-	    // Delete existing records for this inquiry
-	    $qb = $this->db->getQueryBuilder();
-	    $qb->delete(InquiryMisc::TABLE)
-	->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
-	    $qb->executeStatement();
+	    switch ($type) {
+	    case 'integer':
+	    case 'int':
+		    return (int)$value;
 
-	    // Then insert new settings
-	    foreach ($dynamicFields as $key => $value) {
-		    $qb = $this->db->getQueryBuilder();
-		    $qb->insert(InquiryMisc::TABLE)
-	 ->values([
-		 'inquiry_id' => $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT),
-		 'key' => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
-		 'value' => $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR),
-	 ])
-	 ->executeStatement();
+	    case 'boolean':
+	    case 'bool':
+		    return (bool)$value;
+
+	    case 'float':
+	    case 'double':
+		    return (float)$value;
+
+	    case 'datetime':
+		    return is_numeric($value) ? (int)$value : $value;
+
+	    case 'json':
+		    if (is_array($value) || is_object($value)) {
+			    return json_encode($value);
+		    }
+		    // Si c'est déjà du JSON, le garder tel quel
+		    return $value;
+
+	    case 'enum':
+		    $allowed = $fieldDef['allowed_values'] ?? [];
+		    if (in_array($value, $allowed, true)) {
+			    return $value;
+		    }
+		    return $fieldDef['default'] ?? null;
+
+	    case 'string':
+	    default:
+	    return (string)$value;
 	    }
     }
 
+    /**
+     * Save dynamic fields to InquiryMisc and update miscFields in Inquiry
+     */
+    public function saveDynamicFields(Inquiry $inquiry, array $fieldsDefinition): void {
+	    $inquiryId = $inquiry->getId();
+	    if (empty($fieldsDefinition)) {
+		    return;
+	    }
+
+	    $qb = $this->db->getQueryBuilder();
+
+	    $qb->delete(InquiryMisc::TABLE)
+	->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
+	->executeStatement();
+
+	    foreach ($fieldsDefinition as $fieldDef) {
+		    $key = $fieldDef['key'];
+		    $value = $this->castValueByType($fieldDef['default'] ?? null, $fieldDef);
+
+		    $qb->insert(InquiryMisc::TABLE)
+	 ->values([
+		 'inquiry_id' => $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT),
+		 'key'        => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
+		 'value'      => $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR),
+	 ])
+	 ->executeStatement();
+
+		    $inquiry->setMiscField($key, $value);
+	    }
+    }
+
+    /**
+     * Update only specified dynamic fields in InquiryMisc and miscFields
+     */
+    public function updateDynamicFields(Inquiry $inquiry, array $fieldsToUpdate, array $fieldsDefinition): void {
+	    $inquiryId = $inquiry->getId();
+	    if (empty($fieldsToUpdate)) {
+		    return;
+	    }
+
+	    $qb = $this->db->getQueryBuilder();
+
+	    foreach ($fieldsToUpdate as $key => $value) {
+		    $key = (string)$key;
+
+		    // Trouver le fieldDef pour caster correctement
+		    $fieldDef = array_filter($fieldsDefinition, fn($f) => $f['key'] === $key);
+		    $fieldDef = array_shift($fieldDef) ?: ['type'=>'string', 'default'=>null];
+
+		    $value = $this->castValueByType($value ?? $fieldDef['default'], $fieldDef);
+
+		    $existing = $qb->select('id')
+		     ->from(InquiryMisc::TABLE)
+		     ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
+		     ->andWhere($qb->expr()->eq('key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
+		     ->executeQuery()
+		     ->fetchOne();
+
+		    if ($existing) {
+			    $qb->update(InquiryMisc::TABLE)
+	  ->set('value', $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR))
+	  ->where($qb->expr()->eq('id', $qb->createNamedParameter($existing, IQueryBuilder::PARAM_INT)))
+	  ->executeStatement();
+		    } else {
+			    $qb->insert(InquiryMisc::TABLE)
+	  ->values([
+		  'inquiry_id' => $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT),
+		  'key'        => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
+		  'value'      => $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR),
+	  ])
+	  ->executeStatement();
+		    }
+
+		    $inquiry->setMiscField($key, $value);
+	    }
+    }
 
     protected function joinUserRole(
 	    IQueryBuilder &$qb,
@@ -381,6 +463,32 @@ class InquiryMapper extends QBMapper
 		    )
 	    );
     }
+    protected function joinHasSupported(
+	    IQueryBuilder &$qb,
+	    string $fromAlias,
+	    string $currentUserId,
+	    string $joinAlias = 'current_user_support'
+    ): void {
+	    if ($currentUserId === null) {
+		    $qb->addSelect($qb->createFunction('0 AS has_supported'));
+		    return;
+	    }
+
+	    $qb->leftJoin(
+		    $fromAlias,
+		    Support::TABLE,
+		    $joinAlias,
+		    $qb->expr()->andX(
+			    $qb->expr()->eq($joinAlias . '.inquiry_id', $fromAlias . '.id'),
+			    $qb->expr()->eq($joinAlias . '.user_id', $qb->createNamedParameter($currentUserId, IQueryBuilder::PARAM_STR))
+		    )
+	    );
+
+	    $qb->addSelect(
+		    $qb->createFunction('CASE WHEN ' . $joinAlias . '.user_id IS NOT NULL THEN 1 ELSE 0 END AS has_supported')
+	    );
+    }
+
 
     protected function joinGroupShares(
 	    IQueryBuilder &$qb,

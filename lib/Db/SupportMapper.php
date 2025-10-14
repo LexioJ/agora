@@ -8,6 +8,7 @@ declare(strict_types=1);
 
 namespace OCA\Agora\Db;
 
+use OCA\Agora\UserSession;
 use OCP\DB\QueryBuilder\IQueryBuilder;
 use OCP\IDBConnection;
 use OCP\AppFramework\Db\QBMapper;
@@ -15,19 +16,17 @@ use OCP\AppFramework\Db\QBMapper;
 /**
  * @template-extends QBMapper<Support>
  */
-class SupportMapper extends QBMapper
+class SupportMapper extends QBMapperWithUser
 {
     public const TABLE = Support::TABLE;
 
-    public function __construct(IDBConnection $db)
-    {
+    public function __construct(
+        IDBConnection $db,
+        private UserSession $userSession,
+    ) {
         parent::__construct($db, self::TABLE, Support::class);
     }
-    /**
-     * @throws       \OCP\AppFramework\Db\DoesNotExistException if not found
-     * @return       Option[]
-     * @psalm-return array<array-key, Support>
-     */
+
     public function getAll(bool $includeNull = false): array
     {
         $qb = $this->db->getQueryBuilder();
@@ -91,7 +90,7 @@ class SupportMapper extends QBMapper
         $support->setUserId($userId);
         $support->setCreated(time());
     
-        $supportHash = hash('sha256', $inquiryId . '_' . $optionId . '_' . $userId);
+        $supportHash = hash('sha256', $inquiryId . '_' . $userId);
         $support->setSupportHash($supportHash);
 
         return $this->insert($support);

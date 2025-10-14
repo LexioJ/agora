@@ -73,6 +73,7 @@ export enum Event {
 }
 
 export type ButtonMode = 'navigation' | 'actionMenu' | 'native'
+
 export type StatusResults =
   | 'error'
   | 'warning'

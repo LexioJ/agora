@@ -25,8 +25,8 @@ use OCA\Agora\UserSession;
  * @method    void setDeleted(int $value)
  * @method    ?string getDescription()
  * @method    void setDescription(?string $value)
- * @method    string getStatus()
- * @method    void setStatus(string $value)
+ * @method    string getGroupStatus()
+ * @method    void setGroupStatus(string $value)
  * @method    string getType()
  * @method    void setType(string $value)
  * @method    string getOwner()
@@ -54,7 +54,7 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     protected string $title = '';
     protected string $owner = '';
     protected string $type = '';
-    protected string $status = '';
+    protected string $groupStatus = '';
     protected ?string $description = '';
     protected ?string $titleExt = '';
     // joined inquiries

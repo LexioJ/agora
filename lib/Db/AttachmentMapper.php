@@ -18,10 +18,12 @@ use OCP\IDBConnection;
 class AttachmentMapper extends QBMapperWithUser
 {
     public const TABLE = Attachment::TABLE;
-
-    public function __construct(IDBConnection $db)
-    {
-        parent::__construct($db, self::TABLE, Attachment::class);
+    
+    public function __construct(
+        IDBConnection $db,
+        private UserSession $userSession,
+    ) {
+        parent::__construct($db, self::TABLE, Comment::class);
     }
 
     public function countByInquiryId(int $inquiryId): int

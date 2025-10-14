@@ -1,5 +1,6 @@
 <!--
   - SPDX-FileCopyrightText: 2018 Nextcloud Contributors
+  - SPDX-FileCopyrightText: 2018 Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script setup lang="ts">
@@ -14,9 +15,14 @@ import { ConfigBox, RadioGroupDiv, InputDiv } from '../Base/index.ts'
 import { InquiryGeneralIcons } from '../../utils/icons.ts'
 
 import { useInquiryStore } from '../../stores/inquiry.ts'
-import { InquiryTypesUI } from '../../helpers/modules/InquiryHelper.ts'
+import { useSessionStore } from '../../stores/session.ts'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import type { InquiryType } from '../../helpers/modules/InquiryHelper.ts'
+import {
+  getAvailableInquiryTypesForCreation,
+  getInquiryTypeOptions,
+  getInquiryTypeData,
+  type InquiryType
+} from '../../helpers/modules/InquiryHelper.ts'
 
 // Define props
 interface Props {
@@ -46,14 +52,41 @@ const emit = defineEmits<{
 }>()
 
 const inquiryStore = useInquiryStore()
+const sessionStore = useSessionStore()
 
 const inquiryTitle = ref('')
 const inquiryId = ref<number | null>(null)
 const adding = ref(false)
 const accessType = ref<'user' | 'groups'>('user') // Default to user
 
-type InquiryTypeKey = keyof typeof InquiryTypesUI
-const inquiryType = ref<InquiryTypeKey>('proposal')
+// Get inquiry types from app settings
+const inquiryTypes = computed(() => {
+  return sessionStore.appSettings.inquiryTypeTab || []
+})
+
+// Filter out official and suggestion types for creation
+const availableInquiryTypes = computed(() => {
+  return getAvailableInquiryTypesForCreation(inquiryTypes.value)
+})
+
+// Inquiry type options for radio group
+const inquiryTypeOptions = computed(() => {
+  return getInquiryTypeOptions(availableInquiryTypes.value)
+})
+
+// Selected inquiry type
+const inquiryType = ref(availableInquiryTypes.value[0]?.inquiry_type || '')
+
+// Get current inquiry type data (icon, label, description)
+const currentInquiryTypeData = computed(() => {
+  return getInquiryTypeData(inquiryType.value, inquiryTypes.value)
+})
+
+// Get selected inquiry type data from props
+const selectedInquiryTypeData = computed(() => {
+  if (!props.inquiryType) return null
+  return getInquiryTypeData(props.inquiryType.inquiry_type, inquiryTypes.value)
+})
 
 // Check if a group is selected
 const isGroupSelected = (group: string) => {
@@ -69,16 +102,9 @@ const selectGroup = (group: string) => {
 watch(() => props.inquiryType, (newType) => {
   if (newType && newType.inquiry_type) {
     console.log('Pre-filling inquiry type:', newType.inquiry_type)
-    inquiryType.value = newType.inquiry_type as InquiryTypeKey
+    inquiryType.value = newType.inquiry_type
   }
 }, { immediate: true })
-
-const inquiryTypeOptions = Object.entries(InquiryTypesUI)
-  .filter(([key]) => !['official', 'suggestion'].includes(key))
-  .map(([key, value]) => ({
-    value: key,
-    label: value.label,
-  }))
 
 const titleIsEmpty = computed(() => inquiryTitle.value === '')
 const disableAddButton = computed(() => titleIsEmpty.value || adding.value)
@@ -95,11 +121,12 @@ async function addInquiry() {
 
     // Add groups if groups access is selected
     if (accessType.value === 'groups' && selectedGroup.value) {
-      inquiryData.ownedGroup= selectedGroup.value
+      inquiryData.ownedGroup = selectedGroup.value
     }
-    console.log(" ADD GROUPPPPPS :",selectedGroup.value)
-    console.log(" ADD TYPE :",inquiryType.value)
-    console.log(" ADD TITLE :",inquiryTitle.value)
+    console.log(" ADD GROUPPPPPS :", selectedGroup.value)
+    console.log(" ADD TYPE :", inquiryType.value)
+    console.log(" ADD TITLE :", inquiryTitle.value)
+    
     // Add the inquiry
     const inquiry = await inquiryStore.add(inquiryData)
 
@@ -233,9 +260,9 @@ function resetInquiry() {
           <Component :is="InquiryGeneralIcons.check" />
         </template>
         <div class="selected-type">
-          <strong>{{ props.inquiryType?.label }}</strong>
-          <p class="type-description" v-if="props.inquiryType?.description">
-            {{ props.inquiryType.description }}
+          <strong>{{ selectedInquiryTypeData?.label }}</strong>
+          <p class="type-description" v-if="selectedInquiryTypeData?.description">
+            {{ selectedInquiryTypeData.description }}
           </p>
         </div>
       </ConfigBox>

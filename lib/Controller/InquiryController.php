@@ -222,6 +222,7 @@ class InquiryController extends BaseController
                 isset($data['parentId']) ? (int) $data['parentId'] : 0,
 		0,
 		0,
+		[],
             );
 
             // Création de l'inquiry
@@ -279,11 +280,12 @@ class InquiryController extends BaseController
             $dto = new InquiryDto(
                 (string) $data['title'],
                 (string) $data['type'],
+                (string) $data['ownedGroup'],
                 isset($data['description']) ? (string) $data['description'] : '',
-                isset($data['configuration']) ? (array) $data['configuration'] : [],
                 isset($data['parentId']) ? (int) $data['parentId'] : 0,
                 isset($data['locationId']) ? (int) $data['locationId'] : 0,
                 isset($data['categoryId']) ? (int) $data['categoryId'] : 0,
+		 isset($data['miscFields']) && is_array($data['miscFields']) ? $data['miscFields'] : null,
             );
 
             // Partial update - only changed fields
@@ -306,32 +308,8 @@ class InquiryController extends BaseController
             );
         }
     }
-    /**
-     * Add inquiry
-  *
-     * @param string $title Inquiry title
-     * @param string $type Inquiry type ('dateInquiry', 'textInquiry')
-     *
-     * psalm-return JSONResponse<array{inquiry: Inquiry}>
-    #[NoAœdminRequired]
-    #[FrontpageRoute(verb: 'POST', url: '/inquiry/add')]
-    public function add(string $type, string $title): JSONResponse {
-     return $this->response(
-      fn () => [
-       'inquiry' => $this->inquiryService->add($type, $title)
-      ],
-      Http::STATUS_CREATED
-     );
-    }
-     */
-    /*
-     * Update inquiry configuration
-     *
-     * @param int $inquiryId Inquiry id
-     * @param array $inquiry inquiry config
-     *
-     * psalm-return JSONResponse<array{inquiry: Inquiry}>
-     * */
+    
+    
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/updateconfig/{inquiryId}')]
     public function updateConfiguration(int $inquiryId, array $inquiry): JSONResponse

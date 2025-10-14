@@ -7,7 +7,6 @@
 import { t } from '@nextcloud/l10n'
 import { ref, computed, onMounted, watch } from 'vue'
 import { useAppSettingsStore } from '../../../stores/appSettings.ts'
-import { InquiryTypeValues } from '../../../helpers/modules/InquiryHelper.ts'
 import { StatusIcons } from '../../../utils/icons.ts'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcInputField from '@nextcloud/vue/components/NcInputField'

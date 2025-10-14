@@ -17,6 +17,7 @@ import { Chunking, StatusResults } from '../Types/index.ts'
 import { AxiosError } from '@nextcloud/axios'
 import { useInquiryGroupsStore } from './inquiryGroups.ts'
 
+const ViewMode = 'table-view' | 'list-view'
 export type SortType =
   | 'created'
   | 'title'
@@ -42,6 +43,7 @@ export type FilterType =
   | 'closed'
   | 'archived'
   | 'admin'
+  | 'tomoderate'
 
 export type AdvancedFilters = {
   type?: FilterType
@@ -121,7 +123,7 @@ const inquiryCategories: InquiryCategoryList = {
     titleExt: t('agora', 'Relevant inquiries'),
     description: t(
       'agora',
-      'Relevant inquiries which are relevant to you, because you are a participant, the owner or you are invited. Only inquiries not older than 100 days compared to creation, last interaction, expiration or latest option (for date inquiries) are shown.'
+      'All inquiries who are relevant for you.'
     ),
     pinned: false,
     showInNavigation: () => true,
@@ -228,11 +230,28 @@ const inquiryCategories: InquiryCategoryList = {
     },
     filterCondition: (inquiry: Inquiry) => inquiry.permissions.view,
   },
+  moderate: {
+    id: 'moderate',
+    title: t('agora', 'To moderate'),
+    titleExt: t('agora', 'Moderator access'),
+    description: t(
+      'agora',
+      'All new inquiries who asking for validation.'
+    ),
+    pinned: true,
+    showInNavigation: () => {
+      const sessionStore = useSessionStore()
+      return !!sessionStore.currentUser?.isModerator 
+    },
+    filterCondition: (inquiry: Inquiry) => inquiry.access==='moderate',
+  },
 }
 
 export const useInquiriesStore = defineStore('inquiries', {
   state: (): InquiryList & FilterState => ({
     inquiries: [],
+    viewMode: ViewMode,
+    family: '',
     meta: {
       chunks: {
         size: 20,
@@ -439,6 +458,11 @@ export const useInquiriesStore = defineStore('inquiries', {
   },
 
   actions: {
+
+	setViewMode(inquiryType: string, viewMode: ViewMode): void {
+		 this.viewMode = viewMode
+	},
+
 	  /**
 	   * Filter set
 	   */

@@ -213,7 +213,6 @@ class Application extends App implements IBootstrap
             AttachmentMapper::class, function (ContainerInterface $c): AttachmentMapper {
                 return new AttachmentMapper(
                     $c->get(IDBConnection::class),
-                    $c->get(LoggerInterface::class),
                     $c->get(UserSession::class),
                 );
             }
@@ -223,7 +222,6 @@ class Application extends App implements IBootstrap
             SupportMapper::class, function (ContainerInterface $c): SupportMapper {
                 return new SupportMapper(
                     $c->get(IDBConnection::class),
-                    $c->get(LoggerInterface::class),
                     $c->get(UserSession::class),
                 );
             }

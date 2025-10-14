@@ -12,58 +12,69 @@ import { useInquiryStore } from '../../stores/inquiry.ts'
 import { useSharesStore } from '../../stores/shares.ts'
 import { useSessionStore } from '../../stores/session.ts'
 import { showSuccess } from '@nextcloud/dialogs'
-import { InquiryTypesUI, StatusIcons, InquiryGeneralIcons } from '../../utils/icons.ts'
+import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
 import { NcSelect } from '@nextcloud/vue'
+import {
+  getInquiryTypeData,
+} from '../../helpers/modules/InquiryHelper.ts'
+
 
 // Store initialization
 const inquiryStore = useInquiryStore()
 const sessionStore = useSessionStore()
 const sharesStore = useSharesStore()
 
-// Moderation status displayed to be move to helpers ?
-const availableStatuses = computed(() =>
-  sessionStore.appSettings.moderationStatusTab
-    .filter((status) => status.inquiryType === inquiryStore.type)
-    .sort((a, b) => a.order - b.order)
+
+const inquiryTypeData = computed(() => 
+  getInquiryTypeData(inquiryStore.type, sessionStore.appSettings.inquiryTypeTab || [])
 )
 
-const currentStatus = computed(
+// Inquiry status displayed to be move to helpers ?
+const availableInquiryStatuses = computed(() =>
+  sessionStore.appSettings.inquiryStatusTab
+    ?.filter((status) => status.inquiryType === inquiryStore.type)
+    ?.sort((a, b) => a.order - b.order) || []
+)
+
+const currentInquiryStatus = computed(
   () =>
-    availableStatuses.value.find(
-      (status) => status.statusKey === inquiryStore.moderationStatus
+    availableInquiryStatuses.value.find(
+      (status) => status.statusKey === inquiryStore.status.inquiryStatus
     ) || {
       statusKey: 'draft',
       label: 'Draft',
-      icon: 'Draft',
+      icon: 'draft',
       inquiryType: inquiryStore.type,
       order: 0,
     }
 )
 
-const selectedStatus = computed({
-  get: () => statusOptions.value.find(option => option.id === selectedStatusKey.value),
+const selectedInquiryStatus = computed({
+  get: () => statusOptions.value.find(option => option.id === selectedInquiryStatusKey.value),
   set: (newValue) => {
     if (newValue) {
-      selectedStatusKey.value = newValue.id
+      selectedInquiryStatusKey.value = newValue.id
     }
   }
 })
 
-const selectedStatusKey = ref(currentStatus.value?.statusKey)
+const selectedInquiryStatusKey = ref(currentStatus.value?.statusKey)
+const currentInquiryStatusLabel = computed(() => currentInquiryStatus.value?.label || 'Draft')
+const currentInquiryStatusIcon = computed(() => {
+  const iconName = currentInquiryStatus.value?.icon?.toLowerCase() || 'draft'
+  return StatusIcons[iconName] || StatusIcons.Draft
+})
 
-const currentStatusLabel = computed(() => currentStatus.value?.label || 'Draft')
-
-const currentStatusIcon = computed(() => StatusIcons[currentStatus.value?.icon])
 
 const onStatusChange = async (newStatus: string) => {
   try {
    const statusId = newStatus?.id || newStatus
 
-    await inquiryStore.setModerationStatus(statusId)
-    showSuccess(t('agora', 'Moderator status of this inquiry has been updated'))
+    await inquiryStore.setInquiryStatus(statusId)
+    showSuccess(t('agora', 'Inquiry status of this inquiry has been updated'))
   } catch (error) {
     console.error('Failed to update status:', error)
-    selectedStatusKey.value = currentStatus.value.statusKey
+    selectedInquiryStatusKey.value = currentInquiryStatus.value.statusKey
   }
 }
 
@@ -147,7 +158,13 @@ const timeExpirationRelative = computed(() => {
   return t('agora', 'never')
 })
 
-// Options pour le NcSelect
+const statusInquiryOptions = computed(() => 
+  availableInquiryStatuses.value.map(status => ({
+    id: status.statusKey,
+    label: t('agora', status.label),
+  }))
+)
+
 const statusOptions = computed(() => 
   availableStatuses.value.map(status => ({
     id: status.statusKey,
@@ -160,39 +177,40 @@ const statusOptions = computed(() =>
   <div class="inquiry-info-line">
     <div class="subtexts-left">
       <component
-        :is="InquiryTypesUI[inquiryStore.type]?.icon"
-        v-if="inquiryStore.type && InquiryTypesUI[inquiryStore.type]?.icon"
+        :is="inquiryTypeData.icon"
         :size="20"
       />
       <span class="type-label">
-        {{ InquiryTypesUI[inquiryStore.type]?.label || inquiryStore.type }}
+        {{ inquiryTypeData.label }}
       </span>
       <span v-for="subText in subTexts" :key="subText.id" :class="['sub-text', subText.class]">
         <Component :is="subText.iconComponent" :size="16" />
         <span class="sub-text">{{ subText.text }}</span>
       </span>
     </div>
-    <div v-if="inquiryStore.type !== 'official'" class="inquiry-type-status">
-      <div class="status-badge">
-        <span class="status-prefix">{{ t('agora', 'Moderation status is') }}</span>
-        <template v-if="sessionStore.currentUser.isModerator">
-          <NcSelect
-            v-model="selectedStatus"
-            :options="statusOptions"
-            :clearable="false"
-            @update:model-value="onStatusChange"
-          />
-        </template>
-        <template v-else>
-          <Component :is="currentStatusIcon" :size="20" />
-          <span class="status-label">{{ t('agora', currentStatusLabel) }}</span>
-        </template>
+    <div class="status-right">
+      <div v-if="inquiryStore.type !== 'official'" class="inquiry-type-status">
+        <div class="status-badge">
+          <span class="status-prefix">{{ t('agora', 'Inquiry status') }}</span>
+          <template v-if="sessionStore.currentUser.isModerator">
+            <NcSelect
+              v-model="selectedInquiryStatus"
+              :options="statusInquiryOptions"
+              :clearable="false"
+              @update:model-value="onStatusChange"
+            />
+          </template>
+          <template v-else>
+            <Component :is="currentInquiryStatusIcon" :size="20" />
+            <span class="status-label">{{ t('agora', currentInquiryStatusLabel) }}</span>
+          </template>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .type-label {
   color: var(--color-primary);
   display: flex;
@@ -209,10 +227,16 @@ const statusOptions = computed(() =>
   align-items: center;
   width: 100%;
 
+  .status-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-left: auto;
+  }
+
   .inquiry-type-status {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
     gap: 4px;
     font-weight: bold;
 

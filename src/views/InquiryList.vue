@@ -4,13 +4,16 @@
 -->
 
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
+import {  computed, onMounted } from 'vue'
+import { emit  } from '@nextcloud/event-bus'
 import { useRoute } from 'vue-router'
 import { showError } from '@nextcloud/dialogs'
 import { t, n } from '@nextcloud/l10n'
 
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionButtonGroup from '@nextcloud/vue/components/NcActionButtonGroup'
 
 import { HeaderBar, IntersectionObserver } from '../components/Base/index.ts'
 import { AgoraAppIcon } from '../components/AppIcons/index.ts'
@@ -25,12 +28,23 @@ import { useSessionStore } from '../stores/session.ts'
 import ActionToggleSidebar from '../components/Actions/modules/ActionToggleSidebar.vue'
 import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
 import LoadingOverlay from '../components/Base/modules/LoadingOverlay.vue'
+import {   InquiryGeneralIcons } from '../utils/icons.ts'
 
 const inquiriesStore = useInquiriesStore()
 const inquiryGroupsStore = useInquiryGroupsStore()
 const preferencesStore = usePreferencesStore()
 const sessionStore = useSessionStore()
 const route = useRoute()
+const viewMode = computed({
+	get() {
+		return inquiriesStore.viewMode
+	},
+	set(value: ViewMode) {
+		emit(Event.TransitionsOff, 500)
+		inquiriesStore.setViewMode(value)
+	},
+})
+
 
 const title = computed(() => {
   if (route.name === 'group') {
@@ -122,6 +136,29 @@ onMounted(() => {
       {{ description }}
       <template #right>
         <ActionAddInquiry v-if="preferencesStore.user.useNewInquiryInInquiryist" />
+	 <div>
+		<NcActionButtonGroup name="View mode">
+			<NcActionButton
+				v-model="viewMode"
+				:value="'table-view'"
+				type="radio"
+				:aria-label="t('agora', 'Switch to table view')">
+				<template #icon>
+              				<component :is="InquiryGeneralIcons.table" :size="16" />
+				</template>
+			</NcActionButton>
+
+			<NcActionButton
+				v-model="viewMode"
+				:value="'list-view'"
+				type="radio"
+				:aria-label="t('agora', 'Switch to list view')">
+				<template #icon>
+              				<component :is="InquiryGeneralIcons.viewlistoutline" :size="16" />
+				</template>
+			</NcActionButton>
+		</NcActionButtonGroup>
+	</div>
         <InquiryListSort />
         <ActionToggleSidebar
           v-if="inquiryGroupsStore.currentInquiryGroup?.owner.id === sessionStore.currentUser.id"

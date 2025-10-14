@@ -20,6 +20,7 @@ class InquiryDto implements JsonSerializable
         public ?int $parentId = 0,
         public ?int $locationId = 0,
         public ?int $categoryId = 0,
+        public ?array $miscFields = [],
     ) {
         $this->validate();
     }
@@ -37,11 +38,12 @@ class InquiryDto implements JsonSerializable
         return new self(
             $data['title'],
             $data['type'],
+            $data['ownedGroup'] ?? '',
             $data['description'] ?? '',
             $data['parentId'] ?? 0,
             $data['locationId'] ?? 0,
             $data['categoryId'] ?? 0,
-            $data['ownedGroup'] ?? '',
+            $data['miscFields'] ?? [],
         );
     }
 
@@ -50,11 +52,12 @@ class InquiryDto implements JsonSerializable
         return [
             'title' => $this->title,
             'type' => $this->type->value,
+            'ownedGroup' => $this->ownedGroup,
             'description' => $this->description,
             'parentId' => $this->parentId,
             'locationId' => $this->locationId,
             'categoryId' => $this->categoryId,
-            'ownedGroup' => $this->ownedGroup,
+            'miscFields' => $this->miscFields,
         ];
     }
 
@@ -63,11 +66,12 @@ class InquiryDto implements JsonSerializable
         return [
             'title' => $this->title,
             'type' => $this->type,
+            'ownedGroup' => $this->ownedGroup,
             'description' => $this->description,
             'parent_id' => $this->parentId,
-            'ownedGroup' => $this->ownedGroup,
             'location_id' => $this->locationId,
             'category_id' => $this->categoryId,
+            'misc_fields' => $this->miscFields,
         ];
     }
 }
