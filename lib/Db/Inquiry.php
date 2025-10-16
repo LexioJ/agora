@@ -229,74 +229,80 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'deleted' => $this->getDeleted(),
         'lastInteraction' => $this->getLastInteraction(),
                 'configuration' => $this->getConfigurationArray(),
-        ];
-        return array_merge($baseData, $this->miscFields);
+	];
+
+	$prefixedMiscFields = [];
+	foreach ($this->miscFields as $key => $value) {
+		$prefixedMiscFields["misc.$key"] = $value;
+	}
+
+	return array_merge($baseData, $prefixedMiscFields);
     }
 
     public function getStatusArray(): array
     {
-        return [
-        'moderationStatus' => $this->getModerationStatus(),
-        'inquiryStatus' => $this->getInquiryStatus(),
-        'lastInteraction' => $this->getLastInteraction(),
-        'created' => $this->getCreated(),
-        'isArchived' => (bool)$this->getArchived(),
-        'isExpired' => $this->getExpired(),
-        'relevantThreshold' => $this->getRelevantThreshold(),
-        'countParticipants' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountParticipants() : 0,
-        'countComments' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountComments() : 0,
-        'countSupports' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountSupports() : 0,
-        ];
+	    return [
+		    'moderationStatus' => $this->getModerationStatus(),
+		    'inquiryStatus' => $this->getInquiryStatus(),
+		    'lastInteraction' => $this->getLastInteraction(),
+		    'created' => $this->getCreated(),
+		    'isArchived' => (bool)$this->getArchived(),
+		    'isExpired' => $this->getExpired(),
+		    'relevantThreshold' => $this->getRelevantThreshold(),
+		    'countParticipants' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountParticipants() : 0,
+		    'countComments' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountComments() : 0,
+		    'countSupports' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountSupports() : 0,
+	    ];
     }
 
     public function getCurrentUserStatus(): array
     {
-        return [
-                'groupInvitations' => $this->getGroupShares(),
-        'isInvolved' => $this->getIsInvolved(),
-        'hasSupported' => $this->hasSupported(),
-        'isLoggedIn' => $this->userSession->getIsLoggedIn(),
-        'isOwner' => $this->getIsInquiryOwner(),
-        'shareToken' => $this->getShareToken(),
-        'userId' => $this->userSession->getCurrentUserId(),
-        'userRole' => $this->getUserRole(),
-        'inquiryGroupUserShares' => $this->getInquiryGroupUserShares(),
-        ];
+	    return [
+		    'groupInvitations' => $this->getGroupShares(),
+		    'isInvolved' => $this->getIsInvolved(),
+		    'hasSupported' => $this->hasSupported(),
+		    'isLoggedIn' => $this->userSession->getIsLoggedIn(),
+		    'isOwner' => $this->getIsInquiryOwner(),
+		    'shareToken' => $this->getShareToken(),
+		    'userId' => $this->userSession->getCurrentUserId(),
+		    'userRole' => $this->getUserRole(),
+		    'inquiryGroupUserShares' => $this->getInquiryGroupUserShares(),
+	    ];
     }
 
     public function getConfigurationArray(): array
     {
-        return [
-        'access' => $this->getAccess(),
-        'autoReminder' => $this->getAutoReminder(),
-        'expire' => $this->getExpire(),
-        'forceConfidentialComments' => $this->getForceConfidentialComments(),
-        'allowComment' => boolval($this->getAllowComment()),
-        'showResults' => $this->getShowResults(),
-        ];
+	    return [
+		    'access' => $this->getAccess(),
+		    'autoReminder' => $this->getAutoReminder(),
+		    'expire' => $this->getExpire(),
+		    'forceConfidentialComments' => $this->getForceConfidentialComments(),
+		    'allowComment' => boolval($this->getAllowComment()),
+		    'showResults' => $this->getShowResults(),
+	    ];
     }
 
     public function getPermissionsArray(): array
     {
-        return [
-        'addInquiry' => $this->getIsAllowed(self::PERMISSION_INQUIRY_ADD),
-        'addShares' => $this->getIsAllowed(self::PERMISSION_SHARE_ADD),
-        'addSharesExternal' => $this->getIsAllowed(self::PERMISSION_SHARE_ADD_EXTERNAL),
-        'archive' => $this->getIsAllowed(self::PERMISSION_INQUIRY_ARCHIVE),
-        'changeForeignSupports' => $this->getIsAllowed(self::PERMISSION_SUPPORT_FOREIGN_CHANGE),
-        'changeOwner' => $this->getIsAllowed(self::PERMISSION_INQUIRY_CHANGE_OWNER),
-        'comment' => $this->getIsAllowed(self::PERMISSION_COMMENT_ADD),
-        'support' => $this->getIsAllowed(self::PERMISSION_SUPPORT_ADD),
-        'confirmInquiry' => $this->getIsAllowed(self::PERMISSION_INQUIRY_CONFIRM),
-        'delete' => $this->getIsAllowed(self::PERMISSION_INQUIRY_DELETE),
-        'edit' => $this->getIsAllowed(self::PERMISSION_INQUIRY_EDIT),
-        'reorderInquiries' => $this->getIsAllowed(self::PERMISSION_INQUIRYS_REORDER),
-        'seeResults' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW),
-        'seeUsernames' => $this->getIsAllowed(self::PERMISSION_INQUIRY_USERNAMES_VIEW),
-        'subscribe' => $this->getIsAllowed(self::PERMISSION_INQUIRY_SUBSCRIBE),
-        'takeOver' => $this->getIsAllowed(self::PERMISSION_INQUIRY_TAKEOVER),
-        'view' => $this->getIsAllowed(self::PERMISSION_INQUIRY_VIEW),
-        ];
+	    return [
+		    'addInquiry' => $this->getIsAllowed(self::PERMISSION_INQUIRY_ADD),
+		    'addShares' => $this->getIsAllowed(self::PERMISSION_SHARE_ADD),
+		    'addSharesExternal' => $this->getIsAllowed(self::PERMISSION_SHARE_ADD_EXTERNAL),
+		    'archive' => $this->getIsAllowed(self::PERMISSION_INQUIRY_ARCHIVE),
+		    'changeForeignSupports' => $this->getIsAllowed(self::PERMISSION_SUPPORT_FOREIGN_CHANGE),
+		    'changeOwner' => $this->getIsAllowed(self::PERMISSION_INQUIRY_CHANGE_OWNER),
+		    'comment' => $this->getIsAllowed(self::PERMISSION_COMMENT_ADD),
+		    'support' => $this->getIsAllowed(self::PERMISSION_SUPPORT_ADD),
+		    'confirmInquiry' => $this->getIsAllowed(self::PERMISSION_INQUIRY_CONFIRM),
+		    'delete' => $this->getIsAllowed(self::PERMISSION_INQUIRY_DELETE),
+		    'edit' => $this->getIsAllowed(self::PERMISSION_INQUIRY_EDIT),
+		    'reorderInquiries' => $this->getIsAllowed(self::PERMISSION_INQUIRYS_REORDER),
+		    'seeResults' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW),
+		    'seeUsernames' => $this->getIsAllowed(self::PERMISSION_INQUIRY_USERNAMES_VIEW),
+		    'subscribe' => $this->getIsAllowed(self::PERMISSION_INQUIRY_SUBSCRIBE),
+		    'takeOver' => $this->getIsAllowed(self::PERMISSION_INQUIRY_TAKEOVER),
+		    'view' => $this->getIsAllowed(self::PERMISSION_INQUIRY_VIEW),
+	    ];
     }
 
     /**
@@ -304,217 +310,217 @@ class Inquiry extends EntityWithUser implements JsonSerializable
      */
     public function deserializeArray(array $inquiryConfiguration): self
     {
-        $this->setAccess($inquiryConfiguration['access'] ?? $this->getAccess());
-        $this->setAutoReminder($inquiryConfiguration['autoReminder'] ?? $this->getAutoReminder());
-        $this->setAllowComment($inquiryConfiguration['allowComment'] ?? $this->getAllowComment()); // Correction: inquiryConfiguration au lieu de pollConfiguration
-        $this->setExpire($inquiryConfiguration['expire'] ?? $this->getExpire());
-        $this->setForceConfidentialComments($inquiryConfiguration['forceConfidentialComments'] ?? $this->getForceConfidentialComments());
-        $this->setShowResults($inquiryConfiguration['showResults'] ?? $this->getShowResults());
-        return $this;
+	    $this->setAccess($inquiryConfiguration['access'] ?? $this->getAccess());
+	    $this->setAutoReminder($inquiryConfiguration['autoReminder'] ?? $this->getAutoReminder());
+	    $this->setAllowComment($inquiryConfiguration['allowComment'] ?? $this->getAllowComment()); // Correction: inquiryConfiguration au lieu de pollConfiguration
+	    $this->setExpire($inquiryConfiguration['expire'] ?? $this->getExpire());
+	    $this->setForceConfidentialComments($inquiryConfiguration['forceConfidentialComments'] ?? $this->getForceConfidentialComments());
+	    $this->setShowResults($inquiryConfiguration['showResults'] ?? $this->getShowResults());
+	    return $this;
     }
 
 
     public function getExpired(): bool
     {
-        $expiry = $this->getExpire();
-        return ($expiry > 0 && $expiry < time());
+	    $expiry = $this->getExpire();
+	    return ($expiry > 0 && $expiry < time());
     }
 
-public function getUserRole(): string
-{
-    if ($this->getCurrentUserIsEntityUser()) {
-        return self::ROLE_OWNER;
+    public function getUserRole(): string
+    {
+	    if ($this->getCurrentUserIsEntityUser()) {
+		    return self::ROLE_OWNER;
+	    }
+
+	    $evaluatedRole = $this->userRole;
+
+	    if ($this->getInquiryGroupUserShares() && !$evaluatedRole) {
+		    foreach ($this->getInquiryGroupUserShares() as $shareType) {
+			    if ($shareType === self::ROLE_ADMIN) {
+				    $evaluatedRole = self::ROLE_ADMIN;
+				    break; // ← Ajouter un break
+			    }
+		    }
+	    }
+
+	    if ($evaluatedRole === self::ROLE_ADMIN) {
+		    return self::ROLE_ADMIN; // ← Un admin reste admin
+	    }
+
+	    if ($evaluatedRole) {
+		    return $evaluatedRole;
+	    }
+
+	    return self::ROLE_NONE;
     }
-
-    $evaluatedRole = $this->userRole;
-
-    if ($this->getInquiryGroupUserShares() && !$evaluatedRole) {
-        foreach ($this->getInquiryGroupUserShares() as $shareType) {
-            if ($shareType === self::ROLE_ADMIN) {
-                $evaluatedRole = self::ROLE_ADMIN;
-                break; // ← Ajouter un break
-            }
-        }
-    }
-
-    if ($evaluatedRole === self::ROLE_ADMIN) {
-        return self::ROLE_ADMIN; // ← Un admin reste admin
-    }
-
-    if ($evaluatedRole) {
-        return $evaluatedRole;
-    }
-
-    return self::ROLE_NONE;
-}
 
 
     private function getMaxDate(): int
     {
-        if ($this->maxDate === null) {
-            return 0;
-        }
-        return $this->maxDate;
+	    if ($this->maxDate === null) {
+		    return 0;
+	    }
+	    return $this->maxDate;
     }
 
     public function initializeMiscFields(array $fieldsDefinition): void
     {
-        foreach ($fieldsDefinition as $field) {
-            $key = $field['key'];
-            $this->miscFields[$key] = $field['default'] ?? null;
-        }
+	    foreach ($fieldsDefinition as $field) {
+		    $key = $field['key'];
+		    $this->miscFields[$key] = $field['default'] ?? null;
+	    }
     }
     public function getMiscField(string $key): mixed
     {
-        return $this->miscFields[$key] ?? null;
+	    return $this->miscFields[$key] ?? null;
     }
 
     public function setMiscField(string $key, mixed $value): void
     {
-        $this->miscFields[$key] = $value;
+	    $this->miscFields[$key] = $value;
     }
 
     public function getInquiryUrl(): string
     {
-        return $this->urlGenerator->linkToRouteAbsolute(
-            AppConstants::APP_ID . '.page.vote',
-            ['id' => $this->getId()]
-        );
+	    return $this->urlGenerator->linkToRouteAbsolute(
+		    AppConstants::APP_ID . '.page.vote',
+		    ['id' => $this->getId()]
+	    );
     }
 
     public function getSupportUrl(): string
     {
-        return $this->urlGenerator->linkToRouteAbsolute(
-            AppConstants::APP_ID . '.page.support',
-            ['id' => $this->getId()]
-        );
+	    return $this->urlGenerator->linkToRouteAbsolute(
+		    AppConstants::APP_ID . '.page.support',
+		    ['id' => $this->getId()]
+	    );
     }
     // Setting childs for setting rights
 
     public function setChildren(array $children): void
     {
-        $this->children = $children;
+	    $this->children = $children;
     }
 
     public function getInquiryId(): int
     {
-        return (int)$this->getId();
+	    return (int)$this->getId();
     }
 
     public function getUserId(): string
     {
-        return $this->getOwner();
+	    return $this->getOwner();
     }
 
     public function setUserId(string $userId): void
     {
-        $this->setOwner($userId);
+	    $this->setOwner($userId);
     }
 
     private function getGroupShares(): array
     {
-        if ($this->groupShares !== null && $this->groupShares !== '') {
-            return array_filter(explode(InquiryMapper::CONCAT_SEPARATOR, InquiryMapper::CONCAT_SEPARATOR . $this->groupShares));
+	    if ($this->groupShares !== null && $this->groupShares !== '') {
+		    return array_filter(explode(InquiryMapper::CONCAT_SEPARATOR, InquiryMapper::CONCAT_SEPARATOR . $this->groupShares));
 
-        }
-        return [];
+	    }
+	    return [];
     }
 
     public function getInquiryGroups(): array
     {
-        if (!$this->inquiryGroups) {
-            return [];
-        }
-        return array_map('intval', explode(InquiryGroup::CONCAT_SEPARATOR, $this->inquiryGroups));
+	    if (!$this->inquiryGroups) {
+		    return [];
+	    }
+	    return array_map('intval', explode(InquiryGroup::CONCAT_SEPARATOR, $this->inquiryGroups));
     }
 
     public function getInquiryGroupUserShares(): array
     {
-        if (!$this->inquiryGroupUserShares) {
-            return [];
-        }
-        return explode(InquiryGroup::CONCAT_SEPARATOR, $this->inquiryGroupUserShares);
+	    if (!$this->inquiryGroupUserShares) {
+		    return [];
+	    }
+	    return explode(InquiryGroup::CONCAT_SEPARATOR, $this->inquiryGroupUserShares);
     }
 
     private function getRelevantThreshold(): int
     {
-        return max(
-            $this->getCreated(),
-            $this->getLastInteraction(),
-            $this->getExpire(),
-            $this->getMaxDate(),
-        );
+	    return max(
+		    $this->getCreated(),
+		    $this->getLastInteraction(),
+		    $this->getExpire(),
+		    $this->getMaxDate(),
+	    );
     }
     private function getAutoReminder(): bool
     {
-        return $this->getMiscField('autoReminder') ?? false; 
+	    return $this->getMiscField('autoReminder') ?? false; 
     }
 
     private function setAutoReminder(bool|int $value): void
     {
-        $this->setMiscField('autoReminder', (bool)$value);
+	    $this->setMiscField('autoReminder', (bool)$value);
     }
 
     private function setForceConfidentialComments(bool|int $value): void
     {
-        $this->setMiscField('forceConfidentialComments', (bool)$value);
+	    $this->setMiscField('forceConfidentialComments', (bool)$value);
     }
 
     public function getForceConfidentialComments(): bool
     {
-        return $this->getMiscField('forceConfidentialComments') ?? false; 
+	    return $this->getMiscField('forceConfidentialComments') ?? false; 
     }
 
 
     public function request(string $permission): bool
     {
-        if (!$this->getIsAllowed($permission)) {
-            throw new ForbiddenException('denied permission ' . $permission);
-        }
-        return true;
+	    if (!$this->getIsAllowed($permission)) {
+		    throw new ForbiddenException('denied permission ' . $permission);
+	    }
+	    return true;
     }
 
     public function getIsAllowed(string $permission): bool
     {
-        return match ($permission) {
-            self::PERMISSION_COMMENT_ADD => $this->getAllowCommenting(),
-            self::PERMISSION_SUPPORT_ADD => $this->getAllowSupporting(),
-            self::PERMISSION_COMMENT_DELETE => $this->getAllowDeleteComment(),
-            self::PERMISSION_SUPPORT_DELETE => $this->getAllowDeleteSupport(),
-            self::PERMISSION_INQUIRY_ADD => $this->getAllowAddInquiry(),
-            self::PERMISSION_INQUIRY_CONFIRM => $this->getAllowConfirmInquiry(),
-            self::PERMISSION_INQUIRY_DELETE => $this->getAllowDeleteInquiry(),
-            self::PERMISSION_INQUIRYS_REORDER => $this->getAllowReorderInquiries(),
-            self::PERMISSION_OVERRIDE => true,
-            self::PERMISSION_INQUIRY_VIEW => $this->getAllowAccessInquiry(),
-            self::PERMISSION_INQUIRY_EDIT => $this->getAllowEditInquiry(),
-            self::PERMISSION_INQUIRY_ARCHIVE => $this->getAllowEditInquiry(),
-            self::PERMISSION_INQUIRY_TAKEOVER => $this->getAllowTakeOver(),
-            self::PERMISSION_INQUIRY_CHANGE_OWNER => $this->getAllowChangeOwner(),
-            self::PERMISSION_INQUIRY_SUBSCRIBE => $this->getAllowSubscribeToInquiry(),
-            self::PERMISSION_INQUIRY_RESULTS_VIEW => $this->getAllowShowResults(),
-            self::PERMISSION_SUPPORT_EDIT => $this->getAllowSupport(),
-            self::PERMISSION_SUPPORT_FOREIGN_CHANGE => $this->getAllowChangeForeignSupports(),
-            self::PERMISSION_SHARE_ADD => $this->systemSettings->getShareCreateAllowed(),
-            self::PERMISSION_SHARE_ADD_EXTERNAL => $this->systemSettings->getExternalShareCreationAllowed(),
-            self::PERMISSION_DEANONYMIZE => $this->getAllowDeanonymize(),
-            default => false,
-        };
+	    return match ($permission) {
+	    self::PERMISSION_COMMENT_ADD => $this->getAllowCommenting(),
+		    self::PERMISSION_SUPPORT_ADD => $this->getAllowSupporting(),
+		    self::PERMISSION_COMMENT_DELETE => $this->getAllowDeleteComment(),
+		    self::PERMISSION_SUPPORT_DELETE => $this->getAllowDeleteSupport(),
+		    self::PERMISSION_INQUIRY_ADD => $this->getAllowAddInquiry(),
+		    self::PERMISSION_INQUIRY_CONFIRM => $this->getAllowConfirmInquiry(),
+		    self::PERMISSION_INQUIRY_DELETE => $this->getAllowDeleteInquiry(),
+		    self::PERMISSION_INQUIRYS_REORDER => $this->getAllowReorderInquiries(),
+		    self::PERMISSION_OVERRIDE => true,
+		    self::PERMISSION_INQUIRY_VIEW => $this->getAllowAccessInquiry(),
+		    self::PERMISSION_INQUIRY_EDIT => $this->getAllowEditInquiry(),
+		    self::PERMISSION_INQUIRY_ARCHIVE => $this->getAllowEditInquiry(),
+		    self::PERMISSION_INQUIRY_TAKEOVER => $this->getAllowTakeOver(),
+		    self::PERMISSION_INQUIRY_CHANGE_OWNER => $this->getAllowChangeOwner(),
+		    self::PERMISSION_INQUIRY_SUBSCRIBE => $this->getAllowSubscribeToInquiry(),
+		    self::PERMISSION_INQUIRY_RESULTS_VIEW => $this->getAllowShowResults(),
+		    self::PERMISSION_SUPPORT_EDIT => $this->getAllowSupport(),
+		    self::PERMISSION_SUPPORT_FOREIGN_CHANGE => $this->getAllowChangeForeignSupports(),
+		    self::PERMISSION_SHARE_ADD => $this->systemSettings->getShareCreateAllowed(),
+		    self::PERMISSION_SHARE_ADD_EXTERNAL => $this->systemSettings->getExternalShareCreationAllowed(),
+		    self::PERMISSION_DEANONYMIZE => $this->getAllowDeanonymize(),
+		    default => false,
+    };
     }
 
     private function getIsInvolved(): bool
     {
-        return (
-        $this->getIsInquiryOwner()
-        || $this->getIsParticipant()
-        || $this->getIsPersonallyInvited()
-        || $this->getIsInvitedViaGroupShare()
-        );
+	    return (
+		    $this->getIsInquiryOwner()
+		    || $this->getIsParticipant()
+		    || $this->getIsPersonallyInvited()
+		    || $this->getIsInvitedViaGroupShare()
+	    );
     }
 
     private function getIsOpenInquiry(): bool
     {
-        return $this->getAccess() === self::ACCESS_OPEN && $this->userSession->getIsLoggedIn();
+	    return $this->getAccess() === self::ACCESS_OPEN && $this->userSession->getIsLoggedIn();
     }
 
     /**
@@ -524,145 +530,145 @@ public function getUserRole(): string
      */
     private function hasSupported(): bool
     {
-        return $this->hasSupported;
+	    return $this->hasSupported;
     }
 
     private function getIsParticipant(): bool
     {
-        return $this->getCurrentUserSupports() > 0;
+	    return $this->getCurrentUserSupports() > 0;
     }
 
     private function getIsInvitedViaGroupShare(): bool
     {
-        if (!$this->userSession->getIsLoggedIn()) {
-            return false;
-        }
-        return count($this->getGroupSharesForUser()) > 0;
+	    if (!$this->userSession->getIsLoggedIn()) {
+		    return false;
+	    }
+	    return count($this->getGroupSharesForUser()) > 0;
     }
 
     private function getGroupSharesForUser(): array
     {
-        return array_filter(
-            $this->getGroupShares(),
-            function ($groupName) {
-                return $this->userSession->getCurrentUser()->getIsInGroup($groupName);
-            }
-        );
+	    return array_filter(
+		    $this->getGroupShares(),
+		    function ($groupName) {
+			    return $this->userSession->getCurrentUser()->getIsInGroup($groupName);
+		    }
+	    );
     }
 
     private function getIsPersonallyInvited(): bool
     {
-        return in_array(
-            $this->getUserRole(),
-            [
-            self::ROLE_ADMIN,
-            self::ROLE_USER,
-            self::ROLE_EXTERNAL,
-            self::ROLE_EMAIL,
-            self::ROLE_CONTACT,
-            ]
-        );
+	    return in_array(
+		    $this->getUserRole(),
+		    [
+			    self::ROLE_ADMIN,
+			    self::ROLE_USER,
+			    self::ROLE_EXTERNAL,
+			    self::ROLE_EMAIL,
+			    self::ROLE_CONTACT,
+		    ]
+	    );
     }
 
     private function getIsDelegatedAdmin(): bool
     {
-        return $this->getUserRole() === self::ROLE_ADMIN;
+	    return $this->getUserRole() === self::ROLE_ADMIN;
     }
 
     private function getAllowEditInquiry(): bool
     {
-        if (defined('OC_CONSOLE')) {
-            return true;
-        }
+	    if (defined('OC_CONSOLE')) {
+		    return true;
+	    }
 
-        if ($this->getIsInquiryOwner()) {
-            return true;
-        }
+	    if ($this->getIsInquiryOwner()) {
+		    return true;
+	    }
 
-        if ($this->getIsDelegatedAdmin()) {
-            return true;
-        }
+	    if ($this->getIsDelegatedAdmin()) {
+		    return true;
+	    }
 
-        return false;
+	    return false;
     }
 
     private function getAllowTakeOver(): bool
     {
-        return $this->userSession->getCurrentUser()->getIsAdmin();
+	    return $this->userSession->getCurrentUser()->getIsAdmin();
     }
 
     private function getAllowChangeOwner(): bool
     {
-        return $this->getAllowEditInquiry()
-        || $this->userSession->getCurrentUser()->getIsAdmin();
+	    return $this->getAllowEditInquiry()
+		    || $this->userSession->getCurrentUser()->getIsAdmin();
     }
 
     private function getAllowAccessInquiry(): bool
     {
-        if ($this->getAllowEditInquiry()) {
-            return true;
-        }
+	    if ($this->getAllowEditInquiry()) {
+		    return true;
+	    }
 
-        if ($this->getDeleted()) {
-            return false;
-        }
+	    if ($this->getDeleted()) {
+		    return false;
+	    }
 
-        if ($this->getArchived()) {
-            return false;
-        }
+	    if ($this->getArchived()) {
+		    return false;
+	    }
 
-        if ($this->getIsOpenInquiry()) {
-            return true;
-        }
+	    if ($this->getIsOpenInquiry()) {
+		    return true;
+	    }
 
-        $share = $this->userSession->getShare();
-        return (bool)($share->getId() && $share->getInquiryId() === $this->getId());
+	    $share = $this->userSession->getShare();
+	    return (bool)($share->getId() && $share->getInquiryId() === $this->getId());
     }
 
     private function getAllowDeleteInquiry(): bool
     {
-        if ($this->getAllowEditInquiry()) {
-            return true;
-        }
+	    if ($this->getAllowEditInquiry()) {
+		    return true;
+	    }
 
-        return $this->userSession->getCurrentUser()->getIsAdmin();
+	    return $this->userSession->getCurrentUser()->getIsAdmin();
     }
 
     private function getAllowAddInquiry(): bool
     {
-        if ($this->getAllowEditInquiry()) {
-            return true;
-        }
+	    if ($this->getAllowEditInquiry()) {
+		    return true;
+	    }
 
-        if (!$this->getAllowAccessInquiry()) {
-            return false;
-        }
+	    if (!$this->getAllowAccessInquiry()) {
+		    return false;
+	    }
 
-        if ($this->userSession->getShare()->getType() === 'public') {
-            return false;
-        }
+	    if ($this->userSession->getShare()->getType() === 'public') {
+		    return false;
+	    }
 
-        return true;
+	    return true;
     }
 
     private function getAllowConfirmInquiry(): bool
     {
-        return $this->getAllowEditInquiry() && $this->getExpired();
+	    return $this->getAllowEditInquiry() && $this->getExpired();
     }
 
     private function getAllowReorderInquiries(): bool
     {
-        return $this->getAllowEditInquiry() && !$this->getExpired();
+	    return $this->getAllowEditInquiry() && !$this->getExpired();
     }
 
     public function matchUser(string $userId): bool
     {
-        return $this->userSession->getCurrentUser()->getId() === $userId;
+	    return $this->userSession->getCurrentUser()->getId() === $userId;
     }
 
     public function getIsInquiryOwner(): bool
     {
-        return ($this->getUserRole() === self::ROLE_OWNER);
+	    return ($this->getUserRole() === self::ROLE_OWNER);
     }
 
     public function getIsHaveParticipated(): bool

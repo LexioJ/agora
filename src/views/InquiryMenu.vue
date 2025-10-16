@@ -9,6 +9,7 @@ import { computed, ref, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
@@ -31,6 +32,9 @@ const inquiriesStore = useInquiriesStore()
 const createDlgToggle = ref(false)
 const selectedInquiryTypeForCreation = ref<InquiryType | null>(null)
 const selectedGroups = ref<string[]>([])
+
+// ViewMode state - default to 'create' or get from route
+const viewMode = ref<string>(route.query.viewMode as string || 'create')
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -58,6 +62,7 @@ onMounted(() => {
   console.log('🔍 DEBUG InquiryMenu - Families:', inquiryFamilies.value)
   console.log('🔍 DEBUG InquiryMenu - Inquiry Types:', allInquiryTypes.value)
   console.log('🔍 DEBUG InquiryMenu - Selected family:', selectedFamily.value)
+  console.log('🔍 DEBUG InquiryMenu - View mode :', viewMode.value)
 })
 
 // Computed for inquiry types filtered by selected family (only isOption === 0)
@@ -94,19 +99,57 @@ watch(
   }
 )
 
+// Watch for viewMode changes in route
+watch(
+  () => route.query.viewMode,
+  (newViewMode) => {
+    if (newViewMode) {
+      viewMode.value = newViewMode as string
+    }
+  }
+)
+
 // Function to select a family
 function selectFamily(familyId: string) {
   selectedFamily.value = familyId
   router.push({
     name: 'family-inquiries',
-    params: { familyId }
+    params: { familyId },
+    query: { viewMode: viewMode.value }
   })
 }
 
 // Function to clear family selection
 function clearFamilySelection() {
   selectedFamily.value = null
-  router.push({ name: 'menu' })
+  router.push({ 
+    name: 'menu',
+    query: { viewMode: viewMode.value }
+  })
+}
+
+// Function to handle view mode change
+function handleViewModeChange(mode: string) {
+  viewMode.value = mode
+  
+  // Update current route with new view mode
+  if (viewMode.value === 'create') {
+    router.push({
+      name: 'family-inquiries',
+      params: { familyId: selectedFamily.value },
+      query: { viewMode: mode }
+    })
+  } else {
+    router.push({
+      name: 'list',
+      params: { type: 'relevant', familyId: selectedFamily.value },
+      query: { viewMode: mode }
+    })
+  }
+  
+  // You can add additional logic here based on the view mode
+  console.log(`View mode changed to: ${mode}`)
+  // Example: Refresh data based on view mode, change display logic, etc.
 }
 
 // Function to create new inquiry from type
@@ -123,6 +166,7 @@ function inquiryAdded(payLoad: { id: number; title: string }) {
   router.push({
     name: 'inquiry',
     params: { id: payLoad.id },
+    query: { viewMode: viewMode.value }
   })
 }
 
@@ -152,10 +196,45 @@ function handleCloseDialog() {
           : t('agora', 'Select Inquiry Family') 
         }}
       </template>
-      <NcButton v-if="selectedFamily" class="back-button" @click="clearFamilySelection">
-        <span class="back-button__icon">←</span>
-        {{ t('agora', 'Back to families') }}
-      </NcButton>
+      
+      <!-- Header Actions Container -->
+      <div class="header-actions">
+        <!-- Back Button (conditionally shown) -->
+        <NcButton 
+          v-if="selectedFamily" 
+          class="back-button" 
+          @click="clearFamilySelection"
+        >
+          <span class="back-button__icon">←</span>
+          {{ t('agora', 'Back to families') }}
+        </NcButton>
+
+        <!-- View Mode Switcher (always shown, aligned to right) -->
+        <div v-if="selectedFamily" class="view-mode-switcher">
+          <NcCheckboxRadioSwitch
+            :button-variant="true"
+            :model-value="viewMode"
+            value="create"
+            name="sharing_permission_radio"
+            type="radio"
+            button-variant-grouped="horizontal"
+            @update:model-value="handleViewModeChange"
+          >
+            {{ t('agora', 'Create Mode') }}
+          </NcCheckboxRadioSwitch>
+          <NcCheckboxRadioSwitch
+            :button-variant="true"
+            :model-value="viewMode"
+            value="view"
+            name="sharing_permission_radio"
+            type="radio"
+            button-variant-grouped="horizontal"
+            @update:model-value="handleViewModeChange"
+          >
+            {{ t('agora', 'View Mode') }}
+          </NcCheckboxRadioSwitch>
+        </div>
+      </div>
     </HeaderBar>
 
     <!-- Family Selection Grid -->
@@ -254,6 +333,78 @@ function handleCloseDialog() {
   }
 }
 
+// Header Actions Container
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; // Align everything to the right
+  gap: 16px;
+  width: 100%;
+  margin-left: auto; // Push container to the right
+
+  // Back button styles
+  .back-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 10px 18px;
+    cursor: pointer;
+    color: var(--color-text-lighter);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    margin-right: auto; // Push back button to left, view modes to right
+
+    &:hover {
+      background: var(--color-background-dark);
+      color: var(--color-main-text);
+      border-color: var(--color-primary-element);
+    }
+
+    &__icon {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
+
+  // View Mode Switcher styles
+  .view-mode-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--color-background-dark);
+    border-radius: 10px;
+    padding: 4px;
+    border: 1px solid var(--color-border);
+
+    // Style for the radio buttons
+    :deep(.checkbox-radio-switch) {
+      margin: 0;
+
+      &.checkbox-radio-switch--button-variant {
+        .checkbox-radio-switch__label {
+          padding: 8px 16px;
+          border-radius: 8px;
+          font-weight: 500;
+          transition: all 0.2s ease;
+          
+          &:hover {
+            background: var(--color-background-hover);
+          }
+        }
+
+        input:checked + .checkbox-radio-switch__label {
+          background: var(--color-primary-element);
+          color: var(--color-primary-text);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+      }
+    }
+  }
+}
+
 .families-grid-container {
   padding: 20px;
 }
@@ -339,31 +490,6 @@ function handleCloseDialog() {
   margin-bottom: 32px;
   padding-bottom: 20px;
   border-bottom: 1px solid var(--color-border);
-
-  .back-button {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    background: none;
-    border: 1px solid var(--color-border);
-    border-radius: 10px;
-    padding: 10px 18px;
-    cursor: pointer;
-    color: var(--color-text-lighter);
-    transition: all 0.2s ease;
-    flex-shrink: 0;
-
-    &:hover {
-      background: var(--color-background-dark);
-      color: var(--color-main-text);
-      border-color: var(--color-primary-element);
-    }
-
-    &__icon {
-      font-size: 18px;
-      font-weight: 600;
-    }
-  }
 
   .selected-family-info {
     flex: 1;
@@ -464,6 +590,22 @@ function handleCloseDialog() {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+
+    .back-button {
+      margin-right: 0;
+      order: 1;
+    }
+
+    .view-mode-switcher {
+      order: 2;
+      justify-content: center;
+    }
+  }
+
   .families-grid {
     grid-template-columns: 1fr;
   }

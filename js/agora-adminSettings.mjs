@@ -12,12 +12,12 @@
 })();
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { _ as _export_sfc, c as createElementBlock, o as openBlock, j as createVNode, g as withCtx, C as createTextVNode, t as toDisplayString, s as translate, f as createBlock, l as createCommentVNode, k as createBaseVNode, i as mergeProps, Q as ref, b as computed, D as purify, S as withDirectives, T as vShow, U as vModelText, V as NcButton, M as Fragment, d as defineComponent, W as resolveComponent, p as normalizeStyle, O as renderList, v as onMounted, J as normalizeClass, e as watch, h as resolveDynamicComponent, x as normalizeProps, y as guardReactiveProps, z as createApp, A as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DJxNeHUx.chunk.mjs";
-import { I as InputDiv, N as NcSettingsSection } from "./index-B-nrtB_A.chunk.mjs";
-import { e as d, g as gfmHeadingId, f as adminJobs, L as Logger, S as StatusIcons } from "./NcDashboardWidget-BEUtfCxs-CzOVsmN5.chunk.mjs";
-import { F as FlexSettings } from "./FlexSettings-BLTQ5ul2.chunk.mjs";
-import { u as useAppSettingsStore, R as RadioGroupDiv, C as CardDiv } from "./markdown-CDmQVTrU.chunk.mjs";
-import { N as NcCheckboxRadioSwitch, a as NcSelect, b as NcInputField } from "./NcRichText-Dht_wH3t-OhMKhuBW.chunk.mjs";
+import { _ as _export_sfc, c as createElementBlock, o as openBlock, j as createVNode, g as withCtx, C as createTextVNode, t as toDisplayString, s as translate, f as createBlock, l as createCommentVNode, k as createBaseVNode, i as mergeProps, Q as ref, b as computed, D as purify, S as withDirectives, T as vShow, U as vModelText, V as NcButton, M as Fragment, d as defineComponent, W as resolveComponent, p as normalizeStyle, O as renderList, v as onMounted, J as normalizeClass, e as watch, h as resolveDynamicComponent, x as normalizeProps, y as guardReactiveProps, z as createApp, A as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-BpsB9R2G.chunk.mjs";
+import { I as InputDiv, N as NcSettingsSection } from "./index-_h-vKeff.chunk.mjs";
+import { e as d, g as gfmHeadingId, f as adminJobs, L as Logger, S as StatusIcons } from "./NcDashboardWidget-BEUtfCxs-B4xGO1wE.chunk.mjs";
+import { F as FlexSettings } from "./FlexSettings-ep51EbHk.chunk.mjs";
+import { u as useAppSettingsStore, R as RadioGroupDiv, C as CardDiv } from "./markdown-CICIQXZ-.chunk.mjs";
+import { N as NcCheckboxRadioSwitch, a as NcSelect, b as NcInputField } from "./NcRichText-Dht_wH3t-BkbF4X_Y.chunk.mjs";
 const _sfc_main$l = {
   __name: "AdminActivities",
   setup(__props, { expose: __expose }) {

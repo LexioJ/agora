@@ -30,7 +30,8 @@ import AccountVoice from '@iconify-icons/mdi/account-voice'
 import ClipboardCheck from '@iconify-icons/mdi/clipboard-check'
 import Bullhorn from '@iconify-icons/mdi/bullhorn'
 import Check from '@iconify-icons/mdi/check'
-
+import TransformRotate from '@iconify-icons/mdi/rotate-right'
+import Save from '@iconify-icons/mdi/content-save'
 
 import Update from '@iconify-icons/mdi/update'
 import Calendar from '@iconify-icons/mdi/calendar'
@@ -65,6 +66,7 @@ import CircleIcon from '@iconify-icons/mdi/google-circles-extended'
 import DeletedUserIcon from '@iconify-icons/mdi/account-off'
 import AnoymousIcon from '@iconify-icons/mdi/incognito'
 import InquiryGroupIcon from '@iconify-icons/mdi/code-braces'
+import ChevronDown from '@iconify-icons/mdi/chevron-down'
 
 import CommentIcon from '@iconify-icons/mdi/comment'
 import CommentProcessing from '@iconify-icons/mdi/comment-processing'
@@ -125,6 +127,7 @@ import ClipboardTextMultiple from '@iconify-icons/mdi/clipboard-text-multiple'
 import CalendarMultiple from '@iconify-icons/mdi/calendar-multiple'
 import CalendarBlank from '@iconify-icons/mdi/calendar-blank'
 import CalendarPlusOutline from '@iconify-icons/mdi/calendar-plus-outline'
+import Reply from '@iconify-icons/mdi/reply'
 
 // -------------------------------
 // Share related icons
@@ -194,7 +197,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   closed: makeIconComponent(Lock, '#F44336'),
   clockOutline: makeIconComponent(ClockOutline, '#FFC107'),
   creation: makeIconComponent(Creation, '#FFC107'),
-  suggestions: makeIconComponent(Offer, '#4CAF50'),
+  suggestion: makeIconComponent(Offer, '#4CAF50'),
   expiration: makeIconComponent(CalendarEnd, '#E91E63'),
   attachment: makeIconComponent(FileDocument, '#607D8B'),
   bookopenvariant: makeIconComponent(BookOpenVariant, '#3F51B5'),
@@ -220,6 +223,10 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   commentquote: makeIconComponent(CommentQuote, '#9C27B0'),
   viewlistoutline: makeIconComponent(ViewListOutline, '#2196F3'),
   table: makeIconComponent(Table, '#795548'),
+  chevrondown: makeIconComponent(Table, '#795548'),
+  reply: makeIconComponent(Reply, '#2196F3'),
+  transform: makeIconComponent(TransformRotate, '#9C27B0'),
+  save: makeIconComponent(Save, '#4CAF50'),
 }
 
 export const ShareIcons: Record<string, Component> = {

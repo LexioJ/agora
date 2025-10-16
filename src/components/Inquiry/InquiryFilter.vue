@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import { computed, ref, onUnmounted } from 'vue'
+import { watch, computed, ref, onUnmounted } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { useSessionStore } from '../../stores/session.ts'
 import { FilterType, useInquiriesStore } from '../../stores/inquiries.ts'
@@ -14,7 +14,7 @@ const sessionStore = useSessionStore()
 const inquiriesStore = useInquiriesStore()
 
 const selectedType = ref<FilterType | 'all'>('all')
-const selectedModerationStatus = ref<string>('all')
+const selectedInquiryStatus = ref<string>('all')
 const selectedCategory = ref<string>('all')
 const selectedLocation = ref<string>('all')
 const hasComments = ref<boolean | null>(null)
@@ -29,51 +29,107 @@ function getValue<T>(v: T | { value: T } | null | undefined): T | null | undefin
     : v
 }
 
+interface Props {
+  familyId?: string
+}
+
+const props = withDefaults(defineProps<Props>(), { 
+  familyId: undefined
+})
+
+const inquiryTypesForFamily = computed(() => {
+  if (!props.familyId) {
+    return sessionStore.appSettings.inquiryTypeTab || []
+  	
+	}
+  const family = sessionStore.appSettings.inquiryFamilyTab?.find(
+    f => f.id.toString() === props.familyId
+  )
+
+  if (!family) {
+    console.warn(`Family with id ${props.familyId} not found`)
+    return sessionStore.appSettings.inquiryTypeTab || []
+  }
+
+  const filteredTypes = sessionStore.appSettings.inquiryTypeTab?.filter(
+    type => type.family === family.inquiry_type && type.isOption === 0
+  ) || []
+
+  console.log('🔍 Filtered inquiry types for family:', {
+    familyId: props.familyId,
+    familyInquiryType: family.inquiry_type,
+    filteredTypes
+  })
+
+  return filteredTypes
+})
 
 
-const filterOptions = computed(() => ({
-  types: [
-    { value: 'all', label: t('agora', 'All types') },
-    { value: 'proposal', label: t('agora', 'Proposals') },
-    { value: 'debate', label: t('agora', 'Debates') },
-    { value: 'petition', label: t('agora', 'Petitions') },
-    { value: 'project', label: t('agora', 'Projects') },
-    { value: 'grievance', label: t('agora', 'Grievances') },
-    { value: 'suggestion', label: t('agora', 'Suggestions') },
-    { value: 'official', label: t('agora', 'Official') },
-  ],
-  moderationStatuses: [
-    { value: 'all', label: t('agora', 'All statuses') },
-    ...(sessionStore.appSettings.moderationStatusTab?.map((status) => ({
-      value: status.id,
-      label: status.name,
-    })) || []),
-  ],
-  categories: [
-    { value: 'all', label: t('agora', 'All categories') },
-    ...(sessionStore.appSettings.categoryTab?.map((cat) => ({
-      value: cat.id,
-      label: cat.name,
-    })) || []),
-  ],
-  locations: [
-    { value: 'all', label: t('agora', 'All locations') },
-    ...(sessionStore.appSettings.locationTab?.map((loc) => ({
-      value: loc.id,
-      label: loc.name,
-    })) || []),
-  ],
-  participation: [
-    { value: null, label: t('agora', 'Any comments') },
-    { value: true, label: t('agora', 'With comments') },
-    { value: false, label: t('agora', 'Without comments') },
-  ],
-  support: [
-    { value: null, label: t('agora', 'Any supports') },
-    { value: true, label: t('agora', 'With supports') },
-    { value: false, label: t('agora', 'Without supports') },
-  ],
-}))
+watch(() => props.familyId, (newFamilyId) => {
+  console.log('🔍 Family ID changed in filter:', newFamilyId)
+  // Réinitialiser le filtre de type quand la famille change
+  selectedType.value = 'all'
+  applyFilters()
+})
+
+const filterOptions = computed(() => {
+  const baseTypeOptions = [
+    { value: 'all', label: t('agora', 'All types') }
+  ]
+  
+  const familyTypeOptions = inquiryTypesForFamily.value.map(type => ({
+    value: type.inquiry_type,
+    label: type.name || type.inquiry_type
+  }))
+  
+  const typeOptions = !props.familyId || familyTypeOptions.length === 0 
+    ? [
+        ...baseTypeOptions,
+        { value: 'proposal', label: t('agora', 'Proposals') },
+        { value: 'debate', label: t('agora', 'Debates') },
+        { value: 'petition', label: t('agora', 'Petitions') },
+        { value: 'project', label: t('agora', 'Projects') },
+        { value: 'grievance', label: t('agora', 'Grievances') },
+        { value: 'suggestion', label: t('agora', 'Suggestions') },
+        { value: 'official', label: t('agora', 'Official') },
+      ]
+    : [...baseTypeOptions, ...familyTypeOptions]
+
+  return {
+    types: typeOptions,
+    moderationStatuses: [
+      { value: 'all', label: t('agora', 'All statuses') },
+      ...(sessionStore.appSettings.moderationStatusTab?.map((status) => ({
+        value: status.id,
+        label: status.name,
+      })) || []),
+    ],
+    categories: [
+      { value: 'all', label: t('agora', 'All categories') },
+      ...(sessionStore.appSettings.categoryTab?.map((cat) => ({
+        value: cat.id,
+        label: cat.name,
+      })) || []),
+    ],
+    locations: [
+      { value: 'all', label: t('agora', 'All locations') },
+      ...(sessionStore.appSettings.locationTab?.map((loc) => ({
+        value: loc.id,
+        label: loc.name,
+      })) || []),
+    ],
+    participation: [
+      { value: null, label: t('agora', 'Any comments') },
+      { value: true, label: t('agora', 'With comments') },
+      { value: false, label: t('agora', 'Without comments') },
+    ],
+    support: [
+      { value: null, label: t('agora', 'Any supports') },
+      { value: true, label: t('agora', 'With supports') },
+      { value: false, label: t('agora', 'Without supports') },
+    ],
+  }
+})
 
 const applyFilters = () => {
   if (!inquiriesStore) {
@@ -86,9 +142,9 @@ const applyFilters = () => {
       ? undefined
       : (getValue(selectedType.value) as FilterType),
 
-    moderationStatus: getValue(selectedModerationStatus.value) === 'all'
+    inquiryStatus: getValue(selectedInquiryStatus.value) === 'all'
       ? undefined
-      : getValue(selectedModerationStatus.value),
+      : getValue(selectedInquiryStatus.value),
 
     categoryId: getValue(selectedCategory.value) === 'all'
       ? undefined
@@ -104,13 +160,14 @@ const applyFilters = () => {
     parentId: mainInquiriesOnly.value ? 0 : undefined,
 
     search: searchQuery.value.trim() || undefined,
+    familyId: props.familyid || undefined,
   })
 }
 
 
 const resetFilters = () => {
   selectedType.value = 'all'
-  selectedModerationStatus.value = 'all'
+  selectedInquiryStatus.value = 'all'
   selectedCategory.value = 'all'
   selectedLocation.value = 'all'
   hasComments.value = null
@@ -123,7 +180,7 @@ const resetFilters = () => {
 const activeFiltersCount = computed(() => {
   let count = 0
   if (getValue(selectedType.value) !== 'all') count += 1
-  if (getValue(selectedModerationStatus.value) !== 'all') count += 1
+  if (getValue(selectedInquiryStatus.value) !== 'all') count += 1
   if (getValue(selectedCategory.value) !== 'all') count += 1
   if (getValue(selectedLocation.value) !== 'all') count += 1
   if (getValue(hasComments.value) !== null) count += 1
@@ -240,15 +297,15 @@ onUnmounted(() => {
           />
         </div>
 
-        <!-- Moderation status filter -->
+        <!-- Inquiry status filter -->
         <div class="filter-group">
-          <label>{{ t('agora', 'Moderation Status') }}</label>
+          <label>{{ t('agora', 'Inquiry Status') }}</label>
           <NcSelect 
-            v-model="selectedModerationStatus"
-            :options="filterOptions.moderationStatuses"
+            v-model="selectedInquiryStatus"
+            :options="filterOptions.inquiryStatuses"
             :clearable="false"
             :multiple="false"
-            :input-label="t('agora', 'Moderation Status')"
+            :input-label="t('agora', 'Inquiry Status')"
 	    value-prop="value"
   	    label-prop="label"
             label-outside
@@ -298,8 +355,8 @@ onUnmounted(() => {
 		    {{ filterOptions.types.find(t => t.value === getValue(selectedType))?.label }}
 	    </span>
 
-	    <span v-if="getValue(selectedModerationStatus) !== 'all'" class="filter-tag">
-		    {{ filterOptions.moderationStatuses.find(s => s.value === getValue(selectedModerationStatus))?.label }}
+	    <span v-if="getValue(selectedInquiryStatus) !== 'all'" class="filter-tag">
+		    {{ filterOptions.inquiryStatuses.find(s => s.value === getValue(selectedInquiryStatus))?.label }}
 	    </span>
 
 	    <span v-if="getValue(selectedCategory) !== 'all'" class="filter-tag">

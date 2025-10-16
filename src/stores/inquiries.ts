@@ -7,6 +7,7 @@ import { defineStore } from 'pinia'
 import orderBy from 'lodash/orderBy'
 import { DateTime } from 'luxon'
 import { t } from '@nextcloud/l10n'
+import {  SessionSettings } from './preferences.ts'
 
 import { Logger } from '../helpers/index.ts'
 import { InquiriesAPI } from '../Api/index.ts'
@@ -17,7 +18,7 @@ import { Chunking, StatusResults } from '../Types/index.ts'
 import { AxiosError } from '@nextcloud/axios'
 import { useInquiryGroupsStore } from './inquiryGroups.ts'
 
-const ViewMode = 'table-view' | 'list-view'
+type ViewMode = 'table-view' | 'list-view'
 export type SortType =
   | 'created'
   | 'title'
@@ -53,6 +54,8 @@ export type AdvancedFilters = {
   hasSupports?: boolean
   parentId?: number
   search?: string
+  familyId?: string
+
 }
 
 export type FilterState = {
@@ -80,6 +83,7 @@ export type Meta = {
 
 export type InquiryList = {
   inquiries: Inquiry[]
+  viewMode: ViewMode
   // inquiryGroups: InquiryGroup[]
   meta: Meta
   sort: {
@@ -250,8 +254,8 @@ const inquiryCategories: InquiryCategoryList = {
 export const useInquiriesStore = defineStore('inquiries', {
   state: (): InquiryList & FilterState => ({
     inquiries: [],
-    viewMode: ViewMode,
-    family: '',
+    viewMode: 'table-view' as ViewMode,
+    familyId: '',
     meta: {
       chunks: {
         size: 20,
@@ -315,7 +319,7 @@ export const useInquiriesStore = defineStore('inquiries', {
 
     currentCategory(state: InquiryList): InquiryCategory {
       const sessionStore = useSessionStore()
-
+	console.log(" INTO CURRENT CATEGOR INQUIRIES",sessionStore.route.name)
       if (sessionStore.route.name === 'list' && sessionStore.route.params.type) {
         return state.categories[sessionStore.route.params.type as FilterType]
       }
@@ -459,7 +463,7 @@ export const useInquiriesStore = defineStore('inquiries', {
 
   actions: {
 
-	setViewMode(inquiryType: string, viewMode: ViewMode): void {
+	setViewMode(viewMode: ViewMode): void {
 		 this.viewMode = viewMode
 	},
 

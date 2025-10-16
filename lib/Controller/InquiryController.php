@@ -341,20 +341,21 @@ class InquiryController extends BaseController
     }
 
     /*
-     * Update inquiry moderation status 
+     * Submit Inquiry for workflow moderation 
      *
      * @param int $inquiryId Inquiry id
-     * @param status $inquirg
+     * @param status $action
      *
      * psalm-return JSONResponse<boolean>
      * */
     #[NoAdminRequired]
-    #[FrontpageRoute(verb: 'PUT', url: '/inquiry/updatemoderation/{inquiryId}/{status}')]
-    public function updateModerationStatus(int $inquiryId, string $status): JSONResponse
+    #[FrontpageRoute(verb: 'PUT', url: '/inquiry/submitinquiry/{inquiryId}')]
+    public function submitInquiry(int $inquiryId): JSONResponse
     {
+       $rawData = $this->request->getParams('data');
         return $this->response(
             fn () => [
-            'inquiry' => $this->inquiryService->setModerationStatus($inquiryId, $status),
+            'inquiry' => $this->inquiryService->applyAction($inquiryId, $rawData['action']),
             ]
         );
     }
@@ -516,22 +517,6 @@ class InquiryController extends BaseController
         return $this->response(fn () => $this->inquiryService->getParticipantsEmailAddresses($inquiryId));
     }
 
-    /**
-     * Set access inquiry
-  *
-     * @param int $inquiryId Inquiry id
-     * @param string $access Access
-     */
-    #[NoAdminRequired]
-    #[FrontpageRoute(verb: 'POST', url: '/inquiry/updateaccess/{inquiryId}/{access}')]
-    public function updateAccess(int $inquiryId, string $access): JSONResponse
-    {
-        return $this->response(
-            fn () => [
-                'inquiry' => $this->setInquiryAccess($inquiryId,$access)
-            ]
-        );
-    }
 
     /**
      * Get echance Text for inquiry

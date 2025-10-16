@@ -206,7 +206,7 @@ const inquiryStatusInfo = computed(() => {
               </div>
               
               <div 
-                v-if="StatusInfo && inquiry.type !== 'official'" 
+                v-if="inquiryStatusInfo && inquiry.type !== 'official'" 
                 class="inquiry-status"
                 :title="inquiryStatusInfo.description || inquiryStatusInfo.label"
               >

@@ -586,7 +586,10 @@ class InquiryMapper extends QBMapper
 		    $joinAlias,
 		    $qb->expr()->andX(
 			    $qb->expr()->eq($joinAlias . '.parent_id', $fromAlias . '.id'),
-			    $qb->expr()->eq($joinAlias . '.access', $qb->createNamedParameter('open'))
+			    $qb->expr()->orX(
+				    $qb->expr()->eq($joinAlias . '.access', $qb->createNamedParameter('open')),
+				    $qb->expr()->eq($joinAlias . '.access', $qb->createNamedParameter('moderate'))
+			    )
 		    )
 	    );
 	    $qb->addSelect($qb->createFunction('COUNT(DISTINCT(' . $joinAlias . '.id)) AS count_participants'));

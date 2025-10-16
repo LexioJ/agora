@@ -128,7 +128,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <NcAppNavigation class="agora-navigation" aria-label="Agora Navigation">
+  <NcAppNavigation class="" aria-label="Agora Navigation">
     <!-- Navigation List -->
     <template #list>
       <!-- Groups Section -->

@@ -118,27 +118,29 @@ const inquiries = {
     })
   },
 
-  updateModerationStatus(
+  submitInquiry(
     inquiryId: number,
-    moderation: string
+    action: string
   ): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
     return httpInstance.request({
       method: 'PUT',
-      url: `inquiry/updatemoderation/${inquiryId}/${moderation}`,
+      url: `inquiry/submitinquiry/${inquiryId}`,
+      data: { action },
       cancelToken:
-        cancelTokenHandlerObject[this.updateModerationStatus.name].handleRequestCancellation()
+        cancelTokenHandlerObject[this.submitInquiry.name].handleRequestCancellation()
           .token,
     })
   },
 
-  updateInquiryConfig(
-    inquiryId: number,
-    inquiry: InquiryConfiguration
-  ): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
+  updateInquiryConfig(dataInquiry: {
+    inquiryId: number
+    inquiryConfiguration: InquiryConfiguration
+    inquiryStatus: InquiryStatus
+  }): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
     return httpInstance.request({
       method: 'PUT',
-      url: `inquiry/updateconfig/${inquiryId}`,
-      data: { inquiry },
+      url: `inquiry/updateconfig/${dataInquiry.inquiryId}`,
+      data: { dataInquiry },
       cancelToken:
         cancelTokenHandlerObject[this.updateInquiryConfig.name].handleRequestCancellation().token,
     })

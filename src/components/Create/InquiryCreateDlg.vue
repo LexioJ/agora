@@ -27,27 +27,25 @@ import {
 // Define props
 interface Props {
   inquiryType?: InquiryType | null
+  responseType?: string | null
   selectedGroups?: string[]
   availableGroups?: string[]
+  parentInquiryId?: string | number | null
+  defaultTitle?: string | null
 }
 
 const props = withDefaults(defineProps<Props>(), {
   inquiryType: null,
+  responseType: null,
   selectedGroups: () => [],
-  availableGroups: () => []
+  availableGroups: () => [],
+  parentInquiryId: null,
+  defaultTitle: null
 })
-
-const selectedGroup = ref<string | null>(null)
 
 const emit = defineEmits<{
   (e: 'close'): void
-  (
-    e: 'added',
-    inquiry: {
-      id: number
-      title: string
-    }
-  ): void
+  (e: 'added', inquiry: { id: number; title: string }): void
   (e: 'update:selected-groups', groups: string[]): void
 }>()
 
@@ -57,7 +55,8 @@ const sessionStore = useSessionStore()
 const inquiryTitle = ref('')
 const inquiryId = ref<number | null>(null)
 const adding = ref(false)
-const accessType = ref<'user' | 'groups'>('user') // Default to user
+const accessType = ref<'user' | 'groups'>('user')
+const selectedGroup = ref<string | null>(null)
 
 // Get inquiry types from app settings
 const inquiryTypes = computed(() => {
@@ -74,18 +73,28 @@ const inquiryTypeOptions = computed(() => {
   return getInquiryTypeOptions(availableInquiryTypes.value)
 })
 
-// Selected inquiry type
+// Selected inquiry type (pour l'affichage du sélecteur)
 const inquiryType = ref(availableInquiryTypes.value[0]?.inquiry_type || '')
 
-// Get current inquiry type data (icon, label, description)
-const currentInquiryTypeData = computed(() => {
-  return getInquiryTypeData(inquiryType.value, inquiryTypes.value)
+// Type final sélectionné (priorité aux props)
+const selectedType = computed(() => {
+  if (props.inquiryType) {
+    return props.inquiryType.inquiry_type
+  }
+  if (props.responseType) {
+    return props.responseType
+  }
+  return inquiryType.value
 })
 
-// Get selected inquiry type data from props
-const selectedInquiryTypeData = computed(() => {
-  if (!props.inquiryType) return null
-  return getInquiryTypeData(props.inquiryType.inquiry_type, inquiryTypes.value)
+// Data for display
+const currentInquiryTypeData = computed(() => {
+  return getInquiryTypeData(selectedType.value, inquiryTypes.value)
+})
+
+// Check if type is predefined (don't show selector)
+const hasPredefinedType = computed(() => {
+  return !!(props.inquiryType || props.responseType)
 })
 
 // Check if a group is selected
@@ -106,6 +115,13 @@ watch(() => props.inquiryType, (newType) => {
   }
 }, { immediate: true })
 
+// Watch to pre-fill title
+watch(() => props.defaultTitle, (newTitle) => {
+  if (newTitle) {
+    inquiryTitle.value = newTitle
+  }
+}, { immediate: true })
+
 const titleIsEmpty = computed(() => inquiryTitle.value === '')
 const disableAddButton = computed(() => titleIsEmpty.value || adding.value)
 
@@ -115,16 +131,22 @@ async function addInquiry() {
     
     // Prepare inquiry data
     const inquiryData: any = {
-      type: inquiryType.value,
+      type: selectedType.value,
       title: inquiryTitle.value,
+    }
+
+    if (props.parentInquiryId) {
+      inquiryData.parentId = props.parentInquiryId
     }
 
     // Add groups if groups access is selected
     if (accessType.value === 'groups' && selectedGroup.value) {
       inquiryData.ownedGroup = selectedGroup.value
     }
-    console.log(" ADD GROUPPPPPS :", selectedGroup.value)
-    console.log(" ADD TYPE :", inquiryType.value)
+    
+    console.log(" ADD PARENT ID :", props.parentInquiryId)
+    console.log(" ADD GROUPS :", selectedGroup.value)
+    console.log(" ADD TYPE :", selectedType.value)
     console.log(" ADD TITLE :", inquiryTitle.value)
     
     // Add the inquiry
@@ -132,7 +154,6 @@ async function addInquiry() {
 
     if (inquiry) {
       inquiryId.value = inquiry.id
-
       showSuccess(
         t('agora', '"{inquiryTitle}" has been added', {
           inquiryTitle: inquiry.title,
@@ -238,11 +259,11 @@ function resetInquiry() {
         />
       </ConfigBox>
 
-      <!-- Inquiry Type -->
+      <!-- Inquiry Type Selector -->
       <ConfigBox
         :name="t('agora', 'Inquiry type')"
         :label="t('agora', 'Inquiry type')"
-        v-if="!props.inquiryType"
+        v-if="!hasPredefinedType"
       >
         <template #icon>
           <Component :is="InquiryGeneralIcons.check" />
@@ -260,9 +281,9 @@ function resetInquiry() {
           <Component :is="InquiryGeneralIcons.check" />
         </template>
         <div class="selected-type">
-          <strong>{{ selectedInquiryTypeData?.label }}</strong>
-          <p class="type-description" v-if="selectedInquiryTypeData?.description">
-            {{ selectedInquiryTypeData.description }}
+          <strong>{{ currentInquiryTypeData?.label }}</strong>
+          <p class="type-description" v-if="currentInquiryTypeData?.description">
+            {{ currentInquiryTypeData.description }}
           </p>
         </div>
       </ConfigBox>
@@ -270,24 +291,19 @@ function resetInquiry() {
       <!-- Buttons -->
       <div class="create-buttons">
         <NcButton @click="emit('close')">
-          <template #default>
-            {{ t('agora', 'Cancel') }}
-          </template>
+          {{ t('agora', 'Cancel') }}
         </NcButton>
         <NcButton
           :disabled="disableAddButton"
           :variant="'primary'"
           @click="addInquiry"
         >
-          <template #default>
-            {{ adding ? t('agora', 'Creating...') : t('agora', 'Create Inquiry') }}
-          </template>
+          {{ adding ? t('agora', 'Creating...') : t('agora', 'Create Inquiry') }}
         </NcButton>
       </div>
     </div>
   </div>
 </template>
-
 <style lang="css" scoped>
 .dialog-overlay {
   position: fixed;

@@ -58,7 +58,7 @@ const selectedInquiryStatus = computed({
   }
 })
 
-const selectedInquiryStatusKey = ref(currentStatus.value?.statusKey)
+const selectedInquiryStatusKey = ref(currentInquiryStatus.value?.statusKey)
 const currentInquiryStatusLabel = computed(() => currentInquiryStatus.value?.label || 'Draft')
 const currentInquiryStatusIcon = computed(() => {
   const iconName = currentInquiryStatus.value?.icon?.toLowerCase() || 'draft'

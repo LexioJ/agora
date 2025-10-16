@@ -1,56 +1,44 @@
 <!--
-  - SPDX-FileCopyrightText: 2018 Nextcloud contributors
-  - SPDX-License-Identifier: AGPL-3.0-or-later
+	- SPDX-FileCopyrightText: 2018 Nextcloud contributors
+	- SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
 <script setup lang="ts">
 import { computed, onUnmounted, ref, watch, nextTick } from 'vue'
 import { emit, unsubscribe } from '@nextcloud/event-bus'
 import { n, t } from '@nextcloud/l10n'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
-import { showError, showSuccess } from '@nextcloud/dialogs'
-import moment from 'moment'
+import { showError } from '@nextcloud/dialogs'
+import  moment  from 'moment'
 
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
-import InquiryActionToolbar from '../components/Inquiry/InquiryActionToolbar.vue'
+import InquiryInfoLine from '../components/Inquiry/InquiryInfoLine.vue'
 import InquiryHeaderButtons from '../components/Inquiry/InquiryHeaderButtons.vue'
 import LoadingOverlay from '../components/Base/modules/LoadingOverlay.vue'
 import HeaderBar from '../components/Base/modules/HeaderBar.vue'
 import InquiryEditViewForm from '../components/Inquiry/InquiryEditViewForm.vue'
 import InquiryTransition from '../components/Inquiry/InquiryTransition.vue'
-import InquiryCreateDlg from '../components/Create/InquiryCreateDlg.vue'
 import { useInquiryStore } from '../stores/inquiry.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
-import { useSessionStore } from '../stores/session.ts'
 import Collapsible from '../components/Base/modules/Collapsible.vue'
 import type { CollapsibleProps } from '../components/Base/modules/Collapsible.vue'
 import IntersectionObserver from '../components/Base/modules/IntersectionObserver.vue'
 import InquiryInfoCards from '../components/Cards/InquiryInfoCards.vue'
 import { DateTime } from 'luxon'
-import { StatusIcons, InquiryGeneralIcons } from '../utils/icons.ts'
-import {
-  getInquiryTypeData,
-  confirmAction,
-} from '../helpers/modules/InquiryHelper.ts'
+import {  StatusIcons, InquiryGeneralIcons } from '../utils/icons.ts'
 
 const forceRenderKey = ref(0)
 const route = useRoute()
 const router = useRouter()
 const inquiryStore = useInquiryStore()
 const inquiriesStore = useInquiriesStore()
-const sessionStore = useSessionStore()
 const tableSticky = ref(false)
 const editMode = ref(false)
 const isAppLoaded = ref(false)
 
-// CORRECTION: Gestion correcte de la boîte de dialogue
-const createDlgToggle = ref(false)
-const selectedInquiryTypeForCreation = ref('')
-const selectedGroups = ref([])
-const availableGroups = ref([])
-const isSaving = ref(false)
 
 const showMore = computed(
   () =>
@@ -99,11 +87,11 @@ async function routeChild(childId: string) {
 async function loadInquiry(id: string) {
   try {
     await inquiryStore.load(id)
-    const result = inquiriesStore.inquiries.filter(i => 
-      i.parentId === Number(id) &&
-      i.configuration.access !== 'private'
-    )
-    inquiryStore.childs = result
+    const result=inquiriesStore.inquiries.filter(i => 
+               i.parentId === Number(id) &&
+	       i.configuration.access !== 'private'
+     )
+    inquiryStore.childs=result
 
     if (inquiryStore.childs.length === 0) {
       inquiryStore.status.forceEditMode = true
@@ -113,7 +101,7 @@ async function loadInquiry(id: string) {
       editMode.value = false
     }
     await nextTick()
-    forceRenderKey.value += 1
+    forceRenderKey.value+=1
   } catch (error) {
     console.error('Loading error:', error)
     showError(t('agora', 'Failed to load inquiry'))
@@ -165,89 +153,92 @@ const collapsibleProps = computed<CollapsibleProps>(() => ({
   noCollapse: !inquiryStore.configuration.collapseDescription || isShortDescription.value,
   initialState: inquiryStore.currentUserStatus.countInquiries === 0 ? 'max' : 'min',
 }))
-
-const handleSave = async () => {
-  if (isSaving.value) return
-
-  if (!inquiryStore.title || inquiryStore.title.trim() === '') {
-    showError(t('agora', 'Title is mandatory'), { timeout: 2000 })
-    return
-  }
-
-  isSaving.value = true
-
-  try {
-    await inquiryStore.update({
-      id: inquiryStore.id,
-      type: inquiryStore.type,
-      title: inquiryStore.title,
-      description: inquiryStore.description,
-      categoryId: inquiryStore.categoryId,
-      locationId: inquiryStore.locationId,
-      parentId: inquiryStore.parentId,
-    })
-    showSuccess(t('agora', 'The inquiry has been saved'), { timeout: 2000 })
-  } catch {
-    showError(t('agora', 'Error saving inquiry!'), { timeout: 2000 })
-  } finally {
-    isSaving.value = false
-  }
-}
-
-const handleAllowedResponse = (responseType: string) => {
-  console.log('Opening dialog for response type:', responseType)
-  selectedInquiryTypeForCreation.value = responseType
-  createDlgToggle.value = true
-}
-
-const handleAllowedTransformation = (transformType: string) => {
-  console.log('Opening dialog for transformation type:', transformType)
-  selectedInquiryTypeForCreation.value = transformType
-  createDlgToggle.value = true
-}
-
-const handleCloseDialog = () => {
-  console.log('Closing dialog')
-  createDlgToggle.value = false
-  selectedInquiryTypeForCreation.value = ''
-}
-
-const inquiryAdded = (inquiry) => {
-  console.log('Inquiry added:', inquiry)
-  showSuccess(t('agora', 'Inquiry {title} added', { title: inquiry.title }))
-  createDlgToggle.value = false
-  selectedInquiryTypeForCreation.value = ''
-  
-  // Navigate to the new inquiry
-  router.push({
-    name: 'inquiry',
-    params: { id: inquiry.id },
-  })
-}
-
-const handleGroupUpdate = (groups) => {
-  console.log('Groups updated:', groups)
-  selectedGroups.value = groups
-}
 </script>
 
 <template>
   <NcAppContent v-if="isAppLoaded" :key="forceRenderKey" class="inquiry-list">
-    <Collapsible v-if="inquiryStore.description" class="sticky-left" v-bind="collapsibleProps" />
-    <InquiryHeaderButtons />
-    <!-- Action toolbar component -->
-    <InquiryActionToolbar
-      v-if="editMode"
-      :inquiry-store="inquiryStore"
-      :session-store="sessionStore"
-      :is-saving="isSaving"
-      :is-readonly-description="!editMode"
-      @save="handleSave"
-      @allowed-response="handleAllowedResponse"
-      @allowed-transformation="handleAllowedTransformation"
-    />
+    <HeaderBar v-if="editMode">
+      <template #avatar>
+        <div class="header-left-content">
+          <component
+            v-if="inquiryStore.ownedGroup !== null"
+            :is="NcAvatar"
+            display-name="inquiryStore.ownedGroup"
+	    :show-name=false
+            :size="32"
+          />
+          <component
+            v-else
+            :is="NcUserBubble"
+            :user="inquiryStore.owner.id"
+            :display-name="inquiryStore.owner.displayName"
+            :size="32"
+          />
+        </div>
+      </template>  
+    <template #right>
+        <div class="header-right-content">
+          <div class="dates-container">
+            <div
+              v-if="inquiryStore.status?.created"
+              class="metadata-item"
+              :title="
+                t('agora', 'Created on {date}', {
+                  date: formatDate(inquiryStore.status.created),
+                })
+              "
+            >
+              <component :is="StatusIcons.Calendar" :size="16" />
+              <span class="date-label">
+                {{ formatDate(inquiryStore.status.created) }}
+              </span>
+            </div>
+
+            <div
+              v-if="inquiryStore.status?.lastInteraction"
+              class="metadata-item"
+              :title="
+                t('agora', 'Last interaction on {date}', {
+                  date: formatDate(inquiryStore.status.lastInteraction),
+                })
+              "
+            >
+              <component :is="StatusIcons.Updated" :size="16" />
+              <span class="date-label">
+                {{ formatDate(inquiryStore.status.lastInteraction) }}
+              </span>
+            </div>
+
+            <div
+              id="expiring"
+              class="metadata-item"
+              :class="closeToClosing ? 'closing' : 'open'"
+              :title="
+                t('agora', 'Closing {relativeExpirationTime}', {
+                  relativeExpirationTime: timeExpirationRelative,
+                })
+              "
+            >
+              <component :is="InquiryGeneralIcons.expiration" :size="16" />
+              <span class="date-label">
+                {{
+                  t('agora', 'Closing {relativeExpirationTime}', {
+                    relativeExpirationTime: timeExpirationRelative,
+                  })
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <InquiryHeaderButtons />
+      </template>
+    </HeaderBar>
+
+    <InquiryInfoLine v-if="editMode" />
 
     <div class="area__main">
+      <Collapsible v-if="inquiryStore.description" class="sticky-left" v-bind="collapsibleProps" />
 
       <div class="view-content">
         <InquiryEditViewForm v-if="editMode" />
@@ -260,21 +251,8 @@ const handleGroupUpdate = (groups) => {
       </div>
 
       <InquiryInfoCards class="sticky-left" />
-    </div>
 
-    <InquiryCreateDlg
-      v-if="createDlgToggle"
-      :responseType="selectedInquiryTypeForCreation"
-      :selected-groups="selectedGroups"
-      :available-groups="availableGroups"
-      :parent-inquiry-id="inquiryStore.id"
-      :default-title="selectedInquiryTypeForCreation === 'official' 
-        ? t('agora', 'Official response for: {title}', { title: inquiryStore.title })
-        : t('agora', 'Response for: {title}', { title: inquiryStore.title })"
-      @close="handleCloseDialog"
-      @added="inquiryAdded"
-      @update:selected-groups="handleGroupUpdate"
-    />
+    </div>
   </NcAppContent>
 </template>
 

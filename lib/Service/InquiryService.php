@@ -400,12 +400,6 @@ class InquiryService
 		    throw new EmptyTitleException('Title must not be empty');
 	    }
 
-	    if (isset($inquiryConfiguration['anonymous'])
-		    && $inquiryConfiguration['anonymous'] === 0
-		    && $this->inquiry->getAnonymous() < 0
-	    ) {
-		    throw new ForbiddenException('Deanonimization is not allowed');
-	    }
 
 	    if (isset($inquiryConfiguration['access'])) {
 		    if (!in_array($inquiryConfiguration['access'], $this->getValidAccess())) {
@@ -732,22 +726,47 @@ class InquiryService
     public function getValidEnum(): array
     {
 	    return [
-		    'inquiryType' => $this->getValidInquiryType(),
 		    'access' => $this->getValidAccess(),
 		    'showResults' => $this->getValidShowResults()
 	    ];
     }
 
-    /**
-     * Get valid values for inquiryType
-     *
-     * @return string[]
-     *
-     * @psalm-return array{0: string, 1: string}
-     */
-    private function getValidInquiryType(): array
+    public function applyAction(int $inquiryId, string $action): Inquiry
     {
-	    return [Inquiry::TYPE_PROPOSAL, Inquiry::TYPE_PETITION, Inquiry::TYPE_GRIEVANCE, Inquiry::TYPE_DEBATE, Inquiry::TYPE_PROJECT, Inquiry::TYPE_SUGGESTION, Inquiry::TYPE_OFFICIAL];
+	$inquiry = $this->inquiryMapper->find($inquiryId);
+
+	if (!$inquiry) {
+    		throw new \Exception('Inquiry not found');
+	}
+
+        switch ($action) {
+            case 'save_draft':
+                $inquiry->setAccess('private');
+                $inquiry->setInquiryStatus('draft');
+                $inquiry->setModerationStatus('draft');
+                break;
+
+            case 'submit_for_moderate':
+                $inquiry->setAccess('moderate');
+                $inquiry->setInquiryStatus('waiting_approval');
+                $inquiry->setModerationStatus('pending');
+                break;
+
+            case 'submit_for_accepted':
+                $inquiry->setAccess('public');
+                $inquiry->setModerationStatus('accepted');
+                break;
+
+            case 'submit_for_rejected':
+                $inquiry->setAccess('private');
+                $inquiry->setModerationStatus('rejected');
+                break;
+
+            default:
+                throw new \InvalidArgumentException("Unknown action '$action'");
+        }
+
+        return $inquiry;
     }
 
     /**
@@ -759,7 +778,7 @@ class InquiryService
      */
     private function getValidAccess(): array
     {
-	    return [Inquiry::ACCESS_PRIVATE, Inquiry::ACCESS_OPEN];
+	    return [Inquiry::ACCESS_PRIVATE, Inquiry::ACCESS_OPEN,Inquiry::ACCESS_MODERATE];
     }
 
     /**
