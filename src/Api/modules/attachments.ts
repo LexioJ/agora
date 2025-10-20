@@ -9,10 +9,12 @@ import type { Attachment } from '../../stores/attachments.js'
 const attachments = {
   uploadAttachment(
     inquiryId: number,
-    file: File
+    file: File,
+    coverId: boolean
   ): Promise<AxiosResponse<{ attachment: Attachment }>> {
     const formData = new FormData()
     formData.append('file', file)
+    formData.append('coverId', coverId)
 
     return httpInstance.request({
       method: 'POST',

@@ -47,7 +47,7 @@ class InquiryFamilyMapper extends QBMapper
     public function findByInquiryType(string $inquiryType): InquiryFamily
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_type', $qb->createNamedParameter($inquiryType, IQueryBuilder::PARAM_STR)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.family_type', $qb->createNamedParameter($inquiryType, IQueryBuilder::PARAM_STR)));
         return $this->findEntity($qb);
     }
 
@@ -81,7 +81,7 @@ class InquiryFamilyMapper extends QBMapper
         $qb = $this->buildQuery();
         $qb->where(
             $qb->expr()->orX(
-                $qb->expr()->iLike(self::TABLE . '.inquiry_type', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($searchTerm) . '%', IQueryBuilder::PARAM_STR)),
+                $qb->expr()->iLike(self::TABLE . '.family_type', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($searchTerm) . '%', IQueryBuilder::PARAM_STR)),
                 $qb->expr()->iLike(self::TABLE . '.label', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($searchTerm) . '%', IQueryBuilder::PARAM_STR)),
                 $qb->expr()->iLike(self::TABLE . '.description', $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($searchTerm) . '%', IQueryBuilder::PARAM_STR))
             )

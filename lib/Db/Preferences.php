@@ -28,13 +28,9 @@ class Preferences extends Entity implements JsonSerializable
     public const DEFAULT = [
     'useCommentsAlternativeStyling' => false,
     'useAlternativeStyling' => false,
-    'calendarPeek' => false,
-    'checkCalendars' => [],
-    'checkCalendarsHoursBefore' => 0,
+    'defaultCreateMode' => 'list',
     'checkCalendarsHoursAfter' => 0,
-    'defaultViewTextInquiry' => 'table-view',
-    'defaultViewDateInquiry' => 'table-view',
-    'inquiryCombo' => [],
+    'defaultViewInquiry' => 'table-view',
     'relevantOffset' => 30,
     ];
 

@@ -23,7 +23,7 @@ class AttachmentMapper extends QBMapperWithUser
         IDBConnection $db,
         private UserSession $userSession,
     ) {
-        parent::__construct($db, self::TABLE, Comment::class);
+        parent::__construct($db, self::TABLE, Attachment::class);
     }
 
     public function countByInquiryId(int $inquiryId): int
@@ -50,6 +50,22 @@ class AttachmentMapper extends QBMapperWithUser
         return $this->findEntity($qb);
     }
 
+    /**
+     * Find attachment by file ID and inquiry ID
+     *
+     * @param int $inquiryId The inquiry ID
+     * @param string $fileId The file ID to search for
+     * @return Attachment
+     * @throws \OCP\AppFramework\Db\DoesNotExistException
+     * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
+     */
+    public function findByFileId(int $inquiryId, int $fileId): Attachment
+    {
+	    $qb = $this->buildQuery();
+	    $qb->where($qb->expr()->eq(self::TABLE . '.file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_STR)))
+	->andWhere($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+	    return $this->findEntity($qb);
+    }
 
     /**
      * Delete an attachment by its ID
@@ -59,23 +75,23 @@ class AttachmentMapper extends QBMapperWithUser
      */
     public function deleteById(int $attachmentId): Attachment
     {
-        $qb = $this->db->getQueryBuilder();
+	    $qb = $this->db->getQueryBuilder();
 
-        // First get the attachment to return it
-        $attachment = $this->findById($attachmentId);
+	    // First get the attachment to return it
+	    $attachment = $this->findById($attachmentId);
 
-        // Then delete it
-        $qb->delete($this->getTableName())
-            ->where(
-                $qb->expr()->eq('id', $qb->createNamedParameter($attachmentId, IQueryBuilder::PARAM_INT))
-            );
+	    // Then delete it
+	    $qb->delete($this->getTableName())
+	->where(
+		$qb->expr()->eq('id', $qb->createNamedParameter($attachmentId, IQueryBuilder::PARAM_INT))
+	);
 
-        $qb->executeStatement();
+	    $qb->executeStatement();
 
-        // Return the deleted attachment (with only ID set)
-        $deletedAttachment = new Attachment();
-        $deletedAttachment->setId($attachmentId);
-        return $deletedAttachment;
+	    // Return the deleted attachment (with only ID set)
+	    $deletedAttachment = new Attachment();
+	    $deletedAttachment->setId($attachmentId);
+	    return $deletedAttachment;
     }
 
     /**
@@ -88,15 +104,15 @@ class AttachmentMapper extends QBMapperWithUser
      */
     public function findById(int $id): Attachment
     {
-        $qb = $this->db->getQueryBuilder();
+	    $qb = $this->db->getQueryBuilder();
 
-        $qb->select('*')
-            ->from($this->getTableName())
-            ->where(
-                $qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
-            );
+	    $qb->select('*')
+	->from($this->getTableName())
+	->where(
+		$qb->expr()->eq('id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT))
+	);
 
-        return $this->findEntity($qb);
+	    return $this->findEntity($qb);
     }
 
     /**
@@ -104,25 +120,25 @@ class AttachmentMapper extends QBMapperWithUser
      */
     public function findByInquiryId(int $inquiryId): array
     {
-        $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
-        return $this->findEntities($qb);
+	    $qb = $this->buildQuery();
+	    $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+	    return $this->findEntities($qb);
     }
 
 
     public function deleteByInquiryId(int $inquiryId): int
     {
-        $qb = $this->db->getQueryBuilder();
-        $qb->delete($this->getTableName())
-            ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
-        return $qb->executeStatement();
+	    $qb = $this->db->getQueryBuilder();
+	    $qb->delete($this->getTableName())
+	->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+	    return $qb->executeStatement();
     }
 
     protected function buildQuery(): IQueryBuilder
     {
-        $qb = $this->db->getQueryBuilder();
-        $qb->select(self::TABLE . '.*')
-            ->from($this->getTableName(), self::TABLE);
-        return $qb;
+	    $qb = $this->db->getQueryBuilder();
+	    $qb->select(self::TABLE . '.*')
+	->from($this->getTableName(), self::TABLE);
+	    return $qb;
     }
 }

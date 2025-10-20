@@ -153,7 +153,7 @@ const cancelEdit = () => {
 </script>
 
 <template>
-  <div class="moderation-status-settings">
+  <div class="inquiry-status-settings">
     <!-- Inquiry type selector -->
     <div class="inquiry-type-selector">
       <h3>{{ t('agora', 'Select Inquiry Type') }}</h3>
@@ -338,7 +338,7 @@ const cancelEdit = () => {
 </template>
 
 <style scoped>
-.moderation-status-settings {
+.inquiry-status-settings {
   padding: 20px;
   max-width: 1000px;
 }

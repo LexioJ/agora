@@ -31,7 +31,6 @@ export {
   OfficialRights,
   Category,
   Location,
-  ModerationStatus,
 } from '../stores/appSettings.ts'
 
 export { SortType, FilterType, InquiryCategory, Meta, InquiryList } from '../stores/inquiries.ts'

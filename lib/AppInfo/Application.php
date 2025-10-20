@@ -67,7 +67,6 @@ use OCA\Agora\Provider\SearchProvider;
 use OCA\Agora\UserSession;
 use OCA\Agora\Service\CategoryService;
 use OCA\Agora\Service\LocationService;
-use OCA\Agora\Service\ModerationStatusService;
 use OCA\Agora\Service\InquiryStatusService;
 use OCA\Agora\Service\InquiryTypeService;
 use OCA\Agora\Service\InquiryFamilyService;
@@ -183,7 +182,6 @@ class Application extends App implements IBootstrap
                     $c->get(LoggerInterface::class),
                     $c->get(CategoryService::class),
                     $c->get(LocationService::class),
-                    $c->get(ModerationStatusService::class),
                     $c->get(InquiryStatusService::class),
                     $c->get(InquiryTypeService::class),
                     $c->get(InquiryFamilyService::class),

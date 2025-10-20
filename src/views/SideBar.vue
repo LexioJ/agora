@@ -83,7 +83,7 @@ function closeSideBar() {
       @close="closeSideBar()"
     >
       <NcAppSidebarTab
-        v-if="canComment(context) && sessionStore.appSettings.inquiryTypeRights[inquiryStore.type].commentInquiry"
+        v-if="canComment(context) && sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.commentInquiry"
         id="comments"
         :order="1"
         :name="t('agora', 'Comments')"
@@ -95,7 +95,7 @@ function closeSideBar() {
       </NcAppSidebarTab>
 
       <NcAppSidebarTab
-        v-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type].attachFileInquiry"
+        v-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.attachFileInquiry"
         id="attachments"
         :order="2"
         :name="t('agora', 'Attachments')"

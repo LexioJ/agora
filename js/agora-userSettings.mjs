@@ -1,10 +1,10 @@
 const appName = "agora";
 const appVersion = "1.5.0-beta";
 import { d as defineComponent, s as translate, v as onMounted, _ as _export_sfc, f as createBlock, o as openBlock, g as withCtx, j as createVNode, x as normalizeProps, y as guardReactiveProps, z as createApp, A as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-BpsB9R2G.chunk.mjs";
-import { N as NcSettingsSection } from "./index-_h-vKeff.chunk.mjs";
-import "./NcDashboardWidget-BEUtfCxs-B4xGO1wE.chunk.mjs";
-import { F as FlexSettings } from "./FlexSettings-ep51EbHk.chunk.mjs";
-import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-CtVNEcHY.chunk.mjs";
+import { N as NcSettingsSection } from "./index-Defby4tv.chunk.mjs";
+import "./NcDashboardWidget-BEUtfCxs-DXqtxY9c.chunk.mjs";
+import { F as FlexSettings } from "./FlexSettings-CQXLPwHr.chunk.mjs";
+import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-Co2sw9_2.chunk.mjs";
 import "./NcRichText-Dht_wH3t-BkbF4X_Y.chunk.mjs";
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "UserSettingsPage",

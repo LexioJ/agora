@@ -202,7 +202,7 @@ class InquiryMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->update($this->getTableName())
-            ->set('status', $qb->createNamedParameter($mstatus))
+            ->set('inquiry_status', $qb->createNamedParameter($mstatus))
             ->where($qb->expr()->eq('id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
         $qb->executeStatement();
     }
@@ -406,7 +406,6 @@ class InquiryMapper extends QBMapper
 	    foreach ($fieldsToUpdate as $key => $value) {
 		    $key = (string)$key;
 
-		    // Trouver le fieldDef pour caster correctement
 		    $fieldDef = array_filter($fieldsDefinition, fn($f) => $f['key'] === $key);
 		    $fieldDef = array_shift($fieldDef) ?: ['type'=>'string', 'default'=>null];
 

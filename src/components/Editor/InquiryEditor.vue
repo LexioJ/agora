@@ -553,7 +553,7 @@ const editor = useEditor({
 
 const handlePastedImage = async (file) => {
   try {
-    const response = await attachmentsStore.upload(inquiryStore.id, file)
+    const response = await attachmentsStore.upload(inquiryStore.id, file,false)
 
     const imageUrl = getNextcloudPreviewUrl(response.fileId, 1920, 1080, true)
 

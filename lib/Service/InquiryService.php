@@ -10,6 +10,7 @@ namespace OCA\Agora\Service;
 
 use OCA\Agora\Db\Inquiry;
 use OCA\Agora\Db\InquiryMapper;
+use OCA\Agora\Db\InquiryStatusMapper;
 use OCA\Agora\Db\InquiryTypeMapper;
 use OCA\Agora\Dto\InquiryDto;
 use OCA\Agora\Db\UserMapper;
@@ -49,6 +50,7 @@ class InquiryService
         private IEventDispatcher $eventDispatcher,
         private Inquiry $inquiry,
         private InquiryMapper $inquiryMapper,
+        private InquiryStatusMapper $inquiryStatusMapper,
         private InquiryTypeMapper $inquiryTypeMapper,
         private UserMapper $userMapper,
         private UserSession $userSession,
@@ -280,6 +282,9 @@ class InquiryService
         $this->inquiry->setCreated($timestamp);
         $this->inquiry->setLastInteraction($timestamp);
         $this->inquiry->setOwner($this->userSession->getCurrentUserId());
+        $this->inquiry->setParentId($dto->parentId);
+        $this->inquiry->setLocationId($dto->locationId);
+        $this->inquiry->setCategoryId($dto->categoryId);
 
         // Optional fields with defaults
         $this->inquiry->setDescription($dto->description ?? '');
@@ -373,8 +378,8 @@ class InquiryService
 
 	    // Update misc fields if provided
 	    $fields = $this->getFields($this->inquiry->getType());
-
-	    $this->inquiryMapper->updateDynamicFields($this->inquiry, $fields);
+	    if ($dto->miscFields)
+	    $this->inquiryMapper->updateDynamicFields($this->inquiry,$dto->miscFields,$fields);
 
 	    $this->eventDispatcher->dispatchTyped(new InquiryUpdatedEvent($this->inquiry));
 
@@ -418,10 +423,6 @@ class InquiryService
 	    }
 
 	    $this->inquiry->deserializeArray($inquiryConfiguration);
-	    $this->inquiry = $this->inquiryMapper->update($this->inquiry);
-	    // Update misc fields if provided
-	    $fields = $this->getFields($this->inquiry->getType());
-	    $this->inquiryMapper->updateDynamicFields($this->inquiry, $fields);
 
 	    $this->eventDispatcher->dispatchTyped(new InquiryUpdatedEvent($this->inquiry));
 
@@ -668,7 +669,7 @@ class InquiryService
      *
      * @return Inquiry
      */
-    public function clone(int $inquiryId): Inquiry
+    public function clone(int $inquiryId,string $inquiryType): Inquiry
     {
 	    $origin = $this->inquiryMapper->get($inquiryId, withRoles: true);
 	    $origin->request(Inquiry::PERMISSION_INQUIRY_VIEW);
@@ -681,14 +682,15 @@ class InquiryService
 	    $this->inquiry->setDeleted(0);
 	    $this->inquiry->setAccess(Inquiry::ACCESS_PRIVATE);
 
-	    $this->inquiry->setType($origin->getType());
+	    if ($inquiryType) 
+		    $this->inquiry->setType($inquiryType);
+	    else
+	    	$this->inquiry->setType($origin->getType());
+
 	    $this->inquiry->setDescription($origin->getDescription());
 	    $this->inquiry->setExpire($origin->getExpire());
 	    // deanonymize cloned inquiries by default, to avoid locked anonymous inquiries
-	    $this->inquiry->setAnonymous(0);
-	    $this->inquiry->setAllowMaybe($origin->getAllowMaybe());
 	    $this->inquiry->setShowResults($origin->getShowResults());
-	    $this->inquiry->setAdminAccess($origin->getAdminAccess());
 
 	    $this->inquiry = $this->inquiryMapper->insert($this->inquiry);
 	    $this->eventDispatcher->dispatchTyped(new InquiryUpdatedEvent($this->inquiry));
@@ -734,7 +736,7 @@ class InquiryService
     public function applyAction(int $inquiryId, string $action): Inquiry
     {
 	$inquiry = $this->inquiryMapper->find($inquiryId);
-
+	
 	if (!$inquiry) {
     		throw new \Exception('Inquiry not found');
 	}
@@ -744,22 +746,41 @@ class InquiryService
                 $inquiry->setAccess('private');
                 $inquiry->setInquiryStatus('draft');
                 $inquiry->setModerationStatus('draft');
+        	$inquiry = $this->inquiryMapper->update($inquiry);
                 break;
 
             case 'submit_for_moderate':
                 $inquiry->setAccess('moderate');
                 $inquiry->setInquiryStatus('waiting_approval');
                 $inquiry->setModerationStatus('pending');
+        	$inquiry = $this->inquiryMapper->update($inquiry);
                 break;
 
             case 'submit_for_accepted':
-                $inquiry->setAccess('public');
-                $inquiry->setModerationStatus('accepted');
+                $inquiry->setAccess('open');
+		$inquiry->setModerationStatus('accepted');
+		//We find the first status available in inquiry type status definition
+		$statuses = $this->inquiryStatusMapper->findByInquiryType($inquiry->getType());
+		if (!empty($statuses)) {
+        		usort($statuses, fn($a, $b) => $a->getSortOrder() <=> $b->getSortOrder());
+        		$firstStatus = $statuses[0] ?? null;
+		}
+		if ($firstStatus) {
+			$this->logger->error('APPLY ACTION', ['action' => $firstStatus]);
+			$inquiry->setInquiryStatus($firstStatus->getStatusKey());
+			$this->logger->info('Premier statut appliqué', [
+                	'status' => $firstStatus->getStatusKey(),
+			'label' => $firstStatus->getLabel()
+			 ]);
+		}
+        	$inquiry = $this->inquiryMapper->update($inquiry);
                 break;
 
             case 'submit_for_rejected':
                 $inquiry->setAccess('private');
                 $inquiry->setModerationStatus('rejected');
+                $inquiry->setInquiryStatus('rejected');
+        	$inquiry = $this->inquiryMapper->update($inquiry);
                 break;
 
             default:

@@ -18,33 +18,6 @@ const preferencesStore = usePreferencesStore()
 
     <div class="user_settings">
       <NcCheckboxRadioSwitch
-        v-model="preferencesStore.user.useNewInquiryDialogInNavigation"
-        type="switch"
-        @update:model-value="preferencesStore.write()"
-      >
-        {{
-          t('agora', "Use modal 'Add inquiry ' dialog instead of embedded dialog in Navigation bar")
-        }}
-      </NcCheckboxRadioSwitch>
-    </div>
-
-    <div class="user_settings">
-      <NcCheckboxRadioSwitch
-        v-model="preferencesStore.user.useNewInquiryInInquiryist"
-        type="switch"
-        @update:model-value="preferencesStore.write()"
-      >
-        {{
-          t(
-            'agora',
-            "Use 'Add inquiry ' as button in inquiry list instead of inside the navigation"
-          )
-        }}
-      </NcCheckboxRadioSwitch>
-    </div>
-
-    <div class="user_settings">
-      <NcCheckboxRadioSwitch
         v-model="preferencesStore.user.useCommentsAlternativeStyling"
         type="switch"
         @update:model-value="preferencesStore.write()"

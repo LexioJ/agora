@@ -93,17 +93,17 @@ import LockCheck from '@iconify-icons/mdi/lock-check'
 import ArrowRight from '@iconify-icons/mdi/arrow-right'
 import AccountGroup from '@iconify-icons/mdi/account-group'
 import CommentQuote from '@iconify-icons/mdi/comment-quote'
-// src/icons/InquiryGeneralIcons.ts
 import Delete from '@iconify-icons/mdi/delete'
 import ArrowLeft from '@iconify-icons/mdi/arrow-left'
 import Minus from '@iconify-icons/mdi/minus'
 import Transfer from '@iconify-icons/mdi/account-switch-outline'
 import FileDocumentEdit from '@iconify-icons/mdi/file-document-edit'
-
+import MessageText from '@iconify-icons/mdi/message-text' 
 import Recycle from '@iconify-icons/mdi/recycle'
 import CheckboxBlankOutline from '@iconify-icons/mdi/checkbox-blank-outline'
 import CheckboxMarkedOutline from '@iconify-icons/mdi/checkbox-marked-outline'
 import DotsVertical from '@iconify-icons/mdi/dots-vertical'
+import AccountClock from '@iconify-icons/mdi/account-clock'
 
 // -------------------------------
 // User related icons
@@ -227,6 +227,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   reply: makeIconComponent(Reply, '#2196F3'),
   transform: makeIconComponent(TransformRotate, '#9C27B0'),
   save: makeIconComponent(Save, '#4CAF50'),
+  waitingapproval: makeIconComponent(AccountClock, '#4CAF50'),
 }
 
 export const ShareIcons: Record<string, Component> = {
@@ -292,6 +293,7 @@ export const NavigationIcons: Record<string, Component> = {
   goTo: makeIconComponent(ArrowRight, '#673AB7'),
   group: makeIconComponent(AccountGroup, '#00BCD4'),
   add: makeIconComponent(Plus, '#4CAF50'),
+  moderate: makeIconComponent(MessageText, '#2196F3'),
 }
 
 export const BadgeIcons: Record<string, Component> = {

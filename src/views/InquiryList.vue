@@ -14,6 +14,7 @@ import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 import NcActionButtonGroup from '@nextcloud/vue/components/NcActionButtonGroup'
+import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import { HeaderBar, IntersectionObserver } from '../components/Base/index.ts'
 import { AgoraAppIcon } from '../components/AppIcons/index.ts'
@@ -37,52 +38,55 @@ const sessionStore = useSessionStore()
 const route = useRoute()
 const router = useRouter()
 
-const familyId = computed(() => route.params.familyId as string)
+const familyId =  ref(inquiriesStore.familyId)
+const selectedFamily = ref(inquiriesStore.familyId)
 
-const selectedFamily = ref<string | null>(familyId.value)
+// Main mode (create/view) and sub mode (table/list)
+const mainMode = ref('view') // 'create' or 'view'
+const subMode = ref('table-view') 
 
-
-const viewMode = ref('table-view')
-const showViewSubmenu = ref(false)
-
-const getCurrentViewIcon = computed(() => {
-    return viewMode.value === 'list-view'
-        ? InquiryGeneralIcons.viewlistoutline
-        : InquiryGeneralIcons.table
-})
-
-const setViewMode = (mode) => {
-    viewMode.value = mode
-    showViewSubmenu.value = false
-}
-
-const toggleViewSubmenu = () => {
-    showViewSubmenu.value = !showViewSubmenu.value
-}
-
-function navigateToCreateMode() {
-  const mode = viewMode.value || 'create'
-  
-  if (selectedFamily.value) {
-    router.push({ 
-      name: 'family-inquiries', 
-      params: { familyId: selectedFamily.value },
-    })
-  } else {
-    router.push({ 
-      name: 'menu', 
-      params: { familyId: selectedFamily.value },
-    })
-  }
-}
-
+// Watch for route query changes to sync view modes
+// Watch for familyId changes in store
 watch(
-  () => route.params.familyId,
+  () => inquiriesStore.familyId,
   (newFamilyId) => {
-    selectedFamily.value = newFamilyId as string || null
+    familyId.value = newFamilyId
+    selectedFamily.value = newFamilyId
   }
 )
 
+// Handle main mode change
+function handleMainModeChange(mode: string) {
+  mainMode.value = mode
+
+  if (mode === 'create') {
+    // Navigate to create mode with familyId
+    router.push({
+      name: 'menu',
+      query: {
+        viewMode: 'create',
+        familyId: selectedFamily.value
+      }
+    })
+  } else {
+    // Stay in view mode, just update the query
+    router.push({
+      ...route,
+      query: {
+        ...route.query,
+        viewMode: 'view',
+        familyId: selectedFamily.value
+      }
+    })
+  }
+}
+
+// Handle sub mode change
+function handleSubModeChange(mode: string) {
+  subMode.value = mode
+}
+
+const isGridView = computed(() => subMode.value === 'table-view')
 
 const title = computed(() => {
   if (route.name === 'group') {
@@ -130,8 +134,6 @@ const emptyInquiryListnoInquiries = computed(
   () => inquiriesStore.inquiriesFilteredSorted.length < 1
 )
 
-const isGridView = computed(() => preferencesStore.user.defaultViewInquiry === 'table-view')
-
 const loadingOverlayProps = {
   name: t('agora', 'Loading overview'),
   teleportTo: '#content-vue',
@@ -150,7 +152,7 @@ const emptyContentProps = computed(() => ({
 }))
 
 /**
- *
+ * Load more inquiries
  */
 async function loadMore() {
   try {
@@ -162,539 +164,437 @@ async function loadMore() {
 
 onMounted(() => {
   inquiriesStore.load(false)
+ 
+
+  // Initialize modes from route query
+  if (route.query.viewMode === 'create') {
+    mainMode.value = 'create'
+  } else {
+    mainMode.value = 'view'
+  }
+  
+  // Initialize subMode from app settings
+  if (sessionStore.appSettings.defaultViewInquiry) {
+    subMode.value = sessionStore.appSettings.defaultViewInquiry
+  }
+  else {
+    subMode.value = 'table-view'
+    }
 })
 </script>
 
 <template>
-	<NcAppContent class="inquiry-list">
-	<HeaderBar>
-	<template #title>
-		{{ title }}
-	</template>
-	{{ description }}
-	<template #right>
-		<!-- Mode Buttons -->
-		<!-- Mode Buttons -->
-		<NcActionButtonGroup name="Main modes" class="main-mode-group">
-		<!-- Create Mode -->
-		<NcActionButton
-				:class="['main-mode', { active: viewMode === 'create', 'mode-active': viewMode === 'create' }]"
-				@click="viewMode = 'create'"
-				:aria-label="t('agora', 'Create mode')"
-				:title="t('agora', 'Switch to create mode')"
-				>
-				<template #icon>
-					<component :is="InquiryGeneralIcons.add" size="20" />
-				</template>
-		{{ t('agora', 'Create') }}
-		</NcActionButton>
+  <NcAppContent class="inquiry-list">
+    <HeaderBar>
+      <template #title>
+        {{ title }}
+      </template>
+      {{ description }}
+      
+      <template #right>
+        <!-- All controls in one line -->
+        <div class="header-controls">
+          <!-- Mode Switchers -->
+          <div class="mode-switchers">
+            <!-- Main Mode (Create/View) -->
+            <div class="main-mode-switcher">
+              <NcCheckboxRadioSwitch
+                :button-variant="true"
+                :model-value="mainMode"
+                value="create"
+                name="main_mode_radio"
+                type="radio"
+                button-variant-grouped="horizontal"
+                @update:model-value="handleMainModeChange"
+                class="mode-switch"
+              >
+                <template #icon>
+                  <component :is="InquiryGeneralIcons.add" size="16" />
+                </template>
+                {{ t('agora', 'Create') }}
+              </NcCheckboxRadioSwitch>
+              
+              <NcCheckboxRadioSwitch
+                :button-variant="true"
+                :model-value="subMode"
+                value="table-view"
+                name="sub_mode_radio"
+                type="radio"
+                button-variant-grouped="horizontal"
+                @update:model-value="handleSubModeChange"
+                class="mode-switch sub-mode"
+              >
+                <template #icon>
+                  <component :is="InquiryGeneralIcons.table" size="16" />
+                </template>
+              </NcCheckboxRadioSwitch>
+              
+              <NcCheckboxRadioSwitch
+                :button-variant="true"
+                :model-value="subMode"
+                value="list-view"
+                name="sub_mode_radio"
+                type="radio"
+                button-variant-grouped="horizontal"
+                @update:model-value="handleSubModeChange"
+                class="mode-switch sub-mode"
+              >
+                <template #icon>
+                  <component :is="InquiryGeneralIcons.viewlistoutline" size="16" />
+                </template>
+              </NcCheckboxRadioSwitch>
+            </div>
+          </div>
 
-		<!-- View Mode with Dropdown -->
-		<NcActionButton
-				:class="['main-mode', 'has-submodes', { active: viewMode !== 'create', 'mode-active': viewMode !== 'create' }]"
-				:aria-label="t('agora', 'View mode')"
-				:title="t('agora', 'Switch to view mode')"
-				ref="viewModeButton"
-				>
-				<template #icon>
-					<component :is="getCurrentViewIcon" size="20" />
-				</template>
-		{{ t('agora', 'View') }}
+          <!-- Sort and other controls -->
+          <div class="right-controls">
+            <InquiryListSort />
+            <ActionToggleSidebar
+              v-if="inquiryGroupsStore.currentInquiryGroup?.owner.id === sessionStore.currentUser.id"
+            />
+          </div>
+        </div>
+      </template>
+    </HeaderBar>
 
-		<template #extra>
-			<NcActionButton
-					type="tertiary"
-					:aria-label="t('agora', 'Change view style')"
-					@click.stop="toggleViewSubmenu"
-					>
-					<template #icon>
-						<component :is="InquiryGeneralIcons.chevrondown" size="16" />
-					</template>
-			</NcActionButton>
-		</template>
-		</NcActionButton>
-		</NcActionButtonGroup>
+    <InquiryFilter :family-id="selectedFamily" />
 
-		<NcActionMenu
-				v-if="showViewSubmenu"
-				:boundary="viewportBoundary"
-				@close="showViewSubmenu = false"
-				>
-				<NcActionRadio
-						:value="'table-view'"
-						:checked="viewMode === 'table-view'"
-						@change="setViewMode('table-view')"
-						:name="'view-style'"
-						>
-						<template #icon>
-							<component :is="InquiryGeneralIcons.table" size="20" />
-						</template>
-				{{ t('agora', 'Grid view') }}
-				</NcActionRadio>
+    <div class="area__main">
+      <TransitionGroup
+        v-if="!emptyInquiryListnoInquiries"
+        tag="div"
+        name="list"
+        :class="[
+          'inquiry-list__container',
+          isGridView ? 'inquiry-list__grid' : 'inquiry-list__list',
+        ]"
+      >
+        <InquiryItem
+          v-for="inquiry in inquiriesStore.chunkedList"
+          :key="inquiry.id"
+          :inquiry="inquiry"
+          :grid-view="isGridView"
+        >
+          <template #actions>
+            <InquiryItemActions
+              v-if="inquiry.permissions.edit || sessionStore.appPermissions.inquiryCreation"
+              :key="`actions-${inquiry.id}`"
+              :inquiry="inquiry"
+            />
+          </template>
+        </InquiryItem>
+      </TransitionGroup>
 
-		<NcActionRadio
-				:value="'list-view'"
-				:checked="viewMode === 'list-view'"
-				@change="setViewMode('list-view')"
-				:name="'view-style'"
-				>
-				<template #icon>
-					<component :is="InquiryGeneralIcons.viewlistoutline" size="20" />
-				</template>
-		{{ t('agora', 'List view') }}
-		</NcActionRadio>
-		</NcActionMenu>
+      <IntersectionObserver
+        v-if="showMore"
+        key="observer"
+        class="observer_section"
+        @visible="loadMore"
+      >
+        <div class="clickable_load_more" @click="loadMore">
+          {{ infoLoaded }}
+          {{ t('agora', 'Click here to load more') }}
+        </div>
+      </IntersectionObserver>
 
+      <NcEmptyContent v-if="emptyInquiryListnoInquiries" v-bind="emptyContentProps">
+        <template #icon>
+          <AgoraAppIcon />
+        </template>
+      </NcEmptyContent>
+    </div>
 
-
-	</template>
-	</HeaderBar>
-	<InquiryFilter />
-
-	<div class="area__main">
-		<TransitionGroup
-				v-if="!emptyInquiryListnoInquiries"
-				tag="div"
-				name="list"
-				:class="[
-					'inquiry-list__container',
-					isGridView ? 'inquiry-list__grid' : 'inquiry-list__list',
-					]"
-				>
-				<InquiryItem
-						v-for="inquiry in inquiriesStore.chunkedList"
-						:key="inquiry.id"
-						:inquiry="inquiry"
-						:grid-view="isGridView"
-						>
-						<template #actions>
-							<InquiryItemActions
-									v-if="inquiry.permissions.edit || sessionStore.appPermissions.inquiryCreation"
-									:key="`actions-${inquiry.id}`"
-									:inquiry="inquiry"
-									/>
-						</template>
-				</InquiryItem>
-		</TransitionGroup>
-
-		<IntersectionObserver
-				v-if="showMore"
-				key="observer"
-				class="observer_section"
-				@visible="loadMore"
-				>
-				<div class="clickable_load_more" @click="loadMore">
-					{{ infoLoaded }}
-					{{ t('agora', 'Click here to load more') }}
-				</div>
-		</IntersectionObserver>
-
-		<NcEmptyContent v-if="emptyInquiryListnoInquiries" v-bind="emptyContentProps">
-		<template #icon>
-			<AgoraAppIcon />
-		</template>
-		</NcEmptyContent>
-	</div>
-	<LoadingOverlay :show="inquiriesStore.meta.status === 'loading'" v-bind="loadingOverlayProps" />
-	</NcAppContent>
+    <LoadingOverlay :show="inquiriesStore.meta.status === 'loading'" v-bind="loadingOverlayProps" />
+  </NcAppContent>
 </template>
-
 <style lang="scss" scoped>
 .inquiry-list {
-	.area__main {
-		width: 100%;
-	}
+  .area__main {
+    width: 100%;
+  }
 }
 
-// Unified View Controls
-	.view-controls {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	background: var(--color-background-dark);
-	border-radius: 10px;
-	padding: 6px;
-	border: 1px solid var(--color-border);
-	margin-right: 12px;
+// Header controls container - all elements aligned to the right
+.header-controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  justify-content: flex-end; // Align everything to the right
 }
 
-			  // Create Mode Button - Compact
-				  .create-mode-button {
-				  display: flex;
-				  align-items: center;
-				  gap: 6px;
-				  padding: 8px 12px;
-				  margin: 0;
-				  border: none;
-				  border-radius: 6px;
-				  background: transparent;
-				  color: var(--color-text-lighter);
-				  transition: all 0.2s ease;
-				  min-height: auto;
-				  height: 36px;
+// Mode switchers container - on the right side
+.mode-switchers {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
 
-				  &:hover {
-					  background: var(--color-background-hover);
-					  color: var(--color-main-text);
-				  }
+// Right controls container - on the right side after mode switchers
+.right-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
 
-				  &:active,
-				  &:focus {
-					  background: var(--color-primary-element);
-					  color: var(--color-primary-text);
-				  }
+// Main mode switcher - contains Create, Grid, List buttons
+.main-mode-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--color-background-dark);
+  border-radius: 10px;
+  padding: 4px;
+  border: 1px solid var(--color-border);
+  
+  .mode-switch {
+    margin: 0;
+    
+    :deep(.checkbox-radio-switch__label) {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 13px;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background: var(--color-background-hover);
+      }
+    }
+    
+    :deep(input:checked + .checkbox-radio-switch__label) {
+      background: var(--color-primary-element);
+      color: var(--color-primary-text);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    :deep(.material-design-icon) {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
 
-				  // Override NcActionButton styles
-					  :deep(.action-button) {
-					  padding: 0;
-					  margin: 0;
-					  gap: 6px;
-					  background: transparent !important;
-					  border: none !important;
-				  }
+// Header right area alignment
+:deep(.header-bar__right) {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
 
-				  :deep(.action-button__icon) {
-					  margin: 0 !important;
-					  width: 20px;
-					  height: 20px;
-					  color: inherit;
-				  }
-			  }
+.inquiry-list__container {
+  width: 100%;
+  padding-bottom: 14px;
+  box-sizing: border-box;
+}
 
-			  .button-label {
-				  font-size: 13px;
-				  font-weight: 600;
-				  white-space: nowrap;
-			  }
+.inquiry-list__list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
 
-			  // Compact View Mode Group
-				  .view-mode-group {
-				  display: flex;
-				  align-items: center;
-				  gap: 2px;
-				  margin: 0;
-				  background: transparent;
-				  border: none;
-				  border-radius: 6px;
-				  overflow: hidden;
-			  }
+.inquiry-list__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  align-items: stretch;
 
-			  .view-mode-button {
-				  display: flex;
-				  align-items: center;
-				  gap: 6px;
-				  padding: 8px 12px;
-				  margin: 0;
-				  border: none;
-				  border-radius: 4px;
-				  background: transparent;
-				  color: var(--color-text-lighter);
-				  transition: all 0.2s ease;
-				  min-height: auto;
-				  height: 36px;
+  .inquiry-item {
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    padding: 10px;
+    background-color: var(--color-main-background);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: all 0.2s ease;
+    height: 100%;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
 
-				  &:hover {
-					  background: var(--color-background-hover);
-					  color: var(--color-main-text);
-				  }
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+    }
 
-				  &.active {
-					  background: var(--color-primary-element);
-					  color: var(--color-primary-text);
-				  }
+    .inquiry-item__header {
+      margin-bottom: 16px;
+      flex-grow: 1;
 
-				  // Override NcActionButton styles
-					  :deep(.action-button) {
-					  padding: 0;
-					  margin: 0;
-					  gap: 6px;
-					  background: transparent !important;
-					  border: none !important;
-					  color: inherit !important;
-				  }
+      .inquiry-item__title {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.4;
+        margin-bottom: 12px;
+        color: var(--color-main-text);
+        word-break: break-word;
+      }
+    }
 
-				  :deep(.action-button__icon) {
-					  margin: 0 !important;
-					  width: 20px;
-					  height: 20px;
-					  color: inherit;
-				  }
+    .inquiry-item__meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--color-text-lighter);
 
-				  :deep(.action-button__input) {
-					  display: none; // Hide the radio input
-				  }
-			  }
+      .meta-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
 
-			  .view-mode-label {
-				  font-size: 13px;
-				  font-weight: 600;
-				  white-space: nowrap;
-			  }
+        .material-design-icon {
+          width: 16px;
+          height: 16px;
+          flex-shrink: 0;
+        }
+      }
+    }
 
-			  // Header right area alignment
-				  :deep(.header-bar__right) {
-				  display: flex;
-				  align-items: center;
-				  gap: 12px;
-			  }
+    .inquiry-item__actions {
+      margin-top: auto;
+      padding-top: 16px;
+      border-top: 1px solid var(--color-border-light);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  }
 
-			  .inquiry-list__container {
-				  width: 100%;
-				  padding-bottom: 14px;
-				  box-sizing: border-box;
-			  }
+  @media (max-width: 1400px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 
-			  .inquiry-list__list {
-				  display: flex;
-				  flex-direction: column;
-				  gap: 12px;
-			  }
+  @media (max-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    padding: 12px;
+  }
 
-			  .inquiry-list__grid {
-				  display: grid;
-				  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-				  gap: 20px;
-				  padding: 16px;
-				  width: 100%;
-				  box-sizing: border-box;
-				  align-items: stretch;
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 8px;
 
-				  .inquiry-item {
-					  border: 1px solid var(--color-border);
-					  border-radius: 12px;
-					  padding: 10px;
-					  background-color: var(--color-main-background);
-					  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-					  transition: all 0.2s ease;
-					  height: 100%;
-					  min-height: 80px;
-					  display: flex;
-					  flex-direction: column;
+    .inquiry-item {
+      padding: 16px;
+      min-height: 160px;
+    }
+  }
+}
 
-					  &:hover {
-						  transform: translateY(-2px);
-						  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-					  }
+.observer_section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+  grid-column: 1 / -1;
+  width: 100%;
+}
 
-					  .inquiry-item__header {
-						  margin-bottom: 16px;
-						  flex-grow: 1;
+.clickable_load_more {
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  padding: 20px;
+  background-color: var(--color-background-dark);
+  border-radius: 12px;
+  margin: 0 16px;
+  color: var(--color-text-lighter);
+  transition: background-color 0.2s ease;
 
-						  .inquiry-item__title {
-							  font-size: 16px;
-							  font-weight: 600;
-							  line-height: 1.4;
-							  margin-bottom: 12px;
-							  color: var(--color-main-text);
-							  word-break: break-word;
-						  }
-					  }
+  &:hover {
+    background-color: var(--color-background-darker);
+    color: var(--color-main-text);
+  }
+}
 
-					  .inquiry-item__meta {
-						  display: flex;
-						  flex-wrap: wrap;
-						  gap: 10px;
-						  margin-bottom: 16px;
-						  font-size: 13px;
-						  color: var(--color-text-lighter);
+.app-content {
+  width: 100%;
 
-						  .meta-item {
-							  display: flex;
-							  align-items: center;
-							  gap: 6px;
+  .app-content-wrapper {
+    width: 100%;
+    max-width: none;
+  }
+}
 
-							  .material-design-icon {
-								  width: 16px;
-								  height: 16px;
-								  flex-shrink: 0;
-							  }
-						  }
-					  }
+@media (min-width: 1600px) {
+  .inquiry-list__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
 
-					  .inquiry-item__actions {
-						  margin-top: auto;
-						  padding-top: 16px;
-						  border-top: 1px solid var(--color-border-light);
-						  display: flex;
-						  justify-content: flex-end;
-						  gap: 10px;
-					  }
-				  }
+// Responsive adjustments
+@media (max-width: 1024px) {
+  .header-controls {
+    flex-direction: row; // Keep horizontal on tablet
+    gap: 12px;
+    align-items: center;
+    justify-content: flex-end;
+  }
+}
 
-				  @media (max-width: 1400px) {
-					  grid-template-columns: repeat(3, 1fr);
-				  }
+@media (max-width: 768px) {
+  :deep(.header-bar__right) {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+  }
 
-				  @media (max-width: 1024px) {
-					  grid-template-columns: repeat(2, 1fr);
-					  gap: 16px;
-					  padding: 12px;
-				  }
+  .header-controls {
+    flex-direction: column;
+    gap: 8px;
+    align-items: stretch;
+  }
 
-				  @media (max-width: 768px) {
-					  grid-template-columns: 1fr;
-					  gap: 12px;
-					  padding: 8px;
+  .mode-switchers {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
 
-					  .inquiry-item {
-						  padding: 16px;
-						  min-height: 160px;
-					  }
-				  }
-			  }
+  .main-mode-switcher {
+    width: 100%;
+    justify-content: center;
+  }
 
-			  .observer_section {
-				  display: flex;
-				  justify-content: center;
-				  align-items: center;
-				  padding: 20px 0;
-				  grid-column: 1 / -1;
-				  width: 100%;
-			  }
+  .mode-switch {
+    :deep(.checkbox-radio-switch__label) {
+      flex: 1;
+      justify-content: center;
+    }
+  }
 
-			  .clickable_load_more {
-				  cursor: pointer;
-				  font-weight: 600;
-				  text-align: center;
-				  padding: 20px;
-				  background-color: var(--color-background-dark);
-				  border-radius: 12px;
-				  margin: 0 16px;
-				  color: var(--color-text-lighter);
-				  transition: background-color 0.2s ease;
+  .right-controls {
+    justify-content: center;
+  }
+}
 
-				  &:hover {
-					  background-color: var(--color-background-darker);
-					  color: var(--color-main-text);
-				  }
-			  }
+@media (max-width: 480px) {
+  .main-mode-switcher .mode-switch :deep(.checkbox-radio-switch__label) {
+    padding: 8px 10px;
+    font-size: 12px;
+    
+    .material-design-icon {
+      width: 14px;
+      height: 14px;
+    }
+  }
 
-			  .app-content {
-				  width: 100%;
-
-				  .app-content-wrapper {
-					  width: 100%;
-					  max-width: none;
-				  }
-			  }
-
-			  @media (min-width: 1600px) {
-				  .inquiry-list__grid {
-					  grid-template-columns: repeat(4, 1fr);
-				  }
-			  }
-
-			  .view-controls-compact {
-				  display: flex;
-				  align-items: center;
-				  gap: 8px;
-
-				  .main-mode-group {
-					  display: flex;
-					  gap: 4px;
-					  background: var(--color-background-hover);
-					  border-radius: 8px;
-					  padding: 2px;
-				  }
-
-				  .main-mode {
-					  display: flex;
-					  align-items: center;
-					  justify-content: center;
-					  width: 36px;
-					  height: 36px;
-					  border-radius: 6px;
-					  background: var(--color-background-dark);
-					  color: var(--color-text-lighter);
-					  cursor: pointer;
-					  transition: all 0.2s ease;
-
-					  &:hover {
-						  background: var(--color-background-darker);
-						  color: var(--color-main-text);
-					  }
-
-					  &.active {
-						  background: var(--color-primary-element);
-						  color: var(--color-primary-text);
-					  }
-				  }
-
-				  .sub-mode-group {
-					  display: flex;
-					  gap: 2px;
-					  margin-left: 4px;
-
-					  NcActionButton {
-						  width: 28px;
-						  height: 28px;
-						  background: var(--color-background-dark);
-						  color: var(--color-text-lighter);
-						  border-radius: 4px;
-
-						  &.active {
-							  background: var(--color-primary-element);
-							  color: var(--color-primary-text);
-						  }
-
-						  &:hover {
-							  background: var(--color-background-darker);
-						  }
-
-						  :deep(.action-button__icon) {
-							  width: 16px;
-							  height: 16px;
-						  }
-					  }
-				  }
-			  }
-
-			  @media (max-width: 768px) {
-				  .main-mode, .sub-mode-group NcActionButton {
-					  width: 28px;
-					  height: 28px;
-				  }
-			  }
-
-			  // Responsive adjustments
-		  @media (max-width: 768px) {
-				  :deep(.header-bar__right) {
-					  flex-wrap: wrap;
-					  justify-content: flex-end;
-					  gap: 8px;
-				  }
-
-				  .view-controls {
-					  margin-right: 0;
-					  order: 1;
-				  }
-
-				  .button-label,
-				  .view-mode-label {
-					  display: none; // Hide labels on mobile
-				  }
-
-				  .create-mode-button,
-				  .view-mode-button {
-					  padding: 8px 10px;
-				  }
-			  }
-
-			  @media (max-width: 480px) {
-				  .view-controls {
-					  gap: 4px;
-					  padding: 4px;
-				  }
-
-				  .create-mode-button,
-				  .view-mode-button {
-					  padding: 6px 8px;
-					  height: 32px;
-				  }
-
-				  :deep(.action-button__icon) {
-					  width: 18px !important;
-					  height: 18px !important;
-				  }
-			  }
+  .right-controls {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+  }
+}
 </style>

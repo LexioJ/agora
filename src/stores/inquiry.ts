@@ -96,6 +96,7 @@ export type CurrentUserStatus = {
 export type Inquiry = {
   id: number
   type: string
+  coverId: number
   descriptionSafe: string
   configuration: InquiryConfiguration
   parentId: number
@@ -120,6 +121,7 @@ export const useInquiryStore = defineStore('inquiry', {
     id: 0,
     title: '',
     type: 'proposal',
+    coverId: 0,
     description: '',
     descriptionSafe: '',
     moderationStatus: 'draft',
@@ -365,17 +367,27 @@ export const useInquiryStore = defineStore('inquiry', {
     async add(payload: {
 	    title?: string
 	    type?: string
-	    parentId?: number
-	    owner?: User
 	    ownedGroup?: string
+	    description?: string
+	    parentId?: number
+	    locationId?: number
+	    categoryId?: number
+	    owner?: User
     }): Promise<Inquiry | void> {
 	    const inquiriesStore = useInquiriesStore()
 
+	    console.log("PARENT ID ",payload.parentId)
+	    console.log("LOCATION ",payload.locationId)
+	    console.log("CATEGORY", payload.categoryId)
+	    console.log(" DESCRIPTION",payload.description)
 	    try {
 		    const response = await InquiriesAPI.addInquiry({
 			    title: payload.title,
 			    type: payload.type,
 			    parentId: payload.parentId,
+			    locationId: payload.locationId,
+			    categoryId: payload.categoryId,
+			    description: payload.description,
 			    owner: payload.owner,
 			    ownedGroup: payload.ownedGroup,
 		    })

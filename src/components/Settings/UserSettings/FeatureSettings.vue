@@ -22,6 +22,16 @@ const defaultViewInquiry = computed({
     preferencesStore.user.defaultViewInquiry = value ? 'list-view' : 'table-view'
   },
 })
+
+const defaultCreateMode = computed({
+  get() {
+    return preferencesStore.user.defaultCreatMode === 'view'
+  },
+  set(value) {
+    preferencesStore.user.defaultViewInquiry = value ? 'view' : 'create'
+  },
+})
+
 </script>
 
 <template>
@@ -41,6 +51,19 @@ const defaultViewInquiry = computed({
             'Check this, if you prefer to display text inquiry in grid view. The initial default is list view.'
           )
         }}
+      </div>
+    </div>
+
+    <div class="user_settings">
+      <NcCheckboxRadioSwitch
+        v-model="œdefaultCreateMode"
+        type="switch"
+        @update:model-value="preferencesStore.write()"
+      >
+        {{ t('agora', 'Default display is create mode') }}
+      </NcCheckboxRadioSwitch>
+      <div class="settings_details">
+        {{ t('agora', 'Display view or create mode when user choose a family.') }}
       </div>
     </div>
 

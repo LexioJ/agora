@@ -19,7 +19,6 @@ use OCA\Agora\Db\Preferences;
 use OCA\Agora\Db\Share;
 use OCA\Agora\Db\Subscription;
 use OCA\Agora\Db\Support;
-use OCA\Agora\Db\ModerationStatus;
 use OCA\Agora\Db\InquiryStatus;
 use OCA\Agora\Db\InquiryType;
 use OCA\Agora\Db\InquiryMisc;
@@ -188,7 +187,7 @@ abstract class TableSchema
             'last_interaction' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
             'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
             'moderation_status' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
-            'inquiryStatus' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
+            'inquiry_status' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
             'allow_comment' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
             'allow_support' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
         ],
@@ -222,22 +221,9 @@ abstract class TableSchema
             'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
         ],
 
-        ModerationStatus::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'inquiry_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
-            'status_key' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
-            'label' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 100]],
-            'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
-            'is_final' => ['type' => Types::BOOLEAN, 'options' => ['notnull' => false, 'default' =>false]],
-            'icon' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '']],
-            'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'updated' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
-
         InquiryFamily::TABLE => [
             'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'inquiry_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
+            'family_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
             'label' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 100]],
             'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
             'icon' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '']],

@@ -115,39 +115,6 @@ const routes: RouteRecordRaw[] = [
     },
   },
   {
-	  path: '/family/:familyId/inquiries',
-	  name: 'family-inquiries',
-	  components: {
-		  default: Menu,
-		  navigation: NavigationMenu
-	  },
-	  props: true
-  },
-  {
-	  name: 'menu-family',
-	  path: '/menu/:familyId',
-	  components: {
-		  default: Menu,
-		  navigation: NavigationMenu,
-	  },
-	  props: true,
-	  meta: {
-		  listPage: true,
-	  },
-  },
-  {
-	  name: 'menu-family-type',
-	  path: '/menu/:familyId/:typeId',
-	  components: {
-		  default: Menu,
-		  navigation: NavigationMenu,
-	  },
-	  props: true,
-	  meta: {
-		  listPage: true,
-	  },
-  },
-  {
 	  name: 'group',
 	  path: '/group/:slug',
 	  components: {

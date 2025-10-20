@@ -44,7 +44,7 @@ export type FilterType =
   | 'closed'
   | 'archived'
   | 'admin'
-  | 'tomoderate'
+  | 'moderate'
 
 export type AdvancedFilters = {
   type?: FilterType
@@ -55,7 +55,6 @@ export type AdvancedFilters = {
   parentId?: number
   search?: string
   familyId?: string
-
 }
 
 export type FilterState = {
@@ -154,7 +153,7 @@ const inquiryCategories: InquiryCategoryList = {
     id: 'private',
     title: t('agora', 'Private inquiries'),
     titleExt: t('agora', 'Private inquiries'),
-    description: t('agora', 'All private inquiries, to which you have access.'),
+    description: t('agora', 'All private inquiries, not submitted yet or rejected.'),
     pinned: false,
     showInNavigation: () => {
       const sessionStore = useSessionStore()
@@ -163,6 +162,7 @@ const inquiryCategories: InquiryCategoryList = {
     filterCondition: (inquiry: Inquiry) =>
       !inquiry.status.isArchived &&
       inquiry.permissions.view &&
+      inquiry.currentUserStatus.isOwner &&
       inquiry.configuration.access === 'private',
   },
   participated: {
@@ -195,13 +195,13 @@ const inquiryCategories: InquiryCategoryList = {
     description: t('agora', 'All inquiries, where you have access to.'),
     pinned: false,
     showInNavigation: () => true,
-    filterCondition: (inquiry: Inquiry) => !inquiry.status.isArchived && inquiry.permissions.view,
+    filterCondition: (inquiry: Inquiry) => !inquiry.status.isArchived && inquiry.permissions.view  && inquiry.configuration.access === 'open',
   },
   closed: {
     id: 'closed',
     title: t('agora', 'Closed inquiries'),
     titleExt: t('agora', 'Closed inquiries'),
-    description: t('agora', 'All closed inquiries, where voting is disabled.'),
+    description: t('agora', 'All inquiries that are closed have completed their process.'),
     pinned: false,
     showInNavigation: () => true,
     filterCondition: (inquiry: Inquiry) =>
@@ -217,7 +217,7 @@ const inquiryCategories: InquiryCategoryList = {
       const sessionStore = useSessionStore()
       return sessionStore.appPermissions.inquiryCreation
     },
-    filterCondition: (inquiry: Inquiry) => inquiry.status.isArchived && inquiry.permissions.view,
+    filterCondition: (inquiry: Inquiry) => inquiry.currentUserStatus.isOwner && inquiry.status.isArchived && inquiry.permissions.view,
   },
   admin: {
     id: 'admin',
@@ -319,7 +319,6 @@ export const useInquiriesStore = defineStore('inquiries', {
 
     currentCategory(state: InquiryList): InquiryCategory {
       const sessionStore = useSessionStore()
-	console.log(" INTO CURRENT CATEGOR INQUIRIES",sessionStore.route.name)
       if (sessionStore.route.name === 'list' && sessionStore.route.params.type) {
         return state.categories[sessionStore.route.params.type as FilterType]
       }
@@ -333,7 +332,7 @@ export const useInquiriesStore = defineStore('inquiries', {
     inquiriesFilteredSorted(state: InquiryList & FilterState): Inquiry[] {
       const sessionStore = useSessionStore()
       const inquiryGroupsStore = useInquiryGroupsStore()
-
+	console.log(" FAMIL Y ID",this.familyId)
       // if we are in a group route, return the inquiries of the current group
       if (sessionStore.route.name === 'group') {
         return inquiryGroupsStore.inquiriesInCurrendInquiryGroup
@@ -344,69 +343,86 @@ export const useInquiriesStore = defineStore('inquiries', {
           this.currentCategory?.filterCondition(inquiry)
         ) ?? []
 
-      if (state.advancedFilters.type) {
-        filteredInquiries = filteredInquiries.filter(
-          (inquiry) => inquiry.type === state.advancedFilters.type
-        )
-      }
+     let familyCache: Map<string, string> | null = null
+  
+     if (state.advancedFilters.familyId !== undefined) {
+	     familyCache = new Map()
+	     appSettings.inquiryTypeTab.forEach((tab: any) => {
+		     familyCache.set(tab.inquiry_type, tab.family)
+	     })
+     }
 
-      if (state.advancedFilters.categoryId) {
-        filteredInquiries = filteredInquiries.filter(
-          (inquiry) => inquiry.categoryId === state.advancedFilters.categoryId
-        )
-      }
+     if (state.advancedFilters.familyId !== undefined && familyCache) {
+	     filteredInquiries = filteredInquiries.filter((inquiry) => {
+		     const inquiryFamily = familyCache.get(inquiry.type)
+		     return inquiryFamily === state.advancedFilters.familyId
+	     })
+     }
+
+
+     if (state.advancedFilters.type) {
+	     filteredInquiries = filteredInquiries.filter(
+		     (inquiry) => inquiry.type === state.advancedFilters.type
+	     )
+     }
+
+     if (state.advancedFilters.categoryId) {
+	     filteredInquiries = filteredInquiries.filter(
+		     (inquiry) => inquiry.categoryId === state.advancedFilters.categoryId
+	     )
+     }
      if (state.advancedFilters.parentId !== undefined) {
- 		 filteredInquiries = filteredInquiries.filter((inquiry) =>
-    		 inquiry.parentId === state.advancedFilters.parentId
-       )
-    }
-      if (state.advancedFilters.locationId) {
-        filteredInquiries = filteredInquiries.filter(
-          (inquiry) => inquiry.locationId === state.advancedFilters.locationId
-        )
-      }
-     
-      if (state.advancedFilters.hasComments === true) {
-        filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments > 0
-        )
-      }
-      if (state.advancedFilters.hasComments === false) {
-  		filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments === 0)
-       }
+	     filteredInquiries = filteredInquiries.filter((inquiry) =>
+							  inquiry.parentId === state.advancedFilters.parentId
+							 )
+     }
+     if (state.advancedFilters.locationId) {
+	     filteredInquiries = filteredInquiries.filter(
+		     (inquiry) => inquiry.locationId === state.advancedFilters.locationId
+	     )
+     }
 
-      if (state.advancedFilters.hasSupports === true) {
-        filteredInquiries = filteredInquiries.filter((inquiry) =>  inquiry.status.countSupports > 0
-        )
-      }
-      else if (state.advancedFilters.hasSupports === false) {
-  		filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countSupports === 0)
-      }
+     if (state.advancedFilters.hasComments === true) {
+	     filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments > 0
+							 )
+     }
+     else if (state.advancedFilters.hasComments === false) {
+	     filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments === 0)
+     }
 
-      if (state.advancedFilters.search) {
-	      const normalizeText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+     if (state.advancedFilters.hasSupports === true) {
+	     filteredInquiries = filteredInquiries.filter((inquiry) =>  inquiry.status.countSupports > 0
+							 )
+     }
+     else if (state.advancedFilters.hasSupports === false) {
+	     filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countSupports === 0)
+     }
 
-	      const searchTerm = normalizeText(state.advancedFilters.search)
+     if (state.advancedFilters.search) {
+	     const normalizeText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
 
-	      const results = filteredInquiries.filter((inquiry) => {
-		      const titleNormalized = normalizeText(inquiry.title)
-		      const descNormalized = normalizeText(inquiry.description || '')
+	     const searchTerm = normalizeText(state.advancedFilters.search)
 
-		      const titleMatch = titleNormalized.includes(searchTerm)
-		      const descMatch = descNormalized.includes(searchTerm)
-		      const matches = titleMatch || descMatch
+	     const results = filteredInquiries.filter((inquiry) => {
+		     const titleNormalized = normalizeText(inquiry.title)
+		     const descNormalized = normalizeText(inquiry.description || '')
 
-		      return matches
-	      })
+		     const titleMatch = titleNormalized.includes(searchTerm)
+		     const descMatch = descNormalized.includes(searchTerm)
+		     const matches = titleMatch || descMatch
 
-	      filteredInquiries = results
-      }
+		     return matches
+	     })
+
+	     filteredInquiries = results
+     }
 
 
-      return orderBy(
-	      filteredInquiries,
-	      [sortColumnsMapping[state.sort.by]],
-	      [state.sort.reverse ? 'desc' : 'asc']
-      )
+     return orderBy(
+	     filteredInquiries,
+	     [sortColumnsMapping[state.sort.by]],
+	     [state.sort.reverse ? 'desc' : 'asc']
+     )
     },
 
     /*
@@ -463,15 +479,35 @@ export const useInquiriesStore = defineStore('inquiries', {
 
   actions: {
 
-	setViewMode(viewMode: ViewMode): void {
-		 this.viewMode = viewMode
-	},
+	  setFamilyId(familyId) {
+		  this.familyId = familyId || ''
+	  },
+
+	  setViewMode(viewMode: ViewMode): void {
+		  this.viewMode = viewMode
+	  },
+
+	  updateInquiryModerationStatus(inquiryId, moderationStatus) {
+		  const inquiry = this.inquiries.find(inq => inq.id === inquiryId)
+		  if (inquiry) {
+			  inquiry.moderationStatus = moderationStatus
+		  }
+	  },
+
+	  updateInquiryStatus(inquiryId, inquiryStatus) {
+		  const inquiry = this.inquiries.find(inq => inq.id === inquiryId)
+		  if (inquiry) {
+			  inquiry.inquiryStatus = inquiryStatus
+		  }
+	  },
 
 	  /**
 	   * Filter set
 	   */
 
+
 	  setFilters(filters: AdvancedFilters): void {
+		  console.log(' I SET FILTER ',filters)
 		  this.advancedFilters = { 
 			  ...filters,
 		  }
@@ -482,9 +518,9 @@ export const useInquiriesStore = defineStore('inquiries', {
 	   * Reset filter
 	   */
 	  resetFilters(): void {
-		 this.advancedFilters= {
-		      parentId: 0  
-    		  }
+		  this.advancedFilters= {
+			  parentId: 0  
+		  }
 		  this.resetChunks()
 	  },
 

@@ -32,7 +32,7 @@ class SettingsService
         AppSettings $appSettings,
         LocationService $locationService,
         CategoryService $categoryService,
-        ModerationStatusService $moderationStatusService
+        ModerationStatusService $moderationStatusService,
         InquiryStatusService $inquiryStatusService
     ) {
         $this->appSettings = $appSettings;

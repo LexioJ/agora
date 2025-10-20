@@ -1,6 +1,5 @@
 <!--
   - SPDX-FileCopyrightText: 2018 Nextcloud contributors
-  - SPDX-FileCopyrightText: 2018 Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
@@ -33,8 +32,17 @@ const createDlgToggle = ref(false)
 const selectedInquiryTypeForCreation = ref<InquiryType | null>(null)
 const selectedGroups = ref<string[]>([])
 
-// ViewMode state - default to 'create' or get from route
-const viewMode = ref<string>(route.query.viewMode as string || 'create')
+
+// Computed for default view mode based on boolean
+const defaultViewMode = computed(() => {
+  return sessionStore.appSettings?.defaultCreateMode ? 'create' : 'view'
+})
+
+// ViewMode state
+const viewMode = ref<string>(
+
+  (route.query.viewMode as string) || defaultViewMode.value
+)
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -45,7 +53,7 @@ const availableGroups = computed(() => {
 })
 
 // State for selected family
-const selectedFamily = ref<string | null>(route.params.familyId as string || null)
+const selectedFamily = ref<string | null>(inquiriesStore.familyId || null)
 
 // Computed for available families
 const inquiryFamilies = computed((): InquiryFamily[] => {
@@ -59,9 +67,9 @@ const allInquiryTypes = computed((): InquiryType[] => {
 
 // DEBUG: Check data
 onMounted(() => {
-  console.log('🔍 DEBUG InquiryMenu - Families:', inquiryFamilies.value)
-  console.log('🔍 DEBUG InquiryMenu - Inquiry Types:', allInquiryTypes.value)
-  console.log('🔍 DEBUG InquiryMenu - Selected family:', selectedFamily.value)
+  //console.log('🔍 DEBUG InquiryMenu - Families:', inquiryFamilies.value)
+  //console.log('🔍 DEBUG InquiryMenu - Inquiry Types:', allInquiryTypes.value)
+  //console.log('🔍 DEBUG InquiryMenu - Selected family:', selectedFamily.value)
   console.log('🔍 DEBUG InquiryMenu - View mode :', viewMode.value)
 })
 
@@ -72,11 +80,19 @@ const filteredInquiryTypes = computed(() => {
   const family = inquiryFamilies.value.find(f => f.id.toString() === selectedFamily.value)
   if (!family) return []
   
-  console.log('🔍 Filtering for family:', family)
+  //console.log('🔍 Filtering for family:', selectedFamily.value)
   
-  const filtered = allInquiryTypes.value.filter(type => 
-    type.family === family.inquiry_type && type.isOption === 0
-  )
+  const filtered = allInquiryTypes.value.filter(type => {
+    const matchesFamily = type.family === family.family_type || 
+                         type.family === family.inquiry_type ||
+                         type.inquiry_type === family.family_type
+    
+   // console.log(`🔍 Type ${type.id}: family=${type.family}, inquiry_type=${type.inquiry_type}, matches=${matchesFamily}, isOption=${type.isOption}`)
+    
+    return matchesFamily && type.isOption === 0
+  })
+  
+  //console.log('🔍 Filtered inquiry types:', filtered)
   return filtered
 })
 
@@ -91,36 +107,31 @@ const currentFamilyData = computed(() => {
   return getInquiryItemData(currentFamily.value, t('agora', 'Inquiry Types'))
 })
 
-// Watch for route changes
 watch(
-  () => route.params.familyId,
-  (newFamilyId) => {
-    selectedFamily.value = newFamilyId as string || null
-  }
-)
-
-// Watch for viewMode changes in route
-watch(
-  () => route.query.viewMode,
-  (newViewMode) => {
-    if (newViewMode) {
-      viewMode.value = newViewMode as string
+  () => sessionStore.appSettings?.defaultCreateMode,
+  (newDefaultMode) => {
+    console.log('🔍 Default mode updated (boolean):', newDefaultMode)
+    if (!route.query.viewMode && newDefaultMode !== undefined) {
+      viewMode.value = newDefaultMode ? 'create' : 'view'
+      console.log('🔍 Updated viewMode from default:', viewMode.value)
     }
-  }
+  },
+  { immediate: true }
 )
 
 // Function to select a family
 function selectFamily(familyId: string) {
-  selectedFamily.value = familyId
+   inquiriesStore.setFamilyId(familyId)
+   selectedFamily.value = familyId
   router.push({
-    name: 'family-inquiries',
-    params: { familyId },
+    name: 'menu',
     query: { viewMode: viewMode.value }
   })
 }
 
 // Function to clear family selection
 function clearFamilySelection() {
+  inquiriesStore.setFamilyId(null)
   selectedFamily.value = null
   router.push({ 
     name: 'menu',
@@ -128,33 +139,55 @@ function clearFamilySelection() {
   })
 }
 
+// Watch for family selection changes
+watch(
+  () => selectedFamily.value,
+  (newFamilyId) => {
+    if (!newFamilyId) return
+    
+    console.log(`🔍 Family selected: ${newFamilyId}, navigating with viewMode: ${viewMode.value}`)
+    
+    // Navigate based on current viewMode
+    if (viewMode.value === 'create' ) {
+      router.push({
+        name: 'menu',
+        query: { viewMode: 'create' }
+      })
+    } else {
+      router.push({
+        name: 'list',
+        params: { type: 'relevant' },
+        query: { viewMode: 'view' }
+      })
+    }
+  }
+)
+
 // Function to handle view mode change
 function handleViewModeChange(mode: string) {
+  console.log(`🔄 View mode changed to: ${mode}`)
   viewMode.value = mode
   
-  // Update current route with new view mode
-  if (viewMode.value === 'create') {
-    router.push({
-      name: 'family-inquiries',
-      params: { familyId: selectedFamily.value },
-      query: { viewMode: mode }
-    })
-  } else {
-    router.push({
-      name: 'list',
-      params: { type: 'relevant', familyId: selectedFamily.value },
-      query: { viewMode: mode }
-    })
+  // If family is selected, navigate with new mode
+  if (selectedFamily.value) {
+    if (mode === 'create') {
+      router.push({
+        name: 'menu', 
+        query: { viewMode: 'create' }
+      })
+    } else {
+      router.push({
+        name: 'list',
+        params: { type: 'relevant' },
+        query: { viewMode: 'view' }
+      })
+    }
   }
-  
-  // You can add additional logic here based on the view mode
-  console.log(`View mode changed to: ${mode}`)
-  // Example: Refresh data based on view mode, change display logic, etc.
 }
 
 // Function to create new inquiry from type
 function createInquiry(inquiryType: InquiryType) {
-  console.log('Creating inquiry from type:', inquiryType)
+  //console.log('Creating inquiry from type:', inquiryType)
   selectedInquiryTypeForCreation.value = inquiryType
   createDlgToggle.value = true
 }
@@ -189,7 +222,6 @@ function handleCloseDialog() {
 
 <template>
   <NcAppContent class="inquiry-menu">
-    <HeaderBar>
       <template #title>
         {{ selectedFamily 
           ? currentFamilyData.label
@@ -215,7 +247,7 @@ function handleCloseDialog() {
             :button-variant="true"
             :model-value="viewMode"
             value="create"
-            name="sharing_permission_radio"
+            name="view_mode_radio"
             type="radio"
             button-variant-grouped="horizontal"
             @update:model-value="handleViewModeChange"
@@ -226,7 +258,7 @@ function handleCloseDialog() {
             :button-variant="true"
             :model-value="viewMode"
             value="view"
-            name="sharing_permission_radio"
+            name="view_mode_radio"
             type="radio"
             button-variant-grouped="horizontal"
             @update:model-value="handleViewModeChange"
@@ -235,7 +267,6 @@ function handleCloseDialog() {
           </NcCheckboxRadioSwitch>
         </div>
       </div>
-    </HeaderBar>
 
     <!-- Family Selection Grid -->
     <div v-if="!selectedFamily" class="families-grid-container">
@@ -337,10 +368,10 @@ function handleCloseDialog() {
 .header-actions {
   display: flex;
   align-items: center;
-  justify-content: flex-end; // Align everything to the right
+  justify-content: flex-end;
   gap: 16px;
   width: 100%;
-  margin-left: auto; // Push container to the right
+  margin-left: auto;
 
   // Back button styles
   .back-button {
@@ -355,7 +386,7 @@ function handleCloseDialog() {
     color: var(--color-text-lighter);
     transition: all 0.2s ease;
     flex-shrink: 0;
-    margin-right: auto; // Push back button to left, view modes to right
+    margin-right: auto;
 
     &:hover {
       background: var(--color-background-dark);
@@ -369,39 +400,17 @@ function handleCloseDialog() {
     }
   }
 
-  // View Mode Switcher styles
+  // View Mode Switcher styles - CSS nettoyé
   .view-mode-switcher {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0;
     background: var(--color-background-dark);
     border-radius: 10px;
     padding: 4px;
     border: 1px solid var(--color-border);
+    overflow: hidden;
 
-    // Style for the radio buttons
-    :deep(.checkbox-radio-switch) {
-      margin: 0;
-
-      &.checkbox-radio-switch--button-variant {
-        .checkbox-radio-switch__label {
-          padding: 8px 16px;
-          border-radius: 8px;
-          font-weight: 500;
-          transition: all 0.2s ease;
-          
-          &:hover {
-            background: var(--color-background-hover);
-          }
-        }
-
-        input:checked + .checkbox-radio-switch__label {
-          background: var(--color-primary-element);
-          color: var(--color-primary-text);
-          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-      }
-    }
   }
 }
 
@@ -463,19 +472,6 @@ function handleCloseDialog() {
     line-height: 1.5;
     margin-bottom: 16px;
   }
-
-  &__meta {
-    margin-top: auto;
-    
-    .inquiry-count {
-      background: var(--color-background-dark);
-      color: var(--color-text-lighter);
-      border-radius: 12px;
-      padding: 6px 12px;
-      font-size: 13px;
-      font-weight: 600;
-    }
-  }
 }
 
 /* Inquiry Types List Styles */
@@ -506,16 +502,6 @@ function handleCloseDialog() {
       font-size: 16px;
       line-height: 1.5;
       margin-bottom: 12px;
-    }
-
-    .inquiry-types-count {
-      background: var(--color-background-dark);
-      color: var(--color-text-lighter);
-      border-radius: 8px;
-      padding: 6px 12px;
-      font-size: 14px;
-      font-weight: 600;
-      display: inline-block;
     }
   }
 }
@@ -574,17 +560,6 @@ function handleCloseDialog() {
     font-size: 14px;
     line-height: 1.4;
     margin-bottom: 12px;
-  }
-
-  &__meta {
-    .inquiry-type-id {
-      background: var(--color-background-darker);
-      color: var(--color-text-lighter);
-      border-radius: 8px;
-      padding: 4px 8px;
-      font-size: 11px;
-      font-weight: 500;
-    }
   }
 }
 

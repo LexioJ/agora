@@ -23,7 +23,7 @@ onBeforeUnmount(() => {
     <ActionToggleSidebar
       v-if="
         inquiryStore.permissions.edit ||
-        sessionStore.appSettings.inquiryTypeRights[inquiryStore.type].inquiryComment
+        sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.inquiryComment
       "
     />
   </div>

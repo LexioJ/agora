@@ -142,7 +142,7 @@ class InquiryController extends BaseController
     {
         $timerMicro['start'] = microtime(true);
 
-        $inquiry = $this->inquiryService->get($inquiryId);
+        $inquiry = $this->inquiryService->get($inquiryId,true);
         $timerMicro['inquiry'] = microtime(true);
 
         $options = $this->optionService->list($inquiryId);
@@ -218,14 +218,13 @@ class InquiryController extends BaseController
                 (string) $data['title'],
 		(string) $data['type'],
                 isset($data['ownedGroup']) ? (string) $data['ownedGroup'] : '',
-		'',
+                isset($data['description']) ? (string) $data['description'] : '',
                 isset($data['parentId']) ? (int) $data['parentId'] : 0,
-		0,
-		0,
+                isset($data['locationId']) ? (int) $data['locationId'] : 0,
+                isset($data['categoryId']) ? (int) $data['categoryId'] : 0,
 		[],
             );
 
-            // Création de l'inquiry
             $inquiry = $this->inquiryService->createFromDto($dto);
 
             return new JSONResponse(
@@ -280,12 +279,12 @@ class InquiryController extends BaseController
             $dto = new InquiryDto(
                 (string) $data['title'],
                 (string) $data['type'],
-                (string) $data['ownedGroup'],
+                isset($data['ownedGroup']) ? (string) $data['ownedGroup'] : '',
                 isset($data['description']) ? (string) $data['description'] : '',
                 isset($data['parentId']) ? (int) $data['parentId'] : 0,
                 isset($data['locationId']) ? (int) $data['locationId'] : 0,
                 isset($data['categoryId']) ? (int) $data['categoryId'] : 0,
-		 isset($data['miscFields']) && is_array($data['miscFields']) ? $data['miscFields'] : null,
+	        isset($data['miscFields']) && is_array($data['miscFields']) ? $data['miscFields'] : null,
             );
 
             // Partial update - only changed fields
@@ -466,9 +465,10 @@ class InquiryController extends BaseController
     #[FrontpageRoute(verb: 'POST', url: '/inquiry/{inquiryId}/clone')]
     public function clone(int $inquiryId): JSONResponse
     {
+       $rawData = $this->request->getParams('data');
         return $this->response(
             fn () => [
-                'inquiry' => $this->cloneInquiry($inquiryId)
+                'inquiry' => $this->cloneInquiry($inquiryId,$rawData['type'])
             ]
         );
     }

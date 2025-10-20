@@ -64,10 +64,10 @@ class Attachment extends Entity implements JsonSerializable
         return [
             'id' => $this->getId(),
             'name' => $this->getName(),
-            'size' => $this->getSize(),
             'mimeType' => $this->getMimeType(),
             'inquiryId' => $this->getInquiryId(),
             'fileId' => $this->getFileId(),
+            'size' => $this->getSize(),
             'created' => $this->getCreated(),
         ];
     }

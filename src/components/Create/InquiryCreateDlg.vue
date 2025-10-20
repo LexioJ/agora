@@ -29,6 +29,7 @@ interface Props {
   inquiryType?: InquiryType | null
   responseType?: string | null
   selectedGroups?: string[]
+  selectedMode?: string
   availableGroups?: string[]
   parentInquiryId?: string | number | null
   defaultTitle?: string | null
@@ -38,6 +39,7 @@ const props = withDefaults(defineProps<Props>(), {
   inquiryType: null,
   responseType: null,
   selectedGroups: () => [],
+  selectedMode: null,
   availableGroups: () => [],
   parentInquiryId: null,
   defaultTitle: null
@@ -128,7 +130,6 @@ const disableAddButton = computed(() => titleIsEmpty.value || adding.value)
 async function addInquiry() {
   try {
     adding.value = true
-    
     // Prepare inquiry data
     const inquiryData: any = {
       type: selectedType.value,
@@ -136,19 +137,26 @@ async function addInquiry() {
     }
 
     if (props.parentInquiryId) {
-      inquiryData.parentId = props.parentInquiryId
+      inquiryData.parentId = inquiryStore.id
     }
+      inquiryData.locationId = inquiryStore.locationId
+      inquiryData.categoryId = inquiryStore.categoryId
 
     // Add groups if groups access is selected
     if (accessType.value === 'groups' && selectedGroup.value) {
       inquiryData.ownedGroup = selectedGroup.value
     }
     
+    console.log(" SELECTED MODE :", props.selectedMode)
     console.log(" ADD PARENT ID :", props.parentInquiryId)
     console.log(" ADD GROUPS :", selectedGroup.value)
     console.log(" ADD TYPE :", selectedType.value)
     console.log(" ADD TITLE :", inquiryTitle.value)
-    
+    if (props.selectedMode === 'transform' ) {
+      inquiryData.description = inquiryStore.description
+   	//Clone the inquirhy with the new mode.
+	//Archived the old one
+    }
     // Add the inquiry
     const inquiry = await inquiryStore.add(inquiryData)
 

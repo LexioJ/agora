@@ -3,13 +3,15 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { watch, ref, computed, nextTick } from 'vue' 
 import { useSessionStore } from '../../stores/session'
+import { useInquiriesStore } from '../../stores/inquiries.ts'
 import { t } from '@nextcloud/l10n'
+import { showSuccess, showError } from '@nextcloud/dialogs'
 import {
   getAvailableResponseTypes,
   getAvailableTransformTypes,
-  getInquiryTypeData // IMPORTANT: Ajouter cette fonction
+  getInquiryTypeData 
 } from '../../helpers/modules/InquiryHelper.ts'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -38,6 +40,8 @@ console.log('🔧 Props isReadonlyDescription:', props.isReadonlyDescription)
 console.log('🔧 Inquiry store:', props.inquiryStore)
 console.log('🔧 Current user:', props.sessionStore.currentUser)
 
+const inquiriesStore = useInquiriesStore()
+
 // Emits
 const emit = defineEmits<{
   save: []
@@ -63,44 +67,94 @@ const context = computed(() => {
   return ctx
 })
 
-const selectedStatus = ref('pending')
+const selectedStatus = ref(props.inquiryStore.status.moderationStatus || 'pending')
 
 const statusOptions = [
-  { value: 'pending', label: 'Pending' },
-  { value: 'accepted', label: 'Accepted' },
-  { value: 'rejected', label: 'Rejected' },
+  { id: 'pending', label: t('agora', 'Pending'), value: 'pending' },
+  { id: 'accepted', label: t('agora', 'Accepted'), value: 'accepted' },
+  { id: 'rejected', label: t('agora', 'Rejected'), value: 'rejected' },
 ]
+
+const showModerationSwitch = computed(() => {
+  return props.inquiryStore.configuration.access === 'private' &&
+         props.inquiryStore.status.moderationStatus !== 'rejected' &&
+         props.inquiryStore.status.moderationStatus !== 'pending'
+})
+
+
+const inquiryAccess = computed({
+  get: () => props.inquiryStore.configuration.access === 'moderate',
+  set: async (value) => {
+    await handleAccessChange(value)
+  }
+})
+
+watch(() => props.inquiryStore.status.moderationStatus, (newStatus) => {
+  if (newStatus) {
+    selectedStatus.value = newStatus
+    console.log('🔧 Moderation status updated:', newStatus)
+  }
+})
 
 const resolveTypeData = (inquiryType: string, types: any[]) => {
   const typeInfo = types.find(t => t.inquiry_type === inquiryType)
   return getInquiryTypeData(inquiryType, types, typeInfo?.label || inquiryType)
 }
 
-const setModerationStatus = (status: string) => {
-  selectedStatus.value = status
-  console.log('🔧 Setting moderation status:', status)
-
+const setModerationStatus = async (status: string) => {
+  console.log("Setting moderation status:", status)
   if (status === 'accepted') {
-    props.inquiryStore.submitInquiry("submit_for_accepted")
+    await props.inquiryStore.submitInquiry("submit_for_accepted")
+    await inquiriesStore.updateInquiryModerationStatus(props.inquiryStore.id, status) 
+    showSuccess(t('agora','Inquiry accepted'))
   } else if (status === 'rejected') {
-    props.inquiryStore.submitInquiry("submit_for_rejected")
+    await props.inquiryStore.submitInquiry("submit_for_rejected")
+    await inquiriesStore.updateInquiryModerationStatus(props.inquiryStore.id, status) 
+    showSuccess(t('agora','Inquiry rejected'))
+  } else if (status === 'pending') {
+    showSuccess(t('agora','Inquiry status set to pending'))
+    await inquiriesStore.updateInquiryModerationStatus(props.inquiryStore.id, status) 
   }
 }
+
+
+const getStatusLabel = (status: string) => {
+  const option = statusOptions.find(opt => opt.value === status)
+  return option ? option.label : status
+}
+
+const getStatusColor = (status: string) => {
+  switch (status) {
+    case 'rejected':
+      return 'color: var(--color-error)'
+    case 'accepted':
+      return 'color: var(--color-success)'
+    case 'pending':
+      return 'color: var(--color-warning)'
+    default:
+      return ''
+  }
+}
+
 
 const canEditInquiry = computed(() => {
   console.log('🔧 [InquiryActionToolbar] canEditInquiry check - isReadonlyDescription:', props.isReadonlyDescription)
   return !props.isReadonlyDescription
 })
 
-const inquiryAccess = computed({
-  get() {
-    return props.inquiryStore.configuration.access === 'moderate'
-  },
-  set(value: boolean) {
-    const newAccess = value ? 'moderate' : 'private'
-    props.inquiryStore.submitInquiry("submit_for_moderate")
-  },
-})
+const handleAccessChange = async (value: boolean) => {
+  try {
+    console.log('🔧 Handling access change:', value)
+    if (value) {
+      await props.inquiryStore.submitInquiry("submit_for_moderate")
+      showSuccess(t('agora','Inquiry submitted for moderation'))
+    }
+    await nextTick()
+  } catch (error) {
+    console.error('Error submitting inquiry:', error)
+    showError(t('agora','Failed to submit inquiry for moderation'))
+  }
+}
 
 // Get available transformation types
 const availableTransformTypes = computed(() => {
@@ -183,19 +237,6 @@ const handleAllowedTransformation = (transformType: string) => {
 
 <template>
   <div class="inquiry-action-toolbar">
-    <!-- Debug info -->
-    <div v-if="false" class="debug-info" style="background: #ffeb3b; padding: 10px; margin-bottom: 10px; border-radius: 4px;">
-      <strong>ActionToolbar Debug:</strong><br>
-      canEditInquiry: {{ canEditInquiry }}<br>
-      showSaveButton: {{ showSaveButton }}<br>
-      showActionsMenu: {{ showActionsMenu }}<br>
-      showTransformActionsMenu: {{ showTransformActionsMenu }}<br>
-      Response types: {{ availableResponseTypes.length }}<br>
-      Transform types: {{ availableTransformTypes.length }}<br>
-      Enriched response types: {{ enrichedResponseTypes }}<br>
-      Enriched transform types: {{ enrichedTransformTypes }}
-    </div>
-
     <div class="left-actions">
       <!-- Save and Response buttons -->
       <div class="primary-actions">
@@ -269,149 +310,178 @@ const handleAllowedTransformation = (transformType: string) => {
 
     <!-- Right: Access switch and item actions -->
     <div class="right-actions">
-      <div v-if="inquiryStore.configuration.access === 'private' && inquiryStore.status.moderationStatus !== 'rejected'" class="access-control">
-        <label class="control-label">{{ t('agora', 'Make public') }}</label>
-        <NcCheckboxRadioSwitch
-          v-model="inquiryAccess"
-          type="switch"
-        />
-      </div>
-
-      <div v-if="inquiryStore.configuration.access === 'moderate' && inquiryStore.status.moderationStatus === 'pending'" class="access-control">
-        <label class="control-label">{{ t('agora', 'Moderate') }}</label>
-        <NcSelect
-          v-model="selectedStatus"
-          :options="statusOptions"
-          label="Moderation status"
-          @update:value="setModerationStatus"
-        />
-      </div>
-
-      <div
-        v-if="canViewToggle(context)"
-        class="item-actions"
-      >
-        <InquiryItemActions :key="`actions-${inquiryStore.id}`" :inquiry="inquiryStore" />
-      </div>
+	    <div v-if="inquiryStore.configuration.access === 'private' && inquiryStore.status.moderationStatus !== 'rejected'" class="access-control">
+		    <label class="control-label">{{ t('agora', 'Submit to moderation') }}</label>
+		    <NcCheckboxRadioSwitch
+				    v-model="inquiryAccess"
+				    type="switch"
+				    />
+	    </div>
+	    <div v-if="sessionStore.currentUser.isModerator">
+		    <div v-if="inquiryStore.configuration.access === 'moderate' && inquiryStore.status.moderationStatus === 'pending'" class="access-control">
+			    <label class="control-label">{{ t('agora', 'Moderate') }}</label>
+			    <NcSelect
+					    v-model="selectedStatus"
+					    :options="statusOptions"
+					    :clearable="false"
+					    :multiple="false"
+					    class="status-select"
+					    @update:model-value="(selected) => setModerationStatus(selected.value)"
+					    />
+		    </div>
+	    </div>
+	    <div v-if="inquiryStore.configuration.access === 'open'" class="access-control">
+		       <label class="status-label" :style="getStatusColor(inquiryStore.status.moderationStatus)">
+          		{{ getStatusLabel(inquiryStore.status.moderationStatus) }}
+        	       </label>
+      	   </div>
+	    <div
+			    v-if="canViewToggle(context)"
+			    class="item-actions"
+			    >
+			    <InquiryItemActions :key="`actions-${inquiryStore.id}`" :inquiry="inquiryStore" />
+	    </div>
     </div>
   </div>
 </template>
 
 <style scoped lang="scss">
 .inquiry-action-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  width: 100%;
-  margin-bottom: 1rem;
-  padding: 1rem 1.5rem;
-  background: var(--color-background-dark);
-  border-radius: var(--border-radius-large);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+	width: 100%;
+	margin-bottom: 1rem;
+	padding: 1rem 1.5rem;
+	background: var(--color-background-dark);
+	border-radius: var(--border-radius-large);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .left-actions {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex: 1;
-  justify-content: flex-start;
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	flex: 1;
+	justify-content: flex-start;
 }
 
 .right-actions {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  justify-content: flex-end;
+	display: flex;
+	gap: 1rem;
+	align-items: center;
+	justify-content: flex-end;
 }
 
-.access-control,
-.moderation-control {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
+	  .access-control {
+		  display: flex;
+		  align-items: center;
+		  gap: 0.75rem;
 
-  // Les labels sont maintenant à côté des contrôles
-  .control-label {
-    font-weight: 600;
-    color: var(--color-text-lighter);
-    white-space: nowrap;
-    margin: 0;
-  }
-}
-
-.primary-actions {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.save-button {
-	background-color: var(--color-primary);
-	color: white;
-	border: none;
-	padding: 8px 16px;
-	border-radius: var(--border-radius);
-	font-weight: 500;
-	min-width: 120px;
-	white-space: nowrap;
-}
-
-.response-actions,
-.transform-actions {
-	margin: 0 0.25rem;
-}
-
-.loading-icon {
-	display: inline-block;
-	width: 16px;
-	height: 16px;
-	border: 2px solid transparent;
-	border-top: 2px solid currentColor;
-	border-radius: 50%;
-	animation: spin 1s linear infinite;
-	margin-right: 8px;
-}
-
-  @keyframes spin {
-	  from {
-		  transform: rotate(0deg);
+		  .control-label {
+			  font-weight: 600;
+			  color: var(--color-text-lighter);
+			  white-space: nowrap;
+			  margin: 0;
+			  font-size: 0.875rem;
+		  }
 	  }
-	  to {
-		  transform: rotate(360deg);
+	  .status-label {
+		  font-weight: bold;
+		  padding: 4px 8px;
+		  border-radius: 4px;
+		  background: var(--color-background-darker);
 	  }
-  }
+	  .status-select {
+		  width: 160px !important;
+		  min-width: 120px !important;
 
-  /* Mobile responsive */
-  @media (max-width: 768px) {
-	  .inquiry-action-toolbar {
-		  flex-direction: column;
-		  gap: 1rem;
-		  padding: 1rem;
-	  }
+		  :deep(.nc-select__input) {
+			  font-size: 0.8rem !important;
+			  padding: 4px 8px !important;
+		  }
 
-	  .left-actions {
-		  flex-direction: column;
-		  width: 100%;
+		  :deep(.nc-select__toggle) {
+			  min-height: 32px !important;
+		  }
 	  }
 
 	  .primary-actions {
-		  flex-wrap: wrap;
-		  justify-content: center;
-		  width: 100%;
+		  display: flex;
+		  gap: 0.5rem;
+		  align-items: center;
 	  }
 
-	  .right-actions {
-		  width: 100%;
-		  justify-content: center;
-		  flex-wrap: wrap;
+	  .save-button {
+		  background-color: var(--color-primary);
+		  color: white;
+		  border: none;
+		  padding: 8px 16px;
+		  border-radius: 20px;
+		  font-weight: 500;
+		  min-width: 100px;
+		  white-space: nowrap;
 	  }
 
-	  .access-control,
-	  .moderation-control {
-		  justify-content: center;
-		  width: 100%;
+	  .response-actions,
+	  .transform-actions {
+		  margin: 0 0.25rem;
 	  }
-  }
+
+	  .loading-icon {
+		  display: inline-block;
+		  width: 16px;
+		  height: 16px;
+		  border: 2px solid transparent;
+		  border-top: 2px solid currentColor;
+		  border-radius: 50%;
+		  animation: spin 1s linear infinite;
+		  margin-right: 8px;
+	  }
+
+	  @keyframes spin {
+		  from {
+			  transform: rotate(0deg);
+		  }
+		  to {
+			  transform: rotate(360deg);
+		  }
+	  }
+
+	  /* Mobile responsive */
+	  @media (max-width: 768px) {
+		  .inquiry-action-toolbar {
+			  flex-direction: column;
+			  gap: 1rem;
+			  padding: 1rem;
+		  }
+
+		  .left-actions {
+			  flex-direction: column;
+			  width: 100%;
+		  }
+
+		  .primary-actions {
+			  flex-wrap: wrap;
+			  justify-content: center;
+			  width: 100%;
+		  }
+
+		  .right-actions {
+			  width: 100%;
+			  justify-content: center;
+			  flex-wrap: wrap;
+		  }
+
+		  .access-control {
+			  justify-content: center;
+			  width: 100%;
+		  }
+
+		  .status-select {
+			  width: 100px !important;
+			  min-width: 100px !important;
+		  }
+	  }
 </style>

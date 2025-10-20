@@ -14,8 +14,8 @@ use JsonSerializable;
  * @psalm-suppress UnusedProperty
  * @method         int getId()
  * @method         void setId(int $value)
- * @method         string getInquiryType()
- * @method         void setInquiryType(string $value)
+ * @method         string getFamilyType()
+ * @method         void setFamilyType(string $value)
  * @method         string getLabel()
  * @method         void setLabel(string $value)
  * @method         ?string getDescription()
@@ -33,7 +33,7 @@ class InquiryFamily extends EntityWithUser implements JsonSerializable
 
     // schema columns
     public $id = null;
-    protected string $inquiryType = '';
+    protected string $familyType = '';
     protected string $label = '';
     protected ?string $description = null;
     protected string $icon = '';
@@ -56,7 +56,7 @@ class InquiryFamily extends EntityWithUser implements JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'inquiry_type' => $this->getInquiryType(),
+            'family_type' => $this->getFamilyType(),
             'label' => $this->getLabel(),
             'description' => $this->getDescription(),
             'icon' => $this->getIcon(),

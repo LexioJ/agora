@@ -228,16 +228,21 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'archived' => $this->getArchived(),
         'deleted' => $this->getDeleted(),
         'lastInteraction' => $this->getLastInteraction(),
-                'configuration' => $this->getConfigurationArray(),
+        'configuration' => $this->getConfigurationArray(),
+        'misc' => $this->getMiscArray(),
 	];
-
+	return $baseData;
+    }
+    
+    public function getMiscArray(): array
+    {
 	$prefixedMiscFields = [];
 	foreach ($this->miscFields as $key => $value) {
-		$prefixedMiscFields["misc.$key"] = $value;
+		$prefixedMiscFields["$key"] = $value;
 	}
-
-	return array_merge($baseData, $prefixedMiscFields);
+	return $prefixedMiscFields;
     }
+
 
     public function getStatusArray(): array
     {
@@ -503,9 +508,8 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 		    self::PERMISSION_SUPPORT_FOREIGN_CHANGE => $this->getAllowChangeForeignSupports(),
 		    self::PERMISSION_SHARE_ADD => $this->systemSettings->getShareCreateAllowed(),
 		    self::PERMISSION_SHARE_ADD_EXTERNAL => $this->systemSettings->getExternalShareCreationAllowed(),
-		    self::PERMISSION_DEANONYMIZE => $this->getAllowDeanonymize(),
 		    default => false,
-    };
+    		};
     }
 
     private function getIsInvolved(): bool
@@ -520,7 +524,8 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 
     private function getIsOpenInquiry(): bool
     {
-	    return $this->getAccess() === self::ACCESS_OPEN && $this->userSession->getIsLoggedIn();
+	    $access=$this->getAccess();
+	    return ($access === self::ACCESS_OPEN || $access === self::ACCESS_MODERATE) && $this->userSession->getIsLoggedIn();
     }
 
     /**
@@ -589,7 +594,13 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 		    return true;
 	    }
 
-	    return false;
+	    if ($this->getAccess()) {
+		    return true;
+	    }
+	    
+	    if ($this->getIsOpenInquiry()) {
+	   	return true;
+	    }
     }
 
     private function getAllowTakeOver(): bool

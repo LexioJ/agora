@@ -63,15 +63,24 @@ class InquiryDto implements JsonSerializable
 
     public function toServiceArray(): array
     {
-        return [
-            'title' => $this->title,
-            'type' => $this->type,
-            'ownedGroup' => $this->ownedGroup,
-            'description' => $this->description,
-            'parent_id' => $this->parentId,
-            'location_id' => $this->locationId,
-            'category_id' => $this->categoryId,
-            'misc_fields' => $this->miscFields,
-        ];
+	    $miscFields = [];
+	    foreach ($this->miscFields as $key => $value) {
+		    if (str_starts_with($key, 'misc.')) {
+			    $newKey = substr($key, 5); 
+			    $miscFields[$newKey] = $value;
+		    } else {
+			    $miscFields[$key] = $value;
+		    }
+	    }
+	    return [
+		    'title' => $this->title,
+		    'type' => $this->type,
+		    'ownedGroup' => $this->ownedGroup,
+		    'description' => $this->description,
+		    'parent_id' => $this->parentId,
+		    'location_id' => $this->locationId,
+		    'category_id' => $this->categoryId,
+		    'misc_fields' => $miscFields,
+	    ];
     }
 }

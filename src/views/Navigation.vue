@@ -72,6 +72,10 @@ const icons = {
     id: 'admin',
     iconComponent: NavigationIcons.administration,
   },
+  moderate: {
+    id: 'moderate',
+    iconComponent: NavigationIcons.moderate,
+  },
 }
 
 const createDlgToggle = ref(false)
@@ -128,7 +132,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <NcAppNavigation class="" aria-label="Agora Navigation">
+  <NcAppNavigation class="agora-navigation" aria-label="Agora Navigation"  >
     <!-- Navigation List -->
     <template #list>
       <!-- Groups Section -->
@@ -261,7 +265,7 @@ onMounted(() => {
   </NcAppNavigation>
 </template>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .agora-navigation {
   padding: 12px 0;
 }

@@ -48,11 +48,50 @@ const sharesStore = useSharesStore()
 const router = useRouter()
 const attachmentsStore = useAttachmentsStore()
 const imageFileInput = ref(null)
+
+// Cover image references
+const coverImageFileInput = ref(null)
 const currentCoverUrl = ref('')
 
 const triggerImageUpload = () => {
   imageFileInput.value?.click()
 }
+
+// Trigger cover image upload
+const triggerCoverImageUpload = () => {
+  coverImageFileInput.value?.click()
+}
+
+// Handle cover image upload
+const handleCoverImageUpload = async (event) => {
+  const file = event.target.files[0]
+  if (!file) return
+  
+  try {
+    const response = await attachmentsStore.upload(inquiryStore.id, file)
+    
+    // Update cover image in store
+    await inquiryStore.setCoverImage(response.id)
+    
+    // Update displayed URL
+    currentCoverUrl.value = getNextcloudPreviewUrl(response.id)
+    
+    showSuccess(t('agora', 'Cover image updated successfully'))
+    
+    // Reset input to allow selecting same file again
+    event.target.value = ''
+  } catch (error) {
+    console.error('Failed to upload cover image:', error)
+    showError(t('agora', 'Failed to upload cover image'))
+  }
+}
+
+// Load current cover URL on mount
+onMounted(() => {
+  if (inquiryStore.coverId) {
+    currentCoverUrl.value = getNextcloudPreviewUrl(inquiryStore.coverId)
+  }
+})
 
 console.log('🔧 [InquiryEditViewForm] Component mounted - Debug info:')
 console.log('🔧 Current user:', sessionStore.currentUser)
@@ -157,8 +196,8 @@ const currentInquiryStatus = computed(
 const selectedInquiryStatusKey = ref(currentInquiryStatus.value?.statusKey)
 const currentInquiryStatusLabel = computed(() => currentInquiryStatus.value?.label || 'Draft')
 const currentInquiryStatusIcon = computed(() => {
-	const iconName = currentInquiryStatus.value?.icon || 'draft'
-	return StatusIcons[iconName] || StatusIcons.Draft
+const iconName = currentInquiryStatus.value?.icon?.toLowerCase() || 'draft'
+return StatusIcons[iconName] || StatusIcons.Draft
 })
 
 const selectedInquiryStatus = computed({
@@ -292,16 +331,6 @@ function getHierarchyPath(items, targetId) {
 
   return buildPath(itemMap[targetId])
 }
-//Watchers for the image
-watch(() => inquiryStore.coverId, (newCoverId) => {
-  if (newCoverId) {
-    currentCoverUrl.value = getNextcloudPreviewUrl(newCoverId)
-  } else {
-    currentCoverUrl.value = ''
-  }
-}, { immediate: true })
-
-
 
 // Watchers for location and category
 watch(
@@ -409,14 +438,38 @@ const onToggleSupport = async () => {
   return supported
 }
 
+/**
+ * Upload a single file and add to attachments list
+ * @param file
+ */
+const handleImageUpload = async (event) => {
+  const file = event.target.files[0]
+  if (!file) return
+  try {
+
+    const response = await attachmentsStore.upload(inquiryStore.id, file)
+
+    const attachment = {
+      id: response.id ?? `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      name: response.name ?? file.name,
+      size: response.size ?? file.size,
+      url: response.url ?? undefined,
+    }
+
+    // Use immutable update for better reactivity
+    attachmentsStore.attachments = [...attachmentsStore.attachments, attachment]
+
+    showSuccess(t('agora', '{file} uploaded', { file: response.name ?? file.name }))
+  } catch (error) {
+    console.error('Upload failed for file:', file.name, error)
+    showError(t('agora', 'Failed to upload {file}', { file: file.name }))
+    throw error // Re-throw to handle in parent function
+    }
+
+}
+
 // Event subscriptions
 onMounted(() => {
-  	console.log('COVERIDDDDDDDDDDDDDDDd', inquiryStore.coverId)
-  if (inquiryStore.coverId) { 
-        currentCoverUrl.value = getNextcloudPreviewUrl(inquiryStore.coverId)
-  	console.log('COVERIDDDDDDDDDDDDDDDd', currentCoverUrl.value)
-	console.log('🔧 [InquiryEditViewForm]', currentCoverUrl.value)
-   }
   subscribe(Event.UpdateComments, () => commentsStore.load())
   isLoaded.value = true
 })
@@ -445,54 +498,6 @@ function getNextcloudPreviewUrl(fileId, x = 1920, y = 1080, autoScale = true) {
   return `${baseUrl}/index.php/core/preview?fileId=${fileId}&x=${x}&y=${y}&a=${autoScale}`
 }
 
-/**
- * Upload a single file and add to attachments list
- * @param file
- */
-const handleImageUpload = async (event) => {
-  const file = event.target.files[0]
-  if (!file) return
-
-  if (!file.type.startsWith('image/')) {
-    showError(t('agora', 'Please select an image file'))
-    return
-  }
-
-  //Check image size 5Mb max
-  const maxSize = 5 * 1024 * 1024
-  if (file.size > maxSize) {
-    showError(t('agora', 'Image size should be less than 5MB'))
-    return
-  }
-
-  try {
-	const loadingMessage = showSuccess(t('agora', 'Uploading image...'), { timeout: 0 })
-
-    const response = await attachmentsStore.upload(inquiryStore.id, file,true)
-
-    console.log("ATTTTTTTTTTTTTTTT ",response)
-    const attachment = {
-      id: response.id ?? `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      name: response.name ?? file.name,
-      size: response.size ?? file.size,
-      fileId: response.fileId ?? undefined,
-      mimeType: response.mimeType ?? undefined,
-    }
-
-    // Use immutable update for better reactivity
-    attachmentsStore.attachments = [...attachmentsStore.attachments, attachment]
-    currentCoverUrl.value = getNextcloudPreviewUrl(attachment.fileId)
-    console.log(" WE GET FILE ID ", response.fileId)
-    inquiryStore.coverId=attachment.fileId
-    showSuccess(t('agora', '{file} uploaded', { file: response.name ?? file.name }))
-  } catch (error) {
-    console.error('Upload failed for file:', file.name, error)
-    showError(t('agora', 'Failed to upload {file}', { file: file.name }))
-    throw error // Re-throw to handle in parent function
-    }
-
-}
-
 // Format date
 const formatDate = (timestamp: number) => {
   return new Date(timestamp * 1000).toLocaleDateString()
@@ -501,149 +506,79 @@ const formatDate = (timestamp: number) => {
 
 <template>
 	<div v-if="isLoaded" class="inquiry-edit-view">
-		<!-- Debug info -->
-		<!-- Cover Image Section -->
-<div class="cover-image-section" v-if="inquiryStore.currentUserStatus?.isOwner">
-  <input
-    id="cover-upload-input"
-    ref="imageFileInput"
-    type="file"
-    class="hidden"
-    accept="image/*"
-    :aria-label="t('agora', 'Select cover image')"
-    @change="handleImageUpload"
-  />
-
-  <div
-    v-if="currentCoverUrl"
-    class="cover-image-container"
-    @click="triggerImageUpload"
-  >
-    <img
-      :src="currentCoverUrl"
-      :alt="t('agora', 'Inquiry cover image')"
-      class="cover-image"
-    />
-    <div class="cover-image-overlay">
-      <NcButton type="primary" class="change-cover-btn">
-        <template #icon>
-          <component :is="InquiryGeneralIcons.edit" :size="20" />
-        </template>
-        {{ t('agora', 'Change cover image') }}
-      </NcButton>
-    </div>
-  </div>
-
-  <div
-    v-else
-    class="cover-image-placeholder"
-    @click="triggerImageUpload"
-  >
-    <div class="placeholder-content">
-      <component :is="InquiryGeneralIcons.image" :size="48" class="placeholder-icon" />
-      <NcButton type="primary" class="add-cover-btn">
-        {{ t('agora', 'Add cover image') }}
-      </NcButton>
-      <p class="placeholder-text">{{ t('agora', 'Click to add a cover image') }}</p>
-    </div>
-  </div>
-</div>
-
-<!-- Cover Image for non-owners (but editable if not readonly) -->
-<div
-  v-else-if="currentCoverUrl"
-  class="cover-image-section"
-  :class="{ 'clickable': !isReadonly }"
-  @click="!isReadonly && triggerImageUpload()"
->
-  <img
-    :src="currentCoverUrl"
-    :alt="t('agora', 'Inquiry cover image')"
-    class="cover-image"
-  />
-  <div v-if="!isReadonly" class="cover-image-overlay">
-    <NcButton type="primary" class="change-cover-btn">
-      <template #icon>
-        <component :is="InquiryGeneralIcons.edit" :size="20" />
-      </template>
-      {{ t('agora', 'Change cover image') }}
-    </NcButton>
-  </div>
-</div>
-<!--			<div class="cover-image-section" v-if="inquiryStore.currentUserStatus?.isOwner">
+		<!-- Cover image section IMPROVED -->
+		<div class="cover-image-section">
 			<input
-				id="cover-upload-input"
-				ref="imageFileInput"
+				id="cover-image-upload-input"
+				ref="coverImageFileInput"
 				type="file"
 				class="hidden"
 				accept="image/*"
 				:aria-label="t('agora', 'Select cover image')"
-				@change="handleImageUpload"
+				@change="handleCoverImageUpload"
 			/>
-
-			<div 
-				v-if="currentCoverUrl" 
-				class="cover-image-container"
-				@click="triggerImageUpload"
-			>
-				<img
-					:src="currentCoverUrl"
-					:alt="t('agora', 'Inquiry cover image')"
+			
+			<div v-if="currentCoverUrl" class="cover-image-container" @click="triggerCoverImageUpload">
+				<img 
+					:src="currentCoverUrl" 
+					:alt="t('agora', 'Inquiry cover image')" 
 					class="cover-image"
 				/>
 				<div class="cover-image-overlay">
 					<NcButton type="primary" class="change-cover-btn">
-					<template #icon>
-						<component :is="InquiryGeneralIcons.edit" :size="20" />
-						</template>
 						{{ t('agora', 'Change cover image') }}
 					</NcButton>
 				</div>
 			</div>
-
-			<div 
-				v-else 
-				class="cover-image-placeholder"
-				@click="triggerImageUpload"
-			>
-				<div class="placeholder-content">
-					<component :is="InquiryGeneralIcons.image" :size="48" class="placeholder-icon" />
-					<NcButton type="primary" class="add-cover-btn">
-						{{ t('agora', 'Add cover image') }}
-					</NcButton>
-					<p class="placeholder-text">{{ t('agora', 'Click to add a cover image') }}</p>
-				</div>
+			
+			<div v-else class="cover-image-placeholder" @click="triggerCoverImageUpload">
+				<NcButton type="primary" class="add-cover-btn">
+					{{ t('agora', 'Add cover image') }}
+				</NcButton>
 			</div>
-</div>
+		</div>
 
-		<div 
-			v-else-if="currentCoverUrl" 
-			class="cover-image-section readonly"
-		>
-			<img
-				:src="currentCoverUrl"
-				:alt="t('agora', 'Inquiry cover image')"
-				class="cover-image"
-			/>
-		</div> -->
-		
-		<!-- User info section -->
+		<!-- File upload section -->
+		<div v-if="inquiryStore.currentUserStatus?.isOwner" class="attachment-upload">
+			<input
+					id="attachment-upload-input"
+					ref="imageFileInput"
+					:label="t('agora', 'Select files to upload')"
+					type="file"
+					class="hidden"
+					accept="image/*"
+					:aria-label="t('agora', 'Select files to upload')"
+					@change="handleImageUpload"
+					/>
+			<NcButton
+					type="primary"
+					:aria-label="t('agora', 'Add files')"
+					@click="triggerImageUpload"
+					>
+					{{ t('agora', 'Cover files') }}
+			</NcButton>
+		</div>
+
+		<!-- User info section FIXED -->
 		<div class="user-info-section">
 			<div class="header-left-content">
-				<component
-						v-if="inquiryStore.ownedGroup !== ''"
-						:is="NcAvatar"
-						:display-name="inquiryStore.ownedGroup"
-						:show-user-status="false"
-						:size="44"
-						/>
-				<component
-						v-else
-						:is="NcAvatar"
-						:user="inquiryStore.owner.id"
-						:display-name="inquiryStore.owner.displayName"
-						:size="44"
-						/>
+				<NcAvatar
+					v-if="inquiryStore.ownedGroup !== null"
+					:display-name="inquiryStore.ownedGroup"
+					:show-user-status="false"
+					:size="44"
+				/>
+				<NcAvatar
+					v-else
+					:user="inquiryStore.owner.id"
+					:display-name="inquiryStore.owner.displayName"
+					:size="44"
+				/>
+				<div class="user-details">
+					<span class="user-name">
+						{{ inquiryStore.ownedGroup !== null ? inquiryStore.ownedGroup : inquiryStore.owner.displayName }}
+					</span>
+				</div>
 			</div>
 		</div>
 
@@ -666,7 +601,7 @@ const formatDate = (timestamp: number) => {
 				</div>
 			</div>
 
-			<!-- Metadata section -->
+			<!-- Metadata section FIXED -->
 			<div class="metadata-section">
 				<div class="metadata-grid">
 					<div class="metadata-item">
@@ -721,7 +656,7 @@ const formatDate = (timestamp: number) => {
 						<span class="metadata-value">{{ formatDate(inquiryStore.status.lastInteraction) }}</span>
 					</div>
 
-					<div class="metadata-item">
+					<div class="metadata-item status-item">
 						<component :is="currentInquiryStatusIcon" :size="16" />
 						<span class="metadata-label">{{ t('agora', 'Status') }}:</span>
 						<template v-if="sessionStore.currentUser.isModerator">
@@ -746,20 +681,20 @@ const formatDate = (timestamp: number) => {
 				</div>
 			</div>
 
-			<!-- Description section -->
+			<!-- Description section FIXED -->
 			<div class="description-section">
 				<h3 class="section-title">{{ t('agora', 'Description') }}</h3>
 				<div class="description-content">
 					<div
-							v-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.editorType === 'wysiwyg'"
+							v-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type].editorType === 'wysiwyg'"
 							class="editor-container"
 							>
 							<InquiryEditor v-model="inquiryStore.description" :readonly="isReadonlyDescription" />
 					</div>
 
 						<div
-								v-else-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.editorType === 'texteditor'"
-								class="editor-container"
+								v-else-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type].editorType === 'texteditor'"
+								class="editor-container rich-text-container"
 								>
 								<NcRichText
 										v-model="inquiryStore.description"
@@ -785,94 +720,13 @@ const formatDate = (timestamp: number) => {
 </template>
 
 <style scoped lang="scss">
-.cover-image-section {
-	width: 100%;
-	margin-bottom: 2rem;
-	border-radius: var(--border-radius-large);
-	overflow: hidden;
-	position: relative;
-
-	&:not(.readonly) {
-		cursor: pointer;
-		border: 2px dashed var(--color-border);
-		transition: border-color 0.2s ease;
-
-		&:hover {
-			border-color: var(--color-primary);
-
-			.cover-image-overlay {
-				opacity: 1;
-			}
-
-			.cover-image-placeholder {
-				background: var(--color-background-hover);
-			}
-		}
-	}
-}
-
-.cover-image-container {
-	position: relative;
-	width: 100%;
-	height: 300px;
-
-	.cover-image {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.cover-image-overlay {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-		background: rgba(0, 0, 0, 0.6);
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		opacity: 0;
-		transition: opacity 0.3s ease;
-	}
-}
-
-.cover-image-placeholder {
-	width: 100%;
-	height: 200px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	background: var(--color-background-dark);
-	border-radius: var(--border-radius-large);
-	transition: background-color 0.2s ease;
-
-	.placeholder-content {
-		text-align: center;
-
-		.placeholder-icon {
-			color: var(--color-text-lighter);
-			margin-bottom: 1rem;
-		}
-
-		.placeholder-text {
-			margin-top: 0.5rem;
-			color: var(--color-text-lighter);
-			font-size: 0.9rem;
-		}
-	}
-}
-
-.hidden {
-	display: none;
-
-}
 .inquiry-edit-view {
 	padding: 10px;
 	background: var(--color-main-background);
 	border-radius: var(--border-radius-large);
 }
 
+/* Cover image section IMPROVED */
 .cover-image-section {
 	width: 100%;
 	margin-bottom: 1rem;
@@ -886,6 +740,53 @@ const formatDate = (timestamp: number) => {
 			opacity: 1;
 		}
 	}
+}
+
+.cover-image-container {
+	position: relative;
+	width: 100%;
+	height: 300px;
+}
+
+.cover-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.cover-image-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transition: opacity 0.3s ease;
+}
+
+.cover-image-placeholder {
+	width: 100%;
+	height: 200px;
+	background: var(--color-background-dark);
+	border: 2px dashed var(--color-border);
+	border-radius: var(--border-radius-large);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	
+	&:hover {
+		border-color: var(--color-primary);
+		background: var(--color-background-hover);
+	}
+}
+
+.change-cover-btn,
+.add-cover-btn {
+	z-index: 2;
 }
 
 /* File upload section */
@@ -902,7 +803,7 @@ const formatDate = (timestamp: number) => {
 	display: none;
 }
 
-/* User info section */
+/* User info section FIXED */
 .user-info-section {
 	display: flex;
 	align-items: center;
@@ -911,8 +812,6 @@ const formatDate = (timestamp: number) => {
 	padding: 1rem;
 	background: var(--color-background-dark);
 	border-radius: var(--border-radius);
-	position: relative;
-	z-index: 5;
 }
 
 .header-left-content {
@@ -985,7 +884,7 @@ const formatDate = (timestamp: number) => {
 	  }
   }
 
-  /* Metadata section */
+  /* Metadata section FIXED */
   .metadata-section {
 	  margin-bottom: 1.5rem;
 	  padding: 1rem;
@@ -995,33 +894,20 @@ const formatDate = (timestamp: number) => {
 
   .metadata-grid {
 	  display: grid;
-	  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	  gap: 0.75rem;
+	  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+	  gap: 1rem;
   }
 
-  .metadata-item:nth-child(1),
-  .metadata-item:nth-child(2) {
-	  justify-self: start;
-	  display: flex;
-	  align-items: center;
-	  gap: 0.5rem;
-  }
-
-  .metadata-item:nth-child(3),
-  .metadata-item:nth-child(5),
-  .metadata-item:nth-child(6) {
-	  justify-self: end;
-	  display: flex;
-	  align-items: center;
-	  gap: 0.5rem;
-	 
-  }
-
+  /* Specific alignment for items */
   .metadata-item {
+	  display: flex;
+	  align-items: center;
+	  gap: 0.5rem;
 	  font-size: 0.9rem;
+	  
+	  &.status-item,
 	  &.last-interaction-item {
 		  justify-self: start;
-		   padding-left: 40px;
 	  }
   }
 
@@ -1029,6 +915,7 @@ const formatDate = (timestamp: number) => {
 	  font-weight: 600;
 	  color: var(--color-text-lighter);
 	  white-space: nowrap;
+	  min-width: fit-content;
   }
 
   .metadata-value {
@@ -1049,7 +936,7 @@ const formatDate = (timestamp: number) => {
 	  min-width: 120px;
   }
 
-  /* Description section */
+  /* Description section FIXED */
   .description-section {
 	  margin-bottom: 1rem;
   }
@@ -1072,7 +959,7 @@ const formatDate = (timestamp: number) => {
 	  width: 100%;
 	  
 	  &.rich-text-container {
-		  min-height: 250px;
+		  min-height: 200px;
 	  }
   }
 
@@ -1095,7 +982,7 @@ const formatDate = (timestamp: number) => {
 	  padding: 12px;
   }
 
-  /* Mobile responsive */
+  /* Improved mobile responsive */
   @media (max-width: 768px) {
 	  .title-row {
 		  flex-direction: column;
@@ -1109,15 +996,42 @@ const formatDate = (timestamp: number) => {
 
 	  .metadata-grid {
 		  grid-template-columns: 1fr;
+		  gap: 0.75rem;
 	  }
 
 	  .metadata-item {
 		  flex-wrap: wrap;
+		  gap: 0.25rem;
 	  }
 
 	  .select-field.location-select,
 	  .select-field.category-select {
 		  max-width: 100%;
+	  }
+	  
+	  .cover-image-container {
+		  height: 200px;
+	  }
+	  
+	  .cover-image-placeholder {
+		  height: 150px;
+	  }
+	  
+	  .rich-text-editor,
+	  .text-area-editor {
+		  min-height: 150px;
+	  }
+  }
+
+  @media (max-width: 480px) {
+	  .header-left-content {
+		  flex-direction: column;
+		  text-align: center;
+		  gap: 8px;
+	  }
+	  
+	  .user-details {
+		  align-items: center;
 	  }
   }
 </style>

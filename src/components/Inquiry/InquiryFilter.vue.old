@@ -41,34 +41,34 @@ console.log(" FAMILY ID INTO FILTER" ,props.familyId)
 const inquiryTypesForFamily = computed(() => {
   if (!props.familyId) {
     return sessionStore.appSettings.inquiryTypeTab || []
-  }
-  
+
+	}
   const family = sessionStore.appSettings.inquiryFamilyTab?.find(
-    f => f.id === props.familyId
+    f => f.id.toString() === props.familyId
   )
 
   if (!family) {
     console.warn(`Family with id ${props.familyId} not found`)
-    console.log('Available families:', sessionStore.appSettings.inquiryFamilyTab)
     return sessionStore.appSettings.inquiryTypeTab || []
   }
 
   const filteredTypes = sessionStore.appSettings.inquiryTypeTab?.filter(
-    type => type.family === family.family_type && type.isOption === 0
+    type => type.family === family.inquiry_type && type.isOption === 0
   ) || []
 
   console.log('🔍 Filtered inquiry types for family:', {
     familyId: props.familyId,
-    familyInquiryType: family.family_type,
+    familyInquiryType: family.inquiry_type,
     filteredTypes
   })
 
   return filteredTypes
 })
 
+
 watch(() => props.familyId, (newFamilyId) => {
   console.log('🔍 Family ID changed in filter:', newFamilyId)
-  // Reset type filter when family changes
+  // Réinitialiser le filtre de type quand la famille change
   selectedType.value = 'all'
   applyFilters()
 })
@@ -83,14 +83,9 @@ const filterOptions = computed(() => {
     label: type.name || type.inquiry_type
   }))
 
-  const typeOptions = (!props.familyId || familyTypeOptions.length === 0) 
+  const typeOptions = !props.familyId || familyTypeOptions.length === 0 
     ? [
-        ...baseTypeOptions,
-        ...(sessionStore.appSettings.inquiryTypeTab?.filter(type => type.isOption === 0).map(type => ({
-          value: type.inquiry_type,
-          label: type.name || type.inquiry_type
-        })) || [])
-      ]
+	...baseTypeOptions,
     : [...baseTypeOptions, ...familyTypeOptions]
 
   return {
@@ -98,22 +93,22 @@ const filterOptions = computed(() => {
     inquiryStatuses: [
       { value: 'all', label: t('agora', 'All statuses') },
       ...(sessionStore.appSettings.inquiryStatusTab?.map((status) => ({
-        value: status.id,
-        label: status.name,
+	value: status.id,
+	label: status.name,
       })) || []),
     ],
     categories: [
       { value: 'all', label: t('agora', 'All categories') },
       ...(sessionStore.appSettings.categoryTab?.map((cat) => ({
-        value: cat.id,
-        label: cat.name,
+	value: cat.id,
+	label: cat.name,
       })) || []),
     ],
     locations: [
       { value: 'all', label: t('agora', 'All locations') },
       ...(sessionStore.appSettings.locationTab?.map((loc) => ({
-        value: loc.id,
-        label: loc.name,
+	value: loc.id,
+	label: loc.name,
       })) || []),
     ],
     participation: [
@@ -135,13 +130,12 @@ const applyFilters = () => {
     return
   }
 
-  // Get family_type from familyId
-  let familyType = undefined
+   let familyType = undefined
   if (props.familyId) {
     const family = sessionStore.appSettings.inquiryFamilyTab?.find(
       f => f.id === props.familyId
     )
-    familyType = family?.family_type
+    familyType = family?.inquiry_type
     console.log('🔍 Converting familyId to family_type:', {
       familyId: props.familyId,
       familyType: familyType,
@@ -172,9 +166,10 @@ const applyFilters = () => {
     parentId: mainInquiriesOnly.value ? 0 : undefined,
 
     search: searchQuery.value.trim() || undefined,
-    familyId: familyType, // Send family_type instead of familyId
+    familyId: familyType || undefined,
   })
 }
+
 
 const resetFilters = () => {
   selectedType.value = 'all'
@@ -617,181 +612,181 @@ onUnmounted(() => {
 	}
 }
 
-																		      @media (max-width: 1400px) {
-																			      .inquiry-filters {
-																				      .filters-header {
-																					      gap: 12px;
+																					      @media (max-width: 1400px) {
+																						      .inquiry-filters {
+																							      .filters-header {
+																								      gap: 12px;
 
-																					      .search-box.compact {
-																						      min-width: 200px;
-																						      max-width: 300px;
-																					      }
+																								      .search-box.compact {
+																									      min-width: 200px;
+																									      max-width: 300px;
+																								      }
 
-																					      .main-filters {
-																						      gap: 12px;
+																								      .main-filters {
+																									      gap: 12px;
 
-																						      .filter-group.compact {
-																							      :deep(.nc-select) {
-																								      min-width: 130px;
+																									      .filter-group.compact {
+																										      :deep(.nc-select) {
+																											      min-width: 130px;
+																										      }
+																									      }
+																								      }
 																							      }
 																						      }
 																					      }
-																				      }
-																			      }
-																		      }
 
-																		      @media (max-width: 1200px) {
-																			      .inquiry-filters {
-																				      .filters-header {
-																					      gap: 10px;
+																					      @media (max-width: 1200px) {
+																						      .inquiry-filters {
+																							      .filters-header {
+																								      gap: 10px;
 
-																					      .search-box.compact {
-																						      min-width: 180px;
-																						      max-width: 250px;
-																					      }
+																								      .search-box.compact {
+																									      min-width: 180px;
+																									      max-width: 250px;
+																								      }
 
-																					      .main-filters {
-																						      gap: 10px;
+																								      .main-filters {
+																									      gap: 10px;
 
-																						      .filter-group.compact {
-																							      :deep(.nc-select) {
-																								      min-width: 120px;
+																									      .filter-group.compact {
+																										      :deep(.nc-select) {
+																											      min-width: 120px;
+																										      }
+																									      }
+																								      }
 																							      }
 																						      }
 																					      }
-																				      }
-																			      }
-																		      }
 
-																		      @media (max-width: 1024px) {
-																			      .inquiry-filters {
-																				      .filters-header {
-																					      flex-wrap: wrap;
-																					      gap: 12px;
+																					      @media (max-width: 1024px) {
+																						      .inquiry-filters {
+																							      .filters-header {
+																								      flex-wrap: wrap;
+																								      gap: 12px;
 
-																					      .search-box.compact {
-																						      max-width: none;
-																						      min-width: 200px;
-																						      order: 1;
-																						      flex: 1;
-																					      }
+																								      .search-box.compact {
+																									      max-width: none;
+																									      min-width: 200px;
+																									      order: 1;
+																									      flex: 1;
+																								      }
 
-																					      .filters-toggle-btn {
-																						      order: 2;
-																						      flex-shrink: 0;
-																					      }
+																								      .filters-toggle-btn {
+																									      order: 2;
+																									      flex-shrink: 0;
+																								      }
 
-																					      .main-filters {
-																						      order: 3;
-																						      flex-basis: 100%;
-																						      margin-top: 12px;
-																						      justify-content: flex-start;
-																						      gap: 12px;
-																						      flex-wrap: wrap;
-																					      }
+																								      .main-filters {
+																									      order: 3;
+																									      flex-basis: 100%;
+																									      margin-top: 12px;
+																									      justify-content: flex-start;
+																									      gap: 12px;
+																									      flex-wrap: wrap;
+																								      }
 
-																					      .reset-btn.compact {
-																						      order: 4;
-																						      flex-shrink: 0;
-																					      }
-																				      }
+																								      .reset-btn.compact {
+																									      order: 4;
+																									      flex-shrink: 0;
+																								      }
+																							      }
 
-																				      .filters-expanded {
-																					      .filters-grid {
-																						      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-																						      gap: 12px;
-																					      }
-																				      }
-																			      }
-																		      }
-
-																		      @media (max-width: 768px) {
-																			      .inquiry-filters {
-																				      padding: 12px;
-
-																				      .filters-header {
-																					      gap: 10px;
-
-																					      .search-box.compact {
-																						      min-width: 150px;
-																						      flex: 1;
-																					      }
-
-																					      .main-filters {
-																						      gap: 10px;
-																						      flex-wrap: wrap;
-
-																						      .filter-group.compact {
-																							      flex: 1;
-																							      min-width: 140px;
+																							      .filters-expanded {
+																								      .filters-grid {
+																									      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+																									      gap: 12px;
+																								      }
+																							      }
 																						      }
 																					      }
 
-																					      .filters-toggle-btn {
-																						      font-size: 12px;
-																						      padding: 8px 12px;
-																					      }
+																					      @media (max-width: 768px) {
+																						      .inquiry-filters {
+																							      padding: 12px;
 
-																					      .reset-btn.compact {
-																						      font-size: 12px;
-																						      padding: 8px 12px;
-																					      }
-																				      }
+																							      .filters-header {
+																								      gap: 10px;
 
-																				      .filters-expanded {
-																					      .filters-grid {
-																						      grid-template-columns: 1fr;
-																						      gap: 12px;
-																					      }
-																				      }
+																								      .search-box.compact {
+																									      min-width: 150px;
+																									      flex: 1;
+																								      }
 
-																				      .active-filters-summary {
-																					      flex-direction: column;
-																					      align-items: flex-start;
-																					      gap: 6px;
+																								      .main-filters {
+																									      gap: 10px;
+																									      flex-wrap: wrap;
 
-																					      .summary-label {
-																						      margin-bottom: 2px;
-																					      }
-																				      }
-																			      }
-																		      }
+																									      .filter-group.compact {
+																										      flex: 1;
+																										      min-width: 140px;
+																									      }
+																								      }
 
-																		      @media (max-width: 480px) {
-																			      .inquiry-filters {
-																				      .filters-header {
-																					      flex-direction: column;
-																					      align-items: stretch;
-																					      gap: 10px;
+																								      .filters-toggle-btn {
+																									      font-size: 12px;
+																									      padding: 8px 12px;
+																								      }
 
-																					      .search-box.compact {
-																						      max-width: none;
-																						      order: 1;
-																						      min-width: auto;
-																					      }
+																								      .reset-btn.compact {
+																									      font-size: 12px;
+																									      padding: 8px 12px;
+																								      }
+																							      }
 
-																					      .filters-toggle-btn {
-																						      order: 2;
-																						      justify-content: center;
-																					      }
+																							      .filters-expanded {
+																								      .filters-grid {
+																									      grid-template-columns: 1fr;
+																									      gap: 12px;
+																								      }
+																							      }
 
-																					      .main-filters {
-																						      order: 3;
-																						      flex-direction: column;
-																						      align-items: stretch;
-																						      gap: 10px;
+																							      .active-filters-summary {
+																								      flex-direction: column;
+																								      align-items: flex-start;
+																								      gap: 6px;
 
-																						      .filter-group.compact {
-																							      min-width: auto;
-																							      justify-content: space-between;
+																								      .summary-label {
+																									      margin-bottom: 2px;
+																								      }
+																							      }
 																						      }
 																					      }
 
-																					      .reset-btn.compact {
-																						      order: 4;
-																						      justify-content: center;
+																					      @media (max-width: 480px) {
+																						      .inquiry-filters {
+																							      .filters-header {
+																								      flex-direction: column;
+																								      align-items: stretch;
+																								      gap: 10px;
+
+																								      .search-box.compact {
+																									      max-width: none;
+																									      order: 1;
+																									      min-width: auto;
+																								      }
+
+																								      .filters-toggle-btn {
+																									      order: 2;
+																									      justify-content: center;
+																								      }
+
+																								      .main-filters {
+																									      order: 3;
+																									      flex-direction: column;
+																									      align-items: stretch;
+																									      gap: 10px;
+
+																									      .filter-group.compact {
+																										      min-width: auto;
+																										      justify-content: space-between;
+																									      }
+																								      }
+
+																								      .reset-btn.compact {
+																									      order: 4;
+																									      justify-content: center;
+																								      }
+																							      }
+																						      }
 																					      }
-																				      }
-																			      }
-																		      }
 </style>

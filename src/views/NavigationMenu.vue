@@ -4,7 +4,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue'
+import { watch,ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import { emit } from '@nextcloud/event-bus'
@@ -41,8 +41,7 @@ const availableGroups = computed(() => {
 })
 
 // State for selected family
-const selectedFamily = ref<string | null>(route.params.familyId as string || null)
-
+const selectedFamily = ref<string | null>(inquiriesStore.familyId || null)
 // State for expanded/collapsed families
 const expandedFamilies = ref<Set<string>>(new Set())
 
@@ -65,6 +64,11 @@ const allInquiryTypes = computed((): InquiryType[] => {
 const inquiryTypesByFamily = computed(() => {
   const types = allInquiryTypes.value.filter(type => type.isOption === 0)
   return getInquiryTypesByFamily(types)
+})
+
+// Computed for default view mode from app settings
+const defaultViewMode = computed(() => {
+  return sessionStore.appSettings.defaultCreateMode === 'view' ? 'view' : 'create'
 })
 
 // DEBUG: Check data
@@ -113,9 +117,12 @@ function showSettings() {
 
 // Function to navigate to family inquiries
 function navigateToFamilyInquiries(familyId: string) {
+  inquiriesStore.setFamilyId(familyId)
+  selectedFamily.value = familyId
   router.push({
-    name: 'family-inquiries',
-    params: { familyId }
+  	name: defaultViewMode.value === 'create' ? 'menu' : 'list',
+    	params: defaultViewMode.value === 'view' ? { type: 'relevant' } : {},
+    	query: { viewMode: defaultViewMode.value }
   })
 }
 
@@ -147,10 +154,19 @@ function handleCloseDialog() {
 function handleGroupUpdate(groups: string[]) {
   selectedGroups.value = groups
 }
+
+// Watch for familyId changes in store
+watch(
+  () => inquiriesStore.familyId,
+  (newFamilyId) => {
+    selectedFamily.value = newFamilyId
+  }
+)
+
 </script>
 
 <template>
-  <div class="navigation-container">
+  <div class="agora-navigation">
     <!-- Menu de navigation -->
     <nav class="navigation-menu" aria-label="Inquiry navigation">
       <!-- Recent Inquiries Section -->
@@ -189,9 +205,9 @@ function handleGroupUpdate(groups: string[]) {
           :key="family.id"
           :name="getFamilyData(family).label"
           :allow-collapse="true"
-          :open="isFamilyExpanded(family.inquiry_type)"
-          @update:open="toggleFamily(family.inquiry_type)"
-          @click="navigateToFamilyInquiries(family.id.toString())"
+          :open="isFamilyExpanded(family.family_type)"
+          @update:open="toggleFamily(family.family_type)"
+          @click="navigateToFamilyInquiries(family.family_type)"
         >
           <template #icon>
             <component :is="getFamilyData(family).icon" />
@@ -199,13 +215,13 @@ function handleGroupUpdate(groups: string[]) {
           
           <template #counter>
             <span class="family-counter">
-              {{ getInquiryTypesForCurrentFamily(family.inquiry_type).length }}
+              {{ getInquiryTypesForCurrentFamily(family.family_type).length }}
             </span>
           </template>
 
           <!-- Inquiry Types for this family (only isOption === 0) -->
           <NcAppNavigationItem
-            v-for="inquiryType in getInquiryTypesForCurrentFamily(family.inquiry_type)"
+            v-for="inquiryType in getInquiryTypesForCurrentFamily(family.family_type)"
             :key="inquiryType.id"
             :name="getInquiryTypeDisplayData(inquiryType).label"
             @click="createInquiry(inquiryType)"
@@ -220,7 +236,7 @@ function handleGroupUpdate(groups: string[]) {
           </NcAppNavigationItem>
 
           <NcAppNavigationItem
-            v-if="getInquiryTypesForCurrentFamily(family.inquiry_type).length === 0"
+            v-if="getInquiryTypesForCurrentFamily(family.family_type).length === 0"
             :name="t('agora', 'No inquiry types')"
             :disabled="true"
           />

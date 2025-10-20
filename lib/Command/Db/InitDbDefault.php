@@ -12,7 +12,6 @@ use OCA\Agora\Command\Command;
 use OCP\IDBConnection;
 use OCA\Agora\Db\Category;
 use OCA\Agora\Db\Location;
-use OCA\Agora\Db\ModerationStatus;
 use OCA\Agora\Db\InquiryStatus;
 use OCA\Agora\Db\InquiryType;
 use OCA\Agora\Db\InquiryFamily;
@@ -26,7 +25,7 @@ class InitDbDefault extends Command
 
 	private array $inquiryTypeFamilies = [
 		[
-			'inquiry_type' => 'deliberative',
+			'family_type' => 'deliberative',
 			'label' => 'Deliberative',
 			'description' => 'Citizen-driven processes such as debates, proposals, petitions, projects, and deliberations.',
 			'icon' => 'AccountGroup',
@@ -34,7 +33,7 @@ class InitDbDefault extends Command
 			'created' => '',
 		],
 		[
-			'inquiry_type' => 'legislative',
+			'family_type' => 'legislative',
 			'label' => 'Legislative',
 			'description' => 'Law proposals, amendments, constitutional workshops, and official legislative responses.',
 			'icon' => 'Gavel',
@@ -42,7 +41,7 @@ class InitDbDefault extends Command
 			'created' => '',
 		],
 		[
-			'inquiry_type' => 'administrative',
+			'family_type' => 'administrative',
 			'label' => 'Administrative',
 			'description' => 'Administrative requests and grievances addressed to institutions.',
 			'icon' => 'OfficeBuilding',
@@ -50,7 +49,7 @@ class InitDbDefault extends Command
 			'created' => '',
 		],
 		[
-			'inquiry_type' => 'service',
+			'family_type' => 'service',
 			'label' => 'Service',
 			'description' => 'Social and citizen service requests such as housing, childcare, or scholarships.',
 			'icon' => 'Offer',
@@ -58,7 +57,7 @@ class InitDbDefault extends Command
 			'created' => '',
 		],
 		[
-			'inquiry_type' => 'collective',
+			'family_type' => 'collective',
 			'label' => 'Collective',
 			'description' => 'Assemblies and grouped consultations on themes or topics, could be used for submit it to polls',
 			'icon' => 'AccountMultiple',
@@ -66,7 +65,7 @@ class InitDbDefault extends Command
 			'created' => '',
 		],
 		[
-			'inquiry_type' => 'official',
+			'family_type' => 'official',
 			'label' => 'Official',
 			'description' => 'Responses and contributions from official entities such as city hall, experts, or commissions.',
 			'icon' => 'Seal',
@@ -809,144 +808,6 @@ private array $inquiryTypes = [
 		['name' => 'State 3', 'parent' => 'Country'],
 	];
 
-	private array $moderationStatuses = [
-		// ----------------------
-		// DELIBERATIVE FAMILY
-		// ----------------------
-		'proposal' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The proposal is awaiting moderation.',        'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The proposal was approved.',                  'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The proposal was rejected.',                  'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-			['status_key' => 'need_revised',  'label' => 'Need Revised',  'description' => 'The proposal must be revised before approval.','is_final' => false, 'icon' => 'Edit',        'sort_order' => 4],
-		],
-		'petition' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The petition is awaiting moderation.',        'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The petition was approved.',                  'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The petition was rejected.',                  'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'initiative' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The initiative is awaiting moderation.',      'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The initiative was approved.',                'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The initiative was rejected.',                'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'debate' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The debate is awaiting moderation.',          'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The debate was approved.',                    'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The debate was rejected.',                    'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'deliberation' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The deliberation is awaiting moderation.',    'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The deliberation was approved.',              'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The deliberation was rejected.',              'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'vision' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The vision is awaiting moderation.',          'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The vision was approved.',                    'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The vision was rejected.',                    'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'objection' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The objection is awaiting moderation.',       'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The objection was approved.',                 'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The objection was rejected.',                 'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'suggestion' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The suggestion is awaiting moderation.',      'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The suggestion was approved.',                'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The suggestion was rejected.',                'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'project' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The project is awaiting moderation.',         'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The project was approved.',                   'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The project was rejected.',                   'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'project_review' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The project review is awaiting moderation.',  'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The project review was approved.',            'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The project review was rejected.',            'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-
-		// ----------------------
-		// COLLECTIVE FAMILY
-		// ----------------------
-		'assembly' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The assembly is awaiting moderation.',        'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The assembly was approved.',                  'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The assembly was rejected.',                  'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'consultation' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The consultation is awaiting moderation.',    'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The consultation was approved.',              'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The consultation was rejected.',              'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-
-		// ----------------------
-		// LEGISLATIVE FAMILY
-		// ----------------------
-		'law_proposal' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The law proposal is awaiting moderation.',    'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The law proposal was approved.',              'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The law proposal was rejected.',              'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'amendment' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The amendment is awaiting moderation.',       'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The amendment was approved.',                 'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The amendment was rejected.',                 'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'constitutional_workshop' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The workshop is awaiting moderation.',        'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The workshop was approved.',                  'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The workshop was rejected.',                  'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'policy_consultation' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The policy consultation is awaiting moderation.', 'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The policy consultation was approved.',       'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The policy consultation was rejected.',       'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'response' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The response is awaiting moderation.',        'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The response was approved.',                  'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The response was rejected.',                  'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-
-		// ----------------------
-		// ADMINISTRATIVE FAMILY
-		// ----------------------
-		'admin_request' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The request is awaiting moderation.',         'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The request was approved.',                   'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The request was rejected.',                   'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'grievance' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The grievance is awaiting moderation.',       'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The grievance was approved.',                 'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The grievance was rejected.',                 'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-
-		// ----------------------
-		// SERVICE FAMILY
-		// ----------------------
-		'service_request' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The service request is awaiting moderation.', 'is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The service request was approved.',           'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The service request was rejected.',           'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-
-		// ----------------------
-		// OFFICIAL FAMILY
-		// ----------------------
-		'official_response' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The official response is awaiting moderation.','is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The official response was approved.',         'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The official response was rejected.',         'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-		'official_document' => [
-			['status_key' => 'pending',       'label' => 'Pending',       'description' => 'The official document is awaiting moderation.','is_final' => false, 'icon' => 'ClockOutline', 'sort_order' => 1],
-			['status_key' => 'approved',      'label' => 'Approved',      'description' => 'The official document was approved.',         'is_final' => true,  'icon' => 'Check',       'sort_order' => 2],
-			['status_key' => 'rejected',      'label' => 'Rejected',      'description' => 'The official document was rejected.',         'is_final' => true,  'icon' => 'Cancel',      'sort_order' => 3],
-		],
-	];
-
-
 	public function __construct(IDBConnection $connection, IGroupManager $groupManager)
 	{
 		parent::__construct();
@@ -972,7 +833,6 @@ private array $inquiryTypes = [
 
 		$this->insertDefaultCategories($output);
 		$this->insertDefaultLocations($output);
-		$this->insertDefaultModerationStatuses($output);
 		$this->insertDefaultInquiryStatuses($output);
 		$this->insertDefaultInquiryFamilies($output);
 		$this->insertDefaultInquiryTypes($output);
@@ -1154,27 +1014,27 @@ private array $inquiryTypes = [
 		$inserted = [];
 
 		foreach ($this->inquiryTypeFamilies as $family) {
-			if (isset($inserted[$family['inquiry_type']])) {
-				$this->log($output, 'Inquiry family already processed: ' . $family['inquiry_type']);
+			if (isset($inserted[$family['family_type']])) {
+				$this->log($output, 'Inquiry family already processed: ' . $family['family_type']);
 				continue;
 			}
 
 			$query = $this->connection->prepare(
 				'SELECT `id` FROM `*PREFIX*' . InquiryFamily::TABLE . '`
-				WHERE `inquiry_type` = ?'
+				WHERE `family_type` = ?'
 			);
-			$cursor = $query->execute([$family['inquiry_type']]); 
+			$cursor = $query->execute([$family['family_type']]); 
 			$row = $cursor->fetch();
 
 			if ($row !== false) {
-				$this->log($output, 'Inquiry family already exists in DB: ' . $family['inquiry_type']);
-				$inserted[$family['inquiry_type']] = (int) $row['id'];
+				$this->log($output, 'Inquiry family already exists in DB: ' . $family['family_type']);
+				$inserted[$family['family_type']] = (int) $row['id'];
 				continue;
 			}
 
 			$insert = $this->connection->prepare(
 				'INSERT INTO `*PREFIX*' . InquiryFamily::TABLE . '`
-				(`inquiry_type`, `label`, `description`, `icon`, `sort_order`, `created`)
+				(`family_type`, `label`, `description`, `icon`, `sort_order`, `created`)
 				VALUES (?, ?, ?, ?, ?, ?)'
 	);
 
@@ -1182,7 +1042,7 @@ private array $inquiryTypes = [
 		$created = !empty($family['created']) ? (int)$family['created'] : time();
 
 	    $insert->execute([ 
-		$family['inquiry_type'],
+		$family['family_type'],
 		$family['label'],
 		$family['description'] ?? '',
 		$family['icon'] ?? '',
@@ -1191,55 +1051,15 @@ private array $inquiryTypes = [
 	    ]);
 
 	    $id = (int) $this->connection->lastInsertId('*PREFIX*' . InquiryFamily::TABLE); 
-	    $inserted[$family['inquiry_type']] = $id;
+	    $inserted[$family['family_type']] = $id;
 
-	    $this->log($output, 'Inserted inquiry family: ' . $family['inquiry_type']);
+	    $this->log($output, 'Inserted inquiry family: ' . $family['family_type']);
 	} catch (\Exception $e) {
-	    $this->log($output, 'ERROR inserting inquiry family ' . $family['inquiry_type'] . ': ' . $e->getMessage());
+	    $this->log($output, 'ERROR inserting inquiry family ' . $family['family_type'] . ': ' . $e->getMessage());
 	}
     }
 }
 
-
-    private function insertDefaultModerationStatuses(?IOutput $output = null): void
-    {
-	$this->log($output, 'Inserting default moderation statuses...');
-
-	foreach ($this->moderationStatuses as $inquiryType => $statuses) {
-	    foreach ($statuses as $status) {
-		$query = $this->connection->prepare(
-		    'SELECT `id` FROM `*PREFIX*'.ModerationStatus::TABLE.'`
-				    WHERE `inquiry_type` = ? AND `status_key` = ?'
-		);
-		$cursor = $query->execute([$inquiryType, $status['status_key']]);
-		$row = $cursor->fetch();
-
-		if ($row !== false) {
-		    $this->log($output, 'Moderation status already exists: ' . $inquiryType . ' -> ' . $status['status_key']);
-		       continue;
-		}
-		$insert = $this->connection->prepare(
-		    'INSERT INTO `*PREFIX*'.ModerationStatus::TABLE.'` 
-				    (`inquiry_type`, `status_key`, `label`, `description`, `icon`, `is_final`, `sort_order`) 
-				    VALUES (?, ?, ?, ?, ?, ?, ?)'
-		);
-
-		$insert->execute(
-		    [
-		    $inquiryType,
-		    $status['status_key'],
-		    $status['label'],
-		    $status['description'],
-		    $status['icon'],
-		    (int) $status['is_final'],
-		    $status['sort_order'],
-		    ]
-		);
-
-
-	    }
-	}
-    }
 
 
     private function createDefaultGroups(?IOutput $output = null): void
@@ -1247,7 +1067,7 @@ private array $inquiryTypes = [
 
 	$this->log($output, 'Creating default Nextcloud groups...');
 
-	$groups = ['Agora Users','Agora Moderator', 'Agora Official','Agora Experts','Agora Services','Agora Associations','Agora Comissions'];
+	$groups = ['Agora Users','Agora Moderator', 'Agora Official','Agora Legislatives','Agora Administratif','Agora Collective'];
 
 	foreach ($groups as $groupName) {
 	    $group = $this->groupManager->get($groupName);

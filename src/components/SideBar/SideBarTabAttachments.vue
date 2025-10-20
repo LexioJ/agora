@@ -63,7 +63,7 @@ const handleFileUpload = async (event: Event) => {
 const uploadSingleFile = async (file: File) => {
   try {
     
-    const response = await attachmentsStore.upload(inquiryStore.id, file)
+    const response = await attachmentsStore.upload(inquiryStore.id, file, false)
     
     const attachment = {
       id: response.id ?? `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,

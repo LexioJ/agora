@@ -15,7 +15,7 @@ import {
   AdminArchiveInquiries,
   AdminDeleteInquiries,
   AdminEmail,
-  AdminModerationStatus,
+  AdminInquiryStatus,
   AdminJobs,
   AdminLegal,
   AdminInquiryRights,
@@ -42,11 +42,11 @@ const sections = {
     name: t('agora', 'Categories and Locations Management'),
     description: t('agora', 'Change globally location and category (for all accounts)'),
   },
-  inquiryModerationStatus: {
-    name: t('agora', 'Moderation status settings'),
+  inquiryInquiryStatus: {
+    name: t('agora', 'Inquiry status settings'),
     description: t(
       'agora',
-      'Configure moderation statuses for each type of inquiry. Moderators will be able to set these statuses on inquiries.'
+      'Configure inquiry statuses for each type of inquiry. Moderators will be able to set these statuses on inquiries.'
     ),
   },
   inquirySettings: {
@@ -143,8 +143,8 @@ onMounted(async () => {
           <AdminCategoryLocation />
         </NcSettingsSection>
 
-        <NcSettingsSection v-bind="sections.inquiryModerationStatus">
-          <AdminModerationStatus />
+        <NcSettingsSection v-bind="sections.inquiryInquiryStatus">
+          <AdminInquiryStatus />
         </NcSettingsSection>
       </NcSettingsSection>
       <NcSettingsSection>

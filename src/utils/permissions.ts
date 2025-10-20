@@ -118,6 +118,7 @@ export enum UserType {
   Guest = 'guest',
   User = 'user',
   Moderator = 'moderator',
+  Official = 'official',
   Admin = 'admin',
   Owner = 'owner',
 }

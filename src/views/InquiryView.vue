@@ -36,6 +36,7 @@ import {
 } from '../helpers/modules/InquiryHelper.ts'
 
 const forceRenderKey = ref(0)
+const selectedMode = ref('response')
 const route = useRoute()
 const router = useRouter()
 const inquiryStore = useInquiryStore()
@@ -45,11 +46,9 @@ const tableSticky = ref(false)
 const editMode = ref(false)
 const isAppLoaded = ref(false)
 
-// CORRECTION: Gestion correcte de la boîte de dialogue
 const createDlgToggle = ref(false)
 const selectedInquiryTypeForCreation = ref('')
 const selectedGroups = ref([])
-const availableGroups = ref([])
 const isSaving = ref(false)
 
 const showMore = computed(
@@ -64,6 +63,14 @@ const formatDate = (timestamp: number) =>
 const countLoadedInquiries = computed(() =>
   Math.min(inquiriesStore.chunkedList.length, inquiriesStore.inquiriesFilteredSorted.length)
 )
+
+const availableGroups = computed(() => {
+  const groups = sessionStore.currentUser.groups || {}
+  if (typeof groups === 'object' && !Array.isArray(groups)) {
+    return Object.keys(groups)
+  }
+  return groups
+})
 
 const closeToClosing = computed(() => {
   if (!inquiryStore.configuration.expire) return false
@@ -196,12 +203,14 @@ const handleSave = async () => {
 
 const handleAllowedResponse = (responseType: string) => {
   console.log('Opening dialog for response type:', responseType)
+  selectedMode.value = 'response' 
   selectedInquiryTypeForCreation.value = responseType
   createDlgToggle.value = true
 }
 
 const handleAllowedTransformation = (transformType: string) => {
   console.log('Opening dialog for transformation type:', transformType)
+  selectedMode.value = 'transform' 
   selectedInquiryTypeForCreation.value = transformType
   createDlgToggle.value = true
 }
@@ -266,6 +275,7 @@ const handleGroupUpdate = (groups) => {
       v-if="createDlgToggle"
       :responseType="selectedInquiryTypeForCreation"
       :selected-groups="selectedGroups"
+      :selected-mode="selectedMode"
       :available-groups="availableGroups"
       :parent-inquiry-id="inquiryStore.id"
       :default-title="selectedInquiryTypeForCreation === 'official' 

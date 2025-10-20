@@ -15,7 +15,7 @@
 		Community-driven: Flexible workflows, new contribution types, and collaborative drafting are planned – get involved!
 	</description>
 	<version>1.5.0-beta</version>
-	<licence>AGPL</licence>
+	<licence>AGPL-3.0-or-later</licence>
 	<author>Vincent TRAPPE</author>
 	<documentation>
 		<admin>https://github.com/vinimoz/agora/blob/master/README.md</admin>
@@ -32,7 +32,7 @@
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/ModerationStatus.png</screenshot>
 	<dependencies>
 		<php min-version="8.1"/>
-		<nextcloud min-version="30" max-version="31"/>
+		<nextcloud min-version="30" max-version="32"/>
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Agora\Cron\NotificationCron</job>

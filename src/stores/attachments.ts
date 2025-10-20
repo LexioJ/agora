@@ -11,6 +11,7 @@ export type Attachment = {
   id: number
   name: string
   path: string
+  fileId: number
   mimetype: string
   size: number
   inquiryId: number
@@ -30,40 +31,41 @@ export const useAttachmentsStore = defineStore('attachments', {
       state.attachments.filter((a) => a.inquiryId === inquiryId),
   },
 
-  actions: {
-    async upload(inquiryId: number, file: File) {
-      try {
-        const response = await AttachmentsAPI.uploadAttachment(inquiryId, file)
-        return response.data.attachment
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') return
-        Logger.error('Error uploading attachment', { error })
-        throw error
-      }
-    },
+      actions: {
+	      async upload(inquiryId: number, file: File, coverId: boolean): Promise<Attachment | void>
+	      {
+		      try {
+			      const response = await AttachmentsAPI.uploadAttachment(inquiryId, file,coverId)
+			      return response.data.attachment
+		      } catch (error) {
+			      if ((error as AxiosError)?.code === 'ERR_CANCELED') return
+				      Logger.error('Error uploading attachment', { error })
+			      throw error
+		      }
+	      },
 
-    async delete(attachmentId: number) {
-      try {
-        await AttachmentsAPI.deleteAttachment(attachmentId)
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') return
-        Logger.error('Error deleting attachment', { error })
-        throw error
-      }
-    },
+	      async delete(attachmentId: number) {
+		      try {
+			      await AttachmentsAPI.deleteAttachment(attachmentId)
+		      } catch (error) {
+			      if ((error as AxiosError)?.code === 'ERR_CANCELED') return
+				      Logger.error('Error deleting attachment', { error })
+			      throw error
+		      }
+	      },
 
-    async load(inquiryId: number) {
-      try {
-        const response = await AttachmentsAPI.getAttachments(inquiryId)
-        // Remove existing attachments for this inquiry
-        this.attachments = this.attachments.filter((a) => a.inquiryId !== inquiryId)
-        // Add new ones
-        this.attachments.push(...response.data.attachments)
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') return
-        Logger.error('Error loading attachments', { error })
-        throw error
-      }
-    },
-  },
+	      async load(inquiryId: number) {
+		      try {
+			      const response = await AttachmentsAPI.getAttachments(inquiryId)
+			      // Remove existing attachments for this inquiry
+			      this.attachments = this.attachments.filter((a) => a.inquiryId !== inquiryId)
+			      // Add new ones
+			      this.attachments.push(...response.data.attachments)
+		      } catch (error) {
+			      if ((error as AxiosError)?.code === 'ERR_CANCELED') return
+				      Logger.error('Error loading attachments', { error })
+			      throw error
+		      }
+	      },
+      },
 })

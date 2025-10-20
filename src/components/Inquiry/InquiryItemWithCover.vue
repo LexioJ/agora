@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { computed } from 'vue'
+import { computed, ref, onMounted, watch } from 'vue'
 import { showSuccess } from '@nextcloud/dialogs'
 import { DateTime } from 'luxon'
 import { t } from '@nextcloud/l10n'
@@ -177,18 +177,83 @@ const inquiryStatusInfo = computed(() => {
 const inquiryTypeData = computed(() => {
   return getInquiryTypeData(inquiry.type, sessionStore.appSettings.inquiryTypes || [], inquiry.type)
 })
+
+// Cover image management
+const coverImageUrl = ref<string | null>(null)
+
+const loadCoverImage = async () => {
+  if (!inquiry.coverId) {
+    coverImageUrl.value = null
+    return
+  }
+
+  try {
+    // Use Nextcloud preview URL with appropriate dimensions for thumbnail
+    const width = gridView ? 400 : 200
+    const height = gridView ? 200 : 100
+    
+    // Assuming NextcloudPreviewUrl is available globally or through an import
+    if (typeof window.NextcloudPreviewUrl === 'function') {
+      coverImageUrl.value = window.NextcloudPreviewUrl(inquiry.coverId, width, height, true)
+    } else {
+      // Fallback to direct file URL if preview function is not available
+      coverImageUrl.value = await getDirectFileUrl(inquiry.coverId)
+    }
+  } catch (error) {
+    console.error('Failed to load cover image:', error)
+    coverImageUrl.value = null
+  }
+}
+
+const getDirectFileUrl = async (fileId: number): Promise<string> => {
+  // Implementation depends on your Nextcloud file API
+  // This is a placeholder implementation
+  return `/remote.php/dav/files/${sessionStore.currentUser.id}/${fileId}`
+}
+
+// Watch for coverId changes
+watch(() => inquiry.coverId, loadCoverImage, { immediate: true })
+
+// Re-load cover image when gridView changes
+watch(() => gridView, loadCoverImage)
+
+const hasCoverImage = computed(() => coverImageUrl.value !== null)
+
+// Grid view specific computed properties
+const gridCardStyle = computed(() => {
+  if (!hasCoverImage.value || !gridView) return {}
+  
+  return {
+    backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${coverImageUrl.value})`,
+    backgroundSize: 'cover',
+    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
+    color: 'white'
+  }
+})
+
+const gridContentClass = computed(() => {
+  return {
+    'has-cover': hasCoverImage.value && gridView,
+    'no-cover': !hasCoverImage.value || !gridView
+  }
+})
 </script>
 
 <template>
   <div class="inquiry-item" :class="{ 'grid-view': gridView, 'list-view': !gridView }">
-    <!-- Mode liste -->
+    <!-- List mode -->
     <template v-if="!gridView">
       <div class="item__type" :title="inquiryTypeData.label">
         <component
           :is="inquiryTypeData.icon"
           :title="inquiryTypeData.label"
         />
-          {{ inquiryTypeData.label }}
+      </div>
+
+      <!-- Cover image for list view -->
+      <div v-if="hasCoverImage" class="item__cover list-cover">
+        <img :src="coverImageUrl" :alt="t('agora', 'Cover image for inquiry: {title}', { title: inquiry.title })" />
       </div>
 
       <div v-if="noLink" class="item__title" :class="{ closed: inquiry.status.isExpired }">
@@ -219,6 +284,7 @@ const inquiryTypeData = computed(() => {
         :class="{
           closed: inquiry.status.isExpired,
           active: inquiry.id === inquiryStore.id,
+          'has-cover': hasCoverImage,
         }"
       >
         <div class="title_line">
@@ -396,8 +462,12 @@ const inquiryTypeData = computed(() => {
       </div>
     </template>
 
+    <!-- Grid mode -->
     <template v-else>
-      <div class="grid-card">
+      <div class="grid-card" :style="gridCardStyle" :class="gridContentClass">
+        <!-- Cover image overlay for better text readability -->
+        <div v-if="hasCoverImage" class="cover-overlay"></div>
+        
         <div class="grid-header">
           <div class="header-left">
             <div class="type-icon">
@@ -615,10 +685,27 @@ const inquiryTypeData = computed(() => {
       align-items: center;
     }
 
+    .item__cover.list-cover {
+      flex: 0 0 60px;
+      height: 40px;
+      border-radius: 4px;
+      overflow: hidden;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
     .item__title {
       flex: 1;
       min-width: 0;
       overflow: hidden;
+
+      &.has-cover {
+        margin-left: 0.5rem;
+      }
 
       .title_line,
       .description_line {
@@ -733,11 +820,47 @@ const inquiryTypeData = computed(() => {
       background-color: var(--color-main-background);
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
       transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
 
       &:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.12);
         border-color: var(--color-primary-element);
+      }
+
+      &.has-cover {
+        color: white;
+        border: none;
+
+        .cover-overlay {
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.4) 0%,
+            rgba(0, 0, 0, 0.3) 30%,
+            rgba(0, 0, 0, 0.5) 100%
+          );
+          z-index: 1;
+        }
+
+        .grid-header,
+        .grid-content,
+        .grid-metadata,
+        .grid-actions {
+          position: relative;
+          z-index: 2;
+        }
+
+        .badge-bubble,
+        .status-badge {
+          background-color: rgba(255, 255, 255, 0.9);
+          color: var(--color-main-text);
+        }
       }
     }
 
@@ -760,7 +883,7 @@ const inquiryTypeData = computed(() => {
           display: flex;
           align-items: center;
           justify-content: center;
-          color: var(--color-text-lighter);
+          color: inherit;
           flex-shrink: 0;
         }
 
@@ -813,7 +936,7 @@ const inquiryTypeData = computed(() => {
         font-weight: 600;
         line-height: 1.4;
         margin: 0 0 8px 0;
-        color: var(--color-main-text);
+        color: inherit;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -823,7 +946,8 @@ const inquiryTypeData = computed(() => {
       .grid-description {
         font-size: 13px;
         line-height: 1.5;
-        color: var(--color-text-lighter);
+        color: inherit;
+        opacity: 0.9;
         margin: 0;
         display: -webkit-box;
         -webkit-line-clamp: 3;
@@ -838,7 +962,8 @@ const inquiryTypeData = computed(() => {
       gap: 12px;
       margin-bottom: 12px;
       font-size: 12px;
-      color: var(--color-text-maxcontrast);
+      color: inherit;
+      opacity: 0.8;
 
       .metadata-item-time {
         margin-left: auto;
@@ -877,7 +1002,7 @@ const inquiryTypeData = computed(() => {
   }
 }
 
-// Styles responsives
+// Responsive styles
 @media (max-width: 768px) {
   .inquiry-item.grid-view {
     .grid-card {
@@ -907,6 +1032,13 @@ const inquiryTypeData = computed(() => {
       .metadata-item {
         font-size: 11px;
       }
+    }
+  }
+
+  .inquiry-item.list-view {
+    .item__cover.list-cover {
+      flex: 0 0 50px;
+      height: 35px;
     }
   }
 }

@@ -37,7 +37,7 @@ export interface Location {
   parentId: number | null
 }
 
-export interface ModerationStatus {
+export interface InquiryStatus {
   id: number
   inquiryType: string
   statusKey: string
@@ -83,7 +83,7 @@ export type AppSettings = {
   unrestrictedOwnerGroups: string[]
   categoryTab: Category[]
   locationTab: Location[]
-  moderationStatusTab: ModerationStatus[]
+  inquiryStatusTab: InquiryStatus[]
   groups: Group[]
   inquiryTypeRights: Record<string, InquiryTypeRights>
   moderatorRights: ModeratorRights
@@ -129,7 +129,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
     unrestrictedOwnerGroups: [],
     categoryTab: [],
     locationTab: [],
-    moderationStatusTab: [],
+    inquiryStatusTab: [],
     groups: [],
     inquiryTypeRights: {} as Record<string, InquiryTypeRights>,
     moderatorRights: { ...DefaultModeratorRights } as ModeratorRights,
@@ -143,7 +143,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
     async load(): Promise<void> {
       try {
         const response = await AppSettingsAPI.getAppSettings()
-        // Initialize moderationStatusTab with defaults if empty
+        // Initialize inquiryStatusTab with defaults if empty
         const settings = response.data.appSettings
 
         this.$patch(settings)
@@ -191,8 +191,8 @@ export const useAppSettingsStore = defineStore('appSettings', {
     // STORE FOR MODERATION STATUS
 
     // Get statuses for a specific inquiry type
-    getStatusesForInquiryType(inquiryType: string): ModerationStatus[] {
-      return this.moderationStatusTab
+    getStatusesForInquiryType(inquiryType: string): InquiryStatus[] {
+      return this.inquiryStatusTab
         .filter((status) => status.inquiryType === inquiryType)
         .sort((a, b) => (a.order || 0) - (b.order || 0))
     },
@@ -200,7 +200,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
     // Add a new status for an inquiry type
     async addStatusForInquiryType(
       inquiryType: string,
-      status: Omit<ModerationStatus, 'inquiryType' | 'order'>
+      status: Omit<InquiryStatus, 'inquiryType' | 'order'>
     ): Promise<void> {
       const existingStatuses = this.getStatusesForInquiryType(inquiryType)
       const newOrder = existingStatuses.length
@@ -211,15 +211,15 @@ export const useAppSettingsStore = defineStore('appSettings', {
       }
 
       try {
-        const response = await AppSettingsAPI.addModerationStatus(newStatus)
-        if (response.data.moderationStatus) {
-          this.moderationStatusTab.push(response.data.moderationStatus)
+        const response = await AppSettingsAPI.addInquiryStatus(newStatus)
+        if (response.data.inquiryStatus) {
+          this.inquiryStatusTab.push(response.data.inquiryStatus)
         } else {
-          this.moderationStatusTab.push(newStatus)
+          this.inquiryStatusTab.push(newStatus)
         }
       } catch (error) {
-        Logger.error('Error adding moderation status', { error })
-        this.moderationStatusTab.push(newStatus)
+        Logger.error('Error adding inquiry status', { error })
+        this.inquiryStatusTab.push(newStatus)
       }
     },
 
@@ -227,44 +227,44 @@ export const useAppSettingsStore = defineStore('appSettings', {
     async updateStatusForInquiryType(
       inquiryType: string,
       statusId: string,
-      updates: Partial<ModerationStatus>
+      updates: Partial<InquiryStatus>
     ): Promise<void> {
-      const index = this.moderationStatusTab.findIndex(
+      const index = this.inquiryStatusTab.findIndex(
         (s) => s.inquiryType === inquiryType && s.id === statusId
       )
 
       if (index === -1) {
         return
       }
-      const originalStatus = { ...this.moderationStatusTab[index] }
-      this.moderationStatusTab[index] = {
-        ...this.moderationStatusTab[index],
+      const originalStatus = { ...this.inquiryStatusTab[index] }
+      this.inquiryStatusTab[index] = {
+        ...this.inquiryStatusTab[index],
         ...updates,
       }
 
       try {
-        await AppSettingsAPI.updateModerationStatus(statusId, {
+        await AppSettingsAPI.updateInquiryStatus(statusId, {
           ...originalStatus,
           ...updates,
         })
       } catch (error) {
-        Logger.error('Error updating moderation status', { error })
-        this.moderationStatusTab[index] = originalStatus
+        Logger.error('Error updating inquiry status', { error })
+        this.inquiryStatusTab[index] = originalStatus
       }
     },
 
     // Delete a status for an inquiry type
     async deleteStatusForInquiryType(inquiryType: string, statusId: string): Promise<void> {
-      this.moderationStatusTab = this.moderationStatusTab.filter(
+      this.inquiryStatusTab = this.inquiryStatusTab.filter(
         (s) => !(s.inquiryType === inquiryType && s.id === statusId)
       )
       // Reorder remaining statuses
       this.reorderStatuses(inquiryType)
       try {
-        await AppSettingsAPI.deleteModerationStatus(statusId)
+        await AppSettingsAPI.deleteInquiryStatus(statusId)
       } catch (error) {
-        Logger.error('Error deleting moderation status', { error })
-        this.moderationStatusTab.splice(backupIndex, 0, backupStatus)
+        Logger.error('Error deleting inquiry status', { error })
+        this.inquiryStatusTab.splice(backupIndex, 0, backupStatus)
         this.reorderStatuses(inquiryType)
       }
     },
@@ -273,11 +273,11 @@ export const useAppSettingsStore = defineStore('appSettings', {
     reorderStatuses(inquiryType: string): void {
       const statuses = this.getStatusesForInquiryType(inquiryType)
       statuses.forEach((status, index) => {
-        const globalIndex = this.moderationStatusTab.findIndex(
+        const globalIndex = this.inquiryStatusTab.findIndex(
           (s) => s.inquiryType === inquiryType && s.id === status.statusId
         )
         if (globalIndex !== -1) {
-          this.moderationStatusTab[globalIndex].order = index
+          this.inquiryStatusTab[globalIndex].order = index
         }
       })
     },
@@ -293,18 +293,18 @@ export const useAppSettingsStore = defineStore('appSettings', {
         const currentStatus = statuses[currentIndex]
 
         // Update orders in the main array
-        const previousGlobalIndex = this.moderationStatusTab.findIndex(
+        const previousGlobalIndex = this.inquiryStatusTab.findIndex(
           (s) => s.inquiryType === inquiryType && s.statusId === previousStatus.statusId
         )
-        const currentGlobalIndex = this.moderationStatusTab.findIndex(
+        const currentGlobalIndex = this.inquiryStatusTab.findIndex(
           (s) => s.inquiryType === inquiryType && s.statusId === currentStatus.statusId
         )
 
         if (previousGlobalIndex !== -1 && currentGlobalIndex !== -1) {
-          const tempOrder = this.moderationStatusTab[currentGlobalIndex].order
-          this.moderationStatusTab[currentGlobalIndex].order =
-            this.moderationStatusTab[previousGlobalIndex].order
-          this.moderationStatusTab[previousGlobalIndex].order = tempOrder
+          const tempOrder = this.inquiryStatusTab[currentGlobalIndex].order
+          this.inquiryStatusTab[currentGlobalIndex].order =
+            this.inquiryStatusTab[previousGlobalIndex].order
+          this.inquiryStatusTab[previousGlobalIndex].order = tempOrder
         }
 
         // Reorder to ensure consistency
@@ -323,18 +323,18 @@ export const useAppSettingsStore = defineStore('appSettings', {
         const currentStatus = statuses[currentIndex]
 
         // Update orders in the main array
-        const nextGlobalIndex = this.moderationStatusTab.findIndex(
+        const nextGlobalIndex = this.inquiryStatusTab.findIndex(
           (s) => s.inquiryType === inquiryType && s.statusId === nextStatus.statusId
         )
-        const currentGlobalIndex = this.moderationStatusTab.findIndex(
+        const currentGlobalIndex = this.inquiryStatusTab.findIndex(
           (s) => s.inquiryType === inquiryType && s.statusId === currentStatus.statusId
         )
 
         if (nextGlobalIndex !== -1 && currentGlobalIndex !== -1) {
-          const tempOrder = this.moderationStatusTab[currentGlobalIndex].order
-          this.moderationStatusTab[currentGlobalIndex].order =
-            this.moderationStatusTab[nextGlobalIndex].order
-          this.moderationStatusTab[nextGlobalIndex].order = tempOrder
+          const tempOrder = this.inquiryStatusTab[currentGlobalIndex].order
+          this.inquiryStatusTab[currentGlobalIndex].order =
+            this.inquiryStatusTab[nextGlobalIndex].order
+          this.inquiryStatusTab[nextGlobalIndex].order = tempOrder
         }
 
         // Reorder to ensure consistency

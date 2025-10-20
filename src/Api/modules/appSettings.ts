@@ -5,7 +5,7 @@
 import { AxiosResponse } from '@nextcloud/axios'
 import { AppSettings, Group } from '../../stores/appSettings.js'
 import { httpInstance, createCancelTokenHandler } from './HttpApi.js'
-import { ISearchType, User , Category, Location, ModerationStatus } from '../../Types/index.js'
+import { ISearchType, User , Category, Location, InquiryStatus } from '../../Types/index.js'
 
 const appSettings = {
   getAppSettings(): Promise<AxiosResponse<{ appSettings: AppSettings }>> {
@@ -116,39 +116,39 @@ const appSettings = {
     })
   },
 
-  // ModerationStatus functions
-  addModerationStatus(
-    moderationStatus: ModerationStatus
-  ): Promise<AxiosResponse<{ moderationStatus: ModerationStatus }>> {
+  // InquiryStatus functions
+  addInquiryStatus(
+    inquiryStatus: InquiryStatus
+  ): Promise<AxiosResponse<{ inquiryStatus: InquiryStatus }>> {
     return httpInstance.request({
       method: 'POST',
-      url: 'settings/moderation-statuses',
-      data: { moderationStatus },
+      url: 'settings/inquiry-statuses',
+      data: { inquiryStatus },
       cancelToken:
-        cancelTokenHandlerObject[this.addModerationStatus.name].handleRequestCancellation().token,
+        cancelTokenHandlerObject[this.addInquiryStatus.name].handleRequestCancellation().token,
     })
   },
 
-  deleteModerationStatus(moderationStatusId: string): Promise<AxiosResponse> {
+  deleteInquiryStatus(inquiryStatusId: string): Promise<AxiosResponse> {
     return httpInstance.request({
       method: 'DELETE',
-      url: `settings/moderation-statuses/${moderationStatusId}`,
+      url: `settings/inquiry-statuses/${inquiryStatusId}`,
       cancelToken:
-        cancelTokenHandlerObject[this.deleteModerationStatus.name].handleRequestCancellation()
+        cancelTokenHandlerObject[this.deleteInquiryStatus.name].handleRequestCancellation()
           .token,
     })
   },
 
-  updateModerationStatus(
-    moderationStatusId: string,
-    moderationStatus: ModerationStatus
-  ): Promise<AxiosResponse<{ moderationStatus: ModerationStatus }>> {
+  updateInquiryStatus(
+    inquiryStatusId: string,
+    inquiryStatus: InquiryStatus
+  ): Promise<AxiosResponse<{ inquiryStatus: InquiryStatus }>> {
     return httpInstance.request({
       method: 'PUT',
-      url: `settings/moderation-statuses/${moderationStatusId}`,
-      data: { moderationStatus },
+      url: `settings/inquiry-statuses/${inquiryStatusId}`,
+      data: { inquiryStatus },
       cancelToken:
-        cancelTokenHandlerObject[this.updateModerationStatus.name].handleRequestCancellation()
+        cancelTokenHandlerObject[this.updateInquiryStatus.name].handleRequestCancellation()
           .token,
     })
   },
