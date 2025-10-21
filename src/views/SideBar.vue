@@ -23,7 +23,6 @@ import {
   SideBarTabComments,
   SideBarTabShare,
   SideBarTabAttachments,
-  SideBarTabActivity,
 } from '../components/SideBar/index.js'
 import { useInquiryStore } from '../stores/inquiry.ts'
 import { useSessionStore } from '../stores/session.ts'
@@ -118,17 +117,6 @@ function closeSideBar() {
         <SideBarTabShare />
       </NcAppSidebarTab>
 
-      <NcAppSidebarTab
-        v-if="inquiryStore.permissions.edit && sessionStore.appSettings.useActivity"
-        id="activity"
-        :order="4"
-        :name="t('agora', 'Activity')"
-      >
-        <template #icon>
-	   <component :is="InquiryGeneralIcons.activity" />
-        </template>
-        <SideBarTabActivity />
-      </NcAppSidebarTab>
     </NcAppSidebar>
   </aside>
 </template>

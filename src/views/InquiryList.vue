@@ -38,19 +38,19 @@ const sessionStore = useSessionStore()
 const route = useRoute()
 const router = useRouter()
 
-const familyId =  ref(inquiriesStore.familyId)
-const selectedFamily = ref(inquiriesStore.familyId)
+const familyType =  ref(inquiriesStore.familyType)
+const selectedFamily = ref(inquiriesStore.familyType)
 
 // Main mode (create/view) and sub mode (table/list)
 const mainMode = ref('view') // 'create' or 'view'
 const subMode = ref('table-view') 
 
 // Watch for route query changes to sync view modes
-// Watch for familyId changes in store
+// Watch for familyType changes in store
 watch(
-  () => inquiriesStore.familyId,
+  () => inquiriesStore.familyType,
   (newFamilyId) => {
-    familyId.value = newFamilyId
+    familyType.value = newFamilyId
     selectedFamily.value = newFamilyId
   }
 )
@@ -60,12 +60,12 @@ function handleMainModeChange(mode: string) {
   mainMode.value = mode
 
   if (mode === 'create') {
-    // Navigate to create mode with familyId
+    // Navigate to create mode with familyType
     router.push({
       name: 'menu',
       query: {
         viewMode: 'create',
-        familyId: selectedFamily.value
+        familyType: selectedFamily.value
       }
     })
   } else {
@@ -75,7 +75,7 @@ function handleMainModeChange(mode: string) {
       query: {
         ...route.query,
         viewMode: 'view',
-        familyId: selectedFamily.value
+        familyType: selectedFamily.value
       }
     })
   }
@@ -174,8 +174,8 @@ onMounted(() => {
   }
   
   // Initialize subMode from app settings
-  if (sessionStore.appSettings.defaultViewInquiry) {
-    subMode.value = sessionStore.appSettings.defaultViewInquiry
+  if (preferencesStore.user.defaultViewInquiry) {
+    subMode.value = preferencesStore.user.defaultViewInquiry
   }
   else {
     subMode.value = 'table-view'
@@ -257,7 +257,7 @@ onMounted(() => {
       </template>
     </HeaderBar>
 
-    <InquiryFilter :family-id="selectedFamily" />
+    <InquiryFilter :family-type="selectedFamily" />
 
     <div class="area__main">
       <TransitionGroup

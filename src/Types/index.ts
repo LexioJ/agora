@@ -71,6 +71,21 @@ export enum Event {
   ShowSettings = 'agora:settings:show',
 }
 
+export interface InquiryType {
+  id: number
+  inquiry_type: string
+  family: string
+  icon: string
+  label: string
+  is_option: boolean
+  description?: string
+  fields: any[]
+  allowed_response: string[]
+  allowed_transformation: string[]
+  created: number
+}
+
+
 export type ButtonMode = 'navigation' | 'actionMenu' | 'native'
 
 export type StatusResults =

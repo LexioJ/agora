@@ -84,8 +84,8 @@ const showModerationSwitch = computed(() => {
 
 const inquiryAccess = computed({
   get: () => props.inquiryStore.configuration.access === 'moderate',
-  set: async (value) => {
-    await handleAccessChange(value)
+  set: (value) => {
+    handleAccessChange(value)
   }
 })
 
@@ -330,7 +330,7 @@ const handleAllowedTransformation = (transformType: string) => {
 					    />
 		    </div>
 	    </div>
-	    <div v-if="inquiryStore.configuration.access === 'open'" class="access-control">
+	    <div i class="access-control">
 		       <label class="status-label" :style="getStatusColor(inquiryStore.status.moderationStatus)">
           		{{ getStatusLabel(inquiryStore.status.moderationStatus) }}
         	       </label>

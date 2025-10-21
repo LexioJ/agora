@@ -54,7 +54,7 @@ export type AdvancedFilters = {
   hasSupports?: boolean
   parentId?: number
   search?: string
-  familyId?: string
+  familyType?: string
 }
 
 export type FilterState = {
@@ -195,7 +195,7 @@ const inquiryCategories: InquiryCategoryList = {
     description: t('agora', 'All inquiries, where you have access to.'),
     pinned: false,
     showInNavigation: () => true,
-    filterCondition: (inquiry: Inquiry) => !inquiry.status.isArchived && inquiry.permissions.view  && inquiry.configuration.access === 'open',
+    filterCondition: (inquiry: Inquiry) => !inquiry.status.isArchived && inquiry.permissions.view && inquiry.configuration.access === 'open',
   },
   closed: {
     id: 'closed',
@@ -255,7 +255,6 @@ export const useInquiriesStore = defineStore('inquiries', {
   state: (): InquiryList & FilterState => ({
     inquiries: [],
     viewMode: 'table-view' as ViewMode,
-    familyId: '',
     meta: {
       chunks: {
         size: 20,
@@ -325,105 +324,89 @@ export const useInquiriesStore = defineStore('inquiries', {
       return state.categories.relevant
     },
 
-
     /*
      * inquiries list, filtered by current category, advanced filters and sorted
      */
     inquiriesFilteredSorted(state: InquiryList & FilterState): Inquiry[] {
-      const sessionStore = useSessionStore()
-      const inquiryGroupsStore = useInquiryGroupsStore()
-	console.log(" FAMIL Y ID",this.familyId)
-      // if we are in a group route, return the inquiries of the current group
-      if (sessionStore.route.name === 'group') {
-        return inquiryGroupsStore.inquiriesInCurrendInquiryGroup
-      }
+	    const sessionStore = useSessionStore()
+	    const inquiryGroupsStore = useInquiryGroupsStore()
 
-      let filteredInquiries =
-        state.inquiries.filter((inquiry: Inquiry) =>
-          this.currentCategory?.filterCondition(inquiry)
-        ) ?? []
+	    // if we are in a group route, return the inquiries of the current group
+	    if (sessionStore.route.name === 'group') {
+		    return inquiryGroupsStore.inquiriesInCurrendInquiryGroup
+	    }
 
-     let familyCache: Map<string, string> | null = null
-  
-     if (state.advancedFilters.familyId !== undefined) {
-	     familyCache = new Map()
-	     appSettings.inquiryTypeTab.forEach((tab: any) => {
-		     familyCache.set(tab.inquiry_type, tab.family)
-	     })
-     }
+	    let filteredInquiries =
+		    state.inquiries.filter((inquiry: Inquiry) =>
+					   this.currentCategory?.filterCondition(inquiry)
+					  ) ?? []
 
-     if (state.advancedFilters.familyId !== undefined && familyCache) {
-	     filteredInquiries = filteredInquiries.filter((inquiry) => {
-		     const inquiryFamily = familyCache.get(inquiry.type)
-		     return inquiryFamily === state.advancedFilters.familyId
-	     })
-     }
+					  if (state.advancedFilters.familyType) {
+						  filteredInquiries = filteredInquiries.filter((inquiry) => {
+							  return inquiry.family === state.advancedFilters.familyType
+						  })
+					  }
 
+					  if (state.advancedFilters.type) {
+						  filteredInquiries = filteredInquiries.filter(
+							  (inquiry) => inquiry.type === state.advancedFilters.type
+						  )
+					  }
 
-     if (state.advancedFilters.type) {
-	     filteredInquiries = filteredInquiries.filter(
-		     (inquiry) => inquiry.type === state.advancedFilters.type
-	     )
-     }
+					  if (state.advancedFilters.categoryId) {
+						  filteredInquiries = filteredInquiries.filter(
+							  (inquiry) => inquiry.categoryId === state.advancedFilters.categoryId
+						  )
+					  }
 
-     if (state.advancedFilters.categoryId) {
-	     filteredInquiries = filteredInquiries.filter(
-		     (inquiry) => inquiry.categoryId === state.advancedFilters.categoryId
-	     )
-     }
-     if (state.advancedFilters.parentId !== undefined) {
-	     filteredInquiries = filteredInquiries.filter((inquiry) =>
-							  inquiry.parentId === state.advancedFilters.parentId
-							 )
-     }
-     if (state.advancedFilters.locationId) {
-	     filteredInquiries = filteredInquiries.filter(
-		     (inquiry) => inquiry.locationId === state.advancedFilters.locationId
-	     )
-     }
+					  if (state.advancedFilters.parentId !== undefined) {
+						  filteredInquiries = filteredInquiries.filter((inquiry) =>
+											       inquiry.parentId === state.advancedFilters.parentId
+											      )
+					  }
 
-     if (state.advancedFilters.hasComments === true) {
-	     filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments > 0
-							 )
-     }
-     else if (state.advancedFilters.hasComments === false) {
-	     filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments === 0)
-     }
+					  if (state.advancedFilters.locationId) {
+						  filteredInquiries = filteredInquiries.filter(
+							  (inquiry) => inquiry.locationId === state.advancedFilters.locationId
+						  )
+					  }
 
-     if (state.advancedFilters.hasSupports === true) {
-	     filteredInquiries = filteredInquiries.filter((inquiry) =>  inquiry.status.countSupports > 0
-							 )
-     }
-     else if (state.advancedFilters.hasSupports === false) {
-	     filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countSupports === 0)
-     }
+					  if (state.advancedFilters.hasComments === true) {
+						  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments > 0)
+					  }
+					  else if (state.advancedFilters.hasComments === false) {
+						  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments === 0)
+					  }
 
-     if (state.advancedFilters.search) {
-	     const normalizeText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+					  if (state.advancedFilters.hasSupports === true) {
+						  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countSupports > 0)
+					  }
+					  else if (state.advancedFilters.hasSupports === false) {
+						  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countSupports === 0)
+					  }
 
-	     const searchTerm = normalizeText(state.advancedFilters.search)
+					  if (state.advancedFilters.search) {
+						  const normalizeText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+						  const searchTerm = normalizeText(state.advancedFilters.search)
 
-	     const results = filteredInquiries.filter((inquiry) => {
-		     const titleNormalized = normalizeText(inquiry.title)
-		     const descNormalized = normalizeText(inquiry.description || '')
+						  const results = filteredInquiries.filter((inquiry) => {
+							  const titleNormalized = normalizeText(inquiry.title)
+							  const descNormalized = normalizeText(inquiry.description || '')
+							  const titleMatch = titleNormalized.includes(searchTerm)
+							  const descMatch = descNormalized.includes(searchTerm)
+							  return titleMatch || descMatch
+						  })
 
-		     const titleMatch = titleNormalized.includes(searchTerm)
-		     const descMatch = descNormalized.includes(searchTerm)
-		     const matches = titleMatch || descMatch
+						  filteredInquiries = results
+					  }
 
-		     return matches
-	     })
-
-	     filteredInquiries = results
-     }
-
-
-     return orderBy(
-	     filteredInquiries,
-	     [sortColumnsMapping[state.sort.by]],
-	     [state.sort.reverse ? 'desc' : 'asc']
-     )
+					  return orderBy(
+						  filteredInquiries,
+						  [sortColumnsMapping[state.sort.by]],
+						  [state.sort.reverse ? 'desc' : 'asc']
+					  )
     },
+
 
     /*
      * Chunked filtered and sorted inquiries for main view
@@ -479,8 +462,8 @@ export const useInquiriesStore = defineStore('inquiries', {
 
   actions: {
 
-	  setFamilyId(familyId) {
-		  this.familyId = familyId || ''
+	  setFamilyType(familyType) {
+		  this.advancedFilters.familyType = familyType || ''
 	  },
 
 	  setViewMode(viewMode: ViewMode): void {
@@ -698,3 +681,4 @@ export const useInquiriesStore = defineStore('inquiries', {
 	  },
   },
 })
+

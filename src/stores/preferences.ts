@@ -46,10 +46,6 @@ export type Preferences = {
 export const usePreferencesStore = defineStore('preferences', {
   state: (): Preferences => ({
     user: {
-      calendarPeek: false,
-      checkCalendars: [],
-      checkCalendarsHoursBefore: 0,
-      checkCalendarsHoursAfter: 0,
       defaultViewInquiry: 'table-view',
       inquiryCombo: [],
       relevantOffset: 30,
@@ -58,6 +54,7 @@ export const usePreferencesStore = defineStore('preferences', {
       useCommentsAlternativeStyling: false,
       useAlternativeStyling: false,
       verboseInquiriesList: false,
+      defaultDisplayMode: 'view'
     },
     session: {
       manualViewInquiry: '',

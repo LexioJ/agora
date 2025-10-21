@@ -7,6 +7,7 @@
 import { t } from '@nextcloud/l10n'
 import { ref, computed, onMounted, watch } from 'vue'
 import { useAppSettingsStore } from '../../../stores/appSettings.ts'
+//import { useInquiryTypesStore } from '../../../stores/inquiryTypes.ts'
 import { StatusIcons } from '../../../utils/icons.ts'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
@@ -28,6 +29,7 @@ interface InquiryTypeOption {
 }
 
 const appSettingsStore = useAppSettingsStore()
+//const inquiryTypesStore = useInquiryTypesStore()
 const activeInquiryType = ref<InquiryTypeOption | null>(null)
 const editingStatus = ref<StatusForm | null>(null)
 const newStatus = ref<StatusForm>({
@@ -38,18 +40,11 @@ const newStatus = ref<StatusForm>({
   icon: 'ClockOutline',
 })
 
-const activeInquiryTypeId = computed(
-  () => activeInquiryType.value?.id || InquiryTypeValues.PETITION
-)
-
-const currentInquiryTypeLabel = computed(
-  () => activeInquiryType.value?.label || InquiryTypeValues.PETITION.replace(/_/g, ' ')
-)
-
-onMounted(() => {
-  if (!activeInquiryType.value) {
-    activeInquiryType.value =
-      inquiryTypes.value.find((t) => t.id === InquiryTypeValues.PETITION) || inquiryTypes.value[0]
+// Charger les types d'enquête
+onMounted(async () => {
+ // await inquiryTypesStore.loadTypes()
+  if (inquiryTypes.value.length > 0) {
+    activeInquiryType.value = inquiryTypes.value[0]
   }
 })
 
@@ -62,19 +57,24 @@ const availableIcons = computed(() =>
     }))
 )
 
-// Get the icon component for a given icon name
-const getIconComponent = (iconName: string) => StatusIcons[iconName] || StatusIcons.ClockOutline
-
-// Get available inquiry types
+// Récupérer les types d'enquête depuis le store
 const inquiryTypes = computed<InquiryTypeOption[]>(() =>
-  Object.values(InquiryTypeValues).map((type) => ({
-    id: type,
-    label: t(
-      'agora',
-      type.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
-    ),
+  inquiryTypesStore.getMainTypes().map((type) => ({
+    id: type.inquiry_type,
+    label: type.label,
   }))
 )
+
+const activeInquiryTypeId = computed(
+  () => activeInquiryType.value?.id || inquiryTypes.value[0]?.id
+)
+
+const currentInquiryTypeLabel = computed(
+  () => activeInquiryType.value?.label || inquiryTypes.value[0]?.label
+)
+
+// Get the icon component for a given icon name
+const getIconComponent = (iconName: string) => StatusIcons[iconName] || StatusIcons.ClockOutline
 
 // Get statuses for the active inquiry type
 const statuses = computed(() =>

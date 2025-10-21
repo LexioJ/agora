@@ -11,9 +11,10 @@ import { emit } from '@nextcloud/event-bus'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
 import InquiryCreateDlg from '../components/Create/InquiryCreateDlg.vue'
-import { NavigationIcons } from '../utils/icons.ts'
+import { InquiryGeneralIcons,NavigationIcons } from '../utils/icons.ts'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
+import { usePreferencesStore } from '../stores/preferences.ts'
 import { Event } from '../Types/index.ts'
 import { 
   getInquiryItemData,
@@ -23,6 +24,8 @@ import {
   type InquiryFamily,
   type InquiryType
 } from '../helpers/modules/InquiryHelper.ts'
+
+const preferencesStore = usePreferencesStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -41,7 +44,7 @@ const availableGroups = computed(() => {
 })
 
 // State for selected family
-const selectedFamily = ref<string | null>(inquiriesStore.familyId || null)
+const selectedFamily = ref<string | null>(inquiriesStore.familyType || null)
 // State for expanded/collapsed families
 const expandedFamilies = ref<Set<string>>(new Set())
 
@@ -68,7 +71,7 @@ const inquiryTypesByFamily = computed(() => {
 
 // Computed for default view mode from app settings
 const defaultViewMode = computed(() => {
-  return sessionStore.appSettings.defaultCreateMode === 'view' ? 'view' : 'create'
+  return preferencesStore.user.defaultDisplayMode === 'view' ? 'view' : 'create'
 })
 
 // DEBUG: Check data
@@ -79,17 +82,17 @@ onMounted(() => {
 })
 
 // Toggle family expansion
-function toggleFamily(familyId: string) {
-  if (expandedFamilies.value.has(familyId)) {
-    expandedFamilies.value.delete(familyId)
+function toggleFamily(familyType: string) {
+  if (expandedFamilies.value.has(familyType)) {
+    expandedFamilies.value.delete(familyType)
   } else {
-    expandedFamilies.value.add(familyId)
+    expandedFamilies.value.add(familyType)
   }
 }
 
 // Check if a family is expanded
-function isFamilyExpanded(familyId: string) {
-  return expandedFamilies.value.has(familyId)
+function isFamilyExpanded(familyType: string) {
+  return expandedFamilies.value.has(familyType)
 }
 
 // Get inquiry types for a specific family (with filter isOption === 0)
@@ -116,9 +119,9 @@ function showSettings() {
 }
 
 // Function to navigate to family inquiries
-function navigateToFamilyInquiries(familyId: string) {
-  inquiriesStore.setFamilyId(familyId)
-  selectedFamily.value = familyId
+function navigateToFamilyInquiries(familyType: string) {
+  inquiriesStore.setFamilyType(familyType)
+  selectedFamily.value = familyType
   router.push({
   	name: defaultViewMode.value === 'create' ? 'menu' : 'list',
     	params: defaultViewMode.value === 'view' ? { type: 'relevant' } : {},
@@ -144,6 +147,19 @@ function inquiryAdded(payload: { id: number; title: string }) {
   })
 }
 
+
+// Function to get icon for an inquiry based on its type
+function getInquiryIcon(inquiry) {
+  if (inquiry.type) {
+    const typeData = getInquiryTypeData(inquiry.type, allInquiryTypes.value)
+    // Retourne directement l'icône du type d'enquête
+    return typeData?.icon || InquiryGeneralIcons.flash
+  }
+
+  return InquiryGeneralIcons.flash
+}
+
+
 function handleCloseDialog() {
   createDlgToggle.value = false
   selectedInquiryTypeForCreation.value = null
@@ -155,9 +171,9 @@ function handleGroupUpdate(groups: string[]) {
   selectedGroups.value = groups
 }
 
-// Watch for familyId changes in store
+// Watch for familyType changes in store
 watch(
-  () => inquiriesStore.familyId,
+  () => inquiriesStore.familyType,
   (newFamilyId) => {
     selectedFamily.value = newFamilyId
   }
@@ -166,214 +182,214 @@ watch(
 </script>
 
 <template>
-  <div class="agora-navigation">
-    <!-- Menu de navigation -->
-    <nav class="navigation-menu" aria-label="Inquiry navigation">
-      <!-- Recent Inquiries Section -->
-      <NcAppNavigationList>
-        <h3 class="navigation-caption">
-          {{ t('agora', 'Recent Inquiries') }}
-        </h3>
-        
-        <NcAppNavigationItem
-          v-for="inquiry in recentInquiries"
-          :key="inquiry.id"
-          :name="inquiry.title"
-          :to="{ name: 'inquiry', params: { id: inquiry.id } }"
-          :exact="true"
-        >
-          <template v-if="inquiry.unreadCount" #counter>
-            <span class="counter-bubble">{{ inquiry.unreadCount }}</span>
-          </template>
-        </NcAppNavigationItem>
-        
-        <NcAppNavigationItem
-          v-if="recentInquiries.length === 0"
-          :name="t('agora', 'No recent inquiries')"
-          :disabled="true"
-        />
-      </NcAppNavigationList>
+	<div class="agora-navigation">
+		<!-- Menu de navigation -->
+		<nav class="navigation-menu" aria-label="Inquiry navigation">
+			<!-- Recent Inquiries Section -->
+			<NcAppNavigationList>
+			<h3 class="navigation-caption">
+				{{ t('agora', 'Recent Inquiries') }}
+			</h3>
+			<NcAppNavigationItem
+					v-for="inquiry in recentInquiries"
+					:key="inquiry.id"
+					:name="inquiry.title"
+					:to="{ name: 'inquiry', params: { id: inquiry.id } }"
+					:exact="true"
+					>
+					<template #icon>
+						<component :is="getInquiryIcon(inquiry)" class="nav-icon" />
+					</template>
+			</NcAppNavigationItem>
 
-      <!-- Inquiry Families Section -->
-      <NcAppNavigationList>
-        <h3 class="navigation-caption">
-          {{ t('agora', 'Inquiry Families') }}
-        </h3>
+			<NcAppNavigationItem
+					v-if="recentInquiries.length === 0"
+					:name="t('agora', 'No recent inquiries')"
+					:disabled="true"
+					/>
 
-        <NcAppNavigationItem
-          v-for="family in inquiryFamilies"
-          :key="family.id"
-          :name="getFamilyData(family).label"
-          :allow-collapse="true"
-          :open="isFamilyExpanded(family.family_type)"
-          @update:open="toggleFamily(family.family_type)"
-          @click="navigateToFamilyInquiries(family.family_type)"
-        >
-          <template #icon>
-            <component :is="getFamilyData(family).icon" />
-          </template>
-          
-          <template #counter>
-            <span class="family-counter">
-              {{ getInquiryTypesForCurrentFamily(family.family_type).length }}
-            </span>
-          </template>
+			</NcAppNavigationList>
 
-          <!-- Inquiry Types for this family (only isOption === 0) -->
-          <NcAppNavigationItem
-            v-for="inquiryType in getInquiryTypesForCurrentFamily(family.family_type)"
-            :key="inquiryType.id"
-            :name="getInquiryTypeDisplayData(inquiryType).label"
-            @click="createInquiry(inquiryType)"
-          >
-            <template #icon>
-              <component :is="getInquiryTypeDisplayData(inquiryType).icon" />
-            </template>
+			<!-- Inquiry Families Section -->
+			<NcAppNavigationList>
+			<h3 class="navigation-caption">
+				{{ t('agora', 'Inquiry Families') }}
+			</h3>
 
-            <template v-if="getInquiryTypeDisplayData(inquiryType).description" #description>
-              {{ getInquiryTypeDisplayData(inquiryType).description }}
-            </template>
-          </NcAppNavigationItem>
+			<NcAppNavigationItem
+					v-for="family in inquiryFamilies"
+					:key="family.id"
+					:name="getFamilyData(family).label"
+					:allow-collapse="true"
+					:open="isFamilyExpanded(family.family_type)"
+					@update:open="toggleFamily(family.family_type)"
+					@click="navigateToFamilyInquiries(family.family_type)"
+					>
+					<template #icon>
+						<component :is="getFamilyData(family).icon" />
+					</template>
 
-          <NcAppNavigationItem
-            v-if="getInquiryTypesForCurrentFamily(family.family_type).length === 0"
-            :name="t('agora', 'No inquiry types')"
-            :disabled="true"
-          />
-        </NcAppNavigationItem>
+			<template #counter>
+				<span class="family-counter">
+					{{ getInquiryTypesForCurrentFamily(family.family_type).length }}
+				</span>
+			</template>
 
-        <NcAppNavigationItem
-          v-if="inquiryFamilies.length === 0"
-          :name="t('agora', 'No families configured')"
-          :disabled="true"
-        />
-      </NcAppNavigationList>
+			<!-- Inquiry Types for this family (only isOption === 0) -->
+			<NcAppNavigationItem
+					v-for="inquiryType in getInquiryTypesForCurrentFamily(family.family_type)"
+					:key="inquiryType.id"
+					:name="getInquiryTypeDisplayData(inquiryType).label"
+					@click="createInquiry(inquiryType)"
+					>
+					<template #icon>
+						<component :is="getInquiryTypeDisplayData(inquiryType).icon" />
+					</template>
 
-      <!-- Quick Actions Section -->
-      <NcAppNavigationList>
-        <h3 class="navigation-caption">
-          {{ t('agora', 'Quick Actions') }}
-        </h3>
-        
-        <NcAppNavigationItem
-          :name="t('agora', 'All Inquiries')"
-          :to="{ name: 'list', params: { type: 'relevant' } }"
-          :exact="true"
-        />
-      </NcAppNavigationList>
+			<template v-if="getInquiryTypeDisplayData(inquiryType).description" #description>
+				{{ getInquiryTypeDisplayData(inquiryType).description }}
+			</template>
+			</NcAppNavigationItem>
 
-      <!-- Footer Section -->
-      <NcAppNavigationList class="navigation-footer">
-        <NcAppNavigationItem
-          :name="t('agora', 'Settings')"
-          class="footer-item"
-          @click="showSettings()"
-        >
-          <template #icon>
-            <Component :is="NavigationIcons.settings" />
-          </template>
-        </NcAppNavigationItem>
-      </NcAppNavigationList>
-    </nav>
+			<NcAppNavigationItem
+					v-if="getInquiryTypesForCurrentFamily(family.family_type).length === 0"
+					:name="t('agora', 'No inquiry types')"
+					:disabled="true"
+					/>
+			</NcAppNavigationItem>
 
-    <InquiryCreateDlg
-      v-if="createDlgToggle"
-      :inquiry-type="selectedInquiryTypeForCreation"
-      :selected-groups="selectedGroups"
-      :available-groups="availableGroups"
-      @close="handleCloseDialog"
-      @added="inquiryAdded"
-      @update:selected-groups="handleGroupUpdate"
-    />
-  </div>
+			<NcAppNavigationItem
+					v-if="inquiryFamilies.length === 0"
+					:name="t('agora', 'No families configured')"
+					:disabled="true"
+					/>
+			</NcAppNavigationList>
+
+			<!-- Quick Actions Section -->
+			<NcAppNavigationList>
+			<h3 class="navigation-caption">
+				{{ t('agora', 'Quick Actions') }}
+			</h3>
+
+			<NcAppNavigationItem
+					:name="t('agora', 'All Inquiries')"
+					:to="{ name: 'list', params: { type: 'relevant' } }"
+					:exact="true"
+					/>
+			</NcAppNavigationList>
+
+			<!-- Footer Section -->
+			<NcAppNavigationList class="navigation-footer">
+			<NcAppNavigationItem
+					:name="t('agora', 'Settings')"
+					class="footer-item"
+					@click="showSettings()"
+					>
+					<template #icon>
+						<Component :is="NavigationIcons.settings" />
+					</template>
+			</NcAppNavigationItem>
+			</NcAppNavigationList>
+		</nav>
+
+		<InquiryCreateDlg
+				v-if="createDlgToggle"
+				:inquiry-type="selectedInquiryTypeForCreation"
+				:selected-groups="selectedGroups"
+				:available-groups="availableGroups"
+				@close="handleCloseDialog"
+				@added="inquiryAdded"
+				@update:selected-groups="handleGroupUpdate"
+				/>
+	</div>
 </template>
 
 <style lang="scss" scoped>
 .navigation-container {
-  position: relative;
-  height: 100%;
+	position: relative;
+	height: 100%;
 }
 
 .navigation-menu {
-  padding: 12px 0;
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+	padding: 12px 0;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 
 .navigation-caption {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-text-lighter);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0 12px 8px 12px;
-  padding: 0;
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--color-text-lighter);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	margin: 0 12px 8px 12px;
+	padding: 0;
 }
 
-.navigation-footer {
-  margin-top: auto;
-  border-top: 1px solid var(--color-border);
-  padding-top: 8px;
+    .navigation-footer {
+	    margin-top: auto;
+	    border-top: 1px solid var(--color-border);
+	    padding-top: 8px;
 
-  .footer-item {
-    margin: 0 8px;
-    border-radius: 8px;
+	    .footer-item {
+		    margin: 0 8px;
+		    border-radius: 8px;
 
-    &:hover {
-      background-color: var(--color-background-hover);
+		    &:hover {
+			    background-color: var(--color-background-hover);
+		    }
+	    }
     }
-  }
-}
 
-.family-counter {
-  background: var(--color-background-darker);
-  color: var(--color-text-lighter);
-  border-radius: 10px;
-  padding: 2px 8px;
-  font-size: 11px;
-  font-weight: 600;
-  min-width: 20px;
-  text-align: center;
-}
-
-.counter-bubble {
-  background: var(--color-primary-element);
-  color: var(--color-primary-text);
-  border-radius: 10px;
-  padding: 2px 8px;
-  font-size: 11px;
-  font-weight: 600;
-  min-width: 20px;
-  text-align: center;
-}
-
-// Custom styling for nested items
-:deep(.app-navigation-entry) {
-  .app-navigation-entry__children {
-    .app-navigation-entry {
-      padding-left: 20px;
-      
-      .app-navigation-entry__description {
-        font-size: 12px;
-        color: var(--color-text-lighter);
-        margin-top: 2px;
-      }
+    .family-counter {
+	    background: var(--color-background-darker);
+	    color: var(--color-text-lighter);
+	    border-radius: 10px;
+	    padding: 2px 8px;
+	    font-size: 11px;
+	    font-weight: 600;
+	    min-width: 20px;
+	    text-align: center;
     }
-  }
-}
 
-// Responsive adjustments
+    .counter-bubble {
+	    background: var(--color-primary-element);
+	    color: var(--color-primary-text);
+	    border-radius: 10px;
+	    padding: 2px 8px;
+	    font-size: 11px;
+	    font-weight: 600;
+	    min-width: 20px;
+	    text-align: center;
+    }
+
+    // Custom styling for nested items
+	    :deep(.app-navigation-entry) {
+	    .app-navigation-entry__children {
+		    .app-navigation-entry {
+			    padding-left: 20px;
+
+			    .app-navigation-entry__description {
+				    font-size: 12px;
+				    color: var(--color-text-lighter);
+				    margin-top: 2px;
+			    }
+		    }
+	    }
+    }
+
+    // Responsive adjustments
 @media (max-width: 768px) {
-  .navigation-menu {
-    padding: 8px 0;
-  }
-}
+	    .navigation-menu {
+		    padding: 8px 0;
+	    }
+    }
 
-// Dark theme adjustments
-.theme--dark {
-  .family-counter {
-    background: var(--color-background-hover);
-  }
-}
+    // Dark theme adjustments
+	    .theme--dark {
+	    .family-counter {
+		    background: var(--color-background-hover);
+	    }
+    }
 </style>

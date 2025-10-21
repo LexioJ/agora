@@ -23,12 +23,12 @@ const defaultViewInquiry = computed({
   },
 })
 
-const defaultCreateMode = computed({
+const defaultDisplayMode = computed({
   get() {
-    return preferencesStore.user.defaultCreatMode === 'view'
+    return preferencesStore.user.defaultDisplayMode === 'create'
   },
   set(value) {
-    preferencesStore.user.defaultViewInquiry = value ? 'view' : 'create'
+    preferencesStore.user.defaultDisplayMode = value ? 'create' : 'view'
   },
 })
 
@@ -56,14 +56,14 @@ const defaultCreateMode = computed({
 
     <div class="user_settings">
       <NcCheckboxRadioSwitch
-        v-model="œdefaultCreateMode"
+        v-model="defaultDisplayMode"
         type="switch"
         @update:model-value="preferencesStore.write()"
       >
-        {{ t('agora', 'Default display is create mode') }}
+        {{ t('agora', 'Default display mode') }}
       </NcCheckboxRadioSwitch>
       <div class="settings_details">
-        {{ t('agora', 'Display view or create mode when user choose a family.') }}
+        {{ t('agora', 'How u wish to display the application in mode creation or mode view. The initial default is view mode.') }}
       </div>
     </div>
 

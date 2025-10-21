@@ -11,8 +11,10 @@ import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useAppSettingsStore } from '../../../stores/appSettings.js'
 
 const appSettingsStore = useAppSettingsStore()
+//const inquiryTypesStore = useInquiryTypesStore()
 const selectedInquiryType = ref('')
 const isLoading = ref(true)
+
 const editorOptions = [
   { value: 'wysiwyg', label: t('agora', 'Rich Text Editor') },
   { value: 'textarea', label: t('agora', 'Simple Text Area') },
@@ -21,9 +23,10 @@ const editorOptions = [
 
 onMounted(async () => {
   try {
-    const typeKeys = Object.keys(InquiryTypesUI)
-    if (typeKeys.length > 0) {
-      selectedInquiryType.value = typeKeys[0]
+ //   await inquiryTypesStore.loadTypes()
+  //  const mainTypes = inquiryTypesStore.getMainTypes()
+    if (mainTypes.length > 0) {
+      selectedInquiryType.value = mainTypes[0].inquiry_type
     }
   } catch (error) {
     console.error('Failed to load inquiry types:', error)
@@ -33,20 +36,28 @@ onMounted(async () => {
 })
 
 const inquiryTypeOptions = computed(() =>
-  Object.keys(InquiryTypesUI).map((key) => ({
-    value: key,
-    label: InquiryTypesUI[key]?.label || key,
+  inquiryTypesStore.getMainTypes().map((type) => ({
+    value: type.inquiry_type,
+    label: type.label,
   }))
 )
 
 const isValidInquiryType = computed(
-  () => selectedInquiryType.value && InquiryTypesUI[selectedInquiryType.value]
+  () => selectedInquiryType.value && inquiryTypesStore.types.find(t => t.inquiry_type === selectedInquiryType.value)
 )
 
 watch(selectedInquiryType, (newType) => {
-  if (newType.value) {
-    selectedInquiryType.value = newType.value
+  if (newType && !appSettingsStore.inquiryTypeRights[newType]) {
+    appSettingsStore.initializeInquiryTypeRights(newType)
   }
+})
+
+watch(inquiryTypesStore.types, (types) => {
+  types.forEach(type => {
+    if (!appSettingsStore.inquiryTypeRights[type.inquiry_type]) {
+      appSettingsStore.initializeInquiryTypeRights(type.inquiry_type)
+    }
+  })
 })
 </script>
 
@@ -74,7 +85,7 @@ watch(selectedInquiryType, (newType) => {
           :options="inquiryTypeOptions"
           value-field="value"
           label-field="label"
-          track-bye="value"
+          track-by="value"
           :clearable="false"
           class="type-select"
         />
@@ -82,7 +93,7 @@ watch(selectedInquiryType, (newType) => {
 
       <div class="settings-container">
         <h3>
-          {{ InquiryTypesUI[selectedInquiryType]?.label || selectedInquiryType }}
+          {{ inquiryTypeOptions.find(opt => opt.value === selectedInquiryType)?.label || selectedInquiryType }}
           {{ t('agora', 'Settings') }}
         </h3>
 

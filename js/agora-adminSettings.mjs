@@ -12,12 +12,12 @@
 })();
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { _ as _export_sfc, c as createElementBlock, o as openBlock, j as createVNode, g as withCtx, C as createTextVNode, t as toDisplayString, s as translate, f as createBlock, l as createCommentVNode, k as createBaseVNode, i as mergeProps, Q as ref, b as computed, D as purify, S as withDirectives, T as vShow, U as vModelText, V as NcButton, M as Fragment, d as defineComponent, W as resolveComponent, p as normalizeStyle, O as renderList, v as onMounted, J as normalizeClass, e as watch, h as resolveDynamicComponent, x as normalizeProps, y as guardReactiveProps, z as createApp, A as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-BpsB9R2G.chunk.mjs";
-import { I as InputDiv, N as NcSettingsSection } from "./index-Defby4tv.chunk.mjs";
-import { e as d, g as gfmHeadingId, f as adminJobs, L as Logger, S as StatusIcons } from "./NcDashboardWidget-BEUtfCxs-DXqtxY9c.chunk.mjs";
-import { F as FlexSettings } from "./FlexSettings-CQXLPwHr.chunk.mjs";
-import { u as useAppSettingsStore, R as RadioGroupDiv, C as CardDiv } from "./markdown-05HmpmPu.chunk.mjs";
-import { N as NcCheckboxRadioSwitch, a as NcSelect, b as NcInputField } from "./NcRichText-Dht_wH3t-BkbF4X_Y.chunk.mjs";
+import { _ as _export_sfc, c as createElementBlock, o as openBlock, f as createVNode, w as withCtx, j as createTextVNode, k as toDisplayString, t as translate, e as createBlock, C as createCommentVNode, a as createBaseVNode, K as mergeProps, Q as ref, l as computed, m as purify, S as withDirectives, T as vShow, U as vModelText, V as NcButton, G as Fragment, d as defineComponent, W as resolveComponent, M as normalizeStyle, H as renderList, b as onMounted, A as normalizeClass, J as watch, s as resolveDynamicComponent, n as normalizeProps, g as guardReactiveProps, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DIwIn7KM.chunk.mjs";
+import { I as InputDiv, N as NcSettingsSection } from "./index-CJF071qK.chunk.mjs";
+import { e as d, g as gfmHeadingId, f as adminJobs, L as Logger, S as StatusIcons } from "./NcDashboardWidget-BEUtfCxs-l3e9BVoJ.chunk.mjs";
+import { F as FlexSettings } from "./FlexSettings-DosVYPvr.chunk.mjs";
+import { u as useAppSettingsStore, R as RadioGroupDiv, C as CardDiv } from "./markdown-DsRTaAUN.chunk.mjs";
+import { N as NcCheckboxRadioSwitch, a as NcSelect, b as NcInputField } from "./NcRichText-Dht_wH3t-CVcCbfMN.chunk.mjs";
 const _sfc_main$l = {
   __name: "AdminActivities",
   setup(__props, { expose: __expose }) {
@@ -1136,9 +1136,8 @@ const _sfc_main$b = {
     ];
     onMounted(async () => {
       try {
-        const typeKeys = Object.keys(InquiryTypesUI);
-        if (typeKeys.length > 0) {
-          selectedInquiryType.value = typeKeys[0];
+        if (mainTypes.length > 0) {
+          selectedInquiryType.value = mainTypes[0].inquiry_type;
         }
       } catch (error) {
         console.error("Failed to load inquiry types:", error);
@@ -1147,18 +1146,25 @@ const _sfc_main$b = {
       }
     });
     const inquiryTypeOptions = computed(
-      () => Object.keys(InquiryTypesUI).map((key) => ({
-        value: key,
-        label: InquiryTypesUI[key]?.label || key
+      () => inquiryTypesStore.getMainTypes().map((type) => ({
+        value: type.inquiry_type,
+        label: type.label
       }))
     );
     const isValidInquiryType = computed(
-      () => selectedInquiryType.value && InquiryTypesUI[selectedInquiryType.value]
+      () => selectedInquiryType.value && inquiryTypesStore.types.find((t) => t.inquiry_type === selectedInquiryType.value)
     );
     watch(selectedInquiryType, (newType) => {
-      if (newType.value) {
-        selectedInquiryType.value = newType.value;
+      if (newType && !appSettingsStore.inquiryTypeRights[newType]) {
+        appSettingsStore.initializeInquiryTypeRights(newType);
       }
+    });
+    watch(inquiryTypesStore.types, (types) => {
+      types.forEach((type) => {
+        if (!appSettingsStore.inquiryTypeRights[type.inquiry_type]) {
+          appSettingsStore.initializeInquiryTypeRights(type.inquiry_type);
+        }
+      });
     });
     const __returned__ = { appSettingsStore, selectedInquiryType, isLoading, editorOptions, inquiryTypeOptions, isValidInquiryType, get t() {
       return translate;
@@ -1241,7 +1247,7 @@ function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
           options: $setup.inquiryTypeOptions,
           "value-field": "value",
           "label-field": "label",
-          "track-bye": "value",
+          "track-by": "value",
           clearable: false,
           class: "type-select"
         }, null, 8, ["modelValue", "options"])
@@ -1250,7 +1256,7 @@ function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
         createBaseVNode(
           "h3",
           null,
-          toDisplayString(_ctx.InquiryTypesUI[$setup.selectedInquiryType]?.label || $setup.selectedInquiryType) + " " + toDisplayString($setup.t("agora", "Settings")),
+          toDisplayString($setup.inquiryTypeOptions.find((opt) => opt.value === $setup.selectedInquiryType)?.label || $setup.selectedInquiryType) + " " + toDisplayString($setup.t("agora", "Settings")),
           1
           /* TEXT */
         ),
@@ -1667,15 +1673,9 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
       isFinal: false,
       icon: "ClockOutline"
     });
-    const activeInquiryTypeId = computed(
-      () => activeInquiryType.value?.id || InquiryTypeValues.PETITION
-    );
-    const currentInquiryTypeLabel = computed(
-      () => activeInquiryType.value?.label || InquiryTypeValues.PETITION.replace(/_/g, " ")
-    );
-    onMounted(() => {
-      if (!activeInquiryType.value) {
-        activeInquiryType.value = inquiryTypes.value.find((t2) => t2.id === InquiryTypeValues.PETITION) || inquiryTypes.value[0];
+    onMounted(async () => {
+      if (inquiryTypes.value.length > 0) {
+        activeInquiryType.value = inquiryTypes.value[0];
       }
     });
     const availableIcons = computed(
@@ -1684,16 +1684,19 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
         label: translate("agora", iconId.replace(/([A-Z])/g, " $1").trim())
       }))
     );
-    const getIconComponent = (iconName) => StatusIcons[iconName] || StatusIcons.ClockOutline;
     const inquiryTypes = computed(
-      () => Object.values(InquiryTypeValues).map((type) => ({
-        id: type,
-        label: translate(
-          "agora",
-          type.replace(/_/g, " ").replace(/\b\w/g, (l) => l.toUpperCase())
-        )
+      () => inquiryTypesStore.getMainTypes().map((type) => ({
+        id: type.inquiry_type,
+        label: type.label
       }))
     );
+    const activeInquiryTypeId = computed(
+      () => activeInquiryType.value?.id || inquiryTypes.value[0]?.id
+    );
+    const currentInquiryTypeLabel = computed(
+      () => activeInquiryType.value?.label || inquiryTypes.value[0]?.label
+    );
+    const getIconComponent = (iconName) => StatusIcons[iconName] || StatusIcons.ClockOutline;
     const statuses = computed(
       () => appSettingsStore.getStatusesForInquiryType(activeInquiryTypeId.value)
     );
@@ -1749,7 +1752,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     const cancelEdit = () => {
       editingStatus.value = null;
     };
-    const __returned__ = { appSettingsStore, activeInquiryType, editingStatus, newStatus, activeInquiryTypeId, currentInquiryTypeLabel, availableIcons, getIconComponent, inquiryTypes, statuses, addStatus, editStatus, saveUpdateStatus, deleteStatus, moveStatusUp, moveStatusDown, cancelEdit, get t() {
+    const __returned__ = { appSettingsStore, activeInquiryType, editingStatus, newStatus, availableIcons, inquiryTypes, activeInquiryTypeId, currentInquiryTypeLabel, getIconComponent, statuses, addStatus, editStatus, saveUpdateStatus, deleteStatus, moveStatusUp, moveStatusDown, cancelEdit, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;

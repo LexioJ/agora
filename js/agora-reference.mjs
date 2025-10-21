@@ -12,11 +12,136 @@
 })();
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { _ as _export_sfc, c as createElementBlock, o as openBlock, k as createBaseVNode, l as createCommentVNode, t as toDisplayString, i as mergeProps, d as defineComponent, f as createBlock, g as withCtx, r as renderSlot, h as resolveDynamicComponent, P as DateTime, s as translate, j as createVNode, C as createTextVNode, J as normalizeClass, z as createApp, A as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-BpsB9R2G.chunk.mjs";
-import { r as registerWidget } from "./NcRichText-Dht_wH3t-BkbF4X_Y.chunk.mjs";
-import { N as NcUserBubble } from "./NcUserBubble-ndaFuDRG-BYmEC4-M.chunk.mjs";
-import { A as AgoraAppIcon } from "./AgoraAppIcon-DSfXt62s.chunk.mjs";
+import { u as _export_sfc, d as defineComponent, E as mergeModels, F as useModel, l as computed, I as warn, R as RouterLink, J as watch, e as createBlock, o as openBlock, w as withCtx, r as renderSlot, s as resolveDynamicComponent, K as mergeProps, f as createVNode, a as createBaseVNode, c as createElementBlock, C as createCommentVNode, B as unref, L as NcAvatar, M as normalizeStyle, k as toDisplayString, O as NcPopover, _ as _export_sfc$1, P as DateTime, t as translate, j as createTextVNode, A as normalizeClass, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DIwIn7KM.chunk.mjs";
+import { r as registerWidget } from "./NcRichText-Dht_wH3t-CVcCbfMN.chunk.mjs";
+import { A as AgoraAppIcon } from "./AgoraAppIcon--LR7_NxB.chunk.mjs";
 
+const _sfc_main$1$1 = {};
+function _sfc_render$3(_ctx, _cache) {
+  return openBlock(), createElementBlock("div", null, [
+    renderSlot(_ctx.$slots, "trigger")
+  ]);
+}
+const NcUserBubbleDiv = /* @__PURE__ */ _export_sfc(_sfc_main$1$1, [["render", _sfc_render$3]]);
+const _hoisted_1$3 = { class: "user-bubble__name" };
+const _hoisted_2$2 = {
+  key: 0,
+  class: "user-bubble__secondary"
+};
+const _sfc_main$3 = /* @__PURE__ */ defineComponent({
+  __name: "NcUserBubble",
+  props: /* @__PURE__ */ mergeModels({
+    avatarImage: { default: void 0 },
+    user: { default: void 0 },
+    displayName: { default: void 0 },
+    showUserStatus: { type: Boolean },
+    url: { default: void 0 },
+    to: { default: void 0 },
+    primary: { type: Boolean },
+    size: { default: 20 },
+    margin: { default: 2 }
+  }, {
+    "open": { type: Boolean },
+    "openModifiers": {}
+  }),
+  emits: /* @__PURE__ */ mergeModels(["click"], ["update:open"]),
+  setup(__props, { emit: __emit }) {
+    const isOpen = useModel(__props, "open");
+    const props = __props;
+    const emit = __emit;
+    const isAvatarUrl = computed(() => {
+      if (!props.avatarImage) {
+        return false;
+      }
+      try {
+        const url = new URL(props.avatarImage);
+        return !!url;
+      } catch {
+        return false;
+      }
+    });
+    const isCustomAvatar = computed(() => !!props.avatarImage);
+    const avatarStyle = computed(() => ({
+      marginInlineStart: `${props.margin}px`
+    }));
+    const hasUrl = computed(() => {
+      if (!props.url || props.url.trim() === "") {
+        return false;
+      }
+      try {
+        const url = new URL(props.url, props.url?.startsWith?.("/") ? window.location.href : void 0);
+        return !!url;
+      } catch {
+        warn("[NcUserBubble] Invalid URL passed", { url: props.url });
+        return false;
+      }
+    });
+    const href = computed(() => hasUrl.value ? props.url : void 0);
+    const contentComponent = computed(() => {
+      if (hasUrl.value) {
+        return "a";
+      } else if (props.to) {
+        return RouterLink;
+      } else {
+        return "div";
+      }
+    });
+    const contentStyle = computed(() => ({
+      height: `${props.size}px`,
+      lineHeight: `${props.size}px`,
+      borderRadius: `${props.size / 2}px`
+    }));
+    watch([() => props.displayName, () => props.user], () => {
+      if (!props.displayName && !props.user) {
+        warn("[NcUserBubble] At least `displayName` or `user` property should be set.");
+      }
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createBlock(resolveDynamicComponent(!!_ctx.$slots.default ? unref(NcPopover) : NcUserBubbleDiv), {
+        shown: isOpen.value,
+        "onUpdate:shown": _cache[1] || (_cache[1] = ($event) => isOpen.value = $event),
+        class: "user-bubble__wrapper",
+        trigger: "hover focus"
+      }, {
+        trigger: withCtx(({ attrs }) => [
+          (openBlock(), createBlock(resolveDynamicComponent(contentComponent.value), mergeProps({
+            class: ["user-bubble__content", { "user-bubble__content--primary": _ctx.primary }],
+            style: contentStyle.value,
+            to: _ctx.to,
+            href: href.value
+          }, attrs, {
+            onClick: _cache[0] || (_cache[0] = ($event) => emit("click", $event))
+          }), {
+            default: withCtx(() => [
+              createVNode(unref(NcAvatar), {
+                url: isCustomAvatar.value && isAvatarUrl.value ? _ctx.avatarImage : void 0,
+                "icon-class": isCustomAvatar.value && !isAvatarUrl.value ? _ctx.avatarImage : void 0,
+                user: _ctx.user,
+                "display-name": _ctx.displayName,
+                size: _ctx.size - _ctx.margin * 2,
+                style: normalizeStyle(avatarStyle.value),
+                "disable-tooltip": true,
+                "disable-menu": true,
+                "hide-status": !_ctx.showUserStatus,
+                class: "user-bubble__avatar"
+              }, null, 8, ["url", "icon-class", "user", "display-name", "size", "style", "hide-status"]),
+              createBaseVNode("span", _hoisted_1$3, toDisplayString(_ctx.displayName || _ctx.user), 1),
+              !!_ctx.$slots.name ? (openBlock(), createElementBlock("span", _hoisted_2$2, [
+                renderSlot(_ctx.$slots, "name", {}, void 0, true)
+              ])) : createCommentVNode("", true)
+            ]),
+            _: 2
+          }, 1040, ["class", "style", "to", "href"]))
+        ]),
+        default: withCtx(() => [
+          renderSlot(_ctx.$slots, "default", {}, void 0, true)
+        ]),
+        _: 3
+      }, 40, ["shown"]);
+    };
+  }
+});
+const NcUserBubble = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["__scopeId", "data-v-37bde6b7"]]);
 const _sfc_main$2 = {
   name: "CalendarEndIcon",
   emits: ["click"],
@@ -65,7 +190,7 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     ], 8, _hoisted_2$1))
   ], 16, _hoisted_1$2);
 }
-const ExpirationIcon = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/CalendarEnd.vue"]]);
+const ExpirationIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$2, [["render", _sfc_render$2], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/CalendarEnd.vue"]]);
 const _sfc_main$1 = /* @__PURE__ */ defineComponent({
   __name: "BadgeSmallDiv",
   props: {
@@ -91,7 +216,7 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     /* FORWARDED */
   });
 }
-const BadgeSmallDiv = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-a4bfe739"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/BadgeSmallDiv.vue"]]);
+const BadgeSmallDiv = /* @__PURE__ */ _export_sfc$1(_sfc_main$1, [["render", _sfc_render$1], ["__scopeId", "data-v-a4bfe739"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/BadgeSmallDiv.vue"]]);
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "Reference",
   props: {
@@ -205,7 +330,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
     ])) : createCommentVNode("v-if", true)
   ])) : createCommentVNode("v-if", true);
 }
-const Reference = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-dd2984c0"], ["__file", "/var/www/nextcloud/apps/agora/src/views/Reference.vue"]]);
+const Reference = /* @__PURE__ */ _export_sfc$1(_sfc_main, [["render", _sfc_render], ["__scopeId", "data-v-dd2984c0"], ["__file", "/var/www/nextcloud/apps/agora/src/views/Reference.vue"]]);
 registerWidget(
   "agora_reference_widget",
   async (el, { richObject }) => {

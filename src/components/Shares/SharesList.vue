@@ -67,8 +67,6 @@ async function addShare(user: User) {
       @user-selected="(user: User) => addShare(user)"
     />
 
-    <ShareItemAllUsers v-if="sessionStore.appPermissions.allAccess" />
-
     <SharePublicAdd
       v-if="
         sessionStore.appPermissions.publicShares &&

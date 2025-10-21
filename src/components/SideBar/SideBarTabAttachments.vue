@@ -201,8 +201,8 @@ const formatFileSize = (bytes: number): string => {
 
       <!-- Attachment items -->
       <div
-        v-for="(attachment, index) in attachments"
-        :key="attachment.id || `attachment-${index}`"
+         v-for="(attachment, index) in attachments.filter(att => att.fileId !== inquiryStore.coverId)"
+	:key="attachment.id || `attachment-${index}`"
         class="attachment-item"
       >
         <div class="attachment-info">

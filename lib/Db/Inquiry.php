@@ -152,6 +152,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     protected int $allowComment = 0;
     protected int $allowSupport = 0;
     protected bool $hasSupported = false; 
+    protected string $family='';
 
     // joined columns
     protected string $userRole = '';
@@ -210,6 +211,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'coverId' => $this->getCoverId(),
         'type' => $this->getType(),
         'title' => $this->getTitle(),
+        'family' => $this->getFamily(),
         'description' => $this->getDescription(),
         'owner' => $this->getUser(),
         'status' => $this->getStatusArray(),
@@ -776,4 +778,14 @@ class Inquiry extends EntityWithUser implements JsonSerializable
 
 	    return $this->getShowResults() === self::SHOW_RESULTS_ALWAYS;
     }
+
+    public function setFamily(?string $family): void {
+	    $this->family = $family;
+    }
+
+    public function getFamily(): ?string {
+	    return $this->family;
+    }
+
+
 }

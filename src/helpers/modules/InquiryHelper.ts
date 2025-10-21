@@ -6,6 +6,8 @@
 import { t } from '@nextcloud/l10n'
 import { computed, type Ref } from 'vue'
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
+import { useInquiryFamiliesStore } from '../stores/inquiryFamilies'
+import { useInquiryTypesStore } from '../stores/inquiryTypes'
 
 export interface InquiryFamily {
   id: number | string

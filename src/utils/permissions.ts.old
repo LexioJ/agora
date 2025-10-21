@@ -135,15 +135,6 @@ export enum ContentType {
 }
 
 /**
- * Access levels
- */
-export enum AccessLevel {
-  Private = 'private',
-  Moderate = 'moderate',
-  Open = 'open',
-}
-
-/**
  * Interface rights permission
  */
 export interface PermissionContext {
@@ -159,8 +150,6 @@ export interface PermissionContext {
   userGroups: string[]
   allowedGroups: string[]
   inquiryType?: string
-  accessLevel?: AccessLevel
-  isFinalStatus?: boolean
 }
 
 // GET METHODS
@@ -225,76 +214,6 @@ function hasGroupAccess(context: PermissionContext): boolean {
 
 function isContentBlocked(context: PermissionContext): boolean {
   return context.isArchived || context.isDeleted || context.isLocked || context.isExpired
-}
-
-function isAccessRestrictedForComments(context: PermissionContext): boolean {
-  // Si le statut est final, pas de commentaires
-  if (context.isFinalStatus) {
-    return true
-  }
-  
-  // Vérification des niveaux d'accès
-  switch (context.accessLevel) {
-    case AccessLevel.Private:
-      return true
-    case AccessLevel.Moderate:
-      // En mode moderate, seuls les modérateurs peuvent commenter
-      return context.userType !== UserType.Moderator && context.userType !== UserType.Admin
-    case AccessLevel.Open:
-    default:
-      return false
-  }
-}
-
-function isAccessRestrictedForSupports(context: PermissionContext): boolean {
-  // Si le statut est final, pas de supports
-  if (context.isFinalStatus) {
-    return true
-  }
-  
-  // Vérification des niveaux d'accès
-  switch (context.accessLevel) {
-    case AccessLevel.Private:
-    case AccessLevel.Moderate:
-      return true
-    case AccessLevel.Open:
-    default:
-      return false
-  }
-}
-
-function isAccessRestrictedForSharing(context: PermissionContext): boolean {
-  // Si le statut est final, pas de partage
-  if (context.isFinalStatus) {
-    return true
-  }
-  
-  // Vérification des niveaux d'accès
-  switch (context.accessLevel) {
-    case AccessLevel.Private:
-    case AccessLevel.Moderate:
-      return true
-    case AccessLevel.Open:
-    default:
-      return false
-  }
-}
-
-function isAccessRestrictedForAttachments(context: PermissionContext): boolean {
-  // Si le statut est final, pas de pièces jointes
-  if (context.isFinalStatus) {
-    return true
-  }
-  
-  // Vérification des niveaux d'accès
-  switch (context.accessLevel) {
-    case AccessLevel.Private:
-    case AccessLevel.Moderate:
-      return true
-    case AccessLevel.Open:
-    default:
-      return false
-  }
 }
 
 export function canViewToggle(context: PermissionContext): boolean {
@@ -448,11 +367,6 @@ export function canComment(context: PermissionContext): boolean {
     return false
   }
 
-  // Vérification des restrictions d'accès et de statut final
-  if (isAccessRestrictedForComments(context)) {
-    return false
-  }
-
   if (context.inquiryType && !canInquiryTypePerformAction(context.inquiryType, 'commentInquiry')) {
     return false
   }
@@ -478,11 +392,6 @@ export function canSupport(context: PermissionContext): boolean {
     return false
   }
 
-  // Vérification des restrictions d'accès et de statut final
-  if (isAccessRestrictedForSupports(context)) {
-    return false
-  }
-
   if (context.inquiryType && !canInquiryTypePerformAction(context.inquiryType, 'supportInquiry')) {
     return false
   }
@@ -501,20 +410,14 @@ export function canSupport(context: PermissionContext): boolean {
  * @param context
  */
 export function canShare(context: PermissionContext): boolean {
-  const sessionStore = useSessionStore()
+   const sessionStore = useSessionStore()
 
   if (context.isArchived || context.isDeleted) {
     return false
   }
-
-  // Vérification des restrictions d'accès et de statut final
-  if (isAccessRestrictedForSharing(context)) {
-    return false
-  }
-
   if (sessionStore.appPermissions.allowAllAccess) {
     return true
-  }
+   }
 
   if (context.userType === UserType.Guest) {
     return false
@@ -531,16 +434,13 @@ export function canShare(context: PermissionContext): boolean {
   return false
 }
 
+
+
 /**
  * @param context
  */
 export function canAttachFile(context: PermissionContext): boolean {
   if (context.isArchived || context.isDeleted || context.isLocked) {
-    return false
-  }
-
-  // Vérification des restrictions d'accès et de statut final
-  if (isAccessRestrictedForAttachments(context)) {
     return false
   }
 
@@ -615,9 +515,7 @@ export function createPermissionContextForContent(
   isArchived: boolean = false,
   hasGroupRestrictions: boolean = false,
   allowedGroups: string[] = [],
-  inquiryType?: string,
-  accessLevel?: AccessLevel,
-  isFinalStatus?: boolean
+  inquiryType?: string
 ): PermissionContext {
   const userType = getCurrentUserType()
   const userGroups = getCurrentUserGroups()
@@ -636,8 +534,6 @@ export function createPermissionContextForContent(
     userGroups,
     allowedGroups,
     inquiryType,
-    accessLevel,
-    isFinalStatus,
   }
 }
 
@@ -645,7 +541,6 @@ export default {
   // Enums
   UserType,
   ContentType,
-  AccessLevel,
 
   // Default values
   DefaultInquiryTypeRights,

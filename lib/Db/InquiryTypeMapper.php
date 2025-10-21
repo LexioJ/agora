@@ -121,6 +121,19 @@ public function getFields(string $inquiryType): array
     return [];
 }
 
+
+public function getFamilyFromType(string $type): string
+{
+    $qb = $this->db->getQueryBuilder();
+    $qb->select('family')
+       ->from($this->getTableName())
+       ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($type)));
+
+    $result = $qb->execute()->fetch();
+
+    return $result['family'];
+}
+
     /**
      * Get allowed_response JSON value for specific inquiry type
      * @return array
