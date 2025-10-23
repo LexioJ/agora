@@ -11,8 +11,9 @@ namespace OCA\Agora\Service;
 use OCA\Agora\Model\Settings\AppSettings;
 use OCA\Agora\Service\LocationService;
 use OCA\Agora\Service\CategoryService;
-use OCA\Agora\Service\ModerationStatusService;
+use OCA\Agora\Service\InquiryTypeService;
 use OCA\Agora\Service\InquiryStatusService;
+use OCA\Agora\Service\InquiryFamilyService;
 
 
 
@@ -21,8 +22,9 @@ class SettingsService
 
     private LocationService $locationService;
     private CategoryService $categoryService;
-    private ModerationStatusService $moderationStatusService;
     private InquiryStatusService $inquiryStatusService;
+    private InquiryFamilyService $inquiryFamilyService;
+    private InquiryTypeService $inquiryTypeService;
     private AppSettings $appSettings;
 
     /**
@@ -32,14 +34,16 @@ class SettingsService
         AppSettings $appSettings,
         LocationService $locationService,
         CategoryService $categoryService,
-        ModerationStatusService $moderationStatusService,
-        InquiryStatusService $inquiryStatusService
+        InquiryStatusService $inquiryStatusService,
+        InquiryFamilyService $inquiryFamilyService,
+        InquiryTypeService $inquiryTypeService
     ) {
         $this->appSettings = $appSettings;
         $this->locationService = $locationService;
         $this->categoryService = $categoryService;
-        $this->moderationStatusService = $moderationStatusService;
         $this->inquiryStatusService = $inquiryStatusService;
+        $this->inquiryFamilyService = $inquiryFamilyService;
+        $this->inquiryTypeService = $inquiryTypeService;
     }
 
     /**

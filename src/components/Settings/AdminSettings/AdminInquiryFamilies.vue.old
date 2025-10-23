@@ -4,7 +4,7 @@
 -->
 
 <script setup>
-import { computed,ref, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
@@ -25,15 +25,13 @@ const newFamily = ref({
 onMounted(() => {
 })
 
-const availableIcons = computed(() =>
-  Object.keys(InquiryGeneralIcons)
-    .filter((key) => key !== 'default')
-    .map((iconId) => ({
-      id: iconId,
-      label: t('agora', iconId.replace(/([A-Z])/g, ' $1').trim()),
-    }))
-)
-
+const availableIcons = [
+  { id: 'account-group', label: t('agora', 'Group') },
+  { id: 'briefcase', label: t('agora', 'Business') },
+  { id: 'chart-bar', label: t('agora', 'Analytics') },
+  { id: 'chat', label: t('agora', 'Discussion') },
+  { id: 'vote', label: t('agora', 'Vote') },
+]
 
 const addFamily = async () => {
   if (!newFamily.value.family_type || !newFamily.value.label) return
@@ -72,6 +70,7 @@ const deleteFamily = async (familyId) => {
       {{ t('agora', 'Manage inquiry families to organize different types of inquiries') }}
     </p>
 
+    <!-- Liste des familles existantes -->
     <div class="families-list">
       <div v-for="family in appSettingsStore.inquiryFamilyTab" :key="family.id" class="family-item">
         <div class="family-content">

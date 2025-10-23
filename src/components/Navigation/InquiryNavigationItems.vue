@@ -48,7 +48,7 @@ const inquiryTypeData = computed(() => {
         @click="emit('toggleArchive')"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.archive" />
+          <component :is="InquiryGeneralIcons.Archive" />
         </template>
       </NcActionButton>
 
@@ -59,7 +59,7 @@ const inquiryTypeData = computed(() => {
         @click="emit('toggleArchive')"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.restore" />
+          <component :is="InquiryGeneralIcons.Restore" />
         </template>
       </NcActionButton>
 
@@ -71,7 +71,7 @@ const inquiryTypeData = computed(() => {
         @click="emit('deleteInquiry')"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.delete" />
+          <component :is="InquiryGeneralIcons.Delete" />
         </template>
       </NcActionButton>
     </template>

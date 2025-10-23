@@ -152,11 +152,10 @@ function inquiryAdded(payload: { id: number; title: string }) {
 function getInquiryIcon(inquiry) {
   if (inquiry.type) {
     const typeData = getInquiryTypeData(inquiry.type, allInquiryTypes.value)
-    // Retourne directement l'icône du type d'enquête
-    return typeData?.icon || InquiryGeneralIcons.flash
+    return typeData?.icon || InquiryGeneralIcons.Flash
   }
 
-  return InquiryGeneralIcons.flash
+  return InquiryGeneralIcons.Flash
 }
 
 
@@ -183,7 +182,6 @@ watch(
 
 <template>
 	<div class="agora-navigation">
-		<!-- Menu de navigation -->
 		<nav class="navigation-menu" aria-label="Inquiry navigation">
 			<!-- Recent Inquiries Section -->
 			<NcAppNavigationList>
@@ -286,7 +284,7 @@ watch(
 					@click="showSettings()"
 					>
 					<template #icon>
-						<Component :is="NavigationIcons.settings" />
+						<Component :is="NavigationIcons.Settings" />
 					</template>
 			</NcAppNavigationItem>
 			</NcAppNavigationList>

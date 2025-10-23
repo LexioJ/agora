@@ -129,7 +129,7 @@ async function toggleArchive() {
         @click="subMenu = null"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.back" :size="16" />
+          <component :is="InquiryGeneralIcons.Back" :size="16" />
         </template>
       </NcActionButton>
     </template>
@@ -143,7 +143,7 @@ async function toggleArchive() {
         @click="toggleArchive()"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.archive" :size="24" />
+          <component :is="InquiryGeneralIcons.Archive" :size="24" />
         </template>
       </NcActionButton>
 
@@ -155,7 +155,7 @@ async function toggleArchive() {
         @click="toggleArchive()"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.restore" :size="24" />
+          <component :is="InquiryGeneralIcons.Restore" :size="24" />
         </template>
       </NcActionButton>
 
@@ -168,7 +168,7 @@ async function toggleArchive() {
         @click="showDeleteDialog = true"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.delete" :size="24" />
+          <component :is="InquiryGeneralIcons.Delete" :size="24" />
         </template>
       </NcActionButton>
 
@@ -181,7 +181,7 @@ async function toggleArchive() {
         @click="showTransferDialog = true"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.transfer" :size="24" />
+          <component :is="InquiryGeneralIcons.Transfer" :size="24" />
         </template>
       </NcActionButton>
 
@@ -192,7 +192,7 @@ async function toggleArchive() {
         @click="toggleSubMenu('addToGroup')"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.plus" :size="16" />
+          <component :is="InquiryGeneralIcons.Plus" :size="16" />
         </template>
       </NcActionButton>
 
@@ -203,7 +203,7 @@ async function toggleArchive() {
         @click="toggleSubMenu('removeFromGroup')"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.minus" :size="16" />
+          <component :is="InquiryGeneralIcons.Minus" :size="16" />
         </template>
       </NcActionButton>
     </template>

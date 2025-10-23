@@ -215,7 +215,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   city: makeIconComponent(OfficeBuilding, '#607D8B'),
   accounttie: makeIconComponent(AccountVoice, '#673AB7'),
   accountbalance: makeIconComponent(Bank, '#607D8B'),
-  accountgroup: makeIconComponent(AccountGroup, '#3F51B5'),
+  accountgroup: makeIconComponent(AccountGroup, '#00897B'),
   accountmultiplecheck: makeIconComponent(AccountMultipleCheck, '#4CAF50'),
   lightbulb: makeIconComponent(LightbulbOn, '#FF9800'),
   bullhorn: makeIconComponent(Bullhorn, '#FF9800'),        

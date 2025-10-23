@@ -43,11 +43,15 @@ class InquiryMapper extends QBMapper
         if ($withRoles) {
             $inquiryGroupsAlias = 'inquiry_groups';
             $currentUserId = $this->userSession->getCurrentUserId();
+        
             $this->joinUserRole($qb, self::TABLE, $currentUserId);
             $this->joinGroupShares($qb, self::TABLE);
+            $this->joinHasSupported($qb, self::TABLE,$currentUserId);
             $this->joinInquiryGroups($qb, self::TABLE, $inquiryGroupsAlias);
             $this->joinInquiryGroupShares($qb, $inquiryGroupsAlias, $currentUserId, $inquiryGroupsAlias);
             $this->joinParticipantsCount($qb, self::TABLE);
+            $this->joinSupportsCount($qb, self::TABLE);
+            $this->joinCommentsCount($qb, self::TABLE);
             $this->joinMiscs($qb, self::TABLE);
         }
         return $this->findEntity($qb);

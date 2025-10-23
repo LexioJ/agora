@@ -94,7 +94,7 @@ const subTexts = computed(() => {
       id: 'deleted',
       text: t('agora', 'Archived'),
       class: 'archived',
-      iconComponent: InquiryGeneralIcons.archived,
+      iconComponent: InquiryGeneralIcons.Archived,
     })
     return subTexts
   }
@@ -104,7 +104,7 @@ const subTexts = computed(() => {
       id: 'no-access',
       text: [t('agora', 'Unpublished')].join('. '),
       class: 'unpublished',
-      iconComponent: InquiryGeneralIcons.unpublished,
+      iconComponent: InquiryGeneralIcons.Unpublished,
     })
     return subTexts
   }
@@ -115,7 +115,7 @@ const subTexts = computed(() => {
         name: inquiryStore.owner.displayName,
       }),
       class: '',
-      iconComponent: InquiryGeneralIcons.private,
+      iconComponent: InquiryGeneralIcons.Private,
     })
   } else {
     subTexts.push({
@@ -124,7 +124,7 @@ const subTexts = computed(() => {
         name: inquiryStore.owner.displayName,
       }),
       class: '',
-      iconComponent: InquiryGeneralIcons.open,
+      iconComponent: InquiryGeneralIcons.Open,
     })
   }
 
@@ -133,7 +133,7 @@ const subTexts = computed(() => {
       id: 'closed',
       text: timeExpirationRelative.value,
       class: 'closed',
-      iconComponent: InquiryGeneralIcons.closed,
+      iconComponent: InquiryGeneralIcons.Closed,
     })
     return subTexts
   }
@@ -143,7 +143,7 @@ const subTexts = computed(() => {
       id: 'created',
       text: dateCreatedRelative.value,
       class: 'created',
-      iconComponent: InquiryGeneralIcons.creation,
+      iconComponent: InquiryGeneralIcons.Creation,
     })
   }
   return subTexts

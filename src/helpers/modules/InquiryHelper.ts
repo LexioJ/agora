@@ -6,8 +6,8 @@
 import { t } from '@nextcloud/l10n'
 import { computed, type Ref } from 'vue'
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
-import { useInquiryFamiliesStore } from '../stores/inquiryFamilies'
-import { useInquiryTypesStore } from '../stores/inquiryTypes'
+import { useSessionStore } from '../../stores/session.ts'
+
 
 export interface InquiryFamily {
   id: number | string
@@ -41,17 +41,17 @@ export async function confirmAction(message: string): Promise<boolean> {
 export function getInquiryItemData(item: InquiryFamily | InquiryType | null, fallbackLabel: string = '') {
   if (!item) {
     return {
-      icon: InquiryGeneralIcons.activity,
+      icon: InquiryGeneralIcons.Activity,
       label: fallbackLabel,
       description: ''
     }
   }
 
-  const iconName = item?.icon?.toLowerCase() || 
-    ('inquiry_type' in item ? 'accountgroup' : 'filedocumentedit')
+  const iconName = item?.icon || 
+    ('inquiry_type' in item ? 'AccountGroup' : 'FileDocumentEdit')
 
   return {
-    icon: InquiryGeneralIcons[iconName] || StatusIcons[iconName] || InquiryGeneralIcons.activity,
+    icon: InquiryGeneralIcons[iconName] || StatusIcons[iconName] || InquiryGeneralIcons.Activity,
     label: item.label || fallbackLabel,
     description: item.description || ''
   }
@@ -157,6 +157,57 @@ export function getAvailableResponseTypes(inquiryType: string, inquiryTypes: Inq
   )
 }
 
+/**
+ * Get available inquiry types for creation (filter out official and suggestion)
+ */
+export function getAvailableInquiryTypesForCreation(inquiryTypes: InquiryType[]): InquiryType[] {
+  return inquiryTypes.filter(type =>
+    !['official', 'suggestion'].includes(type.inquiry_type)
+  )
+}
+
+
+/**
+ * Check if inquiry has final status based on appSettings.inquiryStatusTab
+ */
+export function isInquiryFinalStatus(inquiryStore: any, appSettings: any): boolean {
+  if (!inquiryStore?.type || !inquiryStore?.status?.inquiryStatus || !appSettings?.inquiryStatusTab) {
+    console.warn('🔧 [isInquiryFinalStatus] Missing required data:', {
+      inquiryType: inquiryStore?.type,
+      inquiryStatus: inquiryStore?.status?.inquiryStatus,
+      hasStatusTab: !!appSettings?.inquiryStatusTab
+    })
+    return false
+  }
+
+  const inquiryType = inquiryStore.type
+  const currentStatus = inquiryStore.status.inquiryStatus
+
+  // Find status configuration for this inquiry type and status
+  const statusConfig = appSettings.inquiryStatusTab.find((status: any) => 
+    status.inquiryType === inquiryType && status.statusKey === currentStatus
+  )
+
+  if (!statusConfig) {
+    console.warn('🔧 [isInquiryFinalStatus] No status config found for:', {
+      inquiryType,
+      currentStatus,
+      availableStatuses: appSettings.inquiryStatusTab
+        .filter((s: any) => s.inquiryType === inquiryType)
+        .map((s: any) => s.statusKey)
+    })
+    return false
+  }
+
+  console.log('🔧 [isInquiryFinalStatus] Status config found:', {
+    inquiryType,
+    currentStatus,
+    isFinal: statusConfig.isFinal,
+    statusConfig
+  })
+
+  return statusConfig.isFinal === true
+}
 
 /**
  * Get inquiry types for specific family
@@ -183,14 +234,6 @@ export function countInquiryTypesByFamily(
   ).length
 }
 
-/**
- * Get available inquiry types for creation (filter out official and suggestion)
- */
-export function getAvailableInquiryTypesForCreation(inquiryTypes: InquiryType[]): InquiryType[] {
-  return inquiryTypes.filter(type => 
-    !['official', 'suggestion'].includes(type.inquiry_type)
-  )
-}
 
 /**
  * Get inquiry type options for radio/select components

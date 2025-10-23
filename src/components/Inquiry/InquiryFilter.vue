@@ -23,6 +23,7 @@ const mainInquiriesOnly = ref<boolean>(true)
 const searchQuery = ref<string>('')
 
 const isFiltersOpen = ref(false)
+
 function getValue<T>(v: T | { value: T } | null | undefined): T | null | undefined {
   return v && typeof v === 'object' && 'value' in v
     ? (v as { value: T }).value
@@ -30,25 +31,23 @@ function getValue<T>(v: T | { value: T } | null | undefined): T | null | undefin
 }
 
 interface Props {
-  familyId?: string
+  familyType?: string
 }
-const props = withDefaults(defineProps<Props>(), { 
-  familyId: undefined
-})
+const props = defineProps<Props>()
 
-console.log(" FAMILY ID INTO FILTER" ,props.familyId)
+console.log(" FAMILY ID INTO FILTER" ,props.familyType)
 
 const inquiryTypesForFamily = computed(() => {
-  if (!props.familyId) {
+  if (!props.familyType) {
     return sessionStore.appSettings.inquiryTypeTab || []
   }
   
   const family = sessionStore.appSettings.inquiryFamilyTab?.find(
-    f => f.id === props.familyId
+    f => f.family_type === props.familyType
   )
 
   if (!family) {
-    console.warn(`Family with id ${props.familyId} not found`)
+    console.warn(`Family with id ${props.familyType} not found`)
     console.log('Available families:', sessionStore.appSettings.inquiryFamilyTab)
     return sessionStore.appSettings.inquiryTypeTab || []
   }
@@ -58,7 +57,7 @@ const inquiryTypesForFamily = computed(() => {
   ) || []
 
   console.log('🔍 Filtered inquiry types for family:', {
-    familyId: props.familyId,
+    familyType: props.familyType,
     familyInquiryType: family.family_type,
     filteredTypes
   })
@@ -66,7 +65,7 @@ const inquiryTypesForFamily = computed(() => {
   return filteredTypes
 })
 
-watch(() => props.familyId, (newFamilyId) => {
+watch(() => props.familyType, (newFamilyId) => {
   console.log('🔍 Family ID changed in filter:', newFamilyId)
   // Reset type filter when family changes
   selectedType.value = 'all'
@@ -78,42 +77,38 @@ const filterOptions = computed(() => {
     { value: 'all', label: t('agora', 'All types') }
   ]
 
-  const familyTypeOptions = inquiryTypesForFamily.value.map(type => ({
-    value: type.inquiry_type,
-    label: type.name || type.inquiry_type
-  }))
-
-  const typeOptions = (!props.familyId || familyTypeOptions.length === 0) 
+const typeOptions = !props.familyType 
     ? [
-        ...baseTypeOptions,
-        ...(sessionStore.appSettings.inquiryTypeTab?.filter(type => type.isOption === 0).map(type => ({
-          value: type.inquiry_type,
-          label: type.name || type.inquiry_type
-        })) || [])
+	...baseTypeOptions,
+	...(sessionStore.appSettings.inquiryTypeTab?.filter(type => type.isOption === 0).map(type => ({
+	  value: type.inquiry_type,
+	  label: type.label || type.inquiry_type
+	})) || [])
       ]
-    : [...baseTypeOptions, ...familyTypeOptions]
+    : [
+	...baseTypeOptions,
+	...(sessionStore.appSettings.inquiryTypeTab?.filter(type => 
+	  type.family === props.familyType && type.isOption === 0
+	).map(type => ({
+	  value: type.inquiry_type,
+	  label: type.label || type.inquiry_type
+	})) || [])
+      ]
 
   return {
     types: typeOptions,
-    inquiryStatuses: [
-      { value: 'all', label: t('agora', 'All statuses') },
-      ...(sessionStore.appSettings.inquiryStatusTab?.map((status) => ({
-        value: status.id,
-        label: status.name,
-      })) || []),
-    ],
     categories: [
       { value: 'all', label: t('agora', 'All categories') },
       ...(sessionStore.appSettings.categoryTab?.map((cat) => ({
-        value: cat.id,
-        label: cat.name,
+	value: cat.id,
+	label: cat.name,
       })) || []),
     ],
     locations: [
       { value: 'all', label: t('agora', 'All locations') },
       ...(sessionStore.appSettings.locationTab?.map((loc) => ({
-        value: loc.id,
-        label: loc.name,
+	value: loc.id,
+	label: loc.name,
       })) || []),
     ],
     participation: [
@@ -135,16 +130,15 @@ const applyFilters = () => {
     return
   }
 
-  // Get family_type from familyId
-  let familyType = undefined
-  if (props.familyId) {
+  // Get family_type from familyType
+  let familyType = ''
+  if (props.familyType) {
     const family = sessionStore.appSettings.inquiryFamilyTab?.find(
-      f => f.id === props.familyId
+      f => f.family_type  === props.familyType
     )
     familyType = family?.family_type
-    console.log('🔍 Converting familyId to family_type:', {
-      familyId: props.familyId,
-      familyType: familyType,
+    console.log('🔍 Converting familyType to family_type:', {
+      familyType: props.familyType,
       family: family
     })
   }
@@ -172,13 +166,12 @@ const applyFilters = () => {
     parentId: mainInquiriesOnly.value ? 0 : undefined,
 
     search: searchQuery.value.trim() || undefined,
-    familyId: familyType, // Send family_type instead of familyId
+    familyType: props.familyType, // Send family_type instead of familyType
   })
 }
 
 const resetFilters = () => {
   selectedType.value = 'all'
-  selectedInquiryStatus.value = 'all'
   selectedCategory.value = 'all'
   selectedLocation.value = 'all'
   hasComments.value = null
@@ -191,7 +184,6 @@ const resetFilters = () => {
 const activeFiltersCount = computed(() => {
   let count = 0
   if (getValue(selectedType.value) !== 'all') count += 1
-  if (getValue(selectedInquiryStatus.value) !== 'all') count += 1
   if (getValue(selectedCategory.value) !== 'all') count += 1
   if (getValue(selectedLocation.value) !== 'all') count += 1
   if (getValue(hasComments.value) !== null) count += 1
@@ -301,22 +293,6 @@ onUnmounted(() => {
 				     :clearable="false"
 				     :multiple="false"
 				     :input-label="t('agora', 'Type')"
-				     value-prop="value"
-				     label-prop="label"
-				     label-outside
-				     @update:model-value="applyFilters"
-				     />
-				</div>
-
-				<!-- Inquiry status filter -->
-				<div class="filter-group">
-					<label>{{ t('agora', 'Inquiry Status') }}</label>
-					<NcSelect 
-				     v-model="selectedInquiryStatus"
-				     :options="filterOptions.inquiryStatuses"
-				     :clearable="false"
-				     :multiple="false"
-				     :input-label="t('agora', 'Inquiry Status')"
 				     value-prop="value"
 				     label-prop="label"
 				     label-outside
@@ -617,181 +593,181 @@ onUnmounted(() => {
 	}
 }
 
-																		      @media (max-width: 1400px) {
-																			      .inquiry-filters {
-																				      .filters-header {
-																					      gap: 12px;
+																					      @media (max-width: 1400px) {
+																						      .inquiry-filters {
+																							      .filters-header {
+																								      gap: 12px;
 
-																					      .search-box.compact {
-																						      min-width: 200px;
-																						      max-width: 300px;
-																					      }
+																								      .search-box.compact {
+																									      min-width: 200px;
+																									      max-width: 300px;
+																								      }
 
-																					      .main-filters {
-																						      gap: 12px;
+																								      .main-filters {
+																									      gap: 12px;
 
-																						      .filter-group.compact {
-																							      :deep(.nc-select) {
-																								      min-width: 130px;
+																									      .filter-group.compact {
+																										      :deep(.nc-select) {
+																											      min-width: 130px;
+																										      }
+																									      }
+																								      }
 																							      }
 																						      }
 																					      }
-																				      }
-																			      }
-																		      }
 
-																		      @media (max-width: 1200px) {
-																			      .inquiry-filters {
-																				      .filters-header {
-																					      gap: 10px;
+																					      @media (max-width: 1200px) {
+																						      .inquiry-filters {
+																							      .filters-header {
+																								      gap: 10px;
 
-																					      .search-box.compact {
-																						      min-width: 180px;
-																						      max-width: 250px;
-																					      }
+																								      .search-box.compact {
+																									      min-width: 180px;
+																									      max-width: 250px;
+																								      }
 
-																					      .main-filters {
-																						      gap: 10px;
+																								      .main-filters {
+																									      gap: 10px;
 
-																						      .filter-group.compact {
-																							      :deep(.nc-select) {
-																								      min-width: 120px;
+																									      .filter-group.compact {
+																										      :deep(.nc-select) {
+																											      min-width: 120px;
+																										      }
+																									      }
+																								      }
 																							      }
 																						      }
 																					      }
-																				      }
-																			      }
-																		      }
 
-																		      @media (max-width: 1024px) {
-																			      .inquiry-filters {
-																				      .filters-header {
-																					      flex-wrap: wrap;
-																					      gap: 12px;
+																					      @media (max-width: 1024px) {
+																						      .inquiry-filters {
+																							      .filters-header {
+																								      flex-wrap: wrap;
+																								      gap: 12px;
 
-																					      .search-box.compact {
-																						      max-width: none;
-																						      min-width: 200px;
-																						      order: 1;
-																						      flex: 1;
-																					      }
+																								      .search-box.compact {
+																									      max-width: none;
+																									      min-width: 200px;
+																									      order: 1;
+																									      flex: 1;
+																								      }
 
-																					      .filters-toggle-btn {
-																						      order: 2;
-																						      flex-shrink: 0;
-																					      }
+																								      .filters-toggle-btn {
+																									      order: 2;
+																									      flex-shrink: 0;
+																								      }
 
-																					      .main-filters {
-																						      order: 3;
-																						      flex-basis: 100%;
-																						      margin-top: 12px;
-																						      justify-content: flex-start;
-																						      gap: 12px;
-																						      flex-wrap: wrap;
-																					      }
+																								      .main-filters {
+																									      order: 3;
+																									      flex-basis: 100%;
+																									      margin-top: 12px;
+																									      justify-content: flex-start;
+																									      gap: 12px;
+																									      flex-wrap: wrap;
+																								      }
 
-																					      .reset-btn.compact {
-																						      order: 4;
-																						      flex-shrink: 0;
-																					      }
-																				      }
+																								      .reset-btn.compact {
+																									      order: 4;
+																									      flex-shrink: 0;
+																								      }
+																							      }
 
-																				      .filters-expanded {
-																					      .filters-grid {
-																						      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-																						      gap: 12px;
-																					      }
-																				      }
-																			      }
-																		      }
-
-																		      @media (max-width: 768px) {
-																			      .inquiry-filters {
-																				      padding: 12px;
-
-																				      .filters-header {
-																					      gap: 10px;
-
-																					      .search-box.compact {
-																						      min-width: 150px;
-																						      flex: 1;
-																					      }
-
-																					      .main-filters {
-																						      gap: 10px;
-																						      flex-wrap: wrap;
-
-																						      .filter-group.compact {
-																							      flex: 1;
-																							      min-width: 140px;
+																							      .filters-expanded {
+																								      .filters-grid {
+																									      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+																									      gap: 12px;
+																								      }
+																							      }
 																						      }
 																					      }
 
-																					      .filters-toggle-btn {
-																						      font-size: 12px;
-																						      padding: 8px 12px;
-																					      }
+																					      @media (max-width: 768px) {
+																						      .inquiry-filters {
+																							      padding: 12px;
 
-																					      .reset-btn.compact {
-																						      font-size: 12px;
-																						      padding: 8px 12px;
-																					      }
-																				      }
+																							      .filters-header {
+																								      gap: 10px;
 
-																				      .filters-expanded {
-																					      .filters-grid {
-																						      grid-template-columns: 1fr;
-																						      gap: 12px;
-																					      }
-																				      }
+																								      .search-box.compact {
+																									      min-width: 150px;
+																									      flex: 1;
+																								      }
 
-																				      .active-filters-summary {
-																					      flex-direction: column;
-																					      align-items: flex-start;
-																					      gap: 6px;
+																								      .main-filters {
+																									      gap: 10px;
+																									      flex-wrap: wrap;
 
-																					      .summary-label {
-																						      margin-bottom: 2px;
-																					      }
-																				      }
-																			      }
-																		      }
+																									      .filter-group.compact {
+																										      flex: 1;
+																										      min-width: 140px;
+																									      }
+																								      }
 
-																		      @media (max-width: 480px) {
-																			      .inquiry-filters {
-																				      .filters-header {
-																					      flex-direction: column;
-																					      align-items: stretch;
-																					      gap: 10px;
+																								      .filters-toggle-btn {
+																									      font-size: 12px;
+																									      padding: 8px 12px;
+																								      }
 
-																					      .search-box.compact {
-																						      max-width: none;
-																						      order: 1;
-																						      min-width: auto;
-																					      }
+																								      .reset-btn.compact {
+																									      font-size: 12px;
+																									      padding: 8px 12px;
+																								      }
+																							      }
 
-																					      .filters-toggle-btn {
-																						      order: 2;
-																						      justify-content: center;
-																					      }
+																							      .filters-expanded {
+																								      .filters-grid {
+																									      grid-template-columns: 1fr;
+																									      gap: 12px;
+																								      }
+																							      }
 
-																					      .main-filters {
-																						      order: 3;
-																						      flex-direction: column;
-																						      align-items: stretch;
-																						      gap: 10px;
+																							      .active-filters-summary {
+																								      flex-direction: column;
+																								      align-items: flex-start;
+																								      gap: 6px;
 
-																						      .filter-group.compact {
-																							      min-width: auto;
-																							      justify-content: space-between;
+																								      .summary-label {
+																									      margin-bottom: 2px;
+																								      }
+																							      }
 																						      }
 																					      }
 
-																					      .reset-btn.compact {
-																						      order: 4;
-																						      justify-content: center;
+																					      @media (max-width: 480px) {
+																						      .inquiry-filters {
+																							      .filters-header {
+																								      flex-direction: column;
+																								      align-items: stretch;
+																								      gap: 10px;
+
+																								      .search-box.compact {
+																									      max-width: none;
+																									      order: 1;
+																									      min-width: auto;
+																								      }
+
+																								      .filters-toggle-btn {
+																									      order: 2;
+																									      justify-content: center;
+																								      }
+
+																								      .main-filters {
+																									      order: 3;
+																									      flex-direction: column;
+																									      align-items: stretch;
+																									      gap: 10px;
+
+																									      .filter-group.compact {
+																										      min-width: auto;
+																										      justify-content: space-between;
+																									      }
+																								      }
+
+																								      .reset-btn.compact {
+																									      order: 4;
+																									      justify-content: center;
+																								      }
+																							      }
+																						      }
 																					      }
-																				      }
-																			      }
-																		      }
 </style>

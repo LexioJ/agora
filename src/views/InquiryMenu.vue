@@ -89,6 +89,11 @@ const filteredInquiryTypes = computed(() => {
 // DEBUG: Check data
 onMounted(() => {
   inquiriesStore.load(false)
+   if (inquiriesStore.advancedFilters.familyType) {
+    selectedFamily.value = inquiriesStore.advancedFilters.familyType
+    console.log('🔍 Initialized selectedFamily from store:', selectedFamily.value)
+  }
+
   console.log('🔍 DEBUG InquiryMenu - Using helper functions:')
   console.log('🔍 Families:', inquiryFamilies.value)
   console.log('🔍 Inquiry Types by Family:', inquiryTypesByFamily.value)
@@ -100,7 +105,7 @@ onMounted(() => {
 // Get family by ID
 const currentFamily = computed(() => {
   if (!selectedFamily.value) return null
-  return inquiryFamilies.value.find(f => f.family_type.toString() === selectedFamily.value)
+  return inquiryFamilies.value.find(f => f.family_type === selectedFamily.value)
 })
 
 // Get current family data (icon, label, description)
@@ -122,11 +127,24 @@ watch(
 )
 
 
+// Watch for store familyType changes 
+watch(
+  () => inquiriesStore.advancedFilters.familyType,
+  (newFamilyType) => {
+    if (newFamilyType && newFamilyType !== selectedFamily.value) {
+      selectedFamily.value = newFamilyType
+      console.log('🔍 selectedFamily updated from store:', newFamilyType)
+    }
+  },
+  { immediate: true }
+)
+
+
 // Function to select a family
 function selectFamily(familyType: string) {
     selectedFamily.value = familyType
-   inquiriesStore.setFamilyType(familyType)
-   console.log(" SELECT FAMIL ",familyType) 
+    inquiriesStore.setFamilyType(familyType)
+    console.log(" SELECT FAMIL ",familyType) 
   if (viewMode.value === 'view') {
     router.push({
       name: 'list',
@@ -180,7 +198,9 @@ watch(
 function handleViewModeChange(mode: string) {
   console.log(`🔄 View mode changed to: ${mode}`)
   viewMode.value = mode
-  
+   inquiriesStore.setFamilyType(selectedFamily.value)
+   
+
   // If family is selected, navigate with new mode
   if (selectedFamily.value) {
     if (mode === 'create') {

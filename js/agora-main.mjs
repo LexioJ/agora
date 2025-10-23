@@ -2091,18 +2091,54 @@ to { transform: rotate(360deg);
     transform: rotate(360deg);
 }
 }
-.navigation-controls[data-v-9857c039] {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 2rem;
-}
-.navigation-controls button[data-v-9857c039] {
+/* Children Header with View Mode Controls */
+.children-header[data-v-9857c039] {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 16px;
+  justify-content: space-between;
+  margin: 2rem 0 1.5rem 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--color-border);
+}
+.children-header .children-title[data-v-9857c039] {
+  margin: 0;
+  color: var(--color-main-text);
+  font-weight: 600;
+  font-size: 1.5rem;
+}
+.children-header .view-mode-controls .mode-switcher[data-v-9857c039] {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--color-background-dark);
+  border-radius: 10px;
+  padding: 4px;
+  border: 1px solid var(--color-border);
+}
+.children-header .view-mode-controls .mode-switcher .mode-switch[data-v-9857c039] {
+  margin: 0;
+}
+.children-header .view-mode-controls .mode-switcher .mode-switch[data-v-9857c039] .checkbox-radio-switch__label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
   border-radius: 8px;
   font-weight: 500;
+  font-size: 13px;
+  transition: all 0.2s ease;
+}
+.children-header .view-mode-controls .mode-switcher .mode-switch[data-v-9857c039] .checkbox-radio-switch__label:hover {
+  background: var(--color-background-hover);
+}
+.children-header .view-mode-controls .mode-switcher .mode-switch[data-v-9857c039] input:checked + .checkbox-radio-switch__label {
+  background: var(--color-primary-element);
+  color: var(--color-primary-text);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+.children-header .view-mode-controls .mode-switcher .mode-switch[data-v-9857c039] .material-design-icon {
+  width: 16px;
+  height: 16px;
 }
 .section-header[data-v-9857c039] {
   display: flex;
@@ -2116,7 +2152,7 @@ to { transform: rotate(360deg);
   margin: 0;
   color: var(--color-main-text);
   font-weight: 600;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
 }
 .section-header .section-count[data-v-9857c039] {
   background: var(--color-primary-element);
@@ -2126,29 +2162,51 @@ to { transform: rotate(360deg);
   font-size: 14px;
   font-weight: 600;
 }
+
+/* Parent section - takes full width and is clearly distinguished */
 .parent-section[data-v-9857c039] {
   margin-bottom: 3rem;
 }
 .parent-section .parent-inquiry-wrapper[data-v-9857c039] {
   background: var(--color-main-background);
   border-radius: 12px;
-  padding: 20px;
-  border: 1px solid var(--color-border);
+  padding: 24px;
+  border: 2px solid var(--color-primary-element);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Make parent stand out */
+}
+.parent-section .parent-inquiry-wrapper[data-v-9857c039] .inquiry-item {
+  background: transparent;
+  border: none;
+  padding: 0;
+}
+.parent-section .parent-inquiry-wrapper[data-v-9857c039] .inquiry-item .inquiry-item__header .inquiry-item__title {
+  font-size: 1.4rem;
+  color: var(--color-primary-element);
 }
 .children-sections[data-v-9857c039] {
   display: flex;
   flex-direction: column;
   gap: 3rem;
 }
-.child-section .inquiry-grid[data-v-9857c039] {
+.child-section .children-container[data-v-9857c039] {
+  width: 100%;
+}
+.child-section .children-grid[data-v-9857c039] {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 20px;
+  padding: 0;
+}
+.child-section .children-list[data-v-9857c039] {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* Responsive Design */
 @media (max-width: 1400px) {
-.child-section .inquiry-grid[data-v-9857c039] {
+.child-section .children-grid[data-v-9857c039] {
     grid-template-columns: repeat(3, 1fr);
 }
 }
@@ -2156,22 +2214,34 @@ to { transform: rotate(360deg);
 .transition-container[data-v-9857c039] {
     padding: 16px;
 }
-.child-section .inquiry-grid[data-v-9857c039] {
+.child-section .children-grid[data-v-9857c039] {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
 }
 .section-header .section-title[data-v-9857c039] {
+    font-size: 1.2rem;
+}
+.children-header .children-title[data-v-9857c039] {
     font-size: 1.3rem;
+}
+.parent-section .parent-inquiry-wrapper[data-v-9857c039] {
+    padding: 20px;
 }
 }
 @media (max-width: 768px) {
 .transition-container[data-v-9857c039] {
     padding: 12px;
 }
-.navigation-controls[data-v-9857c039] {
-    margin-bottom: 1.5rem;
+.children-header[data-v-9857c039] {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+    margin: 1.5rem 0 1rem 0;
 }
-.child-section .inquiry-grid[data-v-9857c039] {
+.children-header .view-mode-controls[data-v-9857c039] {
+    align-self: flex-end;
+}
+.child-section .children-grid[data-v-9857c039] {
     grid-template-columns: 1fr;
     gap: 12px;
 }
@@ -2188,7 +2258,7 @@ to { transform: rotate(360deg);
     margin-bottom: 1rem;
 }
 .section-header .section-title[data-v-9857c039] {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 }
 @media (max-width: 480px) {
@@ -2202,6 +2272,23 @@ to { transform: rotate(360deg);
 }
 .section-header .section-count[data-v-9857c039] {
     align-self: flex-end;
+}
+.parent-section .parent-inquiry-wrapper[data-v-9857c039] {
+    padding: 12px;
+}
+.children-header .view-mode-controls .mode-switcher[data-v-9857c039] {
+    width: 100%;
+    justify-content: center;
+}
+.children-header .view-mode-controls .mode-switcher .mode-switch[data-v-9857c039] .checkbox-radio-switch__label {
+    flex: 1;
+    justify-content: center;
+    padding: 8px 10px;
+    font-size: 12px;
+}
+.children-header .view-mode-controls .mode-switcher .mode-switch[data-v-9857c039] .checkbox-radio-switch__label .material-design-icon {
+    width: 14px;
+    height: 14px;
 }
 }.optionAdd {
   display: flex;
@@ -3267,13 +3354,13 @@ tr.file-picker__row td.row-name[data-v-1f96131b] {
 })();
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { at as h$1, i as defineStore, bc as Settings, u as _export_sfc, d as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, e as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, a as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a3 as createElementId, bf as ActionGlobalMixin, S as withDirectives, bg as vModelRadio, bh as withKeys, ar as withModifiers, F as useModel, r as renderSlot, ae as useCssVars, bi as useIsDarkTheme, B as unref, bj as mdiCreation, f as createVNode, a6 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, V as NcButton, bk as userStatus, L as NcAvatar, W as resolveComponent, K as mergeProps, M as normalizeStyle, E as mergeModels, Q as ref, bl as provide, I as warn$1, J as watch, a0 as useTemplateRef, $ as useAttrs, D as isLegacy, aw as logger, a1 as mdiCheck, a2 as mdiAlertCircle, bm as useRouter, b as onMounted, G as Fragment$1, H as renderList, aK as onBeforeUnmount, ad as NcLoadingIcon, T as vShow, bn as Teleport, bo as useRoute, b6 as emit, n as normalizeProps, g as guardReactiveProps, P as DateTime, R as RouterLink, b8 as onUnmounted, ba as NcActions, bp as translatePlural, bq as TransitionGroup, aL as nextTick, q as _$2, br as NcModal, b7 as shallowRef, bs as markRaw, bt as watchEffect, bu as getCurrentInstance, bv as customRef, bw as global, bx as getAugmentedNamespace, aN as process$1, a_ as commonjsGlobal, by as Buffer, Y as getDefaultExportFromCjs, bz as vModelSelect, bA as toRaw, bB as subscribe, bC as unsubscribe, as as Transition, bD as onBeforeRouteUpdate, aR as getCurrentUser, U as vModelText, bE as createRouter, bF as createWebHistory, bG as axios, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DIwIn7KM.chunk.mjs";
-import { b as useSessionStore, p as publicInquiry, h as supports, L as Logger, I as InquiryGeneralIcons, S as StatusIcons, a as useInquiriesStore, i as useInquiryGroupsStore, j as NavigationIcons, s as showError, k as useInquiryStore, l as showSuccess, E as Event$1, m as NcEmptyContent, B as BadgeIcons, n as sortTitlesMapping, o as lodashExports, d as appSettings, q as showInfo, v as validators, r as inquiries, t as commonjsRequire, w as useAttachmentsStore, x as useCommentsStore, y as useSharesStore, z as moment, A as useOptionsStore, C as ShareIcons } from "./NcDashboardWidget-BEUtfCxs-l3e9BVoJ.chunk.mjs";
-import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-CnDE-B96.chunk.mjs";
-import { a as NcAppNavigationItem, u as useAppSettingsDialog, b as NcAppNavigationList, c as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, d as NcAppContent, e as NcActionButtonGroup, f as NcDialog, g as NcActionInput, h as find$1, r as registerCustomProtocol, t as tokenize, i as reset, O as Options, P as PlusIcon, j as NcAppSidebar, k as NcAppSettingsDialog, l as NcContent } from "./index-CJF071qK.chunk.mjs";
-import { _ as _sfc_main$1D, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1E, e as NcRichText } from "./NcRichText-Dht_wH3t-CVcCbfMN.chunk.mjs";
-import { R as RadioGroupDiv, c as createPermissionContextForContent, a as ContentType, b as canSupport, d as canComment, e as canTransfer, f as canEdit, g as canDelete, h as canRestore, i as canArchive, j as canViewToggle, C as CardDiv, k as canShare } from "./markdown-DsRTaAUN.chunk.mjs";
-import { A as AgoraAppIcon } from "./AgoraAppIcon--LR7_NxB.chunk.mjs";
+import { at as h$1, i as defineStore, bc as Settings, u as _export_sfc, d as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, e as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, a as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, S as withDirectives, bg as vModelRadio, bh as withKeys, W as withModifiers, F as useModel, r as renderSlot, af as useCssVars, bi as useIsDarkTheme, B as unref, bj as mdiCreation, f as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, V as NcButton, bk as userStatus, L as NcAvatar, X as resolveComponent, K as mergeProps, M as normalizeStyle, E as mergeModels, Q as ref, bl as provide, I as warn$1, J as watch, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, aw as logger, a2 as mdiCheck, a3 as mdiAlertCircle, bm as useRouter, b as onMounted, G as Fragment$1, H as renderList, aK as onBeforeUnmount, ae as NcLoadingIcon, T as vShow, bn as Teleport, bo as useRoute, b6 as emit, n as normalizeProps, g as guardReactiveProps, P as DateTime, R as RouterLink, b8 as onUnmounted, ba as NcActions, bp as translatePlural, bq as TransitionGroup, aL as nextTick, q as _$2, br as NcModal, b7 as shallowRef, bs as markRaw, bt as watchEffect, bu as getCurrentInstance, bv as customRef, bw as global, bx as getAugmentedNamespace, aN as process$1, a_ as commonjsGlobal, by as Buffer, Z as getDefaultExportFromCjs, bz as vModelSelect, bA as toRaw, bB as subscribe, bC as unsubscribe, as as Transition, bD as onBeforeRouteUpdate, aR as getCurrentUser, U as vModelText, bE as createRouter, bF as createWebHistory, bG as axios, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang--E6jl8E8.chunk.mjs";
+import { b as useSessionStore, p as publicInquiry, h as supports, L as Logger, I as InquiryGeneralIcons, S as StatusIcons, a as useInquiriesStore, i as useInquiryGroupsStore, j as NavigationIcons, s as showError, k as useInquiryStore, l as showSuccess, E as Event$1, m as NcEmptyContent, B as BadgeIcons, n as sortTitlesMapping, o as lodashExports, d as appSettings, q as showInfo, v as validators, r as inquiries, t as commonjsRequire, w as useAttachmentsStore, x as useCommentsStore, y as useSharesStore, z as moment, A as useOptionsStore, C as ShareIcons } from "./NcDashboardWidget-BEUtfCxs-C09UGvNK.chunk.mjs";
+import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-B7UXkJYO.chunk.mjs";
+import { b as NcAppNavigationItem, u as useAppSettingsDialog, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcAppSidebar, a as NcAppSettingsDialog, l as NcContent } from "./index-DMXib1RJ.chunk.mjs";
+import { _ as _sfc_main$1C, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1D, e as NcRichText } from "./NcRichText-Dht_wH3t-CLSOeSu_.chunk.mjs";
+import { R as RadioGroupDiv, c as createPermissionContextForContent, a as ContentType, b as canSupport, d as canComment, e as canTransfer, f as canEdit, g as canDelete, h as canRestore, i as canArchive, s as shouldShowResponseActions, j as shouldShowTransformationActions, k as canCreateResponseType, l as canCreateTransformationType, m as canViewToggle, C as CardDiv, n as canShare } from "./markdown-LCoqsIZl.chunk.mjs";
+import { A as AgoraAppIcon } from "./AgoraAppIcon-B9bZ5ZJq.chunk.mjs";
 const setCookie = (cookieName, cookieValue = "", cookieExpiration = 360) => {
   const expirationTime = /* @__PURE__ */ new Date();
   expirationTime.setTime(expirationTime.getTime() + cookieExpiration);
@@ -3529,14 +3616,14 @@ const useSupportsStore = defineStore("supports", {
 function getInquiryItemData(item, fallbackLabel = "") {
   if (!item) {
     return {
-      icon: InquiryGeneralIcons.activity,
+      icon: InquiryGeneralIcons.Activity,
       label: fallbackLabel,
       description: ""
     };
   }
-  const iconName = item?.icon?.toLowerCase() || ("inquiry_type" in item ? "accountgroup" : "filedocumentedit");
+  const iconName = item?.icon || ("inquiry_type" in item ? "AccountGroup" : "FileDocumentEdit");
   return {
-    icon: InquiryGeneralIcons[iconName] || StatusIcons[iconName] || InquiryGeneralIcons.activity,
+    icon: InquiryGeneralIcons[iconName] || StatusIcons[iconName] || InquiryGeneralIcons.Activity,
     label: item.label || fallbackLabel,
     description: item.description || ""
   };
@@ -3590,14 +3677,14 @@ function getAvailableResponseTypes(inquiryType, inquiryTypes) {
     (type) => allowedResponses.includes(type.inquiry_type) && type.isOption === 0
   );
 }
-function getInquiryTypesForFamily(familyInquiryType, inquiryTypesByFamily, isOptionFilter = 0) {
-  const types = inquiryTypesByFamily[familyInquiryType] || [];
-  return types.filter((type) => type.isOption === isOptionFilter);
-}
 function getAvailableInquiryTypesForCreation(inquiryTypes) {
   return inquiryTypes.filter(
     (type) => !["official", "suggestion"].includes(type.inquiry_type)
   );
+}
+function getInquiryTypesForFamily(familyInquiryType, inquiryTypesByFamily, isOptionFilter = 0) {
+  const types = inquiryTypesByFamily[familyInquiryType] || [];
+  return types.filter((type) => type.isOption === isOptionFilter);
 }
 function getInquiryTypeOptions(inquiryTypes) {
   return inquiryTypes.map((type) => ({
@@ -3619,8 +3706,8 @@ async function loadContext(to2, cheapLoading = false, forceReload = false) {
   }
   Logger.info("Context loaded");
 }
-const _hoisted_1$1d = ["title"];
-const _sfc_main$1C = /* @__PURE__ */ defineComponent({
+const _hoisted_1$1c = ["title"];
+const _sfc_main$1B = /* @__PURE__ */ defineComponent({
   __name: "NcCounterBubble",
   props: {
     count: {},
@@ -3658,12 +3745,12 @@ const _sfc_main$1C = /* @__PURE__ */ defineComponent({
           "counter-bubble__counter--outlined": _ctx.type === "outlined"
         }]),
         title: originalCountAsTitleIfNeeded.value
-      }, toDisplayString(humanizedCount.value), 11, _hoisted_1$1d);
+      }, toDisplayString(humanizedCount.value), 11, _hoisted_1$1c);
     };
   }
 });
-const NcCounterBubble = /* @__PURE__ */ _export_sfc(_sfc_main$1C, [["__scopeId", "data-v-36ffc13f"]]);
-const _sfc_main$1B = /* @__PURE__ */ defineComponent({
+const NcCounterBubble = /* @__PURE__ */ _export_sfc(_sfc_main$1B, [["__scopeId", "data-v-36ffc13f"]]);
+const _sfc_main$1A = /* @__PURE__ */ defineComponent({
   __name: "InquiryNavigationItems",
   props: {
     inquiry: { type: Object, required: true }
@@ -3690,15 +3777,15 @@ const _sfc_main$1B = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$1c = { class: "type-icon" };
-function _sfc_render$1u(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$1b = { class: "type-icon" };
+function _sfc_render$1t(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcAppNavigationItem"], {
     name: $props.inquiry.title,
     to: $props.inquiry.permissions.view ? { name: "inquiry", params: { id: $props.inquiry.id } } : null,
     class: normalizeClass({ closed: $props.inquiry.status.isExpired })
   }, {
     icon: withCtx(() => [
-      createBaseVNode("div", _hoisted_1$1c, [
+      createBaseVNode("div", _hoisted_1$1b, [
         (openBlock(), createBlock(resolveDynamicComponent($setup.inquiryTypeData.icon)))
       ])
     ]),
@@ -3710,7 +3797,7 @@ function _sfc_render$1u(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[0] || (_cache[0] = ($event) => $setup.emit("toggleArchive"))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.archive)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Archive)))
         ]),
         _: 1
         /* STABLE */
@@ -3722,7 +3809,7 @@ function _sfc_render$1u(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[1] || (_cache[1] = ($event) => $setup.emit("toggleArchive"))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.restore)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Restore)))
         ]),
         _: 1
         /* STABLE */
@@ -3735,7 +3822,7 @@ function _sfc_render$1u(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[2] || (_cache[2] = ($event) => $setup.emit("deleteInquiry"))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.delete)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Delete)))
         ]),
         _: 1
         /* STABLE */
@@ -3745,8 +3832,8 @@ function _sfc_render$1u(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["name", "to", "class"]);
 }
-const InquiryNavigationItems = /* @__PURE__ */ _export_sfc$1(_sfc_main$1B, [["render", _sfc_render$1u], ["__scopeId", "data-v-65e9e2b8"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Navigation/InquiryNavigationItems.vue"]]);
-const _sfc_main$1A = {
+const InquiryNavigationItems = /* @__PURE__ */ _export_sfc$1(_sfc_main$1A, [["render", _sfc_render$1t], ["__scopeId", "data-v-65e9e2b8"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Navigation/InquiryNavigationItems.vue"]]);
+const _sfc_main$1z = {
   name: "NcActionCaption",
   inject: {
     isInSemanticMenu: {
@@ -3764,15 +3851,15 @@ const _sfc_main$1A = {
     }
   }
 };
-const _hoisted_1$1b = ["role"];
-function _sfc_render$1t(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$1a = ["role"];
+function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("li", {
     class: "app-navigation-caption",
     role: $options.isInSemanticMenu && "presentation"
-  }, toDisplayString($props.name), 9, _hoisted_1$1b);
+  }, toDisplayString($props.name), 9, _hoisted_1$1a);
 }
-const NcActionCaption = /* @__PURE__ */ _export_sfc(_sfc_main$1A, [["render", _sfc_render$1t], ["__scopeId", "data-v-1009e96c"]]);
-const _sfc_main$1z = {
+const NcActionCaption = /* @__PURE__ */ _export_sfc(_sfc_main$1z, [["render", _sfc_render$1s], ["__scopeId", "data-v-1009e96c"]]);
+const _sfc_main$1y = {
   name: "NcActionRadio",
   mixins: [ActionGlobalMixin],
   inject: {
@@ -3860,11 +3947,11 @@ const _sfc_main$1z = {
     }
   }
 };
-const _hoisted_1$1a = ["role"];
-const _hoisted_2$Q = ["aria-checked"];
-const _hoisted_3$J = ["id", "disabled", "name", "value"];
-const _hoisted_4$F = ["for"];
-function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$19 = ["role"];
+const _hoisted_2$P = ["aria-checked"];
+const _hoisted_3$I = ["id", "disabled", "name", "value"];
+const _hoisted_4$E = ["for"];
+function _sfc_render$1r(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("li", {
     class: normalizeClass(["action", { "action--disabled": $props.disabled }]),
     role: $options.isInSemanticMenu && "presentation"
@@ -3885,41 +3972,41 @@ function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
         type: "radio",
         onKeydown: _cache[1] || (_cache[1] = withKeys(withModifiers((...args) => $options.toggleInput && $options.toggleInput(...args), ["exact", "prevent"]), ["enter"])),
         onChange: _cache[2] || (_cache[2] = (...args) => $options.onChange && $options.onChange(...args))
-      }, null, 42, _hoisted_3$J), [
+      }, null, 42, _hoisted_3$I), [
         [vModelRadio, $setup.model]
       ]),
       createBaseVNode("label", {
         ref: "label",
         for: $props.id,
         class: "action-radio__label"
-      }, toDisplayString(_ctx.text), 9, _hoisted_4$F),
+      }, toDisplayString(_ctx.text), 9, _hoisted_4$E),
       createCommentVNode("", true)
-    ], 8, _hoisted_2$Q)
-  ], 10, _hoisted_1$1a);
+    ], 8, _hoisted_2$P)
+  ], 10, _hoisted_1$19);
 }
-const NcActionRadio = /* @__PURE__ */ _export_sfc(_sfc_main$1z, [["render", _sfc_render$1s], ["__scopeId", "data-v-9e878692"]]);
-const _sfc_main$1y = {
+const NcActionRadio = /* @__PURE__ */ _export_sfc(_sfc_main$1y, [["render", _sfc_render$1r], ["__scopeId", "data-v-9e878692"]]);
+const _sfc_main$1x = {
   name: "NcActionSeparator"
 };
-const _hoisted_1$19 = {
+const _hoisted_1$18 = {
   class: "action action-separator action--disabled",
   role: "separator"
 };
-function _sfc_render$1r(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("li", _hoisted_1$19);
+function _sfc_render$1q(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("li", _hoisted_1$18);
 }
-const NcActionSeparator = /* @__PURE__ */ _export_sfc(_sfc_main$1y, [["render", _sfc_render$1r], ["__scopeId", "data-v-3e2324b7"]]);
-const _hoisted_1$18 = { class: "app-navigation-spacer" };
-const _sfc_main$1x = /* @__PURE__ */ defineComponent({
+const NcActionSeparator = /* @__PURE__ */ _export_sfc(_sfc_main$1x, [["render", _sfc_render$1q], ["__scopeId", "data-v-3e2324b7"]]);
+const _hoisted_1$17 = { class: "app-navigation-spacer" };
+const _sfc_main$1w = /* @__PURE__ */ defineComponent({
   __name: "NcAppNavigationSpacer",
   setup(__props) {
     return (_ctx, _cache) => {
-      return openBlock(), createElementBlock("li", _hoisted_1$18);
+      return openBlock(), createElementBlock("li", _hoisted_1$17);
     };
   }
 });
-const NcAppNavigationSpacer = /* @__PURE__ */ _export_sfc(_sfc_main$1x, [["__scopeId", "data-v-277fa710"]]);
-const _sfc_main$1w = {
+const NcAppNavigationSpacer = /* @__PURE__ */ _export_sfc(_sfc_main$1w, [["__scopeId", "data-v-277fa710"]]);
+const _sfc_main$1v = {
   name: "NcAppSettingsSection",
   props: {
     /**
@@ -3969,9 +4056,9 @@ const _sfc_main$1w = {
     this.unregisterSection(this.id);
   }
 };
-const _hoisted_1$17 = ["id", "aria-labelledby"];
-const _hoisted_2$P = ["id"];
-function _sfc_render$1q(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$16 = ["id", "aria-labelledby"];
+const _hoisted_2$O = ["id"];
+function _sfc_render$1p(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("section", {
     id: $options.htmlId,
     "aria-labelledby": `${$options.htmlId}--label`,
@@ -3980,13 +4067,13 @@ function _sfc_render$1q(_ctx, _cache, $props, $setup, $data, $options) {
     createBaseVNode("h3", {
       id: `${$options.htmlId}--label`,
       class: "app-settings-section__name"
-    }, toDisplayString($props.name), 9, _hoisted_2$P),
+    }, toDisplayString($props.name), 9, _hoisted_2$O),
     renderSlot(_ctx.$slots, "default", {}, void 0, true),
     createCommentVNode("", true)
-  ], 8, _hoisted_1$17);
+  ], 8, _hoisted_1$16);
 }
-const NcAppSettingsSection = /* @__PURE__ */ _export_sfc(_sfc_main$1w, [["render", _sfc_render$1q], ["__scopeId", "data-v-a9004e4c"]]);
-const _sfc_main$1v = {
+const NcAppSettingsSection = /* @__PURE__ */ _export_sfc(_sfc_main$1v, [["render", _sfc_render$1p], ["__scopeId", "data-v-a9004e4c"]]);
+const _sfc_main$1u = {
   name: "NcAppSidebarTab",
   inject: ["registerTab", "unregisterTab", "getActiveTab", "isTablistShown"],
   props: {
@@ -4057,9 +4144,9 @@ const _sfc_main$1v = {
     }
   }
 };
-const _hoisted_1$16 = ["id", "aria-hidden", "aria-label", "aria-labelledby", "role", "tabindex"];
-const _hoisted_2$O = { class: "hidden-visually" };
-function _sfc_render$1p(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$15 = ["id", "aria-hidden", "aria-label", "aria-labelledby", "role", "tabindex"];
+const _hoisted_2$N = { class: "hidden-visually" };
+function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("section", {
     id: `tab-${$props.id}`,
     "aria-hidden": !$options.isActive,
@@ -4070,15 +4157,15 @@ function _sfc_render$1p(_ctx, _cache, $props, $setup, $data, $options) {
     tabindex: $options.isTablistShown() ? 0 : -1,
     onScroll: _cache[0] || (_cache[0] = (...args) => $options.onScroll && $options.onScroll(...args))
   }, [
-    createBaseVNode("h3", _hoisted_2$O, toDisplayString($props.name), 1),
+    createBaseVNode("h3", _hoisted_2$N, toDisplayString($props.name), 1),
     renderSlot(_ctx.$slots, "default", {}, void 0, true)
-  ], 42, _hoisted_1$16);
+  ], 42, _hoisted_1$15);
 }
-const NcAppSidebarTab = /* @__PURE__ */ _export_sfc(_sfc_main$1v, [["render", _sfc_render$1p], ["__scopeId", "data-v-dba10798"]]);
-const _hoisted_1$15 = ["id"];
-const _hoisted_2$N = ["id"];
-const _hoisted_3$I = ["d", "fill"];
-const _sfc_main$1u = /* @__PURE__ */ defineComponent({
+const NcAppSidebarTab = /* @__PURE__ */ _export_sfc(_sfc_main$1u, [["render", _sfc_render$1o], ["__scopeId", "data-v-dba10798"]]);
+const _hoisted_1$14 = ["id"];
+const _hoisted_2$M = ["id"];
+const _hoisted_3$H = ["d", "fill"];
+const _sfc_main$1t = /* @__PURE__ */ defineComponent({
   __name: "NcAssistantIcon",
   props: {
     inline: { type: Boolean },
@@ -4121,7 +4208,7 @@ const _sfc_main$1u = /* @__PURE__ */ defineComponent({
                 offset: "82%",
                 "stop-color": "#A180E0"
               }, null, -1)
-            ])], 8, _hoisted_1$15)) : (openBlock(), createElementBlock("linearGradient", {
+            ])], 8, _hoisted_1$14)) : (openBlock(), createElementBlock("linearGradient", {
               key: 1,
               id: unref(gradientId),
               gradientTransform: "rotateX(285)"
@@ -4138,12 +4225,12 @@ const _sfc_main$1u = /* @__PURE__ */ defineComponent({
                 offset: "80%",
                 "stop-color": "#492083"
               }, null, -1)
-            ])], 8, _hoisted_2$N))
+            ])], 8, _hoisted_2$M))
           ]),
           createBaseVNode("path", {
             d: unref(mdiCreation),
             fill: `url('#${unref(gradientId)}')`
-          }, null, 8, _hoisted_3$I)
+          }, null, 8, _hoisted_3$H)
         ], 2))
       ], 2);
     };
@@ -4161,8 +4248,8 @@ const style0$3 = {
 const cssModules$3 = {
   "$style": style0$3
 };
-const NcAssistantIcon = /* @__PURE__ */ _export_sfc(_sfc_main$1u, [["__cssModules", cssModules$3]]);
-const _sfc_main$1t = /* @__PURE__ */ defineComponent({
+const NcAssistantIcon = /* @__PURE__ */ _export_sfc(_sfc_main$1t, [["__cssModules", cssModules$3]]);
+const _sfc_main$1s = /* @__PURE__ */ defineComponent({
   __name: "NcAssistantButton",
   props: {
     disabled: { type: Boolean },
@@ -4229,8 +4316,8 @@ const style0$2 = {
 const cssModules$2 = {
   "$style": style0$2
 };
-const NcAssistantButton = /* @__PURE__ */ _export_sfc(_sfc_main$1t, [["__cssModules", cssModules$2]]);
-const _sfc_main$1s = /* @__PURE__ */ defineComponent({
+const NcAssistantButton = /* @__PURE__ */ _export_sfc(_sfc_main$1s, [["__cssModules", cssModules$2]]);
+const _sfc_main$1r = /* @__PURE__ */ defineComponent({
   __name: "NcAssistantContent",
   props: {
     contentClasses: { default: "" }
@@ -4259,14 +4346,14 @@ const style0$1 = {
 const cssModules$1 = {
   "$style": style0$1
 };
-const NcAssistantContent = /* @__PURE__ */ _export_sfc(_sfc_main$1s, [["__cssModules", cssModules$1]]);
+const NcAssistantContent = /* @__PURE__ */ _export_sfc(_sfc_main$1r, [["__cssModules", cssModules$1]]);
 const margin = 8;
 const defaultSize = 32;
-const _sfc_main$1r = {
+const _sfc_main$1q = {
   name: "NcListItemIcon",
   components: {
     NcAvatar,
-    NcHighlight: _sfc_main$1D,
+    NcHighlight: _sfc_main$1C,
     NcIconSvgWrapper
   },
   mixins: [
@@ -4402,11 +4489,11 @@ const _sfc_main$1r = {
     }
   }
 };
-const _hoisted_1$14 = ["id"];
-const _hoisted_2$M = { class: "option__details" };
-const _hoisted_3$H = { key: 1 };
-const _hoisted_4$E = ["aria-label"];
-function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$13 = ["id"];
+const _hoisted_2$L = { class: "option__details" };
+const _hoisted_3$G = { key: 1 };
+const _hoisted_4$D = ["aria-label"];
+function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_NcAvatar = resolveComponent("NcAvatar");
   const _component_NcHighlight = resolveComponent("NcHighlight");
   const _component_NcIconSvgWrapper = resolveComponent("NcIconSvgWrapper");
@@ -4423,7 +4510,7 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
       size: $props.avatarSize,
       class: "option__avatar"
     }), null, 16, ["display-name", "is-no-user", "size"]),
-    createBaseVNode("div", _hoisted_2$M, [
+    createBaseVNode("div", _hoisted_2$L, [
       createVNode(_component_NcHighlight, {
         class: "option__lineone",
         text: $props.name,
@@ -4434,7 +4521,7 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
         class: "option__linetwo",
         text: $props.subname,
         search: $options.searchParts[1]
-      }, null, 8, ["text", "search"])) : _ctx.hasStatus ? (openBlock(), createElementBlock("span", _hoisted_3$H, [
+      }, null, 8, ["text", "search"])) : _ctx.hasStatus ? (openBlock(), createElementBlock("span", _hoisted_3$G, [
         createBaseVNode("span", null, toDisplayString(_ctx.userStatus.icon), 1),
         createBaseVNode("span", null, toDisplayString(_ctx.userStatus.message), 1)
       ])) : createCommentVNode("", true)
@@ -4449,14 +4536,14 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
         key: 1,
         class: normalizeClass(["icon option__icon", $props.icon]),
         "aria-label": $props.iconName
-      }, null, 10, _hoisted_4$E)) : createCommentVNode("", true)
+      }, null, 10, _hoisted_4$D)) : createCommentVNode("", true)
     ], true)
-  ], 14, _hoisted_1$14);
+  ], 14, _hoisted_1$13);
 }
-const NcListItemIcon = /* @__PURE__ */ _export_sfc(_sfc_main$1r, [["render", _sfc_render$1o], ["__scopeId", "data-v-1355c4c1"]]);
-const _hoisted_1$13 = ["aria-describedby"];
-const _hoisted_2$L = ["id"];
-const _sfc_main$1q = /* @__PURE__ */ defineComponent({
+const NcListItemIcon = /* @__PURE__ */ _export_sfc(_sfc_main$1q, [["render", _sfc_render$1n], ["__scopeId", "data-v-1355c4c1"]]);
+const _hoisted_1$12 = ["aria-describedby"];
+const _hoisted_2$K = ["id"];
+const _sfc_main$1p = /* @__PURE__ */ defineComponent({
   __name: "NcRadioGroup",
   props: /* @__PURE__ */ mergeModels({
     label: {},
@@ -4499,13 +4586,13 @@ const _sfc_main$1q = /* @__PURE__ */ defineComponent({
           key: 0,
           id: unref(descriptionId),
           class: normalizeClass(_ctx.$style.radioGroup__description)
-        }, toDisplayString(_ctx.description), 11, _hoisted_2$L)) : createCommentVNode("", true),
+        }, toDisplayString(_ctx.description), 11, _hoisted_2$K)) : createCommentVNode("", true),
         createBaseVNode("div", {
           class: normalizeClass(_ctx.$style.radioGroup__wrapper)
         }, [
           renderSlot(_ctx.$slots, "default")
         ], 2)
-      ], 10, _hoisted_1$13);
+      ], 10, _hoisted_1$12);
     };
   }
 });
@@ -4525,8 +4612,8 @@ const style0 = {
 const cssModules = {
   "$style": style0
 };
-const NcRadioGroup = /* @__PURE__ */ _export_sfc(_sfc_main$1q, [["__cssModules", cssModules]]);
-const _sfc_main$1p = /* @__PURE__ */ defineComponent({
+const NcRadioGroup = /* @__PURE__ */ _export_sfc(_sfc_main$1p, [["__cssModules", cssModules]]);
+const _sfc_main$1o = /* @__PURE__ */ defineComponent({
   __name: "NcSelectUsers",
   props: /* @__PURE__ */ mergeModels({
     ariaLabelClearSelected: {},
@@ -4592,12 +4679,12 @@ const _sfc_main$1p = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const NcSelectUsers = /* @__PURE__ */ _export_sfc(_sfc_main$1p, [["__scopeId", "data-v-4fbb6472"]]);
-const _hoisted_1$12 = { class: "textarea__main-wrapper" };
-const _hoisted_2$K = ["id", "aria-describedby", "disabled", "placeholder", "value"];
-const _hoisted_3$G = ["for"];
-const _hoisted_4$D = ["id"];
-const _sfc_main$1o = /* @__PURE__ */ defineComponent({
+const NcSelectUsers = /* @__PURE__ */ _export_sfc(_sfc_main$1o, [["__scopeId", "data-v-4fbb6472"]]);
+const _hoisted_1$11 = { class: "textarea__main-wrapper" };
+const _hoisted_2$J = ["id", "aria-describedby", "disabled", "placeholder", "value"];
+const _hoisted_3$F = ["for"];
+const _hoisted_4$C = ["id"];
+const _sfc_main$1n = /* @__PURE__ */ defineComponent({
   ...{ inheritAttrs: false },
   __name: "NcTextArea",
   props: /* @__PURE__ */ mergeModels({
@@ -4661,7 +4748,7 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
           }
         ]])
       }, [
-        createBaseVNode("div", _hoisted_1$12, [
+        createBaseVNode("div", _hoisted_1$11, [
           createBaseVNode("textarea", mergeProps({ ..._ctx.$attrs, class: void 0 }, {
             id: _ctx.id,
             ref: "input",
@@ -4681,12 +4768,12 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
             style: { resize: _ctx.resize },
             value: modelValue.value,
             onInput: handleInput
-          }), null, 16, _hoisted_2$K),
+          }), null, 16, _hoisted_2$J),
           !_ctx.labelOutside ? (openBlock(), createElementBlock("label", {
             key: 0,
             class: "textarea__label",
             for: _ctx.id
-          }, toDisplayString(_ctx.label), 9, _hoisted_3$G)) : createCommentVNode("", true)
+          }, toDisplayString(_ctx.label), 9, _hoisted_3$F)) : createCommentVNode("", true)
         ]),
         _ctx.helperText ? (openBlock(), createElementBlock("p", {
           key: 0,
@@ -4706,14 +4793,14 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
             path: unref(mdiAlertCircle)
           }, null, 8, ["path"])) : createCommentVNode("", true),
           createTextVNode(" " + toDisplayString(_ctx.helperText), 1)
-        ], 10, _hoisted_4$D)) : createCommentVNode("", true)
+        ], 10, _hoisted_4$C)) : createCommentVNode("", true)
       ], 2);
     };
   }
 });
-const NcTextArea = /* @__PURE__ */ _export_sfc(_sfc_main$1o, [["__scopeId", "data-v-808cdfc6"]]);
+const NcTextArea = /* @__PURE__ */ _export_sfc(_sfc_main$1n, [["__scopeId", "data-v-808cdfc6"]]);
 const iconSize = 20;
-const _sfc_main$1n = /* @__PURE__ */ defineComponent({
+const _sfc_main$1m = /* @__PURE__ */ defineComponent({
   __name: "Navigation",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -4725,43 +4812,43 @@ const _sfc_main$1n = /* @__PURE__ */ defineComponent({
     const icons = {
       relevant: {
         id: "relevant",
-        iconComponent: NavigationIcons.relevant
+        iconComponent: NavigationIcons.Relevant
       },
       my: {
         id: "my",
-        iconComponent: NavigationIcons.myInquiries
+        iconComponent: NavigationIcons.MyInquiries
       },
       private: {
         id: "private",
-        iconComponent: NavigationIcons.private
+        iconComponent: NavigationIcons.Private
       },
       participated: {
         id: "participated",
-        iconComponent: NavigationIcons.participated
+        iconComponent: NavigationIcons.Participated
       },
       open: {
         id: "open",
-        iconComponent: NavigationIcons.open
+        iconComponent: NavigationIcons.Open
       },
       all: {
         id: "all",
-        iconComponent: NavigationIcons.all
+        iconComponent: NavigationIcons.All
       },
       closed: {
         id: "closed",
-        iconComponent: NavigationIcons.closed
+        iconComponent: NavigationIcons.Closed
       },
       archived: {
         id: "archived",
-        iconComponent: NavigationIcons.archived
+        iconComponent: NavigationIcons.Archived
       },
       admin: {
         id: "admin",
-        iconComponent: NavigationIcons.administration
+        iconComponent: NavigationIcons.Administration
       },
       moderate: {
         id: "moderate",
-        iconComponent: NavigationIcons.moderate
+        iconComponent: NavigationIcons.Moderate
       }
     };
     const createDlgToggle = ref(false);
@@ -4811,17 +4898,17 @@ const _sfc_main$1n = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$11 = { class: "navigation-caption" };
-const _hoisted_2$J = {
+const _hoisted_1$10 = { class: "navigation-caption" };
+const _hoisted_2$I = {
   key: 0,
   class: "navigation-sublist"
 };
-const _hoisted_3$F = { class: "navigation-caption" };
-const _hoisted_4$C = {
+const _hoisted_3$E = { class: "navigation-caption" };
+const _hoisted_4$B = {
   key: 0,
   class: "navigation-sublist"
 };
-function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1m(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcAppNavigation"], {
     class: "agora-navigation",
     "aria-label": "Agora Navigation"
@@ -4832,7 +4919,7 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
         default: withCtx(() => [
           createBaseVNode(
             "h3",
-            _hoisted_1$11,
+            _hoisted_1$10,
             toDisplayString($setup.t("agora", "Categories")),
             1
             /* TEXT */
@@ -4854,7 +4941,7 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
                 open: false
               }, {
                 icon: withCtx(() => [
-                  (openBlock(), createBlock(resolveDynamicComponent($setup.NavigationIcons.group)))
+                  (openBlock(), createBlock(resolveDynamicComponent($setup.NavigationIcons.Group)))
                 ]),
                 counter: withCtx(() => [
                   createVNode($setup["NcCounterBubble"], {
@@ -4863,7 +4950,7 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
                   }, null, 8, ["count"])
                 ]),
                 default: withCtx(() => [
-                  $setup.sessionStore.appSettings.navigationInquiriesInList ? (openBlock(), createElementBlock("ul", _hoisted_2$J, [
+                  $setup.sessionStore.appSettings.navigationInquiriesInList ? (openBlock(), createElementBlock("ul", _hoisted_2$I, [
                     (openBlock(true), createElementBlock(
                       Fragment$1,
                       null,
@@ -4893,7 +4980,7 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
                       name: $setup.t("agora", "View all")
                     }, {
                       icon: withCtx(() => [
-                        (openBlock(), createBlock(resolveDynamicComponent($setup.NavigationIcons.goTo)))
+                        (openBlock(), createBlock(resolveDynamicComponent($setup.NavigationIcons.GoTo)))
                       ]),
                       _: 2
                       /* DYNAMIC */
@@ -4917,7 +5004,7 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
         default: withCtx(() => [
           createBaseVNode(
             "h3",
-            _hoisted_3$F,
+            _hoisted_3$E,
             toDisplayString($setup.t("agora", "Filters")),
             1
             /* TEXT */
@@ -4949,7 +5036,7 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
                   }, null, 8, ["count"])
                 ]),
                 default: withCtx(() => [
-                  $setup.sessionStore.appSettings.navigationInquiriesInList ? (openBlock(), createElementBlock("ul", _hoisted_4$C, [
+                  $setup.sessionStore.appSettings.navigationInquiriesInList ? (openBlock(), createElementBlock("ul", _hoisted_4$B, [
                     (openBlock(true), createElementBlock(
                       Fragment$1,
                       null,
@@ -4979,7 +5066,7 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
                       name: $setup.t("agora", "View all")
                     }, {
                       icon: withCtx(() => [
-                        (openBlock(), createBlock(resolveDynamicComponent($setup.NavigationIcons.goTo)))
+                        (openBlock(), createBlock(resolveDynamicComponent($setup.NavigationIcons.GoTo)))
                       ]),
                       _: 2
                       /* DYNAMIC */
@@ -5002,8 +5089,8 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   });
 }
-const Navigation = /* @__PURE__ */ _export_sfc$1(_sfc_main$1n, [["render", _sfc_render$1n], ["__file", "/var/www/nextcloud/apps/agora/src/views/Navigation.vue"]]);
-const _sfc_main$1m = {
+const Navigation = /* @__PURE__ */ _export_sfc$1(_sfc_main$1m, [["render", _sfc_render$1m], ["__file", "/var/www/nextcloud/apps/agora/src/views/Navigation.vue"]]);
+const _sfc_main$1l = {
   name: "InformationVariantIcon",
   emits: ["click"],
   props: {
@@ -5020,11 +5107,11 @@ const _sfc_main$1m = {
     }
   }
 };
-const _hoisted_1$10 = ["aria-hidden", "aria-label"];
-const _hoisted_2$I = ["fill", "width", "height"];
-const _hoisted_3$E = { d: "M13.5,4A1.5,1.5 0 0,0 12,5.5A1.5,1.5 0 0,0 13.5,7A1.5,1.5 0 0,0 15,5.5A1.5,1.5 0 0,0 13.5,4M13.14,8.77C11.95,8.87 8.7,11.46 8.7,11.46C8.5,11.61 8.56,11.6 8.72,11.88C8.88,12.15 8.86,12.17 9.05,12.04C9.25,11.91 9.58,11.7 10.13,11.36C12.25,10 10.47,13.14 9.56,18.43C9.2,21.05 11.56,19.7 12.17,19.3C12.77,18.91 14.38,17.8 14.54,17.69C14.76,17.54 14.6,17.42 14.43,17.17C14.31,17 14.19,17.12 14.19,17.12C13.54,17.55 12.35,18.45 12.19,17.88C12,17.31 13.22,13.4 13.89,10.71C14,10.07 14.3,8.67 13.14,8.77Z" };
-const _hoisted_4$B = { key: 0 };
-function _sfc_render$1m(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$$ = ["aria-hidden", "aria-label"];
+const _hoisted_2$H = ["fill", "width", "height"];
+const _hoisted_3$D = { d: "M13.5,4A1.5,1.5 0 0,0 12,5.5A1.5,1.5 0 0,0 13.5,7A1.5,1.5 0 0,0 15,5.5A1.5,1.5 0 0,0 13.5,4M13.14,8.77C11.95,8.87 8.7,11.46 8.7,11.46C8.5,11.61 8.56,11.6 8.72,11.88C8.88,12.15 8.86,12.17 9.05,12.04C9.25,11.91 9.58,11.7 10.13,11.36C12.25,10 10.47,13.14 9.56,18.43C9.2,21.05 11.56,19.7 12.17,19.3C12.77,18.91 14.38,17.8 14.54,17.69C14.76,17.54 14.6,17.42 14.43,17.17C14.31,17 14.19,17.12 14.19,17.12C13.54,17.55 12.35,18.45 12.19,17.88C12,17.31 13.22,13.4 13.89,10.71C14,10.07 14.3,8.67 13.14,8.77Z" };
+const _hoisted_4$A = { key: 0 };
+function _sfc_render$1l(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
     "aria-hidden": $props.title ? null : "true",
     "aria-label": $props.title,
@@ -5039,20 +5126,20 @@ function _sfc_render$1m(_ctx, _cache, $props, $setup, $data, $options) {
       height: $props.size,
       viewBox: "0 0 24 24"
     }, [
-      createBaseVNode("path", _hoisted_3$E, [
+      createBaseVNode("path", _hoisted_3$D, [
         $props.title ? (openBlock(), createElementBlock(
           "title",
-          _hoisted_4$B,
+          _hoisted_4$A,
           toDisplayString($props.title),
           1
           /* TEXT */
         )) : createCommentVNode("v-if", true)
       ])
-    ], 8, _hoisted_2$I))
-  ], 16, _hoisted_1$10);
+    ], 8, _hoisted_2$H))
+  ], 16, _hoisted_1$$);
 }
-const InformationIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$1m, [["render", _sfc_render$1m], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/InformationVariant.vue"]]);
-const _sfc_main$1l = /* @__PURE__ */ defineComponent({
+const InformationIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$1l, [["render", _sfc_render$1l], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/InformationVariant.vue"]]);
+const _sfc_main$1k = /* @__PURE__ */ defineComponent({
   __name: "ConfigBox",
   props: {
     name: { type: String, required: true },
@@ -5066,13 +5153,13 @@ const _sfc_main$1l = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$$ = { class: "config-box" };
-const _hoisted_2$H = { class: "config-box__header" };
-const _hoisted_3$D = ["title"];
-const _hoisted_4$A = { class: "config-box__container" };
-function _sfc_render$1l(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$$, [
-    createBaseVNode("div", _hoisted_2$H, [
+const _hoisted_1$_ = { class: "config-box" };
+const _hoisted_2$G = { class: "config-box__header" };
+const _hoisted_3$C = ["title"];
+const _hoisted_4$z = { class: "config-box__container" };
+function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$_, [
+    createBaseVNode("div", _hoisted_2$G, [
       renderSlot(_ctx.$slots, "icon"),
       createBaseVNode("div", {
         title: $props.info,
@@ -5084,16 +5171,16 @@ function _sfc_render$1l(_ctx, _cache, $props, $setup, $data, $options) {
           /* TEXT */
         ),
         $props.info ? (openBlock(), createBlock($setup["InformationIcon"], { key: 0 })) : createCommentVNode("v-if", true)
-      ], 10, _hoisted_3$D),
+      ], 10, _hoisted_3$C),
       renderSlot(_ctx.$slots, "actions")
     ]),
-    createBaseVNode("div", _hoisted_4$A, [
+    createBaseVNode("div", _hoisted_4$z, [
       renderSlot(_ctx.$slots, "default")
     ])
   ]);
 }
-const ConfigBox = /* @__PURE__ */ _export_sfc$1(_sfc_main$1l, [["render", _sfc_render$1l], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/ConfigBox.vue"]]);
-const _sfc_main$1k = /* @__PURE__ */ defineComponent({
+const ConfigBox = /* @__PURE__ */ _export_sfc$1(_sfc_main$1k, [["render", _sfc_render$1k], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/ConfigBox.vue"]]);
+const _sfc_main$1j = /* @__PURE__ */ defineComponent({
   __name: "HeaderBar",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -5106,16 +5193,16 @@ const _sfc_main$1k = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$_ = { class: "header_bar" };
-const _hoisted_2$G = { class: "header_bar_top" };
-const _hoisted_3$C = { class: "bar_top_left" };
-const _hoisted_4$z = { class: "bar_top_left_sub" };
+const _hoisted_1$Z = { class: "header_bar" };
+const _hoisted_2$F = { class: "header_bar_top" };
+const _hoisted_3$B = { class: "bar_top_left" };
+const _hoisted_4$y = { class: "bar_top_left_sub" };
 const _hoisted_5$e = { class: "bar_top_right" };
 const _hoisted_6$b = { class: "header_bar_bottom" };
-function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$_, [
-    createBaseVNode("div", _hoisted_2$G, [
-      createBaseVNode("div", _hoisted_3$C, [
+function _sfc_render$1j(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$Z, [
+    createBaseVNode("div", _hoisted_2$F, [
+      createBaseVNode("div", _hoisted_3$B, [
         createBaseVNode(
           "div",
           {
@@ -5128,7 +5215,7 @@ function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
           2
           /* CLASS */
         ),
-        createBaseVNode("div", _hoisted_4$z, [
+        createBaseVNode("div", _hoisted_4$y, [
           renderSlot(_ctx.$slots, "sub")
         ])
       ]),
@@ -5141,8 +5228,8 @@ function _sfc_render$1k(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ]);
 }
-const HeaderBar = /* @__PURE__ */ _export_sfc$1(_sfc_main$1k, [["render", _sfc_render$1k], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/HeaderBar.vue"]]);
-const _sfc_main$1j = /* @__PURE__ */ defineComponent({
+const HeaderBar = /* @__PURE__ */ _export_sfc$1(_sfc_main$1j, [["render", _sfc_render$1j], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/HeaderBar.vue"]]);
+const _sfc_main$1i = /* @__PURE__ */ defineComponent({
   __name: "ThumbIcon",
   props: {
     title: { type: String, required: false, default: () => translate("agora", "Support status") },
@@ -5157,9 +5244,9 @@ const _sfc_main$1j = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$Z = ["aria-hidden", "aria-label"];
-const _hoisted_2$F = ["fill", "stroke", "width", "height"];
-function _sfc_render$1j(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$Y = ["aria-hidden", "aria-label"];
+const _hoisted_2$E = ["fill", "stroke", "width", "height"];
+function _sfc_render$1i(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", {
     "aria-hidden": !$props.title,
     "aria-label": $props.title,
@@ -5182,11 +5269,11 @@ function _sfc_render$1j(_ctx, _cache, $props, $setup, $data, $options) {
         -1
         /* CACHED */
       )
-    ])], 8, _hoisted_2$F))
-  ], 8, _hoisted_1$Z);
+    ])], 8, _hoisted_2$E))
+  ], 8, _hoisted_1$Y);
 }
-const ThumbIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$1j, [["render", _sfc_render$1j], ["__scopeId", "data-v-24ed4f43"], ["__file", "/var/www/nextcloud/apps/agora/src/components/AppIcons/modules/ThumbIcon.vue"]]);
-const _sfc_main$1i = /* @__PURE__ */ defineComponent({
+const ThumbIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$1i, [["render", _sfc_render$1i], ["__scopeId", "data-v-24ed4f43"], ["__file", "/var/www/nextcloud/apps/agora/src/components/AppIcons/modules/ThumbIcon.vue"]]);
+const _sfc_main$1h = /* @__PURE__ */ defineComponent({
   __name: "IntersectionObserver",
   props: /* @__PURE__ */ mergeModels({
     loading: { type: Boolean, required: false, default: false }
@@ -5227,11 +5314,11 @@ const _sfc_main$1i = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$Y = { ref: "observerTarget" };
-function _sfc_render$1i(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$X = { ref: "observerTarget" };
+function _sfc_render$1h(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock(
     "div",
-    _hoisted_1$Y,
+    _hoisted_1$X,
     [
       $props.loading ? (openBlock(), createBlock($setup["NcLoadingIcon"], {
         key: 0,
@@ -5245,8 +5332,8 @@ function _sfc_render$1i(_ctx, _cache, $props, $setup, $data, $options) {
     /* NEED_PATCH */
   );
 }
-const IntersectionObserver$1 = /* @__PURE__ */ _export_sfc$1(_sfc_main$1i, [["render", _sfc_render$1i], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/IntersectionObserver.vue"]]);
-const _sfc_main$1h = /* @__PURE__ */ defineComponent({
+const IntersectionObserver$1 = /* @__PURE__ */ _export_sfc$1(_sfc_main$1h, [["render", _sfc_render$1h], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/IntersectionObserver.vue"]]);
+const _sfc_main$1g = /* @__PURE__ */ defineComponent({
   __name: "LoadingOverlay",
   props: {
     show: { type: Boolean, required: true, default: false },
@@ -5306,31 +5393,31 @@ const _sfc_main$1h = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$X = { class: "loading-overlay" };
-const _hoisted_2$E = { class: "loading-overlay__inner" };
-const _hoisted_3$B = { class: "loading-overlay__name" };
-const _hoisted_4$y = { class: "loading-overlay__description" };
-function _sfc_render$1h(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$W = { class: "loading-overlay" };
+const _hoisted_2$D = { class: "loading-overlay__inner" };
+const _hoisted_3$A = { class: "loading-overlay__name" };
+const _hoisted_4$x = { class: "loading-overlay__description" };
+function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock(Teleport, { to: $props.teleportTo }, [
     withDirectives(createBaseVNode(
       "div",
-      _hoisted_1$X,
+      _hoisted_1$W,
       [
-        createBaseVNode("div", _hoisted_2$E, [
+        createBaseVNode("div", _hoisted_2$D, [
           createVNode($setup["Spinner"], {
             class: "loading-overlay__spinner",
             size: 70
           }),
           createBaseVNode(
             "span",
-            _hoisted_3$B,
+            _hoisted_3$A,
             toDisplayString($props.name),
             1
             /* TEXT */
           ),
           createBaseVNode(
             "p",
-            _hoisted_4$y,
+            _hoisted_4$x,
             toDisplayString($setup.description),
             1
             /* TEXT */
@@ -5344,8 +5431,8 @@ function _sfc_render$1h(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ], 8, ["to"]);
 }
-const LoadingOverlay = /* @__PURE__ */ _export_sfc$1(_sfc_main$1h, [["render", _sfc_render$1h], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/LoadingOverlay.vue"]]);
-const _sfc_main$1g = /* @__PURE__ */ defineComponent({
+const LoadingOverlay = /* @__PURE__ */ _export_sfc$1(_sfc_main$1g, [["render", _sfc_render$1g], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/LoadingOverlay.vue"]]);
+const _sfc_main$1f = /* @__PURE__ */ defineComponent({
   __name: "QrModal",
   props: {
     name: { type: String, required: false, default: "" },
@@ -5372,12 +5459,12 @@ const _sfc_main$1g = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$W = { class: "qr-code" };
-const _hoisted_2$D = { class: "canvas" };
-const _hoisted_3$A = ["src", "alt"];
-const _hoisted_4$x = { class: "qr-url" };
-function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$W, [
+const _hoisted_1$V = { class: "qr-code" };
+const _hoisted_2$C = { class: "canvas" };
+const _hoisted_3$z = ["src", "alt"];
+const _hoisted_4$w = { class: "qr-url" };
+function _sfc_render$1f(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$V, [
     createBaseVNode(
       "h2",
       null,
@@ -5392,11 +5479,11 @@ function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
         /* TEXT */
       )
     ]),
-    createBaseVNode("div", _hoisted_2$D, [
+    createBaseVNode("div", _hoisted_2$C, [
       createBaseVNode("img", {
         src: $setup.qrUri,
         alt: $props.encodeText
-      }, null, 8, _hoisted_3$A)
+      }, null, 8, _hoisted_3$z)
     ]),
     createBaseVNode(
       "h3",
@@ -5414,15 +5501,15 @@ function _sfc_render$1g(_ctx, _cache, $props, $setup, $data, $options) {
     )),
     createBaseVNode(
       "p",
-      _hoisted_4$x,
+      _hoisted_4$w,
       toDisplayString($props.encodeText),
       1
       /* TEXT */
     )
   ]);
 }
-const QrModal = /* @__PURE__ */ _export_sfc$1(_sfc_main$1g, [["render", _sfc_render$1g], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/QrModal.vue"]]);
-const _sfc_main$1f = /* @__PURE__ */ defineComponent({
+const QrModal = /* @__PURE__ */ _export_sfc$1(_sfc_main$1f, [["render", _sfc_render$1f], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/QrModal.vue"]]);
+const _sfc_main$1e = /* @__PURE__ */ defineComponent({
   __name: "Collapsible",
   props: {
     initialState: { type: String, required: false, default: "max" },
@@ -5544,13 +5631,13 @@ const _sfc_main$1f = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$V = { class: "collapsible" };
-const _hoisted_2$C = {
+const _hoisted_1$U = { class: "collapsible" };
+const _hoisted_2$B = {
   ref: "slotWrapper",
   class: "collapsible_content"
 };
-function _sfc_render$1f(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$V, [
+function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$U, [
     createBaseVNode(
       "div",
       {
@@ -5573,7 +5660,7 @@ function _sfc_render$1f(_ctx, _cache, $props, $setup, $data, $options) {
           [
             createBaseVNode(
               "div",
-              _hoisted_2$C,
+              _hoisted_2$B,
               [
                 renderSlot(_ctx.$slots, "default")
               ],
@@ -5604,8 +5691,8 @@ function _sfc_render$1f(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ]);
 }
-const Collapsible = /* @__PURE__ */ _export_sfc$1(_sfc_main$1f, [["render", _sfc_render$1f], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/Collapsible.vue"]]);
-const _sfc_main$1e = /* @__PURE__ */ defineComponent({
+const Collapsible = /* @__PURE__ */ _export_sfc$1(_sfc_main$1e, [["render", _sfc_render$1e], ["__file", "/var/www/nextcloud/apps/agora/src/components/Base/modules/Collapsible.vue"]]);
+const _sfc_main$1d = /* @__PURE__ */ defineComponent({
   __name: "InquiryCreateDlg",
   props: {
     inquiryType: { type: [Object, null], required: false, default: null },
@@ -5748,20 +5835,20 @@ const _sfc_main$1e = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$U = { class: "access-settings" };
-const _hoisted_2$B = {
+const _hoisted_1$T = { class: "access-settings" };
+const _hoisted_2$A = {
   key: 0,
   class: "groups-selection"
 };
-const _hoisted_3$z = { class: "groups-title" };
-const _hoisted_4$w = { class: "groups-list" };
+const _hoisted_3$y = { class: "groups-title" };
+const _hoisted_4$v = { class: "groups-list" };
 const _hoisted_5$d = { class: "selected-type" };
 const _hoisted_6$a = {
   key: 0,
   class: "type-description"
 };
 const _hoisted_7$9 = { class: "create-buttons" };
-function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock(
     Fragment$1,
     null,
@@ -5783,10 +5870,10 @@ function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
             name: $setup.t("agora", "Access Settings")
           }, {
             icon: withCtx(() => [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.accountgroup)))
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.AccountGroup)))
             ]),
             default: withCtx(() => [
-              createBaseVNode("div", _hoisted_1$U, [
+              createBaseVNode("div", _hoisted_1$T, [
                 createVNode($setup["NcRadioGroup"], {
                   modelValue: $setup.accessType,
                   "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.accessType = $event),
@@ -5821,15 +5908,15 @@ function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
                   /* STABLE */
                 }, 8, ["modelValue", "description"]),
                 createCommentVNode(" Group Selection "),
-                $setup.accessType === "groups" ? (openBlock(), createElementBlock("div", _hoisted_2$B, [
+                $setup.accessType === "groups" ? (openBlock(), createElementBlock("div", _hoisted_2$A, [
                   createBaseVNode(
                     "h4",
-                    _hoisted_3$z,
+                    _hoisted_3$y,
                     toDisplayString($setup.t("agora", "Select groups")),
                     1
                     /* TEXT */
                   ),
-                  createBaseVNode("div", _hoisted_4$w, [
+                  createBaseVNode("div", _hoisted_4$v, [
                     createVNode($setup["NcRadioGroup"], {
                       modelValue: $setup.selectedGroup,
                       "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.selectedGroup = $event),
@@ -5881,7 +5968,7 @@ function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
             name: $setup.t("agora", "Title")
           }, {
             icon: withCtx(() => [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.bullhorn)))
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.BullHorn)))
             ]),
             default: withCtx(() => [
               createVNode($setup["InputDiv"], {
@@ -5905,7 +5992,7 @@ function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
             label: $setup.t("agora", "Inquiry type")
           }, {
             icon: withCtx(() => [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.check)))
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Check)))
             ]),
             default: withCtx(() => [
               createVNode($setup["RadioGroupDiv"], {
@@ -5926,7 +6013,7 @@ function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
                 label: $setup.t("agora", "Inquiry type")
               }, {
                 icon: withCtx(() => [
-                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.check)))
+                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Check)))
                 ]),
                 default: withCtx(() => [
                   createBaseVNode("div", _hoisted_5$d, [
@@ -5991,8 +6078,8 @@ function _sfc_render$1e(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
   );
 }
-const InquiryCreateDlg = /* @__PURE__ */ _export_sfc$1(_sfc_main$1e, [["render", _sfc_render$1e], ["__scopeId", "data-v-f3636c71"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Create/InquiryCreateDlg.vue"]]);
-const _sfc_main$1d = /* @__PURE__ */ defineComponent({
+const InquiryCreateDlg = /* @__PURE__ */ _export_sfc$1(_sfc_main$1d, [["render", _sfc_render$1d], ["__scopeId", "data-v-f3636c71"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Create/InquiryCreateDlg.vue"]]);
+const _sfc_main$1c = /* @__PURE__ */ defineComponent({
   __name: "NavigationMenu",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -6083,9 +6170,9 @@ const _sfc_main$1d = /* @__PURE__ */ defineComponent({
     function getInquiryIcon(inquiry) {
       if (inquiry.type) {
         const typeData = getInquiryTypeData(inquiry.type, allInquiryTypes.value);
-        return typeData?.icon || InquiryGeneralIcons.flash;
+        return typeData?.icon || InquiryGeneralIcons.Flash;
       }
-      return InquiryGeneralIcons.flash;
+      return InquiryGeneralIcons.Flash;
     }
     function handleCloseDialog() {
       createDlgToggle.value = false;
@@ -6114,25 +6201,24 @@ const _sfc_main$1d = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$T = { class: "agora-navigation" };
-const _hoisted_2$A = {
+const _hoisted_1$S = { class: "agora-navigation" };
+const _hoisted_2$z = {
   class: "navigation-menu",
   "aria-label": "Inquiry navigation"
 };
-const _hoisted_3$y = { class: "navigation-caption" };
-const _hoisted_4$v = { class: "navigation-caption" };
+const _hoisted_3$x = { class: "navigation-caption" };
+const _hoisted_4$u = { class: "navigation-caption" };
 const _hoisted_5$c = { class: "family-counter" };
 const _hoisted_6$9 = { class: "navigation-caption" };
-function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$T, [
-    createCommentVNode(" Menu de navigation "),
-    createBaseVNode("nav", _hoisted_2$A, [
+function _sfc_render$1c(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$S, [
+    createBaseVNode("nav", _hoisted_2$z, [
       createCommentVNode(" Recent Inquiries Section "),
       createVNode($setup["NcAppNavigationList"], null, {
         default: withCtx(() => [
           createBaseVNode(
             "h3",
-            _hoisted_3$y,
+            _hoisted_3$x,
             toDisplayString($setup.t("agora", "Recent Inquiries")),
             1
             /* TEXT */
@@ -6171,7 +6257,7 @@ function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
         default: withCtx(() => [
           createBaseVNode(
             "h3",
-            _hoisted_4$v,
+            _hoisted_4$u,
             toDisplayString($setup.t("agora", "Inquiry Families")),
             1
             /* TEXT */
@@ -6282,7 +6368,7 @@ function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
             onClick: _cache[0] || (_cache[0] = ($event) => $setup.showSettings())
           }, {
             icon: withCtx(() => [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.NavigationIcons.settings)))
+              (openBlock(), createBlock(resolveDynamicComponent($setup.NavigationIcons.Settings)))
             ]),
             _: 1
             /* STABLE */
@@ -6303,8 +6389,8 @@ function _sfc_render$1d(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["inquiry-type", "selected-groups", "available-groups"])) : createCommentVNode("v-if", true)
   ]);
 }
-const NavigationMenu = /* @__PURE__ */ _export_sfc$1(_sfc_main$1d, [["render", _sfc_render$1d], ["__scopeId", "data-v-5f30f357"], ["__file", "/var/www/nextcloud/apps/agora/src/views/NavigationMenu.vue"]]);
-const _sfc_main$1c = {
+const NavigationMenu = /* @__PURE__ */ _export_sfc$1(_sfc_main$1c, [["render", _sfc_render$1c], ["__scopeId", "data-v-5f30f357"], ["__file", "/var/www/nextcloud/apps/agora/src/views/NavigationMenu.vue"]]);
+const _sfc_main$1b = {
   name: "CancelIcon",
   emits: ["click"],
   props: {
@@ -6321,11 +6407,11 @@ const _sfc_main$1c = {
     }
   }
 };
-const _hoisted_1$S = ["aria-hidden", "aria-label"];
-const _hoisted_2$z = ["fill", "width", "height"];
-const _hoisted_3$x = { d: "M12 2C17.5 2 22 6.5 22 12S17.5 22 12 22 2 17.5 2 12 6.5 2 12 2M12 4C10.1 4 8.4 4.6 7.1 5.7L18.3 16.9C19.3 15.5 20 13.8 20 12C20 7.6 16.4 4 12 4M16.9 18.3L5.7 7.1C4.6 8.4 4 10.1 4 12C4 16.4 7.6 20 12 20C13.9 20 15.6 19.4 16.9 18.3Z" };
-const _hoisted_4$u = { key: 0 };
-function _sfc_render$1c(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$R = ["aria-hidden", "aria-label"];
+const _hoisted_2$y = ["fill", "width", "height"];
+const _hoisted_3$w = { d: "M12 2C17.5 2 22 6.5 22 12S17.5 22 12 22 2 17.5 2 12 6.5 2 12 2M12 4C10.1 4 8.4 4.6 7.1 5.7L18.3 16.9C19.3 15.5 20 13.8 20 12C20 7.6 16.4 4 12 4M16.9 18.3L5.7 7.1C4.6 8.4 4 10.1 4 12C4 16.4 7.6 20 12 20C13.9 20 15.6 19.4 16.9 18.3Z" };
+const _hoisted_4$t = { key: 0 };
+function _sfc_render$1b(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
     "aria-hidden": $props.title ? null : "true",
     "aria-label": $props.title,
@@ -6340,20 +6426,20 @@ function _sfc_render$1c(_ctx, _cache, $props, $setup, $data, $options) {
       height: $props.size,
       viewBox: "0 0 24 24"
     }, [
-      createBaseVNode("path", _hoisted_3$x, [
+      createBaseVNode("path", _hoisted_3$w, [
         $props.title ? (openBlock(), createElementBlock(
           "title",
-          _hoisted_4$u,
+          _hoisted_4$t,
           toDisplayString($props.title),
           1
           /* TEXT */
         )) : createCommentVNode("v-if", true)
       ])
-    ], 8, _hoisted_2$z))
-  ], 16, _hoisted_1$S);
+    ], 8, _hoisted_2$y))
+  ], 16, _hoisted_1$R);
 }
-const CancelIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$1c, [["render", _sfc_render$1c], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Cancel.vue"]]);
-const _sfc_main$1b = /* @__PURE__ */ defineComponent({
+const CancelIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$1b, [["render", _sfc_render$1b], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Cancel.vue"]]);
+const _sfc_main$1a = /* @__PURE__ */ defineComponent({
   __name: "Forbidden",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -6370,7 +6456,7 @@ const _sfc_main$1b = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-function _sfc_render$1b(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcAppContent"], null, {
     default: withCtx(() => [
       createVNode(
@@ -6391,8 +6477,8 @@ function _sfc_render$1b(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   });
 }
-const Forbidden = /* @__PURE__ */ _export_sfc$1(_sfc_main$1b, [["render", _sfc_render$1b], ["__file", "/var/www/nextcloud/apps/agora/src/views/Forbidden.vue"]]);
-const _sfc_main$1a = /* @__PURE__ */ defineComponent({
+const Forbidden = /* @__PURE__ */ _export_sfc$1(_sfc_main$1a, [["render", _sfc_render$1a], ["__file", "/var/www/nextcloud/apps/agora/src/views/Forbidden.vue"]]);
+const _sfc_main$19 = /* @__PURE__ */ defineComponent({
   __name: "InquiryItem",
   props: {
     inquiry: { type: Object, required: true },
@@ -6406,20 +6492,26 @@ const _sfc_main$1a = /* @__PURE__ */ defineComponent({
     const preferencesStore = usePreferencesStore();
     const sessionStore = useSessionStore();
     const supportsStore = useSupportsStore();
-    const context2 = computed(
-      () => createPermissionContextForContent(
+    const context2 = computed(() => {
+      const ctx = createPermissionContextForContent(
         ContentType.Inquiry,
         __props.inquiry.owner.id,
-        __props.inquiry.configuration.access,
+        __props.inquiry.configuration.access === "public",
         __props.inquiry.status.isLocked,
         __props.inquiry.status.isExpired,
         __props.inquiry.status.deletionDate > 0,
         __props.inquiry.status.isArchived,
         __props.inquiry.inquiryGroups.length > 0,
         __props.inquiry.inquiryGroups,
-        __props.inquiry.type
-      )
-    );
+        __props.inquiry.type,
+        __props.inquiry.family,
+        __props.inquiry.configuration.access,
+        __props.inquiry.status.isFinalStatus,
+        __props.inquiry.status.moderationStatus
+      );
+      console.log("🔧 [InquiryActionToolbar] Permission context:", ctx);
+      return ctx;
+    });
     const onToggleSupport = async () => {
       supportsStore.toggleSupport(__props.inquiry.id, sessionStore.currentUser.id, inquiryStore, inquiriesStore);
       if (__props.inquiry.currentUserStatus.hasSupported) {
@@ -6541,10 +6633,10 @@ const _sfc_main$1a = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$R = ["title"];
-const _hoisted_2$y = ["title"];
-const _hoisted_3$w = { class: "description_line" };
-const _hoisted_4$t = { class: "description" };
+const _hoisted_1$Q = ["title"];
+const _hoisted_2$x = ["title"];
+const _hoisted_3$v = { class: "description_line" };
+const _hoisted_4$s = { class: "description" };
 const _hoisted_5$b = { class: "title_line" };
 const _hoisted_6$8 = { class: "title" };
 const _hoisted_7$8 = { class: "description_line" };
@@ -6556,7 +6648,7 @@ const _hoisted_10$7 = {
 };
 const _hoisted_11$6 = { key: 1 };
 const _hoisted_12$6 = ["title"];
-const _hoisted_13$5 = ["title"];
+const _hoisted_13$6 = ["title"];
 const _hoisted_14$5 = ["title"];
 const _hoisted_15$4 = ["title"];
 const _hoisted_16$4 = ["title"];
@@ -6570,7 +6662,7 @@ const _hoisted_21$2 = {
 };
 const _hoisted_22$2 = ["src", "alt"];
 const _hoisted_23$2 = { class: "user-avatar-top" };
-const _hoisted_24$2 = { class: "first-line" };
+const _hoisted_24$1 = { class: "first-line" };
 const _hoisted_25$1 = { class: "type-title" };
 const _hoisted_26$1 = { class: "inquiry-type" };
 const _hoisted_27$1 = { class: "type-label" };
@@ -6598,7 +6690,7 @@ const _hoisted_42$1 = { class: "started-info" };
 const _hoisted_43$1 = { class: "dates" };
 const _hoisted_44$1 = ["title"];
 const _hoisted_45$1 = ["title"];
-function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock(
     "div",
     {
@@ -6622,7 +6714,7 @@ function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
               1
               /* TEXT */
             )
-          ], 8, _hoisted_1$R),
+          ], 8, _hoisted_1$Q),
           $props.noLink ? (openBlock(), createElementBlock(
             "div",
             {
@@ -6633,12 +6725,12 @@ function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
               createBaseVNode("div", {
                 class: "title",
                 title: $props.inquiry.title
-              }, toDisplayString($props.inquiry.title), 9, _hoisted_2$y),
-              createBaseVNode("div", _hoisted_3$w, [
+              }, toDisplayString($props.inquiry.title), 9, _hoisted_2$x),
+              createBaseVNode("div", _hoisted_3$v, [
                 (openBlock(), createBlock(resolveDynamicComponent($setup.StatusIcons.Lock), { size: 16 })),
                 createBaseVNode(
                   "div",
-                  _hoisted_4$t,
+                  _hoisted_4$s,
                   toDisplayString($setup.t("agora", "No access to this inquiry of {ownerName}.", {
                     ownerName: $props.inquiry.owner.displayName
                   })),
@@ -6734,7 +6826,7 @@ function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
                   1
                   /* TEXT */
                 )
-              ], 8, _hoisted_13$5)) : createCommentVNode("v-if", true)
+              ], 8, _hoisted_13$6)) : createCommentVNode("v-if", true)
             ])) : createCommentVNode("v-if", true),
             $setup.canComment($setup.context) ? (openBlock(), createElementBlock("div", {
               key: 2,
@@ -6806,7 +6898,7 @@ function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
               class: normalizeClass(["badge-bubble", $setup.expiryClass]),
               title: $setup.t("agora", "Expiration")
             }, [
-              (openBlock(), createBlock(resolveDynamicComponent($props.inquiry.status.isExpired ? $setup.BadgeIcons.closed : $setup.BadgeIcons.expiration), {
+              (openBlock(), createBlock(resolveDynamicComponent($props.inquiry.status.isExpired ? $setup.BadgeIcons.Closed : $setup.BadgeIcons.Expiration), {
                 size: 16,
                 class: "icon"
               })),
@@ -6858,7 +6950,7 @@ function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
               },
               [
                 createCommentVNode(" First Line: Type + Title + Toggle "),
-                createBaseVNode("div", _hoisted_24$2, [
+                createBaseVNode("div", _hoisted_24$1, [
                   createBaseVNode("div", _hoisted_25$1, [
                     createBaseVNode("div", _hoisted_26$1, [
                       (openBlock(), createBlock(resolveDynamicComponent($setup.inquiryTypeData.icon), {
@@ -6942,7 +7034,7 @@ function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
                           count: $props.inquiry.status.countParticipants
                         })
                       }, [
-                        (openBlock(), createBlock(resolveDynamicComponent($setup.BadgeIcons.participated), { size: 14 })),
+                        (openBlock(), createBlock(resolveDynamicComponent($setup.BadgeIcons.Participated), { size: 14 })),
                         createBaseVNode(
                           "span",
                           null,
@@ -7049,11 +7141,11 @@ function _sfc_render$1a(_ctx, _cache, $props, $setup, $data, $options) {
     /* CLASS */
   );
 }
-const InquiryItem = /* @__PURE__ */ _export_sfc$1(_sfc_main$1a, [["render", _sfc_render$1a], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryItem.vue"]]);
-const _sfc_main$19 = /* @__PURE__ */ defineComponent({
+const InquiryItem = /* @__PURE__ */ _export_sfc$1(_sfc_main$19, [["render", _sfc_render$19], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryItem.vue"]]);
+const _sfc_main$18 = /* @__PURE__ */ defineComponent({
   __name: "InquiryFilter",
   props: {
-    familyId: { type: String, required: false, default: void 0 }
+    familyType: { type: String, required: false }
   },
   setup(__props, { expose: __expose }) {
     __expose();
@@ -7072,16 +7164,16 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       return v && typeof v === "object" && "value" in v ? v.value : v;
     }
     const props2 = __props;
-    console.log(" FAMILY ID INTO FILTER", props2.familyId);
+    console.log(" FAMILY ID INTO FILTER", props2.familyType);
     const inquiryTypesForFamily = computed(() => {
-      if (!props2.familyId) {
+      if (!props2.familyType) {
         return sessionStore.appSettings.inquiryTypeTab || [];
       }
       const family = sessionStore.appSettings.inquiryFamilyTab?.find(
-        (f) => f.id === props2.familyId
+        (f) => f.family_type === props2.familyType
       );
       if (!family) {
-        console.warn(`Family with id ${props2.familyId} not found`);
+        console.warn(`Family with id ${props2.familyType} not found`);
         console.log("Available families:", sessionStore.appSettings.inquiryFamilyTab);
         return sessionStore.appSettings.inquiryTypeTab || [];
       }
@@ -7089,13 +7181,13 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
         (type) => type.family === family.family_type && type.isOption === 0
       ) || [];
       console.log("🔍 Filtered inquiry types for family:", {
-        familyId: props2.familyId,
+        familyType: props2.familyType,
         familyInquiryType: family.family_type,
         filteredTypes
       });
       return filteredTypes;
     });
-    watch(() => props2.familyId, (newFamilyId) => {
+    watch(() => props2.familyType, (newFamilyId) => {
       console.log("🔍 Family ID changed in filter:", newFamilyId);
       selectedType.value = "all";
       applyFilters();
@@ -7104,26 +7196,23 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       const baseTypeOptions = [
         { value: "all", label: translate("agora", "All types") }
       ];
-      const familyTypeOptions = inquiryTypesForFamily.value.map((type) => ({
-        value: type.inquiry_type,
-        label: type.name || type.inquiry_type
-      }));
-      const typeOptions = !props2.familyId || familyTypeOptions.length === 0 ? [
+      const typeOptions = !props2.familyType ? [
         ...baseTypeOptions,
         ...sessionStore.appSettings.inquiryTypeTab?.filter((type) => type.isOption === 0).map((type) => ({
           value: type.inquiry_type,
-          label: type.name || type.inquiry_type
+          label: type.label || type.inquiry_type
         })) || []
-      ] : [...baseTypeOptions, ...familyTypeOptions];
+      ] : [
+        ...baseTypeOptions,
+        ...sessionStore.appSettings.inquiryTypeTab?.filter(
+          (type) => type.family === props2.familyType && type.isOption === 0
+        ).map((type) => ({
+          value: type.inquiry_type,
+          label: type.label || type.inquiry_type
+        })) || []
+      ];
       return {
         types: typeOptions,
-        inquiryStatuses: [
-          { value: "all", label: translate("agora", "All statuses") },
-          ...sessionStore.appSettings.inquiryStatusTab?.map((status) => ({
-            value: status.id,
-            label: status.name
-          })) || []
-        ],
         categories: [
           { value: "all", label: translate("agora", "All categories") },
           ...sessionStore.appSettings.categoryTab?.map((cat) => ({
@@ -7155,15 +7244,13 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
         console.error("Inquiries store not initialized");
         return;
       }
-      let familyType = void 0;
-      if (props2.familyId) {
+      if (props2.familyType) {
         const family = sessionStore.appSettings.inquiryFamilyTab?.find(
-          (f) => f.id === props2.familyId
+          (f) => f.family_type === props2.familyType
         );
-        familyType = family?.family_type;
-        console.log("🔍 Converting familyId to family_type:", {
-          familyId: props2.familyId,
-          familyType,
+        family?.family_type;
+        console.log("🔍 Converting familyType to family_type:", {
+          familyType: props2.familyType,
           family
         });
       }
@@ -7176,13 +7263,12 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
         hasSupports: getValue(hasSupports.value),
         parentId: mainInquiriesOnly.value ? 0 : void 0,
         search: searchQuery.value.trim() || void 0,
-        familyId: familyType
-        // Send family_type instead of familyId
+        familyType: props2.familyType
+        // Send family_type instead of familyType
       });
     };
     const resetFilters = () => {
       selectedType.value = "all";
-      selectedInquiryStatus.value = "all";
       selectedCategory.value = "all";
       selectedLocation.value = "all";
       hasComments.value = null;
@@ -7194,7 +7280,6 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
     const activeFiltersCount = computed(() => {
       let count = 0;
       if (getValue(selectedType.value) !== "all") count += 1;
-      if (getValue(selectedInquiryStatus.value) !== "all") count += 1;
       if (getValue(selectedCategory.value) !== "all") count += 1;
       if (getValue(selectedLocation.value) !== "all") count += 1;
       if (getValue(hasComments.value) !== null) count += 1;
@@ -7212,7 +7297,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
     }, get NcSelect() {
       return NcSelect;
     }, get NcTextField() {
-      return _sfc_main$1E;
+      return _sfc_main$1D;
     }, get NcCheckboxRadioSwitch() {
       return NcCheckboxRadioSwitch;
     } };
@@ -7220,10 +7305,10 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$Q = { class: "inquiry-filters" };
-const _hoisted_2$x = { class: "filters-header" };
-const _hoisted_3$v = { class: "search-box compact" };
-const _hoisted_4$s = {
+const _hoisted_1$P = { class: "inquiry-filters" };
+const _hoisted_2$w = { class: "filters-header" };
+const _hoisted_3$u = { class: "search-box compact" };
+const _hoisted_4$r = {
   key: 0,
   class: "filter-count"
 };
@@ -7244,47 +7329,46 @@ const _hoisted_10$6 = {
 };
 const _hoisted_11$5 = { class: "filters-grid" };
 const _hoisted_12$5 = { class: "filter-group" };
-const _hoisted_13$4 = { class: "filter-group" };
+const _hoisted_13$5 = { class: "filter-group" };
 const _hoisted_14$4 = { class: "filter-group" };
-const _hoisted_15$3 = { class: "filter-group" };
-const _hoisted_16$3 = {
+const _hoisted_15$3 = {
   key: 1,
   class: "active-filters-summary"
 };
-const _hoisted_17$3 = { class: "summary-label" };
-const _hoisted_18$3 = {
+const _hoisted_16$3 = { class: "summary-label" };
+const _hoisted_17$3 = {
   key: 0,
   class: "filter-tag"
 };
-const _hoisted_19$3 = {
+const _hoisted_18$3 = {
   key: 1,
   class: "filter-tag"
 };
-const _hoisted_20$1 = {
+const _hoisted_19$3 = {
   key: 2,
   class: "filter-tag"
 };
-const _hoisted_21$1 = {
+const _hoisted_20$1 = {
   key: 3,
   class: "filter-tag"
 };
-const _hoisted_22$1 = {
+const _hoisted_21$1 = {
   key: 4,
   class: "filter-tag"
 };
-const _hoisted_23$1 = {
+const _hoisted_22$1 = {
   key: 5,
   class: "filter-tag"
 };
-const _hoisted_24$1 = {
+const _hoisted_23$1 = {
   key: 6,
   class: "filter-tag"
 };
-function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$Q, [
-    createBaseVNode("div", _hoisted_2$x, [
+function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$P, [
+    createBaseVNode("div", _hoisted_2$w, [
       createCommentVNode(" Search box "),
-      createBaseVNode("div", _hoisted_3$v, [
+      createBaseVNode("div", _hoisted_3$u, [
         createVNode($setup["NcTextField"], {
           modelValue: $setup.searchQuery,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.searchQuery = $event),
@@ -7295,7 +7379,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
           class: "search-input",
           onInput: $setup.applyFilters
         }, null, 8, ["modelValue", "placeholder", "label"]),
-        _cache[9] || (_cache[9] = createBaseVNode(
+        _cache[8] || (_cache[8] = createBaseVNode(
           "span",
           { class: "search-icon" },
           "🔍",
@@ -7309,7 +7393,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[1] || (_cache[1] = ($event) => $setup.isFiltersOpen = !$setup.isFiltersOpen)
       }, {
         default: withCtx(() => [
-          _cache[10] || (_cache[10] = createBaseVNode(
+          _cache[9] || (_cache[9] = createBaseVNode(
             "span",
             { class: "filter-icon" },
             "⚙️",
@@ -7323,7 +7407,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
           ),
           $setup.activeFiltersCount > 0 ? (openBlock(), createElementBlock(
             "span",
-            _hoisted_4$s,
+            _hoisted_4$r,
             toDisplayString($setup.activeFiltersCount),
             1
             /* TEXT */
@@ -7455,32 +7539,8 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
             "label-outside": ""
           }, null, 8, ["modelValue", "options", "input-label"])
         ]),
-        createCommentVNode(" Inquiry status filter "),
-        createBaseVNode("div", _hoisted_13$4, [
-          createBaseVNode(
-            "label",
-            null,
-            toDisplayString($setup.t("agora", "Inquiry Status")),
-            1
-            /* TEXT */
-          ),
-          createVNode($setup["NcSelect"], {
-            modelValue: $setup.selectedInquiryStatus,
-            "onUpdate:modelValue": [
-              _cache[6] || (_cache[6] = ($event) => $setup.selectedInquiryStatus = $event),
-              $setup.applyFilters
-            ],
-            options: $setup.filterOptions.inquiryStatuses,
-            clearable: false,
-            multiple: false,
-            "input-label": $setup.t("agora", "Inquiry Status"),
-            "value-prop": "value",
-            "label-prop": "label",
-            "label-outside": ""
-          }, null, 8, ["modelValue", "options", "input-label"])
-        ]),
         createCommentVNode(" Comments filter "),
-        createBaseVNode("div", _hoisted_14$4, [
+        createBaseVNode("div", _hoisted_13$5, [
           createBaseVNode(
             "label",
             null,
@@ -7491,7 +7551,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
           createVNode($setup["NcSelect"], {
             modelValue: $setup.hasComments,
             "onUpdate:modelValue": [
-              _cache[7] || (_cache[7] = ($event) => $setup.hasComments = $event),
+              _cache[6] || (_cache[6] = ($event) => $setup.hasComments = $event),
               $setup.applyFilters
             ],
             options: $setup.filterOptions.participation,
@@ -7504,7 +7564,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
           }, null, 8, ["modelValue", "options", "input-label"])
         ]),
         createCommentVNode(" Supports filter "),
-        createBaseVNode("div", _hoisted_15$3, [
+        createBaseVNode("div", _hoisted_14$4, [
           createBaseVNode(
             "label",
             null,
@@ -7515,7 +7575,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
           createVNode($setup["NcSelect"], {
             modelValue: $setup.hasSupports,
             "onUpdate:modelValue": [
-              _cache[8] || (_cache[8] = ($event) => $setup.hasSupports = $event),
+              _cache[7] || (_cache[7] = ($event) => $setup.hasSupports = $event),
               $setup.applyFilters
             ],
             options: $setup.filterOptions.support,
@@ -7530,38 +7590,38 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
       ])
     ])) : createCommentVNode("v-if", true),
     createCommentVNode(" Active filters summary "),
-    $setup.activeFiltersCount > 0 ? (openBlock(), createElementBlock("div", _hoisted_16$3, [
+    $setup.activeFiltersCount > 0 ? (openBlock(), createElementBlock("div", _hoisted_15$3, [
       createBaseVNode(
         "span",
-        _hoisted_17$3,
+        _hoisted_16$3,
         toDisplayString($setup.t("agora", "Active filters:")),
         1
         /* TEXT */
       ),
       $setup.getValue($setup.selectedType) !== "all" ? (openBlock(), createElementBlock(
         "span",
-        _hoisted_18$3,
+        _hoisted_17$3,
         toDisplayString($setup.filterOptions.types.find((t) => t.value === $setup.getValue($setup.selectedType))?.label),
         1
         /* TEXT */
       )) : createCommentVNode("v-if", true),
       $setup.getValue($setup.selectedInquiryStatus) !== "all" ? (openBlock(), createElementBlock(
         "span",
-        _hoisted_19$3,
+        _hoisted_18$3,
         toDisplayString($setup.filterOptions.inquiryStatuses.find((s) => s.value === $setup.getValue($setup.selectedInquiryStatus))?.label),
         1
         /* TEXT */
       )) : createCommentVNode("v-if", true),
       $setup.getValue($setup.selectedCategory) !== "all" ? (openBlock(), createElementBlock(
         "span",
-        _hoisted_20$1,
+        _hoisted_19$3,
         toDisplayString($setup.filterOptions.categories.find((c) => c.value === $setup.getValue($setup.selectedCategory))?.label),
         1
         /* TEXT */
       )) : createCommentVNode("v-if", true),
       $setup.getValue($setup.selectedLocation) !== "all" ? (openBlock(), createElementBlock(
         "span",
-        _hoisted_21$1,
+        _hoisted_20$1,
         toDisplayString($setup.filterOptions.locations.find((l) => l.value === $setup.getValue($setup.selectedLocation))?.label),
         1
         /* TEXT */
@@ -7569,7 +7629,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
       createCommentVNode(" Example for Comments "),
       $setup.getValue($setup.hasComments) !== null ? (openBlock(), createElementBlock(
         "span",
-        _hoisted_22$1,
+        _hoisted_21$1,
         toDisplayString($setup.filterOptions.participation.find((p) => p.value === $setup.getValue($setup.hasComments))?.label),
         1
         /* TEXT */
@@ -7577,14 +7637,14 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
       createCommentVNode(" Example for Supports "),
       $setup.getValue($setup.hasSupports) !== null ? (openBlock(), createElementBlock(
         "span",
-        _hoisted_23$1,
+        _hoisted_22$1,
         toDisplayString($setup.filterOptions.support.find((s) => s.value === $setup.getValue($setup.hasSupports))?.label),
         1
         /* TEXT */
       )) : createCommentVNode("v-if", true),
       $setup.searchQuery ? (openBlock(), createElementBlock(
         "span",
-        _hoisted_24$1,
+        _hoisted_23$1,
         toDisplayString($setup.t("agora", "Search:")) + ' "' + toDisplayString($setup.searchQuery) + '" ',
         1
         /* TEXT */
@@ -7592,8 +7652,8 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
     ])) : createCommentVNode("v-if", true)
   ]);
 }
-const InquiryFilter = /* @__PURE__ */ _export_sfc$1(_sfc_main$19, [["render", _sfc_render$19], ["__scopeId", "data-v-070225bb"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryFilter.vue"]]);
-const _sfc_main$18 = /* @__PURE__ */ defineComponent({
+const InquiryFilter = /* @__PURE__ */ _export_sfc$1(_sfc_main$18, [["render", _sfc_render$18], ["__scopeId", "data-v-070225bb"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryFilter.vue"]]);
+const _sfc_main$17 = /* @__PURE__ */ defineComponent({
   __name: "InquiryListSort",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -7637,17 +7697,17 @@ const _sfc_main$18 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$17(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcActions"], {
     primary: "",
     "menu-name": $setup.sortTitlesMapping[$setup.inquiriesStore.sort.by]
   }, {
     icon: withCtx(() => [
-      $setup.inquiriesStore.sort.reverse ? (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.sortDescending), {
+      $setup.inquiriesStore.sort.reverse ? (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.SortDescending), {
         key: 0,
         size: 20,
         decorative: ""
-      })) : (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.sortAscending), {
+      })) : (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.SortAscending), {
         key: 1,
         size: 20,
         decorative: ""
@@ -7660,7 +7720,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[0] || (_cache[0] = ($event) => $setup.setSort({ by: "title" }))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.alpahabetical)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Alpahabetical)))
         ]),
         _: 1
         /* STABLE */
@@ -7671,7 +7731,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[1] || (_cache[1] = ($event) => $setup.setSort({ by: "type" }))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.type)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Type)))
         ]),
         _: 1
         /* STABLE */
@@ -7682,7 +7742,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[2] || (_cache[2] = ($event) => $setup.setSort({ by: "countComments" }))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.comment)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Comment)))
         ]),
         _: 1
         /* STABLE */
@@ -7693,7 +7753,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[3] || (_cache[3] = ($event) => $setup.setSort({ by: "type" }))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.thumb)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Thumb)))
         ]),
         _: 1
         /* STABLE */
@@ -7704,7 +7764,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[4] || (_cache[4] = ($event) => $setup.setSort({ by: "interaction" }))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.update)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Update)))
         ]),
         _: 1
         /* STABLE */
@@ -7715,7 +7775,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[5] || (_cache[5] = ($event) => $setup.setSort({ by: "created" }))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.creation)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Creation)))
         ]),
         _: 1
         /* STABLE */
@@ -7726,7 +7786,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[6] || (_cache[6] = ($event) => $setup.setSort({ by: "expire" }))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.expiration)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Expiration)))
         ]),
         _: 1
         /* STABLE */
@@ -7737,7 +7797,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: _cache[7] || (_cache[7] = ($event) => $setup.setSort({ by: "owner" }))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.accountCircle)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.AccountCircle)))
         ]),
         _: 1
         /* STABLE */
@@ -7755,7 +7815,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
             "aria-label": $setup.t("agora", "Descending")
           }, {
             icon: withCtx(() => [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.sortDescending)))
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.SortDescending)))
             ]),
             _: 1
             /* STABLE */
@@ -7768,7 +7828,7 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
             "aria-label": $setup.t("agora", "Ascending")
           }, {
             icon: withCtx(() => [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.sortAscending)))
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.SortAscending)))
             ]),
             _: 1
             /* STABLE */
@@ -7782,8 +7842,8 @@ function _sfc_render$18(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["menu-name"]);
 }
-const InquiryListSort = /* @__PURE__ */ _export_sfc$1(_sfc_main$18, [["render", _sfc_render$18], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryListSort.vue"]]);
-const _sfc_main$17 = /* @__PURE__ */ defineComponent({
+const InquiryListSort = /* @__PURE__ */ _export_sfc$1(_sfc_main$17, [["render", _sfc_render$17], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryListSort.vue"]]);
+const _sfc_main$16 = /* @__PURE__ */ defineComponent({
   __name: "DeleteInquiryDialog",
   props: /* @__PURE__ */ mergeModels({
     inquiry: { type: Object, required: true }
@@ -7832,7 +7892,7 @@ const _sfc_main$17 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-function _sfc_render$17(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$16(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcDialog"], mergeProps({
     open: $setup.model,
     "onUpdate:open": _cache[0] || (_cache[0] = ($event) => $setup.model = $event)
@@ -7850,8 +7910,8 @@ function _sfc_render$17(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 16, ["open"]);
 }
-const DeleteInquiryDialog = /* @__PURE__ */ _export_sfc$1(_sfc_main$17, [["render", _sfc_render$17], ["__file", "/var/www/nextcloud/apps/agora/src/components/Modals/DeleteInquiryDialog.vue"]]);
-const _sfc_main$16 = /* @__PURE__ */ defineComponent({
+const DeleteInquiryDialog = /* @__PURE__ */ _export_sfc$1(_sfc_main$16, [["render", _sfc_render$16], ["__file", "/var/www/nextcloud/apps/agora/src/components/Modals/DeleteInquiryDialog.vue"]]);
+const _sfc_main$15 = /* @__PURE__ */ defineComponent({
   __name: "UserSearch",
   props: /* @__PURE__ */ mergeModels({
     placeholder: { type: String, required: false, default: () => translate("agora", "Type to start searching …") },
@@ -7910,11 +7970,11 @@ const _sfc_main$16 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$P = {
+const _hoisted_1$O = {
   key: 0,
   class: "multiselect__single"
 };
-function _sfc_render$16(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$15(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcSelectUsers"], mergeProps({
     id: "ajax",
     modelValue: $setup.model,
@@ -7927,7 +7987,7 @@ function _sfc_render$16(_ctx, _cache, $props, $setup, $data, $options) {
     selection: withCtx(({ values: values2, isOpen }) => [
       values2.length && !isOpen ? (openBlock(), createElementBlock(
         "span",
-        _hoisted_1$P,
+        _hoisted_1$O,
         toDisplayString(values2.length) + " users selected ",
         1
         /* TEXT */
@@ -7937,8 +7997,8 @@ function _sfc_render$16(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 16, ["modelValue", "options", "onSearch"]);
 }
-const UserSearch = /* @__PURE__ */ _export_sfc$1(_sfc_main$16, [["render", _sfc_render$16], ["__file", "/var/www/nextcloud/apps/agora/src/components/User/UserSearch.vue"]]);
-const _sfc_main$15 = /* @__PURE__ */ defineComponent({
+const UserSearch = /* @__PURE__ */ _export_sfc$1(_sfc_main$15, [["render", _sfc_render$15], ["__file", "/var/www/nextcloud/apps/agora/src/components/User/UserSearch.vue"]]);
+const _sfc_main$14 = /* @__PURE__ */ defineComponent({
   __name: "TransferInquiryDialog",
   props: /* @__PURE__ */ mergeModels({
     inquiry: { type: Object, required: true }
@@ -8034,7 +8094,7 @@ const _sfc_main$15 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-function _sfc_render$15(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcDialog"], mergeProps({
     open: $setup.model,
     "onUpdate:open": _cache[2] || (_cache[2] = ($event) => $setup.model = $event)
@@ -8061,8 +8121,8 @@ function _sfc_render$15(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 16, ["open"]);
 }
-const TransferInquiryDialog = /* @__PURE__ */ _export_sfc$1(_sfc_main$15, [["render", _sfc_render$15], ["__file", "/var/www/nextcloud/apps/agora/src/components/Modals/TransferInquiryDialog.vue"]]);
-const _sfc_main$14 = /* @__PURE__ */ defineComponent({
+const TransferInquiryDialog = /* @__PURE__ */ _export_sfc$1(_sfc_main$14, [["render", _sfc_render$14], ["__file", "/var/www/nextcloud/apps/agora/src/components/Modals/TransferInquiryDialog.vue"]]);
+const _sfc_main$13 = /* @__PURE__ */ defineComponent({
   __name: "InquiryItemActions",
   props: {
     inquiry: { type: Object, required: true }
@@ -8165,7 +8225,7 @@ const _sfc_main$14 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock(
     Fragment$1,
     null,
@@ -8179,7 +8239,7 @@ function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
             onClick: _cache[0] || (_cache[0] = ($event) => $setup.subMenu = null)
           }, {
             icon: withCtx(() => [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.back), { size: 16 }))
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Back), { size: 16 }))
             ]),
             _: 1
             /* STABLE */
@@ -8194,7 +8254,7 @@ function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: _cache[1] || (_cache[1] = ($event) => $setup.toggleArchive())
               }, {
                 icon: withCtx(() => [
-                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.archive), { size: 24 }))
+                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Archive), { size: 24 }))
                 ]),
                 _: 1
                 /* STABLE */
@@ -8208,7 +8268,7 @@ function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: _cache[2] || (_cache[2] = ($event) => $setup.toggleArchive())
               }, {
                 icon: withCtx(() => [
-                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.restore), { size: 24 }))
+                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Restore), { size: 24 }))
                 ]),
                 _: 1
                 /* STABLE */
@@ -8223,7 +8283,7 @@ function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: _cache[3] || (_cache[3] = ($event) => $setup.showDeleteDialog = true)
               }, {
                 icon: withCtx(() => [
-                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.delete), { size: 24 }))
+                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Delete), { size: 24 }))
                 ]),
                 _: 1
                 /* STABLE */
@@ -8238,7 +8298,7 @@ function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
                 onClick: _cache[4] || (_cache[4] = ($event) => $setup.showTransferDialog = true)
               }, {
                 icon: withCtx(() => [
-                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.transfer), { size: 24 }))
+                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Transfer), { size: 24 }))
                 ]),
                 _: 1
                 /* STABLE */
@@ -8254,7 +8314,7 @@ function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
                 },
                 {
                   icon: withCtx(() => [
-                    (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.plus), { size: 16 }))
+                    (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Plus), { size: 16 }))
                   ]),
                   _: 1
                   /* STABLE */
@@ -8273,7 +8333,7 @@ function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
                 },
                 {
                   icon: withCtx(() => [
-                    (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.minus), { size: 16 }))
+                    (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Minus), { size: 16 }))
                   ]),
                   _: 1
                   /* STABLE */
@@ -8351,8 +8411,8 @@ function _sfc_render$14(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE_FRAGMENT */
   );
 }
-const InquiryItemActions = /* @__PURE__ */ _export_sfc$1(_sfc_main$14, [["render", _sfc_render$14], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryItemActions.vue"]]);
-const _sfc_main$13 = {
+const InquiryItemActions = /* @__PURE__ */ _export_sfc$1(_sfc_main$13, [["render", _sfc_render$13], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryItemActions.vue"]]);
+const _sfc_main$12 = {
   name: "TextAccountIcon",
   emits: ["click"],
   props: {
@@ -8369,11 +8429,11 @@ const _sfc_main$13 = {
     }
   }
 };
-const _hoisted_1$O = ["aria-hidden", "aria-label"];
-const _hoisted_2$w = ["fill", "width", "height"];
-const _hoisted_3$u = { d: "M21 5V7H3V5H21M3 17H12V15H3V17M3 12H21V10H3V12M18 14C19.11 14 20 14.9 20 16S19.11 18 18 18 16 17.11 16 16 16.9 14 18 14M14 22V21C14 19.9 15.79 19 18 19S22 19.9 22 21V22H14Z" };
-const _hoisted_4$r = { key: 0 };
-function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$N = ["aria-hidden", "aria-label"];
+const _hoisted_2$v = ["fill", "width", "height"];
+const _hoisted_3$t = { d: "M21 5V7H3V5H21M3 17H12V15H3V17M3 12H21V10H3V12M18 14C19.11 14 20 14.9 20 16S19.11 18 18 18 16 17.11 16 16 16.9 14 18 14M14 22V21C14 19.9 15.79 19 18 19S22 19.9 22 21V22H14Z" };
+const _hoisted_4$q = { key: 0 };
+function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
     "aria-hidden": $props.title ? null : "true",
     "aria-label": $props.title,
@@ -8388,20 +8448,20 @@ function _sfc_render$13(_ctx, _cache, $props, $setup, $data, $options) {
       height: $props.size,
       viewBox: "0 0 24 24"
     }, [
-      createBaseVNode("path", _hoisted_3$u, [
+      createBaseVNode("path", _hoisted_3$t, [
         $props.title ? (openBlock(), createElementBlock(
           "title",
-          _hoisted_4$r,
+          _hoisted_4$q,
           toDisplayString($props.title),
           1
           /* TEXT */
         )) : createCommentVNode("v-if", true)
       ])
-    ], 8, _hoisted_2$w))
-  ], 16, _hoisted_1$O);
+    ], 8, _hoisted_2$v))
+  ], 16, _hoisted_1$N);
 }
-const SidebarIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$13, [["render", _sfc_render$13], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/TextAccount.vue"]]);
-const _sfc_main$12 = /* @__PURE__ */ defineComponent({
+const SidebarIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$12, [["render", _sfc_render$12], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/TextAccount.vue"]]);
+const _sfc_main$11 = /* @__PURE__ */ defineComponent({
   __name: "ActionToggleSidebar",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -8416,9 +8476,9 @@ const _sfc_main$12 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$N = { class: "action toggle-sidebar" };
-function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$N, [
+const _hoisted_1$M = { class: "action toggle-sidebar" };
+function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$M, [
     createVNode($setup["NcButton"], {
       variant: "tertiary",
       title: $setup.caption,
@@ -8433,8 +8493,8 @@ function _sfc_render$12(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["title", "aria-label"])
   ]);
 }
-const ActionToggleSidebar = /* @__PURE__ */ _export_sfc$1(_sfc_main$12, [["render", _sfc_render$12], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionToggleSidebar.vue"]]);
-const _sfc_main$11 = /* @__PURE__ */ defineComponent({
+const ActionToggleSidebar = /* @__PURE__ */ _export_sfc$1(_sfc_main$11, [["render", _sfc_render$11], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionToggleSidebar.vue"]]);
+const _sfc_main$10 = /* @__PURE__ */ defineComponent({
   __name: "InquiryList",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -8444,25 +8504,19 @@ const _sfc_main$11 = /* @__PURE__ */ defineComponent({
     const sessionStore = useSessionStore();
     const route = useRoute();
     const router2 = useRouter();
-    const familyType = ref(inquiriesStore.familyType);
-    const selectedFamily = ref(inquiriesStore.familyType);
+    const selectedFamily = computed({
+      get: () => inquiriesStore.advancedFilters.familyType || null,
+      set: (value) => inquiriesStore.setFamilyType(value || "")
+    });
     const mainMode = ref("view");
     const subMode = ref("table-view");
-    watch(
-      () => inquiriesStore.familyType,
-      (newFamilyId) => {
-        familyType.value = newFamilyId;
-        selectedFamily.value = newFamilyId;
-      }
-    );
     function handleMainModeChange(mode) {
       mainMode.value = mode;
       if (mode === "create") {
         router2.push({
           name: "menu",
           query: {
-            viewMode: "create",
-            familyType: selectedFamily.value
+            viewMode: "create"
           }
         });
       } else {
@@ -8470,8 +8524,7 @@ const _sfc_main$11 = /* @__PURE__ */ defineComponent({
           ...route,
           query: {
             ...route.query,
-            viewMode: "view",
-            familyType: selectedFamily.value
+            viewMode: "view"
           }
         });
       }
@@ -8548,7 +8601,7 @@ const _sfc_main$11 = /* @__PURE__ */ defineComponent({
         subMode.value = "table-view";
       }
     });
-    const __returned__ = { inquiriesStore, inquiryGroupsStore, preferencesStore, sessionStore, route, router: router2, familyType, selectedFamily, mainMode, subMode, handleMainModeChange, handleSubModeChange, isGridView, title, showMore, countLoadedInquiries, infoLoaded, description, emptyInquiryListnoInquiries, loadingOverlayProps, emptyContentProps, loadMore, get t() {
+    const __returned__ = { inquiriesStore, inquiryGroupsStore, preferencesStore, sessionStore, route, router: router2, selectedFamily, mainMode, subMode, handleMainModeChange, handleSubModeChange, isGridView, title, showMore, countLoadedInquiries, infoLoaded, description, emptyInquiryListnoInquiries, loadingOverlayProps, emptyContentProps, loadMore, get t() {
       return translate;
     }, get NcAppContent() {
       return NcAppContent;
@@ -8569,12 +8622,12 @@ const _sfc_main$11 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$M = { class: "header-controls" };
-const _hoisted_2$v = { class: "mode-switchers" };
-const _hoisted_3$t = { class: "main-mode-switcher" };
-const _hoisted_4$q = { class: "right-controls" };
+const _hoisted_1$L = { class: "header-controls" };
+const _hoisted_2$u = { class: "mode-switchers" };
+const _hoisted_3$s = { class: "main-mode-switcher" };
+const _hoisted_4$p = { class: "right-controls" };
 const _hoisted_5$9 = { class: "area__main" };
-function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$10(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcAppContent"], { class: "inquiry-list" }, {
     default: withCtx(() => [
       createVNode($setup["HeaderBar"], null, {
@@ -8587,11 +8640,11 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
         ]),
         right: withCtx(() => [
           createCommentVNode(" All controls in one line "),
-          createBaseVNode("div", _hoisted_1$M, [
+          createBaseVNode("div", _hoisted_1$L, [
             createCommentVNode(" Mode Switchers "),
-            createBaseVNode("div", _hoisted_2$v, [
+            createBaseVNode("div", _hoisted_2$u, [
               createCommentVNode(" Main Mode (Create/View) "),
-              createBaseVNode("div", _hoisted_3$t, [
+              createBaseVNode("div", _hoisted_3$s, [
                 createVNode($setup["NcCheckboxRadioSwitch"], {
                   "button-variant": true,
                   "model-value": $setup.mainMode,
@@ -8603,7 +8656,7 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                   class: "mode-switch"
                 }, {
                   icon: withCtx(() => [
-                    (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.add), { size: "16" }))
+                    (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Add), { size: "16" }))
                   ]),
                   default: withCtx(() => [
                     createTextVNode(
@@ -8626,7 +8679,7 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                   class: "mode-switch sub-mode"
                 }, {
                   icon: withCtx(() => [
-                    (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.table), { size: "16" }))
+                    (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Table), { size: "16" }))
                   ]),
                   _: 1
                   /* STABLE */
@@ -8642,7 +8695,7 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
                   class: "mode-switch sub-mode"
                 }, {
                   icon: withCtx(() => [
-                    (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.viewlistoutline), { size: "16" }))
+                    (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.ViewListOutline), { size: "16" }))
                   ]),
                   _: 1
                   /* STABLE */
@@ -8650,7 +8703,7 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
               ])
             ]),
             createCommentVNode(" Sort and other controls "),
-            createBaseVNode("div", _hoisted_4$q, [
+            createBaseVNode("div", _hoisted_4$p, [
               createVNode($setup["InquiryListSort"]),
               $setup.inquiryGroupsStore.currentInquiryGroup?.owner.id === $setup.sessionStore.currentUser.id ? (openBlock(), createBlock($setup["ActionToggleSidebar"], { key: 0 })) : createCommentVNode("v-if", true)
             ])
@@ -8746,8 +8799,8 @@ function _sfc_render$11(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   });
 }
-const List = /* @__PURE__ */ _export_sfc$1(_sfc_main$11, [["render", _sfc_render$11], ["__scopeId", "data-v-7cc77668"], ["__file", "/var/www/nextcloud/apps/agora/src/views/InquiryList.vue"]]);
-const _sfc_main$10 = /* @__PURE__ */ defineComponent({
+const List = /* @__PURE__ */ _export_sfc$1(_sfc_main$10, [["render", _sfc_render$10], ["__scopeId", "data-v-7cc77668"], ["__file", "/var/www/nextcloud/apps/agora/src/views/InquiryList.vue"]]);
+const _sfc_main$$ = /* @__PURE__ */ defineComponent({
   __name: "InquiryMenu",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -8791,6 +8844,10 @@ const _sfc_main$10 = /* @__PURE__ */ defineComponent({
     });
     onMounted(() => {
       inquiriesStore.load(false);
+      if (inquiriesStore.advancedFilters.familyType) {
+        selectedFamily.value = inquiriesStore.advancedFilters.familyType;
+        console.log("🔍 Initialized selectedFamily from store:", selectedFamily.value);
+      }
       console.log("🔍 DEBUG InquiryMenu - Using helper functions:");
       console.log("🔍 Families:", inquiryFamilies.value);
       console.log("🔍 Inquiry Types by Family:", inquiryTypesByFamily.value);
@@ -8799,7 +8856,7 @@ const _sfc_main$10 = /* @__PURE__ */ defineComponent({
     });
     const currentFamily = computed(() => {
       if (!selectedFamily.value) return null;
-      return inquiryFamilies.value.find((f) => f.family_type.toString() === selectedFamily.value);
+      return inquiryFamilies.value.find((f) => f.family_type === selectedFamily.value);
     });
     const currentFamilyData = computed(() => {
       return getInquiryItemData(currentFamily.value, translate("agora", "Inquiry Types"));
@@ -8810,6 +8867,16 @@ const _sfc_main$10 = /* @__PURE__ */ defineComponent({
         console.log("🔍 Preferences defaultDisplayMode:", newMode);
         if (!route.query.viewMode && newMode) {
           viewMode.value = newMode;
+        }
+      },
+      { immediate: true }
+    );
+    watch(
+      () => inquiriesStore.advancedFilters.familyType,
+      (newFamilyType) => {
+        if (newFamilyType && newFamilyType !== selectedFamily.value) {
+          selectedFamily.value = newFamilyType;
+          console.log("🔍 selectedFamily updated from store:", newFamilyType);
         }
       },
       { immediate: true }
@@ -8861,6 +8928,7 @@ const _sfc_main$10 = /* @__PURE__ */ defineComponent({
     function handleViewModeChange(mode) {
       console.log(`🔄 View mode changed to: ${mode}`);
       viewMode.value = mode;
+      inquiriesStore.setFamilyType(selectedFamily.value);
       if (selectedFamily.value) {
         if (mode === "create") {
           router2.push({
@@ -8921,16 +8989,16 @@ const _sfc_main$10 = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$L = { class: "header-actions" };
-const _hoisted_2$u = {
+const _hoisted_1$K = { class: "header-actions" };
+const _hoisted_2$t = {
   key: 1,
   class: "view-mode-switcher"
 };
-const _hoisted_3$s = {
+const _hoisted_3$r = {
   key: 0,
   class: "families-grid-container"
 };
-const _hoisted_4$p = { class: "families-grid" };
+const _hoisted_4$o = { class: "families-grid" };
 const _hoisted_5$8 = ["onClick"];
 const _hoisted_6$6 = { class: "family-card-large__icon" };
 const _hoisted_7$6 = { class: "family-card-large__content" };
@@ -8942,7 +9010,7 @@ const _hoisted_9$5 = {
 const _hoisted_10$5 = { class: "inquiry-types-container" };
 const _hoisted_11$4 = { class: "inquiry-types-header" };
 const _hoisted_12$4 = { class: "selected-family-info" };
-const _hoisted_13$3 = { key: 0 };
+const _hoisted_13$4 = { key: 0 };
 const _hoisted_14$3 = { class: "inquiry-types-grid" };
 const _hoisted_15$2 = ["onClick"];
 const _hoisted_16$2 = { class: "inquiry-type-card__icon" };
@@ -8952,7 +9020,7 @@ const _hoisted_19$2 = {
   key: 0,
   class: "inquiry-type-card__description"
 };
-function _sfc_render$10(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$$(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcAppContent"], { class: "inquiry-menu" }, {
     title: withCtx(() => [
       createTextVNode(
@@ -8962,7 +9030,7 @@ function _sfc_render$10(_ctx, _cache, $props, $setup, $data, $options) {
       )
     ]),
     default: withCtx(() => [
-      createBaseVNode("div", _hoisted_1$L, [
+      createBaseVNode("div", _hoisted_1$K, [
         createCommentVNode(" Back Button (conditionally shown) "),
         $setup.selectedFamily ? (openBlock(), createBlock($setup["NcButton"], {
           key: 0,
@@ -8987,7 +9055,7 @@ function _sfc_render$10(_ctx, _cache, $props, $setup, $data, $options) {
           /* STABLE */
         })) : createCommentVNode("v-if", true),
         createCommentVNode(" View Mode Switcher (always shown, aligned to right) "),
-        $setup.selectedFamily ? (openBlock(), createElementBlock("div", _hoisted_2$u, [
+        $setup.selectedFamily ? (openBlock(), createElementBlock("div", _hoisted_2$t, [
           createVNode($setup["NcCheckboxRadioSwitch"], {
             "button-variant": true,
             "model-value": $setup.viewMode,
@@ -9028,8 +9096,8 @@ function _sfc_render$10(_ctx, _cache, $props, $setup, $data, $options) {
           }, 8, ["model-value"])
         ])) : createCommentVNode("v-if", true)
       ]),
-      !$setup.selectedFamily ? (openBlock(), createElementBlock("div", _hoisted_3$s, [
-        createBaseVNode("div", _hoisted_4$p, [
+      !$setup.selectedFamily ? (openBlock(), createElementBlock("div", _hoisted_3$r, [
+        createBaseVNode("div", _hoisted_4$o, [
           (openBlock(true), createElementBlock(
             Fragment$1,
             null,
@@ -9094,7 +9162,7 @@ function _sfc_render$10(_ctx, _cache, $props, $setup, $data, $options) {
                 ),
                 $setup.currentFamilyData.description ? (openBlock(), createElementBlock(
                   "p",
-                  _hoisted_13$3,
+                  _hoisted_13$4,
                   toDisplayString($setup.currentFamilyData.description),
                   1
                   /* TEXT */
@@ -9178,8 +9246,8 @@ function _sfc_render$10(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   });
 }
-const Menu = /* @__PURE__ */ _export_sfc$1(_sfc_main$10, [["render", _sfc_render$10], ["__scopeId", "data-v-d27ca2bb"], ["__file", "/var/www/nextcloud/apps/agora/src/views/InquiryMenu.vue"]]);
-const _sfc_main$$ = {
+const Menu = /* @__PURE__ */ _export_sfc$1(_sfc_main$$, [["render", _sfc_render$$], ["__scopeId", "data-v-d27ca2bb"], ["__file", "/var/www/nextcloud/apps/agora/src/views/InquiryMenu.vue"]]);
+const _sfc_main$_ = {
   name: "MagnifyIcon",
   emits: ["click"],
   props: {
@@ -9196,11 +9264,11 @@ const _sfc_main$$ = {
     }
   }
 };
-const _hoisted_1$K = ["aria-hidden", "aria-label"];
-const _hoisted_2$t = ["fill", "width", "height"];
-const _hoisted_3$r = { d: "M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" };
-const _hoisted_4$o = { key: 0 };
-function _sfc_render$$(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$J = ["aria-hidden", "aria-label"];
+const _hoisted_2$s = ["fill", "width", "height"];
+const _hoisted_3$q = { d: "M9.5,3A6.5,6.5 0 0,1 16,9.5C16,11.11 15.41,12.59 14.44,13.73L14.71,14H15.5L20.5,19L19,20.5L14,15.5V14.71L13.73,14.44C12.59,15.41 11.11,16 9.5,16A6.5,6.5 0 0,1 3,9.5A6.5,6.5 0 0,1 9.5,3M9.5,5C7,5 5,7 5,9.5C5,12 7,14 9.5,14C12,14 14,12 14,9.5C14,7 12,5 9.5,5Z" };
+const _hoisted_4$n = { key: 0 };
+function _sfc_render$_(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
     "aria-hidden": $props.title ? null : "true",
     "aria-label": $props.title,
@@ -9215,20 +9283,20 @@ function _sfc_render$$(_ctx, _cache, $props, $setup, $data, $options) {
       height: $props.size,
       viewBox: "0 0 24 24"
     }, [
-      createBaseVNode("path", _hoisted_3$r, [
+      createBaseVNode("path", _hoisted_3$q, [
         $props.title ? (openBlock(), createElementBlock(
           "title",
-          _hoisted_4$o,
+          _hoisted_4$n,
           toDisplayString($props.title),
           1
           /* TEXT */
         )) : createCommentVNode("v-if", true)
       ])
-    ], 8, _hoisted_2$t))
-  ], 16, _hoisted_1$K);
+    ], 8, _hoisted_2$s))
+  ], 16, _hoisted_1$J);
 }
-const SearchIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$$, [["render", _sfc_render$$], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Magnify.vue"]]);
-const _sfc_main$_ = /* @__PURE__ */ defineComponent({
+const SearchIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$_, [["render", _sfc_render$_], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Magnify.vue"]]);
+const _sfc_main$Z = /* @__PURE__ */ defineComponent({
   __name: "NotFound",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -9245,7 +9313,7 @@ const _sfc_main$_ = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-function _sfc_render$_(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcAppContent"], null, {
     default: withCtx(() => [
       createVNode(
@@ -9266,7 +9334,7 @@ function _sfc_render$_(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   });
 }
-const NotFound = /* @__PURE__ */ _export_sfc$1(_sfc_main$_, [["render", _sfc_render$_], ["__file", "/var/www/nextcloud/apps/agora/src/views/NotFound.vue"]]);
+const NotFound = /* @__PURE__ */ _export_sfc$1(_sfc_main$Z, [["render", _sfc_render$Z], ["__file", "/var/www/nextcloud/apps/agora/src/views/NotFound.vue"]]);
 //! moment.js
 //! version : 2.30.1
 //! authors : Tim Wood, Iskren Chernev, Moment.js contributors
@@ -13261,7 +13329,7 @@ hooks.HTML5_FMT = {
   MONTH: "YYYY-MM"
   // <input type="month" />
 };
-const _sfc_main$Z = /* @__PURE__ */ defineComponent({
+const _sfc_main$Y = /* @__PURE__ */ defineComponent({
   __name: "InquiryActionToolbar",
   props: {
     inquiryStore: { type: null, required: true },
@@ -13290,7 +13358,11 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
         props2.inquiryStore.status.isArchived,
         props2.inquiryStore.inquiryGroups.length > 0,
         props2.inquiryStore.inquiryGroups,
-        props2.inquiryStore.type
+        props2.inquiryStore.type,
+        props2.inquiryStore.family,
+        props2.inquiryStore.configuration.access,
+        props2.inquiryStore.status.isFinalStatus,
+        props2.inquiryStore.status.moderationStatus
       );
       console.log("🔧 [InquiryActionToolbar] Permission context:", ctx);
       return ctx;
@@ -13325,16 +13397,61 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
       if (status === "accepted") {
         await props2.inquiryStore.submitInquiry("submit_for_accepted");
         await inquiriesStore.updateInquiryModerationStatus(props2.inquiryStore.id, status);
+        props2.inquiryStore.status.moderationStatus = status;
+        await inquiriesStore.updateInquiryAccess(props2.inquiryStore.id, "open");
+        props2.inquiryStore.configuration.access = "open";
         showSuccess(translate("agora", "Inquiry accepted"));
       } else if (status === "rejected") {
         await props2.inquiryStore.submitInquiry("submit_for_rejected");
         await inquiriesStore.updateInquiryModerationStatus(props2.inquiryStore.id, status);
+        props2.inquiryStore.status.moderationStatus = status;
+        await inquiriesStore.updateInquiryAccess(props2.inquiryStore.id, "private");
+        props2.inquiryStore.configuration.access = "private";
+        await inquiriesStore.updateInquiryStatus(props2.inquiryStore.id, status);
+        props2.inquiryStore.status.inquiryStatus = status;
         showSuccess(translate("agora", "Inquiry rejected"));
       } else if (status === "pending") {
         showSuccess(translate("agora", "Inquiry status set to pending"));
         await inquiriesStore.updateInquiryModerationStatus(props2.inquiryStore.id, status);
       }
     };
+    const rawResponseTypes = computed(() => {
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      return getAvailableResponseTypes(props2.inquiryStore.type, inquiryTypes);
+    });
+    const rawTransformTypes = computed(() => {
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      return getAvailableTransformTypes(props2.inquiryStore.type, inquiryTypes);
+    });
+    const showActionsMenu = computed(() => {
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      return shouldShowResponseActions(props2.inquiryStore.type, inquiryTypes, context2.value);
+    });
+    const showTransformActionsMenu = computed(() => {
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      return shouldShowTransformationActions(props2.inquiryStore.type, inquiryTypes, context2.value);
+    });
+    const availableResponseTypes = computed(() => {
+      return rawResponseTypes.value.filter(
+        (type) => canCreateResponseType(type.inquiry_type, context2.value)
+      );
+    });
+    const availableTransformTypes = computed(() => {
+      return rawTransformTypes.value.filter(
+        (type) => canCreateTransformationType(type.inquiry_type, context2.value)
+      );
+    });
+    const enrichedResponseTypes = computed(() => {
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      return availableResponseTypes.value.map((responseType) => {
+        const typeData = getInquiryTypeData(responseType.inquiry_type, inquiryTypes);
+        return {
+          ...responseType,
+          icon: typeData.icon,
+          label: typeData.label
+        };
+      });
+    });
     const getStatusLabel = (status) => {
       const option2 = statusOptions.find((opt) => opt.value === status);
       return option2 ? option2.label : status;
@@ -13360,6 +13477,12 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
         console.log("🔧 Handling access change:", value);
         if (value) {
           await props2.inquiryStore.submitInquiry("submit_for_moderate");
+          setModerationStatus("pending");
+          await inquiriesStore.updateInquiryAccess(props2.inquiryStore.id, "moderate");
+          await inquiriesStore.updateInquiryStatus(props2.inquiryStore.id, "waiting_approval");
+          props2.inquiryStore.status.inquiryStatus = "waiting_approval";
+          props2.inquiryStore.status.moderationStatus = "pending";
+          props2.inquiryStore.configuration.access = "moderate";
           showSuccess(translate("agora", "Inquiry submitted for moderation"));
         }
         await nextTick();
@@ -13368,50 +13491,6 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
         showError(translate("agora", "Failed to submit inquiry for moderation"));
       }
     };
-    const availableTransformTypes = computed(() => {
-      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
-      const types = getAvailableTransformTypes(props2.inquiryStore.type, inquiryTypes);
-      console.log("🔧 [InquiryActionToolbar] Available transform types:", types);
-      return types;
-    });
-    const availableResponseTypes = computed(() => {
-      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
-      const types = getAvailableResponseTypes(props2.inquiryStore.type, inquiryTypes);
-      console.log("🔧 [InquiryActionToolbar] Available response types:", types);
-      return types;
-    });
-    const enrichedResponseTypes = computed(() => {
-      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
-      return availableResponseTypes.value.map((responseType) => {
-        const typeData = resolveTypeData(responseType.inquiry_type, inquiryTypes);
-        return {
-          ...responseType,
-          icon: typeData.icon,
-          label: typeData.label
-        };
-      });
-    });
-    const enrichedTransformTypes = computed(() => {
-      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
-      return availableTransformTypes.value.map((transformType) => {
-        const typeData = resolveTypeData(transformType.inquiry_type, inquiryTypes);
-        return {
-          ...transformType,
-          icon: typeData.icon,
-          label: typeData.label
-        };
-      });
-    });
-    const showTransformActionsMenu = computed(() => {
-      const result2 = canEditInquiry.value && availableTransformTypes.value.length > 0;
-      console.log("🔧 [InquiryActionToolbar] showTransformActionsMenu:", result2, "canEdit:", canEditInquiry.value, "types count:", availableTransformTypes.value.length);
-      return result2;
-    });
-    const showActionsMenu = computed(() => {
-      const result2 = canEditInquiry.value && availableResponseTypes.value.length > 0;
-      console.log("🔧 [InquiryActionToolbar] showActionsMenu:", result2, "canEdit:", canEditInquiry.value, "types count:", availableResponseTypes.value.length);
-      return result2;
-    });
     const showSaveButton = computed(() => {
       console.log("🔧 [InquiryActionToolbar] showSaveButton:", canEditInquiry.value);
       return canEditInquiry.value;
@@ -13428,7 +13507,7 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
       console.log("🔧 [InquiryActionToolbar] Allowed transformation triggered:", transformType);
       emit2("allowedTransformation", transformType);
     };
-    const __returned__ = { props: props2, inquiriesStore, emit: emit2, context: context2, selectedStatus, statusOptions, showModerationSwitch, inquiryAccess, resolveTypeData, setModerationStatus, getStatusLabel, getStatusColor, canEditInquiry, handleAccessChange, availableTransformTypes, availableResponseTypes, enrichedResponseTypes, enrichedTransformTypes, showTransformActionsMenu, showActionsMenu, showSaveButton, handleSave, handleAllowedResponse, handleAllowedTransformation, get t() {
+    const __returned__ = { props: props2, inquiriesStore, emit: emit2, context: context2, selectedStatus, statusOptions, showModerationSwitch, inquiryAccess, resolveTypeData, setModerationStatus, rawResponseTypes, rawTransformTypes, showActionsMenu, showTransformActionsMenu, availableResponseTypes, availableTransformTypes, enrichedResponseTypes, getStatusLabel, getStatusColor, canEditInquiry, handleAccessChange, showSaveButton, handleSave, handleAllowedResponse, handleAllowedTransformation, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -13449,10 +13528,10 @@ const _sfc_main$Z = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$J = { class: "inquiry-action-toolbar" };
-const _hoisted_2$s = { class: "left-actions" };
-const _hoisted_3$q = { class: "primary-actions" };
-const _hoisted_4$n = {
+const _hoisted_1$I = { class: "inquiry-action-toolbar" };
+const _hoisted_2$r = { class: "left-actions" };
+const _hoisted_3$p = { class: "primary-actions" };
+const _hoisted_4$m = {
   key: 0,
   class: "loading-icon"
 };
@@ -13470,7 +13549,7 @@ const _hoisted_11$3 = {
   class: "access-control"
 };
 const _hoisted_12$3 = { class: "control-label" };
-const _hoisted_13$2 = {
+const _hoisted_13$3 = {
   i: "",
   class: "access-control"
 };
@@ -13478,11 +13557,11 @@ const _hoisted_14$2 = {
   key: 2,
   class: "item-actions"
 };
-function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$J, [
-    createBaseVNode("div", _hoisted_2$s, [
+function _sfc_render$Y(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$I, [
+    createBaseVNode("div", _hoisted_2$r, [
       createCommentVNode(" Save and Response buttons "),
-      createBaseVNode("div", _hoisted_3$q, [
+      createBaseVNode("div", _hoisted_3$p, [
         $setup.showSaveButton ? (openBlock(), createBlock($setup["NcButton"], {
           key: 0,
           disabled: $props.isSaving,
@@ -13491,7 +13570,7 @@ function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
           onClick: withModifiers($setup.handleSave, ["prevent"])
         }, {
           icon: withCtx(() => [
-            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.save), { size: 20 }))
+            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Save), { size: 20 }))
           ]),
           default: withCtx(() => [
             createTextVNode(
@@ -13499,7 +13578,7 @@ function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
               1
               /* TEXT */
             ),
-            $props.isSaving ? (openBlock(), createElementBlock("span", _hoisted_4$n)) : createCommentVNode("v-if", true)
+            $props.isSaving ? (openBlock(), createElementBlock("span", _hoisted_4$m)) : createCommentVNode("v-if", true)
           ]),
           _: 1
           /* STABLE */
@@ -13511,7 +13590,7 @@ function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
           class: "response-actions"
         }, {
           icon: withCtx(() => [
-            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.reply), { size: 20 }))
+            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Reply), { size: 20 }))
           ]),
           default: withCtx(() => [
             (openBlock(true), createElementBlock(
@@ -13547,19 +13626,19 @@ function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
           /* STABLE */
         })) : createCommentVNode("v-if", true),
         createCommentVNode(" Allowed Transformation Type "),
-        $setup.showTransformActionsMenu && $setup.enrichedTransformTypes.length > 0 ? (openBlock(), createBlock($setup["NcActions"], {
+        $setup.showTransformActionsMenu && _ctx.enrichedTransformTypes.length > 0 ? (openBlock(), createBlock($setup["NcActions"], {
           key: 2,
           "menu-name": "Allowed Transformation",
           class: "transform-actions"
         }, {
           icon: withCtx(() => [
-            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.transform), { size: 20 }))
+            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Transform), { size: 20 }))
           ]),
           default: withCtx(() => [
             (openBlock(true), createElementBlock(
               Fragment$1,
               null,
-              renderList($setup.enrichedTransformTypes, (transformType) => {
+              renderList(_ctx.enrichedTransformTypes, (transformType) => {
                 return openBlock(), createBlock($setup["NcActionButton"], {
                   key: transformType.inquiry_type,
                   onClick: ($event) => $setup.handleAllowedTransformation(transformType.inquiry_type)
@@ -13628,7 +13707,7 @@ function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
           }, null, 8, ["modelValue"])
         ])) : createCommentVNode("v-if", true)
       ])) : createCommentVNode("v-if", true),
-      createBaseVNode("div", _hoisted_13$2, [
+      createBaseVNode("div", _hoisted_13$3, [
         createBaseVNode(
           "label",
           {
@@ -13649,58 +13728,9 @@ function _sfc_render$Z(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ]);
 }
-const InquiryActionToolbar = /* @__PURE__ */ _export_sfc$1(_sfc_main$Z, [["render", _sfc_render$Z], ["__scopeId", "data-v-2199fc3a"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryActionToolbar.vue"]]);
-const _sfc_main$Y = {
-  name: "DeleteIcon",
-  emits: ["click"],
-  props: {
-    title: {
-      type: String
-    },
-    fillColor: {
-      type: String,
-      default: "currentColor"
-    },
-    size: {
-      type: Number,
-      default: 24
-    }
-  }
-};
-const _hoisted_1$I = ["aria-hidden", "aria-label"];
-const _hoisted_2$r = ["fill", "width", "height"];
-const _hoisted_3$p = { d: "M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" };
-const _hoisted_4$m = { key: 0 };
-function _sfc_render$Y(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
-    "aria-hidden": $props.title ? null : "true",
-    "aria-label": $props.title,
-    class: "material-design-icon delete-icon",
-    role: "img",
-    onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("click", $event))
-  }), [
-    (openBlock(), createElementBlock("svg", {
-      fill: $props.fillColor,
-      class: "material-design-icon__svg",
-      width: $props.size,
-      height: $props.size,
-      viewBox: "0 0 24 24"
-    }, [
-      createBaseVNode("path", _hoisted_3$p, [
-        $props.title ? (openBlock(), createElementBlock(
-          "title",
-          _hoisted_4$m,
-          toDisplayString($props.title),
-          1
-          /* TEXT */
-        )) : createCommentVNode("v-if", true)
-      ])
-    ], 8, _hoisted_2$r))
-  ], 16, _hoisted_1$I);
-}
-const DeleteIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$Y, [["render", _sfc_render$Y], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Delete.vue"]]);
+const InquiryActionToolbar = /* @__PURE__ */ _export_sfc$1(_sfc_main$Y, [["render", _sfc_render$Y], ["__scopeId", "data-v-2199fc3a"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryActionToolbar.vue"]]);
 const _sfc_main$X = {
-  name: "RecycleIcon",
+  name: "DeleteIcon",
   emits: ["click"],
   props: {
     title: {
@@ -13718,13 +13748,13 @@ const _sfc_main$X = {
 };
 const _hoisted_1$H = ["aria-hidden", "aria-label"];
 const _hoisted_2$q = ["fill", "width", "height"];
-const _hoisted_3$o = { d: "M21.82,15.42L19.32,19.75C18.83,20.61 17.92,21.06 17,21H15V23L12.5,18.5L15,14V16H17.82L15.6,12.15L19.93,9.65L21.73,12.77C22.25,13.54 22.32,14.57 21.82,15.42M9.21,3.06H14.21C15.19,3.06 16.04,3.63 16.45,4.45L17.45,6.19L19.18,5.19L16.54,9.6L11.39,9.69L13.12,8.69L11.71,6.24L9.5,10.09L5.16,7.59L6.96,4.47C7.37,3.64 8.22,3.06 9.21,3.06M5.05,19.76L2.55,15.43C2.06,14.58 2.13,13.56 2.64,12.79L3.64,11.06L1.91,10.06L7.05,10.14L9.7,14.56L7.97,13.56L6.56,16H11V21H7.4C6.47,21.07 5.55,20.61 5.05,19.76Z" };
+const _hoisted_3$o = { d: "M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19A2,2 0 0,0 8,21H16A2,2 0 0,0 18,19V7H6V19Z" };
 const _hoisted_4$l = { key: 0 };
 function _sfc_render$X(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
     "aria-hidden": $props.title ? null : "true",
     "aria-label": $props.title,
-    class: "material-design-icon recycle-icon",
+    class: "material-design-icon delete-icon",
     role: "img",
     onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("click", $event))
   }), [
@@ -13747,9 +13777,9 @@ function _sfc_render$X(_ctx, _cache, $props, $setup, $data, $options) {
     ], 8, _hoisted_2$q))
   ], 16, _hoisted_1$H);
 }
-const RestoreIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$X, [["render", _sfc_render$X], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Recycle.vue"]]);
+const DeleteIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$X, [["render", _sfc_render$X], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Delete.vue"]]);
 const _sfc_main$W = {
-  name: "LockIcon",
+  name: "RecycleIcon",
   emits: ["click"],
   props: {
     title: {
@@ -13767,13 +13797,13 @@ const _sfc_main$W = {
 };
 const _hoisted_1$G = ["aria-hidden", "aria-label"];
 const _hoisted_2$p = ["fill", "width", "height"];
-const _hoisted_3$n = { d: "M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" };
+const _hoisted_3$n = { d: "M21.82,15.42L19.32,19.75C18.83,20.61 17.92,21.06 17,21H15V23L12.5,18.5L15,14V16H17.82L15.6,12.15L19.93,9.65L21.73,12.77C22.25,13.54 22.32,14.57 21.82,15.42M9.21,3.06H14.21C15.19,3.06 16.04,3.63 16.45,4.45L17.45,6.19L19.18,5.19L16.54,9.6L11.39,9.69L13.12,8.69L11.71,6.24L9.5,10.09L5.16,7.59L6.96,4.47C7.37,3.64 8.22,3.06 9.21,3.06M5.05,19.76L2.55,15.43C2.06,14.58 2.13,13.56 2.64,12.79L3.64,11.06L1.91,10.06L7.05,10.14L9.7,14.56L7.97,13.56L6.56,16H11V21H7.4C6.47,21.07 5.55,20.61 5.05,19.76Z" };
 const _hoisted_4$k = { key: 0 };
 function _sfc_render$W(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
     "aria-hidden": $props.title ? null : "true",
     "aria-label": $props.title,
-    class: "material-design-icon lock-icon",
+    class: "material-design-icon recycle-icon",
     role: "img",
     onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("click", $event))
   }), [
@@ -13796,9 +13826,9 @@ function _sfc_render$W(_ctx, _cache, $props, $setup, $data, $options) {
     ], 8, _hoisted_2$p))
   ], 16, _hoisted_1$G);
 }
-const LockedIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$W, [["render", _sfc_render$W], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Lock.vue"]]);
+const RestoreIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$W, [["render", _sfc_render$W], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Recycle.vue"]]);
 const _sfc_main$V = {
-  name: "ArrowULeftTopIcon",
+  name: "LockIcon",
   emits: ["click"],
   props: {
     title: {
@@ -13816,13 +13846,13 @@ const _sfc_main$V = {
 };
 const _hoisted_1$F = ["aria-hidden", "aria-label"];
 const _hoisted_2$o = ["fill", "width", "height"];
-const _hoisted_3$m = { d: "M20 13.5C20 17.09 17.09 20 13.5 20H6V18H13.5C16 18 18 16 18 13.5S16 9 13.5 9H7.83L10.91 12.09L9.5 13.5L4 8L9.5 2.5L10.92 3.91L7.83 7H13.5C17.09 7 20 9.91 20 13.5Z" };
+const _hoisted_3$m = { d: "M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15A2,2 0 0,0 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z" };
 const _hoisted_4$j = { key: 0 };
 function _sfc_render$V(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
     "aria-hidden": $props.title ? null : "true",
     "aria-label": $props.title,
-    class: "material-design-icon arrow-u-left-top-icon",
+    class: "material-design-icon lock-icon",
     role: "img",
     onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("click", $event))
   }), [
@@ -13845,8 +13875,57 @@ function _sfc_render$V(_ctx, _cache, $props, $setup, $data, $options) {
     ], 8, _hoisted_2$o))
   ], 16, _hoisted_1$F);
 }
-const UndoIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$V, [["render", _sfc_render$V], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/ArrowULeftTop.vue"]]);
-const _sfc_main$U = /* @__PURE__ */ defineComponent({
+const LockedIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$V, [["render", _sfc_render$V], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Lock.vue"]]);
+const _sfc_main$U = {
+  name: "ArrowULeftTopIcon",
+  emits: ["click"],
+  props: {
+    title: {
+      type: String
+    },
+    fillColor: {
+      type: String,
+      default: "currentColor"
+    },
+    size: {
+      type: Number,
+      default: 24
+    }
+  }
+};
+const _hoisted_1$E = ["aria-hidden", "aria-label"];
+const _hoisted_2$n = ["fill", "width", "height"];
+const _hoisted_3$l = { d: "M20 13.5C20 17.09 17.09 20 13.5 20H6V18H13.5C16 18 18 16 18 13.5S16 9 13.5 9H7.83L10.91 12.09L9.5 13.5L4 8L9.5 2.5L10.92 3.91L7.83 7H13.5C17.09 7 20 9.91 20 13.5Z" };
+const _hoisted_4$i = { key: 0 };
+function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
+    "aria-hidden": $props.title ? null : "true",
+    "aria-label": $props.title,
+    class: "material-design-icon arrow-u-left-top-icon",
+    role: "img",
+    onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("click", $event))
+  }), [
+    (openBlock(), createElementBlock("svg", {
+      fill: $props.fillColor,
+      class: "material-design-icon__svg",
+      width: $props.size,
+      height: $props.size,
+      viewBox: "0 0 24 24"
+    }, [
+      createBaseVNode("path", _hoisted_3$l, [
+        $props.title ? (openBlock(), createElementBlock(
+          "title",
+          _hoisted_4$i,
+          toDisplayString($props.title),
+          1
+          /* TEXT */
+        )) : createCommentVNode("v-if", true)
+      ])
+    ], 8, _hoisted_2$n))
+  ], 16, _hoisted_1$E);
+}
+const UndoIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$U, [["render", _sfc_render$U], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/ArrowULeftTop.vue"]]);
+const _sfc_main$T = /* @__PURE__ */ defineComponent({
   __name: "ActionDelete",
   props: {
     timeout: { type: Number, required: false, default: 4 },
@@ -13912,9 +13991,9 @@ const _sfc_main$U = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$E = { class: "" };
-function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$E, [
+const _hoisted_1$D = { class: "" };
+function _sfc_render$T(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$D, [
     createVNode($setup["NcButton"], {
       name: $setup.computedTitle,
       variant: "tertiary",
@@ -13944,8 +14023,8 @@ function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["name", "aria-label"])
   ]);
 }
-const ActionDelete = /* @__PURE__ */ _export_sfc$1(_sfc_main$U, [["render", _sfc_render$U], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionDelete.vue"]]);
-const _sfc_main$T = /* @__PURE__ */ defineComponent({
+const ActionDelete = /* @__PURE__ */ _export_sfc$1(_sfc_main$T, [["render", _sfc_render$T], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionDelete.vue"]]);
+const _sfc_main$S = /* @__PURE__ */ defineComponent({
   __name: "ActionDeleteOrphanedInquiries",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -13958,9 +14037,9 @@ const _sfc_main$T = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$D = { class: "action toggle-sidebar" };
-function _sfc_render$T(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$D, [
+const _hoisted_1$C = { class: "action toggle-sidebar" };
+function _sfc_render$S(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$C, [
     createVNode($setup["NcButton"], {
       variant: "primary",
       "aria-label": $setup.caption,
@@ -13978,8 +14057,8 @@ function _sfc_render$T(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["aria-label"])
   ]);
 }
-const ActionDeleteOrphanedInquiries = /* @__PURE__ */ _export_sfc$1(_sfc_main$T, [["render", _sfc_render$T], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionDeleteOrphanedInquiries.vue"]]);
-const _sfc_main$S = /* @__PURE__ */ defineComponent({
+const ActionDeleteOrphanedInquiries = /* @__PURE__ */ _export_sfc$1(_sfc_main$S, [["render", _sfc_render$S], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionDeleteOrphanedInquiries.vue"]]);
+const _sfc_main$R = /* @__PURE__ */ defineComponent({
   __name: "ActionOpenSharesSidebar",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -13997,9 +14076,9 @@ const _sfc_main$S = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$C = { class: "action toggle-sidebar" };
-function _sfc_render$S(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$C, [
+const _hoisted_1$B = { class: "action toggle-sidebar" };
+function _sfc_render$R(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$B, [
     createVNode($setup["NcButton"], {
       variant: "primary",
       "aria-label": $setup.caption,
@@ -14017,9 +14096,9 @@ function _sfc_render$S(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["aria-label"])
   ]);
 }
-const ActionOpenSharesSidebar = /* @__PURE__ */ _export_sfc$1(_sfc_main$S, [["render", _sfc_render$S], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionOpenSharesSidebar.vue"]]);
+const ActionOpenSharesSidebar = /* @__PURE__ */ _export_sfc$1(_sfc_main$R, [["render", _sfc_render$R], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionOpenSharesSidebar.vue"]]);
 const COOKIE_LIFETIME = 30;
-const _sfc_main$R = /* @__PURE__ */ defineComponent({
+const _sfc_main$Q = /* @__PURE__ */ defineComponent({
   __name: "PublicRegisterModal",
   emits: ["close"],
   setup(__props, { expose: __expose, emit: __emit }) {
@@ -14208,10 +14287,10 @@ const _sfc_main$R = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$B = { class: "modal__content" };
-const _hoisted_2$n = { class: "modal__registration" };
-const _hoisted_3$l = { class: "registration__registration" };
-const _hoisted_4$i = { class: "modal__buttons" };
+const _hoisted_1$A = { class: "modal__content" };
+const _hoisted_2$m = { class: "modal__registration" };
+const _hoisted_3$k = { class: "registration__registration" };
+const _hoisted_4$h = { class: "modal__buttons" };
 const _hoisted_5$6 = { class: "left" };
 const _hoisted_6$4 = { class: "legal_links" };
 const _hoisted_7$4 = { class: "right" };
@@ -14219,10 +14298,10 @@ const _hoisted_8$4 = {
   key: 0,
   class: "registration__login"
 };
-function _sfc_render$R(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$B, [
-    createBaseVNode("div", _hoisted_2$n, [
-      createBaseVNode("div", _hoisted_3$l, [
+function _sfc_render$Q(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$A, [
+    createBaseVNode("div", _hoisted_2$m, [
+      createBaseVNode("div", _hoisted_3$k, [
         createBaseVNode(
           "h2",
           null,
@@ -14269,7 +14348,7 @@ function _sfc_render$R(_ctx, _cache, $props, $setup, $data, $options) {
           _: 1
           /* STABLE */
         }, 8, ["modelValue"])) : createCommentVNode("v-if", true),
-        createBaseVNode("div", _hoisted_4$i, [
+        createBaseVNode("div", _hoisted_4$h, [
           createBaseVNode("div", _hoisted_5$6, [
             createBaseVNode("div", _hoisted_6$4, [
               $setup.sessionStore.appSettings.finalImprintUrl ? (openBlock(), createBlock($setup["SimpleLink"], {
@@ -14356,9 +14435,9 @@ function _sfc_render$R(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ]);
 }
-const PublicRegisterModal = /* @__PURE__ */ _export_sfc$1(_sfc_main$R, [["render", _sfc_render$R], ["__file", "/var/www/nextcloud/apps/agora/src/components/Public/PublicRegisterModal.vue"]]);
+const PublicRegisterModal = /* @__PURE__ */ _export_sfc$1(_sfc_main$Q, [["render", _sfc_render$Q], ["__file", "/var/www/nextcloud/apps/agora/src/components/Public/PublicRegisterModal.vue"]]);
 const registerModalSize = "large";
-const _sfc_main$Q = /* @__PURE__ */ defineComponent({
+const _sfc_main$P = /* @__PURE__ */ defineComponent({
   __name: "ActionRegister",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -14373,9 +14452,9 @@ const _sfc_main$Q = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$A = { class: "action toggle-sidebar" };
-function _sfc_render$Q(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$A, [
+const _hoisted_1$z = { class: "action toggle-sidebar" };
+function _sfc_render$P(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$z, [
     createVNode($setup["NcButton"], {
       variant: "primary",
       "aria-label": $setup.caption,
@@ -14409,8 +14488,8 @@ function _sfc_render$Q(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["show", "name"])
   ]);
 }
-const ActionRegister = /* @__PURE__ */ _export_sfc$1(_sfc_main$Q, [["render", _sfc_render$Q], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionRegister.vue"]]);
-const _sfc_main$P = {
+const ActionRegister = /* @__PURE__ */ _export_sfc$1(_sfc_main$P, [["render", _sfc_render$P], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionRegister.vue"]]);
+const _sfc_main$O = {
   name: "EmailCheckIcon",
   emits: ["click"],
   props: {
@@ -14427,11 +14506,11 @@ const _sfc_main$P = {
     }
   }
 };
-const _hoisted_1$z = ["aria-hidden", "aria-label"];
-const _hoisted_2$m = ["fill", "width", "height"];
-const _hoisted_3$k = { d: "M13 19C13 15.69 15.69 13 19 13C20.1 13 21.12 13.3 22 13.81V6C22 4.89 21.1 4 20 4H4C2.89 4 2 4.89 2 6V18C2 19.11 2.9 20 4 20H13.09C13.04 19.67 13 19.34 13 19M4 8V6L12 11L20 6V8L12 13L4 8M17.75 22.16L15 19.16L16.16 18L17.75 19.59L21.34 16L22.5 17.41L17.75 22.16" };
-const _hoisted_4$h = { key: 0 };
-function _sfc_render$P(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$y = ["aria-hidden", "aria-label"];
+const _hoisted_2$l = ["fill", "width", "height"];
+const _hoisted_3$j = { d: "M13 19C13 15.69 15.69 13 19 13C20.1 13 21.12 13.3 22 13.81V6C22 4.89 21.1 4 20 4H4C2.89 4 2 4.89 2 6V18C2 19.11 2.9 20 4 20H13.09C13.04 19.67 13 19.34 13 19M4 8V6L12 11L20 6V8L12 13L4 8M17.75 22.16L15 19.16L16.16 18L17.75 19.59L21.34 16L22.5 17.41L17.75 22.16" };
+const _hoisted_4$g = { key: 0 };
+function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
     "aria-hidden": $props.title ? null : "true",
     "aria-label": $props.title,
@@ -14446,20 +14525,20 @@ function _sfc_render$P(_ctx, _cache, $props, $setup, $data, $options) {
       height: $props.size,
       viewBox: "0 0 24 24"
     }, [
-      createBaseVNode("path", _hoisted_3$k, [
+      createBaseVNode("path", _hoisted_3$j, [
         $props.title ? (openBlock(), createElementBlock(
           "title",
-          _hoisted_4$h,
+          _hoisted_4$g,
           toDisplayString($props.title),
           1
           /* TEXT */
         )) : createCommentVNode("v-if", true)
       ])
-    ], 8, _hoisted_2$m))
-  ], 16, _hoisted_1$z);
+    ], 8, _hoisted_2$l))
+  ], 16, _hoisted_1$y);
 }
-const EmailCheckIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$P, [["render", _sfc_render$P], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/EmailCheck.vue"]]);
-const _sfc_main$O = /* @__PURE__ */ defineComponent({
+const EmailCheckIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$O, [["render", _sfc_render$O], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/EmailCheck.vue"]]);
+const _sfc_main$N = /* @__PURE__ */ defineComponent({
   __name: "ActionSendConfirmed",
   emits: ["success", "error"],
   setup(__props, { expose: __expose, emit: __emit }) {
@@ -14510,18 +14589,18 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$y = { class: "action send-confirmations" };
-const _hoisted_2$l = { class: "modal-confirmation-result" };
-const _hoisted_3$j = {
+const _hoisted_1$x = { class: "action send-confirmations" };
+const _hoisted_2$k = { class: "modal-confirmation-result" };
+const _hoisted_3$i = {
   key: 0,
   class: "sent-confirmations"
 };
-const _hoisted_4$g = {
+const _hoisted_4$f = {
   key: 1,
   class: "error-confirmations"
 };
-function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$y, [
+function _sfc_render$N(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$x, [
     createVNode($setup["NcButton"], {
       variant: "primary",
       "aria-label": $setup.sendButtonCaption,
@@ -14549,8 +14628,8 @@ function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
       size: "small"
     }, {
       default: withCtx(() => [
-        createBaseVNode("div", _hoisted_2$l, [
-          $setup.confirmations?.countSentMails > 0 ? (openBlock(), createElementBlock("div", _hoisted_3$j, [
+        createBaseVNode("div", _hoisted_2$k, [
+          $setup.confirmations?.countSentMails > 0 ? (openBlock(), createElementBlock("div", _hoisted_3$i, [
             createBaseVNode(
               "h2",
               null,
@@ -14583,7 +14662,7 @@ function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
               ))
             ])
           ])) : createCommentVNode("v-if", true),
-          $setup.confirmations?.countAbortedMails > 0 ? (openBlock(), createElementBlock("div", _hoisted_4$g, [
+          $setup.confirmations?.countAbortedMails > 0 ? (openBlock(), createElementBlock("div", _hoisted_4$f, [
             createBaseVNode(
               "h2",
               null,
@@ -14623,8 +14702,8 @@ function _sfc_render$O(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["show", "name"])
   ]);
 }
-const ActionSendConfirmed = /* @__PURE__ */ _export_sfc$1(_sfc_main$O, [["render", _sfc_render$O], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionSendConfirmed.vue"]]);
-const _sfc_main$N = /* @__PURE__ */ defineComponent({
+const ActionSendConfirmed = /* @__PURE__ */ _export_sfc$1(_sfc_main$N, [["render", _sfc_render$N], ["__file", "/var/www/nextcloud/apps/agora/src/components/Actions/modules/ActionSendConfirmed.vue"]]);
+const _sfc_main$M = /* @__PURE__ */ defineComponent({
   __name: "InquiryHeaderButtons",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -14640,13 +14719,13 @@ const _sfc_main$N = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$x = { class: "inquiry-header-buttons" };
-function _sfc_render$N(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$x, [
+const _hoisted_1$w = { class: "inquiry-header-buttons" };
+function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$w, [
     $setup.inquiryStore.permissions.edit || $setup.sessionStore.appSettings.inquiryTypeRights[$setup.inquiryStore.type]?.inquiryComment ? (openBlock(), createBlock($setup["ActionToggleSidebar"], { key: 0 })) : createCommentVNode("v-if", true)
   ]);
 }
-const InquiryHeaderButtons = /* @__PURE__ */ _export_sfc$1(_sfc_main$N, [["render", _sfc_render$N], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryHeaderButtons.vue"]]);
+const InquiryHeaderButtons = /* @__PURE__ */ _export_sfc$1(_sfc_main$M, [["render", _sfc_render$M], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryHeaderButtons.vue"]]);
 function OrderedMap(content) {
   this.content = content;
 }
@@ -59059,7 +59138,7 @@ function requireLib() {
 }
 var libExports = requireLib();
 const mammoth = /* @__PURE__ */ getDefaultExportFromCjs(libExports);
-const _sfc_main$M = {
+const _sfc_main$L = {
   __name: "InquiryEditor",
   props: {
     readonly: {
@@ -59409,7 +59488,7 @@ const _sfc_main$M = {
     }, get NcButton() {
       return NcButton;
     }, get NcTextField() {
-      return _sfc_main$1E;
+      return _sfc_main$1D;
     }, get NcAssistantIcon() {
       return NcAssistantIcon;
     }, get NcAssistantContent() {
@@ -59421,16 +59500,16 @@ const _sfc_main$M = {
     return __returned__;
   }
 };
-const _hoisted_1$w = {
+const _hoisted_1$v = {
   ref: "editorContainer",
   class: "editor-container"
 };
-const _hoisted_2$k = { key: 0 };
-const _hoisted_3$i = {
+const _hoisted_2$j = { key: 0 };
+const _hoisted_3$h = {
   key: 0,
   class: "editor-toolbar"
 };
-const _hoisted_4$f = ["title", "aria-label"];
+const _hoisted_4$e = ["title", "aria-label"];
 const _hoisted_5$5 = { value: "paragraph" };
 const _hoisted_6$3 = { value: "h1" };
 const _hoisted_7$3 = { value: "h2" };
@@ -59439,7 +59518,7 @@ const _hoisted_9$3 = { class: "editor-content-wrapper" };
 const _hoisted_10$3 = { class: "container" };
 const _hoisted_11$2 = { class: "content" };
 const _hoisted_12$2 = { class: "heading" };
-const _hoisted_13$1 = { class: "form-group" };
+const _hoisted_13$2 = { class: "form-group" };
 const _hoisted_14$1 = { for: "ai-prompt" };
 const _hoisted_15$1 = {
   key: 0,
@@ -59449,7 +59528,7 @@ const _hoisted_16$1 = { class: "preview-content" };
 const _hoisted_17$1 = { class: "content-length" };
 const _hoisted_18$1 = { class: "content-summary" };
 const _hoisted_19$1 = { class: "modal-actions" };
-function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock(
     Fragment$1,
     null,
@@ -59457,10 +59536,10 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
       createCommentVNode(" Main editor container that fills its parent "),
       createBaseVNode(
         "div",
-        _hoisted_1$w,
+        _hoisted_1$v,
         [
           createCommentVNode(" Toolbar with all major formatting options "),
-          !$setup.props.readonly ? (openBlock(), createElementBlock("div", _hoisted_2$k, [
+          !$setup.props.readonly ? (openBlock(), createElementBlock("div", _hoisted_2$j, [
             createBaseVNode(
               "input",
               {
@@ -59474,7 +59553,7 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
               544
               /* NEED_HYDRATION, NEED_PATCH */
             ),
-            $setup.editor ? (openBlock(), createElementBlock("div", _hoisted_3$i, [
+            $setup.editor ? (openBlock(), createElementBlock("div", _hoisted_3$h, [
               createCommentVNode(" Text formatting "),
               createVNode($setup["NcButton"], {
                 type: "button",
@@ -59580,7 +59659,7 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                   1
                   /* TEXT */
                 )
-              ], 40, _hoisted_4$f), [
+              ], 40, _hoisted_4$e), [
                 [vModelSelect, $setup.selectedHeading]
               ]),
               createCommentVNode(" Lists "),
@@ -59961,7 +60040,7 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
                         1
                         /* TEXT */
                       ),
-                      createBaseVNode("div", _hoisted_13$1, [
+                      createBaseVNode("div", _hoisted_13$2, [
                         createBaseVNode(
                           "label",
                           _hoisted_14$1,
@@ -60086,8 +60165,8 @@ function _sfc_render$M(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
   );
 }
-const InquiryEditor = /* @__PURE__ */ _export_sfc$1(_sfc_main$M, [["render", _sfc_render$M], ["__scopeId", "data-v-0d9f3682"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Editor/InquiryEditor.vue"]]);
-const _sfc_main$L = /* @__PURE__ */ defineComponent({
+const InquiryEditor = /* @__PURE__ */ _export_sfc$1(_sfc_main$L, [["render", _sfc_render$L], ["__scopeId", "data-v-0d9f3682"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Editor/InquiryEditor.vue"]]);
+const _sfc_main$K = /* @__PURE__ */ defineComponent({
   __name: "InquiryEditViewForm",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -60118,9 +60197,13 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
         inquiryStore.status.isArchived,
         inquiryStore.inquiryGroups.length > 0,
         inquiryStore.inquiryGroups,
-        inquiryStore.type
+        inquiryStore.type,
+        inquiryStore.family,
+        inquiryStore.configuration.access,
+        inquiryStore.status.isFinalStatus,
+        inquiryStore.status.moderationStatus
       );
-      console.log("🔧 [InquiryEditViewForm] Permission context:", ctx);
+      console.log("🔧 [InquiryActionToolbar] Permission context:", ctx);
       return ctx;
     });
     const selectedCategory = ref(inquiryStore.categoryId || 0);
@@ -60216,7 +60299,7 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
           id: "deleted",
           text: translate("agora", "Archived"),
           class: "archived",
-          iconComponent: InquiryGeneralIcons.archived
+          iconComponent: InquiryGeneralIcons.Archived
         });
         return subTexts2;
       }
@@ -60225,7 +60308,7 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
           id: "no-access",
           text: [translate("agora", "Unpublished")].join(". "),
           class: "unpublished",
-          iconComponent: InquiryGeneralIcons.unpublished
+          iconComponent: InquiryGeneralIcons.Unpublished
         });
         return subTexts2;
       }
@@ -60236,7 +60319,7 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
             name: inquiryStore.owner.displayName
           }),
           class: "",
-          iconComponent: InquiryGeneralIcons.private
+          iconComponent: InquiryGeneralIcons.Private
         });
       } else {
         subTexts2.push({
@@ -60245,7 +60328,7 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
             name: inquiryStore.owner.displayName
           }),
           class: "",
-          iconComponent: InquiryGeneralIcons.open
+          iconComponent: InquiryGeneralIcons.Open
         });
       }
       if (inquiryStore.isClosed) {
@@ -60253,7 +60336,7 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
           id: "closed",
           text: timeExpirationRelative.value,
           class: "closed",
-          iconComponent: InquiryGeneralIcons.closed
+          iconComponent: InquiryGeneralIcons.Closed
         });
         return subTexts2;
       }
@@ -60262,7 +60345,7 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
           id: "created",
           text: dateCreatedRelative.value,
           class: "created",
-          iconComponent: InquiryGeneralIcons.creation
+          iconComponent: InquiryGeneralIcons.Creation
         });
       }
       return subTexts2;
@@ -60490,16 +60573,16 @@ const _sfc_main$L = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$v = {
+const _hoisted_1$u = {
   key: 0,
   class: "inquiry-edit-view"
 };
-const _hoisted_2$j = {
+const _hoisted_2$i = {
   key: 0,
   class: "cover-image-section"
 };
-const _hoisted_3$h = ["aria-label"];
-const _hoisted_4$e = ["src", "alt"];
+const _hoisted_3$g = ["aria-label"];
+const _hoisted_4$d = ["src", "alt"];
 const _hoisted_5$4 = { class: "cover-image-overlay" };
 const _hoisted_6$2 = { class: "placeholder-content" };
 const _hoisted_7$2 = { class: "placeholder-text" };
@@ -60511,7 +60594,7 @@ const _hoisted_9$2 = {
 const _hoisted_10$2 = { class: "user-info-section" };
 const _hoisted_11$1 = { class: "header-left-content" };
 const _hoisted_12$1 = { class: "main-content-section" };
-const _hoisted_13 = { class: "title-row" };
+const _hoisted_13$1 = { class: "title-row" };
 const _hoisted_14 = { class: "title-content" };
 const _hoisted_15 = { class: "inquiry-title" };
 const _hoisted_16 = { class: "counters" };
@@ -60569,11 +60652,11 @@ const _hoisted_46 = {
   key: 2,
   class: "editor-container"
 };
-function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
-  return $setup.isLoaded ? (openBlock(), createElementBlock("div", _hoisted_1$v, [
+function _sfc_render$K(_ctx, _cache, $props, $setup, $data, $options) {
+  return $setup.isLoaded ? (openBlock(), createElementBlock("div", _hoisted_1$u, [
     createCommentVNode(" Debug info "),
     createCommentVNode(" Cover Image Section "),
-    $setup.inquiryStore.currentUserStatus?.isOwner ? (openBlock(), createElementBlock("div", _hoisted_2$j, [
+    $setup.inquiryStore.currentUserStatus?.isOwner ? (openBlock(), createElementBlock("div", _hoisted_2$i, [
       createBaseVNode("input", {
         id: "cover-upload-input",
         ref: "imageFileInput",
@@ -60582,7 +60665,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
         accept: "image/*",
         "aria-label": $setup.t("agora", "Select cover image"),
         onChange: $setup.handleImageUpload
-      }, null, 40, _hoisted_3$h),
+      }, null, 40, _hoisted_3$g),
       $setup.currentCoverUrl ? (openBlock(), createElementBlock("div", {
         key: 0,
         class: "cover-image-container",
@@ -60592,14 +60675,14 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
           src: $setup.currentCoverUrl,
           alt: $setup.t("agora", "Inquiry cover image"),
           class: "cover-image"
-        }, null, 8, _hoisted_4$e),
+        }, null, 8, _hoisted_4$d),
         createBaseVNode("div", _hoisted_5$4, [
           createVNode($setup["NcButton"], {
             type: "primary",
             class: "change-cover-btn"
           }, {
             icon: withCtx(() => [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.edit), { size: 20 }))
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Edit), { size: 20 }))
             ]),
             default: withCtx(() => [
               createTextVNode(
@@ -60618,7 +60701,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $setup.triggerImageUpload
       }, [
         createBaseVNode("div", _hoisted_6$2, [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.image), {
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Image), {
             size: 48,
             class: "placeholder-icon"
           })),
@@ -60668,7 +60751,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
                 class: "change-cover-btn"
               }, {
                 icon: withCtx(() => [
-                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.edit), { size: 20 }))
+                  (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Edit), { size: 20 }))
                 ]),
                 default: withCtx(() => [
                   createTextVNode(
@@ -60713,7 +60796,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
 				<div class="cover-image-overlay">
 					<NcButton type="primary" class="change-cover-btn">
 					<template #icon>
-						<component :is="InquiryGeneralIcons.edit" :size="20" />
+						<component :is="InquiryGeneralIcons.Edit" :size="20" />
 						</template>
 						{{ t('agora', 'Change cover image') }}
 					</NcButton>
@@ -60726,7 +60809,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
 				@click="triggerImageUpload"
 			>
 				<div class="placeholder-content">
-					<component :is="InquiryGeneralIcons.image" :size="48" class="placeholder-icon" />
+					<component :is="InquiryGeneralIcons.Image" :size="48" class="placeholder-icon" />
 					<NcButton type="primary" class="add-cover-btn">
 						{{ t('agora', 'Add cover image') }}
 					</NcButton>
@@ -60764,7 +60847,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
     createCommentVNode(" Main content section "),
     createBaseVNode("div", _hoisted_12$1, [
       createCommentVNode(" Title row with counters "),
-      createBaseVNode("div", _hoisted_13, [
+      createBaseVNode("div", _hoisted_13$1, [
         createBaseVNode("div", _hoisted_14, [
           createBaseVNode(
             "h1",
@@ -60776,7 +60859,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
         ]),
         createBaseVNode("div", _hoisted_16, [
           $setup.canComment($setup.context) ? (openBlock(), createElementBlock("div", _hoisted_17, [
-            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.comment), { size: 20 })),
+            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Comment), { size: 20 })),
             createBaseVNode(
               "span",
               null,
@@ -60822,7 +60905,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
             )
           ]),
           createBaseVNode("div", _hoisted_23, [
-            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.location), { size: 16 })),
+            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Location), { size: 16 })),
             createBaseVNode(
               "span",
               _hoisted_24,
@@ -60865,7 +60948,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
             )
           ]),
           createBaseVNode("div", _hoisted_29, [
-            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.tag), { size: 16 })),
+            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Tag), { size: 16 })),
             createBaseVNode(
               "span",
               _hoisted_30,
@@ -60935,7 +61018,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
             ))
           ]),
           $setup.inquiryStore.configuration.expire ? (openBlock(), createElementBlock("div", _hoisted_38, [
-            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.expiration), { size: 16 })),
+            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Expiration), { size: 16 })),
             createBaseVNode(
               "span",
               _hoisted_39,
@@ -60992,56 +61075,7 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ])) : createCommentVNode("v-if", true);
 }
-const InquiryEditViewForm = /* @__PURE__ */ _export_sfc$1(_sfc_main$L, [["render", _sfc_render$L], ["__scopeId", "data-v-9e316df6"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryEditViewForm.vue"]]);
-const _sfc_main$K = {
-  name: "HomeIcon",
-  emits: ["click"],
-  props: {
-    title: {
-      type: String
-    },
-    fillColor: {
-      type: String,
-      default: "currentColor"
-    },
-    size: {
-      type: Number,
-      default: 24
-    }
-  }
-};
-const _hoisted_1$u = ["aria-hidden", "aria-label"];
-const _hoisted_2$i = ["fill", "width", "height"];
-const _hoisted_3$g = { d: "M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" };
-const _hoisted_4$d = { key: 0 };
-function _sfc_render$K(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
-    "aria-hidden": $props.title ? null : "true",
-    "aria-label": $props.title,
-    class: "material-design-icon home-icon",
-    role: "img",
-    onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("click", $event))
-  }), [
-    (openBlock(), createElementBlock("svg", {
-      fill: $props.fillColor,
-      class: "material-design-icon__svg",
-      width: $props.size,
-      height: $props.size,
-      viewBox: "0 0 24 24"
-    }, [
-      createBaseVNode("path", _hoisted_3$g, [
-        $props.title ? (openBlock(), createElementBlock(
-          "title",
-          _hoisted_4$d,
-          toDisplayString($props.title),
-          1
-          /* TEXT */
-        )) : createCommentVNode("v-if", true)
-      ])
-    ], 8, _hoisted_2$i))
-  ], 16, _hoisted_1$u);
-}
-const HomeIcon = /* @__PURE__ */ _export_sfc$1(_sfc_main$K, [["render", _sfc_render$K], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/Home.vue"]]);
+const InquiryEditViewForm = /* @__PURE__ */ _export_sfc$1(_sfc_main$K, [["render", _sfc_render$K], ["__scopeId", "data-v-9e316df6"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Inquiry/InquiryEditViewForm.vue"]]);
 const _sfc_main$J = /* @__PURE__ */ defineComponent({
   __name: "InquiryTransition",
   props: {
@@ -61065,7 +61099,9 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
       inquiryGroups: [],
       participatedCount: 0,
       commentCount: 0,
-      supportCount: 0
+      supportCount: 0,
+      coverId: null,
+      inquiryStatus: "active"
     });
     const router2 = useRouter();
     const inquiryStore = useInquiryStore();
@@ -61074,11 +61110,25 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
     const sessionStore = useSessionStore();
     const isLoadedLocal = ref(false);
     const isMobile = ref(window.innerWidth < 768);
+    const subMode = ref("table-view");
+    function handleSubModeChange(mode) {
+      subMode.value = mode;
+      if (preferencesStore.user) {
+        preferencesStore.user.defaultViewInquiry = mode;
+      }
+    }
+    const isGridView = computed(() => subMode.value === "table-view");
     const inquiryTypes = computed(() => {
       return sessionStore.appSettings.inquiryTypeTab || [];
     });
     const childrenByType = computed(() => {
       const grouped = {};
+      const officialTypes = inquiryTypes.value.filter((type) => type.official).map((type) => type.label);
+      const otherTypes = inquiryTypes.value.filter((type) => !type.official).map((type) => type.label);
+      const orderedTypes = [...officialTypes, ...otherTypes];
+      orderedTypes.forEach((typeLabel) => {
+        grouped[typeLabel] = [];
+      });
       inquiryStore.childs.forEach((child) => {
         const typeLabel = getInquiryTypeData(
           child.type,
@@ -61090,12 +61140,22 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
         }
         grouped[typeLabel].push(child);
       });
-      return grouped;
+      const result2 = {};
+      orderedTypes.forEach((typeLabel) => {
+        if (grouped[typeLabel] && grouped[typeLabel].length > 0) {
+          result2[typeLabel] = grouped[typeLabel];
+        }
+      });
+      Object.keys(grouped).forEach((typeLabel) => {
+        if (!result2[typeLabel] && grouped[typeLabel].length > 0) {
+          result2[typeLabel] = grouped[typeLabel];
+        }
+      });
+      return result2;
     });
     const childTypes = computed(() => {
       return Object.keys(childrenByType.value);
     });
-    const isGridView = computed(() => preferencesStore.user.defaultViewInquiry === "table-view");
     const emit2 = __emit;
     const editParent = () => {
       emit2("editParent");
@@ -61123,8 +61183,15 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
           inquiryParent.value.commentCount = commentsStore.comments.length;
           inquiryParent.value.supportCount = inquiryStore.status.countSupports;
           inquiryParent.value.inquiryGroups = inquiryStore.inquiryGroups;
+          inquiryParent.value.coverId = inquiryStore.coverId;
+          inquiryParent.value.inquiryStatus = inquiryStore.inquiryStatus;
           isLoadedLocal.value = true;
         }
+      }
+      if (preferencesStore.user.defaultViewInquiry) {
+        subMode.value = preferencesStore.user.defaultViewInquiry;
+      } else {
+        subMode.value = "table-view";
       }
       window.addEventListener("resize", handleResize);
     });
@@ -61141,20 +61208,25 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
           displayName: obj.owner
         };
       }
+      if (!obj.hasOwnProperty("coverId")) {
+        obj.coverId = null;
+      }
+      if (!obj.hasOwnProperty("inquiryStatus")) {
+        obj.inquiryStatus = "active";
+      }
       return obj;
     }
     const loadInquiryData = async () => {
       inquiryStore.childs = inquiryStore.childs.map(transformOwner);
       return true;
     };
-    const navigateToRoot = () => {
-      router2.push({ name: "root" });
-    };
-    const __returned__ = { props: props2, inquiryParent, router: router2, inquiryStore, commentsStore, preferencesStore, sessionStore, isLoadedLocal, isMobile, inquiryTypes, childrenByType, childTypes, isGridView, emit: emit2, editParent, routeChild, handleResize, transformOwner, loadInquiryData, navigateToRoot, get t() {
+    const __returned__ = { props: props2, inquiryParent, router: router2, inquiryStore, commentsStore, preferencesStore, sessionStore, isLoadedLocal, isMobile, subMode, handleSubModeChange, isGridView, inquiryTypes, childrenByType, childTypes, emit: emit2, editParent, routeChild, handleResize, transformOwner, loadInquiryData, get t() {
       return translate;
-    }, InquiryItem, get NcButton() {
-      return NcButton;
-    }, HomeIcon };
+    }, InquiryItem, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get InquiryGeneralIcons() {
+      return InquiryGeneralIcons;
+    } };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
@@ -61167,19 +61239,20 @@ const _hoisted_2$h = {
   key: 1,
   class: "transition-container"
 };
-const _hoisted_3$f = { class: "navigation-controls" };
-const _hoisted_4$c = { key: 0 };
-const _hoisted_5$3 = {
+const _hoisted_3$f = {
   key: 0,
   class: "parent-section"
 };
-const _hoisted_6$1 = { class: "section-header" };
-const _hoisted_7$1 = { class: "section-title" };
-const _hoisted_8$1 = { class: "parent-inquiry-wrapper" };
-const _hoisted_9$1 = { class: "section-header" };
-const _hoisted_10$1 = { class: "section-title" };
-const _hoisted_11 = { class: "section-count" };
-const _hoisted_12 = { class: "inquiry-grid" };
+const _hoisted_4$c = { class: "section-header" };
+const _hoisted_5$3 = { class: "section-title" };
+const _hoisted_6$1 = { class: "parent-inquiry-wrapper" };
+const _hoisted_7$1 = { class: "children-header" };
+const _hoisted_8$1 = { class: "children-title" };
+const _hoisted_9$1 = { class: "view-mode-controls" };
+const _hoisted_10$1 = { class: "mode-switcher" };
+const _hoisted_11 = { class: "section-header" };
+const _hoisted_12 = { class: "section-title" };
+const _hoisted_13 = { class: "section-count" };
 function _sfc_render$J(_ctx, _cache, $props, $setup, $data, $options) {
   return !$setup.isLoadedLocal ? (openBlock(), createElementBlock("div", _hoisted_1$t, [
     _cache[0] || (_cache[0] = createBaseVNode(
@@ -61197,45 +61270,26 @@ function _sfc_render$J(_ctx, _cache, $props, $setup, $data, $options) {
       /* TEXT */
     )
   ])) : (openBlock(), createElementBlock("div", _hoisted_2$h, [
-    createCommentVNode(" Navigation "),
-    createBaseVNode("div", _hoisted_3$f, [
-      createVNode($setup["NcButton"], {
-        type: "secondary",
-        onClick: $setup.navigateToRoot
-      }, {
-        default: withCtx(() => [
-          createVNode($setup["HomeIcon"]),
-          !$setup.isMobile ? (openBlock(), createElementBlock(
-            "span",
-            _hoisted_4$c,
-            toDisplayString($setup.t("agora", "Home")),
-            1
-            /* TEXT */
-          )) : createCommentVNode("v-if", true)
-        ]),
-        _: 1
-        /* STABLE */
-      })
-    ]),
-    createCommentVNode(" Parent Inquiry "),
+    createCommentVNode(" Parent Inquiry - Takes full width and distinguished from children "),
     createVNode(Transition, { name: "fade" }, {
       default: withCtx(() => [
-        $setup.isLoadedLocal ? (openBlock(), createElementBlock("div", _hoisted_5$3, [
-          createBaseVNode("div", _hoisted_6$1, [
+        $setup.isLoadedLocal ? (openBlock(), createElementBlock("div", _hoisted_3$f, [
+          createBaseVNode("div", _hoisted_4$c, [
             createBaseVNode(
               "h2",
-              _hoisted_7$1,
+              _hoisted_5$3,
               toDisplayString($setup.t("agora", "Main Inquiry")),
               1
               /* TEXT */
             )
           ]),
-          createBaseVNode("div", _hoisted_8$1, [
+          createBaseVNode("div", _hoisted_6$1, [
             (openBlock(), createBlock($setup["InquiryItem"], {
               key: $setup.inquiryParent.id,
               inquiry: $setup.inquiryParent,
               "no-link": false,
               "grid-view": false,
+              "is-parent": true,
               onClick: $setup.editParent
             }, null, 8, ["inquiry"]))
           ])
@@ -61244,7 +61298,68 @@ function _sfc_render$J(_ctx, _cache, $props, $setup, $data, $options) {
       _: 1
       /* STABLE */
     }),
-    createCommentVNode(" Children Sections "),
+    createCommentVNode(" Children Header with View Mode Controls "),
+    createBaseVNode("div", _hoisted_7$1, [
+      createBaseVNode(
+        "h2",
+        _hoisted_8$1,
+        toDisplayString($setup.t("agora", "Child Inquiries")),
+        1
+        /* TEXT */
+      ),
+      createCommentVNode(" View Mode Switcher for Children "),
+      createBaseVNode("div", _hoisted_9$1, [
+        createBaseVNode("div", _hoisted_10$1, [
+          createVNode($setup["NcCheckboxRadioSwitch"], {
+            "button-variant": true,
+            "model-value": $setup.subMode,
+            value: "table-view",
+            name: "children_view_mode",
+            type: "radio",
+            "button-variant-grouped": "horizontal",
+            "onUpdate:modelValue": $setup.handleSubModeChange,
+            class: "mode-switch"
+          }, {
+            icon: withCtx(() => [
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Table), { size: "16" }))
+            ]),
+            default: withCtx(() => [
+              createTextVNode(
+                " " + toDisplayString(!$setup.isMobile ? $setup.t("agora", "Grid") : ""),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["model-value"]),
+          createVNode($setup["NcCheckboxRadioSwitch"], {
+            "button-variant": true,
+            "model-value": $setup.subMode,
+            value: "list-view",
+            name: "children_view_mode",
+            type: "radio",
+            "button-variant-grouped": "horizontal",
+            "onUpdate:modelValue": $setup.handleSubModeChange,
+            class: "mode-switch"
+          }, {
+            icon: withCtx(() => [
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.ViewListOutline), { size: "16" }))
+            ]),
+            default: withCtx(() => [
+              createTextVNode(
+                " " + toDisplayString(!$setup.isMobile ? $setup.t("agora", "List") : ""),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["model-value"])
+        ])
+      ])
+    ]),
+    createCommentVNode(" Children Sections - Grouped by type with official preference first "),
     createVNode(TransitionGroup, {
       name: "slide-fade",
       tag: "div",
@@ -61259,39 +61374,52 @@ function _sfc_render$J(_ctx, _cache, $props, $setup, $data, $options) {
               key: type,
               class: "child-section"
             }, [
-              createBaseVNode("div", _hoisted_9$1, [
+              createBaseVNode("div", _hoisted_11, [
                 createBaseVNode(
                   "h3",
-                  _hoisted_10$1,
+                  _hoisted_12,
                   toDisplayString(type),
                   1
                   /* TEXT */
                 ),
                 createBaseVNode(
                   "span",
-                  _hoisted_11,
+                  _hoisted_13,
                   toDisplayString($setup.childrenByType[type].length),
                   1
                   /* TEXT */
                 )
               ]),
-              createBaseVNode("div", _hoisted_12, [
-                (openBlock(true), createElementBlock(
-                  Fragment$1,
-                  null,
-                  renderList($setup.childrenByType[type], (child) => {
-                    return openBlock(), createBlock($setup["InquiryItem"], {
-                      key: child.id,
-                      inquiry: child,
-                      "no-link": false,
-                      "grid-view": true,
-                      onClick: ($event) => $setup.routeChild(child.id)
-                    }, null, 8, ["inquiry", "onClick"]);
-                  }),
-                  128
-                  /* KEYED_FRAGMENT */
-                ))
-              ])
+              createCommentVNode(" Children displayed in grid or list based on subMode "),
+              createBaseVNode(
+                "div",
+                {
+                  class: normalizeClass([
+                    "children-container",
+                    $setup.isGridView ? "children-grid" : "children-list"
+                  ])
+                },
+                [
+                  (openBlock(true), createElementBlock(
+                    Fragment$1,
+                    null,
+                    renderList($setup.childrenByType[type], (child) => {
+                      return openBlock(), createBlock($setup["InquiryItem"], {
+                        key: child.id,
+                        inquiry: child,
+                        "no-link": false,
+                        "grid-view": $setup.isGridView,
+                        "is-parent": false,
+                        onClick: ($event) => $setup.routeChild(child.id)
+                      }, null, 8, ["inquiry", "grid-view", "onClick"]);
+                    }),
+                    128
+                    /* KEYED_FRAGMENT */
+                  ))
+                ],
+                2
+                /* CLASS */
+              )
             ]);
           }),
           128
@@ -61897,6 +62025,7 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
     const selectedInquiryTypeForCreation = ref("");
     const selectedGroups = ref([]);
     const isSaving = ref(false);
+    const selectedFamily = ref(inquiriesStore.familyType || null);
     const showMore = computed(
       () => inquiriesStore.chunkedList.length < inquiriesStore.inquiriesFilteredSorted.length && inquiriesStore.meta.status !== "loading"
     );
@@ -61960,8 +62089,6 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
       } finally {
         isAppLoaded.value = true;
       }
-    }
-    function loadMore() {
     }
     watch(
       () => route.params.id,
@@ -62050,7 +62177,7 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
       console.log("Groups updated:", groups);
       selectedGroups.value = groups;
     };
-    const __returned__ = { forceRenderKey, selectedMode, route, router: router2, inquiryStore, inquiriesStore, sessionStore, tableSticky, editMode, isAppLoaded, createDlgToggle, selectedInquiryTypeForCreation, selectedGroups, isSaving, showMore, formatDate, countLoadedInquiries, availableGroups, closeToClosing, timeExpirationRelative, infoLoaded, routeChild, loadInquiry, loadMore, enableEditMode, isShortDescription, collapsibleProps, handleSave, handleAllowedResponse, handleAllowedTransformation, handleCloseDialog, inquiryAdded, handleGroupUpdate, get t() {
+    const __returned__ = { forceRenderKey, selectedMode, route, router: router2, inquiryStore, inquiriesStore, sessionStore, tableSticky, editMode, isAppLoaded, createDlgToggle, selectedInquiryTypeForCreation, selectedGroups, isSaving, selectedFamily, showMore, formatDate, countLoadedInquiries, availableGroups, closeToClosing, timeExpirationRelative, infoLoaded, routeChild, loadInquiry, enableEditMode, isShortDescription, collapsibleProps, handleSave, handleAllowedResponse, handleAllowedTransformation, handleCloseDialog, inquiryAdded, handleGroupUpdate, get t() {
       return translate;
     }, get NcAppContent() {
       return NcAppContent;
@@ -62265,7 +62392,7 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $setup.triggerFileInput
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.attachment), { size: 20 }))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Attachment), { size: 20 }))
         ]),
         default: withCtx(() => [
           createTextVNode(
@@ -62299,7 +62426,7 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
           }, [
             createBaseVNode("div", _hoisted_7, [
               createCommentVNode(" File icon "),
-              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.document), {
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Document), {
                 size: 20,
                 class: "file-icon"
               })),
@@ -62334,7 +62461,7 @@ function _sfc_render$w(_ctx, _cache, $props, $setup, $data, $options) {
               onClick: ($event) => $setup.removeAttachment(index)
             }, {
               icon: withCtx(() => [
-                (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.delete), { size: 20 }))
+                (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Delete), { size: 20 }))
               ]),
               _: 2
               /* DYNAMIC */
@@ -63266,7 +63393,7 @@ function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
         onSubmit: _cache[1] || (_cache[1] = ($event) => $setup.submitLabel())
       }), {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.edit)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.Edit)))
         ]),
         _: 1
         /* STABLE */
@@ -63279,7 +63406,7 @@ function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $setup.resendInvitation.action
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.sendByMail)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.SendByMail)))
         ]),
         _: 1
         /* STABLE */
@@ -63293,7 +63420,7 @@ function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $setup.resolveGroups.action
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.restore)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.Restore)))
         ]),
         _: 1
         /* STABLE */
@@ -63306,7 +63433,7 @@ function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $setup.switchAdmin.action
       }, {
         icon: withCtx(() => [
-          $props.share.type === "user" ? (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.adminGrant), { key: 0 })) : (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.adminRevoke), { key: 1 }))
+          $props.share.type === "user" ? (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.AdminGrant), { key: 0 })) : (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.AdminRevoke), { key: 1 }))
         ]),
         _: 1
         /* STABLE */
@@ -63319,7 +63446,7 @@ function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $setup.copyLinkButton.action
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.copyLink)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.CopyLink)))
         ]),
         _: 1
         /* STABLE */
@@ -63332,7 +63459,7 @@ function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $setup.showQrCodeButton.action
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.qrCode)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.QrCode)))
         ]),
         _: 1
         /* STABLE */
@@ -63409,7 +63536,7 @@ function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $setup.lockShareButton.action
       }, {
         icon: withCtx(() => [
-          $props.share.locked ? (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.unlock), { key: 0 })) : (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.lock), { key: 1 }))
+          $props.share.locked ? (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.Unlock), { key: 0 })) : (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.Lock), { key: 1 }))
         ]),
         _: 1
         /* STABLE */
@@ -63422,7 +63549,7 @@ function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
         onClick: $setup.deleteShareButton.action
       }, {
         icon: withCtx(() => [
-          $props.share.deleted ? (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.restore), { key: 0 })) : (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.delete), { key: 1 }))
+          $props.share.deleted ? (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.Restore), { key: 0 })) : (openBlock(), createBlock(resolveDynamicComponent($setup.ShareIcons.Delete), { key: 1 }))
         ]),
         _: 1
         /* STABLE */
@@ -64142,18 +64269,26 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     __expose();
     const inquiryStore = useInquiryStore();
     const sessionStore = useSessionStore();
-    const context2 = computed(() => createPermissionContextForContent(
-      ContentType.Inquiry,
-      inquiryStore.owner.id,
-      inquiryStore.configuration.access === "public",
-      inquiryStore.status.isLocked,
-      inquiryStore.status.isExpired,
-      inquiryStore.status.deletionDate > 0,
-      inquiryStore.status.isArchived,
-      inquiryStore.inquiryGroups.length > 0,
-      inquiryStore.inquiryGroups,
-      inquiryStore.type
-    ));
+    const context2 = computed(() => {
+      const ctx = createPermissionContextForContent(
+        ContentType.Inquiry,
+        inquiryStore.owner.id,
+        inquiryStore.configuration.access === "public",
+        inquiryStore.status.isLocked,
+        inquiryStore.status.isExpired,
+        inquiryStore.status.deletionDate > 0,
+        inquiryStore.status.isArchived,
+        inquiryStore.inquiryGroups.length > 0,
+        inquiryStore.inquiryGroups,
+        inquiryStore.type,
+        inquiryStore.family,
+        inquiryStore.configuration.access,
+        inquiryStore.status.isFinalStatus,
+        inquiryStore.status.moderationStatus
+      );
+      console.log("🔧 [InquiryActionToolbar] Permission context:", ctx);
+      return ctx;
+    });
     const showSidebar = ref(window.innerWidth > 920);
     const activeTab = ref(translate("agora", "Comments").toLowerCase());
     const shouldDisplay = computed(() => inquiryStore.status.forceEditMode);
@@ -64217,7 +64352,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
           name: $setup.t("agora", "Comments")
         }, {
           icon: withCtx(() => [
-            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.comment)))
+            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Comment)))
           ]),
           default: withCtx(() => [
             createVNode($setup["SideBarTabComments"])
@@ -64232,7 +64367,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
           name: $setup.t("agora", "Attachments")
         }, {
           icon: withCtx(() => [
-            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.attachment)))
+            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Attachment)))
           ]),
           default: withCtx(() => [
             createVNode($setup["SideBarTabAttachments"])
@@ -64247,7 +64382,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
           name: $setup.t("agora", "Sharing")
         }, {
           icon: withCtx(() => [
-            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.share)))
+            (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Share)))
           ]),
           default: withCtx(() => [
             createVNode($setup["SideBarTabShare"])

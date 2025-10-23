@@ -134,7 +134,7 @@ const inquiryCategories: InquiryCategoryList = {
       !inquiry.status.isArchived &&
       DateTime.fromSeconds(inquiry.status.relevantThreshold).diffNow('days').days > -100 &&
       (inquiry.currentUserStatus.isInvolved ||
-        (inquiry.permissions.view && inquiry.configuration.access !== 'open')),
+        (inquiry.permissions.view && inquiry.configuration.access === 'open')),
   },
   my: {
     id: 'my',
@@ -247,7 +247,7 @@ const inquiryCategories: InquiryCategoryList = {
       const sessionStore = useSessionStore()
       return !!sessionStore.currentUser?.isModerator 
     },
-    filterCondition: (inquiry: Inquiry) => inquiry.access==='moderate',
+    filterCondition: (inquiry: Inquiry) => inquiry.configuration.access==='moderate',
   },
 }
 
@@ -273,7 +273,8 @@ export const useInquiriesStore = defineStore('inquiries', {
     categories: inquiryCategories,
     currentFilter: 'relevant',
      advancedFilters: {
-      parentId: 0  
+      parentId: 0,  
+      familyType: ''  
     },
   }),
 
@@ -289,6 +290,12 @@ export const useInquiriesStore = defineStore('inquiries', {
         let filteredInquiries = state.inquiries.filter((inquiry: Inquiry) =>
           state.categories[filterId].filterCondition(inquiry)
         )
+	
+	if (state.advancedFilters.familyType) {
+      		filteredInquiries = filteredInquiries.filter(inquiry =>
+     		inquiry.family === state.advancedFilters.familyType
+      		)
+    	}
 
         if (state.advancedFilters.type) {
           filteredInquiries = filteredInquiries.filter(
@@ -302,164 +309,229 @@ export const useInquiriesStore = defineStore('inquiries', {
         )
       },
 
-    /*
-     * Sliced filtered and sorted inquiries for navigation
-     */
-    navigationList:
-      (state: InquiryList) =>
-      (filterId: FilterType): Inquiry[] =>
-        orderBy(
-          state.inquiries.filter((inquiry: Inquiry) =>
-            state.categories[filterId].filterCondition(inquiry)
-          ) ?? [],
-          ['created'],
-          ['desc']
-        ).slice(0, state.meta.maxInquiriesInNavigation),
+      /*
+       * Sliced filtered and sorted inquiries for navigation
+       */
+      navigationList:
+	      (state: InquiryList) =>
+      (filterId: FilterType): Inquiry[] => {
+	      let filteredInquiries = state.inquiries.filter((inquiry: Inquiry) =>
+							     state.categories[filterId].filterCondition(inquiry)
+							    ) ?? []
 
-    currentCategory(state: InquiryList): InquiryCategory {
-      const sessionStore = useSessionStore()
-      if (sessionStore.route.name === 'list' && sessionStore.route.params.type) {
-        return state.categories[sessionStore.route.params.type as FilterType]
-      }
-      return state.categories.relevant
-    },
+							    if (state.advancedFilters.familyType) {
+								    filteredInquiries = filteredInquiries.filter(inquiry =>
+														 inquiry.family === state.advancedFilters.familyType
+														)
+							    }
 
-    /*
-     * inquiries list, filtered by current category, advanced filters and sorted
-     */
-    inquiriesFilteredSorted(state: InquiryList & FilterState): Inquiry[] {
-	    const sessionStore = useSessionStore()
-	    const inquiryGroupsStore = useInquiryGroupsStore()
-
-	    // if we are in a group route, return the inquiries of the current group
-	    if (sessionStore.route.name === 'group') {
-		    return inquiryGroupsStore.inquiriesInCurrendInquiryGroup
-	    }
-
-	    let filteredInquiries =
-		    state.inquiries.filter((inquiry: Inquiry) =>
-					   this.currentCategory?.filterCondition(inquiry)
-					  ) ?? []
-
-					  if (state.advancedFilters.familyType) {
-						  filteredInquiries = filteredInquiries.filter((inquiry) => {
-							  return inquiry.family === state.advancedFilters.familyType
-						  })
-					  }
-
-					  if (state.advancedFilters.type) {
-						  filteredInquiries = filteredInquiries.filter(
-							  (inquiry) => inquiry.type === state.advancedFilters.type
-						  )
-					  }
-
-					  if (state.advancedFilters.categoryId) {
-						  filteredInquiries = filteredInquiries.filter(
-							  (inquiry) => inquiry.categoryId === state.advancedFilters.categoryId
-						  )
-					  }
-
-					  if (state.advancedFilters.parentId !== undefined) {
-						  filteredInquiries = filteredInquiries.filter((inquiry) =>
-											       inquiry.parentId === state.advancedFilters.parentId
-											      )
-					  }
-
-					  if (state.advancedFilters.locationId) {
-						  filteredInquiries = filteredInquiries.filter(
-							  (inquiry) => inquiry.locationId === state.advancedFilters.locationId
-						  )
-					  }
-
-					  if (state.advancedFilters.hasComments === true) {
-						  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments > 0)
-					  }
-					  else if (state.advancedFilters.hasComments === false) {
-						  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments === 0)
-					  }
-
-					  if (state.advancedFilters.hasSupports === true) {
-						  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countSupports > 0)
-					  }
-					  else if (state.advancedFilters.hasSupports === false) {
-						  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countSupports === 0)
-					  }
-
-					  if (state.advancedFilters.search) {
-						  const normalizeText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
-						  const searchTerm = normalizeText(state.advancedFilters.search)
-
-						  const results = filteredInquiries.filter((inquiry) => {
-							  const titleNormalized = normalizeText(inquiry.title)
-							  const descNormalized = normalizeText(inquiry.description || '')
-							  const titleMatch = titleNormalized.includes(searchTerm)
-							  const descMatch = descNormalized.includes(searchTerm)
-							  return titleMatch || descMatch
-						  })
-
-						  filteredInquiries = results
-					  }
-
-					  return orderBy(
-						  filteredInquiries,
-						  [sortColumnsMapping[state.sort.by]],
-						  [state.sort.reverse ? 'desc' : 'asc']
-					  )
-    },
+							    return orderBy(filteredInquiries, ['created'], ['desc'])
+							    .slice(0, state.meta.maxInquiriesInNavigation)
+      },
 
 
-    /*
-     * Chunked filtered and sorted inquiries for main view
-     */
-    chunkedList(): Inquiry[] {
-	    return this.inquiriesFilteredSorted.slice(0, this.loaded)
-    },
+      currentCategory(state: InquiryList): InquiryCategory {
+	      const sessionStore = useSessionStore()
+	      if (sessionStore.route.name === 'list' && sessionStore.route.params.type) {
+		      return state.categories[sessionStore.route.params.type as FilterType]
+	      }
+	      return state.categories.relevant
+      },
 
-    inquiriesCount(state: InquiryList): { [key: string]: number } {
-	    const count: Record<FilterType, number> = {} as Record<FilterType, number>
+      /*
+       * inquiries list, filtered by current category, advanced filters and sorted
+       */
+      /*
+       * inquiries list, filtered by current category, advanced filters and sorted
+       */
+      inquiriesFilteredSorted(state: InquiryList & FilterState): Inquiry[] {
+	      const sessionStore = useSessionStore()
+	      const inquiryGroupsStore = useInquiryGroupsStore()
 
-	    for (const [key, category] of Object.entries(state.categories)) {
-		    count[key as FilterType] = state.inquiries.filter((inquiry: Inquiry) =>
-								      category.filterCondition(inquiry)
-								     ).length
-	    }
+	      // if we are in a group route, return the inquiries of the current group
+	      if (sessionStore.route.name === 'group') {
+		      return inquiryGroupsStore.inquiriesInCurrendInquiryGroup
+	      }
 
-	    return count
-    },
+	      let filteredInquiries = state.inquiries
 
-    /*
-     * Sliced filtered and sorted inquiries for dashboard
-     */
-    dashboardList(state: InquiryList): Inquiry[] {
-	    return orderBy(
-		    state.inquiries.filter((inquiry: Inquiry) =>
-					   state.categories.relevant.filterCondition(inquiry)
-					  ),
-					  ['created'],
-					  ['desc']
-	    ).slice(0, 7)
-    },
+	      // First filter by familyType if specified
+	      if (state.advancedFilters.familyType) {
+		      filteredInquiries = filteredInquiries.filter((inquiry) => {
+			      return inquiry.family === state.advancedFilters.familyType
+		      })
+	      }
 
-    loaded(state: InquiryList): number {
-	    return state.meta.chunks.loaded * state.meta.chunks.size
-    },
+	      // Then filter by current category
+	      filteredInquiries = filteredInquiries.filter((inquiry: Inquiry) =>
+							   this.currentCategory?.filterCondition(inquiry)
+							  ) ?? []
 
-    proposalInquiries(state: InquiryList): Inquiry[] {
-	    return state.inquiries.filter(
-		    (inquiry: Inquiry) => inquiry.type === 'proposal' && !inquiry.status.isArchived
-	    )
-    },
+							  // Filter by type
+							  if (state.advancedFilters.type) {
+								  filteredInquiries = filteredInquiries.filter(
+									  (inquiry) => inquiry.type === state.advancedFilters.type
+								  )
+							  }
 
-    inquiriesLoading(state): boolean {
-	    return state.meta.status === 'loading'
-    },
+							  // Filter by categoryId
+							  if (state.advancedFilters.categoryId) {
+								  filteredInquiries = filteredInquiries.filter(
+									  (inquiry) => inquiry.categoryId === state.advancedFilters.categoryId
+								  )
+							  }
 
-    countByCategory: (state: InquiryList) => (filterId: FilterType) =>
-    state.inquiries.filter((inquiry: Inquiry) =>
-			   state.categories[filterId].filterCondition(inquiry)
-			  ).length,
+							  // Filter by parentId
+							  if (state.advancedFilters.parentId !== undefined) {
+								  filteredInquiries = filteredInquiries.filter((inquiry) =>
+													       inquiry.parentId === state.advancedFilters.parentId
+													      )
+							  }
+
+							  // Filter by locationId
+							  if (state.advancedFilters.locationId) {
+								  filteredInquiries = filteredInquiries.filter(
+									  (inquiry) => inquiry.locationId === state.advancedFilters.locationId
+								  )
+							  }
+
+							  // Filter by comments
+							  if (state.advancedFilters.hasComments === true) {
+								  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments > 0)
+							  }
+							  else if (state.advancedFilters.hasComments === false) {
+								  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countComments === 0)
+							  }
+
+							  // Filter by supports
+							  if (state.advancedFilters.hasSupports === true) {
+								  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countSupports > 0)
+							  }
+							  else if (state.advancedFilters.hasSupports === false) {
+								  filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.status.countSupports === 0)
+							  }
+
+							  // Filter by search term
+							  if (state.advancedFilters.search) {
+								  const normalizeText = (text: string) => text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
+								  const searchTerm = normalizeText(state.advancedFilters.search)
+
+								  const results = filteredInquiries.filter((inquiry) => {
+									  const titleNormalized = normalizeText(inquiry.title)
+									  const descNormalized = normalizeText(inquiry.description || '')
+									  const titleMatch = titleNormalized.includes(searchTerm)
+									  const descMatch = descNormalized.includes(searchTerm)
+									  return titleMatch || descMatch
+								  })
+
+								  filteredInquiries = results
+							  }
+
+							  // Additional access control: exclude moderate access inquiries from regular lists
+							  // unless the user has specific moderation permissions
+							  filteredInquiries = filteredInquiries.filter((inquiry) => {
+								  // Always exclude moderate access inquiries from regular lists
+								  if (inquiry.configuration.access === 'moderate') {
+									  // Only show moderate inquiries to users with moderation permissions
+									  const sessionStore = useSessionStore()
+									  return !!sessionStore.currentUser?.isModerator
+								  }
+
+								  // For "all" category, only show open access inquiries
+								  if (this.currentCategory?.id === 'all') {
+									  return inquiry.configuration.access === 'open'
+								  }
+
+								  return true
+							  })
+
+							  return orderBy(
+								  filteredInquiries,
+								  [sortColumnsMapping[state.sort.by]],
+								  [state.sort.reverse ? 'desc' : 'asc']
+							  )
+      },
+
+      /*
+       * Chunked filtered and sorted inquiries for main view
+       */
+      chunkedList(): Inquiry[] {
+	      return this.inquiriesFilteredSorted.slice(0, this.loaded)
+      },
+
+      inquiriesCount(state: InquiryList): { [key: string]: number } {
+	      const count: Record<FilterType, number> = {} as Record<FilterType, number>
+
+	      for (const [key, category] of Object.entries(state.categories)) {
+		      let filtered = state.inquiries.filter((inquiry: Inquiry) =>
+							    category.filterCondition(inquiry)
+							   )
+
+							   if (state.advancedFilters.familyType) {
+								   filtered = filtered.filter(inquiry =>
+											      inquiry.family === state.advancedFilters.familyType
+											     )
+							   }
+
+							   count[key as FilterType] = filtered.length
+	      }
+
+	      return count
+      },
+
+      /*
+       * Sliced filtered and sorted inquiries for dashboard
+       */
+      dashboardList(state: InquiryList): Inquiry[] {
+	      let filtered = state.inquiries.filter((inquiry: Inquiry) =>
+						    state.categories.relevant.filterCondition(inquiry)
+						   )
+
+						   if (state.advancedFilters.familyType) {
+							   filtered = filtered.filter(inquiry => 
+										      inquiry.family === state.advancedFilters.familyType
+										     )
+						   }
+
+						   return orderBy(filtered, ['created'], ['desc']).slice(0, 7)
+      },
+
+      loaded(state: InquiryList): number {
+	      return state.meta.chunks.loaded * state.meta.chunks.size
+      },
+
+      proposalInquiries(state: InquiryList): Inquiry[] {
+	      let filtered = state.inquiries.filter(
+		      (inquiry: Inquiry) => inquiry.type === 'proposal' && !inquiry.status.isArchived
+	      )
+
+	      if (state.advancedFilters.familyType) {
+		      filtered = filtered.filter(inquiry => 
+						 inquiry.family === state.advancedFilters.familyType
+						)
+	      }
+
+	      return filtered
+      },
+
+      inquiriesLoading(state): boolean {
+	      return state.meta.status === 'loading'
+      },
+
+      countByCategory: (state: InquiryList) => (filterId: FilterType) => {
+	      let filtered = state.inquiries.filter((inquiry: Inquiry) =>
+						    state.categories[filterId].filterCondition(inquiry)
+						   )
+
+						   if (state.advancedFilters.familyType) {
+							   filtered = filtered.filter(inquiry => 
+										      inquiry.family === state.advancedFilters.familyType
+										     )
+						   }
+
+						   return filtered.length
+      },
   },
-
   actions: {
 
 	  setFamilyType(familyType) {
@@ -484,16 +556,20 @@ export const useInquiriesStore = defineStore('inquiries', {
 		  }
 	  },
 
+	  updateInquiryAccess(inquiryId, inquiryAccess) {
+		  const inquiry = this.inquiries.find(inq => inq.id === inquiryId)
+		  if (inquiry) {
+			  inquiry.inquiryAccess = inquiryAccess
+		  }
+	  },
+
 	  /**
 	   * Filter set
 	   */
-
-
 	  setFilters(filters: AdvancedFilters): void {
-		  console.log(' I SET FILTER ',filters)
-		  this.advancedFilters = { 
-			  ...filters,
-		  }
+			  this.advancedFilters = { 
+				  ...filters,
+			  }
 		  this.resetChunks()
 	  },
 
@@ -502,7 +578,8 @@ export const useInquiriesStore = defineStore('inquiries', {
 	   */
 	  resetFilters(): void {
 		  this.advancedFilters= {
-			  parentId: 0  
+	parentId: 0,
+	familyType: this.advancedFilters.familyType
 		  }
 		  this.resetChunks()
 	  },
@@ -513,8 +590,8 @@ export const useInquiriesStore = defineStore('inquiries', {
 	   */
 	  setCurrentFilter(filter: FilterType): void {
 		  this.currentFilter = filter
-		  this.resetChunks()
-		  this.resetFilters()
+			  this.resetChunks()
+			  this.resetFilters()
 	  },
 
 	  /**
@@ -524,7 +601,7 @@ export const useInquiriesStore = defineStore('inquiries', {
 	   */
 	  updateFilter<K extends keyof AdvancedFilters>(key: K, value: AdvancedFilters[K]): void {
 		  this.advancedFilters[key] = value
-		  this.resetChunks()
+			  this.resetChunks()
 	  },
 	  /**
 	   * Load all inquiries and inquiry groups from the API.
@@ -540,145 +617,145 @@ export const useInquiriesStore = defineStore('inquiries', {
 	  async load(forced: boolean = true): Promise<void> {
 		  const inquiryGroupsStore = useInquiryGroupsStore()
 
-		  if (this.meta.status === 'loading' || (!forced && this.meta.status === 'loaded')) {
-			  Logger.debug('Inquiries already loaded or loading, skipping load', {
-				  status: this.meta.status,
-				  forced,
-			  })
-			  return
-		  }
-
-		  this.meta.status = 'loading'
-
-		  try {
-			  const response = await InquiriesAPI.getInquiries()
-			  this.inquiries = response.data.inquiries
-			  inquiryGroupsStore.inquiryGroups = response.data.inquiryGroups
-			  this.meta.status = 'loaded'
-		  } catch (error) {
-			  if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-				  return
-			  }
-			  this.meta.status = 'error'
-			  Logger.error('Error loading inquiries', { error })
-			  throw error
-		  }
-	  },
-
-	  /**
-	   * Sliced filtered and sorted inquiries for navigation
-	   * @param filterList - List of inquiry IDs to filter by
-	   */
-	  groupList(filterList: number[]): Inquiry[] {
-		  return orderBy(
-			  this.inquiries.filter((inquiry: Inquiry) => filterList.includes(inquiry.id)) ?? [],
-				  ['created'],
-			  ['desc']
-		  ).slice(0, this.meta.maxInquiriesInNavigation)
-	  },
-
-	  addOrUpdateInquiryGroupInList(payload: { inquiry: Inquiry }) {
-		  this.inquiries = this.inquiries
-		  .filter((p) => p.id !== payload.inquiry?.id)
-		  .concat(payload.inquiry)
-	  },
-
-	  reset(): void {
-		  this.$reset()
-	  },
-
-	  async changeOwner(payload: { inquiryId: number; userId: string }) {
-		  try {
-			  await InquiriesAPI.changeOwner(payload.inquiryId, payload.userId)
-		  } catch (error) {
-			  if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-				  return
-			  }
-			  Logger.error('Error changing inquiry owner', {
-				  error,
-				  payload,
-			  })
-			  throw error
-		  } finally {
-			  this.load()
-		  }
-	  },
-
-	  addChunk(): void {
-		  this.meta.chunks.loaded = this.meta.chunks.loaded + 1
-	  },
-
-	  resetChunks(): void {
-		  this.meta.chunks.loaded = 1
-	  },
-
-	  async clone(payload: { inquiryId: number }): Promise<void> {
-		  try {
-			  await InquiriesAPI.cloneInquiry(payload.inquiryId)
-		  } catch (error) {
-			  if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-				  return
-			  }
-			  Logger.error('Error cloning inquiry', {
-				  error,
-				  payload,
-			  })
-			  throw error
-		  } finally {
-			  this.load()
-		  }
-	  },
-
-	  async delete(payload: { inquiryId: number }): Promise<void> {
-		  try {
-			  await InquiriesAPI.deleteInquiry(payload.inquiryId)
-		  } catch (error) {
-			  if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-				  return
-			  }
-			  Logger.error('Error deleting inquiry', {
-				  error,
-				  payload,
-			  })
-			  throw error
-		  } finally {
-			  this.load()
-		  }
-	  },
-
-	  async toggleArchive(payload: { inquiryId: number }) {
-		  try {
-			  await InquiriesAPI.toggleArchive(payload.inquiryId)
-		  } catch (error) {
-			  if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-				  return
-			  }
-			  Logger.error('Error archiving/restoring inquiry', {
-				  error,
-				  payload,
-			  })
-			  throw error
-		  } finally {
-			  this.load()
-		  }
-	  },
-
-	  async takeOver(payload: { inquiryId: number }) {
-		  try {
-			  await InquiriesAPI.takeOver(payload.inquiryId)
-		  } catch (error) {
-			  if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-				  return
-			  }
-			  Logger.error('Error archiving/restoring inquiry', {
-				  error,
-				  payload,
-			  })
-			  throw error
-		  } finally {
-			  this.load()
-		  }
-	  },
-  },
+			  if (this.meta.status === 'loading' || (!forced && this.meta.status === 'loaded')) {
+				  Logger.debug('Inquiries already loaded or loading, skipping load', {
+status: this.meta.status,
+forced,
 })
+return
+}
+
+this.meta.status = 'loading'
+
+try {
+	const response = await InquiriesAPI.getInquiries()
+		this.inquiries = response.data.inquiries
+		inquiryGroupsStore.inquiryGroups = response.data.inquiryGroups
+		this.meta.status = 'loaded'
+} catch (error) {
+	if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+		return
+	}
+	this.meta.status = 'error'
+		Logger.error('Error loading inquiries', { error })
+		throw error
+}
+},
+
+	/**
+	 * Sliced filtered and sorted inquiries for navigation
+	 * @param filterList - List of inquiry IDs to filter by
+	 */
+	groupList(filterList: number[]): Inquiry[] {
+		return orderBy(
+				this.inquiries.filter((inquiry: Inquiry) => filterList.includes(inquiry.id)) ?? [],
+				['created'],
+				['desc']
+			      ).slice(0, this.meta.maxInquiriesInNavigation)
+	},
+
+	addOrUpdateInquiryGroupInList(payload: { inquiry: Inquiry }) {
+		this.inquiries = this.inquiries
+			.filter((p) => p.id !== payload.inquiry?.id)
+			.concat(payload.inquiry)
+	},
+
+	reset(): void {
+		this.$reset()
+	},
+
+	async changeOwner(payload: { inquiryId: number; userId: string }) {
+		try {
+			await InquiriesAPI.changeOwner(payload.inquiryId, payload.userId)
+		} catch (error) {
+			if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+				return
+			}
+			Logger.error('Error changing inquiry owner', {
+					error,
+					payload,
+					})
+			throw error
+		} finally {
+			this.load()
+		}
+	},
+
+	addChunk(): void {
+		this.meta.chunks.loaded = this.meta.chunks.loaded + 1
+	},
+
+	resetChunks(): void {
+		this.meta.chunks.loaded = 1
+	},
+
+	async clone(payload: { inquiryId: number }): Promise<void> {
+		try {
+			await InquiriesAPI.cloneInquiry(payload.inquiryId)
+		} catch (error) {
+			if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+				return
+			}
+			Logger.error('Error cloning inquiry', {
+					error,
+					payload,
+					})
+			throw error
+		} finally {
+			this.load()
+		}
+	},
+
+	async delete(payload: { inquiryId: number }): Promise<void> {
+		try {
+			await InquiriesAPI.deleteInquiry(payload.inquiryId)
+		} catch (error) {
+			if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+				return
+			}
+			Logger.error('Error deleting inquiry', {
+					error,
+					payload,
+					})
+			throw error
+		} finally {
+			this.load()
+		}
+	},
+
+	async toggleArchive(payload: { inquiryId: number }) {
+		try {
+			await InquiriesAPI.toggleArchive(payload.inquiryId)
+		} catch (error) {
+			if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+				return
+			}
+			Logger.error('Error archiving/restoring inquiry', {
+					error,
+					payload,
+					})
+			throw error
+		} finally {
+			this.load()
+		}
+	},
+
+	async takeOver(payload: { inquiryId: number }) {
+		try {
+			await InquiriesAPI.takeOver(payload.inquiryId)
+		} catch (error) {
+			if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+				return
+			}
+			Logger.error('Error archiving/restoring inquiry', {
+					error,
+					payload,
+					})
+			throw error
+		} finally {
+			this.load()
+		}
+	},
+	},
+	})
 

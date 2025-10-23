@@ -30,7 +30,9 @@ import { useSessionStore } from '../stores/session.ts'
 const inquiryStore = useInquiryStore()
 const sessionStore = useSessionStore()
 
-const context = computed(() => createPermissionContextForContent(
+// Context for permissions
+const context = computed(() => {
+  const ctx = createPermissionContextForContent(
     ContentType.Inquiry,
     inquiryStore.owner.id,
     inquiryStore.configuration.access === 'public',
@@ -40,8 +42,15 @@ const context = computed(() => createPermissionContextForContent(
     inquiryStore.status.isArchived,
     inquiryStore.inquiryGroups.length > 0,
     inquiryStore.inquiryGroups,
-    inquiryStore.type
-  ))
+    inquiryStore.type,
+    inquiryStore.family, 
+    inquiryStore.configuration.access as AccessLevel,
+    inquiryStore.status.isFinalStatus,
+    inquiryStore.status.moderationStatus 
+  )
+  console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
+  return ctx
+}) 
 
 
 const showSidebar = ref(window.innerWidth > 920)
@@ -88,7 +97,7 @@ function closeSideBar() {
         :name="t('agora', 'Comments')"
       >
         <template #icon>
-	   <component :is="InquiryGeneralIcons.comment" />
+	   <component :is="InquiryGeneralIcons.Comment" />
         </template>
         <SideBarTabComments />
       </NcAppSidebarTab>
@@ -100,7 +109,7 @@ function closeSideBar() {
         :name="t('agora', 'Attachments')"
       >
         <template #icon>
-	   <component :is="InquiryGeneralIcons.attachment" />
+	   <component :is="InquiryGeneralIcons.Attachment" />
         </template>
         <SideBarTabAttachments />
       </NcAppSidebarTab>
@@ -112,7 +121,7 @@ function closeSideBar() {
         :name="t('agora', 'Sharing')"
       >
         <template #icon>
-	   <component :is="InquiryGeneralIcons.share" />
+	   <component :is="InquiryGeneralIcons.Share" />
         </template>
         <SideBarTabShare />
       </NcAppSidebarTab>

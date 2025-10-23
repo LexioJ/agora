@@ -235,7 +235,7 @@ async function submitLabel() {
       @submit="submitLabel()"
     >
       <template #icon>
-        <component :is="ShareIcons.edit" />
+        <component :is="ShareIcons.Edit" />
       </template>
     </NcActionInput>
 
@@ -247,7 +247,7 @@ async function submitLabel() {
       @click="resendInvitation.action"
     >
       <template #icon>
-        <component :is="ShareIcons.sendByMail" />
+        <component :is="ShareIcons.SendByMail" />
       </template>
     </NcActionButton>
 
@@ -260,7 +260,7 @@ async function submitLabel() {
       @click="resolveGroups.action"
     >
       <template #icon>
-        <component :is="ShareIcons.restore" />
+        <component :is="ShareIcons.Restore" />
       </template>
     </NcActionButton>
 
@@ -272,8 +272,8 @@ async function submitLabel() {
       @click="switchAdmin.action"
     >
       <template #icon>
-        <component :is="ShareIcons.adminGrant" v-if="share.type === 'user'" />
-        <component :is="ShareIcons.adminRevoke" v-else />
+        <component :is="ShareIcons.AdminGrant" v-if="share.type === 'user'" />
+        <component :is="ShareIcons.AdminRevoke" v-else />
       </template>
     </NcActionButton>
 
@@ -285,7 +285,7 @@ async function submitLabel() {
       @click="copyLinkButton.action"
     >
       <template #icon>
-        <component :is="ShareIcons.copyLink" />
+        <component :is="ShareIcons.CopyLink" />
       </template>
     </NcActionButton>
 
@@ -297,7 +297,7 @@ async function submitLabel() {
       @click="showQrCodeButton.action"
     >
       <template #icon>
-        <component :is="ShareIcons.qrCode" />
+        <component :is="ShareIcons.QrCode" />
       </template>
     </NcActionButton>
 
@@ -359,8 +359,8 @@ async function submitLabel() {
       @click="lockShareButton.action"
     >
       <template #icon>
-        <component :is="ShareIcons.unlock" v-if="share.locked" />
-        <component :is="ShareIcons.lock" v-else />
+        <component :is="ShareIcons.Unlock" v-if="share.locked" />
+        <component :is="ShareIcons.Lock" v-else />
       </template>
     </NcActionButton>
 
@@ -372,8 +372,8 @@ async function submitLabel() {
       @click="deleteShareButton.action"
     >
       <template #icon>
-        <component :is="ShareIcons.restore" v-if="share.deleted" />
-        <component :is="ShareIcons.delete" v-else />
+        <component :is="ShareIcons.Restore" v-if="share.deleted" />
+        <component :is="ShareIcons.Delete" v-else />
       </template>
     </NcActionButton>
   </NcActions>

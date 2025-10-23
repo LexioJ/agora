@@ -4,7 +4,7 @@
 -->
 
 <script setup>
-import { computed,ref, onMounted } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
@@ -12,6 +12,7 @@ import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useAppSettingsStore } from '../../../stores/appSettings.ts'
 import { InquiryGeneralIcons } from '../../../utils/icons.ts'
 
+const emit = defineEmits(['family-selected'])
 const appSettingsStore = useAppSettingsStore()
 const editingFamily = ref(null)
 const newFamily = ref({
@@ -22,18 +23,34 @@ const newFamily = ref({
   sort_order: 0
 })
 
-onMounted(() => {
-})
-
+// Convertir les icônes en minuscules
 const availableIcons = computed(() =>
   Object.keys(InquiryGeneralIcons)
     .filter((key) => key !== 'default')
-    .map((iconId) => ({
-      id: iconId,
-      label: t('agora', iconId.replace(/([A-Z])/g, ' $1').trim()),
-    }))
+    .map((iconId) => {
+      // Convertir en minuscule et formater le label
+      const lowerCaseId = iconId.toLowerCase()
+      const formattedLabel = lowerCaseId.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/_/g, ' ')
+      return {
+        id: lowerCaseId,
+        label: t('agora', formattedLabel.charAt(0).toUpperCase() + formattedLabel.slice(1)),
+      }
+    })
 )
 
+// Calculate types count for each family
+const familiesWithStats = computed(() => {
+  return appSettingsStore.inquiryFamilyTab.map(family => {
+    const typesCount = appSettingsStore.inquiryTypeTab.filter(
+      type => type.family === family.family_type
+    ).length
+    
+    return {
+      ...family,
+      typesCount
+    }
+  })
+})
 
 const addFamily = async () => {
   if (!newFamily.value.family_type || !newFamily.value.label) return
@@ -63,17 +80,28 @@ const deleteFamily = async (familyId) => {
     await appSettingsStore.deleteFamily(familyId)
   }
 }
+
+const selectFamily = (family) => {
+  emit('family-selected', family)
+}
 </script>
 
 <template>
-  <div class="inquiry-families">
-    <h2>{{ t('agora', 'Inquiry Families') }}</h2>
+  <div class="families-manager">
+    <h2>{{ t('agora', 'Inquiry Families Management') }}</h2>
     <p class="description">
-      {{ t('agora', 'Manage inquiry families to organize different types of inquiries') }}
+      {{ t('agora', 'Manage inquiry families to organize different types of inquiries. Each family can contain multiple inquiry types.') }}
     </p>
 
+    <!-- Families List -->
     <div class="families-list">
-      <div v-for="family in appSettingsStore.inquiryFamilyTab" :key="family.id" class="family-item">
+      <h3>{{ t('agora', 'Existing Families') }}</h3>
+      <div 
+        v-for="family in familiesWithStats" 
+        :key="family.id" 
+        class="family-item"
+        @click="selectFamily(family)"
+      >
         <div class="family-content">
           <div class="family-icon">
             <span class="icon">{{ family.icon }}</span>
@@ -84,90 +112,112 @@ const deleteFamily = async (familyId) => {
             <p v-if="family.description" class="family-description">
               {{ family.description }}
             </p>
+            <div class="family-stats">
+              <span class="types-count">
+                {{ t('agora', '{count} types', { count: family.typesCount }) }}
+              </span>
+            </div>
           </div>
         </div>
         <div class="family-actions">
-          <NcButton @click="editingFamily = { ...family }">
+          <NcButton @click.stop="editingFamily = { ...family }">
             {{ t('agora', 'Edit') }}
           </NcButton>
-          <NcButton @click="deleteFamily(family.id)">
+          <NcButton @click.stop="deleteFamily(family.id)">
             {{ t('agora', 'Delete') }}
           </NcButton>
         </div>
       </div>
     </div>
 
-    <!-- Formulaire d'ajout -->
+    <!-- Add New Family Form -->
     <div class="add-family-form">
       <h3>{{ t('agora', 'Add New Family') }}</h3>
       <div class="form-grid">
-        <NcInputField
-          v-model="newFamily.family_type"
-          :label="t('agora', 'Family Type Key')"
-          :placeholder="t('agora', 'e.g., deliberative, consultative')"
-          required
-        />
-        
-        <NcInputField
-          v-model="newFamily.label"
-          :label="t('agora', 'Display Label')"
-          :placeholder="t('agora', 'e.g., Deliberative Process')"
-          required
-        />
+        <div class="form-row">
+          <NcInputField
+            v-model="newFamily.family_type"
+            :label="t('agora', 'Family Type Key')"
+            :placeholder="t('agora', 'e.g., deliberative, consultative')"
+            required
+            class="form-field"
+          />
+          
+          <NcInputField
+            v-model="newFamily.label"
+            :label="t('agora', 'Display Label')"
+            :placeholder="t('agora', 'e.g., Deliberative Process')"
+            required
+            class="form-field"
+          />
+          
+          <NcSelect
+            v-model="newFamily.icon"
+            :options="availableIcons"
+            :label="t('agora', 'Icon')"
+            :placeholder="t('agora', 'Select an icon')"
+            class="form-field"
+          />
+        </div>
         
         <NcInputField
           v-model="newFamily.description"
           :label="t('agora', 'Description')"
           :placeholder="t('agora', 'Optional description')"
           type="textarea"
-        />
-        
-        <NcSelect
-          v-model="newFamily.icon"
-          :options="availableIcons"
-          :label="t('agora', 'Icon')"
+          class="full-width"
         />
         
         <NcInputField
           v-model="newFamily.sort_order"
           :label="t('agora', 'Sort Order')"
           type="number"
+          :min="0"
+          class="form-field"
         />
         
-        <NcButton 
-          type="primary" 
-          :disabled="!newFamily.family_type || !newFamily.label"
-          @click="addFamily"
-        >
-          {{ t('agora', 'Add Family') }}
-        </NcButton>
+        <div class="form-actions">
+          <NcButton 
+            type="primary" 
+            :disabled="!newFamily.family_type || !newFamily.label"
+            @click="addFamily"
+          >
+            {{ t('agora', 'Add Family') }}
+          </NcButton>
+        </div>
       </div>
     </div>
 
-    <!-- Modal d'édition -->
+    <!-- Edit Family Modal -->
     <div v-if="editingFamily" class="modal-overlay">
-      <div class="modal-content">
+      <div class="modal-content large-modal">
         <h3>{{ t('agora', 'Edit Family') }}</h3>
         <div class="form-grid">
-          <NcInputField
-            v-model="editingFamily.family_type"
-            :label="t('agora', 'Family Type Key')"
-            required
-          />
-          <NcInputField
-            v-model="editingFamily.label"
-            :label="t('agora', 'Display Label')"
-            required
-          />
+          <div class="form-row">
+            <NcInputField
+              v-model="editingFamily.family_type"
+              :label="t('agora', 'Family Type Key')"
+              required
+              class="form-field"
+            />
+            <NcInputField
+              v-model="editingFamily.label"
+              :label="t('agora', 'Display Label')"
+              required
+              class="form-field"
+            />
+            <NcSelect
+              v-model="editingFamily.icon"
+              :options="availableIcons"
+              :label="t('agora', 'Icon')"
+              class="form-field"
+            />
+          </div>
           <NcInputField
             v-model="editingFamily.description"
             :label="t('agora', 'Description')"
             type="textarea"
-          />
-          <NcSelect
-            v-model="editingFamily.icon"
-            :options="availableIcons"
-            :label="t('agora', 'Icon')"
+            class="full-width"
           />
           <div class="modal-actions">
             <NcButton @click="editingFamily = null">
@@ -177,7 +227,7 @@ const deleteFamily = async (familyId) => {
               type="primary" 
               @click="updateFamily(editingFamily)"
             >
-              {{ t('agora', 'Save') }}
+              {{ t('agora', 'Save Changes') }}
             </NcButton>
           </div>
         </div>
@@ -187,12 +237,17 @@ const deleteFamily = async (familyId) => {
 </template>
 
 <style scoped>
-.inquiry-families {
+.families-manager {
   padding: 20px;
 }
 
 .families-list {
   margin-bottom: 30px;
+}
+
+.families-list h3 {
+  margin-bottom: 15px;
+  color: var(--color-text-lighter);
 }
 
 .family-item {
@@ -203,12 +258,19 @@ const deleteFamily = async (familyId) => {
   margin-bottom: 10px;
   background: var(--color-background-dark);
   border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.family-item:hover {
+  background: var(--color-background-hover);
 }
 
 .family-content {
   display: flex;
   align-items: center;
   gap: 15px;
+  flex: 1;
 }
 
 .family-icon {
@@ -225,6 +287,7 @@ const deleteFamily = async (familyId) => {
 
 .family-info h4 {
   margin: 0 0 5px 0;
+  color: var(--color-text-light);
 }
 
 .family-type {
@@ -239,6 +302,18 @@ const deleteFamily = async (familyId) => {
   color: var(--color-text-lighter);
 }
 
+.family-stats {
+  margin-top: 8px;
+}
+
+.types-count {
+  font-size: 0.8em;
+  color: var(--color-primary);
+  background: var(--color-primary-element-light);
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
 .family-actions {
   display: flex;
   gap: 10px;
@@ -251,9 +326,29 @@ const deleteFamily = async (familyId) => {
 }
 
 .form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr;
   gap: 15px;
+  align-items: start;
+}
+
+.form-field {
+  margin: 0;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: flex-start;
 }
 
 .modal-overlay {
@@ -273,12 +368,18 @@ const deleteFamily = async (familyId) => {
   background: var(--color-main-background);
   padding: 30px;
   border-radius: 12px;
-  width: 500px;
+  width: 800px;
   max-width: 90%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-content.large-modal {
+  width: 900px;
+  max-width: 95vw;
 }
 
 .modal-actions {
-  grid-column: span 2;
   display: flex;
   justify-content: flex-end;
   gap: 10px;

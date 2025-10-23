@@ -29,7 +29,7 @@ import type { CollapsibleProps } from '../components/Base/modules/Collapsible.vu
 import IntersectionObserver from '../components/Base/modules/IntersectionObserver.vue'
 import InquiryInfoCards from '../components/Cards/InquiryInfoCards.vue'
 import { DateTime } from 'luxon'
-import { StatusIcons, InquiryGeneralIcons } from '../utils/icons.ts'
+import { InquiryGeneralIcons } from '../utils/icons.ts'
 import {
   getInquiryTypeData,
   confirmAction,
@@ -50,6 +50,7 @@ const createDlgToggle = ref(false)
 const selectedInquiryTypeForCreation = ref('')
 const selectedGroups = ref([])
 const isSaving = ref(false)
+const selectedFamily = ref<string | null>(inquiriesStore.familyType || null)
 
 const showMore = computed(
   () =>
@@ -127,10 +128,6 @@ async function loadInquiry(id: string) {
   } finally {
     isAppLoaded.value = true
   }
-}
-
-function loadMore() {
-  // console.log('Load more functionality to be implemented')
 }
 
 watch(

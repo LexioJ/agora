@@ -275,4 +275,95 @@ class SettingsController extends BaseController
 		$updatedType = $this->settingsService->updateType($typeId, $type);
 		return $this->response(fn () => ['type' => $updatedType]);
 	}
+
+//INQUIRY TYPE METHODS
+/**
+ * Add an inquiry type
+ *
+ * @param array $type Type data
+ */
+#[OpenAPI(OpenAPI::SCOPE_IGNORE)]
+#[FrontpageRoute(verb: 'POST', url: '/inquiry/types')]
+public function addInquiryType(array $type): JSONResponse
+{
+    $newType = $this->inquiryService->addInquiryType($type);
+    return $this->response(fn () => ['type' => $newType]);
+}
+
+/**
+ * Delete an inquiry type
+ *
+ * @param string $typeId Type ID
+ */
+#[OpenAPI(OpenAPI::SCOPE_IGNORE)]
+#[FrontpageRoute(verb: 'DELETE', url: '/inquiry/types/{typeId}')]
+public function deleteInquiryType(string $typeId): JSONResponse
+{
+    $this->inquiryService->deleteInquiryType($typeId);
+    return $this->response(fn () => []);
+}
+
+/**
+ * Update an inquiry type
+ *
+ * @param string $typeId Type ID
+ */
+#[OpenAPI(OpenAPI::SCOPE_IGNORE)]
+#[FrontpageRoute(verb: 'PUT', url: '/inquiry/types/{typeId}')]
+public function updateInquiryType(string $typeId): JSONResponse
+{
+    $type = $this->request->getParams();
+    if ($type === null && json_last_error() !== JSON_ERROR_NONE) {
+        return new JSONResponse(['error' => 'Invalid JSON data'], Http::STATUS_BAD_REQUEST);
+    }
+
+    $updatedType = $this->inquiryService->updateInquiryType($typeId, (array)$type);
+    return $this->response(fn () => ['type' => (array) $updatedType]);
+}
+
+//FAMILY METHODS
+/**
+ * Add an inquiry family
+ *
+ * @param array $family Family data
+ */
+#[OpenAPI(OpenAPI::SCOPE_IGNORE)]
+#[FrontpageRoute(verb: 'POST', url: '/inquiry/families')]
+public function addInquiryFamily(array $family): JSONResponse
+{
+    $newFamily = $this->inquiryService->addInquiryFamily($family);
+    return $this->response(fn () => ['family' => $newFamily]);
+}
+
+/**
+ * Delete an inquiry family
+ *
+ * @param string $familyId Family ID
+ */
+#[OpenAPI(OpenAPI::SCOPE_IGNORE)]
+#[FrontpageRoute(verb: 'DELETE', url: '/inquiry/families/{familyId}')]
+public function deleteInquiryFamily(string $familyId): JSONResponse
+{
+    $this->inquiryService->deleteInquiryFamily($familyId);
+    return $this->response(fn () => []);
+}
+
+/**
+ * Update an inquiry family
+ *
+ * @param string $familyId Family ID
+ */
+#[OpenAPI(OpenAPI::SCOPE_IGNORE)]
+#[FrontpageRoute(verb: 'PUT', url: '/inquiry/families/{familyId}')]
+public function updateInquiryFamily(string $familyId): JSONResponse
+{
+    $family = $this->request->getParams();
+    if ($family === null && json_last_error() !== JSON_ERROR_NONE) {
+        return new JSONResponse(['error' => 'Invalid JSON data'], Http::STATUS_BAD_REQUEST);
+    }
+
+    $updatedFamily = $this->inquiryService->updateInquiryFamily($familyId, (array)$family);
+    return $this->response(fn () => ['family' => (array) $updatedFamily]);
+}
+
 }

@@ -184,9 +184,6 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         $this->addType('quorum', 'integer');
         $this->addType('lastInteraction', 'integer');
         $this->addType('parentId', 'integer');
-        $this->addType('allowComment', 'integer');
-        $this->addType('allowSupport', 'integer');
-        $this->addType('hasSupported', 'bool');
 
         // joined Attributes
         $this->addType('currentUserSupports', 'integer');

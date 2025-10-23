@@ -204,7 +204,7 @@ function resetInquiry() {
         v-if="availableGroups.length > 0"
       >
         <template #icon>
-          <Component :is="InquiryGeneralIcons.accountgroup" />
+          <Component :is="InquiryGeneralIcons.AccountGroup" />
         </template>
         <div class="access-settings">
           <NcRadioGroup
@@ -254,7 +254,7 @@ function resetInquiry() {
       <!-- Title -->
       <ConfigBox :name="t('agora', 'Title')">
         <template #icon>
-          <Component :is="InquiryGeneralIcons.bullhorn" />
+          <Component :is="InquiryGeneralIcons.BullHorn" />
         </template>
         <InputDiv
           v-model="inquiryTitle"
@@ -274,7 +274,7 @@ function resetInquiry() {
         v-if="!hasPredefinedType"
       >
         <template #icon>
-          <Component :is="InquiryGeneralIcons.check" />
+          <Component :is="InquiryGeneralIcons.Check" />
         </template>
         <RadioGroupDiv v-model="inquiryType" :options="inquiryTypeOptions" />
       </ConfigBox>
@@ -286,7 +286,7 @@ function resetInquiry() {
         :label="t('agora', 'Inquiry type')"
       >
         <template #icon>
-          <Component :is="InquiryGeneralIcons.check" />
+          <Component :is="InquiryGeneralIcons.Check" />
         </template>
         <div class="selected-type">
           <strong>{{ currentInquiryTypeData?.label }}</strong>

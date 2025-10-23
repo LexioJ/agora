@@ -307,6 +307,7 @@ export const useInquiryStore = defineStore('inquiry', {
     async submitInquiry(action: string): Promise<void> {
 	    try {
 		    const response = await InquiriesAPI.submitInquiry(this.id,action)
+	            this.load()
 		    if (!response || !response.data) {
 			    this.$reset()
 			    return

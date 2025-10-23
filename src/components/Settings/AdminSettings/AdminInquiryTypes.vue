@@ -10,11 +10,9 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
-import { useInquiryFamiliesStore } from '../../../stores/inquiryFamilies.ts'
-import { useInquiryTypesStore } from '../../../stores/inquiryTypes.ts'
+import { useAppSettingsStore } from '../../../stores/appSettings.ts'
 
-const familiesStore = useInquiryFamiliesStore()
-const typesStore = useInquiryTypesStore()
+const appSettingsStore = useAppSettingsStore()
 
 const editingType = ref(null)
 const newType = ref({
@@ -29,12 +27,6 @@ const newType = ref({
   allowed_transformation: '[]'
 })
 
-onMounted(async () => {
-  await Promise.all([
-    familiesStore.loadFamilies(),
-    typesStore.loadTypes()
-  ])
-})
 
 const availableIcons = [
   { id: 'vote', label: t('agora', 'Vote') },
@@ -45,20 +37,16 @@ const availableIcons = [
 ]
 
 const familyOptions = computed(() => 
-  familiesStore.families.map(family => ({
+  appSettingsStore.inquiryFamilyTab.map(family => ({
     id: family.family_type,
     label: family.label
   }))
 )
 
-const availableTypes = computed(() => 
-  typesStore.types.filter(type => !type.is_option)
-)
-
 const addType = async () => {
   if (!newType.value.inquiry_type || !newType.value.label || !newType.value.family) return
   
-  await typesStore.addType({
+  await appSettingsStore.addType({
     ...newType.value,
     created: Date.now(),
     fields: JSON.parse(newType.value.fields || '[]'),
@@ -81,7 +69,7 @@ const addType = async () => {
 }
 
 const updateType = async (type) => {
-  await typesStore.updateType(type.id, {
+  await appSettingsStore.updateType(type.id, {
     ...type,
     fields: JSON.parse(type.fields || '[]'),
     allowed_response: JSON.parse(type.allowed_response || '[]'),
@@ -92,7 +80,7 @@ const updateType = async (type) => {
 
 const deleteType = async (typeId) => {
   if (confirm(t('agora', 'Are you sure you want to delete this inquiry type?'))) {
-    await typesStore.deleteType(typeId)
+    await appSettingsStore.deleteType(typeId)
   }
 }
 </script>
@@ -106,7 +94,7 @@ const deleteType = async (typeId) => {
 
     <!-- Liste des types existants -->
     <div class="types-list">
-      <div v-for="type in typesStore.types" :key="type.id" class="type-item">
+      <div v-for="type in appSettingsStore.inquiryTypeTab" :key="type.id" class="type-item">
         <div class="type-content">
           <div class="type-icon">
             <span class="icon">{{ type.icon }}</span>
@@ -116,7 +104,7 @@ const deleteType = async (typeId) => {
             <p class="type-key">{{ type.inquiry_type }}</p>
             <p class="type-family">
               {{ t('agora', 'Family:') }} 
-              {{ familiesStore.families.find(f => f.family_type === type.family)?.label || type.family }}
+              {{ appSettingsStore.inquiryFamilyTab.find(f => f.family_type === type.family)?.label || type.family }}
             </p>
             <p v-if="type.description" class="type-description">
               {{ type.description }}

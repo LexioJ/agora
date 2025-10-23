@@ -428,6 +428,9 @@ class UserBase implements JsonSerializable
             'isAdmin' => $this->getIsAdmin(),
             'isOfficial' => $this->getIsOfficial(),
             'isModerator' => $this->getIsModerator(),
+            'isLegislatif' => $this->getIsLegislatif(),
+            'isAdministratif' => $this->getIsAdministratif(),
+            'isCollective' => $this->getIsCollective(),
             'isGuest' => $this->getIsGuest(),
             'isUnrestrictedOwner' => $this->getIsUnrestrictedInquiryOwner(),
             'languageCode' => $this->getLanguageCode(),
@@ -466,6 +469,9 @@ class UserBase implements JsonSerializable
             'isAdmin' => false,
             'isOfficial' => false,
             'isModerator' => false,
+            'isLegislatif' => false,
+            'isAdminisratif' => false,
+            'isCollective' => false,
             'isGuest' => $this->getIsGuest(),
             'isUnrestrictedOwner' => false,
             'languageCode' => '',
@@ -539,6 +545,30 @@ class UserBase implements JsonSerializable
      * Only valid for User
      */
     public function getIsUnrestrictedInquiryOwner(): bool
+    {
+        return false;
+    }
+    /**
+     * returns true, if the user is an admin
+     * Only valid for User, false for other user types
+     */
+    public function getIsAdministratif(): bool
+    {
+        return false;
+    }
+    /**
+     * returns true, if the user is an admin
+     * Only valid for User, false for other user types
+     */
+    public function getIsCollective(): bool
+    {
+        return false;
+    }
+    /**
+     * returns true, if the user is an admin
+     * Only valid for User, false for other user types
+     */
+    public function getIsLegislatif(): bool
     {
         return false;
     }

@@ -295,7 +295,7 @@ const gridContentClass = computed(() => {
 
         <div class="description_line">
           <component
-            :is="BadgeIcons.archived"
+            :is="BadgeIcons.Archived"
             v-if="!preferencesStore.user.verboseInquiriesList && inquiry.status.isArchived"
             :title="t('agora', 'Archived inquiry')"
             :size="16"
@@ -339,7 +339,7 @@ const gridContentClass = computed(() => {
           >
             <component
               :is="inquiryStatusIcon"
-              v-if="inquiryStatusInfo.icon"
+              v-if="inquiryStatusInfo.Icon"
               :size="12"
               class="icon"
             />
@@ -389,7 +389,7 @@ const gridContentClass = computed(() => {
             })
           "
         >
-          <component :is="BadgeIcons.participated" :size="16" class="icon" />
+          <component :is="BadgeIcons.Participated" :size="16" class="icon" />
           <span>{{ inquiry.status.countParticipants }}</span>
         </div>
 
@@ -422,7 +422,7 @@ const gridContentClass = computed(() => {
           class="badge-bubble"
           :title="t('agora', 'Archived inquiry')"
         >
-          <component :is="BadgeIcons.archived" :size="16" class="icon" />
+          <component :is="BadgeIcons.Archived" :size="16" class="icon" />
         </div>
 
         <div
@@ -449,7 +449,7 @@ const gridContentClass = computed(() => {
           :title="t('agora', 'Expiration')"
         >
           <component
-            :is="inquiry.status.isExpired ? BadgeIcons.closed : BadgeIcons.expiration"
+            :is="inquiry.status.isExpired ? BadgeIcons.Closed : BadgeIcons.Expiration"
             :size="16"
             class="icon"
           />
@@ -484,7 +484,7 @@ const gridContentClass = computed(() => {
                 class="status-badge status--inquiry"
                 :title="inquiryStatusInfo.description || inquiryStatusInfo.label"
               >
-                <component :is="inquiryStatusIcon" v-if="inquiryStatusInfo.icon" :size="12" />
+                <component :is="inquiryStatusIcon" v-if="inquiryStatusInfo.Icon" :size="12" />
               </div>
               <div
                 v-else-if="inquiry.inquiryStatus"
@@ -524,7 +524,7 @@ const gridContentClass = computed(() => {
               class="badge-bubble"
               :title="t('agora', 'Archived inquiry')"
             >
-              <component :is="BadgeIcons.archived" :size="16" class="icon" />
+              <component :is="BadgeIcons.Archived" :size="16" class="icon" />
             </div>
           </div>
           
@@ -587,7 +587,7 @@ const gridContentClass = computed(() => {
               })
             "
           >
-            <component :is="BadgeIcons.participated" :size="16" />
+            <component :is="BadgeIcons.Participated" :size="16" />
             <span>{{ inquiry.status.countParticipants }}</span>
           </div>
 

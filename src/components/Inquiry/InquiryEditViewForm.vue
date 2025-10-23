@@ -70,9 +70,13 @@ const context = computed(() => {
     inquiryStore.status.isArchived,
     inquiryStore.inquiryGroups.length > 0,
     inquiryStore.inquiryGroups,
-    inquiryStore.type
+    inquiryStore.type,
+    inquiryStore.family, 
+    inquiryStore.configuration.access as AccessLevel,
+    inquiryStore.status.isFinalStatus,
+    inquiryStore.status.moderationStatus 
   )
-  console.log('🔧 [InquiryEditViewForm] Permission context:', ctx)
+  console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
   return ctx
 })
 
@@ -196,7 +200,7 @@ const subTexts = computed(() => {
       id: 'deleted',
       text: t('agora', 'Archived'),
       class: 'archived',
-      iconComponent: InquiryGeneralIcons.archived,
+      iconComponent: InquiryGeneralIcons.Archived,
     })
     return subTexts
   }
@@ -206,7 +210,7 @@ const subTexts = computed(() => {
       id: 'no-access',
       text: [t('agora', 'Unpublished')].join('. '),
       class: 'unpublished',
-      iconComponent: InquiryGeneralIcons.unpublished,
+      iconComponent: InquiryGeneralIcons.Unpublished,
     })
     return subTexts
   }
@@ -217,7 +221,7 @@ const subTexts = computed(() => {
 	name: inquiryStore.owner.displayName,
       }),
       class: '',
-      iconComponent: InquiryGeneralIcons.private,
+      iconComponent: InquiryGeneralIcons.Private,
     })
   } else {
     subTexts.push({
@@ -226,7 +230,7 @@ const subTexts = computed(() => {
 	name: inquiryStore.owner.displayName,
       }),
       class: '',
-      iconComponent: InquiryGeneralIcons.open,
+      iconComponent: InquiryGeneralIcons.Open,
     })
   }
 
@@ -235,7 +239,7 @@ const subTexts = computed(() => {
       id: 'closed',
       text: timeExpirationRelative.value,
       class: 'closed',
-      iconComponent: InquiryGeneralIcons.closed,
+      iconComponent: InquiryGeneralIcons.Closed,
     })
     return subTexts
   }
@@ -245,7 +249,7 @@ const subTexts = computed(() => {
       id: 'created',
       text: dateCreatedRelative.value,
       class: 'created',
-      iconComponent: InquiryGeneralIcons.creation,
+      iconComponent: InquiryGeneralIcons.Creation,
     })
   }
   return subTexts
@@ -527,7 +531,7 @@ const formatDate = (timestamp: number) => {
     <div class="cover-image-overlay">
       <NcButton type="primary" class="change-cover-btn">
         <template #icon>
-          <component :is="InquiryGeneralIcons.edit" :size="20" />
+          <component :is="InquiryGeneralIcons.Edit" :size="20" />
         </template>
         {{ t('agora', 'Change cover image') }}
       </NcButton>
@@ -540,7 +544,7 @@ const formatDate = (timestamp: number) => {
     @click="triggerImageUpload"
   >
     <div class="placeholder-content">
-      <component :is="InquiryGeneralIcons.image" :size="48" class="placeholder-icon" />
+      <component :is="InquiryGeneralIcons.Image" :size="48" class="placeholder-icon" />
       <NcButton type="primary" class="add-cover-btn">
         {{ t('agora', 'Add cover image') }}
       </NcButton>
@@ -564,7 +568,7 @@ const formatDate = (timestamp: number) => {
   <div v-if="!isReadonly" class="cover-image-overlay">
     <NcButton type="primary" class="change-cover-btn">
       <template #icon>
-        <component :is="InquiryGeneralIcons.edit" :size="20" />
+        <component :is="InquiryGeneralIcons.Edit" :size="20" />
       </template>
       {{ t('agora', 'Change cover image') }}
     </NcButton>
@@ -594,7 +598,7 @@ const formatDate = (timestamp: number) => {
 				<div class="cover-image-overlay">
 					<NcButton type="primary" class="change-cover-btn">
 					<template #icon>
-						<component :is="InquiryGeneralIcons.edit" :size="20" />
+						<component :is="InquiryGeneralIcons.Edit" :size="20" />
 						</template>
 						{{ t('agora', 'Change cover image') }}
 					</NcButton>
@@ -607,7 +611,7 @@ const formatDate = (timestamp: number) => {
 				@click="triggerImageUpload"
 			>
 				<div class="placeholder-content">
-					<component :is="InquiryGeneralIcons.image" :size="48" class="placeholder-icon" />
+					<component :is="InquiryGeneralIcons.Image" :size="48" class="placeholder-icon" />
 					<NcButton type="primary" class="add-cover-btn">
 						{{ t('agora', 'Add cover image') }}
 					</NcButton>
@@ -656,7 +660,7 @@ const formatDate = (timestamp: number) => {
 				</div>
 				<div class="counters">
 					<div v-if="canComment(context)" class="counter-item">
-						<component :is="InquiryGeneralIcons.comment" :size="20" />
+						<component :is="InquiryGeneralIcons.Comment" :size="20" />
 						<span>{{ commentsStore.comments.length || 0 }}</span>
 					</div>
 					<div v-if="canSupport(context)" class="counter-item" @click="onToggleSupport">
@@ -676,7 +680,7 @@ const formatDate = (timestamp: number) => {
 					</div>
 
 					<div class="metadata-item">
-						<component :is="InquiryGeneralIcons.location" :size="16" />
+						<component :is="InquiryGeneralIcons.Location" :size="16" />
 						<span class="metadata-label">{{ t('agora', 'Location') }}:</span>
 						<NcSelect
 								v-if="!showLocationAsLabel"
@@ -699,7 +703,7 @@ const formatDate = (timestamp: number) => {
 					</div>
 
 					<div class="metadata-item">
-						<component :is="InquiryGeneralIcons.tag" :size="16" />
+						<component :is="InquiryGeneralIcons.Tag" :size="16" />
 						<span class="metadata-label">{{ t('agora', 'Category') }}:</span>
 						<NcSelect
 								v-if="!showCategoryAsLabel"
@@ -739,7 +743,7 @@ const formatDate = (timestamp: number) => {
 					</div>
 
 					<div v-if="inquiryStore.configuration.expire" class="metadata-item">
-						<component :is="InquiryGeneralIcons.expiration" :size="16" />
+						<component :is="InquiryGeneralIcons.Expiration" :size="16" />
 						<span class="metadata-label">{{ t('agora', 'Expires') }}:</span>
 						<span class="metadata-value">{{ timeExpirationRelative }}</span>
 					</div>

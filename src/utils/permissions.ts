@@ -3,6 +3,7 @@
 
 import { useSessionStore } from '../stores/session.ts'
 import { useAppSettingsStore } from '../stores/appSettings.ts'
+import { InquiryType } from '../helpers/index.ts'
 
 export interface InquiryTypeSettings {
   supportInquiry: boolean
@@ -40,56 +41,20 @@ export interface OfficialRights {
   modifyInquiry?: boolean
 }
 
-export const DefaultInquiryTypeRights: Record<string, InquiryTypeRights> = {
-  proposal: {
-    supportInquiry: true,
-    commentInquiry: true,
-    attachFileInquiry: true,
-    shareInquiry: true,
-    editorType: 'wysiwyg',
-  },
-  debate: {
-    supportInquiry: true,
-    commentInquiry: false,
-    attachFileInquiry: false,
-    shareInquiry: true,
-    editorType: 'texteditor',
-  },
-  petition: {
-    supportInquiry: true,
-    commentInquiry: true,
-    attachFileInquiry: true,
-    shareInquiry: true,
-    editorType: 'wysiwyg',
-  },
-  project: {
-    supportInquiry: true,
-    commentInquiry: true,
-    attachFileInquiry: true,
-    shareInquiry: true,
-    editorType: 'texteditor',
-  },
-  grievance: {
-    supportInquiry: true,
-    commentInquiry: true,
-    attachFileInquiry: true,
-    shareInquiry: true,
-    editorType: 'wysiwyg',
-  },
-  suggestion: {
-    supportInquiry: true,
-    commentInquiry: false,
-    attachFileInquiry: false,
-    shareInquiry: true,
-    editorType: 'textarea',
-  },
-  official: {
-    supportInquiry: false,
-    commentInquiry: false,
-    attachFileInquiry: true,
-    shareInquiry: true,
-    editorType: 'textarea',
-  },
+export interface InquiryType {
+  inquiry_type: string
+  allowed_response?: string | string[]
+  allowed_transformation?: string | string[]
+  isOption?: number
+}
+
+
+export const DefaultInquiryRights: InquiryRights = {
+  supportInquiry: true, 
+  commentInquiry: false,
+  attachFileInquiry: false,
+  shareInquiry: false,
+  editorType: 'wysiwyg',
 }
 
 export const DefaultModeratorRights: ModeratorRights = {
@@ -144,6 +109,15 @@ export enum AccessLevel {
 }
 
 /**
+ * Inquiry Family types
+ */
+export enum InquiryFamily {
+  Legislatif = 'legislatif',
+  Administratif = 'administratif', 
+  Collective = 'collective'
+}
+
+/**
  * Interface rights permission
  */
 export interface PermissionContext {
@@ -159,11 +133,14 @@ export interface PermissionContext {
   userGroups: string[]
   allowedGroups: string[]
   inquiryType?: string
+  inquiryFamily?: InquiryFamily
   accessLevel?: AccessLevel
   isFinalStatus?: boolean
+  moderationStatus?: string
 }
 
 // GET METHODS
+
 
 function getCurrentUserType(): UserType {
   const sessionStore = useSessionStore()
@@ -228,17 +205,18 @@ function isContentBlocked(context: PermissionContext): boolean {
 }
 
 function isAccessRestrictedForComments(context: PermissionContext): boolean {
-  // Si le statut est final, pas de commentaires
   if (context.isFinalStatus) {
     return true
   }
   
-  // Vérification des niveaux d'accès
+  if (context.moderationStatus && context.moderationStatus !== 'accepted') {
+    return true
+  }
+  
   switch (context.accessLevel) {
     case AccessLevel.Private:
       return true
     case AccessLevel.Moderate:
-      // En mode moderate, seuls les modérateurs peuvent commenter
       return context.userType !== UserType.Moderator && context.userType !== UserType.Admin
     case AccessLevel.Open:
     default:
@@ -247,12 +225,15 @@ function isAccessRestrictedForComments(context: PermissionContext): boolean {
 }
 
 function isAccessRestrictedForSupports(context: PermissionContext): boolean {
-  // Si le statut est final, pas de supports
   if (context.isFinalStatus) {
     return true
   }
   
-  // Vérification des niveaux d'accès
+  // Check if moderation status is accepted
+  if (context.moderationStatus && context.moderationStatus !== 'accepted') {
+    return true
+  }
+  
   switch (context.accessLevel) {
     case AccessLevel.Private:
     case AccessLevel.Moderate:
@@ -264,12 +245,10 @@ function isAccessRestrictedForSupports(context: PermissionContext): boolean {
 }
 
 function isAccessRestrictedForSharing(context: PermissionContext): boolean {
-  // Si le statut est final, pas de partage
   if (context.isFinalStatus) {
     return true
   }
   
-  // Vérification des niveaux d'accès
   switch (context.accessLevel) {
     case AccessLevel.Private:
     case AccessLevel.Moderate:
@@ -281,12 +260,10 @@ function isAccessRestrictedForSharing(context: PermissionContext): boolean {
 }
 
 function isAccessRestrictedForAttachments(context: PermissionContext): boolean {
-  // Si le statut est final, pas de pièces jointes
   if (context.isFinalStatus) {
     return true
   }
   
-  // Vérification des niveaux d'accès
   switch (context.accessLevel) {
     case AccessLevel.Private:
     case AccessLevel.Moderate:
@@ -295,6 +272,90 @@ function isAccessRestrictedForAttachments(context: PermissionContext): boolean {
     default:
       return false
   }
+}
+
+
+/**
+ * Check if user can create official response
+ */
+export function canCreateOfficialResponse(context: PermissionContext): boolean {
+  const sessionStore = useSessionStore()
+  const currentUser = sessionStore.currentUser
+  
+  // Check if user is official and moderation status is accepted
+  if (!currentUser?.isOfficial || context.moderationStatus !== 'accepted') {
+    return false
+  }
+  
+  // Additional checks for content blocking
+  if (isContentBlocked(context)) {
+    return false
+  }
+  
+  return true
+}
+
+/**
+ * Check if user can create transformation based on inquiry family
+ */
+export function canCreateTransformation(context: PermissionContext): boolean {
+  const sessionStore = useSessionStore()
+  const currentUser = sessionStore.currentUser
+  
+  // Base check - must be able to edit and have accepted moderation
+  if (!canEdit(context) || context.moderationStatus !== 'accepted') {
+    return false
+  }
+  
+  // Check for official user - they can create transformations regardless of family
+  if (currentUser?.isOfficial) {
+    return true
+  }
+  
+  // Check based on inquiry family and user permissions
+  if (context.inquiryFamily) {
+    switch (context.inquiryFamily) {
+      case InquiryFamily.Legislatif:
+        return currentUser?.isLegislatif || false
+      case InquiryFamily.Administratif:
+        return currentUser?.isAdministratif || false
+      case InquiryFamily.Collective:
+        return currentUser?.isCollective || false
+      default:
+        return false
+    }
+  }
+  
+  return false
+}
+
+/**
+ * Check if user can create content based on family type
+ */
+export function canCreateByFamily(context: PermissionContext): boolean {
+  const sessionStore = useSessionStore()
+  const currentUser = sessionStore.currentUser
+  
+  // Base check - must be able to edit and have accepted moderation
+  if (!canEdit(context) || context.moderationStatus !== 'accepted') {
+    return false
+  }
+  
+  // Check based on inquiry family and user permissions
+  if (context.inquiryFamily) {
+    switch (context.inquiryFamily) {
+      case InquiryFamily.Legislatif:
+        return currentUser?.isLegislatif || false
+      case InquiryFamily.Administratif:
+        return currentUser?.isAdministratif || false
+      case InquiryFamily.Collective:
+        return currentUser?.isCollective || false
+      default:
+        return false
+    }
+  }
+  
+  return false
 }
 
 export function canViewToggle(context: PermissionContext): boolean {
@@ -478,7 +539,6 @@ export function canSupport(context: PermissionContext): boolean {
     return false
   }
 
-  // Vérification des restrictions d'accès et de statut final
   if (isAccessRestrictedForSupports(context)) {
     return false
   }
@@ -507,8 +567,11 @@ export function canShare(context: PermissionContext): boolean {
     return false
   }
 
-  // Vérification des restrictions d'accès et de statut final
   if (isAccessRestrictedForSharing(context)) {
+    return false
+  }
+
+  if (context.accessLevel !== AccessLevel.Open && context.userType !== UserType.Moderator && context.userType !== UserType.Admin) {
     return false
   }
 
@@ -539,7 +602,6 @@ export function canAttachFile(context: PermissionContext): boolean {
     return false
   }
 
-  // Vérification des restrictions d'accès et de statut final
   if (isAccessRestrictedForAttachments(context)) {
     return false
   }
@@ -605,6 +667,132 @@ export function canLock(context: PermissionContext): boolean {
   return [UserType.Moderator, UserType.Admin].includes(context.userType)
 }
 
+/**
+ * Check if user can create a specific response type
+ */
+export function canCreateResponseType(responseType: string, context: PermissionContext): boolean {
+  console.log('🔧 [canCreateResponseType] Checking:', {
+    responseType,
+    userType: context.userType,
+    moderationStatus: context.moderationStatus,
+    canEdit: canEdit(context)
+  })
+
+  if (responseType === 'official') {
+    return canCreateOfficialResponse(context)
+  }
+  
+  // For regular responses: need edit rights AND accepted moderation
+  const canCreate = canEdit(context) && context.moderationStatus === 'accepted'
+  console.log('🔧 [canCreateResponseType] Regular response permission:', canCreate)
+  return canCreate
+}
+
+/**
+ * Check if user can create a specific transformation type
+ */
+export function canCreateTransformationType(transformType: string, context: PermissionContext): boolean {
+  console.log('🔧 [canCreateTransformationType] Checking:', {
+    transformType,
+    userType: context.userType,
+    moderationStatus: context.moderationStatus,
+    inquiryFamily: context.inquiryFamily
+  })
+  
+  // All transformations use the same permission check
+  return canCreateTransformation(context)
+}
+
+/**
+ * Check if response actions menu should be shown
+ */
+export function shouldShowResponseActions(
+  inquiryType: string, 
+  inquiryTypes: any[],
+  context: PermissionContext
+): boolean {
+  // You'll need to import getAvailableResponseTypes or recreate the logic here
+  const availableTypes = inquiryTypes.filter(type => {
+    // Simplified logic - you might need to adjust this based on your data structure
+    const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
+    if (!currentType?.allowed_response) return false
+    
+    let allowedResponses: string[] = []
+    if (typeof currentType.allowed_response === 'string') {
+      try {
+        allowedResponses = JSON.parse(currentType.allowed_response)
+      } catch {
+        allowedResponses = []
+      }
+    } else {
+      allowedResponses = currentType.allowed_response
+    }
+    
+    return allowedResponses.includes(type.inquiry_type) && type.isOption === 0
+  })
+  
+  if (availableTypes.length === 0) {
+    console.log('🔧 [shouldShowResponseActions] No response types configured for:', inquiryType)
+    return false
+  }
+  
+  // Check if user has permission for at least one response type
+  const hasPermission = availableTypes.some(type => 
+    canCreateResponseType(type.inquiry_type, context)
+  )
+  
+  console.log('🔧 [shouldShowResponseActions] Result:', {
+    inquiryType,
+    availableTypes: availableTypes.map(t => t.inquiry_type),
+    hasPermission
+  })
+  
+  return hasPermission
+}
+
+/**
+ * Check if transformation actions menu should be shown
+ */
+export function shouldShowTransformationActions(
+  inquiryType: string, 
+  inquiryTypes: any[],
+  context: PermissionContext
+): boolean {
+  // Simplified logic - adjust based on your data structure
+  const availableTypes = inquiryTypes.filter(type => {
+    const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
+    if (!currentType?.allowed_transformation) return false
+    
+    let allowedTransforms: string[] = []
+    if (typeof currentType.allowed_transformation === 'string') {
+      try {
+        allowedTransforms = JSON.parse(currentType.allowed_transformation)
+      } catch {
+        allowedTransforms = []
+      }
+    } else {
+      allowedTransforms = currentType.allowed_transformation
+    }
+    
+    return allowedTransforms.includes(type.inquiry_type) && type.isOption === 0
+  })
+  
+  if (availableTypes.length === 0) {
+    console.log('🔧 [shouldShowTransformationActions] No transformation types configured for:', inquiryType)
+    return false
+  }
+  
+  const hasPermission = canCreateTransformation(context)
+  
+  console.log('🔧 [shouldShowTransformationActions] Result:', {
+    inquiryType,
+    availableTypes: availableTypes.map(t => t.inquiry_type),
+    hasPermission
+  })
+  
+  return hasPermission
+}
+
 export function createPermissionContextForContent(
   contentType: ContentType,
   contentOwnerId: string,
@@ -616,8 +804,10 @@ export function createPermissionContextForContent(
   hasGroupRestrictions: boolean = false,
   allowedGroups: string[] = [],
   inquiryType?: string,
+  inquiryFamily?: InquiryFamily,
   accessLevel?: AccessLevel,
-  isFinalStatus?: boolean
+  isFinalStatus?: boolean,
+  moderationStatus?: string
 ): PermissionContext {
   const userType = getCurrentUserType()
   const userGroups = getCurrentUserGroups()
@@ -636,8 +826,10 @@ export function createPermissionContextForContent(
     userGroups,
     allowedGroups,
     inquiryType,
+    inquiryFamily,
     accessLevel,
     isFinalStatus,
+    moderationStatus,
   }
 }
 
@@ -646,10 +838,11 @@ export default {
   UserType,
   ContentType,
   AccessLevel,
+  InquiryFamily,
 
   // Default values
-  DefaultInquiryTypeRights,
   DefaultModeratorRights,
+  DefaultInquiryRights,
   DefaultOfficialRights,
 
   // Permission functions
@@ -667,6 +860,16 @@ export default {
   canEdit,
   canCreate,
   canLock,
+  
+  // Creation, filtering inquiries
+  canCreateOfficialResponse,
+  canCreateTransformation,
+  canCreateByFamily,
+  canCreateResponseType,
+  canCreateTransformationType,
+  shouldShowResponseActions,
+  shouldShowTransformationActions,
+
 
   // Context functions
   createPermissionContextForContent,

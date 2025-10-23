@@ -38,22 +38,15 @@ const sessionStore = useSessionStore()
 const route = useRoute()
 const router = useRouter()
 
-const familyType =  ref(inquiriesStore.familyType)
-const selectedFamily = ref(inquiriesStore.familyType)
+const selectedFamily = computed({
+  get: () => inquiriesStore.advancedFilters.familyType || null,
+  set: (value) => inquiriesStore.setFamilyType(value || '')
+})
 
 // Main mode (create/view) and sub mode (table/list)
 const mainMode = ref('view') // 'create' or 'view'
 const subMode = ref('table-view') 
 
-// Watch for route query changes to sync view modes
-// Watch for familyType changes in store
-watch(
-  () => inquiriesStore.familyType,
-  (newFamilyId) => {
-    familyType.value = newFamilyId
-    selectedFamily.value = newFamilyId
-  }
-)
 
 // Handle main mode change
 function handleMainModeChange(mode: string) {
@@ -65,7 +58,6 @@ function handleMainModeChange(mode: string) {
       name: 'menu',
       query: {
         viewMode: 'create',
-        familyType: selectedFamily.value
       }
     })
   } else {
@@ -75,7 +67,6 @@ function handleMainModeChange(mode: string) {
       query: {
         ...route.query,
         viewMode: 'view',
-        familyType: selectedFamily.value
       }
     })
   }
@@ -209,7 +200,7 @@ onMounted(() => {
                 class="mode-switch"
               >
                 <template #icon>
-                  <component :is="InquiryGeneralIcons.add" size="16" />
+                  <component :is="InquiryGeneralIcons.Add" size="16" />
                 </template>
                 {{ t('agora', 'Create') }}
               </NcCheckboxRadioSwitch>
@@ -225,7 +216,7 @@ onMounted(() => {
                 class="mode-switch sub-mode"
               >
                 <template #icon>
-                  <component :is="InquiryGeneralIcons.table" size="16" />
+                  <component :is="InquiryGeneralIcons.Table" size="16" />
                 </template>
               </NcCheckboxRadioSwitch>
               
@@ -240,7 +231,7 @@ onMounted(() => {
                 class="mode-switch sub-mode"
               >
                 <template #icon>
-                  <component :is="InquiryGeneralIcons.viewlistoutline" size="16" />
+                  <component :is="InquiryGeneralIcons.ViewListOutline" size="16" />
                 </template>
               </NcCheckboxRadioSwitch>
             </div>

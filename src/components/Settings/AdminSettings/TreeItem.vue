@@ -1,4 +1,8 @@
-<!-- src/components/Settings/AdminSettings/TreeItem.vue -->
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
 <template>
   <div class="tree-item">
     <div class="tree-node" :style="'margin-left: ' + level * 20 + 'px'">

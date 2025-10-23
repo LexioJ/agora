@@ -71,6 +71,17 @@ export enum Event {
   ShowSettings = 'agora:settings:show',
 }
 
+export interface InquiryFamily {
+  id: number;
+  family_type: string;
+  label: string;
+  description?: string;
+  icon: string;
+  sort_order: number;
+  created: number;
+}
+
+
 export interface InquiryType {
   id: number
   inquiry_type: string

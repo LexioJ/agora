@@ -18,9 +18,7 @@ import {
   AdminInquiryStatus,
   AdminJobs,
   AdminLegal,
-  AdminInquiryRights,
-  AdminModeratorRights,
-  AdminOfficialRights,
+  AdminSettings,
   AdminCategoryLocation,
   AdminPerformance,
   AdminInquiryCreation,
@@ -42,20 +40,9 @@ const sections = {
     name: t('agora', 'Categories and Locations Management'),
     description: t('agora', 'Change globally location and category (for all accounts)'),
   },
-  inquiryInquiryStatus: {
-    name: t('agora', 'Inquiry status settings'),
-    description: t(
-      'agora',
-      'Configure inquiry statuses for each type of inquiry. Moderators will be able to set these statuses on inquiries.'
-    ),
-  },
   inquirySettings: {
     name: t('agora', 'Inquiry settings'),
     description: t('agora', 'Change inquiry settings globally (for all accounts)'),
-  },
-  inquiryRights: {
-    name: t('agora', 'Inquiry rights'),
-    description: t('agora', 'Change inquiry rights globally (for all accounts)'),
   },
   shareSettings: {
     name: t('agora', 'Share settings'),
@@ -70,6 +57,13 @@ const sections = {
     description: t(
       'agora',
       'If you are experiencing connection problems, change how auto updates are retrieved.'
+    ),
+  },
+  globalSettings: {
+    name: t('agora', 'Global inquiry settings'),
+    description: t(
+      'agora',
+      'Let you configure, family, type of inquiries and associed rights, like comment, supports, status...'
     ),
   },
   publicSettings: {
@@ -107,16 +101,14 @@ onMounted(async () => {
   <div v-if="isLoaded">
     <FlexSettings>
       <NcSettingsSection>
+          <NcSettingsSection v-bind="sections.globalSettings">
+             <AdminSettings />
+        </NcSettingsSection>
         <NcSettingsSection v-bind="sections.inquirySettings">
           <AdminInquiryCreation />
           <AdminUnrescrictedOwners />
           <AdminArchiveInquiries />
           <AdminDeleteInquiries />
-        </NcSettingsSection>
-        <NcSettingsSection v-bind="sections.inquiryRights">
-          <AdminInquiryRights />
-          <AdminModeratorRights />
-          <AdminOfficialRights />
         </NcSettingsSection>
         <NcSettingsSection v-bind="sections.shareSettings">
           <AdminShareOpenInquiry />
@@ -139,15 +131,9 @@ onMounted(async () => {
         </NcSettingsSection>
       </NcSettingsSection>
       <NcSettingsSection>
-        <NcSettingsSection v-bind="sections.inquiryCategoryLocation">
-          <AdminCategoryLocation />
-        </NcSettingsSection>
-
-        <NcSettingsSection v-bind="sections.inquiryInquiryStatus">
-          <AdminInquiryStatus />
-        </NcSettingsSection>
-      </NcSettingsSection>
-      <NcSettingsSection>
+	  <NcSettingsSection v-bind="sections.inquiryCategoryLocation">
+             <AdminCategoryLocation />
+          </NcSettingsSection>
         <NcSettingsSection v-bind="sections.jobSettings">
           <AdminJobs />
         </NcSettingsSection>

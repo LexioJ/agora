@@ -11,7 +11,8 @@ import { showSuccess, showError } from '@nextcloud/dialogs'
 import {
   getAvailableResponseTypes,
   getAvailableTransformTypes,
-  getInquiryTypeData 
+  getInquiryTypeData,
+  isInquiryFinalStatus
 } from '../../helpers/modules/InquiryHelper.ts'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -25,6 +26,12 @@ import {
   canViewToggle,
   createPermissionContextForContent,
   ContentType,
+  shouldShowResponseActions,
+  shouldShowTransformationActions,
+  getFilteredResponseTypes,
+  getFilteredTransformTypes,
+  canCreateResponseType,
+  canCreateTransformationType
 } from '../../utils/permissions.ts'
 
 // Props
@@ -61,11 +68,16 @@ const context = computed(() => {
     props.inquiryStore.status.isArchived,
     props.inquiryStore.inquiryGroups.length > 0,
     props.inquiryStore.inquiryGroups,
-    props.inquiryStore.type
+    props.inquiryStore.type,
+    props.inquiryStore.family, 
+    props.inquiryStore.configuration.access as AccessLevel,
+    props.inquiryStore.status.isFinalStatus,
+    props.inquiryStore.status.moderationStatus 
   )
   console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
   return ctx
 })
+
 
 const selectedStatus = ref(props.inquiryStore.status.moderationStatus || 'pending')
 
@@ -106,10 +118,18 @@ const setModerationStatus = async (status: string) => {
   if (status === 'accepted') {
     await props.inquiryStore.submitInquiry("submit_for_accepted")
     await inquiriesStore.updateInquiryModerationStatus(props.inquiryStore.id, status) 
+    props.inquiryStore.status.moderationStatus=status
+    await inquiriesStore.updateInquiryAccess(props.inquiryStore.id, "open")
+    props.inquiryStore.configuration.access="open"
     showSuccess(t('agora','Inquiry accepted'))
   } else if (status === 'rejected') {
     await props.inquiryStore.submitInquiry("submit_for_rejected")
     await inquiriesStore.updateInquiryModerationStatus(props.inquiryStore.id, status) 
+    props.inquiryStore.status.moderationStatus=status
+    await inquiriesStore.updateInquiryAccess(props.inquiryStore.id, "private")
+    props.inquiryStore.configuration.access="private"
+    await inquiriesStore.updateInquiryStatus(props.inquiryStore.id, status)
+    props.inquiryStore.status.inquiryStatus=status
     showSuccess(t('agora','Inquiry rejected'))
   } else if (status === 'pending') {
     showSuccess(t('agora','Inquiry status set to pending'))
@@ -117,6 +137,53 @@ const setModerationStatus = async (status: string) => {
   }
 }
 
+// First get the raw available types
+const rawResponseTypes = computed(() => {
+  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
+  return getAvailableResponseTypes(props.inquiryStore.type, inquiryTypes)
+})
+
+const rawTransformTypes = computed(() => {
+  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
+  return getAvailableTransformTypes(props.inquiryStore.type, inquiryTypes)
+})
+
+// Check if menus should be shown (using permissions)
+const showActionsMenu = computed(() => {
+  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
+  return shouldShowResponseActions(props.inquiryStore.type, inquiryTypes, context.value)
+})
+
+const showTransformActionsMenu = computed(() => {
+  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
+  return shouldShowTransformationActions(props.inquiryStore.type, inquiryTypes, context.value)
+})
+
+//  Get filtered types (applying permissions)
+const availableResponseTypes = computed(() => {
+  return rawResponseTypes.value.filter(type =>
+    canCreateResponseType(type.inquiry_type, context.value)
+  )
+})
+
+const availableTransformTypes = computed(() => {
+  return rawTransformTypes.value.filter(type =>
+    canCreateTransformationType(type.inquiry_type, context.value)
+  )
+})
+
+//  Enriched types for display (using InquiryHelper)
+const enrichedResponseTypes = computed(() => {
+  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
+  return availableResponseTypes.value.map(responseType => {
+    const typeData = getInquiryTypeData(responseType.inquiry_type, inquiryTypes)
+    return {
+      ...responseType,
+      icon: typeData.icon,
+      label: typeData.label
+    }
+  })
+})
 
 const getStatusLabel = (status: string) => {
   const option = statusOptions.find(opt => opt.value === status)
@@ -147,6 +214,12 @@ const handleAccessChange = async (value: boolean) => {
     console.log('🔧 Handling access change:', value)
     if (value) {
       await props.inquiryStore.submitInquiry("submit_for_moderate")
+      setModerationStatus("pending")
+      await inquiriesStore.updateInquiryAccess(props.inquiryStore.id, "moderate")
+      await inquiriesStore.updateInquiryStatus(props.inquiryStore.id, "waiting_approval")
+      props.inquiryStore.status.inquiryStatus="waiting_approval"
+      props.inquiryStore.status.moderationStatus="pending"
+      props.inquiryStore.configuration.access="moderate"
       showSuccess(t('agora','Inquiry submitted for moderation'))
     }
     await nextTick()
@@ -156,21 +229,22 @@ const handleAccessChange = async (value: boolean) => {
   }
 }
 
+/**
 // Get available transformation types
-const availableTransformTypes = computed(() => {
-  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-  const types = getAvailableTransformTypes(props.inquiryStore.type, inquiryTypes)
-  console.log('🔧 [InquiryActionToolbar] Available transform types:', types)
-  return types
-})
+//const availableTransformTypes = computed(() => {
+//  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
+//  const types = getAvailableTransformTypes(props.inquiryStore.type, inquiryTypes)
+//  console.log('🔧 [InquiryActionToolbar] Available transform types:', types)
+//  return types
+//})
 
 // Get available response types
-const availableResponseTypes = computed(() => {
-  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-  const types = getAvailableResponseTypes(props.inquiryStore.type, inquiryTypes)
-  console.log('🔧 [InquiryActionToolbar] Available response types:', types)
-  return types
-})
+//const availableResponseTypes = computed(() => {
+//  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
+//  const types = getAvailableResponseTypes(props.inquiryStore.type, inquiryTypes)
+//  console.log('🔧 [InquiryActionToolbar] Available response types:', types)
+//  return types
+//})
 
 const enrichedResponseTypes = computed(() => {
   const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
@@ -210,6 +284,7 @@ const showActionsMenu = computed(() => {
   return result
 })
 
+**/
 // Check if save button should be shown
 const showSaveButton = computed(() => {
   console.log('🔧 [InquiryActionToolbar] showSaveButton:', canEditInquiry.value)
@@ -248,7 +323,7 @@ const handleAllowedTransformation = (transformType: string) => {
           @click.prevent="handleSave"
         >
           <template #icon>
-            <component :is="InquiryGeneralIcons.save" :size="20" />
+            <component :is="InquiryGeneralIcons.Save" :size="20" />
           </template>
           {{ t('agora', 'Save') }}
           <span v-if="isSaving" class="loading-icon"></span>
@@ -261,7 +336,7 @@ const handleAllowedTransformation = (transformType: string) => {
           class="response-actions"
         >
           <template #icon>
-            <component :is="InquiryGeneralIcons.reply" :size="20" />
+            <component :is="InquiryGeneralIcons.Reply" :size="20" />
           </template>
           <NcActionButton
             v-for="responseType in enrichedResponseTypes"
@@ -287,7 +362,7 @@ const handleAllowedTransformation = (transformType: string) => {
           class="transform-actions"
         >
           <template #icon>
-            <component :is="InquiryGeneralIcons.transform" :size="20" />
+            <component :is="InquiryGeneralIcons.Transform" :size="20" />
           </template>
           <NcActionButton
             v-for="transformType in enrichedTransformTypes"

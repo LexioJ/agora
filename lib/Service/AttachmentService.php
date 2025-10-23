@@ -61,10 +61,10 @@ class AttachmentService
 	    $userId = $this->userSession->getUser()->getUID();
 	    $userFolder = $this->rootFolder->getUserFolder($userId);
 
-	    if (!$userFolder->nodeExists(Group::GROUP_FOLDER)) {
-		    $agoraFolder = $userFolder->newFolder(Group::GROUP_FOLDER);
+	    if (!$userFolder->nodeExists(Group::AGORA_FOLDER)) {
+		    $agoraFolder = $userFolder->newFolder(Group::AGORA_FOLDER);
 	    } else {
-		    $agoraFolder = $userFolder->get(Group::GROUP_FOLDER);
+		    $agoraFolder = $userFolder->get(Group::AGORA_FOLDER);
 	    }
 
 	    return $agoraFolder;

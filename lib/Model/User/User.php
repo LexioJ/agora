@@ -28,6 +28,10 @@ class User extends UserBase
     public const PRINCIPAL_PREFIX = 'principals/users/';
     public const GROUP_MODERATOR = 'agora_moderator';
     public const GROUP_OFFICIAL = 'agora_official';
+    public const GROUP_LEGISLATIF = 'agora_legislatif';
+    public const GROUP_ADMINISTRATIF = 'agora_administratif';
+    public const GROUP_COLLECTIVE = 'agora_collective';
+
     private IConfig $config;
     private IUser $user;
 
@@ -185,6 +189,33 @@ class User extends UserBase
         }
         return false;
     }
+
+    /**
+     * Return true if the user has the 'Collective' role
+     */
+    public function getIsCollective(): bool
+    {
+        return $this->groupManager->isInGroup($this->getId(), Group::GROUP_COLLECTIVE); 
+    }
+
+
+    /**
+     * Return true if the user has the 'administratif' role
+     */
+    public function getIsAdministratif(): bool
+    {
+        return $this->groupManager->isInGroup($this->getId(), Group::GROUP_ADMINISTRATIF); 
+    }
+
+
+    /**
+     * Return true if the user has the 'legislatif' role
+     */
+    public function getIsLegislatif(): bool
+    {
+        return $this->groupManager->isInGroup($this->getId(), Group::GROUP_LEGISLATIF); 
+    }
+
 
     /**
      * Return true if the user has the 'moderator' role

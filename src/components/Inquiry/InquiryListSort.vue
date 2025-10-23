@@ -51,8 +51,8 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
 <template>
   <NcActions primary :menu-name="sortTitlesMapping[inquiriesStore.sort.by]">
     <template #icon>
-	<component :is="InquiryGeneralIcons.sortDescending" v-if="inquiriesStore.sort.reverse" :size="20" decorative/>
-	<component :is="InquiryGeneralIcons.sortAscending" v-else :size="20" decorative/>
+	<component :is="InquiryGeneralIcons.SortDescending" v-if="inquiriesStore.sort.reverse" :size="20" decorative/>
+	<component :is="InquiryGeneralIcons.SortAscending" v-else :size="20" decorative/>
 
     </template>
 
@@ -62,7 +62,7 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
       @click="setSort({ by: 'title' })"
     >
       <template #icon>
-	<component :is="InquiryGeneralIcons.alpahabetical" />
+	<component :is="InquiryGeneralIcons.Alpahabetical" />
       </template>
     </NcActionButton>
 
@@ -72,7 +72,7 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
       @click="setSort({ by: 'type' })"
     >
       <template #icon>
-	<component :is="InquiryGeneralIcons.type" />
+	<component :is="InquiryGeneralIcons.Type" />
       </template>
     </NcActionButton>
 
@@ -82,7 +82,7 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
       @click="setSort({ by: 'countComments' })"
     >
       <template #icon>
-	<component :is="InquiryGeneralIcons.comment" />
+	<component :is="InquiryGeneralIcons.Comment" />
       </template>
     </NcActionButton>
     <NcActionButton
@@ -91,7 +91,7 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
       @click="setSort({ by: 'type' })"
     >
       <template #icon>
-	<component :is="InquiryGeneralIcons.thumb" />
+	<component :is="InquiryGeneralIcons.Thumb" />
       </template>
     </NcActionButton>
 
@@ -101,7 +101,7 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
       @click="setSort({ by: 'interaction' })"
     >
       <template #icon>
-	<component :is="InquiryGeneralIcons.update" />
+	<component :is="InquiryGeneralIcons.Update" />
       </template>
     </NcActionButton>
 
@@ -111,7 +111,7 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
       @click="setSort({ by: 'created' })"
     >
       <template #icon>
-	<component :is="InquiryGeneralIcons.creation" />
+	<component :is="InquiryGeneralIcons.Creation" />
       </template>
     </NcActionButton>
 
@@ -121,7 +121,7 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
       @click="setSort({ by: 'expire' })"
     >
       <template #icon>
-	<component :is="InquiryGeneralIcons.expiration" />
+	<component :is="InquiryGeneralIcons.Expiration" />
       </template>
     </NcActionButton>
 
@@ -131,7 +131,7 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
       @click="setSort({ by: 'owner' })"
     >
       <template #icon>
-	<component :is="InquiryGeneralIcons.accountCircle" />
+	<component :is="InquiryGeneralIcons.AccountCircle" />
       </template>
     </NcActionButton>
 
@@ -145,7 +145,7 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
         :aria-label="t('agora', 'Descending')"
       >
         <template #icon>
-	<component :is="InquiryGeneralIcons.sortDescending" />
+	<component :is="InquiryGeneralIcons.SortDescending" />
         </template>
       </NcActionButton>
 
@@ -156,7 +156,7 @@ function setSort(sort: { by?: SortType; reverse?: boolean }) {
         :aria-label="t('agora', 'Ascending')"
       >
         <template #icon>
-	<component :is="InquiryGeneralIcons.sortAscending" />
+	<component :is="InquiryGeneralIcons.SortAscending" />
         </template>
       </NcActionButton>
     </NcActionButtonGroup>

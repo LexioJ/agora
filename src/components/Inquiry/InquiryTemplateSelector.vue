@@ -5,7 +5,7 @@
     :aria-label="t('agora', 'Change view template')"
   >
     <template #icon>
-      <component :is="InquiryGeneralIcons.layout" :size="20" />
+      <component :is="InquiryGeneralIcons.Layout" :size="20" />
     </template>
     
     <div class="template-header">

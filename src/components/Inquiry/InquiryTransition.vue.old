@@ -4,16 +4,19 @@
 -->
 <script setup lang="ts">
 import { t } from '@nextcloud/l10n'
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { showError } from '@nextcloud/dialogs'
 import { useRouter } from 'vue-router'
 import { Inquiry, useInquiryStore } from '../../stores/inquiry.ts'
 import InquiryItem from './InquiryItem.vue'
-import { InquiryTypeValues } from '../../helpers/modules/InquiryHelper.ts'
+import { useSessionStore } from '../../stores/session.ts'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import HomeIcon from 'vue-material-design-icons/Home.vue'
 import { useCommentsStore } from '../../stores/comments'
 import { usePreferencesStore } from '../../stores/preferences.ts'
+import {
+  getInquiryTypeData
+} from '../../helpers/modules/InquiryHelper.ts'
 
 const props = defineProps({
   isLoadedParent: {
@@ -34,23 +37,74 @@ const inquiryParent = ref({
   participatedCount: 0,
   commentCount: 0,
   supportCount: 0,
+  coverId: null,
+  inquiryStatus: 'active',
 })
 
 const router = useRouter()
 const inquiryStore = useInquiryStore()
 const commentsStore = useCommentsStore()
 const preferencesStore = usePreferencesStore()
+const sessionStore = useSessionStore()
 
 const isLoadedLocal = ref(false)
-
-// Declare refs
-const inquiry = ref<Inquiry | null>(null)
-const hoveredInquiry = ref<Inquiry | null>(null)
-const suggestions = ref<Inquiry[]>([])
-const grievances = ref<Inquiry[]>([])
-const proposals = ref<Inquiry[]>([])
-const officials = ref<Inquiry[]>([])
 const isMobile = ref(window.innerWidth < 768)
+
+// Computed for inquiry types from app settings
+const inquiryTypes = computed(() => {
+  return sessionStore.appSettings.inquiryTypeTab || []
+})
+
+// Group children by their inquiry type with official preference order
+const childrenByType = computed(() => {
+  const grouped: Record<string, any[]> = {}
+  
+  // Get official preference types first, then others
+  const officialTypes = inquiryTypes.value.filter(type => type.official).map(type => type.label)
+  const otherTypes = inquiryTypes.value.filter(type => !type.official).map(type => type.label)
+  const orderedTypes = [...officialTypes, ...otherTypes]
+  
+  // Initialize all groups
+  orderedTypes.forEach(typeLabel => {
+    grouped[typeLabel] = []
+  })
+  
+  // Group children by type
+  inquiryStore.childs.forEach(child => {
+    const typeLabel = getInquiryTypeData(
+      child.type, 
+      sessionStore.appSettings.inquiryTypeTab || [], 
+      child.type
+    ).label
+    
+    if (!grouped[typeLabel]) {
+      grouped[typeLabel] = []
+    }
+    grouped[typeLabel].push(child)
+  })
+  
+  // Filter out empty groups and maintain order
+  const result: Record<string, any[]> = {}
+  orderedTypes.forEach(typeLabel => {
+    if (grouped[typeLabel] && grouped[typeLabel].length > 0) {
+      result[typeLabel] = grouped[typeLabel]
+    }
+  })
+  
+  // Add any remaining types not in the ordered list
+  Object.keys(grouped).forEach(typeLabel => {
+    if (!result[typeLabel] && grouped[typeLabel].length > 0) {
+      result[typeLabel] = grouped[typeLabel]
+    }
+  })
+  
+  return result
+})
+
+// Get ordered child types for display
+const childTypes = computed(() => {
+  return Object.keys(childrenByType.value)
+})
 
 const isGridView = computed(() => preferencesStore.user.defaultViewInquiry === 'table-view')
 
@@ -84,6 +138,8 @@ onMounted(async () => {
       inquiryParent.value.commentCount = commentsStore.comments.length
       inquiryParent.value.supportCount = inquiryStore.status.countSupports
       inquiryParent.value.inquiryGroups = inquiryStore.inquiryGroups
+      inquiryParent.value.coverId = inquiryStore.coverId
+      inquiryParent.value.inquiryStatus = inquiryStore.inquiryStatus
 
       isLoadedLocal.value = true
     }
@@ -92,11 +148,15 @@ onMounted(async () => {
   window.addEventListener('resize', handleResize)
 })
 
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
+
 const handleResize = () => {
   isMobile.value = window.innerWidth < 768
 }
 
-// Need to transform the actual to fit the inquiries tab, need to be fxied.
+// Transform owner data for display and ensure all required fields
 function transformOwner(obj) {
   if (obj.owner && typeof obj.owner === 'string') {
     obj.owner = {
@@ -104,47 +164,22 @@ function transformOwner(obj) {
       displayName: obj.owner,
     }
   }
+  
+  // Ensure coverId and inquiryStatus are present
+  if (!obj.hasOwnProperty('coverId')) {
+    obj.coverId = null
+  }
+  if (!obj.hasOwnProperty('inquiryStatus')) {
+    obj.inquiryStatus = 'active'
+  }
+  
   return obj
 }
 
 const loadInquiryData = async () => {
-  // Filter children by type
-  suggestions.value = inquiryStore.childs
-    .filter((c) => c.type === InquiryTypeValues.SUGGESTION)
-    .map(transformOwner)
-  grievances.value = inquiryStore.childs
-    .filter((c) => c.type === InquiryTypeValues.GRIEVANCE)
-    .map(transformOwner)
-  proposals.value = inquiryStore.childs
-    .filter((c) => c.type === InquiryTypeValues.PROPOSAL)
-    .map(transformOwner)
-  officials.value = inquiryStore.childs
-    .filter((c) => c.type === InquiryTypeValues.OFFICIAL)
-    .map(transformOwner)
-
-  // Redirect if needed (for simple non-participated types)
-  if (shouldRedirect.value) {
-    router.replace({ name: 'inquiry', params: { id: inquiryStore.id } })
-  }
+  // Transform all children owners and ensure required fields
+  inquiryStore.childs = inquiryStore.childs.map(transformOwner)
   return true
-}
-
-// Check if we should redirect to participation form
-const shouldRedirect = computed(() => {
-  if (!inquiryStore) return false
-
-  const simpleTypes = [
-    InquiryTypeValues.SUGGESTION,
-    InquiryTypeValues.DEBATE,
-    InquiryTypeValues.PETITION,
-  ]
-
-  return inquiryStore.participated === 0 && simpleTypes.includes(inquiryStore.type)
-})
-
-// Go to home page
-const navigateToRoot = () => {
-  router.push({ name: 'root' })
 }
 </script>
 
@@ -154,139 +189,65 @@ const navigateToRoot = () => {
     <p>{{ t('agora', 'Loading inquiry') }}</p>
   </div>
 
-  <div v-else class="transition-form-container">
-    <!-- Navigation -->
-    <div class="navigation-controls">
-      <NcButton @click="navigateToRoot">
-        <HomeIcon /><span v-if="!isMobile">{{ t('agora', 'Home') }}</span>
-      </NcButton>
-    </div>
-
-    <!-- Parent Inquiry -->
+  <div v-else class="transition-container">
+    <!-- Parent Inquiry - Takes full width and distinguished from children -->
     <Transition name="fade">
-      <div v-if="isLoadedLocal" class="parent-block">
-        <div class="divider" />
-        <h3 class="block-title">
-          {{ t('agora', 'Main Inquiry') }}
-        </h3>
-        <div class="divider" />
-        <div class="parent-inquiry-container">
+      <div v-if="isLoadedLocal" class="parent-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            {{ t('agora', 'Main Inquiry') }}
+          </h2>
+        </div>
+        <div class="parent-inquiry-wrapper">
           <InquiryItem
             :key="inquiryParent.id"
             :inquiry="inquiryParent"
             :no-link="false"
             :grid-view="false"
+            :is-parent="true"
             @click="editParent"
-            @mouseover="hoveredInquiry = inquiry"
           />
         </div>
       </div>
     </Transition>
 
-    <!-- Children Blocks -->
-    <TransitionGroup name="list" tag="div" class="children-blocks">
-      <!-- Suggestions -->
-      <div v-if="suggestions.length" key="suggestions" class="block-container">
-        <div class="divider" />
-        <h3 class="block-title">
-          {{ t('agora', 'Suggestions') }}
-        </h3>
-        <div class="divider" />
-        <TransitionGroup
-          name="list-inner"
-          tag="div"
-          :class="isGridView ? 'inquiry-list__grid' : 'inquiry-list__list'"
-        >
+    <!-- Children Sections - Grouped by type with official preference first -->
+    <TransitionGroup name="slide-fade" tag="div" class="children-sections">
+      <div 
+        v-for="type in childTypes" 
+        :key="type" 
+        class="child-section"
+      >
+        <div class="section-header">
+          <h3 class="section-title">
+            {{ type }}
+          </h3>
+          <span class="section-count">
+            {{ childrenByType[type].length }}
+          </span>
+        </div>
+        
+        <div class="inquiry-grid">
           <InquiryItem
-            v-for="child in suggestions"
+            v-for="child in childrenByType[type]"
             :key="child.id"
             :inquiry="child"
             :no-link="false"
-            :grid-view="isGridView"
+            :grid-view="true"
+            :is-parent="false"
             @click="routeChild(child.id)"
           />
-        </TransitionGroup>
-      </div>
-
-      <!-- Grievances -->
-      <div v-if="grievances.length" key="grievances" class="block-container">
-        <div class="divider" />
-        <h3 class="block-title">
-          {{ t('agora', 'Grievance') }}
-        </h3>
-        <div class="divider" />
-        <TransitionGroup
-          name="list-inner"
-          tag="div"
-          :class="isGridView ? 'inquiry-list__grid' : 'inquiry-list__list'"
-        >
-          <InquiryItem
-            v-for="child in grievances"
-            :key="child.id"
-            :inquiry="child"
-            :no-link="false"
-            :grid-view="isGridView"
-            @click="routeChild(child.id)"
-          />
-        </TransitionGroup>
-      </div>
-
-      <!-- Proposals -->
-      <div v-if="proposals.length" key="proposals" class="block-container">
-        <div class="divider" />
-        <h3 class="block-title">
-          {{ t('agora', 'Proposals') }}
-        </h3>
-        <div class="divider" />
-        <TransitionGroup
-          name="list-inner"
-          tag="div"
-          :class="isGridView ? 'inquiry-list__grid' : 'inquiry-list__list'"
-        >
-          <InquiryItem
-            v-for="child in proposals"
-            :key="child.id"
-            :inquiry="child"
-            :no-link="false"
-            :grid-view="isGridView"
-            @click="routeChild(child.id)"
-          />
-        </TransitionGroup>
+        </div>
       </div>
     </TransitionGroup>
-
-    <!-- Official Block -->
-    <Transition name="fade">
-      <div v-if="officials.length" class="official-block">
-        <div class="divider" />
-        <h3 class="block-title">
-          {{ t('agora', 'Official Response') }}
-        </h3>
-        <div class="divider" />
-        <TransitionGroup
-          name="list-inner"
-          tag="div"
-          :class="isGridView ? 'inquiry-list__grid' : 'inquiry-list__list'"
-        >
-          <InquiryItem
-            v-for="child in officials"
-            :key="child.id"
-            :inquiry="child"
-            :no-link="false"
-            :grid-view="false"
-            @click="routeChild(child.id)"
-          />
-        </TransitionGroup>
-      </div>
-    </Transition>
   </div>
 </template>
 
 <style scoped lang="scss">
-.transition-form-container {
-  padding: 10px;
-  background: var(--color-main-background);
-  border-radius: var(--border-radius-large);
+.transition-container {
+  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
 .loading-container {
@@ -294,13 +255,13 @@ const navigateToRoot = () => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 70vh;
+  height: 60vh;
 
   .loading-spinner {
     width: 50px;
     height: 50px;
-    border: 5px solid var(--color-background-darker);
-    border-top: 5px solid var(--color-primary);
+    border: 4px solid var(--color-background-darker);
+    border-top: 4px solid var(--color-primary);
     border-radius: 50%;
     animation: spin 1s linear infinite;
     margin-bottom: 1rem;
@@ -308,6 +269,7 @@ const navigateToRoot = () => {
 
   p {
     color: var(--color-text-lighter);
+    font-size: 16px;
   }
 }
 
@@ -322,24 +284,22 @@ const navigateToRoot = () => {
   opacity: 0;
 }
 
-.list-move,
-.list-enter-active,
-.list-leave-active {
-  transition: all 0.5s ease;
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
 }
 
-.list-enter-from,
-.list-leave-to {
+.slide-fade-leave-active {
+  transition: all 0.3s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from {
+  transform: translateY(20px);
   opacity: 0;
-  transform: translateX(30px);
 }
 
-.list-leave-active {
-  position: absolute;
-}
-
-.list-inner-move {
-  transition: all 0.3s ease;
+.slide-fade-leave-to {
+  transform: translateY(-20px);
+  opacity: 0;
 }
 
 @keyframes spin {
@@ -351,135 +311,146 @@ const navigateToRoot = () => {
   }
 }
 
-.navigation-controls {
+.section-header {
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-between;
   margin-bottom: 1.5rem;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--color-border);
 
-  .back-button,
-  .home-button {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 8px 16px;
-    background: var(--color-background-dark);
-    border-radius: var(--border-radius);
+  .section-title {
+    margin: 0;
+    color: var(--color-main-text);
+    font-weight: 600;
+    font-size: 1.5rem;
+  }
 
-    &:hover {
-      background: var(--color-primary-element-light);
+  .section-count {
+    background: var(--color-primary-element);
+    color: var(--color-primary-text);
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+}
+
+/* Parent section - takes full width and is clearly distinguished */
+.parent-section {
+  margin-bottom: 3rem;
+  
+  .parent-inquiry-wrapper {
+    background: var(--color-main-background);
+    border-radius: 12px;
+    padding: 24px;
+    border: 2px solid var(--color-primary-element);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    
+    /* Make parent stand out */
+    :deep(.inquiry-item) {
+      background: transparent;
+      border: none;
+      padding: 0;
+      
+      .inquiry-item__header {
+        .inquiry-item__title {
+          font-size: 1.4rem;
+          color: var(--color-primary-element);
+        }
+      }
     }
   }
 }
 
-.block-container {
+.children-sections {
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  margin-bottom: 2rem;
+  gap: 3rem;
+}
 
-  &.parent-block {
-    margin-bottom: 2rem;
+.child-section {
+  .inquiry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
   }
 }
 
-.parent-block :deep(.inquiry-item) {
-  &.list-view {
-    min-height: 180px !important;
-    align-items: center;
-  }
-
-  &.grid-view .grid-card {
-    min-height: 250px !important;
-  }
-}
-
-.block-title {
-  margin: 0;
-  color: var(--color-primary);
-  font-weight: 600;
-  font-size: 1.3rem;
-  text-align: center;
-}
-
-.divider {
-  height: 2px;
-  background: var(--color-border);
-  width: 100%;
-  margin: 0.5rem 0;
-}
-
-.children-blocks {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.inquiry-list__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 16px;
-  width: 100%;
-  box-sizing: border-box;
-  align-items: stretch;
-}
-
-.inquiry-list__list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 100%;
-}
-
-.official-block {
-  margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 2px solid var(--color-border);
-}
-
-/* Mobile styles */
-@media (max-width: 768px) {
-  .transition-form-container {
-    padding: 1rem;
-  }
-
-  .navigation-controls {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: var(--color-main-background);
-    padding: 0.8rem 0.5rem;
-    margin: -0.5rem -0.5rem 1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  }
-
-  .children-blocks {
-    gap: 1.8rem;
-  }
-
-  .inquiry-list__grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-    padding: 12px;
-  }
-}
-
-@media (max-width: 1024px) {
-  .inquiry-list__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
+/* Responsive Design */
 @media (max-width: 1400px) {
-  .inquiry-list__grid {
+  .child-section .inquiry-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-@media (min-width: 1600px) {
-  .inquiry-list__grid {
-    grid-template-columns: repeat(4, 1fr);
+@media (max-width: 1024px) {
+  .transition-container {
+    padding: 16px;
+  }
+  
+  .child-section .inquiry-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .section-header .section-title {
+    font-size: 1.3rem;
+  }
+  
+  .parent-section .parent-inquiry-wrapper {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .transition-container {
+    padding: 12px;
+  }
+  
+  .child-section .inquiry-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .parent-section {
+    margin-bottom: 2rem;
+    
+    .parent-inquiry-wrapper {
+      padding: 16px;
+    }
+  }
+  
+  .children-sections {
+    gap: 2rem;
+  }
+  
+  .section-header {
+    margin-bottom: 1rem;
+    
+    .section-title {
+      font-size: 1.2rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .transition-container {
+    padding: 8px;
+  }
+  
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+    
+    .section-count {
+      align-self: flex-end;
+    }
+  }
+  
+  .parent-section .parent-inquiry-wrapper {
+    padding: 12px;
   }
 }
 </style>

@@ -41,20 +41,27 @@ interface Props {
 
 const { inquiry, noLink = false, gridView = false } = defineProps<Props>()
 
-const context = computed(() =>
-  createPermissionContextForContent(
+// Context for permissions
+const context = computed(() => {
+  const ctx = createPermissionContextForContent(
     ContentType.Inquiry,
     inquiry.owner.id,
-    inquiry.configuration.access,
+    inquiry.configuration.access === 'public',
     inquiry.status.isLocked,
     inquiry.status.isExpired,
     inquiry.status.deletionDate > 0,
     inquiry.status.isArchived,
     inquiry.inquiryGroups.length > 0,
     inquiry.inquiryGroups,
-    inquiry.type
+    inquiry.type,
+    inquiry.family, 
+    inquiry.configuration.access as AccessLevel,
+    inquiry.status.isFinalStatus,
+    inquiry.status.moderationStatus 
   )
-)
+  console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
+  return ctx
+})
 
 const onToggleSupport = async () => {
   supportsStore.toggleSupport(inquiry.id, sessionStore.currentUser.id, inquiryStore, inquiriesStore)
@@ -335,7 +342,7 @@ const gridDescription = computed(() => {
           :title="t('agora', 'Expiration')"
         >
           <component
-            :is="inquiry.status.isExpired ? BadgeIcons.closed : BadgeIcons.expiration"
+            :is="inquiry.status.isExpired ? BadgeIcons.Closed : BadgeIcons.Expiration"
             :size="16"
             class="icon"
           />
@@ -436,7 +443,7 @@ const gridDescription = computed(() => {
                     })
                   "
                 >
-                  <component :is="BadgeIcons.participated" :size="14" />
+                  <component :is="BadgeIcons.Participated" :size="14" />
                   <span>{{ inquiry.status.countParticipants }}</span>
                 </div>
               </div>

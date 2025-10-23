@@ -38,43 +38,43 @@ const iconSize = 20
 const icons = {
   relevant: {
     id: 'relevant',
-    iconComponent: NavigationIcons.relevant,
+    iconComponent: NavigationIcons.Relevant,
   },
   my: {
     id: 'my',
-    iconComponent: NavigationIcons.myInquiries,
+    iconComponent: NavigationIcons.MyInquiries,
   },
   private: {
     id: 'private',
-    iconComponent: NavigationIcons.private,
+    iconComponent: NavigationIcons.Private,
   },
   participated: {
     id: 'participated',
-    iconComponent: NavigationIcons.participated,
+    iconComponent: NavigationIcons.Participated,
   },
   open: {
     id: 'open',
-    iconComponent: NavigationIcons.open,
+    iconComponent: NavigationIcons.Open,
   },
   all: {
     id: 'all',
-    iconComponent: NavigationIcons.all,
+    iconComponent: NavigationIcons.All,
   },
   closed: {
     id: 'closed',
-    iconComponent: NavigationIcons.closed,
+    iconComponent: NavigationIcons.Closed,
   },
   archived: {
     id: 'archived',
-    iconComponent: NavigationIcons.archived,
+    iconComponent: NavigationIcons.Archived,
   },
   admin: {
     id: 'admin',
-    iconComponent: NavigationIcons.administration,
+    iconComponent: NavigationIcons.Administration,
   },
   moderate: {
     id: 'moderate',
-    iconComponent: NavigationIcons.moderate,
+    iconComponent: NavigationIcons.Moderate,
   },
 }
 
@@ -154,7 +154,7 @@ onMounted(() => {
           :open="false"
         >
           <template #icon>
-            <Component :is="NavigationIcons.group" />
+            <Component :is="NavigationIcons.Group" />
           </template>
           <template #counter>
             <NcCounterBubble
@@ -188,7 +188,7 @@ onMounted(() => {
               :name="t('agora', 'View all')"
             >
               <template #icon>
-                <Component :is="NavigationIcons.goTo" />
+                <Component :is="NavigationIcons.GoTo" />
               </template>
             </NcAppNavigationItem>
           </ul>
@@ -254,7 +254,7 @@ onMounted(() => {
               :name="t('agora', 'View all')"
             >
               <template #icon>
-                <Component :is="NavigationIcons.goTo" />
+                <Component :is="NavigationIcons.GoTo" />
               </template>
             </NcAppNavigationItem>
           </ul>

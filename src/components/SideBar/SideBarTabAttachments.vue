@@ -186,7 +186,7 @@ const formatFileSize = (bytes: number): string => {
         @click="triggerFileInput"
       >
         <template #icon>
-          <component :is="InquiryGeneralIcons.attachment" :size="20" />
+          <component :is="InquiryGeneralIcons.Attachment" :size="20" />
         </template>
         {{ t('agora', 'Add files') }}
       </NcButton>
@@ -207,7 +207,7 @@ const formatFileSize = (bytes: number): string => {
       >
         <div class="attachment-info">
           <!-- File icon -->
-          <component :is="InquiryGeneralIcons.document" :size="20" class="file-icon"/>
+          <component :is="InquiryGeneralIcons.Document" :size="20" class="file-icon"/>
           
           <!-- File name with link or plain text -->
           <a
@@ -237,7 +237,7 @@ const formatFileSize = (bytes: number): string => {
           @click="removeAttachment(index)"
         >
           <template #icon>
-            <component :is="InquiryGeneralIcons.delete" :size="20" />
+            <component :is="InquiryGeneralIcons.Delete" :size="20" />
           </template>
         </NcButton>
       </div>

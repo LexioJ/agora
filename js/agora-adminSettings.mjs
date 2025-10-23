@@ -3,7 +3,7 @@
   try {
     if (typeof document != "undefined") {
       var elementStyle = document.createElement("style");
-      elementStyle.appendChild(document.createTextNode(".disclaimer_group {\n  display: flex;\n  align-items: center;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.disclaimer_group .grow_title {\n  display: flex;\n  flex-grow: 1;\n  margin-inline-end: 12px;\n}\n.disclaimer_group .grow_title .material-design-icon {\n  margin-inline-start: 4px;\n}.user_settings {\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.user_settings .job_buttons_section {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 20px;\n  gap: 12px;\n}\n.user_settings .job_hints p {\n  margin-bottom: 0.5em;\n}\n.tree-item[data-v-37a5142a] {\n  margin-bottom: 8px;\n}\n.tree-node[data-v-37a5142a] {\n  display: flex;\n  align-items: center;\n  padding: 8px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.tree-label[data-v-37a5142a] {\n  flex-grow: 1;\n  font-weight: bold;\n}\n.tree-actions[data-v-37a5142a] {\n  display: flex;\n  gap: 8px;\n}\n.tree-children[data-v-37a5142a] {\n  margin-left: 20px;\n  margin-top: 8px;\n}\n\n/* Vos styles existants */\n.category-location-manager[data-v-da2e3bfe] {\n  padding: 20px;\n}\n.tabs[data-v-da2e3bfe] {\n  display: flex;\n  margin-bottom: 20px;\n  border-bottom: 1px solid var(--color-border);\n}\n.tabs NcButton[data-v-da2e3bfe] {\n  padding: 10px 20px;\n  border: none;\n  background: none;\n  cursor: pointer;\n  border-bottom: 2px solid transparent;\n}\n.tabs NcButton.active[data-v-da2e3bfe] {\n  border-bottom-color: var(--color-primary);\n  color: var(--color-primary);\n}\n.tab-content[data-v-da2e3bfe] {\n  margin-top: 20px;\n}\n.add-form[data-v-da2e3bfe] {\n  margin-bottom: 30px;\n  padding: 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-fields[data-v-da2e3bfe] {\n  display: flex;\n  gap: 15px;\n  align-items: end;\n}\n.tree-view[data-v-da2e3bfe] {\n  margin-top: 30px;\n}\n.tree-container[data-v-da2e3bfe] {\n  margin-top: 15px;\n}\n.loading[data-v-da2e3bfe],\n.error[data-v-da2e3bfe] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n.error[data-v-da2e3bfe] {\n  color: var(--color-error);\n}\n.modal[data-v-da2e3bfe] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-da2e3bfe] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  min-width: 400px;\n}\n.modal-actions[data-v-da2e3bfe] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 20px;\n}\n\n.inquiry-rights-management[data-v-d42bc411] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-d42bc411] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.loading[data-v-d42bc411],\n.error[data-v-d42bc411] {\n  padding: 20px;\n  text-align: center;\n  color: var(--color-text-lighter);\n}\n.type-selection[data-v-d42bc411] {\n  margin-bottom: 30px;\n}\n.type-selection label[data-v-d42bc411] {\n  display: block;\n  margin-bottom: 8px;\n  font-weight: bold;\n}\n.type-select[data-v-d42bc411] {\n  max-width: 300px;\n}\n.settings-container[data-v-d42bc411] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.settings-container h3[data-v-d42bc411] {\n  margin-top: 0;\n  margin-bottom: 20px;\n  padding-bottom: 10px;\n  border-bottom: 1px solid var(--color-border);\n}\n.settings-list[data-v-d42bc411] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.setting-item[data-v-d42bc411] {\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n}\n.setting-item label[data-v-d42bc411] {\n  display: block;\n  margin-bottom: 8px;\n  font-weight: bold;\n}\n.editor-select[data-v-d42bc411] {\n  max-width: 250px;\n  margin-top: 8px;\n}\n.setting-description[data-v-d42bc411] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.rights-management[data-v-fb7cbc5e] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-fb7cbc5e] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-fb7cbc5e] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-fb7cbc5e] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-fb7cbc5e] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.rights-management[data-v-14c25bb2] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-14c25bb2] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-14c25bb2] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-14c25bb2] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-14c25bb2] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.inquiry-status-settings[data-v-672d8b59] {\n  padding: 20px;\n  max-width: 1000px;\n}\n.settings-description[data-v-672d8b59] {\n  margin-bottom: 25px;\n  color: var(--color-text-lighter);\n}\n.inquiry-type-selector[data-v-672d8b59] {\n  margin-bottom: 30px;\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.status-list[data-v-672d8b59] {\n  margin-bottom: 30px;\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.empty-state[data-v-672d8b59] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n.status-items[data-v-672d8b59] {\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n}\n.status-item[data-v-672d8b59] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n  border-left: 4px solid var(--color-primary);\n}\n.status-content[data-v-672d8b59] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n}\n.status-icon[data-v-672d8b59] {\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--color-primary);\n  color: white;\n  border-radius: 8px;\n  flex-shrink: 0;\n}\n.status-icon[data-v-672d8b59] svg {\n  fill: white;\n}\n.status-info h4[data-v-672d8b59] {\n  margin: 0 0 5px 0;\n  font-weight: 600;\n}\n.status-key[data-v-672d8b59] {\n  margin: 0 0 8px 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  font-family: monospace;\n}\n.status-description[data-v-672d8b59] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n}\n.status-properties[data-v-672d8b59] {\n  display: flex;\n  gap: 10px;\n}\n.status-badge[data-v-672d8b59] {\n  padding: 4px 8px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.status-badge.final[data-v-672d8b59] {\n  background-color: var(--color-success);\n  color: white;\n}\n.status-badge.non-final[data-v-672d8b59] {\n  background-color: var(--color-warning);\n  color: white;\n}\n.status-actions[data-v-672d8b59] {\n  display: flex;\n  gap: 8px;\n  flex-wrap: wrap;\n}\n.add-status-form[data-v-672d8b59] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-672d8b59] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.checkbox-field[data-v-672d8b59] {\n  grid-column: span 2;\n}\n.field-description[data-v-672d8b59] {\n  margin: 5px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.modal-overlay[data-v-672d8b59] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 1000;\n}\n.modal-content[data-v-672d8b59] {\n  background-color: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 600px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-actions[data-v-672d8b59] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n@media (max-width: 768px) {\n.form-grid[data-v-672d8b59] {\n    grid-template-columns: 1fr;\n}\n.status-item[data-v-672d8b59] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 15px;\n}\n.status-actions[data-v-672d8b59] {\n    justify-content: center;\n}\n}"));
+      elementStyle.appendChild(document.createTextNode(".disclaimer_group {\n  display: flex;\n  align-items: center;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.disclaimer_group .grow_title {\n  display: flex;\n  flex-grow: 1;\n  margin-inline-end: 12px;\n}\n.disclaimer_group .grow_title .material-design-icon {\n  margin-inline-start: 4px;\n}.user_settings {\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.user_settings .job_buttons_section {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 20px;\n  gap: 12px;\n}\n.user_settings .job_hints p {\n  margin-bottom: 0.5em;\n}\n.families-manager[data-v-b0578289] {\n  padding: 20px;\n}\n.families-list[data-v-b0578289] {\n  margin-bottom: 30px;\n}\n.families-list h3[data-v-b0578289] {\n  margin-bottom: 15px;\n  color: var(--color-text-lighter);\n}\n.family-item[data-v-b0578289] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  margin-bottom: 10px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n}\n.family-item[data-v-b0578289]:hover {\n  background: var(--color-background-hover);\n}\n.family-content[data-v-b0578289] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  flex: 1;\n}\n.family-icon[data-v-b0578289] {\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 8px;\n  font-size: 20px;\n}\n.family-info h4[data-v-b0578289] {\n  margin: 0 0 5px 0;\n  color: var(--color-text-light);\n}\n.family-type[data-v-b0578289] {\n  margin: 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 0.9em;\n}\n.family-description[data-v-b0578289] {\n  margin: 5px 0 0 0;\n  color: var(--color-text-lighter);\n}\n.family-stats[data-v-b0578289] {\n  margin-top: 8px;\n}\n.types-count[data-v-b0578289] {\n  font-size: 0.8em;\n  color: var(--color-primary);\n  background: var(--color-primary-element-light);\n  padding: 2px 8px;\n  border-radius: 12px;\n}\n.family-actions[data-v-b0578289] {\n  display: flex;\n  gap: 10px;\n}\n.add-family-form[data-v-b0578289] {\n  padding: 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-b0578289] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.form-row[data-v-b0578289] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 15px;\n  align-items: start;\n}\n.form-field[data-v-b0578289] {\n  margin: 0;\n}\n.full-width[data-v-b0578289] {\n  grid-column: 1 / -1;\n}\n.form-actions[data-v-b0578289] {\n  display: flex;\n  justify-content: flex-start;\n}\n.modal-overlay[data-v-b0578289] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-b0578289] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 800px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-content.large-modal[data-v-b0578289] {\n  width: 900px;\n  max-width: 95vw;\n}\n.modal-actions[data-v-b0578289] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 20px;\n}\n\n.types-manager[data-v-f2f32798] {\n  padding: 20px;\n}\n.header[data-v-f2f32798] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-f2f32798] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.types-list[data-v-f2f32798] {\n  margin-bottom: 30px;\n}\n.list-description[data-v-f2f32798] {\n  color: var(--color-text-lighter);\n  margin-bottom: 20px;\n}\n.types-grid[data-v-f2f32798] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 20px;\n}\n.type-card[data-v-f2f32798] {\n  background: var(--color-background-dark);\n  border-radius: 12px;\n  padding: 20px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.type-card[data-v-f2f32798]:hover {\n  background: var(--color-background-hover);\n  border-color: var(--color-primary);\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.type-card-content[data-v-f2f32798] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n  margin-bottom: 15px;\n}\n.type-icon[data-v-f2f32798] {\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 10px;\n  font-size: 24px;\n  flex-shrink: 0;\n}\n.type-info[data-v-f2f32798] {\n  flex: 1;\n}\n.type-info h4[data-v-f2f32798] {\n  margin: 0 0 8px 0;\n  color: var(--color-text-light);\n  font-size: 1.1em;\n}\n.type-key[data-v-f2f32798] {\n  margin: 0 0 10px 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 0.9em;\n  background: var(--color-background-darker);\n  padding: 4px 8px;\n  border-radius: 4px;\n  display: inline-block;\n}\n.type-description[data-v-f2f32798] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n  line-height: 1.4;\n}\n.type-badge[data-v-f2f32798] {\n  display: inline-block;\n  padding: 4px 10px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.type-badge.option[data-v-f2f32798] {\n  background: var(--color-warning);\n  color: white;\n}\n.type-actions[data-v-f2f32798] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n.configure-btn[data-v-f2f32798] {\n  width: 100%;\n}\n.secondary-actions[data-v-f2f32798] {\n  display: flex;\n  gap: 8px;\n}\n.edit-btn[data-v-f2f32798], .delete-btn[data-v-f2f32798] {\n  flex: 1;\n}\n.empty-state[data-v-f2f32798] {\n  text-align: center;\n  padding: 60px 40px;\n  color: var(--color-text-lighter);\n  background: var(--color-background-dark);\n  border-radius: 12px;\n  grid-column: 1 / -1;\n}\n.empty-state p[data-v-f2f32798] {\n  margin: 0;\n  font-size: 1.1em;\n}\n.add-type-form[data-v-f2f32798] {\n  padding: 25px;\n  background: var(--color-background-dark);\n  border-radius: 12px;\n}\n.form-grid[data-v-f2f32798] {\n  display: flex;\n  flex-direction: column;\n  gap: 25px;\n}\n.form-row[data-v-f2f32798] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.form-field[data-v-f2f32798] {\n  margin: 0;\n}\n.full-width[data-v-f2f32798] {\n  grid-column: 1 / -1;\n}\n.checkbox-field[data-v-f2f32798] {\n  grid-column: 1 / -1;\n  padding: 15px;\n  background: var(--color-background-darker);\n  border-radius: 8px;\n}\n.field-description[data-v-f2f32798] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.form-actions[data-v-f2f32798] {\n  display: flex;\n  justify-content: flex-start;\n}\n.modal-overlay[data-v-f2f32798] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-f2f32798] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 900px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-content.large-modal[data-v-f2f32798] {\n  width: 1000px;\n  max-width: 95vw;\n}\n.modal-actions[data-v-f2f32798] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 15px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n\n.type-rights[data-v-60290e39] {\n  padding: 20px;\n}\n.header[data-v-60290e39] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-60290e39] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.description[data-v-60290e39] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.settings-container[data-v-60290e39] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.settings-list[data-v-60290e39] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.setting-item[data-v-60290e39] {\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n}\n.setting-item label[data-v-60290e39] {\n  display: block;\n  margin-bottom: 8px;\n  font-weight: bold;\n}\n.editor-select[data-v-60290e39] {\n  max-width: 250px;\n  margin-top: 8px;\n}\n.setting-description[data-v-60290e39] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n.no-selection[data-v-60290e39] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n\n.rights-management[data-v-14c25bb2] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-14c25bb2] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-14c25bb2] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-14c25bb2] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-14c25bb2] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.rights-management[data-v-fb7cbc5e] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-fb7cbc5e] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-fb7cbc5e] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-fb7cbc5e] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-fb7cbc5e] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.type-status[data-v-832d89d2] {\n  padding: 20px;\n}\n.header[data-v-832d89d2] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-832d89d2] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.description[data-v-832d89d2] {\n  margin-bottom: 25px;\n  color: var(--color-text-lighter);\n}\n.status-management[data-v-832d89d2] {\n  max-width: 1000px;\n}\n.status-list[data-v-832d89d2] {\n  margin-bottom: 30px;\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.empty-state[data-v-832d89d2] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n.status-items[data-v-832d89d2] {\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n}\n.status-item[data-v-832d89d2] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n  border-left: 4px solid var(--color-primary);\n}\n.status-content[data-v-832d89d2] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n}\n.status-icon[data-v-832d89d2] {\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--color-primary);\n  color: white;\n  border-radius: 8px;\n  flex-shrink: 0;\n}\n.status-icon[data-v-832d89d2] svg {\n  fill: white;\n}\n.status-info h4[data-v-832d89d2] {\n  margin: 0 0 5px 0;\n  font-weight: 600;\n}\n.status-key[data-v-832d89d2] {\n  margin: 0 0 8px 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  font-family: monospace;\n}\n.status-description[data-v-832d89d2] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n}\n.status-properties[data-v-832d89d2] {\n  display: flex;\n  gap: 10px;\n}\n.status-badge[data-v-832d89d2] {\n  padding: 4px 8px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.status-badge.final[data-v-832d89d2] {\n  background-color: var(--color-success);\n  color: white;\n}\n.status-badge.non-final[data-v-832d89d2] {\n  background-color: var(--color-warning);\n  color: white;\n}\n.status-actions[data-v-832d89d2] {\n  display: flex;\n  gap: 8px;\n  flex-wrap: wrap;\n}\n.add-status-form[data-v-832d89d2] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-832d89d2] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.checkbox-field[data-v-832d89d2] {\n  grid-column: span 2;\n}\n.field-description[data-v-832d89d2] {\n  margin: 5px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.modal-overlay[data-v-832d89d2] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 1000;\n}\n.modal-content[data-v-832d89d2] {\n  background-color: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 600px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-actions[data-v-832d89d2] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n.no-selection[data-v-832d89d2] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n@media (max-width: 768px) {\n.form-grid[data-v-832d89d2] {\n    grid-template-columns: 1fr;\n}\n.status-item[data-v-832d89d2] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 15px;\n}\n.status-actions[data-v-832d89d2] {\n    justify-content: center;\n}\n}\n\n.type-settings-modal[data-v-077dce28] {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  min-height: 600px;\n  width: 100%;\n}\n.modal-header[data-v-077dce28] {\n  padding: 25px;\n  border-bottom: 1px solid var(--color-border);\n  background: var(--color-background-dark);\n  flex-shrink: 0;\n}\n.type-info[data-v-077dce28] {\n  display: flex;\n  align-items: center;\n  gap: 20px;\n}\n.type-icon[data-v-077dce28] {\n  width: 60px;\n  height: 60px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 12px;\n  font-size: 28px;\n  flex-shrink: 0;\n}\n.type-details h3[data-v-077dce28] {\n  margin: 0 0 8px 0;\n  color: var(--color-text-light);\n  font-size: 1.5em;\n  font-weight: 600;\n}\n.type-key[data-v-077dce28] {\n  margin: 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 1em;\n  background: var(--color-background-darker);\n  padding: 4px 8px;\n  border-radius: 4px;\n  display: inline-block;\n}\n\n/* Menu simple */\n.simple-menu[data-v-077dce28] {\n  display: flex;\n  background: var(--color-background-dark);\n  border-bottom: 1px solid var(--color-border);\n  padding: 0;\n  flex-shrink: 0;\n}\n.menu-item[data-v-077dce28] {\n  flex: 1;\n  background: none;\n  border: none;\n  padding: 16px 20px;\n  color: var(--color-text-lighter);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  border-bottom: 3px solid transparent;\n  font-size: 1em;\n  font-weight: 500;\n}\n.menu-item[data-v-077dce28]:hover {\n  background: var(--color-background-hover);\n  color: var(--color-text-light);\n}\n.menu-item.active[data-v-077dce28] {\n  color: var(--color-primary);\n  border-bottom-color: var(--color-primary);\n  background: var(--color-background-darker);\n}\n\n/* Contenu */\n.settings-content[data-v-077dce28] {\n  flex: 1;\n  padding: 30px;\n  overflow-y: auto;\n  background: var(--color-main-background);\n}\n\n.admin-settings-container[data-v-cd782848] {\n  min-height: 600px;\n  background: var(--color-main-background);\n  padding: 20px;\n}\n.breadcrumb[data-v-cd782848] {\n  margin-bottom: 25px;\n  padding: 15px 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  font-size: 1em;\n}\n.breadcrumb-item[data-v-cd782848] {\n  display: inline-flex;\n  align-items: center;\n}\n.breadcrumb-link[data-v-cd782848] {\n  background: none;\n  border: none;\n  color: var(--color-primary);\n  cursor: pointer;\n  padding: 4px 8px;\n  border-radius: 4px;\n  transition: background-color 0.2s ease;\n}\n.breadcrumb-link[data-v-cd782848]:hover {\n  background: var(--color-background-hover);\n}\n.breadcrumb-current[data-v-cd782848] {\n  color: var(--color-text-light);\n  font-weight: 600;\n  padding: 4px 8px;\n}\n.breadcrumb-separator[data-v-cd782848] {\n  margin: 0 10px;\n  color: var(--color-text-lighter);\n}\n.settings-content[data-v-cd782848] {\n  flex: 1;\n  overflow-y: auto;\n}\n[data-v-cd782848] .large-modal {\n  --width: 95vw;\n  --height: 90vh;\n  max-width: 1200px;\n  max-height: 800px;\n}\n[data-v-cd782848] .large-modal .modal-container {\n  width: 95vw;\n  height: 90vh;\n  max-width: 1200px;\n  max-height: 800px;\n}\n\n.tree-item[data-v-37a5142a] {\n  margin-bottom: 8px;\n}\n.tree-node[data-v-37a5142a] {\n  display: flex;\n  align-items: center;\n  padding: 8px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.tree-label[data-v-37a5142a] {\n  flex-grow: 1;\n  font-weight: bold;\n}\n.tree-actions[data-v-37a5142a] {\n  display: flex;\n  gap: 8px;\n}\n.tree-children[data-v-37a5142a] {\n  margin-left: 20px;\n  margin-top: 8px;\n}\n\n/* Vos styles existants */\n.category-location-manager[data-v-da2e3bfe] {\n  padding: 20px;\n}\n.tabs[data-v-da2e3bfe] {\n  display: flex;\n  margin-bottom: 20px;\n  border-bottom: 1px solid var(--color-border);\n}\n.tabs NcButton[data-v-da2e3bfe] {\n  padding: 10px 20px;\n  border: none;\n  background: none;\n  cursor: pointer;\n  border-bottom: 2px solid transparent;\n}\n.tabs NcButton.active[data-v-da2e3bfe] {\n  border-bottom-color: var(--color-primary);\n  color: var(--color-primary);\n}\n.tab-content[data-v-da2e3bfe] {\n  margin-top: 20px;\n}\n.add-form[data-v-da2e3bfe] {\n  margin-bottom: 30px;\n  padding: 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-fields[data-v-da2e3bfe] {\n  display: flex;\n  gap: 15px;\n  align-items: end;\n}\n.tree-view[data-v-da2e3bfe] {\n  margin-top: 30px;\n}\n.tree-container[data-v-da2e3bfe] {\n  margin-top: 15px;\n}\n.loading[data-v-da2e3bfe],\n.error[data-v-da2e3bfe] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n.error[data-v-da2e3bfe] {\n  color: var(--color-error);\n}\n.modal[data-v-da2e3bfe] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-da2e3bfe] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  min-width: 400px;\n}\n.modal-actions[data-v-da2e3bfe] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 20px;\n}"));
       document.head.appendChild(elementStyle);
     }
   } catch (e) {
@@ -12,13 +12,13 @@
 })();
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { _ as _export_sfc, c as createElementBlock, o as openBlock, f as createVNode, w as withCtx, j as createTextVNode, k as toDisplayString, t as translate, e as createBlock, C as createCommentVNode, a as createBaseVNode, K as mergeProps, Q as ref, l as computed, m as purify, S as withDirectives, T as vShow, U as vModelText, V as NcButton, G as Fragment, d as defineComponent, W as resolveComponent, M as normalizeStyle, H as renderList, b as onMounted, A as normalizeClass, J as watch, s as resolveDynamicComponent, n as normalizeProps, g as guardReactiveProps, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DIwIn7KM.chunk.mjs";
-import { I as InputDiv, N as NcSettingsSection } from "./index-CJF071qK.chunk.mjs";
-import { e as d, g as gfmHeadingId, f as adminJobs, L as Logger, S as StatusIcons } from "./NcDashboardWidget-BEUtfCxs-l3e9BVoJ.chunk.mjs";
-import { F as FlexSettings } from "./FlexSettings-DosVYPvr.chunk.mjs";
-import { u as useAppSettingsStore, R as RadioGroupDiv, C as CardDiv } from "./markdown-DsRTaAUN.chunk.mjs";
-import { N as NcCheckboxRadioSwitch, a as NcSelect, b as NcInputField } from "./NcRichText-Dht_wH3t-CVcCbfMN.chunk.mjs";
-const _sfc_main$l = {
+import { _ as _export_sfc, c as createElementBlock, o as openBlock, f as createVNode, w as withCtx, j as createTextVNode, k as toDisplayString, t as translate, e as createBlock, C as createCommentVNode, a as createBaseVNode, K as mergeProps, Q as ref, l as computed, m as purify, S as withDirectives, T as vShow, U as vModelText, V as NcButton, G as Fragment, H as renderList, W as withModifiers, b as onMounted, X as resolveComponent, J as watch, d as defineComponent, s as resolveDynamicComponent, A as normalizeClass, M as normalizeStyle, n as normalizeProps, g as guardReactiveProps, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang--E6jl8E8.chunk.mjs";
+import { I as InputDiv, a as NcAppSettingsDialog, N as NcSettingsSection } from "./index-DMXib1RJ.chunk.mjs";
+import { e as d, g as gfmHeadingId, f as adminJobs, L as Logger, I as InquiryGeneralIcons, S as StatusIcons } from "./NcDashboardWidget-BEUtfCxs-C09UGvNK.chunk.mjs";
+import { F as FlexSettings } from "./FlexSettings-B6OGAApp.chunk.mjs";
+import { u as useAppSettingsStore, R as RadioGroupDiv, C as CardDiv } from "./markdown-LCoqsIZl.chunk.mjs";
+import { N as NcCheckboxRadioSwitch, a as NcSelect, b as NcInputField } from "./NcRichText-Dht_wH3t-CLSOeSu_.chunk.mjs";
+const _sfc_main$p = {
   __name: "AdminActivities",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -34,9 +34,9 @@ const _sfc_main$l = {
     return __returned__;
   }
 };
-const _hoisted_1$l = { class: "user_settings" };
-function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$l, [
+const _hoisted_1$p = { class: "user_settings" };
+function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$p, [
     createVNode($setup["NcCheckboxRadioSwitch"], {
       modelValue: $setup.appSettingsStore.useActivity,
       "onUpdate:modelValue": [
@@ -57,8 +57,8 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["modelValue"])
   ]);
 }
-const AdminActivities = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminActivities.vue"]]);
-const _sfc_main$k = {
+const AdminActivities = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$p], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminActivities.vue"]]);
+const _sfc_main$o = {
   __name: "AdminArchiveInquiries",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -76,9 +76,9 @@ const _sfc_main$k = {
     return __returned__;
   }
 };
-const _hoisted_1$k = { class: "user_settings" };
-function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$k, [
+const _hoisted_1$o = { class: "user_settings" };
+function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$o, [
     createVNode($setup["NcCheckboxRadioSwitch"], {
       modelValue: $setup.appSettingsStore.autoArchive,
       "onUpdate:modelValue": [
@@ -110,8 +110,8 @@ function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["modelValue", "label"])) : createCommentVNode("v-if", true)
   ]);
 }
-const AdminArchiveInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$k], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminArchiveInquiries.vue"]]);
-const _sfc_main$j = {
+const AdminArchiveInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$o], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminArchiveInquiries.vue"]]);
+const _sfc_main$n = {
   __name: "AdminDeleteInquiries",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -129,9 +129,9 @@ const _sfc_main$j = {
     return __returned__;
   }
 };
-const _hoisted_1$j = { class: "user_settings" };
-function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$j, [
+const _hoisted_1$n = { class: "user_settings" };
+function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$n, [
     createVNode($setup["NcCheckboxRadioSwitch"], {
       modelValue: $setup.appSettingsStore.autoDelete,
       "onUpdate:modelValue": [
@@ -163,8 +163,8 @@ function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["modelValue", "label"])) : createCommentVNode("v-if", true)
   ]);
 }
-const AdminDeleteInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminDeleteInquiries.vue"]]);
-const _sfc_main$i = {
+const AdminDeleteInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$n], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminDeleteInquiries.vue"]]);
+const _sfc_main$m = {
   name: "LanguageMarkdownIcon",
   emits: ["click"],
   props: {
@@ -181,11 +181,11 @@ const _sfc_main$i = {
     }
   }
 };
-const _hoisted_1$i = ["aria-hidden", "aria-label"];
-const _hoisted_2$e = ["fill", "width", "height"];
-const _hoisted_3$9 = { d: "M20.56 18H3.44C2.65 18 2 17.37 2 16.59V7.41C2 6.63 2.65 6 3.44 6H20.56C21.35 6 22 6.63 22 7.41V16.59C22 17.37 21.35 18 20.56 18M6.81 15.19V11.53L8.73 13.88L10.65 11.53V15.19H12.58V8.81H10.65L8.73 11.16L6.81 8.81H4.89V15.19H6.81M19.69 12H17.77V8.81H15.85V12H13.92L16.81 15.28L19.69 12Z" };
-const _hoisted_4$7 = { key: 0 };
-function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1$m = ["aria-hidden", "aria-label"];
+const _hoisted_2$i = ["fill", "width", "height"];
+const _hoisted_3$d = { d: "M20.56 18H3.44C2.65 18 2 17.37 2 16.59V7.41C2 6.63 2.65 6 3.44 6H20.56C21.35 6 22 6.63 22 7.41V16.59C22 17.37 21.35 18 20.56 18M6.81 15.19V11.53L8.73 13.88L10.65 11.53V15.19H12.58V8.81H10.65L8.73 11.16L6.81 8.81H4.89V15.19H6.81M19.69 12H17.77V8.81H15.85V12H13.92L16.81 15.28L19.69 12Z" };
+const _hoisted_4$b = { key: 0 };
+function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
     "aria-hidden": $props.title ? null : "true",
     "aria-label": $props.title,
@@ -200,20 +200,20 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
       height: $props.size,
       viewBox: "0 0 24 24"
     }, [
-      createBaseVNode("path", _hoisted_3$9, [
+      createBaseVNode("path", _hoisted_3$d, [
         $props.title ? (openBlock(), createElementBlock(
           "title",
-          _hoisted_4$7,
+          _hoisted_4$b,
           toDisplayString($props.title),
           1
           /* TEXT */
         )) : createCommentVNode("v-if", true)
       ])
-    ], 8, _hoisted_2$e))
-  ], 16, _hoisted_1$i);
+    ], 8, _hoisted_2$i))
+  ], 16, _hoisted_1$m);
 }
-const LanguageMarkdownIcon = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/LanguageMarkdown.vue"]]);
-const _sfc_main$h = {
+const LanguageMarkdownIcon = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/LanguageMarkdown.vue"]]);
+const _sfc_main$l = {
   __name: "AdminEmail",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -243,12 +243,12 @@ const _sfc_main$h = {
     return __returned__;
   }
 };
-const _hoisted_1$h = { class: "user_settings" };
-const _hoisted_2$d = { class: "disclaimer_group" };
-const _hoisted_3$8 = { class: "grow_title" };
-const _hoisted_4$6 = ["innerHTML"];
-function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$h, [
+const _hoisted_1$l = { class: "user_settings" };
+const _hoisted_2$h = { class: "disclaimer_group" };
+const _hoisted_3$c = { class: "grow_title" };
+const _hoisted_4$a = ["innerHTML"];
+function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$l, [
     createVNode($setup["NcCheckboxRadioSwitch"], {
       modelValue: $setup.appSettingsStore.legalTermsInEmail,
       "onUpdate:modelValue": [
@@ -267,8 +267,8 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
       _: 1
       /* STABLE */
     }, 8, ["modelValue"]),
-    createBaseVNode("div", _hoisted_2$d, [
-      createBaseVNode("div", _hoisted_3$8, [
+    createBaseVNode("div", _hoisted_2$h, [
+      createBaseVNode("div", _hoisted_3$c, [
         createBaseVNode(
           "span",
           null,
@@ -312,13 +312,13 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
     withDirectives(createBaseVNode("div", {
       class: "inquiries-markdown",
       innerHTML: $setup.markedDisclaimer
-    }, null, 8, _hoisted_4$6), [
+    }, null, 8, _hoisted_4$a), [
       [vShow, $setup.preview]
     ])
   ]);
 }
-const AdminEmail = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminEmail.vue"]]);
-const _sfc_main$g = {
+const AdminEmail = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminEmail.vue"]]);
+const _sfc_main$k = {
   __name: "AdminJobs",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -381,12 +381,12 @@ const _sfc_main$g = {
     return __returned__;
   }
 };
-const _hoisted_1$g = { class: "user_settings" };
-const _hoisted_2$c = { class: "job_hints" };
-const _hoisted_3$7 = { class: "job_buttons_section" };
-function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$g, [
-    createBaseVNode("div", _hoisted_2$c, [
+const _hoisted_1$k = { class: "user_settings" };
+const _hoisted_2$g = { class: "job_hints" };
+const _hoisted_3$b = { class: "job_buttons_section" };
+function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$k, [
+    createBaseVNode("div", _hoisted_2$g, [
       createBaseVNode(
         "p",
         null,
@@ -414,7 +414,7 @@ function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
         /* TEXT */
       )
     ]),
-    createBaseVNode("div", _hoisted_3$7, [
+    createBaseVNode("div", _hoisted_3$b, [
       createVNode($setup["NcButton"], {
         variant: "primary",
         "aria-label": $setup.autoreminder.text,
@@ -466,8 +466,8 @@ function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ]);
 }
-const AdminJobs = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminJobs.vue"]]);
-const _sfc_main$f = {
+const AdminJobs = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$k], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminJobs.vue"]]);
+const _sfc_main$j = {
   __name: "AdminLegal",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -499,18 +499,18 @@ const _sfc_main$f = {
     return __returned__;
   }
 };
-const _hoisted_1$f = { class: "user_settings" };
-const _hoisted_2$b = {
+const _hoisted_1$j = { class: "user_settings" };
+const _hoisted_2$f = {
   key: 0,
   class: "user_settings"
 };
-const _hoisted_3$6 = { class: "settings-description" };
-function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_3$a = { class: "settings-description" };
+function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock(
     Fragment,
     null,
     [
-      createBaseVNode("div", _hoisted_1$f, [
+      createBaseVNode("div", _hoisted_1$j, [
         createVNode($setup["NcCheckboxRadioSwitch"], {
           modelValue: $setup.appSettingsStore.useSiteLegalTerms,
           "onUpdate:modelValue": [
@@ -530,10 +530,10 @@ function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
           /* STABLE */
         }, 8, ["modelValue"])
       ]),
-      !$setup.appSettingsStore.useSiteLegalTerms ? (openBlock(), createElementBlock("div", _hoisted_2$b, [
+      !$setup.appSettingsStore.useSiteLegalTerms ? (openBlock(), createElementBlock("div", _hoisted_2$f, [
         createBaseVNode(
           "p",
-          _hoisted_3$6,
+          _hoisted_3$a,
           toDisplayString($setup.t("inquiries", "If you want to use different terms for public inquiries, enter them below.")),
           1
           /* TEXT */
@@ -561,8 +561,2119 @@ function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE_FRAGMENT */
   );
 }
-const AdminLegal = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminLegal.vue"]]);
-const _sfc_main$e = /* @__PURE__ */ defineComponent({
+const AdminLegal = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminLegal.vue"]]);
+const _sfc_main$i = {
+  __name: "AdminFamiliesManager",
+  emits: ["family-selected"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const emit = __emit;
+    const appSettingsStore = useAppSettingsStore();
+    const editingFamily = ref(null);
+    const newFamily = ref({
+      family_type: "",
+      label: "",
+      description: "",
+      icon: "",
+      sort_order: 0
+    });
+    const availableIcons = computed(
+      () => Object.keys(InquiryGeneralIcons).filter((key) => key !== "default").map((iconId) => {
+        const lowerCaseId = iconId.toLowerCase();
+        const formattedLabel = lowerCaseId.replace(/([a-z])([A-Z])/g, "$1 $2").replace(/_/g, " ");
+        return {
+          id: lowerCaseId,
+          label: translate("agora", formattedLabel.charAt(0).toUpperCase() + formattedLabel.slice(1))
+        };
+      })
+    );
+    const familiesWithStats = computed(() => {
+      return appSettingsStore.inquiryFamilyTab.map((family) => {
+        const typesCount = appSettingsStore.inquiryTypeTab.filter(
+          (type) => type.family === family.family_type
+        ).length;
+        return {
+          ...family,
+          typesCount
+        };
+      });
+    });
+    const addFamily = async () => {
+      if (!newFamily.value.family_type || !newFamily.value.label) return;
+      await appSettingsStore.addFamily({
+        ...newFamily.value,
+        created: Date.now()
+      });
+      newFamily.value = {
+        family_type: "",
+        label: "",
+        description: "",
+        icon: "",
+        sort_order: appSettingsStore.inquiryFamilyTab.length
+      };
+    };
+    const updateFamily = async (family) => {
+      await appSettingsStore.updateFamily(family.id, family);
+      editingFamily.value = null;
+    };
+    const deleteFamily = async (familyId) => {
+      if (confirm(translate("agora", "Are you sure you want to delete this family?"))) {
+        await appSettingsStore.deleteFamily(familyId);
+      }
+    };
+    const selectFamily = (family) => {
+      emit("family-selected", family);
+    };
+    const __returned__ = { emit, appSettingsStore, editingFamily, newFamily, availableIcons, familiesWithStats, addFamily, updateFamily, deleteFamily, selectFamily, computed, ref, onMounted, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcInputField() {
+      return NcInputField;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    }, get InquiryGeneralIcons() {
+      return InquiryGeneralIcons;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$i = { class: "families-manager" };
+const _hoisted_2$e = { class: "description" };
+const _hoisted_3$9 = { class: "families-list" };
+const _hoisted_4$9 = ["onClick"];
+const _hoisted_5$8 = { class: "family-content" };
+const _hoisted_6$8 = { class: "family-icon" };
+const _hoisted_7$7 = { class: "icon" };
+const _hoisted_8$7 = { class: "family-info" };
+const _hoisted_9$7 = { class: "family-type" };
+const _hoisted_10$6 = {
+  key: 0,
+  class: "family-description"
+};
+const _hoisted_11$5 = { class: "family-stats" };
+const _hoisted_12$4 = { class: "types-count" };
+const _hoisted_13$4 = { class: "family-actions" };
+const _hoisted_14$4 = { class: "add-family-form" };
+const _hoisted_15$4 = { class: "form-grid" };
+const _hoisted_16$3 = { class: "form-row" };
+const _hoisted_17$3 = { class: "form-actions" };
+const _hoisted_18$2 = {
+  key: 0,
+  class: "modal-overlay"
+};
+const _hoisted_19$2 = { class: "modal-content large-modal" };
+const _hoisted_20$2 = { class: "form-grid" };
+const _hoisted_21$2 = { class: "form-row" };
+const _hoisted_22$2 = { class: "modal-actions" };
+function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$i, [
+    createBaseVNode(
+      "h2",
+      null,
+      toDisplayString($setup.t("agora", "Inquiry Families Management")),
+      1
+      /* TEXT */
+    ),
+    createBaseVNode(
+      "p",
+      _hoisted_2$e,
+      toDisplayString($setup.t("agora", "Manage inquiry families to organize different types of inquiries. Each family can contain multiple inquiry types.")),
+      1
+      /* TEXT */
+    ),
+    createCommentVNode(" Families List "),
+    createBaseVNode("div", _hoisted_3$9, [
+      createBaseVNode(
+        "h3",
+        null,
+        toDisplayString($setup.t("agora", "Existing Families")),
+        1
+        /* TEXT */
+      ),
+      (openBlock(true), createElementBlock(
+        Fragment,
+        null,
+        renderList($setup.familiesWithStats, (family) => {
+          return openBlock(), createElementBlock("div", {
+            key: family.id,
+            class: "family-item",
+            onClick: ($event) => $setup.selectFamily(family)
+          }, [
+            createBaseVNode("div", _hoisted_5$8, [
+              createBaseVNode("div", _hoisted_6$8, [
+                createBaseVNode(
+                  "span",
+                  _hoisted_7$7,
+                  toDisplayString(family.icon),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              createBaseVNode("div", _hoisted_8$7, [
+                createBaseVNode(
+                  "h4",
+                  null,
+                  toDisplayString(family.label),
+                  1
+                  /* TEXT */
+                ),
+                createBaseVNode(
+                  "p",
+                  _hoisted_9$7,
+                  toDisplayString(family.family_type),
+                  1
+                  /* TEXT */
+                ),
+                family.description ? (openBlock(), createElementBlock(
+                  "p",
+                  _hoisted_10$6,
+                  toDisplayString(family.description),
+                  1
+                  /* TEXT */
+                )) : createCommentVNode("v-if", true),
+                createBaseVNode("div", _hoisted_11$5, [
+                  createBaseVNode(
+                    "span",
+                    _hoisted_12$4,
+                    toDisplayString($setup.t("agora", "{count} types", { count: family.typesCount })),
+                    1
+                    /* TEXT */
+                  )
+                ])
+              ])
+            ]),
+            createBaseVNode("div", _hoisted_13$4, [
+              createVNode($setup["NcButton"], {
+                onClick: withModifiers(($event) => $setup.editingFamily = { ...family }, ["stop"])
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(
+                    toDisplayString($setup.t("agora", "Edit")),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 2
+                /* DYNAMIC */
+              }, 1032, ["onClick"]),
+              createVNode($setup["NcButton"], {
+                onClick: withModifiers(($event) => $setup.deleteFamily(family.id), ["stop"])
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(
+                    toDisplayString($setup.t("agora", "Delete")),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 2
+                /* DYNAMIC */
+              }, 1032, ["onClick"])
+            ])
+          ], 8, _hoisted_4$9);
+        }),
+        128
+        /* KEYED_FRAGMENT */
+      ))
+    ]),
+    createCommentVNode(" Add New Family Form "),
+    createBaseVNode("div", _hoisted_14$4, [
+      createBaseVNode(
+        "h3",
+        null,
+        toDisplayString($setup.t("agora", "Add New Family")),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode("div", _hoisted_15$4, [
+        createBaseVNode("div", _hoisted_16$3, [
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newFamily.family_type,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.newFamily.family_type = $event),
+            label: $setup.t("agora", "Family Type Key"),
+            placeholder: $setup.t("agora", "e.g., deliberative, consultative"),
+            required: "",
+            class: "form-field"
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newFamily.label,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.newFamily.label = $event),
+            label: $setup.t("agora", "Display Label"),
+            placeholder: $setup.t("agora", "e.g., Deliberative Process"),
+            required: "",
+            class: "form-field"
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcSelect"], {
+            modelValue: $setup.newFamily.icon,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newFamily.icon = $event),
+            options: $setup.availableIcons,
+            label: $setup.t("agora", "Icon"),
+            placeholder: $setup.t("agora", "Select an icon"),
+            class: "form-field"
+          }, null, 8, ["modelValue", "options", "label", "placeholder"])
+        ]),
+        createVNode($setup["NcInputField"], {
+          modelValue: $setup.newFamily.description,
+          "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.newFamily.description = $event),
+          label: $setup.t("agora", "Description"),
+          placeholder: $setup.t("agora", "Optional description"),
+          type: "textarea",
+          class: "full-width"
+        }, null, 8, ["modelValue", "label", "placeholder"]),
+        createVNode($setup["NcInputField"], {
+          modelValue: $setup.newFamily.sort_order,
+          "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newFamily.sort_order = $event),
+          label: $setup.t("agora", "Sort Order"),
+          type: "number",
+          min: 0,
+          class: "form-field"
+        }, null, 8, ["modelValue", "label"]),
+        createBaseVNode("div", _hoisted_17$3, [
+          createVNode($setup["NcButton"], {
+            type: "primary",
+            disabled: !$setup.newFamily.family_type || !$setup.newFamily.label,
+            onClick: $setup.addFamily
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Add Family")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["disabled"])
+        ])
+      ])
+    ]),
+    createCommentVNode(" Edit Family Modal "),
+    $setup.editingFamily ? (openBlock(), createElementBlock("div", _hoisted_18$2, [
+      createBaseVNode("div", _hoisted_19$2, [
+        createBaseVNode(
+          "h3",
+          null,
+          toDisplayString($setup.t("agora", "Edit Family")),
+          1
+          /* TEXT */
+        ),
+        createBaseVNode("div", _hoisted_20$2, [
+          createBaseVNode("div", _hoisted_21$2, [
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingFamily.family_type,
+              "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.editingFamily.family_type = $event),
+              label: $setup.t("agora", "Family Type Key"),
+              required: "",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingFamily.label,
+              "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.editingFamily.label = $event),
+              label: $setup.t("agora", "Display Label"),
+              required: "",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcSelect"], {
+              modelValue: $setup.editingFamily.icon,
+              "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.editingFamily.icon = $event),
+              options: $setup.availableIcons,
+              label: $setup.t("agora", "Icon"),
+              class: "form-field"
+            }, null, 8, ["modelValue", "options", "label"])
+          ]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.editingFamily.description,
+            "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.editingFamily.description = $event),
+            label: $setup.t("agora", "Description"),
+            type: "textarea",
+            class: "full-width"
+          }, null, 8, ["modelValue", "label"]),
+          createBaseVNode("div", _hoisted_22$2, [
+            createVNode($setup["NcButton"], {
+              onClick: _cache[9] || (_cache[9] = ($event) => $setup.editingFamily = null)
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Cancel")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }),
+            createVNode($setup["NcButton"], {
+              type: "primary",
+              onClick: _cache[10] || (_cache[10] = ($event) => $setup.updateFamily($setup.editingFamily))
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Save Changes")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            })
+          ])
+        ])
+      ])
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminFamiliesManager = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i], ["__scopeId", "data-v-b0578289"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminFamiliesManager.vue"]]);
+const _sfc_main$h = {
+  __name: "AdminTypesManager",
+  props: ["selectedFamily"],
+  emits: ["type-selected", "back-to-families"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const props = __props;
+    const emit = __emit;
+    const appSettingsStore = useAppSettingsStore();
+    const editingType = ref(null);
+    const newType = ref({
+      inquiry_type: "",
+      label: "",
+      family: props.selectedFamily?.family_type || "",
+      icon: "",
+      description: "",
+      is_option: false,
+      fields: "[]",
+      allowed_response: "[]",
+      allowed_transformation: "[]"
+    });
+    const availableIcons = computed(
+      () => Object.keys(InquiryGeneralIcons).filter((key) => key !== "default").map((iconId) => {
+        const lowerCaseId = iconId.toLowerCase();
+        const formattedLabel = lowerCaseId.replace(/([a-z])([A-Z])/g, "$1 $2").replace(/_/g, " ");
+        return {
+          id: lowerCaseId,
+          label: translate("agora", formattedLabel.charAt(0).toUpperCase() + formattedLabel.slice(1))
+        };
+      })
+    );
+    const familyTypes = computed(
+      () => appSettingsStore.inquiryTypeTab.filter(
+        (type) => type.family === props.selectedFamily?.family_type
+      )
+    );
+    const addType = async () => {
+      if (!newType.value.inquiry_type || !newType.value.label || !newType.value.family) return;
+      await appSettingsStore.addType({
+        ...newType.value,
+        family: props.selectedFamily.family_type,
+        created: Date.now(),
+        fields: JSON.parse(newType.value.fields || "[]"),
+        allowed_response: JSON.parse(newType.value.allowed_response || "[]"),
+        allowed_transformation: JSON.parse(newType.value.allowed_transformation || "[]")
+      });
+      newType.value = {
+        inquiry_type: "",
+        label: "",
+        family: props.selectedFamily.family_type,
+        icon: "",
+        description: "",
+        is_option: false,
+        fields: "[]",
+        allowed_response: "[]",
+        allowed_transformation: "[]"
+      };
+    };
+    const updateType = async (type) => {
+      await appSettingsStore.updateType(type.id, {
+        ...type,
+        fields: JSON.parse(type.fields || "[]"),
+        allowed_response: JSON.parse(type.allowed_response || "[]"),
+        allowed_transformation: JSON.parse(type.allowed_transformation || "[]")
+      });
+      editingType.value = null;
+    };
+    const deleteType = async (typeId) => {
+      if (confirm(translate("agora", "Are you sure you want to delete this inquiry type?"))) {
+        await appSettingsStore.deleteType(typeId);
+      }
+    };
+    const openTypeSettings = (type) => {
+      emit("type-selected", type);
+    };
+    const __returned__ = { props, emit, appSettingsStore, editingType, newType, availableIcons, familyTypes, addType, updateType, deleteType, openTypeSettings, ref, computed, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcInputField() {
+      return NcInputField;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    }, get InquiryGeneralIcons() {
+      return InquiryGeneralIcons;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$h = { class: "types-manager" };
+const _hoisted_2$d = { class: "header" };
+const _hoisted_3$8 = { class: "types-list" };
+const _hoisted_4$8 = { class: "list-description" };
+const _hoisted_5$7 = { class: "types-grid" };
+const _hoisted_6$7 = ["onClick"];
+const _hoisted_7$6 = { class: "type-card-content" };
+const _hoisted_8$6 = { class: "type-icon" };
+const _hoisted_9$6 = { class: "icon" };
+const _hoisted_10$5 = { class: "type-info" };
+const _hoisted_11$4 = { class: "type-key" };
+const _hoisted_12$3 = {
+  key: 0,
+  class: "type-description"
+};
+const _hoisted_13$3 = {
+  key: 1,
+  class: "type-badge option"
+};
+const _hoisted_14$3 = { class: "type-actions" };
+const _hoisted_15$3 = { class: "secondary-actions" };
+const _hoisted_16$2 = {
+  key: 0,
+  class: "empty-state"
+};
+const _hoisted_17$2 = { class: "add-type-form" };
+const _hoisted_18$1 = { class: "form-grid" };
+const _hoisted_19$1 = { class: "form-row" };
+const _hoisted_20$1 = { class: "form-row" };
+const _hoisted_21$1 = { class: "checkbox-field" };
+const _hoisted_22$1 = { class: "field-description" };
+const _hoisted_23$1 = { class: "form-row" };
+const _hoisted_24$1 = { class: "form-actions" };
+const _hoisted_25$1 = {
+  key: 0,
+  class: "modal-overlay"
+};
+const _hoisted_26 = { class: "modal-content large-modal" };
+const _hoisted_27 = { class: "form-grid" };
+const _hoisted_28 = { class: "form-row" };
+const _hoisted_29 = { class: "form-row" };
+const _hoisted_30 = { class: "checkbox-field" };
+const _hoisted_31 = { class: "form-row" };
+const _hoisted_32 = { class: "modal-actions" };
+function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$h, [
+    createBaseVNode("div", _hoisted_2$d, [
+      createVNode($setup["NcButton"], {
+        onClick: _cache[0] || (_cache[0] = ($event) => $setup.emit("back-to-families"))
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            " ← " + toDisplayString($setup.t("agora", "Back to Families")),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }),
+      createBaseVNode(
+        "h2",
+        null,
+        toDisplayString($setup.t("agora", "Types for {family}", { family: $props.selectedFamily?.label })),
+        1
+        /* TEXT */
+      )
+    ]),
+    createCommentVNode(" Types List "),
+    createBaseVNode("div", _hoisted_3$8, [
+      createBaseVNode(
+        "h3",
+        null,
+        toDisplayString($setup.t("agora", "Configured Types")),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode(
+        "p",
+        _hoisted_4$8,
+        toDisplayString($setup.t("agora", "Click on a type to configure its rights and status settings")),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode("div", _hoisted_5$7, [
+        (openBlock(true), createElementBlock(
+          Fragment,
+          null,
+          renderList($setup.familyTypes, (type) => {
+            return openBlock(), createElementBlock("div", {
+              key: type.id,
+              class: "type-card",
+              onClick: ($event) => $setup.openTypeSettings(type)
+            }, [
+              createBaseVNode("div", _hoisted_7$6, [
+                createBaseVNode("div", _hoisted_8$6, [
+                  createBaseVNode(
+                    "span",
+                    _hoisted_9$6,
+                    toDisplayString(type.icon),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                createBaseVNode("div", _hoisted_10$5, [
+                  createBaseVNode(
+                    "h4",
+                    null,
+                    toDisplayString(type.label),
+                    1
+                    /* TEXT */
+                  ),
+                  createBaseVNode(
+                    "p",
+                    _hoisted_11$4,
+                    toDisplayString(type.inquiry_type),
+                    1
+                    /* TEXT */
+                  ),
+                  type.description ? (openBlock(), createElementBlock(
+                    "p",
+                    _hoisted_12$3,
+                    toDisplayString(type.description),
+                    1
+                    /* TEXT */
+                  )) : createCommentVNode("v-if", true),
+                  type.is_option ? (openBlock(), createElementBlock(
+                    "div",
+                    _hoisted_13$3,
+                    toDisplayString($setup.t("agora", "Option")),
+                    1
+                    /* TEXT */
+                  )) : createCommentVNode("v-if", true)
+                ])
+              ]),
+              createBaseVNode("div", _hoisted_14$3, [
+                createVNode($setup["NcButton"], {
+                  type: "primary",
+                  onClick: withModifiers(($event) => $setup.openTypeSettings(type), ["stop"]),
+                  class: "configure-btn"
+                }, {
+                  default: withCtx(() => [
+                    createTextVNode(
+                      toDisplayString($setup.t("agora", "Configure")),
+                      1
+                      /* TEXT */
+                    )
+                  ]),
+                  _: 2
+                  /* DYNAMIC */
+                }, 1032, ["onClick"]),
+                createBaseVNode("div", _hoisted_15$3, [
+                  createVNode($setup["NcButton"], {
+                    onClick: withModifiers(($event) => $setup.editingType = {
+                      ...type,
+                      fields: JSON.stringify(type.fields || []),
+                      allowed_response: JSON.stringify(type.allowed_response || []),
+                      allowed_transformation: JSON.stringify(type.allowed_transformation || [])
+                    }, ["stop"]),
+                    class: "edit-btn"
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Edit")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["onClick"]),
+                  createVNode($setup["NcButton"], {
+                    onClick: withModifiers(($event) => $setup.deleteType(type.id), ["stop"]),
+                    class: "delete-btn"
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Delete")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["onClick"])
+                ])
+              ])
+            ], 8, _hoisted_6$7);
+          }),
+          128
+          /* KEYED_FRAGMENT */
+        ))
+      ]),
+      $setup.familyTypes.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_16$2, [
+        createBaseVNode(
+          "p",
+          null,
+          toDisplayString($setup.t("agora", "No types configured for this family yet.")),
+          1
+          /* TEXT */
+        )
+      ])) : createCommentVNode("v-if", true)
+    ]),
+    createCommentVNode(" Add New Type Form "),
+    createBaseVNode("div", _hoisted_17$2, [
+      createBaseVNode(
+        "h3",
+        null,
+        toDisplayString($setup.t("agora", "Add New Type to {family}", { family: $props.selectedFamily?.label })),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode("div", _hoisted_18$1, [
+        createBaseVNode("div", _hoisted_19$1, [
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newType.inquiry_type,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.newType.inquiry_type = $event),
+            label: $setup.t("agora", "Type Key"),
+            placeholder: $setup.t("agora", "e.g., petition, survey, poll"),
+            required: "",
+            class: "form-field"
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newType.label,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newType.label = $event),
+            label: $setup.t("agora", "Display Label"),
+            placeholder: $setup.t("agora", "e.g., Public Petition, Survey"),
+            required: "",
+            class: "form-field"
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcSelect"], {
+            modelValue: $setup.newType.icon,
+            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.newType.icon = $event),
+            options: $setup.availableIcons,
+            label: $setup.t("agora", "Icon"),
+            class: "form-field"
+          }, null, 8, ["modelValue", "options", "label"])
+        ]),
+        createVNode($setup["NcInputField"], {
+          modelValue: $setup.newType.description,
+          "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newType.description = $event),
+          label: $setup.t("agora", "Description"),
+          type: "textarea",
+          class: "full-width"
+        }, null, 8, ["modelValue", "label"]),
+        createBaseVNode("div", _hoisted_20$1, [
+          createBaseVNode("div", _hoisted_21$1, [
+            createVNode($setup["NcCheckboxRadioSwitch"], {
+              modelValue: $setup.newType.is_option,
+              "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.newType.is_option = $event),
+              type: "switch"
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Is Option Type")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }, 8, ["modelValue"]),
+            createBaseVNode(
+              "p",
+              _hoisted_22$1,
+              toDisplayString($setup.t("agora", "Option types are used as responses or transformations for other types")),
+              1
+              /* TEXT */
+            )
+          ])
+        ]),
+        createBaseVNode("div", _hoisted_23$1, [
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newType.fields,
+            "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.newType.fields = $event),
+            label: $setup.t("agora", "Fields Configuration (JSON)"),
+            type: "textarea",
+            placeholder: `e.g., ["title", "description", "deadline"]`,
+            class: "form-field"
+          }, null, 8, ["modelValue", "label"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newType.allowed_response,
+            "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.newType.allowed_response = $event),
+            label: $setup.t("agora", "Allowed Responses (JSON)"),
+            type: "textarea",
+            placeholder: `e.g., ["vote_yes_no", "comment"]`,
+            class: "form-field"
+          }, null, 8, ["modelValue", "label"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newType.allowed_transformation,
+            "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.newType.allowed_transformation = $event),
+            label: $setup.t("agora", "Allowed Transformations (JSON)"),
+            type: "textarea",
+            placeholder: `e.g., ["official_proposal"]`,
+            class: "form-field"
+          }, null, 8, ["modelValue", "label"])
+        ]),
+        createBaseVNode("div", _hoisted_24$1, [
+          createVNode($setup["NcButton"], {
+            type: "primary",
+            disabled: !$setup.newType.inquiry_type || !$setup.newType.label,
+            onClick: $setup.addType
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Add Type")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["disabled"])
+        ])
+      ])
+    ]),
+    createCommentVNode(" Edit Type Modal "),
+    $setup.editingType ? (openBlock(), createElementBlock("div", _hoisted_25$1, [
+      createBaseVNode("div", _hoisted_26, [
+        createBaseVNode(
+          "h3",
+          null,
+          toDisplayString($setup.t("agora", "Edit Inquiry Type")),
+          1
+          /* TEXT */
+        ),
+        createBaseVNode("div", _hoisted_27, [
+          createBaseVNode("div", _hoisted_28, [
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingType.inquiry_type,
+              "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $setup.editingType.inquiry_type = $event),
+              label: $setup.t("agora", "Type Key"),
+              required: "",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingType.label,
+              "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => $setup.editingType.label = $event),
+              label: $setup.t("agora", "Display Label"),
+              required: "",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcSelect"], {
+              modelValue: $setup.editingType.icon,
+              "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => $setup.editingType.icon = $event),
+              options: $setup.availableIcons,
+              label: $setup.t("agora", "Icon"),
+              class: "form-field"
+            }, null, 8, ["modelValue", "options", "label"])
+          ]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.editingType.description,
+            "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => $setup.editingType.description = $event),
+            label: $setup.t("agora", "Description"),
+            type: "textarea",
+            class: "full-width"
+          }, null, 8, ["modelValue", "label"]),
+          createBaseVNode("div", _hoisted_29, [
+            createBaseVNode("div", _hoisted_30, [
+              createVNode($setup["NcCheckboxRadioSwitch"], {
+                modelValue: $setup.editingType.is_option,
+                "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => $setup.editingType.is_option = $event),
+                type: "switch"
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(
+                    toDisplayString($setup.t("agora", "Is Option Type")),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 1
+                /* STABLE */
+              }, 8, ["modelValue"])
+            ])
+          ]),
+          createBaseVNode("div", _hoisted_31, [
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingType.fields,
+              "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => $setup.editingType.fields = $event),
+              label: $setup.t("agora", "Fields Configuration (JSON)"),
+              type: "textarea",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingType.allowed_response,
+              "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => $setup.editingType.allowed_response = $event),
+              label: $setup.t("agora", "Allowed Responses (JSON)"),
+              type: "textarea",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingType.allowed_transformation,
+              "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => $setup.editingType.allowed_transformation = $event),
+              label: $setup.t("agora", "Allowed Transformations (JSON)"),
+              type: "textarea",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"])
+          ]),
+          createBaseVNode("div", _hoisted_32, [
+            createVNode($setup["NcButton"], {
+              onClick: _cache[17] || (_cache[17] = ($event) => $setup.editingType = null)
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Cancel")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }),
+            createVNode($setup["NcButton"], {
+              type: "primary",
+              onClick: _cache[18] || (_cache[18] = ($event) => $setup.updateType($setup.editingType))
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Save")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            })
+          ])
+        ])
+      ])
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminTypesManager = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h], ["__scopeId", "data-v-f2f32798"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminTypesManager.vue"]]);
+const _sfc_main$g = {
+  __name: "AdminTypeRights",
+  props: ["selectedType"],
+  emits: ["back-to-types"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const props = __props;
+    const emit = __emit;
+    const appSettingsStore = useAppSettingsStore();
+    const editorOptions = [
+      { value: "wysiwyg", label: translate("agora", "Rich Text Editor") },
+      { value: "textarea", label: translate("agora", "Simple Text Area") },
+      { value: "texteditor", label: translate("agora", "Nextcloud text editor") }
+    ];
+    watch(() => props.selectedType, (newType) => {
+      if (newType && !appSettingsStore.inquiryTypeRights[newType.inquiry_type]) {
+        appSettingsStore.initializeInquiryTypeRights(newType.inquiry_type);
+      }
+    }, { immediate: true });
+    const __returned__ = { props, emit, appSettingsStore, editorOptions, get t() {
+      return translate;
+    }, ref, computed, onMounted, watch, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$g = { class: "type-rights" };
+const _hoisted_2$c = { class: "header" };
+const _hoisted_3$7 = {
+  key: 0,
+  class: "settings-container"
+};
+const _hoisted_4$7 = { class: "description" };
+const _hoisted_5$6 = { class: "settings-list" };
+const _hoisted_6$6 = { class: "setting-item" };
+const _hoisted_7$5 = { class: "setting-description" };
+const _hoisted_8$5 = { class: "setting-item" };
+const _hoisted_9$5 = { class: "setting-description" };
+const _hoisted_10$4 = { class: "setting-item" };
+const _hoisted_11$3 = { class: "setting-description" };
+const _hoisted_12$2 = { class: "setting-item" };
+const _hoisted_13$2 = { for: "editor-type-select" };
+const _hoisted_14$2 = { class: "setting-description" };
+const _hoisted_15$2 = {
+  key: 1,
+  class: "no-selection"
+};
+function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_NcButton = resolveComponent("NcButton");
+  return openBlock(), createElementBlock("div", _hoisted_1$g, [
+    createBaseVNode("div", _hoisted_2$c, [
+      createVNode(_component_NcButton, {
+        onClick: _cache[0] || (_cache[0] = ($event) => $setup.emit("back-to-types"))
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            " ← " + toDisplayString($setup.t("agora", "Back to Types")),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }),
+      createBaseVNode(
+        "h2",
+        null,
+        toDisplayString($setup.t("agora", "Rights for {type}", { type: $props.selectedType?.label })),
+        1
+        /* TEXT */
+      )
+    ]),
+    $props.selectedType ? (openBlock(), createElementBlock("div", _hoisted_3$7, [
+      createBaseVNode(
+        "p",
+        _hoisted_4$7,
+        toDisplayString($setup.t("agora", "Configure default rights and settings for this inquiry type")),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode("div", _hoisted_5$6, [
+        createBaseVNode("div", _hoisted_6$6, [
+          createVNode($setup["NcCheckboxRadioSwitch"], {
+            modelValue: $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].supportInquiry,
+            "onUpdate:modelValue": [
+              _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].supportInquiry = $event),
+              _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.write())
+            ],
+            type: "switch"
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Allow support")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["modelValue"]),
+          createBaseVNode(
+            "p",
+            _hoisted_7$5,
+            toDisplayString($setup.t("agora", "Allow users to support this inquiry type")),
+            1
+            /* TEXT */
+          )
+        ]),
+        createBaseVNode("div", _hoisted_8$5, [
+          createVNode($setup["NcCheckboxRadioSwitch"], {
+            modelValue: $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].commentInquiry,
+            "onUpdate:modelValue": [
+              _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].commentInquiry = $event),
+              _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.write())
+            ],
+            type: "switch"
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Allow comments")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["modelValue"]),
+          createBaseVNode(
+            "p",
+            _hoisted_9$5,
+            toDisplayString($setup.t("agora", "Allow users to comment on this inquiry type")),
+            1
+            /* TEXT */
+          )
+        ]),
+        createBaseVNode("div", _hoisted_10$4, [
+          createVNode($setup["NcCheckboxRadioSwitch"], {
+            modelValue: $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].attachFileInquiry,
+            "onUpdate:modelValue": [
+              _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].attachFileInquiry = $event),
+              _cache[6] || (_cache[6] = ($event) => $setup.appSettingsStore.write())
+            ],
+            type: "switch"
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Allow file attachments")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["modelValue"]),
+          createBaseVNode(
+            "p",
+            _hoisted_11$3,
+            toDisplayString($setup.t("agora", "Allow users to attach files to this inquiry type")),
+            1
+            /* TEXT */
+          )
+        ]),
+        createBaseVNode("div", _hoisted_12$2, [
+          createBaseVNode(
+            "label",
+            _hoisted_13$2,
+            toDisplayString($setup.t("agora", "Editor type:")),
+            1
+            /* TEXT */
+          ),
+          createVNode($setup["NcSelect"], {
+            id: "editor-type-select",
+            modelValue: $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].editorType,
+            "onUpdate:modelValue": [
+              _cache[7] || (_cache[7] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].editorType = $event),
+              _cache[8] || (_cache[8] = ($event) => $setup.appSettingsStore.write())
+            ],
+            options: $setup.editorOptions,
+            "option-value": "value",
+            "option-label": "label",
+            class: "editor-select"
+          }, null, 8, ["modelValue"]),
+          createBaseVNode(
+            "p",
+            _hoisted_14$2,
+            toDisplayString($setup.t("agora", "Select the editor type for this inquiry")),
+            1
+            /* TEXT */
+          )
+        ])
+      ])
+    ])) : (openBlock(), createElementBlock("div", _hoisted_15$2, [
+      createBaseVNode(
+        "p",
+        null,
+        toDisplayString($setup.t("agora", "No type selected")),
+        1
+        /* TEXT */
+      )
+    ]))
+  ]);
+}
+const AdminTypeRights = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g], ["__scopeId", "data-v-60290e39"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminTypeRights.vue"]]);
+const _sfc_main$f = {
+  __name: "AdminOfficialRights",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$f = { class: "rights-management" };
+const _hoisted_2$b = { class: "description" };
+const _hoisted_3$6 = { class: "rights-list" };
+const _hoisted_4$6 = { class: "right-item" };
+const _hoisted_5$5 = { class: "right-description" };
+const _hoisted_6$5 = { class: "right-item" };
+const _hoisted_7$4 = { class: "right-description" };
+const _hoisted_8$4 = { class: "right-item" };
+const _hoisted_9$4 = { class: "right-description" };
+const _hoisted_10$3 = { class: "right-item" };
+const _hoisted_11$2 = { class: "right-description" };
+function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$f, [
+    createBaseVNode(
+      "h2",
+      null,
+      toDisplayString($setup.t("agora", "Official Rights")),
+      1
+      /* TEXT */
+    ),
+    createBaseVNode(
+      "p",
+      _hoisted_2$b,
+      toDisplayString($setup.t("agora", "Define permissions for users with official role")),
+      1
+      /* TEXT */
+    ),
+    createBaseVNode("div", _hoisted_3$6, [
+      createBaseVNode("div", _hoisted_4$6, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.officialRights.modifyInquiry,
+          "onUpdate:modelValue": [
+            _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.officialRights.modifyInquiry = $event),
+            _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Modify inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_5$5,
+          toDisplayString($setup.t("agora", "Allow officials to modify existing inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      createBaseVNode("div", _hoisted_6$5, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.officialRights.deleteInquiry,
+          "onUpdate:modelValue": [
+            _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.officialRights.deleteInquiry = $event),
+            _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Delete inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_7$4,
+          toDisplayString($setup.t("agora", "Allow officials to delete inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      createBaseVNode("div", _hoisted_8$4, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.officialRights.archiveInquiry,
+          "onUpdate:modelValue": [
+            _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.officialRights.archiveInquiry = $event),
+            _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Archive inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_9$4,
+          toDisplayString($setup.t("agora", "Allow officials to archive inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      createBaseVNode("div", _hoisted_10$3, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.officialRights.manageModerationStatus,
+          "onUpdate:modelValue": [
+            _cache[6] || (_cache[6] = ($event) => $setup.appSettingsStore.officialRights.manageModerationStatus = $event),
+            _cache[7] || (_cache[7] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Moderation status")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_11$2,
+          toDisplayString($setup.t("agora", "Allow officials to manage Moderation status for all inquiry")),
+          1
+          /* TEXT */
+        )
+      ])
+    ])
+  ]);
+}
+const AdminOfficialRights = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f], ["__scopeId", "data-v-14c25bb2"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminOfficialRights.vue"]]);
+const _sfc_main$e = {
+  __name: "AdminModeratorRights",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$e = { class: "rights-management" };
+const _hoisted_2$a = { class: "description" };
+const _hoisted_3$5 = { class: "rights-list" };
+const _hoisted_4$5 = { class: "right-item" };
+const _hoisted_5$4 = { class: "right-description" };
+const _hoisted_6$4 = { class: "right-item" };
+const _hoisted_7$3 = { class: "right-description" };
+const _hoisted_8$3 = { class: "right-item" };
+const _hoisted_9$3 = { class: "right-description" };
+function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$e, [
+    createBaseVNode(
+      "h2",
+      null,
+      toDisplayString($setup.t("agora", "Moderator Rights")),
+      1
+      /* TEXT */
+    ),
+    createBaseVNode(
+      "p",
+      _hoisted_2$a,
+      toDisplayString($setup.t("agora", "Define permissions for users with moderator role")),
+      1
+      /* TEXT */
+    ),
+    createBaseVNode("div", _hoisted_3$5, [
+      createBaseVNode("div", _hoisted_4$5, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.moderatorRights.modifyInquiry,
+          "onUpdate:modelValue": [
+            _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.moderatorRights.modifyInquiry = $event),
+            _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Modify inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_5$4,
+          toDisplayString($setup.t("agora", "Allow moderators to modify existing inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      createBaseVNode("div", _hoisted_6$4, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.moderatorRights.deleteInquiry,
+          "onUpdate:modelValue": [
+            _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.moderatorRights.deleteInquiry = $event),
+            _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Delete inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_7$3,
+          toDisplayString($setup.t("agora", "Allow moderators to delete inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      createBaseVNode("div", _hoisted_8$3, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.moderatorRights.archiveInquiry,
+          "onUpdate:modelValue": [
+            _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.moderatorRights.archiveInquiry = $event),
+            _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Archive inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_9$3,
+          toDisplayString($setup.t("agora", "Allow moderators to archive inquiries")),
+          1
+          /* TEXT */
+        )
+      ])
+    ])
+  ]);
+}
+const AdminModeratorRights = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e], ["__scopeId", "data-v-fb7cbc5e"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminModeratorRights.vue"]]);
+const _sfc_main$d = /* @__PURE__ */ defineComponent({
+  __name: "AdminTypeStatus",
+  props: ["selectedType"],
+  emits: ["back-to-types"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const props = __props;
+    const emit = __emit;
+    const appSettingsStore = useAppSettingsStore();
+    const editingStatus = ref(null);
+    const newStatus = ref({
+      statusKey: "",
+      label: "",
+      description: "",
+      isFinal: false,
+      icon: "ClockOutline"
+    });
+    const availableIcons = computed(
+      () => Object.keys(StatusIcons).filter((key) => key !== "default").map((iconId) => ({
+        id: iconId,
+        label: translate("agora", iconId.replace(/([A-Z])/g, " $1").trim())
+      }))
+    );
+    const statuses = computed(
+      () => props.selectedType ? appSettingsStore.getStatusesForInquiryType(props.selectedType.inquiry_type) : []
+    );
+    const getIconComponent = (iconName) => StatusIcons[iconName] || StatusIcons.ClockOutline;
+    const addStatus = () => {
+      if (!newStatus.value.statusKey || !newStatus.value.label || !props.selectedType) {
+        return;
+      }
+      appSettingsStore.addStatusForInquiryType(props.selectedType.inquiry_type, {
+        ...newStatus.value,
+        icon: String(newStatus.value.icon)
+      });
+      newStatus.value = {
+        statusKey: "",
+        label: "",
+        description: "",
+        isFinal: false,
+        icon: "ClockOutline"
+      };
+    };
+    const editStatus = (status) => {
+      editingStatus.value = {
+        id: status.id,
+        statusKey: status.statusKey,
+        label: status.label,
+        description: status.description || "",
+        isFinal: status.isFinal,
+        icon: status.icon || "ClockOutline"
+      };
+    };
+    const saveUpdateStatus = () => {
+      if (editingStatus.value && props.selectedType) {
+        appSettingsStore.updateStatusForInquiryType(props.selectedType.inquiry_type, editingStatus.value.id, {
+          ...editingStatus.value,
+          icon: editingStatus.value.icon?.id || String(editingStatus.value.icon)
+        });
+        editingStatus.value = null;
+      }
+    };
+    const deleteStatus = (statusId) => {
+      if (confirm(translate("agora", "Are you sure you want to delete this status?")) && props.selectedType) {
+        appSettingsStore.deleteStatusForInquiryType(props.selectedType.inquiry_type, statusId);
+      }
+    };
+    const moveStatusUp = (statusId) => {
+      if (props.selectedType) {
+        appSettingsStore.moveStatusUp(props.selectedType.inquiry_type, statusId);
+      }
+    };
+    const moveStatusDown = (statusId) => {
+      if (props.selectedType) {
+        appSettingsStore.moveStatusDown(props.selectedType.inquiry_type, statusId);
+      }
+    };
+    const cancelEdit = () => {
+      editingStatus.value = null;
+    };
+    const __returned__ = { props, emit, appSettingsStore, editingStatus, newStatus, availableIcons, statuses, getIconComponent, addStatus, editStatus, saveUpdateStatus, deleteStatus, moveStatusUp, moveStatusDown, cancelEdit, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcInputField() {
+      return NcInputField;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1$d = { class: "type-status" };
+const _hoisted_2$9 = { class: "header" };
+const _hoisted_3$4 = {
+  key: 0,
+  class: "status-management"
+};
+const _hoisted_4$4 = { class: "description" };
+const _hoisted_5$3 = { class: "status-list" };
+const _hoisted_6$3 = {
+  key: 0,
+  class: "empty-state"
+};
+const _hoisted_7$2 = {
+  key: 1,
+  class: "status-items"
+};
+const _hoisted_8$2 = { class: "status-content" };
+const _hoisted_9$2 = ["title"];
+const _hoisted_10$2 = { class: "status-info" };
+const _hoisted_11$1 = { class: "status-key" };
+const _hoisted_12$1 = {
+  key: 0,
+  class: "status-description"
+};
+const _hoisted_13$1 = { class: "status-properties" };
+const _hoisted_14$1 = { class: "status-actions" };
+const _hoisted_15$1 = { class: "add-status-form" };
+const _hoisted_16$1 = { class: "form-grid" };
+const _hoisted_17$1 = { class: "checkbox-field" };
+const _hoisted_18 = { class: "field-description" };
+const _hoisted_19 = {
+  key: 0,
+  class: "modal-overlay"
+};
+const _hoisted_20 = { class: "modal-content" };
+const _hoisted_21 = { class: "form-grid" };
+const _hoisted_22 = { class: "checkbox-field" };
+const _hoisted_23 = { class: "field-description" };
+const _hoisted_24 = { class: "modal-actions" };
+const _hoisted_25 = {
+  key: 1,
+  class: "no-selection"
+};
+function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$d, [
+    createBaseVNode("div", _hoisted_2$9, [
+      createVNode($setup["NcButton"], {
+        onClick: _cache[0] || (_cache[0] = ($event) => $setup.emit("back-to-types"))
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            " ← " + toDisplayString($setup.t("agora", "Back to Types")),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }),
+      createBaseVNode(
+        "h2",
+        null,
+        toDisplayString($setup.t("agora", "Status for {type}", { type: $props.selectedType?.label })),
+        1
+        /* TEXT */
+      )
+    ]),
+    $props.selectedType ? (openBlock(), createElementBlock("div", _hoisted_3$4, [
+      createBaseVNode(
+        "p",
+        _hoisted_4$4,
+        toDisplayString($setup.t("agora", "Manage statuses for this inquiry type. Statuses define the workflow stages.")),
+        1
+        /* TEXT */
+      ),
+      createCommentVNode(" Status list for current inquiry type "),
+      createBaseVNode("div", _hoisted_5$3, [
+        createBaseVNode(
+          "h3",
+          null,
+          toDisplayString($setup.t("agora", "Statuses for {type}", {
+            type: $props.selectedType.label
+          })),
+          1
+          /* TEXT */
+        ),
+        $setup.statuses.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_6$3, [
+          createBaseVNode(
+            "p",
+            null,
+            toDisplayString($setup.t("agora", "No statuses configured for this inquiry type.")),
+            1
+            /* TEXT */
+          )
+        ])) : (openBlock(), createElementBlock("div", _hoisted_7$2, [
+          (openBlock(true), createElementBlock(
+            Fragment,
+            null,
+            renderList($setup.statuses, (status, index) => {
+              return openBlock(), createElementBlock("div", {
+                key: status.statusKey,
+                class: "status-item"
+              }, [
+                createBaseVNode("div", _hoisted_8$2, [
+                  createBaseVNode("div", {
+                    class: "status-icon",
+                    title: status.icon
+                  }, [
+                    (openBlock(), createBlock(resolveDynamicComponent($setup.getIconComponent(status.icon)), { size: 20 }))
+                  ], 8, _hoisted_9$2),
+                  createBaseVNode("div", _hoisted_10$2, [
+                    createBaseVNode(
+                      "h4",
+                      null,
+                      toDisplayString(status.label),
+                      1
+                      /* TEXT */
+                    ),
+                    createBaseVNode(
+                      "p",
+                      _hoisted_11$1,
+                      toDisplayString(status.statusKey),
+                      1
+                      /* TEXT */
+                    ),
+                    status.description ? (openBlock(), createElementBlock(
+                      "p",
+                      _hoisted_12$1,
+                      toDisplayString(status.description),
+                      1
+                      /* TEXT */
+                    )) : createCommentVNode("v-if", true),
+                    createBaseVNode("div", _hoisted_13$1, [
+                      createBaseVNode(
+                        "span",
+                        {
+                          class: normalizeClass(["status-badge", status.isFinal ? "final" : "non-final"])
+                        },
+                        toDisplayString(status.isFinal ? $setup.t("agora", "Final") : $setup.t("agora", "Non-Final")),
+                        3
+                        /* TEXT, CLASS */
+                      )
+                    ])
+                  ])
+                ]),
+                createBaseVNode("div", _hoisted_14$1, [
+                  createVNode($setup["NcButton"], {
+                    disabled: index === 0,
+                    onClick: ($event) => $setup.moveStatusUp(status.statusKey)
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Up")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["disabled", "onClick"]),
+                  createVNode($setup["NcButton"], {
+                    disabled: index === $setup.statuses.length - 1,
+                    onClick: ($event) => $setup.moveStatusDown(status.statusKey)
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Down")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["disabled", "onClick"]),
+                  createVNode($setup["NcButton"], {
+                    onClick: ($event) => $setup.editStatus(status)
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Edit")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["onClick"]),
+                  createVNode($setup["NcButton"], {
+                    onClick: ($event) => $setup.deleteStatus(status.id)
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Delete")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["onClick"])
+                ])
+              ]);
+            }),
+            128
+            /* KEYED_FRAGMENT */
+          ))
+        ]))
+      ]),
+      createCommentVNode(" Add new status form "),
+      createBaseVNode("div", _hoisted_15$1, [
+        createBaseVNode(
+          "h3",
+          null,
+          toDisplayString($setup.t("agora", "Add New Status")),
+          1
+          /* TEXT */
+        ),
+        createBaseVNode("div", _hoisted_16$1, [
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newStatus.statusKey,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.newStatus.statusKey = $event),
+            label: $setup.t("agora", "Status Key"),
+            placeholder: $setup.t("agora", "Enter unique status key"),
+            required: ""
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newStatus.label,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newStatus.label = $event),
+            label: $setup.t("agora", "Label"),
+            placeholder: $setup.t("agora", "Enter display label"),
+            required: ""
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newStatus.description,
+            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.newStatus.description = $event),
+            label: $setup.t("agora", "Description"),
+            placeholder: $setup.t("agora", "Enter description (optional)"),
+            type: "textarea"
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcSelect"], {
+            modelValue: $setup.newStatus.icon,
+            "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newStatus.icon = $event),
+            options: $setup.availableIcons,
+            label: "label",
+            "input-label": $setup.t("agora", "Select Icon")
+          }, null, 8, ["modelValue", "options", "input-label"]),
+          createBaseVNode("div", _hoisted_17$1, [
+            createVNode($setup["NcCheckboxRadioSwitch"], {
+              modelValue: $setup.newStatus.isFinal,
+              "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.newStatus.isFinal = $event),
+              type: "switch"
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Final Status")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }, 8, ["modelValue"]),
+            createBaseVNode(
+              "p",
+              _hoisted_18,
+              toDisplayString($setup.t("agora", "Final statuses cannot be changed once set")),
+              1
+              /* TEXT */
+            )
+          ]),
+          createVNode($setup["NcButton"], {
+            type: "primary",
+            disabled: !$setup.newStatus.statusKey || !$setup.newStatus.label,
+            onClick: $setup.addStatus
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Add Status")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["disabled"])
+        ])
+      ]),
+      createCommentVNode(" Edit status modal "),
+      $setup.editingStatus ? (openBlock(), createElementBlock("div", _hoisted_19, [
+        createBaseVNode("div", _hoisted_20, [
+          createBaseVNode(
+            "h3",
+            null,
+            toDisplayString($setup.t("agora", "Edit Status")),
+            1
+            /* TEXT */
+          ),
+          createBaseVNode("div", _hoisted_21, [
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingStatus.statusKey,
+              "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.editingStatus.statusKey = $event),
+              label: $setup.t("agora", "Status Key"),
+              placeholder: $setup.t("agora", "Enter unique status key"),
+              required: ""
+            }, null, 8, ["modelValue", "label", "placeholder"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingStatus.label,
+              "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.editingStatus.label = $event),
+              label: $setup.t("agora", "Label"),
+              placeholder: $setup.t("agora", "Enter display label"),
+              required: ""
+            }, null, 8, ["modelValue", "label", "placeholder"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingStatus.description,
+              "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.editingStatus.description = $event),
+              label: $setup.t("agora", "Description"),
+              placeholder: $setup.t("agora", "Enter description (optional)"),
+              type: "textarea"
+            }, null, 8, ["modelValue", "label", "placeholder"]),
+            createVNode($setup["NcSelect"], {
+              modelValue: $setup.editingStatus.icon,
+              "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $setup.editingStatus.icon = $event),
+              options: $setup.availableIcons,
+              label: "label",
+              "input-label": $setup.t("agora", "Select Icon")
+            }, null, 8, ["modelValue", "options", "input-label"]),
+            createBaseVNode("div", _hoisted_22, [
+              createVNode($setup["NcCheckboxRadioSwitch"], {
+                modelValue: $setup.editingStatus.isFinal,
+                "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => $setup.editingStatus.isFinal = $event),
+                type: "switch"
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(
+                    toDisplayString($setup.t("agora", "Final Status")),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 1
+                /* STABLE */
+              }, 8, ["modelValue"]),
+              createBaseVNode(
+                "p",
+                _hoisted_23,
+                toDisplayString($setup.t("agora", "Final statuses cannot be changed once set")),
+                1
+                /* TEXT */
+              )
+            ])
+          ]),
+          createBaseVNode("div", _hoisted_24, [
+            createVNode($setup["NcButton"], { onClick: $setup.cancelEdit }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Cancel")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }),
+            createVNode($setup["NcButton"], {
+              type: "primary",
+              disabled: !$setup.editingStatus.statusKey || !$setup.editingStatus.label,
+              onClick: $setup.saveUpdateStatus
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Save Changes")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }, 8, ["disabled"])
+          ])
+        ])
+      ])) : createCommentVNode("v-if", true)
+    ])) : (openBlock(), createElementBlock("div", _hoisted_25, [
+      createBaseVNode(
+        "p",
+        null,
+        toDisplayString($setup.t("agora", "No type selected")),
+        1
+        /* TEXT */
+      )
+    ]))
+  ]);
+}
+const AdminTypeStatus = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d], ["__scopeId", "data-v-832d89d2"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminTypeStatus.vue"]]);
+const _sfc_main$c = {
+  __name: "TypeSettingsModal",
+  props: ["selectedType"],
+  emits: ["close"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const props = __props;
+    const emit = __emit;
+    const activeSettingsTab = ref("user-rights");
+    const settingsTabs = [
+      {
+        id: "user-rights",
+        label: translate("agora", "Inquiry Features"),
+        component: AdminTypeRights
+      },
+      {
+        id: "official-rights",
+        label: translate("agora", "Official Rights"),
+        component: AdminOfficialRights
+      },
+      {
+        id: "moderator-rights",
+        label: translate("agora", "Moderator Rights"),
+        component: AdminModeratorRights
+      },
+      {
+        id: "status",
+        label: translate("agora", "Inquiry Status"),
+        component: AdminTypeStatus
+      }
+    ];
+    const __returned__ = { props, emit, activeSettingsTab, settingsTabs, ref, get t() {
+      return translate;
+    }, AdminTypeRights, AdminOfficialRights, AdminModeratorRights, AdminTypeStatus };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$c = { class: "type-settings-modal" };
+const _hoisted_2$8 = { class: "modal-header" };
+const _hoisted_3$3 = { class: "type-info" };
+const _hoisted_4$3 = { class: "type-icon" };
+const _hoisted_5$2 = { class: "icon" };
+const _hoisted_6$2 = { class: "type-details" };
+const _hoisted_7$1 = { class: "type-key" };
+const _hoisted_8$1 = { class: "simple-menu" };
+const _hoisted_9$1 = ["onClick"];
+const _hoisted_10$1 = { class: "settings-content" };
+function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$c, [
+    createCommentVNode(" En-tête avec informations du type "),
+    createBaseVNode("div", _hoisted_2$8, [
+      createBaseVNode("div", _hoisted_3$3, [
+        createBaseVNode("div", _hoisted_4$3, [
+          createBaseVNode(
+            "span",
+            _hoisted_5$2,
+            toDisplayString($props.selectedType.icon),
+            1
+            /* TEXT */
+          )
+        ]),
+        createBaseVNode("div", _hoisted_6$2, [
+          createBaseVNode(
+            "h3",
+            null,
+            toDisplayString($props.selectedType.label),
+            1
+            /* TEXT */
+          ),
+          createBaseVNode(
+            "p",
+            _hoisted_7$1,
+            toDisplayString($props.selectedType.inquiry_type),
+            1
+            /* TEXT */
+          )
+        ])
+      ])
+    ]),
+    createCommentVNode(" Menu de navigation simple "),
+    createBaseVNode("div", _hoisted_8$1, [
+      (openBlock(), createElementBlock(
+        Fragment,
+        null,
+        renderList($setup.settingsTabs, (tab) => {
+          return createBaseVNode("button", {
+            key: tab.id,
+            class: normalizeClass(["menu-item", { active: $setup.activeSettingsTab === tab.id }]),
+            onClick: ($event) => $setup.activeSettingsTab = tab.id
+          }, toDisplayString(tab.label), 11, _hoisted_9$1);
+        }),
+        64
+        /* STABLE_FRAGMENT */
+      ))
+    ]),
+    createCommentVNode(" Contenu des paramètres "),
+    createBaseVNode("div", _hoisted_10$1, [
+      (openBlock(), createBlock(resolveDynamicComponent($setup.settingsTabs.find((t) => t.id === $setup.activeSettingsTab)?.component), {
+        "selected-type": $props.selectedType,
+        "in-modal": true
+      }, null, 8, ["selected-type"]))
+    ])
+  ]);
+}
+const TypeSettingsModal = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c], ["__scopeId", "data-v-077dce28"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/TypeSettingsModal.vue"]]);
+const _sfc_main$b = {
+  __name: "AdminSettings",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const currentView = ref("families");
+    const selectedFamily = ref(null);
+    const selectedType = ref(null);
+    const settingsModalOpen = ref(false);
+    const breadcrumb = computed(() => {
+      const items = [
+        { label: translate("agora", "Inquiry Families"), view: "families" }
+      ];
+      if (selectedFamily.value) {
+        items.push({
+          label: selectedFamily.value.label,
+          view: "types"
+        });
+      }
+      return items;
+    });
+    const handleFamilySelected = (family) => {
+      selectedFamily.value = family;
+      currentView.value = "types";
+    };
+    const handleTypeSelected = (type) => {
+      selectedType.value = type;
+      settingsModalOpen.value = true;
+    };
+    const handleBreadcrumbClick = (view) => {
+      if (view === "families") {
+        selectedFamily.value = null;
+        selectedType.value = null;
+      }
+      currentView.value = view;
+    };
+    const handleSettingsModalClose = () => {
+      settingsModalOpen.value = false;
+      selectedType.value = null;
+    };
+    const currentComponent = computed(() => {
+      switch (currentView.value) {
+        case "types":
+          return AdminTypesManager;
+        case "families":
+        default:
+          return AdminFamiliesManager;
+      }
+    });
+    const __returned__ = { currentView, selectedFamily, selectedType, settingsModalOpen, breadcrumb, handleFamilySelected, handleTypeSelected, handleBreadcrumbClick, handleSettingsModalClose, currentComponent, ref, computed, get t() {
+      return translate;
+    }, get NcAppSettingsDialog() {
+      return NcAppSettingsDialog;
+    }, AdminFamiliesManager, AdminTypesManager, TypeSettingsModal };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$b = { class: "admin-settings-container" };
+const _hoisted_2$7 = {
+  key: 0,
+  class: "breadcrumb"
+};
+const _hoisted_3$2 = ["onClick"];
+const _hoisted_4$2 = {
+  key: 1,
+  class: "breadcrumb-current"
+};
+const _hoisted_5$1 = {
+  key: 2,
+  class: "breadcrumb-separator"
+};
+const _hoisted_6$1 = { class: "settings-content" };
+function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$b, [
+    createCommentVNode(" Breadcrumb Navigation "),
+    $setup.breadcrumb.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_2$7, [
+      (openBlock(true), createElementBlock(
+        Fragment,
+        null,
+        renderList($setup.breadcrumb, (item, index) => {
+          return openBlock(), createElementBlock("span", {
+            key: item.view,
+            class: "breadcrumb-item"
+          }, [
+            index < $setup.breadcrumb.length - 1 ? (openBlock(), createElementBlock("button", {
+              key: 0,
+              class: "breadcrumb-link",
+              onClick: ($event) => $setup.handleBreadcrumbClick(item.view)
+            }, toDisplayString(item.label), 9, _hoisted_3$2)) : (openBlock(), createElementBlock(
+              "span",
+              _hoisted_4$2,
+              toDisplayString(item.label),
+              1
+              /* TEXT */
+            )),
+            index < $setup.breadcrumb.length - 1 ? (openBlock(), createElementBlock("span", _hoisted_5$1, " / ")) : createCommentVNode("v-if", true)
+          ]);
+        }),
+        128
+        /* KEYED_FRAGMENT */
+      ))
+    ])) : createCommentVNode("v-if", true),
+    createCommentVNode(" Main Content "),
+    createBaseVNode("div", _hoisted_6$1, [
+      (openBlock(), createBlock(resolveDynamicComponent($setup.currentComponent), {
+        "selected-family": $setup.selectedFamily,
+        onFamilySelected: $setup.handleFamilySelected,
+        onTypeSelected: $setup.handleTypeSelected,
+        onBackToFamilies: _cache[0] || (_cache[0] = ($event) => $setup.handleBreadcrumbClick("families"))
+      }, null, 40, ["selected-family"]))
+    ]),
+    createVNode($setup["NcAppSettingsDialog"], {
+      open: $setup.settingsModalOpen,
+      "onUpdate:open": _cache[1] || (_cache[1] = ($event) => $setup.settingsModalOpen = $event),
+      "show-navigation": false,
+      name: $setup.t("agora", "Settings - {type}", { type: $setup.selectedType?.label || "" }),
+      onClose: $setup.handleSettingsModalClose,
+      class: "large-modal"
+    }, {
+      default: withCtx(() => [
+        $setup.selectedType ? (openBlock(), createBlock($setup["TypeSettingsModal"], {
+          key: 0,
+          "selected-type": $setup.selectedType,
+          onClose: $setup.handleSettingsModalClose
+        }, null, 8, ["selected-type"])) : createCommentVNode("v-if", true)
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["open", "name"])
+  ]);
+}
+const AdminSettings = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b], ["__scopeId", "data-v-cd782848"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminSettings.vue"]]);
+const _sfc_main$a = /* @__PURE__ */ defineComponent({
   __name: "AdminPerformance",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -588,9 +2699,9 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$e = { class: "user_settings" };
-function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$e, [
+const _hoisted_1$a = { class: "user_settings" };
+function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$a, [
     createVNode($setup["RadioGroupDiv"], {
       modelValue: $setup.appSettingsStore.updateType,
       "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.updateType = $event),
@@ -599,8 +2710,8 @@ function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["modelValue"])
   ]);
 }
-const AdminPerformance = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminPerformance.vue"]]);
-const _sfc_main$d = /* @__PURE__ */ defineComponent({
+const AdminPerformance = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminPerformance.vue"]]);
+const _sfc_main$9 = /* @__PURE__ */ defineComponent({
   __name: "TreeItem",
   props: {
     item: {
@@ -641,16 +2752,16 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$d = { class: "tree-item" };
-const _hoisted_2$a = { class: "tree-label" };
-const _hoisted_3$5 = { class: "tree-actions" };
-const _hoisted_4$5 = {
+const _hoisted_1$9 = { class: "tree-item" };
+const _hoisted_2$6 = { class: "tree-label" };
+const _hoisted_3$1 = { class: "tree-actions" };
+const _hoisted_4$1 = {
   key: 0,
   class: "tree-children"
 };
-function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_TreeItem = resolveComponent("TreeItem", true);
-  return openBlock(), createElementBlock("div", _hoisted_1$d, [
+  return openBlock(), createElementBlock("div", _hoisted_1$9, [
     createBaseVNode(
       "div",
       {
@@ -660,12 +2771,12 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
       [
         createBaseVNode(
           "span",
-          _hoisted_2$a,
+          _hoisted_2$6,
           toDisplayString($props.item.name),
           1
           /* TEXT */
         ),
-        createBaseVNode("div", _hoisted_3$5, [
+        createBaseVNode("div", _hoisted_3$1, [
           createVNode($setup["NcButton"], { onClick: $setup.editItem }, {
             default: withCtx(() => [
               createTextVNode(
@@ -693,7 +2804,7 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
       4
       /* STYLE */
     ),
-    $setup.children.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_4$5, [
+    $setup.children.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_4$1, [
       (openBlock(true), createElementBlock(
         Fragment,
         null,
@@ -714,8 +2825,8 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
     ])) : createCommentVNode("v-if", true)
   ]);
 }
-const TreeItem = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d], ["__scopeId", "data-v-37a5142a"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/TreeItem.vue"]]);
-const _sfc_main$c = /* @__PURE__ */ defineComponent({
+const TreeItem = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__scopeId", "data-v-37a5142a"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/TreeItem.vue"]]);
+const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   __name: "AdminCategoryLocation",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -859,45 +2970,45 @@ const _sfc_main$c = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$c = { class: "category-location-manager" };
-const _hoisted_2$9 = {
+const _hoisted_1$8 = { class: "category-location-manager" };
+const _hoisted_2$5 = {
   key: 0,
   class: "loading"
 };
-const _hoisted_3$4 = { key: 1 };
-const _hoisted_4$4 = { class: "tabs" };
-const _hoisted_5$4 = {
+const _hoisted_3 = { key: 1 };
+const _hoisted_4 = { class: "tabs" };
+const _hoisted_5 = {
   key: 0,
   class: "tab-content"
 };
-const _hoisted_6$4 = { class: "add-form" };
-const _hoisted_7$4 = { class: "form-fields" };
-const _hoisted_8$4 = { class: "tree-view" };
-const _hoisted_9$4 = { class: "tree-container" };
-const _hoisted_10$3 = {
+const _hoisted_6 = { class: "add-form" };
+const _hoisted_7 = { class: "form-fields" };
+const _hoisted_8 = { class: "tree-view" };
+const _hoisted_9 = { class: "tree-container" };
+const _hoisted_10 = {
   key: 1,
   class: "tab-content"
 };
-const _hoisted_11$3 = { class: "add-form" };
-const _hoisted_12$2 = { class: "form-fields" };
-const _hoisted_13$2 = { class: "tree-view" };
-const _hoisted_14$2 = { class: "tree-container" };
-const _hoisted_15$2 = {
+const _hoisted_11 = { class: "add-form" };
+const _hoisted_12 = { class: "form-fields" };
+const _hoisted_13 = { class: "tree-view" };
+const _hoisted_14 = { class: "tree-container" };
+const _hoisted_15 = {
   key: 2,
   class: "modal"
 };
-const _hoisted_16$2 = { class: "modal-content" };
-const _hoisted_17$2 = { class: "modal-actions" };
-function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$c, [
+const _hoisted_16 = { class: "modal-content" };
+const _hoisted_17 = { class: "modal-actions" };
+function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$8, [
     !$setup.isLoaded ? (openBlock(), createElementBlock(
       "div",
-      _hoisted_2$9,
+      _hoisted_2$5,
       toDisplayString($setup.t("agora", "Loading categories and locations")),
       1
       /* TEXT */
-    )) : (openBlock(), createElementBlock("div", _hoisted_3$4, [
-      createBaseVNode("div", _hoisted_4$4, [
+    )) : (openBlock(), createElementBlock("div", _hoisted_3, [
+      createBaseVNode("div", _hoisted_4, [
         createVNode($setup["NcButton"], {
           class: normalizeClass({ active: $setup.activeTab === "categories" }),
           onClick: _cache[0] || (_cache[0] = ($event) => $setup.activeTab = "categories")
@@ -927,8 +3038,8 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
           /* STABLE */
         }, 8, ["class"])
       ]),
-      $setup.activeTab === "categories" ? (openBlock(), createElementBlock("div", _hoisted_5$4, [
-        createBaseVNode("div", _hoisted_6$4, [
+      $setup.activeTab === "categories" ? (openBlock(), createElementBlock("div", _hoisted_5, [
+        createBaseVNode("div", _hoisted_6, [
           createBaseVNode(
             "h3",
             null,
@@ -936,7 +3047,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
             1
             /* TEXT */
           ),
-          createBaseVNode("div", _hoisted_7$4, [
+          createBaseVNode("div", _hoisted_7, [
             createVNode($setup["NcInputField"], {
               modelValue: $setup.newCategory.name,
               "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newCategory.name = $event),
@@ -967,7 +3078,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
             }, 8, ["disabled"])
           ])
         ]),
-        createBaseVNode("div", _hoisted_8$4, [
+        createBaseVNode("div", _hoisted_8, [
           createBaseVNode(
             "h3",
             null,
@@ -975,7 +3086,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
             1
             /* TEXT */
           ),
-          createBaseVNode("div", _hoisted_9$4, [
+          createBaseVNode("div", _hoisted_9, [
             (openBlock(true), createElementBlock(
               Fragment,
               null,
@@ -996,8 +3107,8 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
           ])
         ])
       ])) : createCommentVNode("v-if", true),
-      $setup.activeTab === "locations" ? (openBlock(), createElementBlock("div", _hoisted_10$3, [
-        createBaseVNode("div", _hoisted_11$3, [
+      $setup.activeTab === "locations" ? (openBlock(), createElementBlock("div", _hoisted_10, [
+        createBaseVNode("div", _hoisted_11, [
           createBaseVNode(
             "h3",
             null,
@@ -1005,7 +3116,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
             1
             /* TEXT */
           ),
-          createBaseVNode("div", _hoisted_12$2, [
+          createBaseVNode("div", _hoisted_12, [
             createVNode($setup["NcInputField"], {
               modelValue: $setup.newLocation.name,
               "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newLocation.name = $event),
@@ -1036,7 +3147,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
             }, 8, ["disabled"])
           ])
         ]),
-        createBaseVNode("div", _hoisted_13$2, [
+        createBaseVNode("div", _hoisted_13, [
           createBaseVNode(
             "h3",
             null,
@@ -1044,7 +3155,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
             1
             /* TEXT */
           ),
-          createBaseVNode("div", _hoisted_14$2, [
+          createBaseVNode("div", _hoisted_14, [
             (openBlock(true), createElementBlock(
               Fragment,
               null,
@@ -1066,8 +3177,8 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
         ])
       ])) : createCommentVNode("v-if", true),
       createCommentVNode(" Modal d'édition "),
-      $setup.editingItem ? (openBlock(), createElementBlock("div", _hoisted_15$2, [
-        createBaseVNode("div", _hoisted_16$2, [
+      $setup.editingItem ? (openBlock(), createElementBlock("div", _hoisted_15, [
+        createBaseVNode("div", _hoisted_16, [
           createBaseVNode(
             "h3",
             null,
@@ -1087,7 +3198,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
             clearable: false,
             placeholder: $setup.t("agora", "Select parent")
           }, null, 8, ["modelValue", "options", "placeholder"]),
-          createBaseVNode("div", _hoisted_17$2, [
+          createBaseVNode("div", _hoisted_17, [
             createVNode($setup["NcButton"], {
               onClick: _cache[8] || (_cache[8] = ($event) => $setup.editingItem = null)
             }, {
@@ -1121,1014 +3232,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
     ]))
   ]);
 }
-const AdminCategoryLocation = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c], ["__scopeId", "data-v-da2e3bfe"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminCategoryLocation.vue"]]);
-const _sfc_main$b = {
-  __name: "AdminInquiryRights",
-  setup(__props, { expose: __expose }) {
-    __expose();
-    const appSettingsStore = useAppSettingsStore();
-    const selectedInquiryType = ref("");
-    const isLoading = ref(true);
-    const editorOptions = [
-      { value: "wysiwyg", label: translate("agora", "Rich Text Editor") },
-      { value: "textarea", label: translate("agora", "Simple Text Area") },
-      { value: "texteditor", label: translate("agora", "Nextcloud text editor") }
-    ];
-    onMounted(async () => {
-      try {
-        if (mainTypes.length > 0) {
-          selectedInquiryType.value = mainTypes[0].inquiry_type;
-        }
-      } catch (error) {
-        console.error("Failed to load inquiry types:", error);
-      } finally {
-        isLoading.value = false;
-      }
-    });
-    const inquiryTypeOptions = computed(
-      () => inquiryTypesStore.getMainTypes().map((type) => ({
-        value: type.inquiry_type,
-        label: type.label
-      }))
-    );
-    const isValidInquiryType = computed(
-      () => selectedInquiryType.value && inquiryTypesStore.types.find((t) => t.inquiry_type === selectedInquiryType.value)
-    );
-    watch(selectedInquiryType, (newType) => {
-      if (newType && !appSettingsStore.inquiryTypeRights[newType]) {
-        appSettingsStore.initializeInquiryTypeRights(newType);
-      }
-    });
-    watch(inquiryTypesStore.types, (types) => {
-      types.forEach((type) => {
-        if (!appSettingsStore.inquiryTypeRights[type.inquiry_type]) {
-          appSettingsStore.initializeInquiryTypeRights(type.inquiry_type);
-        }
-      });
-    });
-    const __returned__ = { appSettingsStore, selectedInquiryType, isLoading, editorOptions, inquiryTypeOptions, isValidInquiryType, get t() {
-      return translate;
-    }, ref, computed, onMounted, watch, get NcCheckboxRadioSwitch() {
-      return NcCheckboxRadioSwitch;
-    }, get NcSelect() {
-      return NcSelect;
-    }, get useAppSettingsStore() {
-      return useAppSettingsStore;
-    } };
-    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
-    return __returned__;
-  }
-};
-const _hoisted_1$b = { class: "inquiry-rights-management" };
-const _hoisted_2$8 = { class: "description" };
-const _hoisted_3$3 = {
-  key: 0,
-  class: "loading"
-};
-const _hoisted_4$3 = {
-  key: 1,
-  class: "error"
-};
-const _hoisted_5$3 = { key: 2 };
-const _hoisted_6$3 = { class: "type-selection" };
-const _hoisted_7$3 = { for: "inquiry-type-select" };
-const _hoisted_8$3 = { class: "settings-container" };
-const _hoisted_9$3 = { class: "settings-list" };
-const _hoisted_10$2 = { class: "setting-item" };
-const _hoisted_11$2 = { class: "setting-description" };
-const _hoisted_12$1 = { class: "setting-item" };
-const _hoisted_13$1 = { class: "setting-description" };
-const _hoisted_14$1 = { class: "setting-item" };
-const _hoisted_15$1 = { class: "setting-description" };
-const _hoisted_16$1 = { class: "setting-item" };
-const _hoisted_17$1 = { for: "editor-type-select" };
-const _hoisted_18$1 = { class: "setting-description" };
-function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$b, [
-    createBaseVNode(
-      "h2",
-      null,
-      toDisplayString($setup.t("agora", "Inquiry Type Settings")),
-      1
-      /* TEXT */
-    ),
-    createBaseVNode(
-      "p",
-      _hoisted_2$8,
-      toDisplayString($setup.t("agora", "Configure default settings for each inquiry type")),
-      1
-      /* TEXT */
-    ),
-    $setup.isLoading ? (openBlock(), createElementBlock(
-      "div",
-      _hoisted_3$3,
-      toDisplayString($setup.t("agora", "Loading inquiry types")),
-      1
-      /* TEXT */
-    )) : !$setup.isValidInquiryType ? (openBlock(), createElementBlock(
-      "div",
-      _hoisted_4$3,
-      toDisplayString($setup.t("agora", "No inquiry types available")),
-      1
-      /* TEXT */
-    )) : (openBlock(), createElementBlock("div", _hoisted_5$3, [
-      createBaseVNode("div", _hoisted_6$3, [
-        createBaseVNode(
-          "label",
-          _hoisted_7$3,
-          toDisplayString($setup.t("agora", "Select inquiry type:")),
-          1
-          /* TEXT */
-        ),
-        createVNode($setup["NcSelect"], {
-          id: "inquiry-type-select",
-          modelValue: $setup.selectedInquiryType,
-          "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.selectedInquiryType = $event),
-          options: $setup.inquiryTypeOptions,
-          "value-field": "value",
-          "label-field": "label",
-          "track-by": "value",
-          clearable: false,
-          class: "type-select"
-        }, null, 8, ["modelValue", "options"])
-      ]),
-      createBaseVNode("div", _hoisted_8$3, [
-        createBaseVNode(
-          "h3",
-          null,
-          toDisplayString($setup.inquiryTypeOptions.find((opt) => opt.value === $setup.selectedInquiryType)?.label || $setup.selectedInquiryType) + " " + toDisplayString($setup.t("agora", "Settings")),
-          1
-          /* TEXT */
-        ),
-        createBaseVNode("div", _hoisted_9$3, [
-          createBaseVNode("div", _hoisted_10$2, [
-            createVNode($setup["NcCheckboxRadioSwitch"], {
-              modelValue: $setup.appSettingsStore.inquiryTypeRights[$setup.selectedInquiryType].supportInquiry,
-              "onUpdate:modelValue": [
-                _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$setup.selectedInquiryType].supportInquiry = $event),
-                _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.write())
-              ],
-              type: "switch"
-            }, {
-              default: withCtx(() => [
-                createTextVNode(
-                  toDisplayString($setup.t("agora", "Allow support")),
-                  1
-                  /* TEXT */
-                )
-              ]),
-              _: 1
-              /* STABLE */
-            }, 8, ["modelValue"]),
-            createBaseVNode(
-              "p",
-              _hoisted_11$2,
-              toDisplayString($setup.t("agora", "Allow users to support this inquiry type")),
-              1
-              /* TEXT */
-            )
-          ]),
-          createBaseVNode("div", _hoisted_12$1, [
-            createVNode($setup["NcCheckboxRadioSwitch"], {
-              modelValue: $setup.appSettingsStore.inquiryTypeRights[$setup.selectedInquiryType].commentInquiry,
-              "onUpdate:modelValue": [
-                _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$setup.selectedInquiryType].commentInquiry = $event),
-                _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.write())
-              ],
-              type: "switch"
-            }, {
-              default: withCtx(() => [
-                createTextVNode(
-                  toDisplayString($setup.t("agora", "Allow comments")),
-                  1
-                  /* TEXT */
-                )
-              ]),
-              _: 1
-              /* STABLE */
-            }, 8, ["modelValue"]),
-            createBaseVNode(
-              "p",
-              _hoisted_13$1,
-              toDisplayString($setup.t("agora", "Allow users to comment on this inquiry type")),
-              1
-              /* TEXT */
-            )
-          ]),
-          createBaseVNode("div", _hoisted_14$1, [
-            createVNode($setup["NcCheckboxRadioSwitch"], {
-              modelValue: $setup.appSettingsStore.inquiryTypeRights[$setup.selectedInquiryType].attachFileInquiry,
-              "onUpdate:modelValue": [
-                _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$setup.selectedInquiryType].attachFileInquiry = $event),
-                _cache[6] || (_cache[6] = ($event) => $setup.appSettingsStore.write())
-              ],
-              type: "switch"
-            }, {
-              default: withCtx(() => [
-                createTextVNode(
-                  toDisplayString($setup.t("agora", "Allow file attachments")),
-                  1
-                  /* TEXT */
-                )
-              ]),
-              _: 1
-              /* STABLE */
-            }, 8, ["modelValue"]),
-            createBaseVNode(
-              "p",
-              _hoisted_15$1,
-              toDisplayString($setup.t("agora", "Allow users to attach files to this inquiry type")),
-              1
-              /* TEXT */
-            )
-          ]),
-          createBaseVNode("div", _hoisted_16$1, [
-            createBaseVNode(
-              "label",
-              _hoisted_17$1,
-              toDisplayString($setup.t("agora", "Editor type:")),
-              1
-              /* TEXT */
-            ),
-            createVNode($setup["NcSelect"], {
-              id: "editor-type-select",
-              modelValue: $setup.appSettingsStore.inquiryTypeRights[$setup.selectedInquiryType].editorType,
-              "onUpdate:modelValue": [
-                _cache[7] || (_cache[7] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$setup.selectedInquiryType].editorType = $event),
-                _cache[8] || (_cache[8] = ($event) => $setup.appSettingsStore.write())
-              ],
-              options: $setup.editorOptions,
-              "option-value": "value",
-              "option-label": "label",
-              class: "editor-select"
-            }, null, 8, ["modelValue"]),
-            createBaseVNode(
-              "p",
-              _hoisted_18$1,
-              toDisplayString($setup.t("agora", "Select the editor type for this inquiry")),
-              1
-              /* TEXT */
-            )
-          ])
-        ])
-      ])
-    ]))
-  ]);
-}
-const AdminInquiryRights = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b], ["__scopeId", "data-v-d42bc411"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminInquiryRights.vue"]]);
-const _sfc_main$a = {
-  __name: "AdminModeratorRights",
-  setup(__props, { expose: __expose }) {
-    __expose();
-    const appSettingsStore = useAppSettingsStore();
-    const __returned__ = { appSettingsStore, get t() {
-      return translate;
-    }, get NcCheckboxRadioSwitch() {
-      return NcCheckboxRadioSwitch;
-    }, get useAppSettingsStore() {
-      return useAppSettingsStore;
-    } };
-    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
-    return __returned__;
-  }
-};
-const _hoisted_1$a = { class: "rights-management" };
-const _hoisted_2$7 = { class: "description" };
-const _hoisted_3$2 = { class: "rights-list" };
-const _hoisted_4$2 = { class: "right-item" };
-const _hoisted_5$2 = { class: "right-description" };
-const _hoisted_6$2 = { class: "right-item" };
-const _hoisted_7$2 = { class: "right-description" };
-const _hoisted_8$2 = { class: "right-item" };
-const _hoisted_9$2 = { class: "right-description" };
-function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$a, [
-    createBaseVNode(
-      "h2",
-      null,
-      toDisplayString($setup.t("agora", "Moderator Rights")),
-      1
-      /* TEXT */
-    ),
-    createBaseVNode(
-      "p",
-      _hoisted_2$7,
-      toDisplayString($setup.t("agora", "Define permissions for users with moderator role")),
-      1
-      /* TEXT */
-    ),
-    createBaseVNode("div", _hoisted_3$2, [
-      createBaseVNode("div", _hoisted_4$2, [
-        createVNode($setup["NcCheckboxRadioSwitch"], {
-          modelValue: $setup.appSettingsStore.moderatorRights.modifyInquiry,
-          "onUpdate:modelValue": [
-            _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.moderatorRights.modifyInquiry = $event),
-            _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
-          ],
-          type: "switch"
-        }, {
-          default: withCtx(() => [
-            createTextVNode(
-              toDisplayString($setup.t("agora", "Modify inquiries")),
-              1
-              /* TEXT */
-            )
-          ]),
-          _: 1
-          /* STABLE */
-        }, 8, ["modelValue"]),
-        createBaseVNode(
-          "p",
-          _hoisted_5$2,
-          toDisplayString($setup.t("agora", "Allow moderators to modify existing inquiries")),
-          1
-          /* TEXT */
-        )
-      ]),
-      createBaseVNode("div", _hoisted_6$2, [
-        createVNode($setup["NcCheckboxRadioSwitch"], {
-          modelValue: $setup.appSettingsStore.moderatorRights.deleteInquiry,
-          "onUpdate:modelValue": [
-            _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.moderatorRights.deleteInquiry = $event),
-            _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
-          ],
-          type: "switch"
-        }, {
-          default: withCtx(() => [
-            createTextVNode(
-              toDisplayString($setup.t("agora", "Delete inquiries")),
-              1
-              /* TEXT */
-            )
-          ]),
-          _: 1
-          /* STABLE */
-        }, 8, ["modelValue"]),
-        createBaseVNode(
-          "p",
-          _hoisted_7$2,
-          toDisplayString($setup.t("agora", "Allow moderators to delete inquiries")),
-          1
-          /* TEXT */
-        )
-      ]),
-      createBaseVNode("div", _hoisted_8$2, [
-        createVNode($setup["NcCheckboxRadioSwitch"], {
-          modelValue: $setup.appSettingsStore.moderatorRights.archiveInquiry,
-          "onUpdate:modelValue": [
-            _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.moderatorRights.archiveInquiry = $event),
-            _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.write())
-          ],
-          type: "switch"
-        }, {
-          default: withCtx(() => [
-            createTextVNode(
-              toDisplayString($setup.t("agora", "Archive inquiries")),
-              1
-              /* TEXT */
-            )
-          ]),
-          _: 1
-          /* STABLE */
-        }, 8, ["modelValue"]),
-        createBaseVNode(
-          "p",
-          _hoisted_9$2,
-          toDisplayString($setup.t("agora", "Allow moderators to archive inquiries")),
-          1
-          /* TEXT */
-        )
-      ])
-    ])
-  ]);
-}
-const AdminModeratorRights = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a], ["__scopeId", "data-v-fb7cbc5e"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminModeratorRights.vue"]]);
-const _sfc_main$9 = {
-  __name: "AdminOfficialRights",
-  setup(__props, { expose: __expose }) {
-    __expose();
-    const appSettingsStore = useAppSettingsStore();
-    const __returned__ = { appSettingsStore, get t() {
-      return translate;
-    }, get NcCheckboxRadioSwitch() {
-      return NcCheckboxRadioSwitch;
-    }, get useAppSettingsStore() {
-      return useAppSettingsStore;
-    } };
-    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
-    return __returned__;
-  }
-};
-const _hoisted_1$9 = { class: "rights-management" };
-const _hoisted_2$6 = { class: "description" };
-const _hoisted_3$1 = { class: "rights-list" };
-const _hoisted_4$1 = { class: "right-item" };
-const _hoisted_5$1 = { class: "right-description" };
-const _hoisted_6$1 = { class: "right-item" };
-const _hoisted_7$1 = { class: "right-description" };
-const _hoisted_8$1 = { class: "right-item" };
-const _hoisted_9$1 = { class: "right-description" };
-const _hoisted_10$1 = { class: "right-item" };
-const _hoisted_11$1 = { class: "right-description" };
-function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$9, [
-    createBaseVNode(
-      "h2",
-      null,
-      toDisplayString($setup.t("agora", "Official Rights")),
-      1
-      /* TEXT */
-    ),
-    createBaseVNode(
-      "p",
-      _hoisted_2$6,
-      toDisplayString($setup.t("agora", "Define permissions for users with official role")),
-      1
-      /* TEXT */
-    ),
-    createBaseVNode("div", _hoisted_3$1, [
-      createBaseVNode("div", _hoisted_4$1, [
-        createVNode($setup["NcCheckboxRadioSwitch"], {
-          modelValue: $setup.appSettingsStore.officialRights.modifyInquiry,
-          "onUpdate:modelValue": [
-            _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.officialRights.modifyInquiry = $event),
-            _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
-          ],
-          type: "switch"
-        }, {
-          default: withCtx(() => [
-            createTextVNode(
-              toDisplayString($setup.t("agora", "Modify inquiries")),
-              1
-              /* TEXT */
-            )
-          ]),
-          _: 1
-          /* STABLE */
-        }, 8, ["modelValue"]),
-        createBaseVNode(
-          "p",
-          _hoisted_5$1,
-          toDisplayString($setup.t("agora", "Allow officials to modify existing inquiries")),
-          1
-          /* TEXT */
-        )
-      ]),
-      createBaseVNode("div", _hoisted_6$1, [
-        createVNode($setup["NcCheckboxRadioSwitch"], {
-          modelValue: $setup.appSettingsStore.officialRights.deleteInquiry,
-          "onUpdate:modelValue": [
-            _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.officialRights.deleteInquiry = $event),
-            _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
-          ],
-          type: "switch"
-        }, {
-          default: withCtx(() => [
-            createTextVNode(
-              toDisplayString($setup.t("agora", "Delete inquiries")),
-              1
-              /* TEXT */
-            )
-          ]),
-          _: 1
-          /* STABLE */
-        }, 8, ["modelValue"]),
-        createBaseVNode(
-          "p",
-          _hoisted_7$1,
-          toDisplayString($setup.t("agora", "Allow officials to delete inquiries")),
-          1
-          /* TEXT */
-        )
-      ]),
-      createBaseVNode("div", _hoisted_8$1, [
-        createVNode($setup["NcCheckboxRadioSwitch"], {
-          modelValue: $setup.appSettingsStore.officialRights.archiveInquiry,
-          "onUpdate:modelValue": [
-            _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.officialRights.archiveInquiry = $event),
-            _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.write())
-          ],
-          type: "switch"
-        }, {
-          default: withCtx(() => [
-            createTextVNode(
-              toDisplayString($setup.t("agora", "Archive inquiries")),
-              1
-              /* TEXT */
-            )
-          ]),
-          _: 1
-          /* STABLE */
-        }, 8, ["modelValue"]),
-        createBaseVNode(
-          "p",
-          _hoisted_9$1,
-          toDisplayString($setup.t("agora", "Allow officials to archive inquiries")),
-          1
-          /* TEXT */
-        )
-      ]),
-      createBaseVNode("div", _hoisted_10$1, [
-        createVNode($setup["NcCheckboxRadioSwitch"], {
-          modelValue: $setup.appSettingsStore.officialRights.manageModerationStatus,
-          "onUpdate:modelValue": [
-            _cache[6] || (_cache[6] = ($event) => $setup.appSettingsStore.officialRights.manageModerationStatus = $event),
-            _cache[7] || (_cache[7] = ($event) => $setup.appSettingsStore.write())
-          ],
-          type: "switch"
-        }, {
-          default: withCtx(() => [
-            createTextVNode(
-              toDisplayString($setup.t("agora", "Moderation status")),
-              1
-              /* TEXT */
-            )
-          ]),
-          _: 1
-          /* STABLE */
-        }, 8, ["modelValue"]),
-        createBaseVNode(
-          "p",
-          _hoisted_11$1,
-          toDisplayString($setup.t("agora", "Allow officials to manage Moderation status for all inquiry")),
-          1
-          /* TEXT */
-        )
-      ])
-    ])
-  ]);
-}
-const AdminOfficialRights = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__scopeId", "data-v-14c25bb2"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminOfficialRights.vue"]]);
-const _sfc_main$8 = /* @__PURE__ */ defineComponent({
-  __name: "AdminInquiryStatus",
-  setup(__props, { expose: __expose }) {
-    __expose();
-    const appSettingsStore = useAppSettingsStore();
-    const activeInquiryType = ref(null);
-    const editingStatus = ref(null);
-    const newStatus = ref({
-      statusKey: "",
-      label: "",
-      description: "",
-      isFinal: false,
-      icon: "ClockOutline"
-    });
-    onMounted(async () => {
-      if (inquiryTypes.value.length > 0) {
-        activeInquiryType.value = inquiryTypes.value[0];
-      }
-    });
-    const availableIcons = computed(
-      () => Object.keys(StatusIcons).filter((key) => key !== "default").map((iconId) => ({
-        id: iconId,
-        label: translate("agora", iconId.replace(/([A-Z])/g, " $1").trim())
-      }))
-    );
-    const inquiryTypes = computed(
-      () => inquiryTypesStore.getMainTypes().map((type) => ({
-        id: type.inquiry_type,
-        label: type.label
-      }))
-    );
-    const activeInquiryTypeId = computed(
-      () => activeInquiryType.value?.id || inquiryTypes.value[0]?.id
-    );
-    const currentInquiryTypeLabel = computed(
-      () => activeInquiryType.value?.label || inquiryTypes.value[0]?.label
-    );
-    const getIconComponent = (iconName) => StatusIcons[iconName] || StatusIcons.ClockOutline;
-    const statuses = computed(
-      () => appSettingsStore.getStatusesForInquiryType(activeInquiryTypeId.value)
-    );
-    watch(activeInquiryTypeId, () => {
-      editingStatus.value = null;
-    });
-    const addStatus = () => {
-      if (!newStatus.value.statusKey || !newStatus.value.label) {
-        return;
-      }
-      appSettingsStore.addStatusForInquiryType(activeInquiryTypeId.value, {
-        ...newStatus.value,
-        icon: String(newStatus.value.icon)
-      });
-      newStatus.value = {
-        statusKey: "",
-        label: "",
-        description: "",
-        isFinal: false,
-        icon: "ClockOutline"
-      };
-    };
-    const editStatus = (status) => {
-      editingStatus.value = {
-        id: status.id,
-        statusKey: status.statusKey,
-        label: status.label,
-        description: status.description || "",
-        isFinal: status.isFinal,
-        icon: status.icon || "ClockOutline"
-      };
-    };
-    const saveUpdateStatus = () => {
-      if (editingStatus.value) {
-        appSettingsStore.updateStatusForInquiryType(activeInquiryTypeId.value, editingStatus.value.id, {
-          ...editingStatus.value,
-          icon: editingStatus.value.icon?.id || String(editingStatus.value.icon)
-        });
-        editingStatus.value = null;
-      }
-    };
-    const deleteStatus = (statusId) => {
-      if (confirm(translate("agora", "Are you sure you want to delete this status?"))) {
-        appSettingsStore.deleteStatusForInquiryType(activeInquiryTypeId.value, statusId);
-      }
-    };
-    const moveStatusUp = (statusId) => {
-      appSettingsStore.moveStatusUp(activeInquiryTypeId.value, statusId);
-    };
-    const moveStatusDown = (statusId) => {
-      appSettingsStore.moveStatusDown(activeInquiryTypeId.value, statusId);
-    };
-    const cancelEdit = () => {
-      editingStatus.value = null;
-    };
-    const __returned__ = { appSettingsStore, activeInquiryType, editingStatus, newStatus, availableIcons, inquiryTypes, activeInquiryTypeId, currentInquiryTypeLabel, getIconComponent, statuses, addStatus, editStatus, saveUpdateStatus, deleteStatus, moveStatusUp, moveStatusDown, cancelEdit, get t() {
-      return translate;
-    }, get NcButton() {
-      return NcButton;
-    }, get NcInputField() {
-      return NcInputField;
-    }, get NcCheckboxRadioSwitch() {
-      return NcCheckboxRadioSwitch;
-    }, get NcSelect() {
-      return NcSelect;
-    } };
-    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
-    return __returned__;
-  }
-});
-const _hoisted_1$8 = { class: "inquiry-status-settings" };
-const _hoisted_2$5 = { class: "inquiry-type-selector" };
-const _hoisted_3 = { class: "status-list" };
-const _hoisted_4 = {
-  key: 0,
-  class: "empty-state"
-};
-const _hoisted_5 = {
-  key: 1,
-  class: "status-items"
-};
-const _hoisted_6 = { class: "status-content" };
-const _hoisted_7 = ["title"];
-const _hoisted_8 = { class: "status-info" };
-const _hoisted_9 = { class: "status-key" };
-const _hoisted_10 = {
-  key: 0,
-  class: "status-description"
-};
-const _hoisted_11 = { class: "status-properties" };
-const _hoisted_12 = { class: "status-actions" };
-const _hoisted_13 = { class: "add-status-form" };
-const _hoisted_14 = { class: "form-grid" };
-const _hoisted_15 = { class: "checkbox-field" };
-const _hoisted_16 = { class: "field-description" };
-const _hoisted_17 = {
-  key: 0,
-  class: "modal-overlay"
-};
-const _hoisted_18 = { class: "modal-content" };
-const _hoisted_19 = { class: "form-grid" };
-const _hoisted_20 = { class: "checkbox-field" };
-const _hoisted_21 = { class: "field-description" };
-const _hoisted_22 = { class: "modal-actions" };
-function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$8, [
-    createCommentVNode(" Inquiry type selector "),
-    createBaseVNode("div", _hoisted_2$5, [
-      createBaseVNode(
-        "h3",
-        null,
-        toDisplayString($setup.t("agora", "Select Inquiry Type")),
-        1
-        /* TEXT */
-      ),
-      createVNode($setup["NcSelect"], {
-        modelValue: $setup.activeInquiryType,
-        "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.activeInquiryType = $event),
-        options: $setup.inquiryTypes,
-        label: "label",
-        "input-label": $setup.t("agora", "Inquiry Type")
-      }, null, 8, ["modelValue", "options", "input-label"])
-    ]),
-    createCommentVNode(" Status list for current inquiry type "),
-    createBaseVNode("div", _hoisted_3, [
-      createBaseVNode(
-        "h3",
-        null,
-        toDisplayString($setup.t("agora", "Statuses for {type}", {
-          type: $setup.currentInquiryTypeLabel
-        })),
-        1
-        /* TEXT */
-      ),
-      $setup.statuses.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_4, [
-        createBaseVNode(
-          "p",
-          null,
-          toDisplayString($setup.t("agora", "No statuses configured for this inquiry type.")),
-          1
-          /* TEXT */
-        )
-      ])) : (openBlock(), createElementBlock("div", _hoisted_5, [
-        (openBlock(true), createElementBlock(
-          Fragment,
-          null,
-          renderList($setup.statuses, (status, index) => {
-            return openBlock(), createElementBlock("div", {
-              key: status.statusKey,
-              class: "status-item"
-            }, [
-              createBaseVNode("div", _hoisted_6, [
-                createBaseVNode("div", {
-                  class: "status-icon",
-                  title: status.icon
-                }, [
-                  (openBlock(), createBlock(resolveDynamicComponent($setup.getIconComponent(status.icon)), { size: 20 }))
-                ], 8, _hoisted_7),
-                createBaseVNode("div", _hoisted_8, [
-                  createBaseVNode(
-                    "h4",
-                    null,
-                    toDisplayString(status.label),
-                    1
-                    /* TEXT */
-                  ),
-                  createBaseVNode(
-                    "p",
-                    _hoisted_9,
-                    toDisplayString(status.statusKey),
-                    1
-                    /* TEXT */
-                  ),
-                  status.description ? (openBlock(), createElementBlock(
-                    "p",
-                    _hoisted_10,
-                    toDisplayString(status.description),
-                    1
-                    /* TEXT */
-                  )) : createCommentVNode("v-if", true),
-                  createBaseVNode("div", _hoisted_11, [
-                    createBaseVNode(
-                      "span",
-                      {
-                        class: normalizeClass(["status-badge", status.isFinal ? "final" : "non-final"])
-                      },
-                      toDisplayString(status.isFinal ? $setup.t("agora", "Final") : $setup.t("agora", "Non-Final")),
-                      3
-                      /* TEXT, CLASS */
-                    )
-                  ])
-                ])
-              ]),
-              createBaseVNode("div", _hoisted_12, [
-                createVNode($setup["NcButton"], {
-                  disabled: index === 0,
-                  onClick: ($event) => $setup.moveStatusUp(status.statusKey)
-                }, {
-                  default: withCtx(() => [
-                    createTextVNode(
-                      toDisplayString($setup.t("agora", "Up")),
-                      1
-                      /* TEXT */
-                    )
-                  ]),
-                  _: 2
-                  /* DYNAMIC */
-                }, 1032, ["disabled", "onClick"]),
-                createVNode($setup["NcButton"], {
-                  disabled: index === $setup.statuses.length - 1,
-                  onClick: ($event) => $setup.moveStatusDown(status.statusKey)
-                }, {
-                  default: withCtx(() => [
-                    createTextVNode(
-                      toDisplayString($setup.t("agora", "Down")),
-                      1
-                      /* TEXT */
-                    )
-                  ]),
-                  _: 2
-                  /* DYNAMIC */
-                }, 1032, ["disabled", "onClick"]),
-                createVNode($setup["NcButton"], {
-                  onClick: ($event) => $setup.editStatus(status)
-                }, {
-                  default: withCtx(() => [
-                    createTextVNode(
-                      toDisplayString($setup.t("agora", "Edit")),
-                      1
-                      /* TEXT */
-                    )
-                  ]),
-                  _: 2
-                  /* DYNAMIC */
-                }, 1032, ["onClick"]),
-                createVNode($setup["NcButton"], {
-                  onClick: ($event) => $setup.deleteStatus(status.id)
-                }, {
-                  default: withCtx(() => [
-                    createTextVNode(
-                      toDisplayString($setup.t("agora", "Delete")),
-                      1
-                      /* TEXT */
-                    )
-                  ]),
-                  _: 2
-                  /* DYNAMIC */
-                }, 1032, ["onClick"])
-              ])
-            ]);
-          }),
-          128
-          /* KEYED_FRAGMENT */
-        ))
-      ]))
-    ]),
-    createCommentVNode(" Add new status form "),
-    createBaseVNode("div", _hoisted_13, [
-      createBaseVNode(
-        "h3",
-        null,
-        toDisplayString($setup.t("agora", "Add New Status")),
-        1
-        /* TEXT */
-      ),
-      createBaseVNode("div", _hoisted_14, [
-        createVNode($setup["NcInputField"], {
-          modelValue: $setup.newStatus.statusKey,
-          "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.newStatus.statusKey = $event),
-          label: $setup.t("agora", "Status Key"),
-          placeholder: $setup.t("agora", "Enter unique status key"),
-          required: ""
-        }, null, 8, ["modelValue", "label", "placeholder"]),
-        createVNode($setup["NcInputField"], {
-          modelValue: $setup.newStatus.label,
-          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newStatus.label = $event),
-          label: $setup.t("agora", "Label"),
-          placeholder: $setup.t("agora", "Enter display label"),
-          required: ""
-        }, null, 8, ["modelValue", "label", "placeholder"]),
-        createVNode($setup["NcInputField"], {
-          modelValue: $setup.newStatus.description,
-          "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.newStatus.description = $event),
-          label: $setup.t("agora", "Description"),
-          placeholder: $setup.t("agora", "Enter description (optional)"),
-          type: "textarea"
-        }, null, 8, ["modelValue", "label", "placeholder"]),
-        createVNode($setup["NcSelect"], {
-          modelValue: $setup.newStatus.icon,
-          "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newStatus.icon = $event),
-          options: $setup.availableIcons,
-          label: "label",
-          "input-label": $setup.t("agora", "Select Icon")
-        }, null, 8, ["modelValue", "options", "input-label"]),
-        createBaseVNode("div", _hoisted_15, [
-          createVNode($setup["NcCheckboxRadioSwitch"], {
-            modelValue: $setup.newStatus.isFinal,
-            "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.newStatus.isFinal = $event),
-            type: "switch"
-          }, {
-            default: withCtx(() => [
-              createTextVNode(
-                toDisplayString($setup.t("agora", "Final Status")),
-                1
-                /* TEXT */
-              )
-            ]),
-            _: 1
-            /* STABLE */
-          }, 8, ["modelValue"]),
-          createBaseVNode(
-            "p",
-            _hoisted_16,
-            toDisplayString($setup.t("agora", "Final statuses cannot be changed once set")),
-            1
-            /* TEXT */
-          )
-        ]),
-        createVNode($setup["NcButton"], {
-          type: "primary",
-          disabled: !$setup.newStatus.statusKey || !$setup.newStatus.label,
-          onClick: $setup.addStatus
-        }, {
-          default: withCtx(() => [
-            createTextVNode(
-              toDisplayString($setup.t("agora", "Add Status")),
-              1
-              /* TEXT */
-            )
-          ]),
-          _: 1
-          /* STABLE */
-        }, 8, ["disabled"])
-      ])
-    ]),
-    createCommentVNode(" Edit status modal "),
-    $setup.editingStatus ? (openBlock(), createElementBlock("div", _hoisted_17, [
-      createBaseVNode("div", _hoisted_18, [
-        createBaseVNode(
-          "h3",
-          null,
-          toDisplayString($setup.t("agora", "Edit Status")),
-          1
-          /* TEXT */
-        ),
-        createBaseVNode("div", _hoisted_19, [
-          createVNode($setup["NcInputField"], {
-            modelValue: $setup.editingStatus.statusKey,
-            "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.editingStatus.statusKey = $event),
-            label: $setup.t("agora", "Status Key"),
-            placeholder: $setup.t("agora", "Enter unique status key"),
-            required: ""
-          }, null, 8, ["modelValue", "label", "placeholder"]),
-          createVNode($setup["NcInputField"], {
-            modelValue: $setup.editingStatus.label,
-            "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.editingStatus.label = $event),
-            label: $setup.t("agora", "Label"),
-            placeholder: $setup.t("agora", "Enter display label"),
-            required: ""
-          }, null, 8, ["modelValue", "label", "placeholder"]),
-          createVNode($setup["NcInputField"], {
-            modelValue: $setup.editingStatus.description,
-            "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.editingStatus.description = $event),
-            label: $setup.t("agora", "Description"),
-            placeholder: $setup.t("agora", "Enter description (optional)"),
-            type: "textarea"
-          }, null, 8, ["modelValue", "label", "placeholder"]),
-          createVNode($setup["NcSelect"], {
-            modelValue: $setup.editingStatus.icon,
-            "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $setup.editingStatus.icon = $event),
-            options: $setup.availableIcons,
-            label: "label",
-            "input-label": $setup.t("agora", "Select Icon")
-          }, null, 8, ["modelValue", "options", "input-label"]),
-          createBaseVNode("div", _hoisted_20, [
-            createVNode($setup["NcCheckboxRadioSwitch"], {
-              modelValue: $setup.editingStatus.isFinal,
-              "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => $setup.editingStatus.isFinal = $event),
-              type: "switch"
-            }, {
-              default: withCtx(() => [
-                createTextVNode(
-                  toDisplayString($setup.t("agora", "Final Status")),
-                  1
-                  /* TEXT */
-                )
-              ]),
-              _: 1
-              /* STABLE */
-            }, 8, ["modelValue"]),
-            createBaseVNode(
-              "p",
-              _hoisted_21,
-              toDisplayString($setup.t("agora", "Final statuses cannot be changed once set")),
-              1
-              /* TEXT */
-            )
-          ])
-        ]),
-        createBaseVNode("div", _hoisted_22, [
-          createVNode($setup["NcButton"], { onClick: $setup.cancelEdit }, {
-            default: withCtx(() => [
-              createTextVNode(
-                toDisplayString($setup.t("agora", "Cancel")),
-                1
-                /* TEXT */
-              )
-            ]),
-            _: 1
-            /* STABLE */
-          }),
-          createVNode($setup["NcButton"], {
-            type: "primary",
-            disabled: !$setup.editingStatus.statusKey || !$setup.editingStatus.label,
-            onClick: $setup.saveUpdateStatus
-          }, {
-            default: withCtx(() => [
-              createTextVNode(
-                toDisplayString($setup.t("agora", "Save Changes")),
-                1
-                /* TEXT */
-              )
-            ]),
-            _: 1
-            /* STABLE */
-          }, 8, ["disabled"])
-        ])
-      ])
-    ])) : createCommentVNode("v-if", true)
-  ]);
-}
-const AdminInquiryStatus = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8], ["__scopeId", "data-v-672d8b59"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminInquiryStatus.vue"]]);
+const AdminCategoryLocation = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8], ["__scopeId", "data-v-da2e3bfe"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminCategoryLocation.vue"]]);
 const _sfc_main$7 = {
   __name: "AdminInquiryCreation",
   setup(__props, { expose: __expose }) {
@@ -2567,20 +3671,9 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         name: translate("agora", "Categories and Locations Management"),
         description: translate("agora", "Change globally location and category (for all accounts)")
       },
-      inquiryInquiryStatus: {
-        name: translate("agora", "Inquiry status settings"),
-        description: translate(
-          "agora",
-          "Configure inquiry statuses for each type of inquiry. Moderators will be able to set these statuses on inquiries."
-        )
-      },
       inquirySettings: {
         name: translate("agora", "Inquiry settings"),
         description: translate("agora", "Change inquiry settings globally (for all accounts)")
-      },
-      inquiryRights: {
-        name: translate("agora", "Inquiry rights"),
-        description: translate("agora", "Change inquiry rights globally (for all accounts)")
       },
       shareSettings: {
         name: translate("agora", "Share settings"),
@@ -2595,6 +3688,13 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         description: translate(
           "agora",
           "If you are experiencing connection problems, change how auto updates are retrieved."
+        )
+      },
+      globalSettings: {
+        name: translate("agora", "Global inquiry settings"),
+        description: translate(
+          "agora",
+          "Let you configure, family, type of inquiries and associed rights, like comment, supports, status..."
         )
       },
       publicSettings: {
@@ -2637,18 +3737,12 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       return AdminDeleteInquiries;
     }, get AdminEmail() {
       return AdminEmail;
-    }, get AdminInquiryStatus() {
-      return AdminInquiryStatus;
     }, get AdminJobs() {
       return AdminJobs;
     }, get AdminLegal() {
       return AdminLegal;
-    }, get AdminInquiryRights() {
-      return AdminInquiryRights;
-    }, get AdminModeratorRights() {
-      return AdminModeratorRights;
-    }, get AdminOfficialRights() {
-      return AdminOfficialRights;
+    }, get AdminSettings() {
+      return AdminSettings;
     }, get AdminCategoryLocation() {
       return AdminCategoryLocation;
     }, get AdminPerformance() {
@@ -2681,13 +3775,10 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
           default: withCtx(() => [
             createVNode(
               $setup["NcSettingsSection"],
-              normalizeProps(guardReactiveProps($setup.sections.inquirySettings)),
+              normalizeProps(guardReactiveProps($setup.sections.globalSettings)),
               {
                 default: withCtx(() => [
-                  createVNode($setup["AdminInquiryCreation"]),
-                  createVNode($setup["AdminUnrescrictedOwners"]),
-                  createVNode($setup["AdminArchiveInquiries"]),
-                  createVNode($setup["AdminDeleteInquiries"])
+                  createVNode($setup["AdminSettings"])
                 ]),
                 _: 1
                 /* STABLE */
@@ -2697,12 +3788,13 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
             ),
             createVNode(
               $setup["NcSettingsSection"],
-              normalizeProps(guardReactiveProps($setup.sections.inquiryRights)),
+              normalizeProps(guardReactiveProps($setup.sections.inquirySettings)),
               {
                 default: withCtx(() => [
-                  createVNode($setup["AdminInquiryRights"]),
-                  createVNode($setup["AdminModeratorRights"]),
-                  createVNode($setup["AdminOfficialRights"])
+                  createVNode($setup["AdminInquiryCreation"]),
+                  createVNode($setup["AdminUnrescrictedOwners"]),
+                  createVNode($setup["AdminArchiveInquiries"]),
+                  createVNode($setup["AdminDeleteInquiries"])
                 ]),
                 _: 1
                 /* STABLE */
@@ -2786,25 +3878,6 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               16
               /* FULL_PROPS */
             ),
-            createVNode(
-              $setup["NcSettingsSection"],
-              normalizeProps(guardReactiveProps($setup.sections.inquiryInquiryStatus)),
-              {
-                default: withCtx(() => [
-                  createVNode($setup["AdminInquiryStatus"])
-                ]),
-                _: 1
-                /* STABLE */
-              },
-              16
-              /* FULL_PROPS */
-            )
-          ]),
-          _: 1
-          /* STABLE */
-        }),
-        createVNode($setup["NcSettingsSection"], null, {
-          default: withCtx(() => [
             createVNode(
               $setup["NcSettingsSection"],
               normalizeProps(guardReactiveProps($setup.sections.jobSettings)),
