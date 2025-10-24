@@ -30,18 +30,19 @@ const newType = ref({
   allowed_transformation: '[]'
 })
 
-// Convertir les icônes en minuscules
+const getIconComponent = (iconName) => {
+  return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
+}
+
+
+// Get statuses for the selected inquiry type
 const availableIcons = computed(() =>
   Object.keys(InquiryGeneralIcons)
     .filter((key) => key !== 'default')
-    .map((iconId) => {
-      const lowerCaseId = iconId.toLowerCase()
-      const formattedLabel = lowerCaseId.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/_/g, ' ')
-      return {
-        id: lowerCaseId,
-        label: t('agora', formattedLabel.charAt(0).toUpperCase() + formattedLabel.slice(1)),
-      }
-    })
+    .map((iconId) => ({
+      id: iconId,
+      label: t('agora', iconId.replace(/([A-Z])/g, ' $1').trim()),
+    }))
 )
 
 // Filter types for selected family
@@ -125,7 +126,7 @@ const openTypeSettings = (type) => {
         >
           <div class="type-card-content">
             <div class="type-icon">
-              <span class="icon">{{ type.icon }}</span>
+		    <component :is="getIconComponent(type.icon)" :size="20" />
             </div>
             <div class="type-info">
               <h4>{{ type.label }}</h4>
@@ -196,6 +197,7 @@ const openTypeSettings = (type) => {
             v-model="newType.icon"
             :options="availableIcons"
             :label="t('agora', 'Icon')"
+	    label="label"
             class="form-field"
           />
         </div>

@@ -7,18 +7,21 @@
 import { ref } from 'vue'
 import { t } from '@nextcloud/l10n'
 
-// Import des composants de paramètres
 import AdminTypeRights from './AdminTypeRights.vue'
 import AdminOfficialRights from './AdminOfficialRights.vue'
 import AdminModeratorRights from './AdminModeratorRights.vue'
 import AdminTypeStatus from './AdminTypeStatus.vue'
+import { InquiryGeneralIcons } from '../../../utils/icons.ts'
 
 const props = defineProps(['selectedType'])
 const emit = defineEmits(['close'])
 
 const activeSettingsTab = ref('user-rights')
 
-// Navigation simple
+const getIconComponent = (iconName) => {
+  return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
+}
+
 const settingsTabs = [
   { 
     id: 'user-rights', 
@@ -45,11 +48,10 @@ const settingsTabs = [
 
 <template>
   <div class="type-settings-modal">
-    <!-- En-tête avec informations du type -->
     <div class="modal-header">
       <div class="type-info">
         <div class="type-icon">
-          <span class="icon">{{ selectedType.icon }}</span>
+	  <component :is="getIconComponent(selectedType.icon)" :size="20" />
         </div>
         <div class="type-details">
           <h3>{{ selectedType.label }}</h3>
@@ -58,7 +60,6 @@ const settingsTabs = [
       </div>
     </div>
 
-    <!-- Menu de navigation simple -->
     <div class="simple-menu">
       <button
         v-for="tab in settingsTabs"
@@ -71,7 +72,6 @@ const settingsTabs = [
       </button>
     </div>
 
-    <!-- Contenu des paramètres -->
     <div class="settings-content">
       <component 
         :is="settingsTabs.find(t => t.id === activeSettingsTab)?.component"

@@ -3355,11 +3355,11 @@ tr.file-picker__row td.row-name[data-v-1f96131b] {
 const appName = "agora";
 const appVersion = "1.5.0-beta";
 import { at as h$1, i as defineStore, bc as Settings, u as _export_sfc, d as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, e as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, a as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, S as withDirectives, bg as vModelRadio, bh as withKeys, W as withModifiers, F as useModel, r as renderSlot, af as useCssVars, bi as useIsDarkTheme, B as unref, bj as mdiCreation, f as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, V as NcButton, bk as userStatus, L as NcAvatar, X as resolveComponent, K as mergeProps, M as normalizeStyle, E as mergeModels, Q as ref, bl as provide, I as warn$1, J as watch, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, aw as logger, a2 as mdiCheck, a3 as mdiAlertCircle, bm as useRouter, b as onMounted, G as Fragment$1, H as renderList, aK as onBeforeUnmount, ae as NcLoadingIcon, T as vShow, bn as Teleport, bo as useRoute, b6 as emit, n as normalizeProps, g as guardReactiveProps, P as DateTime, R as RouterLink, b8 as onUnmounted, ba as NcActions, bp as translatePlural, bq as TransitionGroup, aL as nextTick, q as _$2, br as NcModal, b7 as shallowRef, bs as markRaw, bt as watchEffect, bu as getCurrentInstance, bv as customRef, bw as global, bx as getAugmentedNamespace, aN as process$1, a_ as commonjsGlobal, by as Buffer, Z as getDefaultExportFromCjs, bz as vModelSelect, bA as toRaw, bB as subscribe, bC as unsubscribe, as as Transition, bD as onBeforeRouteUpdate, aR as getCurrentUser, U as vModelText, bE as createRouter, bF as createWebHistory, bG as axios, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang--E6jl8E8.chunk.mjs";
-import { b as useSessionStore, p as publicInquiry, h as supports, L as Logger, I as InquiryGeneralIcons, S as StatusIcons, a as useInquiriesStore, i as useInquiryGroupsStore, j as NavigationIcons, s as showError, k as useInquiryStore, l as showSuccess, E as Event$1, m as NcEmptyContent, B as BadgeIcons, n as sortTitlesMapping, o as lodashExports, d as appSettings, q as showInfo, v as validators, r as inquiries, t as commonjsRequire, w as useAttachmentsStore, x as useCommentsStore, y as useSharesStore, z as moment, A as useOptionsStore, C as ShareIcons } from "./NcDashboardWidget-BEUtfCxs-C09UGvNK.chunk.mjs";
-import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-B7UXkJYO.chunk.mjs";
-import { b as NcAppNavigationItem, u as useAppSettingsDialog, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcAppSidebar, a as NcAppSettingsDialog, l as NcContent } from "./index-DMXib1RJ.chunk.mjs";
+import { b as useSessionStore, p as publicInquiry, h as supports, L as Logger, I as InquiryGeneralIcons, S as StatusIcons, a as useInquiriesStore, i as useInquiryGroupsStore, j as NavigationIcons, s as showError, k as useInquiryStore, l as showSuccess, E as Event$1, m as NcEmptyContent, B as BadgeIcons, n as sortTitlesMapping, o as lodashExports, d as appSettings, q as showInfo, v as validators, r as inquiries, t as commonjsRequire, w as useAttachmentsStore, x as useCommentsStore, y as useSharesStore, z as moment, A as useOptionsStore, C as ShareIcons } from "./NcDashboardWidget-BEUtfCxs-odCb4aXv.chunk.mjs";
+import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-YkIqcv3G.chunk.mjs";
+import { b as NcAppNavigationItem, u as useAppSettingsDialog, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcAppSidebar, a as NcAppSettingsDialog, l as NcContent } from "./index-CYLLFans.chunk.mjs";
 import { _ as _sfc_main$1C, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1D, e as NcRichText } from "./NcRichText-Dht_wH3t-CLSOeSu_.chunk.mjs";
-import { R as RadioGroupDiv, c as createPermissionContextForContent, a as ContentType, b as canSupport, d as canComment, e as canTransfer, f as canEdit, g as canDelete, h as canRestore, i as canArchive, s as shouldShowResponseActions, j as shouldShowTransformationActions, k as canCreateResponseType, l as canCreateTransformationType, m as canViewToggle, C as CardDiv, n as canShare } from "./markdown-LCoqsIZl.chunk.mjs";
+import { R as RadioGroupDiv, c as createPermissionContextForContent, a as ContentType, b as canSupport, d as canComment, e as canTransfer, f as canEdit, g as canDelete, h as canRestore, i as canArchive, s as shouldShowResponseActions, j as shouldShowTransformationActions, k as canCreateResponseType, l as canCreateTransformationType, m as canViewToggle, C as CardDiv, n as canShare } from "./markdown-W3EUkT54.chunk.mjs";
 import { A as AgoraAppIcon } from "./AgoraAppIcon-B9bZ5ZJq.chunk.mjs";
 const setCookie = (cookieName, cookieValue = "", cookieExpiration = 360) => {
   const expirationTime = /* @__PURE__ */ new Date();
@@ -3681,6 +3681,36 @@ function getAvailableInquiryTypesForCreation(inquiryTypes) {
   return inquiryTypes.filter(
     (type) => !["official", "suggestion"].includes(type.inquiry_type)
   );
+}
+function isInquiryFinalStatus(inquiryStore, appSettings2) {
+  if (!inquiryStore?.type || !inquiryStore?.status?.inquiryStatus || !appSettings2?.inquiryStatusTab) {
+    console.warn("🔧 [isInquiryFinalStatus] Missing required data:", {
+      inquiryType: inquiryStore?.type,
+      inquiryStatus: inquiryStore?.status?.inquiryStatus,
+      hasStatusTab: !!appSettings2?.inquiryStatusTab
+    });
+    return false;
+  }
+  const inquiryType = inquiryStore.type;
+  const currentStatus = inquiryStore.status.inquiryStatus;
+  const statusConfig = appSettings2.inquiryStatusTab.find(
+    (status) => status.inquiryType === inquiryType && status.statusKey === currentStatus
+  );
+  if (!statusConfig) {
+    console.warn("🔧 [isInquiryFinalStatus] No status config found for:", {
+      inquiryType,
+      currentStatus,
+      availableStatuses: appSettings2.inquiryStatusTab.filter((s) => s.inquiryType === inquiryType).map((s) => s.statusKey)
+    });
+    return false;
+  }
+  console.log("🔧 [isInquiryFinalStatus] Status config found:", {
+    inquiryType,
+    currentStatus,
+    isFinal: statusConfig.isFinal,
+    statusConfig
+  });
+  return statusConfig.isFinal === true;
 }
 function getInquiryTypesForFamily(familyInquiryType, inquiryTypesByFamily, isOptionFilter = 0) {
   const types = inquiryTypesByFamily[familyInquiryType] || [];
@@ -6874,7 +6904,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                 count: $props.inquiry.status.countParticipants
               })
             }, [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.BadgeIcons.participated), {
+              (openBlock(), createBlock(resolveDynamicComponent($setup.BadgeIcons.Participated), {
                 size: 16,
                 class: "icon"
               })),
@@ -13341,11 +13371,11 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
   setup(__props, { expose: __expose, emit: __emit }) {
     __expose();
     const props2 = __props;
+    const inquiriesStore = useInquiriesStore();
     console.log("🔧 [InquiryActionToolbar] Component mounted - Debug info:");
     console.log("🔧 Props isReadonlyDescription:", props2.isReadonlyDescription);
     console.log("🔧 Inquiry store:", props2.inquiryStore);
     console.log("🔧 Current user:", props2.sessionStore.currentUser);
-    const inquiriesStore = useInquiriesStore();
     const emit2 = __emit;
     const context2 = computed(() => {
       const ctx = createPermissionContextForContent(
@@ -13361,7 +13391,7 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
         props2.inquiryStore.type,
         props2.inquiryStore.family,
         props2.inquiryStore.configuration.access,
-        props2.inquiryStore.status.isFinalStatus,
+        isInquiryFinalStatus(props2.inquiryStore, props2.sessionStore.appSettings),
         props2.inquiryStore.status.moderationStatus
       );
       console.log("🔧 [InquiryActionToolbar] Permission context:", ctx);
@@ -13379,7 +13409,9 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
     const inquiryAccess = computed({
       get: () => props2.inquiryStore.configuration.access === "moderate",
       set: (value) => {
-        handleAccessChange(value);
+        if (value) {
+          setModerationStatus("pending");
+        }
       }
     });
     watch(() => props2.inquiryStore.status.moderationStatus, (newStatus) => {
@@ -13394,25 +13426,23 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
     };
     const setModerationStatus = async (status) => {
       console.log("Setting moderation status:", status);
-      if (status === "accepted") {
-        await props2.inquiryStore.submitInquiry("submit_for_accepted");
-        await inquiriesStore.updateInquiryModerationStatus(props2.inquiryStore.id, status);
-        props2.inquiryStore.status.moderationStatus = status;
-        await inquiriesStore.updateInquiryAccess(props2.inquiryStore.id, "open");
-        props2.inquiryStore.configuration.access = "open";
-        showSuccess(translate("agora", "Inquiry accepted"));
-      } else if (status === "rejected") {
-        await props2.inquiryStore.submitInquiry("submit_for_rejected");
-        await inquiriesStore.updateInquiryModerationStatus(props2.inquiryStore.id, status);
-        props2.inquiryStore.status.moderationStatus = status;
-        await inquiriesStore.updateInquiryAccess(props2.inquiryStore.id, "private");
-        props2.inquiryStore.configuration.access = "private";
-        await inquiriesStore.updateInquiryStatus(props2.inquiryStore.id, status);
-        props2.inquiryStore.status.inquiryStatus = status;
-        showSuccess(translate("agora", "Inquiry rejected"));
-      } else if (status === "pending") {
-        showSuccess(translate("agora", "Inquiry status set to pending"));
-        await inquiriesStore.updateInquiryModerationStatus(props2.inquiryStore.id, status);
+      try {
+        if (status === "accepted") {
+          await props2.inquiryStore.submitInquiry("submit_for_accepted");
+          inquiriesStore.submitInquiry(props2.inquiryStore.id, "submit_for_accepted");
+          showSuccess(translate("agora", "Inquiry accepted"));
+        } else if (status === "rejected") {
+          await props2.inquiryStore.submitInquiry("submit_for_rejected");
+          inquiriesStore.submitInquiry(props2.inquiryStore.id, "submit_for_rejected");
+          showSuccess(translate("agora", "Inquiry rejected"));
+        } else if (status === "pending") {
+          await props2.inquiryStore.submitInquiry("submit_for_moderate");
+          inquiriesStore.submitInquiry(props2.inquiryStore.id, "submit_for_moderate");
+          showSuccess(translate("agora", "Inquiry submitted for moderation"));
+        }
+        await nextTick();
+      } catch (error) {
+        showError(translate("agora", "Failed to submit inquiry for moderation"));
       }
     };
     const rawResponseTypes = computed(() => {
@@ -13452,6 +13482,17 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
         };
       });
     });
+    const enrichedTransformTypes = computed(() => {
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      return availableTransformTypes.value.map((transformType) => {
+        const typeData = getInquiryTypeData(transformType.inquiry_type, inquiryTypes);
+        return {
+          ...transformType,
+          icon: typeData.icon,
+          label: typeData.label
+        };
+      });
+    });
     const getStatusLabel = (status) => {
       const option2 = statusOptions.find((opt) => opt.value === status);
       return option2 ? option2.label : status;
@@ -13472,25 +13513,6 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
       console.log("🔧 [InquiryActionToolbar] canEditInquiry check - isReadonlyDescription:", props2.isReadonlyDescription);
       return !props2.isReadonlyDescription;
     });
-    const handleAccessChange = async (value) => {
-      try {
-        console.log("🔧 Handling access change:", value);
-        if (value) {
-          await props2.inquiryStore.submitInquiry("submit_for_moderate");
-          setModerationStatus("pending");
-          await inquiriesStore.updateInquiryAccess(props2.inquiryStore.id, "moderate");
-          await inquiriesStore.updateInquiryStatus(props2.inquiryStore.id, "waiting_approval");
-          props2.inquiryStore.status.inquiryStatus = "waiting_approval";
-          props2.inquiryStore.status.moderationStatus = "pending";
-          props2.inquiryStore.configuration.access = "moderate";
-          showSuccess(translate("agora", "Inquiry submitted for moderation"));
-        }
-        await nextTick();
-      } catch (error) {
-        console.error("Error submitting inquiry:", error);
-        showError(translate("agora", "Failed to submit inquiry for moderation"));
-      }
-    };
     const showSaveButton = computed(() => {
       console.log("🔧 [InquiryActionToolbar] showSaveButton:", canEditInquiry.value);
       return canEditInquiry.value;
@@ -13507,7 +13529,7 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
       console.log("🔧 [InquiryActionToolbar] Allowed transformation triggered:", transformType);
       emit2("allowedTransformation", transformType);
     };
-    const __returned__ = { props: props2, inquiriesStore, emit: emit2, context: context2, selectedStatus, statusOptions, showModerationSwitch, inquiryAccess, resolveTypeData, setModerationStatus, rawResponseTypes, rawTransformTypes, showActionsMenu, showTransformActionsMenu, availableResponseTypes, availableTransformTypes, enrichedResponseTypes, getStatusLabel, getStatusColor, canEditInquiry, handleAccessChange, showSaveButton, handleSave, handleAllowedResponse, handleAllowedTransformation, get t() {
+    const __returned__ = { props: props2, inquiriesStore, emit: emit2, context: context2, selectedStatus, statusOptions, showModerationSwitch, inquiryAccess, resolveTypeData, setModerationStatus, rawResponseTypes, rawTransformTypes, showActionsMenu, showTransformActionsMenu, availableResponseTypes, availableTransformTypes, enrichedResponseTypes, enrichedTransformTypes, getStatusLabel, getStatusColor, canEditInquiry, showSaveButton, handleSave, handleAllowedResponse, handleAllowedTransformation, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -13549,10 +13571,7 @@ const _hoisted_11$3 = {
   class: "access-control"
 };
 const _hoisted_12$3 = { class: "control-label" };
-const _hoisted_13$3 = {
-  i: "",
-  class: "access-control"
-};
+const _hoisted_13$3 = { class: "access-control" };
 const _hoisted_14$2 = {
   key: 2,
   class: "item-actions"
@@ -13626,7 +13645,7 @@ function _sfc_render$Y(_ctx, _cache, $props, $setup, $data, $options) {
           /* STABLE */
         })) : createCommentVNode("v-if", true),
         createCommentVNode(" Allowed Transformation Type "),
-        $setup.showTransformActionsMenu && _ctx.enrichedTransformTypes.length > 0 ? (openBlock(), createBlock($setup["NcActions"], {
+        $setup.showTransformActionsMenu && $setup.enrichedTransformTypes.length > 0 ? (openBlock(), createBlock($setup["NcActions"], {
           key: 2,
           "menu-name": "Allowed Transformation",
           class: "transform-actions"
@@ -13638,7 +13657,7 @@ function _sfc_render$Y(_ctx, _cache, $props, $setup, $data, $options) {
             (openBlock(true), createElementBlock(
               Fragment$1,
               null,
-              renderList(_ctx.enrichedTransformTypes, (transformType) => {
+              renderList($setup.enrichedTransformTypes, (transformType) => {
                 return openBlock(), createBlock($setup["NcActionButton"], {
                   key: transformType.inquiry_type,
                   onClick: ($event) => $setup.handleAllowedTransformation(transformType.inquiry_type)
@@ -60168,8 +60187,13 @@ function _sfc_render$L(_ctx, _cache, $props, $setup, $data, $options) {
 const InquiryEditor = /* @__PURE__ */ _export_sfc$1(_sfc_main$L, [["render", _sfc_render$L], ["__scopeId", "data-v-0d9f3682"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Editor/InquiryEditor.vue"]]);
 const _sfc_main$K = /* @__PURE__ */ defineComponent({
   __name: "InquiryEditViewForm",
+  props: {
+    isReadonly: { type: Boolean, required: true },
+    isReadonlyDescription: { type: Boolean, required: false }
+  },
   setup(__props, { expose: __expose }) {
     __expose();
+    const props2 = __props;
     const sessionStore = useSessionStore();
     const commentsStore = useCommentsStore();
     const supportsStore = useSupportsStore();
@@ -60200,7 +60224,7 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
         inquiryStore.type,
         inquiryStore.family,
         inquiryStore.configuration.access,
-        inquiryStore.status.isFinalStatus,
+        isInquiryFinalStatus(inquiryStore, sessionStore.appSettings),
         inquiryStore.status.moderationStatus
       );
       console.log("🔧 [InquiryActionToolbar] Permission context:", ctx);
@@ -60210,26 +60234,6 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
     const selectedLocation = ref(inquiryStore.locationId || 0);
     const isLoaded = ref(false);
     const hasSupported = computed(() => inquiryStore.currentUserStatus.hasSupported);
-    const isReadonly = computed(() => {
-      const user = sessionStore.currentUser;
-      console.log("🔧 [InquiryEditViewForm] Checking readonly - User:", user);
-      if (!user) {
-        console.log("🔧 [InquiryEditViewForm] No user - READONLY");
-        return true;
-      }
-      const canEditResult = canEdit(context2.value);
-      console.log("🔧 [InquiryEditViewForm] canEdit result:", canEditResult);
-      return !canEditResult;
-    });
-    const isReadonlyDescription = computed(() => {
-      console.log("🔧 [InquiryEditViewForm] isReadonlyDescription check - type:", inquiryStore.type, "isReadonly:", isReadonly.value);
-      if (inquiryStore.type === "debate") {
-        console.log("🔧 [InquiryEditViewForm] Debate type - EDITABLE");
-        return false;
-      }
-      console.log("🔧 [InquiryEditViewForm] Other type - READONLY:", isReadonly.value);
-      return isReadonly.value;
-    });
     const inquiryTypeData = computed(() => {
       const data = getInquiryTypeData(inquiryStore.type, sessionStore.appSettings.inquiryTypeTab || []);
       console.log("🔧 [InquiryEditViewForm] Inquiry type data:", data);
@@ -60496,13 +60500,13 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
       unsubscribe(Event$1.UpdateComments, () => commentsStore.load());
     });
     const showCategoryAsLabel = computed(() => {
-      const result2 = inquiryStore.parentId !== 0 || isReadonly.value;
-      console.log("🔧 [InquiryEditViewForm] showCategoryAsLabel:", result2, "parentId:", inquiryStore.parentId, "isReadonly:", isReadonly.value);
+      const result2 = inquiryStore.parentId !== 0 || props2.isReadonly;
+      console.log("🔧 [InquiryEditViewForm] showCategoryAsLabel:", result2, "parentId:", inquiryStore.parentId, "isReadonly:", props2.isReadonly);
       return result2;
     });
     const showLocationAsLabel = computed(() => {
-      const result2 = inquiryStore.parentId !== 0 || isReadonly.value;
-      console.log("🔧 [InquiryEditViewForm] showLocationAsLabel:", result2, "parentId:", inquiryStore.parentId, "isReadonly:", isReadonly.value);
+      const result2 = inquiryStore.parentId !== 0 || props2.isReadonly;
+      console.log("🔧 [InquiryEditViewForm] showLocationAsLabel:", result2, "parentId:", inquiryStore.parentId, "isReadonly:", props2.isReadonly);
       return result2;
     });
     function getNextcloudPreviewUrl(fileId, x = 1920, y = 1080, autoScale = true) {
@@ -60546,7 +60550,7 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
     const formatDate = (timestamp) => {
       return new Date(timestamp * 1e3).toLocaleDateString();
     };
-    const __returned__ = { sessionStore, commentsStore, supportsStore, inquiryStore, inquiriesStore, sharesStore, router: router2, attachmentsStore, imageFileInput, currentCoverUrl, triggerImageUpload, context: context2, selectedCategory, selectedLocation, isLoaded, hasSupported, isReadonly, isReadonlyDescription, inquiryTypeData, availableInquiryStatuses, currentInquiryStatus, selectedInquiryStatusKey, currentInquiryStatusLabel, currentInquiryStatusIcon, selectedInquiryStatus, onStatusChange, isNoAccessSet, subTexts, dateCreatedRelative, timeExpirationRelative, statusInquiryOptions, getHierarchyPath, buildHierarchy, hierarchicalLocation, hierarchicalCategory, onToggleSupport, showCategoryAsLabel, showLocationAsLabel, getNextcloudPreviewUrl, handleImageUpload, formatDate, get t() {
+    const __returned__ = { props: props2, sessionStore, commentsStore, supportsStore, inquiryStore, inquiriesStore, sharesStore, router: router2, attachmentsStore, imageFileInput, currentCoverUrl, triggerImageUpload, context: context2, selectedCategory, selectedLocation, isLoaded, hasSupported, inquiryTypeData, availableInquiryStatuses, currentInquiryStatus, selectedInquiryStatusKey, currentInquiryStatusLabel, currentInquiryStatusIcon, selectedInquiryStatus, onStatusChange, isNoAccessSet, subTexts, dateCreatedRelative, timeExpirationRelative, statusInquiryOptions, getHierarchyPath, buildHierarchy, hierarchicalLocation, hierarchicalCategory, onToggleSupport, showCategoryAsLabel, showLocationAsLabel, getNextcloudPreviewUrl, handleImageUpload, formatDate, get t() {
       return translate;
     }, get NcSelect() {
       return NcSelect;
@@ -60736,8 +60740,8 @@ function _sfc_render$K(_ctx, _cache, $props, $setup, $data, $options) {
         createBaseVNode(
           "div",
           {
-            class: normalizeClass(["cover-image-section", { "clickable": !$setup.isReadonly }]),
-            onClick: _cache[0] || (_cache[0] = ($event) => !$setup.isReadonly && $setup.triggerImageUpload())
+            class: normalizeClass(["cover-image-section", { "clickable": !$setup.props.isReadonly }]),
+            onClick: _cache[0] || (_cache[0] = ($event) => !$setup.props.isReadonly && $setup.triggerImageUpload())
           },
           [
             createBaseVNode("img", {
@@ -60745,7 +60749,7 @@ function _sfc_render$K(_ctx, _cache, $props, $setup, $data, $options) {
               alt: $setup.t("agora", "Inquiry cover image"),
               class: "cover-image"
             }, null, 8, _hoisted_8$2),
-            !$setup.isReadonly ? (openBlock(), createElementBlock("div", _hoisted_9$2, [
+            !$setup.props.isReadonly ? (openBlock(), createElementBlock("div", _hoisted_9$2, [
               createVNode($setup["NcButton"], {
                 type: "primary",
                 class: "change-cover-btn"
@@ -61050,7 +61054,7 @@ function _sfc_render$K(_ctx, _cache, $props, $setup, $data, $options) {
             createVNode($setup["InquiryEditor"], {
               modelValue: $setup.inquiryStore.description,
               "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.inquiryStore.description = $event),
-              readonly: $setup.isReadonlyDescription
+              readonly: $setup.props.isReadonlyDescription
             }, null, 8, ["modelValue", "readonly"])
           ])) : $setup.sessionStore.appSettings.inquiryTypeRights[$setup.inquiryStore.type]?.editorType === "texteditor" ? (openBlock(), createElementBlock("div", _hoisted_45, [
             createVNode($setup["NcRichText"], {
@@ -61058,14 +61062,14 @@ function _sfc_render$K(_ctx, _cache, $props, $setup, $data, $options) {
               "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.inquiryStore.description = $event),
               autolink: true,
               "use-markdown": true,
-              disabled: $setup.isReadonlyDescription,
+              disabled: $setup.props.isReadonlyDescription,
               class: "rich-text-editor"
             }, null, 8, ["modelValue", "disabled"])
           ])) : (openBlock(), createElementBlock("div", _hoisted_46, [
             createVNode($setup["NcTextArea"], {
               modelValue: $setup.inquiryStore.description,
               "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.inquiryStore.description = $event),
-              disabled: $setup.isReadonlyDescription,
+              disabled: $setup.props.isReadonlyDescription,
               class: "text-area-editor",
               rows: 8
             }, null, 8, ["modelValue", "disabled"])
@@ -62026,6 +62030,26 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
     const selectedGroups = ref([]);
     const isSaving = ref(false);
     const selectedFamily = ref(inquiriesStore.familyType || null);
+    const context2 = computed(() => {
+      const ctx = createPermissionContextForContent(
+        ContentType.Inquiry,
+        inquiryStore.owner.id,
+        inquiryStore.configuration.access === "public",
+        inquiryStore.status.isLocked,
+        inquiryStore.status.isExpired,
+        inquiryStore.status.deletionDate > 0,
+        inquiryStore.status.isArchived,
+        inquiryStore.inquiryGroups.length > 0,
+        inquiryStore.inquiryGroups,
+        inquiryStore.type,
+        inquiryStore.family,
+        inquiryStore.configuration.access,
+        inquiryStore.status.isFinalStatus,
+        inquiryStore.status.moderationStatus
+      );
+      console.log("🔧 [InquiryActionToolbar] Permission context:", ctx);
+      return ctx;
+    });
     const showMore = computed(
       () => inquiriesStore.chunkedList.length < inquiriesStore.inquiriesFilteredSorted.length && inquiriesStore.meta.status !== "loading"
     );
@@ -62098,6 +62122,26 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
       },
       { immediate: true }
     );
+    const isReadonly = computed(() => {
+      const user = sessionStore.currentUser;
+      console.log("🔧 [InquiryEditViewForm] Checking readonly - User:", user);
+      if (!user) {
+        console.log("🔧 [InquiryEditViewForm] No user - READONLY");
+        return true;
+      }
+      const canEditResult = canEdit(context2.value);
+      console.log("🔧 [InquiryEditViewForm] canEdit result:", canEditResult);
+      return !canEditResult;
+    });
+    const isReadonlyDescription = computed(() => {
+      console.log("🔧 [InquiryEditViewForm] isReadonlyDescription check - type:", inquiryStore.type, "isReadonly:", isReadonly.value);
+      if (inquiryStore.type === "debate") {
+        console.log("🔧 [InquiryEditViewForm] Debate type - EDITABLE");
+        return false;
+      }
+      console.log("🔧 [InquiryEditViewForm] Other type - READONLY:", isReadonly.value);
+      return isReadonly.value;
+    });
     const enableEditMode = () => {
       editMode.value = true;
       inquiryStore.status.forceEditMode = true;
@@ -62177,7 +62221,7 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
       console.log("Groups updated:", groups);
       selectedGroups.value = groups;
     };
-    const __returned__ = { forceRenderKey, selectedMode, route, router: router2, inquiryStore, inquiriesStore, sessionStore, tableSticky, editMode, isAppLoaded, createDlgToggle, selectedInquiryTypeForCreation, selectedGroups, isSaving, selectedFamily, showMore, formatDate, countLoadedInquiries, availableGroups, closeToClosing, timeExpirationRelative, infoLoaded, routeChild, loadInquiry, enableEditMode, isShortDescription, collapsibleProps, handleSave, handleAllowedResponse, handleAllowedTransformation, handleCloseDialog, inquiryAdded, handleGroupUpdate, get t() {
+    const __returned__ = { forceRenderKey, selectedMode, route, router: router2, inquiryStore, inquiriesStore, sessionStore, tableSticky, editMode, isAppLoaded, createDlgToggle, selectedInquiryTypeForCreation, selectedGroups, isSaving, selectedFamily, context: context2, showMore, formatDate, countLoadedInquiries, availableGroups, closeToClosing, timeExpirationRelative, infoLoaded, routeChild, loadInquiry, isReadonly, isReadonlyDescription, enableEditMode, isShortDescription, collapsibleProps, handleSave, handleAllowedResponse, handleAllowedTransformation, handleCloseDialog, inquiryAdded, handleGroupUpdate, get t() {
       return translate;
     }, get NcAppContent() {
       return NcAppContent;
@@ -62211,14 +62255,18 @@ function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
         "inquiry-store": $setup.inquiryStore,
         "session-store": $setup.sessionStore,
         "is-saving": $setup.isSaving,
-        "is-readonly-description": !$setup.editMode,
+        "is-readonly-description": $setup.isReadonlyDescription,
         onSave: $setup.handleSave,
         onAllowedResponse: $setup.handleAllowedResponse,
         onAllowedTransformation: $setup.handleAllowedTransformation
       }, null, 8, ["inquiry-store", "session-store", "is-saving", "is-readonly-description"])) : createCommentVNode("v-if", true),
       createBaseVNode("div", _hoisted_1$m, [
         createBaseVNode("div", _hoisted_2$e, [
-          $setup.editMode ? (openBlock(), createBlock($setup["InquiryEditViewForm"], { key: 0 })) : (openBlock(), createBlock($setup["InquiryTransition"], {
+          $setup.editMode ? (openBlock(), createBlock($setup["InquiryEditViewForm"], {
+            key: 0,
+            "is-readonly-description": $setup.isReadonlyDescription,
+            "is-readonly": $setup.isReadonly
+          }, null, 8, ["is-readonly-description", "is-readonly"])) : (openBlock(), createBlock($setup["InquiryTransition"], {
             key: 1,
             "is-loaded-parent": $setup.isAppLoaded,
             onRouteChild: $setup.routeChild,

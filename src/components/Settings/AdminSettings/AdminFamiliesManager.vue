@@ -23,20 +23,19 @@ const newFamily = ref({
   sort_order: 0
 })
 
-// Convertir les icônes en minuscules
+// Get statuses for the selected inquiry type
 const availableIcons = computed(() =>
   Object.keys(InquiryGeneralIcons)
     .filter((key) => key !== 'default')
-    .map((iconId) => {
-      // Convertir en minuscule et formater le label
-      const lowerCaseId = iconId.toLowerCase()
-      const formattedLabel = lowerCaseId.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/_/g, ' ')
-      return {
-        id: lowerCaseId,
-        label: t('agora', formattedLabel.charAt(0).toUpperCase() + formattedLabel.slice(1)),
-      }
-    })
+    .map((iconId) => ({
+      id: iconId,
+      label: t('agora', iconId.replace(/([A-Z])/g, ' $1').trim()),
+    }))
 )
+
+const getIconComponent = (iconName) => {
+  return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
+}
 
 // Calculate types count for each family
 const familiesWithStats = computed(() => {
@@ -104,7 +103,7 @@ const selectFamily = (family) => {
       >
         <div class="family-content">
           <div class="family-icon">
-            <span class="icon">{{ family.icon }}</span>
+	  	<component :is="getIconComponent(family.icon)" :size="20" />
           </div>
           <div class="family-info">
             <h4>{{ family.label }}</h4>
@@ -148,13 +147,13 @@ const selectFamily = (family) => {
             :label="t('agora', 'Display Label')"
             :placeholder="t('agora', 'e.g., Deliberative Process')"
             required
-            class="form-field"
+           class="form-field"
           />
           
           <NcSelect
             v-model="newFamily.icon"
             :options="availableIcons"
-            :label="t('agora', 'Icon')"
+	    :clearable="false"
             :placeholder="t('agora', 'Select an icon')"
             class="form-field"
           />
@@ -209,10 +208,13 @@ const selectFamily = (family) => {
             <NcSelect
               v-model="editingFamily.icon"
               :options="availableIcons"
-              :label="t('agora', 'Icon')"
+	      :clearable="false"
+              :placeholder="t('agora', 'Select an icon')"
               class="form-field"
-            />
-          </div>
+          />
+        </div>
+        </div>
+	<div>
           <NcInputField
             v-model="editingFamily.description"
             :label="t('agora', 'Description')"

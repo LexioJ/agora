@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import { watch, ref, computed, nextTick } from 'vue' 
 import { useSessionStore } from '../../stores/session'
+import { AccessType } from '../../stores/inquiry'
 import { useInquiriesStore } from '../../stores/inquiries.ts'
 import { t } from '@nextcloud/l10n'
 import { showSuccess, showError } from '@nextcloud/dialogs'
@@ -42,12 +43,14 @@ const props = defineProps<{
   isReadonlyDescription?: boolean
 }>()
 
+const inquiriesStore = useInquiriesStore()
+
+
 console.log('🔧 [InquiryActionToolbar] Component mounted - Debug info:')
 console.log('🔧 Props isReadonlyDescription:', props.isReadonlyDescription)
 console.log('🔧 Inquiry store:', props.inquiryStore)
 console.log('🔧 Current user:', props.sessionStore.currentUser)
 
-const inquiriesStore = useInquiriesStore()
 
 // Emits
 const emit = defineEmits<{
@@ -70,14 +73,13 @@ const context = computed(() => {
     props.inquiryStore.inquiryGroups,
     props.inquiryStore.type,
     props.inquiryStore.family, 
-    props.inquiryStore.configuration.access as AccessLevel,
-    props.inquiryStore.status.isFinalStatus,
+    props.inquiryStore.configuration.access as AccessType,
+    isInquiryFinalStatus(props.inquiryStore,props.sessionStore.appSettings),
     props.inquiryStore.status.moderationStatus 
   )
   console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
   return ctx
 })
-
 
 const selectedStatus = ref(props.inquiryStore.status.moderationStatus || 'pending')
 
@@ -97,7 +99,9 @@ const showModerationSwitch = computed(() => {
 const inquiryAccess = computed({
   get: () => props.inquiryStore.configuration.access === 'moderate',
   set: (value) => {
-    handleAccessChange(value)
+    if (value) {
+    	setModerationStatus("pending")
+  	}
   }
 })
 
@@ -115,26 +119,25 @@ const resolveTypeData = (inquiryType: string, types: any[]) => {
 
 const setModerationStatus = async (status: string) => {
   console.log("Setting moderation status:", status)
+  try {
   if (status === 'accepted') {
     await props.inquiryStore.submitInquiry("submit_for_accepted")
-    await inquiriesStore.updateInquiryModerationStatus(props.inquiryStore.id, status) 
-    props.inquiryStore.status.moderationStatus=status
-    await inquiriesStore.updateInquiryAccess(props.inquiryStore.id, "open")
-    props.inquiryStore.configuration.access="open"
+    inquiriesStore.submitInquiry(props.inquiryStore.id,"submit_for_accepted")
     showSuccess(t('agora','Inquiry accepted'))
   } else if (status === 'rejected') {
     await props.inquiryStore.submitInquiry("submit_for_rejected")
-    await inquiriesStore.updateInquiryModerationStatus(props.inquiryStore.id, status) 
-    props.inquiryStore.status.moderationStatus=status
-    await inquiriesStore.updateInquiryAccess(props.inquiryStore.id, "private")
-    props.inquiryStore.configuration.access="private"
-    await inquiriesStore.updateInquiryStatus(props.inquiryStore.id, status)
-    props.inquiryStore.status.inquiryStatus=status
+    inquiriesStore.submitInquiry(props.inquiryStore.id,"submit_for_rejected")
     showSuccess(t('agora','Inquiry rejected'))
   } else if (status === 'pending') {
-    showSuccess(t('agora','Inquiry status set to pending'))
-    await inquiriesStore.updateInquiryModerationStatus(props.inquiryStore.id, status) 
+      await props.inquiryStore.submitInquiry("submit_for_moderate")
+      inquiriesStore.submitInquiry(props.inquiryStore.id,"submit_for_moderate")
+      showSuccess(t('agora','Inquiry submitted for moderation'))
   }
+    await nextTick()
+  } catch (error) {
+    showError(t('agora','Failed to submit inquiry for moderation'))
+  }
+
 }
 
 // First get the raw available types
@@ -185,6 +188,18 @@ const enrichedResponseTypes = computed(() => {
   })
 })
 
+const enrichedTransformTypes = computed(() => {
+  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
+  return availableTransformTypes.value.map(transformType => {
+    const typeData = getInquiryTypeData(transformType.inquiry_type, inquiryTypes)
+    return {
+      ...transformType,
+      icon: typeData.icon,
+      label: typeData.label
+    }
+  })
+})
+
 const getStatusLabel = (status: string) => {
   const option = statusOptions.find(opt => opt.value === status)
   return option ? option.label : status
@@ -209,82 +224,6 @@ const canEditInquiry = computed(() => {
   return !props.isReadonlyDescription
 })
 
-const handleAccessChange = async (value: boolean) => {
-  try {
-    console.log('🔧 Handling access change:', value)
-    if (value) {
-      await props.inquiryStore.submitInquiry("submit_for_moderate")
-      setModerationStatus("pending")
-      await inquiriesStore.updateInquiryAccess(props.inquiryStore.id, "moderate")
-      await inquiriesStore.updateInquiryStatus(props.inquiryStore.id, "waiting_approval")
-      props.inquiryStore.status.inquiryStatus="waiting_approval"
-      props.inquiryStore.status.moderationStatus="pending"
-      props.inquiryStore.configuration.access="moderate"
-      showSuccess(t('agora','Inquiry submitted for moderation'))
-    }
-    await nextTick()
-  } catch (error) {
-    console.error('Error submitting inquiry:', error)
-    showError(t('agora','Failed to submit inquiry for moderation'))
-  }
-}
-
-/**
-// Get available transformation types
-//const availableTransformTypes = computed(() => {
-//  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-//  const types = getAvailableTransformTypes(props.inquiryStore.type, inquiryTypes)
-//  console.log('🔧 [InquiryActionToolbar] Available transform types:', types)
-//  return types
-//})
-
-// Get available response types
-//const availableResponseTypes = computed(() => {
-//  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-//  const types = getAvailableResponseTypes(props.inquiryStore.type, inquiryTypes)
-//  console.log('🔧 [InquiryActionToolbar] Available response types:', types)
-//  return types
-//})
-
-const enrichedResponseTypes = computed(() => {
-  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-  return availableResponseTypes.value.map(responseType => {
-    const typeData = resolveTypeData(responseType.inquiry_type, inquiryTypes)
-    return {
-      ...responseType,
-      icon: typeData.icon,
-      label: typeData.label
-    }
-  })
-})
-
-const enrichedTransformTypes = computed(() => {
-  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-  return availableTransformTypes.value.map(transformType => {
-    const typeData = resolveTypeData(transformType.inquiry_type, inquiryTypes)
-    return {
-      ...transformType,
-      icon: typeData.icon,
-      label: typeData.label
-    }
-  })
-})
-
-// Check if actions transform menu should be shown
-const showTransformActionsMenu = computed(() => {
-  const result = canEditInquiry.value && availableTransformTypes.value.length > 0
-  console.log('🔧 [InquiryActionToolbar] showTransformActionsMenu:', result, 'canEdit:', canEditInquiry.value, 'types count:', availableTransformTypes.value.length)
-  return result
-})
-
-// Check if actions menu should be shown
-const showActionsMenu = computed(() => {
-  const result = canEditInquiry.value && availableResponseTypes.value.length > 0
-  console.log('🔧 [InquiryActionToolbar] showActionsMenu:', result, 'canEdit:', canEditInquiry.value, 'types count:', availableResponseTypes.value.length)
-  return result
-})
-
-**/
 // Check if save button should be shown
 const showSaveButton = computed(() => {
   console.log('🔧 [InquiryActionToolbar] showSaveButton:', canEditInquiry.value)
@@ -311,113 +250,113 @@ const handleAllowedTransformation = (transformType: string) => {
 </script>
 
 <template>
-  <div class="inquiry-action-toolbar">
-    <div class="left-actions">
-      <!-- Save and Response buttons -->
-      <div class="primary-actions">
-        <NcButton
-          v-if="showSaveButton"
-          :disabled="isSaving"
-          type="primary"
-          class="save-button"
-          @click.prevent="handleSave"
-        >
-          <template #icon>
-            <component :is="InquiryGeneralIcons.Save" :size="20" />
-          </template>
-          {{ t('agora', 'Save') }}
-          <span v-if="isSaving" class="loading-icon"></span>
-        </NcButton>
+	<div class="inquiry-action-toolbar">
+		<div class="left-actions">
+			<!-- Save and Response buttons -->
+			<div class="primary-actions">
+				<NcButton
+						v-if="showSaveButton"
+						:disabled="isSaving"
+						type="primary"
+						class="save-button"
+						@click.prevent="handleSave"
+						>
+						<template #icon>
+							<component :is="InquiryGeneralIcons.Save" :size="20" />
+						</template>
+				{{ t('agora', 'Save') }}
+				<span v-if="isSaving" class="loading-icon"></span>
+				</NcButton>
 
-        <!-- Allowed Response types menu -->
-        <NcActions
-          v-if="showActionsMenu && enrichedResponseTypes.length > 0"
-          menu-name="Allowed Response"
-          class="response-actions"
-        >
-          <template #icon>
-            <component :is="InquiryGeneralIcons.Reply" :size="20" />
-          </template>
-          <NcActionButton
-            v-for="responseType in enrichedResponseTypes"
-            :key="responseType.inquiry_type"
-            @click="handleAllowedResponse(responseType.inquiry_type)"
-          >
-            <template #icon>
-              <component
-                :is="responseType.icon"
-                v-if="responseType.icon"
-                :size="20"
-              />
-              <span v-else>📄</span>
-            </template>
-            {{ responseType.label }}
-          </NcActionButton>
-        </NcActions>
+				<!-- Allowed Response types menu -->
+				<NcActions
+						v-if="showActionsMenu && enrichedResponseTypes.length > 0"
+						menu-name="Allowed Response"
+						class="response-actions"
+						>
+						<template #icon>
+							<component :is="InquiryGeneralIcons.Reply" :size="20" />
+						</template>
+				<NcActionButton
+						v-for="responseType in enrichedResponseTypes"
+						:key="responseType.inquiry_type"
+						@click="handleAllowedResponse(responseType.inquiry_type)"
+						>
+						<template #icon>
+							<component
+									:is="responseType.icon"
+									v-if="responseType.icon"
+									:size="20"
+									/>
+							<span v-else>📄</span>
+						</template>
+						{{ responseType.label }}
+				</NcActionButton>
+				</NcActions>
 
-        <!-- Allowed Transformation Type -->
-        <NcActions
-          v-if="showTransformActionsMenu && enrichedTransformTypes.length > 0"
-          menu-name="Allowed Transformation"
-          class="transform-actions"
-        >
-          <template #icon>
-            <component :is="InquiryGeneralIcons.Transform" :size="20" />
-          </template>
-          <NcActionButton
-            v-for="transformType in enrichedTransformTypes"
-            :key="transformType.inquiry_type"
-            @click="handleAllowedTransformation(transformType.inquiry_type)"
-          >
-            <template #icon>
-              <component
-                :is="transformType.icon"
-                v-if="transformType.icon"
-                :size="20"
-              />
-              <span v-else>🔄</span>
-            </template>
-            {{ transformType.label }}
-          </NcActionButton>
-        </NcActions>
-      </div>
-    </div>
+				<!-- Allowed Transformation Type -->
+				<NcActions
+						v-if="showTransformActionsMenu && enrichedTransformTypes.length > 0"
+						menu-name="Allowed Transformation"
+						class="transform-actions"
+						>
+						<template #icon>
+							<component :is="InquiryGeneralIcons.Transform" :size="20" />
+						</template>
+				<NcActionButton
+						v-for="transformType in enrichedTransformTypes"
+						:key="transformType.inquiry_type"
+						@click="handleAllowedTransformation(transformType.inquiry_type)"
+						>
+						<template #icon>
+							<component
+									:is="transformType.icon"
+									v-if="transformType.icon"
+									:size="20"
+									/>
+							<span v-else>🔄</span>
+						</template>
+						{{ transformType.label }}
+				</NcActionButton>
+				</NcActions>
+			</div>
+		</div>
 
-    <!-- Right: Access switch and item actions -->
-    <div class="right-actions">
-	    <div v-if="inquiryStore.configuration.access === 'private' && inquiryStore.status.moderationStatus !== 'rejected'" class="access-control">
-		    <label class="control-label">{{ t('agora', 'Submit to moderation') }}</label>
-		    <NcCheckboxRadioSwitch
-				    v-model="inquiryAccess"
-				    type="switch"
-				    />
-	    </div>
-	    <div v-if="sessionStore.currentUser.isModerator">
-		    <div v-if="inquiryStore.configuration.access === 'moderate' && inquiryStore.status.moderationStatus === 'pending'" class="access-control">
-			    <label class="control-label">{{ t('agora', 'Moderate') }}</label>
-			    <NcSelect
-					    v-model="selectedStatus"
-					    :options="statusOptions"
-					    :clearable="false"
-					    :multiple="false"
-					    class="status-select"
-					    @update:model-value="(selected) => setModerationStatus(selected.value)"
-					    />
-		    </div>
-	    </div>
-	    <div i class="access-control">
-		       <label class="status-label" :style="getStatusColor(inquiryStore.status.moderationStatus)">
-          		{{ getStatusLabel(inquiryStore.status.moderationStatus) }}
-        	       </label>
-      	   </div>
-	    <div
-			    v-if="canViewToggle(context)"
-			    class="item-actions"
-			    >
-			    <InquiryItemActions :key="`actions-${inquiryStore.id}`" :inquiry="inquiryStore" />
-	    </div>
-    </div>
-  </div>
+		<!-- Right: Access switch and item actions -->
+		<div class="right-actions">
+			<div v-if="inquiryStore.configuration.access === 'private' && inquiryStore.status.moderationStatus !== 'rejected'" class="access-control">
+				<label class="control-label">{{ t('agora', 'Submit to moderation') }}</label>
+				<NcCheckboxRadioSwitch
+						v-model="inquiryAccess"
+						type="switch"
+						/>
+			</div>
+			<div v-if="sessionStore.currentUser.isModerator">
+				<div v-if="inquiryStore.configuration.access === 'moderate' && inquiryStore.status.moderationStatus === 'pending'" class="access-control">
+					<label class="control-label">{{ t('agora', 'Moderate') }}</label>
+					<NcSelect
+							v-model="selectedStatus"
+							:options="statusOptions"
+							:clearable="false"
+							:multiple="false"
+							class="status-select"
+							@update:model-value="(selected) => setModerationStatus(selected.value)"
+							/>
+				</div>
+			</div>
+			<div class="access-control">
+				<label class="status-label" :style="getStatusColor(inquiryStore.status.moderationStatus)">
+					{{ getStatusLabel(inquiryStore.status.moderationStatus) }}
+				</label>
+			</div>
+			<div
+					v-if="canViewToggle(context)"
+					class="item-actions"
+					>
+					<InquiryItemActions :key="`actions-${inquiryStore.id}`" :inquiry="inquiryStore" />
+			</div>
+		</div>
+	</div>
 </template>
 
 <style scoped lang="scss">
@@ -449,114 +388,114 @@ const handleAllowedTransformation = (transformType: string) => {
 	justify-content: flex-end;
 }
 
-	  .access-control {
-		  display: flex;
-		  align-items: center;
-		  gap: 0.75rem;
+				  .access-control {
+					  display: flex;
+					  align-items: center;
+					  gap: 0.75rem;
 
-		  .control-label {
-			  font-weight: 600;
-			  color: var(--color-text-lighter);
-			  white-space: nowrap;
-			  margin: 0;
-			  font-size: 0.875rem;
-		  }
-	  }
-	  .status-label {
-		  font-weight: bold;
-		  padding: 4px 8px;
-		  border-radius: 4px;
-		  background: var(--color-background-darker);
-	  }
-	  .status-select {
-		  width: 160px !important;
-		  min-width: 120px !important;
+					  .control-label {
+						  font-weight: 600;
+						  color: var(--color-text-lighter);
+						  white-space: nowrap;
+						  margin: 0;
+						  font-size: 0.875rem;
+					  }
+				  }
+				  .status-label {
+					  font-weight: bold;
+					  padding: 4px 8px;
+					  border-radius: 4px;
+					  background: var(--color-background-darker);
+				  }
+				  .status-select {
+					  width: 160px !important;
+					  min-width: 120px !important;
 
-		  :deep(.nc-select__input) {
-			  font-size: 0.8rem !important;
-			  padding: 4px 8px !important;
-		  }
+					  :deep(.nc-select__input) {
+						  font-size: 0.8rem !important;
+						  padding: 4px 8px !important;
+					  }
 
-		  :deep(.nc-select__toggle) {
-			  min-height: 32px !important;
-		  }
-	  }
+					  :deep(.nc-select__toggle) {
+						  min-height: 32px !important;
+					  }
+				  }
 
-	  .primary-actions {
-		  display: flex;
-		  gap: 0.5rem;
-		  align-items: center;
-	  }
+				  .primary-actions {
+					  display: flex;
+					  gap: 0.5rem;
+					  align-items: center;
+				  }
 
-	  .save-button {
-		  background-color: var(--color-primary);
-		  color: white;
-		  border: none;
-		  padding: 8px 16px;
-		  border-radius: 20px;
-		  font-weight: 500;
-		  min-width: 100px;
-		  white-space: nowrap;
-	  }
+				  .save-button {
+					  background-color: var(--color-primary);
+					  color: white;
+					  border: none;
+					  padding: 8px 16px;
+					  border-radius: 20px;
+					  font-weight: 500;
+					  min-width: 100px;
+					  white-space: nowrap;
+				  }
 
-	  .response-actions,
-	  .transform-actions {
-		  margin: 0 0.25rem;
-	  }
+				  .response-actions,
+				  .transform-actions {
+					  margin: 0 0.25rem;
+				  }
 
-	  .loading-icon {
-		  display: inline-block;
-		  width: 16px;
-		  height: 16px;
-		  border: 2px solid transparent;
-		  border-top: 2px solid currentColor;
-		  border-radius: 50%;
-		  animation: spin 1s linear infinite;
-		  margin-right: 8px;
-	  }
+				  .loading-icon {
+					  display: inline-block;
+					  width: 16px;
+					  height: 16px;
+					  border: 2px solid transparent;
+					  border-top: 2px solid currentColor;
+					  border-radius: 50%;
+					  animation: spin 1s linear infinite;
+					  margin-right: 8px;
+				  }
 
-	  @keyframes spin {
-		  from {
-			  transform: rotate(0deg);
-		  }
-		  to {
-			  transform: rotate(360deg);
-		  }
-	  }
+				  @keyframes spin {
+					  from {
+						  transform: rotate(0deg);
+					  }
+					  to {
+						  transform: rotate(360deg);
+					  }
+				  }
 
-	  /* Mobile responsive */
-	  @media (max-width: 768px) {
-		  .inquiry-action-toolbar {
-			  flex-direction: column;
-			  gap: 1rem;
-			  padding: 1rem;
-		  }
+				  /* Mobile responsive */
+				  @media (max-width: 768px) {
+					  .inquiry-action-toolbar {
+						  flex-direction: column;
+						  gap: 1rem;
+						  padding: 1rem;
+					  }
 
-		  .left-actions {
-			  flex-direction: column;
-			  width: 100%;
-		  }
+					  .left-actions {
+						  flex-direction: column;
+						  width: 100%;
+					  }
 
-		  .primary-actions {
-			  flex-wrap: wrap;
-			  justify-content: center;
-			  width: 100%;
-		  }
+					  .primary-actions {
+						  flex-wrap: wrap;
+						  justify-content: center;
+						  width: 100%;
+					  }
 
-		  .right-actions {
-			  width: 100%;
-			  justify-content: center;
-			  flex-wrap: wrap;
-		  }
+					  .right-actions {
+						  width: 100%;
+						  justify-content: center;
+						  flex-wrap: wrap;
+					  }
 
-		  .access-control {
-			  justify-content: center;
-			  width: 100%;
-		  }
+					  .access-control {
+						  justify-content: center;
+						  width: 100%;
+					  }
 
-		  .status-select {
-			  width: 100px !important;
-			  min-width: 100px !important;
-		  }
-	  }
+					  .status-select {
+						  width: 100px !important;
+						  min-width: 100px !important;
+					  }
+				  }
 </style>

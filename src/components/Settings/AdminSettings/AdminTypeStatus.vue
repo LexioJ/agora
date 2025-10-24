@@ -127,9 +127,6 @@ const cancelEdit = () => {
 <template>
   <div class="type-status">
     <div class="header">
-      <NcButton @click="emit('back-to-types')">
-        ← {{ t('agora', 'Back to Types') }}
-      </NcButton>
       <h2>
         {{ t('agora', 'Status for {type}', { type: selectedType?.label }) }}
       </h2>

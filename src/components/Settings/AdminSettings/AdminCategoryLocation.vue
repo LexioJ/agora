@@ -299,53 +299,113 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
 </template>
 
 <style scoped>
-/* Vos styles existants */
 .category-location-manager {
-  padding: 20px;
+  padding: 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: auto;
+  min-height: 80vh;
+  background: var(--color-main-background);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .tabs {
   display: flex;
-  margin-bottom: 20px;
+  margin-bottom: 0;
+  background: var(--color-background-dark);
   border-bottom: 1px solid var(--color-border);
+  padding: 0;
+  gap: 0;
+  border-radius: 12px 12px 0 0;
 }
 
 .tabs NcButton {
-  padding: 10px 20px;
-  border: none;
+  flex: 1;
   background: none;
+  border: none;
+  padding: 18px 24px;
+  color: var(--color-text-lighter);
   cursor: pointer;
-  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+  border-bottom: 3px solid transparent;
+  font-size: 1em;
+  font-weight: 500;
+  margin: 0;
+  border-radius: 0;
+}
+
+.tabs NcButton:hover {
+  background: var(--color-background-hover);
+  color: var(--color-text-light);
 }
 
 .tabs NcButton.active {
-  border-bottom-color: var(--color-primary);
   color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+  background: var(--color-background-darker);
+  font-weight: 600;
 }
 
 .tab-content {
-  margin-top: 20px;
+  margin-top: 0;
+  background: var(--color-main-background);
+  border-radius: 0 0 12px 12px;
+  padding: 30px;
+  min-height: 600px;
+  height: auto;
+  overflow: visible;
 }
 
 .add-form {
   margin-bottom: 30px;
-  padding: 20px;
+  padding: 25px;
   background: var(--color-background-dark);
   border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.add-form h3 {
+  margin: 0 0 20px 0;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 18px;
 }
 
 .form-fields {
   display: flex;
   gap: 15px;
   align-items: end;
+  flex-wrap: wrap;
+}
+
+.form-fields .nc-input-field,
+.form-fields .nc-select {
+  flex: 1;
+  min-width: 200px;
 }
 
 .tree-view {
   margin-top: 30px;
 }
 
+.tree-view h3 {
+  margin: 0 0 20px 0;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 18px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-border);
+}
+
 .tree-container {
   margin-top: 15px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 20px;
+  background: var(--color-background-dark);
+  max-height: 500px;
+  overflow-y: auto;
 }
 
 .loading,
@@ -353,10 +413,15 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
   text-align: center;
   padding: 40px;
   color: var(--color-text-lighter);
+  font-size: 16px;
 }
 
 .error {
   color: var(--color-error);
+  background: var(--color-error-background);
+  border: 1px solid var(--color-error-border);
+  border-radius: 8px;
+  margin: 20px 0;
 }
 
 .modal {
@@ -365,11 +430,12 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.6);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  backdrop-filter: blur(4px);
 }
 
 .modal-content {
@@ -377,12 +443,144 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
   padding: 30px;
   border-radius: 12px;
   min-width: 400px;
+  max-width: 500px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--color-border);
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-content h3 {
+  margin: 0 0 20px 0;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 20px;
 }
 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 12px;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid var(--color-border);
+}
+
+.category-location-manager > div:last-child {
+  max-height: calc(100vh - 100px);
+  overflow-y: auto;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .category-location-manager {
+    padding: 0;
+    min-height: auto;
+    margin: 10px;
+  }
+
+  .tabs {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .tabs NcButton {
+    padding: 16px 20px;
+    border-bottom: 2px solid transparent;
+    border-right: 3px solid transparent;
+    text-align: left;
+  }
+
+  .tabs NcButton.active {
+    border-bottom-color: transparent;
+    border-right-color: var(--color-primary);
+  }
+
+  .tab-content {
+    padding: 20px;
+    min-height: 500px;
+  }
+
+  .form-fields {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .form-fields .nc-input-field,
+  .form-fields .nc-select {
+    min-width: auto;
+  }
+
+  .modal-content {
+    min-width: auto;
+    margin: 20px;
+    padding: 20px;
+    max-height: 70vh;
+  }
+
+  .tree-container {
+    max-height: 400px;
+  }
+}
+
+.tree-container {
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.add-form {
+  position: relative;
+}
+
+.tab-content {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+:deep(.tabs .button-vue) {
+  border-radius: 0 !important;
+}
+
+:deep(.tabs .button-vue--vue-secondary.active) {
+  background: var(--color-background-darker) !important;
+  color: var(--color-primary) !important;
+  border-bottom-color: var(--color-primary) !important;
+}
+
+.category-location-manager {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-location-manager > div:last-child {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tree-view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.tree-container {
+  flex: 1;
 }
 </style>

@@ -4,7 +4,7 @@
 
 -- Inquiries
 INSERT INTO oc_agora_inquiries
-(id, cover_id, type, title, description, location_id, category_id, owner, created, archived, expire, deleted, owned_group, access, show_results, last_interaction, parent_id, moderation_status, status, allow_comment, allow_support)
+(id, cover_id, type, title, description, location_id, category_id, owner, created, archived, expire, deleted, owned_group, access, show_results, last_interaction, parent_id, moderation_status, inquiry_status, allow_comment, allow_support)
 VALUES
 (5001, NULL, 'proposal', 'Ban Single-Use Plastics in Moorea', 'A proposal to reduce pollution by banning plastic bags and straws.', 6, 6, 'admin', UNIX_TIMESTAMP()-86400*200, 0, UNIX_TIMESTAMP()+86400*160, 0, '', 'public', 'always', UNIX_TIMESTAMP()-86400*190, 0, 'collecting_support', 'active', 1, 1),
 (5002, NULL, 'debate', 'Tourism Limits in Bora Bora', 'Should Bora Bora cap the number of tourists each year?', 9, 11, 'moderator', UNIX_TIMESTAMP()-86400*150, 0, UNIX_TIMESTAMP()+86400*120, 0, '', 'public', 'always', UNIX_TIMESTAMP()-86400*145, 0, 'discussion_open', 'active', 1, 1),

@@ -19,6 +19,7 @@ import { t } from '@nextcloud/l10n'
 import moment from '@nextcloud/moment'
 import {
   getInquiryTypeData,
+  isInquiryFinalStatus
 } from '../../helpers/modules/InquiryHelper.ts'
 
 import NcSelect from '@nextcloud/vue/components/NcSelect'
@@ -37,6 +38,14 @@ import {
   createPermissionContextForContent,
   ContentType,
 } from '../../utils/permissions.ts'
+
+
+// Props
+const props = defineProps<{
+  isReadonly: boolean
+  isReadonlyDescription?: boolean
+}>()
+
 
 // Store declarations
 const sessionStore = useSessionStore()
@@ -73,7 +82,7 @@ const context = computed(() => {
     inquiryStore.type,
     inquiryStore.family, 
     inquiryStore.configuration.access as AccessLevel,
-    inquiryStore.status.isFinalStatus,
+    isInquiryFinalStatus(inquiryStore,sessionStore.appSettings),
     inquiryStore.status.moderationStatus 
   )
   console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
@@ -87,32 +96,6 @@ const selectedLocation = ref(inquiryStore.locationId || 0)
 const isLoaded = ref(false)
 
 const hasSupported = computed(() => inquiryStore.currentUserStatus.hasSupported)
-
-const isReadonly = computed(() => {
-  const user = sessionStore.currentUser
-  console.log('🔧 [InquiryEditViewForm] Checking readonly - User:', user)
-
-  if (!user) {
-    console.log('🔧 [InquiryEditViewForm] No user - READONLY')
-    return true
-  }
-
-  const canEditResult = canEdit(context.value)
-  console.log('🔧 [InquiryEditViewForm] canEdit result:', canEditResult)
-
-  return !canEditResult
-})
-
-const isReadonlyDescription = computed(() => {
-  console.log('🔧 [InquiryEditViewForm] isReadonlyDescription check - type:', inquiryStore.type, 'isReadonly:', isReadonly.value)
-
-  if (inquiryStore.type === 'debate') {
-    console.log('🔧 [InquiryEditViewForm] Debate type - EDITABLE')
-    return false
-  }
-  console.log('🔧 [InquiryEditViewForm] Other type - READONLY:', isReadonly.value)
-  return isReadonly.value
-})
 
 // Get current inquiry type data
 const inquiryTypeData = computed(() => {
@@ -432,14 +415,14 @@ onUnmounted(() => {
 
 // Determine if category/location should be shown as select or label
 const showCategoryAsLabel = computed(() => {
-  const result = inquiryStore.parentId !== 0 || isReadonly.value
-  console.log('🔧 [InquiryEditViewForm] showCategoryAsLabel:', result, 'parentId:', inquiryStore.parentId, 'isReadonly:', isReadonly.value)
+  const result = inquiryStore.parentId !== 0 || props.isReadonly
+  console.log('🔧 [InquiryEditViewForm] showCategoryAsLabel:', result, 'parentId:', inquiryStore.parentId, 'isReadonly:', props.isReadonly)
   return result
 })
 
 const showLocationAsLabel = computed(() => {
-  const result = inquiryStore.parentId !== 0 || isReadonly.value
-  console.log('🔧 [InquiryEditViewForm] showLocationAsLabel:', result, 'parentId:', inquiryStore.parentId, 'isReadonly:', isReadonly.value)
+  const result = inquiryStore.parentId !== 0 || props.isReadonly
+  console.log('🔧 [InquiryEditViewForm] showLocationAsLabel:', result, 'parentId:', inquiryStore.parentId, 'isReadonly:', props.isReadonly)
   return result
 })
 
@@ -557,15 +540,15 @@ const formatDate = (timestamp: number) => {
 <div
   v-else-if="currentCoverUrl"
   class="cover-image-section"
-  :class="{ 'clickable': !isReadonly }"
-  @click="!isReadonly && triggerImageUpload()"
+  :class="{ 'clickable': !props.isReadonly }"
+  @click="!props.isReadonly && triggerImageUpload()"
 >
   <img
     :src="currentCoverUrl"
     :alt="t('agora', 'Inquiry cover image')"
     class="cover-image"
   />
-  <div v-if="!isReadonly" class="cover-image-overlay">
+  <div v-if="!props.isReadonly" class="cover-image-overlay">
     <NcButton type="primary" class="change-cover-btn">
       <template #icon>
         <component :is="InquiryGeneralIcons.Edit" :size="20" />
@@ -758,7 +741,7 @@ const formatDate = (timestamp: number) => {
 							v-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.editorType === 'wysiwyg'"
 							class="editor-container"
 							>
-							<InquiryEditor v-model="inquiryStore.description" :readonly="isReadonlyDescription" />
+							<InquiryEditor v-model="inquiryStore.description" :readonly="props.isReadonlyDescription" />
 					</div>
 
 						<div
@@ -769,7 +752,7 @@ const formatDate = (timestamp: number) => {
 										v-model="inquiryStore.description"
 										:autolink="true"
 										:use-markdown="true"
-										:disabled="isReadonlyDescription"
+										:disabled="props.isReadonlyDescription"
 										class="rich-text-editor"
 										/>
 						</div>
@@ -777,7 +760,7 @@ const formatDate = (timestamp: number) => {
 							<div v-else class="editor-container">
 								<NcTextArea
 										v-model="inquiryStore.description"
-										:disabled="isReadonlyDescription"
+										:disabled="props.isReadonlyDescription"
 										class="text-area-editor"
 										:rows="8"
 										/>

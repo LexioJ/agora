@@ -48,60 +48,61 @@ class InquiryTypeService
         return $this->inquiryTypeMapper->findByFamily($family);
     }
 
-    public function findByInquiryType(string $inquiryType): array
-    {
-        return $this->inquiryTypeMapper->findByInquiryType($inquiryType);
-    }
-
     public function delete(int $id): InquiryType
     {
-	    $inquiryType = $this->find($id);
-	    return $this->inquiryTypeMapper->delete($inquiryType);
+        $inquiryType = $this->find($id);
+        return $this->inquiryTypeMapper->delete($inquiryType);
     }
 
     public function create(
-	    string $type,
-	    string $family,
-	    string $icon,
-	    string $label,
-	    ?string $description = null,
-	    ?array $fields = null,
-	    ?array $allowedResponse = null
+        string $inquiryType,
+        string $family = 'deliberative',
+        string $icon = '',
+        string $label = '',
+        bool $isOption = false,
+        ?string $description = null,
+        ?string $fields = null,
+        ?string $allowedResponse = null,
+        ?string $allowedTransformation = null
     ): InquiryType {
-	    $inquiryType = new InquiryType();
-	    $inquiryType->setType($type);
-	    $inquiryType->setInquiryType($inquiryType);
-	    $inquiryType->setFamily($family);
-	    $inquiryType->setLabel($label);
-	    $inquiryType->setIcon($icon);
-	    $inquiryType->setDescription($description);
-	    $inquiryType->setFields($fields);
-	    $inquiryType->setAllowedResponse($allowedResponse);
-	    $inquiryType->setCreated(time());
+        $type = new InquiryType();
+        $type->setInquiryType($inquiryType);
+        $type->setFamily($family);
+        $type->setIcon($icon);
+        $type->setLabel($label);
+        $type->setIsOption($isOption);
+        $type->setDescription($description);
+        $type->setFields($fields);
+        $type->setAllowedResponse($allowedResponse);
+        $type->setAllowedTransformation($allowedTransformation);
+        $type->setCreated(time());
 
-	    return $this->inquiryTypeMapper->insert($inquiryType);
+        return $this->inquiryTypeMapper->insert($type);
     }
 
     public function update(
-	    int $id,
-	    string $type,
-	    string $family,
-	    string $icon,
-	    string $label,
-	    ?string $description = null,
-	    ?array $fields = null,
-	    ?array $allowedResponse = null
+        int $id,
+        string $inquiryType,
+        string $family = 'deliberative',
+        string $icon = '',
+        string $label = '',
+        bool $isOption = false,
+        ?string $description = null,
+        ?string $fields = null,
+        ?string $allowedResponse = null,
+        ?string $allowedTransformation = null
     ): InquiryType {
-	    $inquiryType = $this->find($id);
-	    $inquiryType->setType($type);
-	    $inquiryType->setInquiryType($inquiryType);
-	    $inquiryType->setFamily($family);
-	    $inquiryType->setIcon($icon);
-	    $inquiryType->setLabel($label);
-	    $inquiryType->setDescription($description);
-	    $inquiryType->setFields($fields);
-	    $inquiryType->setAllowedResponse($allowedResponse);
+        $type = $this->find($id);
+        $type->setInquiryType($inquiryType);
+        $type->setFamily($family);
+        $type->setIcon($icon);
+        $type->setLabel($label);
+        $type->setIsOption($isOption);
+        $type->setDescription($description);
+        $type->setFields($fields);
+        $type->setAllowedResponse($allowedResponse);
+        $type->setAllowedTransformation($allowedTransformation);
 
-	    return $this->inquiryTypeMapper->update($inquiryType);
+        return $this->inquiryTypeMapper->update($type);
     }
 }

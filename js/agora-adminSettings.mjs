@@ -3,7 +3,7 @@
   try {
     if (typeof document != "undefined") {
       var elementStyle = document.createElement("style");
-      elementStyle.appendChild(document.createTextNode(".disclaimer_group {\n  display: flex;\n  align-items: center;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.disclaimer_group .grow_title {\n  display: flex;\n  flex-grow: 1;\n  margin-inline-end: 12px;\n}\n.disclaimer_group .grow_title .material-design-icon {\n  margin-inline-start: 4px;\n}.user_settings {\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.user_settings .job_buttons_section {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 20px;\n  gap: 12px;\n}\n.user_settings .job_hints p {\n  margin-bottom: 0.5em;\n}\n.families-manager[data-v-b0578289] {\n  padding: 20px;\n}\n.families-list[data-v-b0578289] {\n  margin-bottom: 30px;\n}\n.families-list h3[data-v-b0578289] {\n  margin-bottom: 15px;\n  color: var(--color-text-lighter);\n}\n.family-item[data-v-b0578289] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  margin-bottom: 10px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n}\n.family-item[data-v-b0578289]:hover {\n  background: var(--color-background-hover);\n}\n.family-content[data-v-b0578289] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  flex: 1;\n}\n.family-icon[data-v-b0578289] {\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 8px;\n  font-size: 20px;\n}\n.family-info h4[data-v-b0578289] {\n  margin: 0 0 5px 0;\n  color: var(--color-text-light);\n}\n.family-type[data-v-b0578289] {\n  margin: 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 0.9em;\n}\n.family-description[data-v-b0578289] {\n  margin: 5px 0 0 0;\n  color: var(--color-text-lighter);\n}\n.family-stats[data-v-b0578289] {\n  margin-top: 8px;\n}\n.types-count[data-v-b0578289] {\n  font-size: 0.8em;\n  color: var(--color-primary);\n  background: var(--color-primary-element-light);\n  padding: 2px 8px;\n  border-radius: 12px;\n}\n.family-actions[data-v-b0578289] {\n  display: flex;\n  gap: 10px;\n}\n.add-family-form[data-v-b0578289] {\n  padding: 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-b0578289] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.form-row[data-v-b0578289] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 15px;\n  align-items: start;\n}\n.form-field[data-v-b0578289] {\n  margin: 0;\n}\n.full-width[data-v-b0578289] {\n  grid-column: 1 / -1;\n}\n.form-actions[data-v-b0578289] {\n  display: flex;\n  justify-content: flex-start;\n}\n.modal-overlay[data-v-b0578289] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-b0578289] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 800px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-content.large-modal[data-v-b0578289] {\n  width: 900px;\n  max-width: 95vw;\n}\n.modal-actions[data-v-b0578289] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 20px;\n}\n\n.types-manager[data-v-f2f32798] {\n  padding: 20px;\n}\n.header[data-v-f2f32798] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-f2f32798] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.types-list[data-v-f2f32798] {\n  margin-bottom: 30px;\n}\n.list-description[data-v-f2f32798] {\n  color: var(--color-text-lighter);\n  margin-bottom: 20px;\n}\n.types-grid[data-v-f2f32798] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 20px;\n}\n.type-card[data-v-f2f32798] {\n  background: var(--color-background-dark);\n  border-radius: 12px;\n  padding: 20px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.type-card[data-v-f2f32798]:hover {\n  background: var(--color-background-hover);\n  border-color: var(--color-primary);\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.type-card-content[data-v-f2f32798] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n  margin-bottom: 15px;\n}\n.type-icon[data-v-f2f32798] {\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 10px;\n  font-size: 24px;\n  flex-shrink: 0;\n}\n.type-info[data-v-f2f32798] {\n  flex: 1;\n}\n.type-info h4[data-v-f2f32798] {\n  margin: 0 0 8px 0;\n  color: var(--color-text-light);\n  font-size: 1.1em;\n}\n.type-key[data-v-f2f32798] {\n  margin: 0 0 10px 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 0.9em;\n  background: var(--color-background-darker);\n  padding: 4px 8px;\n  border-radius: 4px;\n  display: inline-block;\n}\n.type-description[data-v-f2f32798] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n  line-height: 1.4;\n}\n.type-badge[data-v-f2f32798] {\n  display: inline-block;\n  padding: 4px 10px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.type-badge.option[data-v-f2f32798] {\n  background: var(--color-warning);\n  color: white;\n}\n.type-actions[data-v-f2f32798] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n.configure-btn[data-v-f2f32798] {\n  width: 100%;\n}\n.secondary-actions[data-v-f2f32798] {\n  display: flex;\n  gap: 8px;\n}\n.edit-btn[data-v-f2f32798], .delete-btn[data-v-f2f32798] {\n  flex: 1;\n}\n.empty-state[data-v-f2f32798] {\n  text-align: center;\n  padding: 60px 40px;\n  color: var(--color-text-lighter);\n  background: var(--color-background-dark);\n  border-radius: 12px;\n  grid-column: 1 / -1;\n}\n.empty-state p[data-v-f2f32798] {\n  margin: 0;\n  font-size: 1.1em;\n}\n.add-type-form[data-v-f2f32798] {\n  padding: 25px;\n  background: var(--color-background-dark);\n  border-radius: 12px;\n}\n.form-grid[data-v-f2f32798] {\n  display: flex;\n  flex-direction: column;\n  gap: 25px;\n}\n.form-row[data-v-f2f32798] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.form-field[data-v-f2f32798] {\n  margin: 0;\n}\n.full-width[data-v-f2f32798] {\n  grid-column: 1 / -1;\n}\n.checkbox-field[data-v-f2f32798] {\n  grid-column: 1 / -1;\n  padding: 15px;\n  background: var(--color-background-darker);\n  border-radius: 8px;\n}\n.field-description[data-v-f2f32798] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.form-actions[data-v-f2f32798] {\n  display: flex;\n  justify-content: flex-start;\n}\n.modal-overlay[data-v-f2f32798] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-f2f32798] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 900px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-content.large-modal[data-v-f2f32798] {\n  width: 1000px;\n  max-width: 95vw;\n}\n.modal-actions[data-v-f2f32798] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 15px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n\n.type-rights[data-v-60290e39] {\n  padding: 20px;\n}\n.header[data-v-60290e39] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-60290e39] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.description[data-v-60290e39] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.settings-container[data-v-60290e39] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.settings-list[data-v-60290e39] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.setting-item[data-v-60290e39] {\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n}\n.setting-item label[data-v-60290e39] {\n  display: block;\n  margin-bottom: 8px;\n  font-weight: bold;\n}\n.editor-select[data-v-60290e39] {\n  max-width: 250px;\n  margin-top: 8px;\n}\n.setting-description[data-v-60290e39] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n.no-selection[data-v-60290e39] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n\n.rights-management[data-v-14c25bb2] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-14c25bb2] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-14c25bb2] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-14c25bb2] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-14c25bb2] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.rights-management[data-v-fb7cbc5e] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-fb7cbc5e] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-fb7cbc5e] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-fb7cbc5e] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-fb7cbc5e] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.type-status[data-v-832d89d2] {\n  padding: 20px;\n}\n.header[data-v-832d89d2] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-832d89d2] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.description[data-v-832d89d2] {\n  margin-bottom: 25px;\n  color: var(--color-text-lighter);\n}\n.status-management[data-v-832d89d2] {\n  max-width: 1000px;\n}\n.status-list[data-v-832d89d2] {\n  margin-bottom: 30px;\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.empty-state[data-v-832d89d2] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n.status-items[data-v-832d89d2] {\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n}\n.status-item[data-v-832d89d2] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n  border-left: 4px solid var(--color-primary);\n}\n.status-content[data-v-832d89d2] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n}\n.status-icon[data-v-832d89d2] {\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--color-primary);\n  color: white;\n  border-radius: 8px;\n  flex-shrink: 0;\n}\n.status-icon[data-v-832d89d2] svg {\n  fill: white;\n}\n.status-info h4[data-v-832d89d2] {\n  margin: 0 0 5px 0;\n  font-weight: 600;\n}\n.status-key[data-v-832d89d2] {\n  margin: 0 0 8px 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  font-family: monospace;\n}\n.status-description[data-v-832d89d2] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n}\n.status-properties[data-v-832d89d2] {\n  display: flex;\n  gap: 10px;\n}\n.status-badge[data-v-832d89d2] {\n  padding: 4px 8px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.status-badge.final[data-v-832d89d2] {\n  background-color: var(--color-success);\n  color: white;\n}\n.status-badge.non-final[data-v-832d89d2] {\n  background-color: var(--color-warning);\n  color: white;\n}\n.status-actions[data-v-832d89d2] {\n  display: flex;\n  gap: 8px;\n  flex-wrap: wrap;\n}\n.add-status-form[data-v-832d89d2] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-832d89d2] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.checkbox-field[data-v-832d89d2] {\n  grid-column: span 2;\n}\n.field-description[data-v-832d89d2] {\n  margin: 5px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.modal-overlay[data-v-832d89d2] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 1000;\n}\n.modal-content[data-v-832d89d2] {\n  background-color: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 600px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-actions[data-v-832d89d2] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n.no-selection[data-v-832d89d2] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n@media (max-width: 768px) {\n.form-grid[data-v-832d89d2] {\n    grid-template-columns: 1fr;\n}\n.status-item[data-v-832d89d2] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 15px;\n}\n.status-actions[data-v-832d89d2] {\n    justify-content: center;\n}\n}\n\n.type-settings-modal[data-v-077dce28] {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  min-height: 600px;\n  width: 100%;\n}\n.modal-header[data-v-077dce28] {\n  padding: 25px;\n  border-bottom: 1px solid var(--color-border);\n  background: var(--color-background-dark);\n  flex-shrink: 0;\n}\n.type-info[data-v-077dce28] {\n  display: flex;\n  align-items: center;\n  gap: 20px;\n}\n.type-icon[data-v-077dce28] {\n  width: 60px;\n  height: 60px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 12px;\n  font-size: 28px;\n  flex-shrink: 0;\n}\n.type-details h3[data-v-077dce28] {\n  margin: 0 0 8px 0;\n  color: var(--color-text-light);\n  font-size: 1.5em;\n  font-weight: 600;\n}\n.type-key[data-v-077dce28] {\n  margin: 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 1em;\n  background: var(--color-background-darker);\n  padding: 4px 8px;\n  border-radius: 4px;\n  display: inline-block;\n}\n\n/* Menu simple */\n.simple-menu[data-v-077dce28] {\n  display: flex;\n  background: var(--color-background-dark);\n  border-bottom: 1px solid var(--color-border);\n  padding: 0;\n  flex-shrink: 0;\n}\n.menu-item[data-v-077dce28] {\n  flex: 1;\n  background: none;\n  border: none;\n  padding: 16px 20px;\n  color: var(--color-text-lighter);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  border-bottom: 3px solid transparent;\n  font-size: 1em;\n  font-weight: 500;\n}\n.menu-item[data-v-077dce28]:hover {\n  background: var(--color-background-hover);\n  color: var(--color-text-light);\n}\n.menu-item.active[data-v-077dce28] {\n  color: var(--color-primary);\n  border-bottom-color: var(--color-primary);\n  background: var(--color-background-darker);\n}\n\n/* Contenu */\n.settings-content[data-v-077dce28] {\n  flex: 1;\n  padding: 30px;\n  overflow-y: auto;\n  background: var(--color-main-background);\n}\n\n.admin-settings-container[data-v-cd782848] {\n  min-height: 600px;\n  background: var(--color-main-background);\n  padding: 20px;\n}\n.breadcrumb[data-v-cd782848] {\n  margin-bottom: 25px;\n  padding: 15px 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  font-size: 1em;\n}\n.breadcrumb-item[data-v-cd782848] {\n  display: inline-flex;\n  align-items: center;\n}\n.breadcrumb-link[data-v-cd782848] {\n  background: none;\n  border: none;\n  color: var(--color-primary);\n  cursor: pointer;\n  padding: 4px 8px;\n  border-radius: 4px;\n  transition: background-color 0.2s ease;\n}\n.breadcrumb-link[data-v-cd782848]:hover {\n  background: var(--color-background-hover);\n}\n.breadcrumb-current[data-v-cd782848] {\n  color: var(--color-text-light);\n  font-weight: 600;\n  padding: 4px 8px;\n}\n.breadcrumb-separator[data-v-cd782848] {\n  margin: 0 10px;\n  color: var(--color-text-lighter);\n}\n.settings-content[data-v-cd782848] {\n  flex: 1;\n  overflow-y: auto;\n}\n[data-v-cd782848] .large-modal {\n  --width: 95vw;\n  --height: 90vh;\n  max-width: 1200px;\n  max-height: 800px;\n}\n[data-v-cd782848] .large-modal .modal-container {\n  width: 95vw;\n  height: 90vh;\n  max-width: 1200px;\n  max-height: 800px;\n}\n\n.tree-item[data-v-37a5142a] {\n  margin-bottom: 8px;\n}\n.tree-node[data-v-37a5142a] {\n  display: flex;\n  align-items: center;\n  padding: 8px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.tree-label[data-v-37a5142a] {\n  flex-grow: 1;\n  font-weight: bold;\n}\n.tree-actions[data-v-37a5142a] {\n  display: flex;\n  gap: 8px;\n}\n.tree-children[data-v-37a5142a] {\n  margin-left: 20px;\n  margin-top: 8px;\n}\n\n/* Vos styles existants */\n.category-location-manager[data-v-da2e3bfe] {\n  padding: 20px;\n}\n.tabs[data-v-da2e3bfe] {\n  display: flex;\n  margin-bottom: 20px;\n  border-bottom: 1px solid var(--color-border);\n}\n.tabs NcButton[data-v-da2e3bfe] {\n  padding: 10px 20px;\n  border: none;\n  background: none;\n  cursor: pointer;\n  border-bottom: 2px solid transparent;\n}\n.tabs NcButton.active[data-v-da2e3bfe] {\n  border-bottom-color: var(--color-primary);\n  color: var(--color-primary);\n}\n.tab-content[data-v-da2e3bfe] {\n  margin-top: 20px;\n}\n.add-form[data-v-da2e3bfe] {\n  margin-bottom: 30px;\n  padding: 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-fields[data-v-da2e3bfe] {\n  display: flex;\n  gap: 15px;\n  align-items: end;\n}\n.tree-view[data-v-da2e3bfe] {\n  margin-top: 30px;\n}\n.tree-container[data-v-da2e3bfe] {\n  margin-top: 15px;\n}\n.loading[data-v-da2e3bfe],\n.error[data-v-da2e3bfe] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n.error[data-v-da2e3bfe] {\n  color: var(--color-error);\n}\n.modal[data-v-da2e3bfe] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-da2e3bfe] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  min-width: 400px;\n}\n.modal-actions[data-v-da2e3bfe] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 20px;\n}"));
+      elementStyle.appendChild(document.createTextNode(".disclaimer_group {\n  display: flex;\n  align-items: center;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.disclaimer_group .grow_title {\n  display: flex;\n  flex-grow: 1;\n  margin-inline-end: 12px;\n}\n.disclaimer_group .grow_title .material-design-icon {\n  margin-inline-start: 4px;\n}.user_settings {\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.user_settings .job_buttons_section {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 20px;\n  gap: 12px;\n}\n.user_settings .job_hints p {\n  margin-bottom: 0.5em;\n}\n.families-manager[data-v-b0578289] {\n  padding: 20px;\n}\n.families-list[data-v-b0578289] {\n  margin-bottom: 30px;\n}\n.families-list h3[data-v-b0578289] {\n  margin-bottom: 15px;\n  color: var(--color-text-lighter);\n}\n.family-item[data-v-b0578289] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  margin-bottom: 10px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n}\n.family-item[data-v-b0578289]:hover {\n  background: var(--color-background-hover);\n}\n.family-content[data-v-b0578289] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  flex: 1;\n}\n.family-icon[data-v-b0578289] {\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 8px;\n  font-size: 20px;\n}\n.family-info h4[data-v-b0578289] {\n  margin: 0 0 5px 0;\n  color: var(--color-text-light);\n}\n.family-type[data-v-b0578289] {\n  margin: 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 0.9em;\n}\n.family-description[data-v-b0578289] {\n  margin: 5px 0 0 0;\n  color: var(--color-text-lighter);\n}\n.family-stats[data-v-b0578289] {\n  margin-top: 8px;\n}\n.types-count[data-v-b0578289] {\n  font-size: 0.8em;\n  color: var(--color-primary);\n  background: var(--color-primary-element-light);\n  padding: 2px 8px;\n  border-radius: 12px;\n}\n.family-actions[data-v-b0578289] {\n  display: flex;\n  gap: 10px;\n}\n.add-family-form[data-v-b0578289] {\n  padding: 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-b0578289] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.form-row[data-v-b0578289] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 15px;\n  align-items: start;\n}\n.form-field[data-v-b0578289] {\n  margin: 0;\n}\n.full-width[data-v-b0578289] {\n  grid-column: 1 / -1;\n}\n.form-actions[data-v-b0578289] {\n  display: flex;\n  justify-content: flex-start;\n}\n.modal-overlay[data-v-b0578289] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-b0578289] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 800px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-content.large-modal[data-v-b0578289] {\n  width: 900px;\n  max-width: 95vw;\n}\n.modal-actions[data-v-b0578289] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 20px;\n}\n\n.types-manager[data-v-f2f32798] {\n  padding: 20px;\n}\n.header[data-v-f2f32798] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-f2f32798] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.types-list[data-v-f2f32798] {\n  margin-bottom: 30px;\n}\n.list-description[data-v-f2f32798] {\n  color: var(--color-text-lighter);\n  margin-bottom: 20px;\n}\n.types-grid[data-v-f2f32798] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 20px;\n}\n.type-card[data-v-f2f32798] {\n  background: var(--color-background-dark);\n  border-radius: 12px;\n  padding: 20px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.type-card[data-v-f2f32798]:hover {\n  background: var(--color-background-hover);\n  border-color: var(--color-primary);\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.type-card-content[data-v-f2f32798] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n  margin-bottom: 15px;\n}\n.type-icon[data-v-f2f32798] {\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 10px;\n  font-size: 24px;\n  flex-shrink: 0;\n}\n.type-info[data-v-f2f32798] {\n  flex: 1;\n}\n.type-info h4[data-v-f2f32798] {\n  margin: 0 0 8px 0;\n  color: var(--color-text-light);\n  font-size: 1.1em;\n}\n.type-key[data-v-f2f32798] {\n  margin: 0 0 10px 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 0.9em;\n  background: var(--color-background-darker);\n  padding: 4px 8px;\n  border-radius: 4px;\n  display: inline-block;\n}\n.type-description[data-v-f2f32798] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n  line-height: 1.4;\n}\n.type-badge[data-v-f2f32798] {\n  display: inline-block;\n  padding: 4px 10px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.type-badge.option[data-v-f2f32798] {\n  background: var(--color-warning);\n  color: white;\n}\n.type-actions[data-v-f2f32798] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n.configure-btn[data-v-f2f32798] {\n  width: 100%;\n}\n.secondary-actions[data-v-f2f32798] {\n  display: flex;\n  gap: 8px;\n}\n.edit-btn[data-v-f2f32798], .delete-btn[data-v-f2f32798] {\n  flex: 1;\n}\n.empty-state[data-v-f2f32798] {\n  text-align: center;\n  padding: 60px 40px;\n  color: var(--color-text-lighter);\n  background: var(--color-background-dark);\n  border-radius: 12px;\n  grid-column: 1 / -1;\n}\n.empty-state p[data-v-f2f32798] {\n  margin: 0;\n  font-size: 1.1em;\n}\n.add-type-form[data-v-f2f32798] {\n  padding: 25px;\n  background: var(--color-background-dark);\n  border-radius: 12px;\n}\n.form-grid[data-v-f2f32798] {\n  display: flex;\n  flex-direction: column;\n  gap: 25px;\n}\n.form-row[data-v-f2f32798] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.form-field[data-v-f2f32798] {\n  margin: 0;\n}\n.full-width[data-v-f2f32798] {\n  grid-column: 1 / -1;\n}\n.checkbox-field[data-v-f2f32798] {\n  grid-column: 1 / -1;\n  padding: 15px;\n  background: var(--color-background-darker);\n  border-radius: 8px;\n}\n.field-description[data-v-f2f32798] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.form-actions[data-v-f2f32798] {\n  display: flex;\n  justify-content: flex-start;\n}\n.modal-overlay[data-v-f2f32798] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-f2f32798] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 900px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-content.large-modal[data-v-f2f32798] {\n  width: 1000px;\n  max-width: 95vw;\n}\n.modal-actions[data-v-f2f32798] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 15px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n\n.type-rights[data-v-60290e39] {\n  padding: 20px;\n}\n.header[data-v-60290e39] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-60290e39] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.description[data-v-60290e39] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.settings-container[data-v-60290e39] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.settings-list[data-v-60290e39] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.setting-item[data-v-60290e39] {\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n}\n.setting-item label[data-v-60290e39] {\n  display: block;\n  margin-bottom: 8px;\n  font-weight: bold;\n}\n.editor-select[data-v-60290e39] {\n  max-width: 250px;\n  margin-top: 8px;\n}\n.setting-description[data-v-60290e39] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n.no-selection[data-v-60290e39] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n\n.rights-management[data-v-14c25bb2] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-14c25bb2] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-14c25bb2] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-14c25bb2] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-14c25bb2] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.rights-management[data-v-fb7cbc5e] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-fb7cbc5e] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-fb7cbc5e] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-fb7cbc5e] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-fb7cbc5e] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.type-status[data-v-832d89d2] {\n  padding: 20px;\n}\n.header[data-v-832d89d2] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-832d89d2] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.description[data-v-832d89d2] {\n  margin-bottom: 25px;\n  color: var(--color-text-lighter);\n}\n.status-management[data-v-832d89d2] {\n  max-width: 1000px;\n}\n.status-list[data-v-832d89d2] {\n  margin-bottom: 30px;\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.empty-state[data-v-832d89d2] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n.status-items[data-v-832d89d2] {\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n}\n.status-item[data-v-832d89d2] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n  border-left: 4px solid var(--color-primary);\n}\n.status-content[data-v-832d89d2] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n}\n.status-icon[data-v-832d89d2] {\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--color-primary);\n  color: white;\n  border-radius: 8px;\n  flex-shrink: 0;\n}\n.status-icon[data-v-832d89d2] svg {\n  fill: white;\n}\n.status-info h4[data-v-832d89d2] {\n  margin: 0 0 5px 0;\n  font-weight: 600;\n}\n.status-key[data-v-832d89d2] {\n  margin: 0 0 8px 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  font-family: monospace;\n}\n.status-description[data-v-832d89d2] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n}\n.status-properties[data-v-832d89d2] {\n  display: flex;\n  gap: 10px;\n}\n.status-badge[data-v-832d89d2] {\n  padding: 4px 8px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.status-badge.final[data-v-832d89d2] {\n  background-color: var(--color-success);\n  color: white;\n}\n.status-badge.non-final[data-v-832d89d2] {\n  background-color: var(--color-warning);\n  color: white;\n}\n.status-actions[data-v-832d89d2] {\n  display: flex;\n  gap: 8px;\n  flex-wrap: wrap;\n}\n.add-status-form[data-v-832d89d2] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-832d89d2] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.checkbox-field[data-v-832d89d2] {\n  grid-column: span 2;\n}\n.field-description[data-v-832d89d2] {\n  margin: 5px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.modal-overlay[data-v-832d89d2] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 1000;\n}\n.modal-content[data-v-832d89d2] {\n  background-color: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 600px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-actions[data-v-832d89d2] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n.no-selection[data-v-832d89d2] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n@media (max-width: 768px) {\n.form-grid[data-v-832d89d2] {\n    grid-template-columns: 1fr;\n}\n.status-item[data-v-832d89d2] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 15px;\n}\n.status-actions[data-v-832d89d2] {\n    justify-content: center;\n}\n}\n\n.type-settings-modal[data-v-077dce28] {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  min-height: 600px;\n  width: 100%;\n}\n.modal-header[data-v-077dce28] {\n  padding: 25px;\n  border-bottom: 1px solid var(--color-border);\n  background: var(--color-background-dark);\n  flex-shrink: 0;\n}\n.type-info[data-v-077dce28] {\n  display: flex;\n  align-items: center;\n  gap: 20px;\n}\n.type-icon[data-v-077dce28] {\n  width: 60px;\n  height: 60px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 12px;\n  font-size: 28px;\n  flex-shrink: 0;\n}\n.type-details h3[data-v-077dce28] {\n  margin: 0 0 8px 0;\n  color: var(--color-text-light);\n  font-size: 1.5em;\n  font-weight: 600;\n}\n.type-key[data-v-077dce28] {\n  margin: 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 1em;\n  background: var(--color-background-darker);\n  padding: 4px 8px;\n  border-radius: 4px;\n  display: inline-block;\n}\n\n/* Menu simple */\n.simple-menu[data-v-077dce28] {\n  display: flex;\n  background: var(--color-background-dark);\n  border-bottom: 1px solid var(--color-border);\n  padding: 0;\n  flex-shrink: 0;\n}\n.menu-item[data-v-077dce28] {\n  flex: 1;\n  background: none;\n  border: none;\n  padding: 16px 20px;\n  color: var(--color-text-lighter);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  border-bottom: 3px solid transparent;\n  font-size: 1em;\n  font-weight: 500;\n}\n.menu-item[data-v-077dce28]:hover {\n  background: var(--color-background-hover);\n  color: var(--color-text-light);\n}\n.menu-item.active[data-v-077dce28] {\n  color: var(--color-primary);\n  border-bottom-color: var(--color-primary);\n  background: var(--color-background-darker);\n}\n\n/* Contenu */\n.settings-content[data-v-077dce28] {\n  flex: 1;\n  padding: 30px;\n  overflow-y: auto;\n  background: var(--color-main-background);\n}\n\n.admin-settings-container[data-v-cd782848] {\n  min-height: 600px;\n  background: var(--color-main-background);\n  padding: 20px;\n}\n.breadcrumb[data-v-cd782848] {\n  margin-bottom: 25px;\n  padding: 15px 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  font-size: 1em;\n}\n.breadcrumb-item[data-v-cd782848] {\n  display: inline-flex;\n  align-items: center;\n}\n.breadcrumb-link[data-v-cd782848] {\n  background: none;\n  border: none;\n  color: var(--color-primary);\n  cursor: pointer;\n  padding: 4px 8px;\n  border-radius: 4px;\n  transition: background-color 0.2s ease;\n}\n.breadcrumb-link[data-v-cd782848]:hover {\n  background: var(--color-background-hover);\n}\n.breadcrumb-current[data-v-cd782848] {\n  color: var(--color-text-light);\n  font-weight: 600;\n  padding: 4px 8px;\n}\n.breadcrumb-separator[data-v-cd782848] {\n  margin: 0 10px;\n  color: var(--color-text-lighter);\n}\n.settings-content[data-v-cd782848] {\n  flex: 1;\n  overflow-y: auto;\n}\n[data-v-cd782848] .large-modal {\n  --width: 95vw;\n  --height: 90vh;\n  max-width: 1200px;\n  max-height: 800px;\n}\n[data-v-cd782848] .large-modal .modal-container {\n  width: 95vw;\n  height: 90vh;\n  max-width: 1200px;\n  max-height: 800px;\n}\n\n.tree-item[data-v-37a5142a] {\n  margin-bottom: 8px;\n}\n.tree-node[data-v-37a5142a] {\n  display: flex;\n  align-items: center;\n  padding: 8px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.tree-label[data-v-37a5142a] {\n  flex-grow: 1;\n  font-weight: bold;\n}\n.tree-actions[data-v-37a5142a] {\n  display: flex;\n  gap: 8px;\n}\n.tree-children[data-v-37a5142a] {\n  margin-left: 20px;\n  margin-top: 8px;\n}\n\n.category-location-manager[data-v-da2e3bfe] {\n  padding: 0;\n  max-width: 1200px;\n  margin: 0 auto;\n  height: auto;\n  min-height: 80vh;\n  background: var(--color-main-background);\n  border-radius: 12px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n.tabs[data-v-da2e3bfe] {\n  display: flex;\n  margin-bottom: 0;\n  background: var(--color-background-dark);\n  border-bottom: 1px solid var(--color-border);\n  padding: 0;\n  gap: 0;\n  border-radius: 12px 12px 0 0;\n}\n.tabs NcButton[data-v-da2e3bfe] {\n  flex: 1;\n  background: none;\n  border: none;\n  padding: 18px 24px;\n  color: var(--color-text-lighter);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  border-bottom: 3px solid transparent;\n  font-size: 1em;\n  font-weight: 500;\n  margin: 0;\n  border-radius: 0;\n}\n.tabs NcButton[data-v-da2e3bfe]:hover {\n  background: var(--color-background-hover);\n  color: var(--color-text-light);\n}\n.tabs NcButton.active[data-v-da2e3bfe] {\n  color: var(--color-primary);\n  border-bottom-color: var(--color-primary);\n  background: var(--color-background-darker);\n  font-weight: 600;\n}\n.tab-content[data-v-da2e3bfe] {\n  margin-top: 0;\n  background: var(--color-main-background);\n  border-radius: 0 0 12px 12px;\n  padding: 30px;\n  min-height: 600px;\n  height: auto;\n  overflow: visible;\n}\n.add-form[data-v-da2e3bfe] {\n  margin-bottom: 30px;\n  padding: 25px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  border: 1px solid var(--color-border);\n}\n.add-form h3[data-v-da2e3bfe] {\n  margin: 0 0 20px 0;\n  color: var(--color-text);\n  font-weight: 600;\n  font-size: 18px;\n}\n.form-fields[data-v-da2e3bfe] {\n  display: flex;\n  gap: 15px;\n  align-items: end;\n  flex-wrap: wrap;\n}\n.form-fields .nc-input-field[data-v-da2e3bfe],\n.form-fields .nc-select[data-v-da2e3bfe] {\n  flex: 1;\n  min-width: 200px;\n}\n.tree-view[data-v-da2e3bfe] {\n  margin-top: 30px;\n}\n.tree-view h3[data-v-da2e3bfe] {\n  margin: 0 0 20px 0;\n  color: var(--color-text);\n  font-weight: 600;\n  font-size: 18px;\n  padding-bottom: 10px;\n  border-bottom: 2px solid var(--color-border);\n}\n.tree-container[data-v-da2e3bfe] {\n  margin-top: 15px;\n  border: 1px solid var(--color-border);\n  border-radius: 8px;\n  padding: 20px;\n  background: var(--color-background-dark);\n  max-height: 500px;\n  overflow-y: auto;\n}\n.loading[data-v-da2e3bfe],\n.error[data-v-da2e3bfe] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n  font-size: 16px;\n}\n.error[data-v-da2e3bfe] {\n  color: var(--color-error);\n  background: var(--color-error-background);\n  border: 1px solid var(--color-error-border);\n  border-radius: 8px;\n  margin: 20px 0;\n}\n.modal[data-v-da2e3bfe] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.6);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n  backdrop-filter: blur(4px);\n}\n.modal-content[data-v-da2e3bfe] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  min-width: 400px;\n  max-width: 500px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);\n  border: 1px solid var(--color-border);\n  max-height: 80vh;\n  overflow-y: auto;\n}\n.modal-content h3[data-v-da2e3bfe] {\n  margin: 0 0 20px 0;\n  color: var(--color-text);\n  font-weight: 600;\n  font-size: 20px;\n}\n.modal-actions[data-v-da2e3bfe] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 12px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n.category-location-manager > div[data-v-da2e3bfe]:last-child {\n  max-height: calc(100vh - 100px);\n  overflow-y: auto;\n}\n\n/* Responsive design */\n@media (max-width: 768px) {\n.category-location-manager[data-v-da2e3bfe] {\n    padding: 0;\n    min-height: auto;\n    margin: 10px;\n}\n.tabs[data-v-da2e3bfe] {\n    flex-direction: column;\n    gap: 0;\n}\n.tabs NcButton[data-v-da2e3bfe] {\n    padding: 16px 20px;\n    border-bottom: 2px solid transparent;\n    border-right: 3px solid transparent;\n    text-align: left;\n}\n.tabs NcButton.active[data-v-da2e3bfe] {\n    border-bottom-color: transparent;\n    border-right-color: var(--color-primary);\n}\n.tab-content[data-v-da2e3bfe] {\n    padding: 20px;\n    min-height: 500px;\n}\n.form-fields[data-v-da2e3bfe] {\n    flex-direction: column;\n    align-items: stretch;\n}\n.form-fields .nc-input-field[data-v-da2e3bfe],\n  .form-fields .nc-select[data-v-da2e3bfe] {\n    min-width: auto;\n}\n.modal-content[data-v-da2e3bfe] {\n    min-width: auto;\n    margin: 20px;\n    padding: 20px;\n    max-height: 70vh;\n}\n.tree-container[data-v-da2e3bfe] {\n    max-height: 400px;\n}\n}\n.tree-container[data-v-da2e3bfe] {\n  max-height: 500px;\n  overflow-y: auto;\n}\n.add-form[data-v-da2e3bfe] {\n  position: relative;\n}\n.tab-content[data-v-da2e3bfe] {\n  animation: fadeIn-da2e3bfe 0.3s ease-in-out;\n}\n@keyframes fadeIn-da2e3bfe {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n[data-v-da2e3bfe] .tabs .button-vue {\n  border-radius: 0 !important;\n}\n[data-v-da2e3bfe] .tabs .button-vue--vue-secondary.active {\n  background: var(--color-background-darker) !important;\n  color: var(--color-primary) !important;\n  border-bottom-color: var(--color-primary) !important;\n}\n.category-location-manager[data-v-da2e3bfe] {\n  display: flex;\n  flex-direction: column;\n}\n.category-location-manager > div[data-v-da2e3bfe]:last-child {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n.tab-content[data-v-da2e3bfe] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n.tree-view[data-v-da2e3bfe] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n.tree-container[data-v-da2e3bfe] {\n  flex: 1;\n}"));
       document.head.appendChild(elementStyle);
     }
   } catch (e) {
@@ -12,11 +12,11 @@
 })();
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { _ as _export_sfc, c as createElementBlock, o as openBlock, f as createVNode, w as withCtx, j as createTextVNode, k as toDisplayString, t as translate, e as createBlock, C as createCommentVNode, a as createBaseVNode, K as mergeProps, Q as ref, l as computed, m as purify, S as withDirectives, T as vShow, U as vModelText, V as NcButton, G as Fragment, H as renderList, W as withModifiers, b as onMounted, X as resolveComponent, J as watch, d as defineComponent, s as resolveDynamicComponent, A as normalizeClass, M as normalizeStyle, n as normalizeProps, g as guardReactiveProps, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang--E6jl8E8.chunk.mjs";
-import { I as InputDiv, a as NcAppSettingsDialog, N as NcSettingsSection } from "./index-DMXib1RJ.chunk.mjs";
-import { e as d, g as gfmHeadingId, f as adminJobs, L as Logger, I as InquiryGeneralIcons, S as StatusIcons } from "./NcDashboardWidget-BEUtfCxs-C09UGvNK.chunk.mjs";
-import { F as FlexSettings } from "./FlexSettings-B6OGAApp.chunk.mjs";
-import { u as useAppSettingsStore, R as RadioGroupDiv, C as CardDiv } from "./markdown-LCoqsIZl.chunk.mjs";
+import { _ as _export_sfc, c as createElementBlock, o as openBlock, f as createVNode, w as withCtx, j as createTextVNode, k as toDisplayString, t as translate, e as createBlock, C as createCommentVNode, a as createBaseVNode, K as mergeProps, Q as ref, l as computed, m as purify, S as withDirectives, T as vShow, U as vModelText, V as NcButton, G as Fragment, H as renderList, s as resolveDynamicComponent, W as withModifiers, b as onMounted, J as watch, d as defineComponent, A as normalizeClass, X as resolveComponent, M as normalizeStyle, n as normalizeProps, g as guardReactiveProps, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang--E6jl8E8.chunk.mjs";
+import { I as InputDiv, a as NcAppSettingsDialog, N as NcSettingsSection } from "./index-CYLLFans.chunk.mjs";
+import { e as d, g as gfmHeadingId, f as adminJobs, L as Logger, I as InquiryGeneralIcons, S as StatusIcons } from "./NcDashboardWidget-BEUtfCxs-odCb4aXv.chunk.mjs";
+import { F as FlexSettings } from "./FlexSettings-BKEfdaJV.chunk.mjs";
+import { u as useAppSettingsStore, R as RadioGroupDiv, C as CardDiv } from "./markdown-W3EUkT54.chunk.mjs";
 import { N as NcCheckboxRadioSwitch, a as NcSelect, b as NcInputField } from "./NcRichText-Dht_wH3t-CLSOeSu_.chunk.mjs";
 const _sfc_main$p = {
   __name: "AdminActivities",
@@ -578,15 +578,14 @@ const _sfc_main$i = {
       sort_order: 0
     });
     const availableIcons = computed(
-      () => Object.keys(InquiryGeneralIcons).filter((key) => key !== "default").map((iconId) => {
-        const lowerCaseId = iconId.toLowerCase();
-        const formattedLabel = lowerCaseId.replace(/([a-z])([A-Z])/g, "$1 $2").replace(/_/g, " ");
-        return {
-          id: lowerCaseId,
-          label: translate("agora", formattedLabel.charAt(0).toUpperCase() + formattedLabel.slice(1))
-        };
-      })
+      () => Object.keys(InquiryGeneralIcons).filter((key) => key !== "default").map((iconId) => ({
+        id: iconId,
+        label: translate("agora", iconId.replace(/([A-Z])/g, " $1").trim())
+      }))
     );
+    const getIconComponent = (iconName) => {
+      return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default;
+    };
     const familiesWithStats = computed(() => {
       return appSettingsStore.inquiryFamilyTab.map((family) => {
         const typesCount = appSettingsStore.inquiryTypeTab.filter(
@@ -624,7 +623,7 @@ const _sfc_main$i = {
     const selectFamily = (family) => {
       emit("family-selected", family);
     };
-    const __returned__ = { emit, appSettingsStore, editingFamily, newFamily, availableIcons, familiesWithStats, addFamily, updateFamily, deleteFamily, selectFamily, computed, ref, onMounted, get t() {
+    const __returned__ = { emit, appSettingsStore, editingFamily, newFamily, availableIcons, getIconComponent, familiesWithStats, addFamily, updateFamily, deleteFamily, selectFamily, computed, ref, onMounted, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -647,28 +646,27 @@ const _hoisted_3$9 = { class: "families-list" };
 const _hoisted_4$9 = ["onClick"];
 const _hoisted_5$8 = { class: "family-content" };
 const _hoisted_6$8 = { class: "family-icon" };
-const _hoisted_7$7 = { class: "icon" };
-const _hoisted_8$7 = { class: "family-info" };
-const _hoisted_9$7 = { class: "family-type" };
-const _hoisted_10$6 = {
+const _hoisted_7$7 = { class: "family-info" };
+const _hoisted_8$7 = { class: "family-type" };
+const _hoisted_9$7 = {
   key: 0,
   class: "family-description"
 };
-const _hoisted_11$5 = { class: "family-stats" };
-const _hoisted_12$4 = { class: "types-count" };
-const _hoisted_13$4 = { class: "family-actions" };
-const _hoisted_14$4 = { class: "add-family-form" };
-const _hoisted_15$4 = { class: "form-grid" };
-const _hoisted_16$3 = { class: "form-row" };
-const _hoisted_17$3 = { class: "form-actions" };
-const _hoisted_18$2 = {
+const _hoisted_10$5 = { class: "family-stats" };
+const _hoisted_11$5 = { class: "types-count" };
+const _hoisted_12$4 = { class: "family-actions" };
+const _hoisted_13$4 = { class: "add-family-form" };
+const _hoisted_14$4 = { class: "form-grid" };
+const _hoisted_15$4 = { class: "form-row" };
+const _hoisted_16$3 = { class: "form-actions" };
+const _hoisted_17$3 = {
   key: 0,
   class: "modal-overlay"
 };
-const _hoisted_19$2 = { class: "modal-content large-modal" };
-const _hoisted_20$2 = { class: "form-grid" };
-const _hoisted_21$2 = { class: "form-row" };
-const _hoisted_22$2 = { class: "modal-actions" };
+const _hoisted_18$2 = { class: "modal-content large-modal" };
+const _hoisted_19$2 = { class: "form-grid" };
+const _hoisted_20$2 = { class: "form-row" };
+const _hoisted_21$2 = { class: "modal-actions" };
 function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$i, [
     createBaseVNode(
@@ -705,15 +703,9 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
           }, [
             createBaseVNode("div", _hoisted_5$8, [
               createBaseVNode("div", _hoisted_6$8, [
-                createBaseVNode(
-                  "span",
-                  _hoisted_7$7,
-                  toDisplayString(family.icon),
-                  1
-                  /* TEXT */
-                )
+                (openBlock(), createBlock(resolveDynamicComponent($setup.getIconComponent(family.icon)), { size: 20 }))
               ]),
-              createBaseVNode("div", _hoisted_8$7, [
+              createBaseVNode("div", _hoisted_7$7, [
                 createBaseVNode(
                   "h4",
                   null,
@@ -723,22 +715,22 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
                 ),
                 createBaseVNode(
                   "p",
-                  _hoisted_9$7,
+                  _hoisted_8$7,
                   toDisplayString(family.family_type),
                   1
                   /* TEXT */
                 ),
                 family.description ? (openBlock(), createElementBlock(
                   "p",
-                  _hoisted_10$6,
+                  _hoisted_9$7,
                   toDisplayString(family.description),
                   1
                   /* TEXT */
                 )) : createCommentVNode("v-if", true),
-                createBaseVNode("div", _hoisted_11$5, [
+                createBaseVNode("div", _hoisted_10$5, [
                   createBaseVNode(
                     "span",
-                    _hoisted_12$4,
+                    _hoisted_11$5,
                     toDisplayString($setup.t("agora", "{count} types", { count: family.typesCount })),
                     1
                     /* TEXT */
@@ -746,7 +738,7 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
                 ])
               ])
             ]),
-            createBaseVNode("div", _hoisted_13$4, [
+            createBaseVNode("div", _hoisted_12$4, [
               createVNode($setup["NcButton"], {
                 onClick: withModifiers(($event) => $setup.editingFamily = { ...family }, ["stop"])
               }, {
@@ -781,7 +773,7 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
       ))
     ]),
     createCommentVNode(" Add New Family Form "),
-    createBaseVNode("div", _hoisted_14$4, [
+    createBaseVNode("div", _hoisted_13$4, [
       createBaseVNode(
         "h3",
         null,
@@ -789,8 +781,8 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
         1
         /* TEXT */
       ),
-      createBaseVNode("div", _hoisted_15$4, [
-        createBaseVNode("div", _hoisted_16$3, [
+      createBaseVNode("div", _hoisted_14$4, [
+        createBaseVNode("div", _hoisted_15$4, [
           createVNode($setup["NcInputField"], {
             modelValue: $setup.newFamily.family_type,
             "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.newFamily.family_type = $event),
@@ -811,10 +803,10 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
             modelValue: $setup.newFamily.icon,
             "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newFamily.icon = $event),
             options: $setup.availableIcons,
-            label: $setup.t("agora", "Icon"),
+            clearable: false,
             placeholder: $setup.t("agora", "Select an icon"),
             class: "form-field"
-          }, null, 8, ["modelValue", "options", "label", "placeholder"])
+          }, null, 8, ["modelValue", "options", "placeholder"])
         ]),
         createVNode($setup["NcInputField"], {
           modelValue: $setup.newFamily.description,
@@ -832,7 +824,7 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
           min: 0,
           class: "form-field"
         }, null, 8, ["modelValue", "label"]),
-        createBaseVNode("div", _hoisted_17$3, [
+        createBaseVNode("div", _hoisted_16$3, [
           createVNode($setup["NcButton"], {
             type: "primary",
             disabled: !$setup.newFamily.family_type || !$setup.newFamily.label,
@@ -852,8 +844,8 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
       ])
     ]),
     createCommentVNode(" Edit Family Modal "),
-    $setup.editingFamily ? (openBlock(), createElementBlock("div", _hoisted_18$2, [
-      createBaseVNode("div", _hoisted_19$2, [
+    $setup.editingFamily ? (openBlock(), createElementBlock("div", _hoisted_17$3, [
+      createBaseVNode("div", _hoisted_18$2, [
         createBaseVNode(
           "h3",
           null,
@@ -861,8 +853,8 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
           1
           /* TEXT */
         ),
-        createBaseVNode("div", _hoisted_20$2, [
-          createBaseVNode("div", _hoisted_21$2, [
+        createBaseVNode("div", _hoisted_19$2, [
+          createBaseVNode("div", _hoisted_20$2, [
             createVNode($setup["NcInputField"], {
               modelValue: $setup.editingFamily.family_type,
               "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.editingFamily.family_type = $event),
@@ -881,10 +873,13 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
               modelValue: $setup.editingFamily.icon,
               "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.editingFamily.icon = $event),
               options: $setup.availableIcons,
-              label: $setup.t("agora", "Icon"),
+              clearable: false,
+              placeholder: $setup.t("agora", "Select an icon"),
               class: "form-field"
-            }, null, 8, ["modelValue", "options", "label"])
-          ]),
+            }, null, 8, ["modelValue", "options", "placeholder"])
+          ])
+        ]),
+        createBaseVNode("div", null, [
           createVNode($setup["NcInputField"], {
             modelValue: $setup.editingFamily.description,
             "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.editingFamily.description = $event),
@@ -892,7 +887,7 @@ function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
             type: "textarea",
             class: "full-width"
           }, null, 8, ["modelValue", "label"]),
-          createBaseVNode("div", _hoisted_22$2, [
+          createBaseVNode("div", _hoisted_21$2, [
             createVNode($setup["NcButton"], {
               onClick: _cache[9] || (_cache[9] = ($event) => $setup.editingFamily = null)
             }, {
@@ -948,15 +943,14 @@ const _sfc_main$h = {
       allowed_response: "[]",
       allowed_transformation: "[]"
     });
+    const getIconComponent = (iconName) => {
+      return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default;
+    };
     const availableIcons = computed(
-      () => Object.keys(InquiryGeneralIcons).filter((key) => key !== "default").map((iconId) => {
-        const lowerCaseId = iconId.toLowerCase();
-        const formattedLabel = lowerCaseId.replace(/([a-z])([A-Z])/g, "$1 $2").replace(/_/g, " ");
-        return {
-          id: lowerCaseId,
-          label: translate("agora", formattedLabel.charAt(0).toUpperCase() + formattedLabel.slice(1))
-        };
-      })
+      () => Object.keys(InquiryGeneralIcons).filter((key) => key !== "default").map((iconId) => ({
+        id: iconId,
+        label: translate("agora", iconId.replace(/([A-Z])/g, " $1").trim())
+      }))
     );
     const familyTypes = computed(
       () => appSettingsStore.inquiryTypeTab.filter(
@@ -1002,7 +996,7 @@ const _sfc_main$h = {
     const openTypeSettings = (type) => {
       emit("type-selected", type);
     };
-    const __returned__ = { props, emit, appSettingsStore, editingType, newType, availableIcons, familyTypes, addType, updateType, deleteType, openTypeSettings, ref, computed, get t() {
+    const __returned__ = { props, emit, appSettingsStore, editingType, newType, getIconComponent, availableIcons, familyTypes, addType, updateType, deleteType, openTypeSettings, ref, computed, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -1029,42 +1023,41 @@ const _hoisted_5$7 = { class: "types-grid" };
 const _hoisted_6$7 = ["onClick"];
 const _hoisted_7$6 = { class: "type-card-content" };
 const _hoisted_8$6 = { class: "type-icon" };
-const _hoisted_9$6 = { class: "icon" };
-const _hoisted_10$5 = { class: "type-info" };
-const _hoisted_11$4 = { class: "type-key" };
-const _hoisted_12$3 = {
+const _hoisted_9$6 = { class: "type-info" };
+const _hoisted_10$4 = { class: "type-key" };
+const _hoisted_11$4 = {
   key: 0,
   class: "type-description"
 };
-const _hoisted_13$3 = {
+const _hoisted_12$3 = {
   key: 1,
   class: "type-badge option"
 };
-const _hoisted_14$3 = { class: "type-actions" };
-const _hoisted_15$3 = { class: "secondary-actions" };
-const _hoisted_16$2 = {
+const _hoisted_13$3 = { class: "type-actions" };
+const _hoisted_14$3 = { class: "secondary-actions" };
+const _hoisted_15$3 = {
   key: 0,
   class: "empty-state"
 };
-const _hoisted_17$2 = { class: "add-type-form" };
-const _hoisted_18$1 = { class: "form-grid" };
+const _hoisted_16$2 = { class: "add-type-form" };
+const _hoisted_17$2 = { class: "form-grid" };
+const _hoisted_18$1 = { class: "form-row" };
 const _hoisted_19$1 = { class: "form-row" };
-const _hoisted_20$1 = { class: "form-row" };
-const _hoisted_21$1 = { class: "checkbox-field" };
-const _hoisted_22$1 = { class: "field-description" };
-const _hoisted_23$1 = { class: "form-row" };
-const _hoisted_24$1 = { class: "form-actions" };
-const _hoisted_25$1 = {
+const _hoisted_20$1 = { class: "checkbox-field" };
+const _hoisted_21$1 = { class: "field-description" };
+const _hoisted_22$1 = { class: "form-row" };
+const _hoisted_23$1 = { class: "form-actions" };
+const _hoisted_24$1 = {
   key: 0,
   class: "modal-overlay"
 };
-const _hoisted_26 = { class: "modal-content large-modal" };
-const _hoisted_27 = { class: "form-grid" };
+const _hoisted_25$1 = { class: "modal-content large-modal" };
+const _hoisted_26 = { class: "form-grid" };
+const _hoisted_27 = { class: "form-row" };
 const _hoisted_28 = { class: "form-row" };
-const _hoisted_29 = { class: "form-row" };
-const _hoisted_30 = { class: "checkbox-field" };
-const _hoisted_31 = { class: "form-row" };
-const _hoisted_32 = { class: "modal-actions" };
+const _hoisted_29 = { class: "checkbox-field" };
+const _hoisted_30 = { class: "form-row" };
+const _hoisted_31 = { class: "modal-actions" };
 function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$h, [
     createBaseVNode("div", _hoisted_2$d, [
@@ -1117,15 +1110,9 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
             }, [
               createBaseVNode("div", _hoisted_7$6, [
                 createBaseVNode("div", _hoisted_8$6, [
-                  createBaseVNode(
-                    "span",
-                    _hoisted_9$6,
-                    toDisplayString(type.icon),
-                    1
-                    /* TEXT */
-                  )
+                  (openBlock(), createBlock(resolveDynamicComponent($setup.getIconComponent(type.icon)), { size: 20 }))
                 ]),
-                createBaseVNode("div", _hoisted_10$5, [
+                createBaseVNode("div", _hoisted_9$6, [
                   createBaseVNode(
                     "h4",
                     null,
@@ -1135,28 +1122,28 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
                   ),
                   createBaseVNode(
                     "p",
-                    _hoisted_11$4,
+                    _hoisted_10$4,
                     toDisplayString(type.inquiry_type),
                     1
                     /* TEXT */
                   ),
                   type.description ? (openBlock(), createElementBlock(
                     "p",
-                    _hoisted_12$3,
+                    _hoisted_11$4,
                     toDisplayString(type.description),
                     1
                     /* TEXT */
                   )) : createCommentVNode("v-if", true),
                   type.is_option ? (openBlock(), createElementBlock(
                     "div",
-                    _hoisted_13$3,
+                    _hoisted_12$3,
                     toDisplayString($setup.t("agora", "Option")),
                     1
                     /* TEXT */
                   )) : createCommentVNode("v-if", true)
                 ])
               ]),
-              createBaseVNode("div", _hoisted_14$3, [
+              createBaseVNode("div", _hoisted_13$3, [
                 createVNode($setup["NcButton"], {
                   type: "primary",
                   onClick: withModifiers(($event) => $setup.openTypeSettings(type), ["stop"]),
@@ -1172,7 +1159,7 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
                   _: 2
                   /* DYNAMIC */
                 }, 1032, ["onClick"]),
-                createBaseVNode("div", _hoisted_15$3, [
+                createBaseVNode("div", _hoisted_14$3, [
                   createVNode($setup["NcButton"], {
                     onClick: withModifiers(($event) => $setup.editingType = {
                       ...type,
@@ -1214,7 +1201,7 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
           /* KEYED_FRAGMENT */
         ))
       ]),
-      $setup.familyTypes.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_16$2, [
+      $setup.familyTypes.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_15$3, [
         createBaseVNode(
           "p",
           null,
@@ -1225,7 +1212,7 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
       ])) : createCommentVNode("v-if", true)
     ]),
     createCommentVNode(" Add New Type Form "),
-    createBaseVNode("div", _hoisted_17$2, [
+    createBaseVNode("div", _hoisted_16$2, [
       createBaseVNode(
         "h3",
         null,
@@ -1233,8 +1220,8 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
         1
         /* TEXT */
       ),
-      createBaseVNode("div", _hoisted_18$1, [
-        createBaseVNode("div", _hoisted_19$1, [
+      createBaseVNode("div", _hoisted_17$2, [
+        createBaseVNode("div", _hoisted_18$1, [
           createVNode($setup["NcInputField"], {
             modelValue: $setup.newType.inquiry_type,
             "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.newType.inquiry_type = $event),
@@ -1266,8 +1253,8 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
           type: "textarea",
           class: "full-width"
         }, null, 8, ["modelValue", "label"]),
-        createBaseVNode("div", _hoisted_20$1, [
-          createBaseVNode("div", _hoisted_21$1, [
+        createBaseVNode("div", _hoisted_19$1, [
+          createBaseVNode("div", _hoisted_20$1, [
             createVNode($setup["NcCheckboxRadioSwitch"], {
               modelValue: $setup.newType.is_option,
               "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.newType.is_option = $event),
@@ -1285,14 +1272,14 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
             }, 8, ["modelValue"]),
             createBaseVNode(
               "p",
-              _hoisted_22$1,
+              _hoisted_21$1,
               toDisplayString($setup.t("agora", "Option types are used as responses or transformations for other types")),
               1
               /* TEXT */
             )
           ])
         ]),
-        createBaseVNode("div", _hoisted_23$1, [
+        createBaseVNode("div", _hoisted_22$1, [
           createVNode($setup["NcInputField"], {
             modelValue: $setup.newType.fields,
             "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.newType.fields = $event),
@@ -1318,7 +1305,7 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
             class: "form-field"
           }, null, 8, ["modelValue", "label"])
         ]),
-        createBaseVNode("div", _hoisted_24$1, [
+        createBaseVNode("div", _hoisted_23$1, [
           createVNode($setup["NcButton"], {
             type: "primary",
             disabled: !$setup.newType.inquiry_type || !$setup.newType.label,
@@ -1338,8 +1325,8 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
       ])
     ]),
     createCommentVNode(" Edit Type Modal "),
-    $setup.editingType ? (openBlock(), createElementBlock("div", _hoisted_25$1, [
-      createBaseVNode("div", _hoisted_26, [
+    $setup.editingType ? (openBlock(), createElementBlock("div", _hoisted_24$1, [
+      createBaseVNode("div", _hoisted_25$1, [
         createBaseVNode(
           "h3",
           null,
@@ -1347,8 +1334,8 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
           1
           /* TEXT */
         ),
-        createBaseVNode("div", _hoisted_27, [
-          createBaseVNode("div", _hoisted_28, [
+        createBaseVNode("div", _hoisted_26, [
+          createBaseVNode("div", _hoisted_27, [
             createVNode($setup["NcInputField"], {
               modelValue: $setup.editingType.inquiry_type,
               "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $setup.editingType.inquiry_type = $event),
@@ -1378,8 +1365,8 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
             type: "textarea",
             class: "full-width"
           }, null, 8, ["modelValue", "label"]),
-          createBaseVNode("div", _hoisted_29, [
-            createBaseVNode("div", _hoisted_30, [
+          createBaseVNode("div", _hoisted_28, [
+            createBaseVNode("div", _hoisted_29, [
               createVNode($setup["NcCheckboxRadioSwitch"], {
                 modelValue: $setup.editingType.is_option,
                 "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => $setup.editingType.is_option = $event),
@@ -1397,7 +1384,7 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
               }, 8, ["modelValue"])
             ])
           ]),
-          createBaseVNode("div", _hoisted_31, [
+          createBaseVNode("div", _hoisted_30, [
             createVNode($setup["NcInputField"], {
               modelValue: $setup.editingType.fields,
               "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => $setup.editingType.fields = $event),
@@ -1420,7 +1407,7 @@ function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
               class: "form-field"
             }, null, 8, ["modelValue", "label"])
           ]),
-          createBaseVNode("div", _hoisted_32, [
+          createBaseVNode("div", _hoisted_31, [
             createVNode($setup["NcButton"], {
               onClick: _cache[17] || (_cache[17] = ($event) => $setup.editingType = null)
             }, {
@@ -1499,7 +1486,7 @@ const _hoisted_6$6 = { class: "setting-item" };
 const _hoisted_7$5 = { class: "setting-description" };
 const _hoisted_8$5 = { class: "setting-item" };
 const _hoisted_9$5 = { class: "setting-description" };
-const _hoisted_10$4 = { class: "setting-item" };
+const _hoisted_10$3 = { class: "setting-item" };
 const _hoisted_11$3 = { class: "setting-description" };
 const _hoisted_12$2 = { class: "setting-item" };
 const _hoisted_13$2 = { for: "editor-type-select" };
@@ -1509,22 +1496,8 @@ const _hoisted_15$2 = {
   class: "no-selection"
 };
 function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_NcButton = resolveComponent("NcButton");
   return openBlock(), createElementBlock("div", _hoisted_1$g, [
     createBaseVNode("div", _hoisted_2$c, [
-      createVNode(_component_NcButton, {
-        onClick: _cache[0] || (_cache[0] = ($event) => $setup.emit("back-to-types"))
-      }, {
-        default: withCtx(() => [
-          createTextVNode(
-            " ← " + toDisplayString($setup.t("agora", "Back to Types")),
-            1
-            /* TEXT */
-          )
-        ]),
-        _: 1
-        /* STABLE */
-      }),
       createBaseVNode(
         "h2",
         null,
@@ -1546,8 +1519,8 @@ function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
           createVNode($setup["NcCheckboxRadioSwitch"], {
             modelValue: $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].supportInquiry,
             "onUpdate:modelValue": [
-              _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].supportInquiry = $event),
-              _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.write())
+              _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].supportInquiry = $event),
+              _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
             ],
             type: "switch"
           }, {
@@ -1573,8 +1546,8 @@ function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
           createVNode($setup["NcCheckboxRadioSwitch"], {
             modelValue: $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].commentInquiry,
             "onUpdate:modelValue": [
-              _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].commentInquiry = $event),
-              _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.write())
+              _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].commentInquiry = $event),
+              _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
             ],
             type: "switch"
           }, {
@@ -1596,12 +1569,12 @@ function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
             /* TEXT */
           )
         ]),
-        createBaseVNode("div", _hoisted_10$4, [
+        createBaseVNode("div", _hoisted_10$3, [
           createVNode($setup["NcCheckboxRadioSwitch"], {
             modelValue: $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].attachFileInquiry,
             "onUpdate:modelValue": [
-              _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].attachFileInquiry = $event),
-              _cache[6] || (_cache[6] = ($event) => $setup.appSettingsStore.write())
+              _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].attachFileInquiry = $event),
+              _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.write())
             ],
             type: "switch"
           }, {
@@ -1635,8 +1608,8 @@ function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
             id: "editor-type-select",
             modelValue: $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].editorType,
             "onUpdate:modelValue": [
-              _cache[7] || (_cache[7] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].editorType = $event),
-              _cache[8] || (_cache[8] = ($event) => $setup.appSettingsStore.write())
+              _cache[6] || (_cache[6] = ($event) => $setup.appSettingsStore.inquiryTypeRights[$props.selectedType.inquiry_type].editorType = $event),
+              _cache[7] || (_cache[7] = ($event) => $setup.appSettingsStore.write())
             ],
             options: $setup.editorOptions,
             "option-value": "value",
@@ -1689,7 +1662,7 @@ const _hoisted_6$5 = { class: "right-item" };
 const _hoisted_7$4 = { class: "right-description" };
 const _hoisted_8$4 = { class: "right-item" };
 const _hoisted_9$4 = { class: "right-description" };
-const _hoisted_10$3 = { class: "right-item" };
+const _hoisted_10$2 = { class: "right-item" };
 const _hoisted_11$2 = { class: "right-description" };
 function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$f, [
@@ -1789,7 +1762,7 @@ function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
           /* TEXT */
         )
       ]),
-      createBaseVNode("div", _hoisted_10$3, [
+      createBaseVNode("div", _hoisted_10$2, [
         createVNode($setup["NcCheckboxRadioSwitch"], {
           modelValue: $setup.appSettingsStore.officialRights.manageModerationStatus,
           "onUpdate:modelValue": [
@@ -2060,7 +2033,7 @@ const _hoisted_7$2 = {
 };
 const _hoisted_8$2 = { class: "status-content" };
 const _hoisted_9$2 = ["title"];
-const _hoisted_10$2 = { class: "status-info" };
+const _hoisted_10$1 = { class: "status-info" };
 const _hoisted_11$1 = { class: "status-key" };
 const _hoisted_12$1 = {
   key: 0,
@@ -2088,19 +2061,6 @@ const _hoisted_25 = {
 function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$d, [
     createBaseVNode("div", _hoisted_2$9, [
-      createVNode($setup["NcButton"], {
-        onClick: _cache[0] || (_cache[0] = ($event) => $setup.emit("back-to-types"))
-      }, {
-        default: withCtx(() => [
-          createTextVNode(
-            " ← " + toDisplayString($setup.t("agora", "Back to Types")),
-            1
-            /* TEXT */
-          )
-        ]),
-        _: 1
-        /* STABLE */
-      }),
       createBaseVNode(
         "h2",
         null,
@@ -2152,7 +2112,7 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
                   }, [
                     (openBlock(), createBlock(resolveDynamicComponent($setup.getIconComponent(status.icon)), { size: 20 }))
                   ], 8, _hoisted_9$2),
-                  createBaseVNode("div", _hoisted_10$2, [
+                  createBaseVNode("div", _hoisted_10$1, [
                     createBaseVNode(
                       "h4",
                       null,
@@ -2262,28 +2222,28 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
         createBaseVNode("div", _hoisted_16$1, [
           createVNode($setup["NcInputField"], {
             modelValue: $setup.newStatus.statusKey,
-            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.newStatus.statusKey = $event),
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.newStatus.statusKey = $event),
             label: $setup.t("agora", "Status Key"),
             placeholder: $setup.t("agora", "Enter unique status key"),
             required: ""
           }, null, 8, ["modelValue", "label", "placeholder"]),
           createVNode($setup["NcInputField"], {
             modelValue: $setup.newStatus.label,
-            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newStatus.label = $event),
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.newStatus.label = $event),
             label: $setup.t("agora", "Label"),
             placeholder: $setup.t("agora", "Enter display label"),
             required: ""
           }, null, 8, ["modelValue", "label", "placeholder"]),
           createVNode($setup["NcInputField"], {
             modelValue: $setup.newStatus.description,
-            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.newStatus.description = $event),
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newStatus.description = $event),
             label: $setup.t("agora", "Description"),
             placeholder: $setup.t("agora", "Enter description (optional)"),
             type: "textarea"
           }, null, 8, ["modelValue", "label", "placeholder"]),
           createVNode($setup["NcSelect"], {
             modelValue: $setup.newStatus.icon,
-            "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newStatus.icon = $event),
+            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.newStatus.icon = $event),
             options: $setup.availableIcons,
             label: "label",
             "input-label": $setup.t("agora", "Select Icon")
@@ -2291,7 +2251,7 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
           createBaseVNode("div", _hoisted_17$1, [
             createVNode($setup["NcCheckboxRadioSwitch"], {
               modelValue: $setup.newStatus.isFinal,
-              "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.newStatus.isFinal = $event),
+              "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newStatus.isFinal = $event),
               type: "switch"
             }, {
               default: withCtx(() => [
@@ -2342,28 +2302,28 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
           createBaseVNode("div", _hoisted_21, [
             createVNode($setup["NcInputField"], {
               modelValue: $setup.editingStatus.statusKey,
-              "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.editingStatus.statusKey = $event),
+              "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.editingStatus.statusKey = $event),
               label: $setup.t("agora", "Status Key"),
               placeholder: $setup.t("agora", "Enter unique status key"),
               required: ""
             }, null, 8, ["modelValue", "label", "placeholder"]),
             createVNode($setup["NcInputField"], {
               modelValue: $setup.editingStatus.label,
-              "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.editingStatus.label = $event),
+              "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.editingStatus.label = $event),
               label: $setup.t("agora", "Label"),
               placeholder: $setup.t("agora", "Enter display label"),
               required: ""
             }, null, 8, ["modelValue", "label", "placeholder"]),
             createVNode($setup["NcInputField"], {
               modelValue: $setup.editingStatus.description,
-              "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.editingStatus.description = $event),
+              "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.editingStatus.description = $event),
               label: $setup.t("agora", "Description"),
               placeholder: $setup.t("agora", "Enter description (optional)"),
               type: "textarea"
             }, null, 8, ["modelValue", "label", "placeholder"]),
             createVNode($setup["NcSelect"], {
               modelValue: $setup.editingStatus.icon,
-              "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $setup.editingStatus.icon = $event),
+              "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.editingStatus.icon = $event),
               options: $setup.availableIcons,
               label: "label",
               "input-label": $setup.t("agora", "Select Icon")
@@ -2371,7 +2331,7 @@ function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
             createBaseVNode("div", _hoisted_22, [
               createVNode($setup["NcCheckboxRadioSwitch"], {
                 modelValue: $setup.editingStatus.isFinal,
-                "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => $setup.editingStatus.isFinal = $event),
+                "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $setup.editingStatus.isFinal = $event),
                 type: "switch"
               }, {
                 default: withCtx(() => [
@@ -2444,6 +2404,9 @@ const _sfc_main$c = {
     const props = __props;
     const emit = __emit;
     const activeSettingsTab = ref("user-rights");
+    const getIconComponent = (iconName) => {
+      return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default;
+    };
     const settingsTabs = [
       {
         id: "user-rights",
@@ -2466,9 +2429,11 @@ const _sfc_main$c = {
         component: AdminTypeStatus
       }
     ];
-    const __returned__ = { props, emit, activeSettingsTab, settingsTabs, ref, get t() {
+    const __returned__ = { props, emit, activeSettingsTab, getIconComponent, settingsTabs, ref, get t() {
       return translate;
-    }, AdminTypeRights, AdminOfficialRights, AdminModeratorRights, AdminTypeStatus };
+    }, AdminTypeRights, AdminOfficialRights, AdminModeratorRights, AdminTypeStatus, get InquiryGeneralIcons() {
+      return InquiryGeneralIcons;
+    } };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
@@ -2477,27 +2442,19 @@ const _hoisted_1$c = { class: "type-settings-modal" };
 const _hoisted_2$8 = { class: "modal-header" };
 const _hoisted_3$3 = { class: "type-info" };
 const _hoisted_4$3 = { class: "type-icon" };
-const _hoisted_5$2 = { class: "icon" };
-const _hoisted_6$2 = { class: "type-details" };
-const _hoisted_7$1 = { class: "type-key" };
-const _hoisted_8$1 = { class: "simple-menu" };
-const _hoisted_9$1 = ["onClick"];
-const _hoisted_10$1 = { class: "settings-content" };
+const _hoisted_5$2 = { class: "type-details" };
+const _hoisted_6$2 = { class: "type-key" };
+const _hoisted_7$1 = { class: "simple-menu" };
+const _hoisted_8$1 = ["onClick"];
+const _hoisted_9$1 = { class: "settings-content" };
 function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$c, [
-    createCommentVNode(" En-tête avec informations du type "),
     createBaseVNode("div", _hoisted_2$8, [
       createBaseVNode("div", _hoisted_3$3, [
         createBaseVNode("div", _hoisted_4$3, [
-          createBaseVNode(
-            "span",
-            _hoisted_5$2,
-            toDisplayString($props.selectedType.icon),
-            1
-            /* TEXT */
-          )
+          (openBlock(), createBlock(resolveDynamicComponent($setup.getIconComponent($props.selectedType.icon)), { size: 20 }))
         ]),
-        createBaseVNode("div", _hoisted_6$2, [
+        createBaseVNode("div", _hoisted_5$2, [
           createBaseVNode(
             "h3",
             null,
@@ -2507,7 +2464,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
           ),
           createBaseVNode(
             "p",
-            _hoisted_7$1,
+            _hoisted_6$2,
             toDisplayString($props.selectedType.inquiry_type),
             1
             /* TEXT */
@@ -2515,8 +2472,7 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
         ])
       ])
     ]),
-    createCommentVNode(" Menu de navigation simple "),
-    createBaseVNode("div", _hoisted_8$1, [
+    createBaseVNode("div", _hoisted_7$1, [
       (openBlock(), createElementBlock(
         Fragment,
         null,
@@ -2525,14 +2481,13 @@ function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
             key: tab.id,
             class: normalizeClass(["menu-item", { active: $setup.activeSettingsTab === tab.id }]),
             onClick: ($event) => $setup.activeSettingsTab = tab.id
-          }, toDisplayString(tab.label), 11, _hoisted_9$1);
+          }, toDisplayString(tab.label), 11, _hoisted_8$1);
         }),
         64
         /* STABLE_FRAGMENT */
       ))
     ]),
-    createCommentVNode(" Contenu des paramètres "),
-    createBaseVNode("div", _hoisted_10$1, [
+    createBaseVNode("div", _hoisted_9$1, [
       (openBlock(), createBlock(resolveDynamicComponent($setup.settingsTabs.find((t) => t.id === $setup.activeSettingsTab)?.component), {
         "selected-type": $props.selectedType,
         "in-modal": true

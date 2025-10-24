@@ -32,9 +32,6 @@ watch(() => props.selectedType, (newType) => {
 <template>
   <div class="type-rights">
     <div class="header">
-      <NcButton @click="emit('back-to-types')">
-        ← {{ t('agora', 'Back to Types') }}
-      </NcButton>
       <h2>
         {{ t('agora', 'Rights for {type}', { type: selectedType?.label }) }}
       </h2>

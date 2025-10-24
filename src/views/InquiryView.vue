@@ -34,6 +34,9 @@ import {
   getInquiryTypeData,
   confirmAction,
 } from '../helpers/modules/InquiryHelper.ts'
+import { createPermissionContextForContent, ContentType, canEdit } from '../utils/permissions.ts'
+
+
 
 const forceRenderKey = ref(0)
 const selectedMode = ref('response')
@@ -51,6 +54,28 @@ const selectedInquiryTypeForCreation = ref('')
 const selectedGroups = ref([])
 const isSaving = ref(false)
 const selectedFamily = ref<string | null>(inquiriesStore.familyType || null)
+
+// Context for permissions
+const context = computed(() => {
+  const ctx = createPermissionContextForContent(
+    ContentType.Inquiry,
+    inquiryStore.owner.id,
+    inquiryStore.configuration.access === 'public',
+    inquiryStore.status.isLocked,
+    inquiryStore.status.isExpired,
+    inquiryStore.status.deletionDate > 0,
+    inquiryStore.status.isArchived,
+    inquiryStore.inquiryGroups.length > 0,
+    inquiryStore.inquiryGroups,
+    inquiryStore.type,
+    inquiryStore.family, 
+    inquiryStore.configuration.access as AccessLevel,
+    inquiryStore.status.isFinalStatus,
+    inquiryStore.status.moderationStatus 
+  )
+  console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
+  return ctx
+})
 
 const showMore = computed(
   () =>
@@ -138,6 +163,33 @@ watch(
   },
   { immediate: true }
 )
+
+//Compute isReadonly
+const isReadonly = computed(() => {
+  const user = sessionStore.currentUser
+  console.log('🔧 [InquiryEditViewForm] Checking readonly - User:', user)
+
+  if (!user) {
+    console.log('🔧 [InquiryEditViewForm] No user - READONLY')
+    return true
+  }
+
+  const canEditResult = canEdit(context.value)
+  console.log('🔧 [InquiryEditViewForm] canEdit result:', canEditResult)
+
+  return !canEditResult
+})
+
+const isReadonlyDescription = computed(() => {
+  console.log('🔧 [InquiryEditViewForm] isReadonlyDescription check - type:', inquiryStore.type, 'isReadonly:', isReadonly.value)
+
+  if (inquiryStore.type === 'debate') {
+    console.log('🔧 [InquiryEditViewForm] Debate type - EDITABLE')
+    return false
+  }
+  console.log('🔧 [InquiryEditViewForm] Other type - READONLY:', isReadonly.value)
+   return isReadonly.value
+})
 
 const enableEditMode = () => {
   editMode.value = true
@@ -247,7 +299,7 @@ const handleGroupUpdate = (groups) => {
       :inquiry-store="inquiryStore"
       :session-store="sessionStore"
       :is-saving="isSaving"
-      :is-readonly-description="!editMode"
+      :is-readonly-description="isReadonlyDescription"
       @save="handleSave"
       @allowed-response="handleAllowedResponse"
       @allowed-transformation="handleAllowedTransformation"
@@ -256,7 +308,11 @@ const handleGroupUpdate = (groups) => {
     <div class="area__main">
 
       <div class="view-content">
-        <InquiryEditViewForm v-if="editMode" />
+        <InquiryEditViewForm 
+	  v-if="editMode" 
+	  :is-readonly-description="isReadonlyDescription"
+	  :is-readonly="isReadonly"
+	  />
         <InquiryTransition
           v-else
           :is-loaded-parent="isAppLoaded"

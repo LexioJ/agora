@@ -33,9 +33,9 @@ class InquiryFamilyService
      * @throws DoesNotExistException
      * @throws MultipleObjectsReturnedException
      */
-    public function findByInquiryType(string $inquiryType): InquiryFamily
+    public function findByFamilyType(string $familyType): InquiryFamily
     {
-        return $this->inquiryFamilyMapper->findByInquiryType($inquiryType);
+        return $this->inquiryFamilyMapper->findByFamilyType($familyType);
     }
 
     public function findAll(): array
@@ -53,9 +53,9 @@ class InquiryFamilyService
         return $this->inquiryFamilyMapper->findBySearchTerm($searchTerm);
     }
 
-    public function inquiryTypeExists(string $inquiryType): bool
+    public function familyTypeExists(string $familyType): bool
     {
-        return $this->inquiryFamilyMapper->inquiryTypeExists($inquiryType);
+        return $this->inquiryFamilyMapper->familyTypeExists($familyType);
     }
 
     public function getMaxSortOrder(): int
@@ -64,18 +64,18 @@ class InquiryFamilyService
     }
 
     public function create(
-        string $inquiryType,
+        string $familyType,
         string $label,
         ?string $description = null,
         string $icon = '',
         ?int $sortOrder = null
     ): InquiryFamily {
-        if ($this->inquiryFamilyMapper->inquiryTypeExists($inquiryType)) {
-            throw new \InvalidArgumentException('Inquiry type already exists');
+        if ($this->familyTypeExists($familyType)) {
+            throw new \InvalidArgumentException('Family type already exists');
         }
 
         $inquiryFamily = new InquiryFamily();
-        $inquiryFamily->setInquiry($inquiryType);
+        $inquiryFamily->setFamilyType($familyType);
         $inquiryFamily->setLabel($label);
         $inquiryFamily->setDescription($description);
         $inquiryFamily->setIcon($icon);
@@ -92,7 +92,7 @@ class InquiryFamilyService
 
     public function update(
         int $id,
-        string $inquiryType,
+        string $familyType,
         string $label,
         ?string $description = null,
         string $icon = '',
@@ -100,13 +100,13 @@ class InquiryFamilyService
     ): InquiryFamily {
         $inquiryFamily = $this->find($id);
         
-        // Check if inquiry type already exists for other records
-        if ($inquiryFamily->getInquiryType() !== $inquiryType && 
-            $this->inquiryFamilyMapper->inquiryTypeExists($inquiryType)) {
-            throw new \InvalidArgumentException('Inquiry type already exists');
+        // Check if family type already exists for other records
+        if ($inquiryFamily->getFamilyType() !== $familyType && 
+            $this->familyTypeExists($familyType)) {
+            throw new \InvalidArgumentException('Family type already exists');
         }
 
-        $inquiryFamily->setInquiryType($inquiryType);
+        $inquiryFamily->setFamilyType($familyType);
         $inquiryFamily->setLabel($label);
         $inquiryFamily->setDescription($description);
         $inquiryFamily->setIcon($icon);
@@ -129,9 +129,9 @@ class InquiryFamilyService
         return $this->inquiryFamilyMapper->delete($inquiryFamily);
     }
 
-    public function deleteByInquiryType(string $inquiryType): InquiryFamily
+    public function deleteByFamilyType(string $familyType): InquiryFamily
     {
-        $inquiryFamily = $this->findByInquiryType($inquiryType);
+        $inquiryFamily = $this->findByFamilyType($familyType);
         return $this->inquiryFamilyMapper->delete($inquiryFamily);
     }
 }

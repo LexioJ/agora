@@ -305,9 +305,23 @@ export const useInquiryStore = defineStore('inquiry', {
     },
 
     async submitInquiry(action: string): Promise<void> {
+	    const sessionStore = useSessionStore()
 	    try {
+		    if (action === 'submit_for_accepted') {
+			    this.status.moderationStatus="accepted"
+			    this.status.inquiryStatus=sessionStore.appSettings.getFirstStatusKeyByInquiryType(this.type)
+			    this.configuration.access="open"
+		    } else if (status === "submit_for_rejected") {
+			    this.status.moderationStatus="rejected"
+			    this.status.inquiryStatus="rejected"
+			    this.configuration.access="private"
+		    } else if (status === 'submit_for_moderate') {
+			    this.status.moderationStatus="pending"
+			    this.status.inquiryStatus="waiting_approval"
+			    this.configuration.access="moderate"
+
+		    }
 		    const response = await InquiriesAPI.submitInquiry(this.id,action)
-	            this.load()
 		    if (!response || !response.data) {
 			    this.$reset()
 			    return

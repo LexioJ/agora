@@ -144,11 +144,43 @@ export const useAppSettingsStore = defineStore('appSettings', {
 	getters: {
 		 getInquiryTypeRights: (state) => (inquiryType: string) => {
       			return state.inquiryTypeRights[inquiryType]
-    		},
-    
-    		getMainInquiryTypes: (state) => {
-      			return state.inquiryTypeTab.filter(type => !type.is_option)
-    		},
+		 },
+
+		 getMainInquiryTypes: (state) => {
+			 return state.inquiryTypeTab.filter(type => !type.is_option)
+		 },
+
+
+		 getFirstStatusKeyByInquiryType: (state) => {
+			 return (inquiryType: string): string | null => {
+				 console.log('🔧 [SettingsStore] Getting first status key for type:', inquiryType)
+
+				 if (!state.inquiryStatusTab.length) {
+					 console.warn('🔧 [SettingsStore] No statuses available')
+					 return null
+				 }
+
+				 const statuses = state.inquiryStatusTab.filter(
+					 status => status.inquiry_type === inquiryType
+				 )
+
+				 console.log('🔧 [SettingsStore] Found statuses for type', inquiryType + ':', statuses.length)
+
+				 if (statuses.length > 0) {
+					 const sortedStatuses = [...statuses].sort((a, b) =>
+										   a.sort_order - b.sort_order
+										  )
+
+										  const firstStatus = sortedStatuses[0]
+										  console.log('🔧 [SettingsStore] First status key:', firstStatus.status_key)
+										  return firstStatus.status_key
+				 }
+
+				 console.warn('🔧 [SettingsStore] No status found for type:', inquiryType)
+				 return null
+			 }
+		 },
+
 	},
 
 	actions: {

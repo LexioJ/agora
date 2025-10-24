@@ -323,7 +323,7 @@ const gridDescription = computed(() => {
             })
           "
         >
-          <component :is="BadgeIcons.participated" :size="16" class="icon" />
+          <component :is="BadgeIcons.Participated" :size="16" class="icon" />
           <span>{{ inquiry.status.countParticipants }}</span>
         </div>
 
