@@ -310,41 +310,56 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Menu simple appliqué aux tabs - Style forcé */
 .tabs {
   display: flex;
-  margin-bottom: 0;
   background: var(--color-background-dark);
   border-bottom: 1px solid var(--color-border);
   padding: 0;
-  gap: 0;
+  flex-shrink: 0;
   border-radius: 12px 12px 0 0;
 }
 
-.tabs NcButton {
-  flex: 1;
-  background: none;
-  border: none;
-  padding: 18px 24px;
-  color: var(--color-text-lighter);
+.tabs :deep(.button-vue) {
+  flex: 1 !important;
+  background: none !important;
+  border: none !important;
+  padding: 16px 20px !important;
+  color: var(--color-text-lighter) !important;
   cursor: pointer;
-  transition: all 0.2s ease;
-  border-bottom: 3px solid transparent;
-  font-size: 1em;
-  font-weight: 500;
-  margin: 0;
-  border-radius: 0;
+  transition: all 0.2s ease !important;
+  border-bottom: 3px solid transparent !important;
+  font-size: 1em !important;
+  font-weight: 500 !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  min-height: auto !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
-.tabs NcButton:hover {
-  background: var(--color-background-hover);
-  color: var(--color-text-light);
+.tabs :deep(.button-vue):hover {
+  background: var(--color-background-hover) !important;
+  color: var(--color-text-light) !important;
 }
 
-.tabs NcButton.active {
-  color: var(--color-primary);
-  border-bottom-color: var(--color-primary);
-  background: var(--color-background-darker);
-  font-weight: 600;
+.tabs :deep(.button-vue.active) {
+  color: var(--color-primary) !important;
+  border-bottom-color: var(--color-primary) !important;
+  background: var(--color-background-darker) !important;
+}
+
+.tabs :deep(.button-vue--vue-secondary) {
+  --button-background-hover: var(--color-background-hover) !important;
+  --button-color-hover: var(--color-text-light) !important;
+}
+
+.tabs :deep(.button-vue--vue-secondary.active) {
+  --button-background: var(--color-background-darker) !important;
+  --button-color: var(--color-primary) !important;
+  --button-border-color: transparent !important;
 }
 
 .tab-content {
@@ -355,6 +370,7 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
   min-height: 600px;
   height: auto;
   overflow: visible;
+  flex: 1;
 }
 
 .add-form {
@@ -387,6 +403,9 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
 
 .tree-view {
   margin-top: 30px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .tree-view h3 {
@@ -406,6 +425,7 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
   background: var(--color-background-dark);
   max-height: 500px;
   overflow-y: auto;
+  flex: 1;
 }
 
 .loading,
@@ -469,6 +489,9 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
 .category-location-manager > div:last-child {
   max-height: calc(100vh - 100px);
   overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Responsive design */
@@ -484,16 +507,16 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
     gap: 0;
   }
 
-  .tabs NcButton {
-    padding: 16px 20px;
-    border-bottom: 2px solid transparent;
-    border-right: 3px solid transparent;
-    text-align: left;
+  .tabs :deep(.button-vue) {
+    padding: 16px 20px !important;
+    border-bottom: 2px solid transparent !important;
+    border-right: 3px solid transparent !important;
+    text-align: left !important;
   }
 
-  .tabs NcButton.active {
-    border-bottom-color: transparent;
-    border-right-color: var(--color-primary);
+  .tabs :deep(.button-vue.active) {
+    border-bottom-color: transparent !important;
+    border-right-color: var(--color-primary) !important;
   }
 
   .tab-content {
@@ -523,15 +546,6 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
   }
 }
 
-.tree-container {
-  max-height: 500px;
-  overflow-y: auto;
-}
-
-.add-form {
-  position: relative;
-}
-
 .tab-content {
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -547,19 +561,10 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
   }
 }
 
-:deep(.tabs .button-vue) {
-  border-radius: 0 !important;
-}
-
-:deep(.tabs .button-vue--vue-secondary.active) {
-  background: var(--color-background-darker) !important;
-  color: var(--color-primary) !important;
-  border-bottom-color: var(--color-primary) !important;
-}
-
 .category-location-manager {
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .category-location-manager > div:last-child {
@@ -572,15 +577,5 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
   flex: 1;
   display: flex;
   flex-direction: column;
-}
-
-.tree-view {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.tree-container {
-  flex: 1;
 }
 </style>

@@ -192,7 +192,7 @@ const appSettings = {
 		return httpInstance.request({
 			method: 'PUT',
 			url: `inquiry/types/${typeId}`,
-			data: typeData,
+			data: { typeData },
 			cancelToken: cancelTokenHandlerObject[this.updateInquiryType.name].handleRequestCancellation().token,
 		});
 	},
@@ -237,7 +237,7 @@ const appSettings = {
 		return httpInstance.request({
 			method: 'PUT',
 			url: `inquiry/families/${familyId}`,
-			data: familyData,
+			data: { familyData },
 			cancelToken: cancelTokenHandlerObject[this.updateInquiryFamily.name].handleRequestCancellation().token,
 		});
 	},

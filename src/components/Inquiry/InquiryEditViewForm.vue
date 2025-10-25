@@ -104,11 +104,33 @@ const inquiryTypeData = computed(() => {
   return data
 })
 
-const availableInquiryStatuses = computed(() =>
-  sessionStore.appSettings.inquiryStatusTab
+const availableInquiryStatuses = computed(() => {
+  const statusesFromSettings = sessionStore.appSettings.inquiryStatusTab
     ?.filter((status) => status.inquiryType === inquiryStore.type)
-    ?.sort((a, b) => a.order - b.order) || []
-)
+    ?.sort((a, b) => a.order - b.order) || [];
+
+  if (inquiryStore.status.inquiryStatus === 'draft') {
+    statusesFromSettings.unshift({
+      statusKey: 'draft',
+      label: 'Draft',
+      icon: 'draft',
+      inquiryType: inquiryStore.type,
+      order: 0,
+    });
+  }
+
+  if (inquiryStore.status.inquiryStatus === 'waiting_approval') {
+    statusesFromSettings.unshift({
+      statusKey: 'waiting_approval',
+      label: 'Waiting Approval',
+      icon: 'waitingapproval',
+      inquiryType: inquiryStore.type,
+      order: 1,
+    });
+  }
+
+  return statusesFromSettings;
+});
 
 const currentInquiryStatus = computed(
   () => {

@@ -22,9 +22,9 @@ class Group extends UserBase
      */
     public const TYPE = 'group';
     public const GROUP_MODERATOR = 'Agora Moderator';
-    public const GROUP_LEGISLATIF = 'Agora Legislatif';
+    public const GROUP_LEGISLATIF = 'Agora Legislative';
     public const GROUP_COLLECTIVE = 'Agora Collective';
-    public const GROUP_ADMINISTRATIF = 'Agora Adminisratif';
+    public const GROUP_ADMINISTRATIF = 'Agora Adminisrative';
     public const GROUP_OFFICIAL  = 'Agora Official';
     public const GROUP_USERS  = 'Agora Users';
     public const AGORA_FOLDER  = 'AgoraFiles';

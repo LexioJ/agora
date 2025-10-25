@@ -20,7 +20,6 @@ import {
 } from '../../utils/permissions.ts'
 
 import { InquiryTypesUI, BadgeIcons, StatusIcons } from '../../utils/icons.ts'
-
 import { useInquiryStore, Inquiry } from '../../stores/inquiry'
 import { useInquiriesStore } from '../../stores/inquiries'
 import { usePreferencesStore } from '../../stores/preferences.ts'
@@ -99,6 +98,11 @@ const timeExpirationRelative = computed(() => {
   return t('agora', 'never')
 })
 
+// Get inquiry type data using helper
+const inquiryTypeData = computed(() => {
+  return getInquiryTypeData(inquiry.type, sessionStore.appSettings.inquiryTypeTab || [], inquiry.type)
+})
+
 const expiryClass = computed(() => {
   if (inquiry.status.isExpired) {
     return 'error'
@@ -139,43 +143,30 @@ const inquiryStatus = computed(
   () => inquiry.inquiryStatus || inquiryStore.getInquiryStatus?.(inquiry.id)
 )
 
-const inquiryStatusIcon = computed(() => {
-  const statusItem = sessionStore.appSettings.inquiryStatusTab.find(
-    (item) => item.inquiryType === inquiry.type && item.statusKey === inquiry.inquiryStatus
-  )
-
-  if (!statusItem) {
-    return StatusIcons.Draft
+// FIXED: Use the method you provided for status calculation
+const currentInquiryStatus = computed(() => {
+  const currentStatus = inquiryStatus.value
+  const specialStatuses = {
+    draft: { label: 'Draft', icon: 'Draft' }
+  }
+  
+  if (specialStatuses[currentStatus]) {
+    return specialStatuses[currentStatus];
   }
 
-  return StatusIcons[statusItem.icon] || StatusIcons.Draft
+  const availableInquiryStatuses = sessionStore.appSettings?.inquiryStatusTab || []
+  return availableInquiryStatuses.find(
+    (status) => status.statusKey === currentStatus
+  ) || specialStatuses.draft
+})
+
+const inquiryStatusIcon = computed(() => {
+  const iconName = currentInquiryStatus.value?.icon || 'draft'
+  return StatusIcons[iconName] || StatusIcons.Draft
 })
 
 const inquiryStatusLabel = computed(() => {
-  const statusItem = sessionStore.appSettings.inquiryStatusTab.find(
-    (item) => item.inquiryType === inquiry.type && item.statusKey === inquiry.inquiryStatus
-  )
-
-  if (!statusItem) {
-    return 'Draft'
-  }
-
-  return statusItem.label || 'Draft'
-})
-
-const inquiryStatusInfo = computed(() => {
-  if (!inquiryStatus.value || !sessionStore.appSettings?.inquiryStatusTab) {
-    return null
-  }
-
-  return sessionStore.appSettings.inquiryStatusTab.find(
-    (status) => status.status_key === inquiryStatus.value
-  )
-})
-
-// Get inquiry type data using helper
-const inquiryTypeData = computed(() => {
-  return getInquiryTypeData(inquiry.type, sessionStore.appSettings.inquiryTypeTab || [], inquiry.type)
+  return currentInquiryStatus.value?.label || 'Draft'
 })
 
 // Image URL function
@@ -263,28 +254,14 @@ const gridDescription = computed(() => {
           </RouterLink>
         </div> 
         
-        <div v-if="inquiry.type !== 'official'">
-          <div
-            v-if="inquiryStatusInfo"
-            class="badge-bubble status--inquiry"
-            :title="inquiryStatusInfo.description || inquiryStatusInfo.label"
-          >
-            <component
-              :is="inquiryStatusIcon"
-              v-if="inquiryStatusInfo.icon"
-              :size="12"
-              class="icon"
-            />
-            <span>{{ inquiryStatusInfo.label }}</span>
-          </div>
-          <div
-            v-else-if="inquiry.inquiryStatus"
-            class="badge-bubble status--inquiry"
-            :title="inquiryStatusLabel"
-          >
-            <component :is="inquiryStatusIcon" :size="12" class="icon" />
-            <span>{{ inquiryStatusLabel }}</span>
-          </div>
+        <!-- FIXED: Corrected inquiry status display -->
+        <div
+          v-if="inquiry.type !== 'official' && inquiryStatus"
+          class="badge-bubble status--inquiry"
+          :title="inquiryStatusLabel"
+        >
+          <component :is="inquiryStatusIcon" :size="12" class="icon" />
+          <span>{{ inquiryStatusLabel }}</span>
         </div>
 
         <div
@@ -327,14 +304,7 @@ const gridDescription = computed(() => {
           <span>{{ inquiry.status.countParticipants }}</span>
         </div>
 
-        <NcAvatar
-          :user="inquiry.owner.id"
-          class="user-avatar"
-          :style="{ marginLeft: '-8px', marginRight: '4px' }"
-          :show-name="false"
-          :size="32"
-        />
-
+        <!-- FIXED: Moved expire to badges section with proper icons -->
         <div
           v-if="inquiry.configuration.expire"
           class="badge-bubble"
@@ -348,6 +318,14 @@ const gridDescription = computed(() => {
           />
           <span>{{ timeExpirationRelative }}</span>
         </div>
+
+        <NcAvatar
+          :user="inquiry.owner.id"
+          class="user-avatar"
+          :style="{ marginLeft: '-8px', marginRight: '4px' }"
+          :show-name="false"
+          :size="32"
+        />
       </div>
 
       <div class="actions">
@@ -423,9 +401,32 @@ const gridDescription = computed(() => {
 
           <!-- Bottom Section: Metadata and Dates -->
           <div class="bottom-section">
-            <!-- Second Line: Parent Link + Participated + Comments + Supports -->
+            <!-- FIXED: Second Line - All items on same line with left items containing status and expire -->
             <div class="second-line">
               <div class="left-items">
+                <!-- Status and Expire on the left -->
+                <div
+                  v-if="inquiry.type !== 'official' && inquiryStatus"
+                  class="metadata-item status--inquiry"
+                  :title="inquiryStatusLabel"
+                >
+                  <component :is="inquiryStatusIcon" :size="12" />
+                  <span>{{ inquiryStatusLabel }}</span>
+                </div>
+
+                <div
+                  v-if="inquiry.configuration.expire"
+                  class="metadata-item expire"
+                  :class="expiryClass"
+                  :title="t('agora', 'Expiration')"
+                >
+                  <component
+                    :is="inquiry.status.isExpired ? BadgeIcons.Closed : BadgeIcons.Expiration"
+                    :size="12"
+                  />
+                  <span>{{ timeExpirationRelative }}</span>
+                </div>
+
                 <div v-if="inquiry.parentId!==0" class="metadata-item parent-link">
                   <RouterLink
                     :to="`/inquiry/${inquiry.parentId}`"
@@ -433,7 +434,10 @@ const gridDescription = computed(() => {
                     <component :is="StatusIcons.LinkIcon" :size="16" :title="`id:inquiry.parentId`"/>
                   </RouterLink>
                 </div> 
-                
+              </div>
+
+              <div class="right-items">
+                <!-- FIXED: Participated, support, message on the same line on the right -->
                 <div
                   v-if="inquiry.type !== 'official' && inquiry.status.countParticipants > 0"
                   class="metadata-item participated"
@@ -445,21 +449,6 @@ const gridDescription = computed(() => {
                 >
                   <component :is="BadgeIcons.Participated" :size="14" />
                   <span>{{ inquiry.status.countParticipants }}</span>
-                </div>
-              </div>
-
-              <div class="right-items">
-                <div
-                  v-if="canComment(context)"
-                  class="metadata-item comments"
-                  :title="
-                    t('agora', '{count} comments', {
-                      count: inquiry.status.countComments || 0,
-                    })
-                  "
-                >
-                  <component :is="StatusIcons.ForumOutline" :size="14" />
-                  <span>{{ inquiry.status.countComments || 0 }}</span>
                 </div>
 
                 <div
@@ -474,6 +463,19 @@ const gridDescription = computed(() => {
                 >
                   <ThumbIcon :supported="inquiry.currentUserStatus.hasSupported" :size="16" />
                   <span>{{ inquiry.status.countSupports || 0 }}</span>
+                </div>
+
+                <div
+                  v-if="canComment(context)"
+                  class="metadata-item comments"
+                  :title="
+                    t('agora', '{count} comments', {
+                      count: inquiry.status.countComments || 0,
+                    })
+                  "
+                >
+                  <component :is="StatusIcons.ForumOutline" :size="14" />
+                  <span>{{ inquiry.status.countComments || 0 }}</span>
                 </div>
               </div>
             </div>
@@ -625,6 +627,8 @@ const gridDescription = computed(() => {
         }
 
         &.status--inquiry {
+          background-color: var(--color-primary-element);
+          color: white;
         }
 
         .icon {
@@ -817,6 +821,26 @@ const gridDescription = computed(() => {
             color: var(--color-text-maxcontrast);
             background-color: var(--color-background-dark);
             white-space: nowrap;
+
+            &.status--inquiry {
+              background-color: var(--color-primary-element);
+              color: white;
+            }
+
+            &.expire {
+              &.error {
+                background-color: var(--color-error);
+                color: white;
+              }
+              &.warning {
+                background-color: var(--color-warning);
+                color: white;
+              }
+              &.success {
+                background-color: var(--color-success);
+                color: white;
+              }
+            }
 
             &.parent-link {
               background-color: transparent;

@@ -22,6 +22,7 @@ import { useSubscriptionStore } from './subscription.ts'
 import { useSharesStore } from './shares.ts'
 import { useCommentsStore } from './comments.ts'
 import { useAttachmentsStore } from './attachments.ts'
+import { useAppSettingsStore } from '../stores/appSettings.ts'
 import { AxiosError } from '@nextcloud/axios'
 
 export type AccessType = 'private' | 'moderate' | 'open' | 'public'
@@ -305,21 +306,21 @@ export const useInquiryStore = defineStore('inquiry', {
     },
 
     async submitInquiry(action: string): Promise<void> {
-	    const sessionStore = useSessionStore()
+	    const appSettingsStore = useAppSettingsStore()
 	    try {
 		    if (action === 'submit_for_accepted') {
 			    this.status.moderationStatus="accepted"
-			    this.status.inquiryStatus=sessionStore.appSettings.getFirstStatusKeyByInquiryType(this.type)
+			    this.status.inquiryStatus=appSettingsStore.getFirstStatusKeyByInquiryType(this.type)
+		  	     console.log(" WE FOUND the inquiries and we set the status  ",this.status.inquiryStatus)
 			    this.configuration.access="open"
-		    } else if (status === "submit_for_rejected") {
+		    } else if (action === "submit_for_rejected") {
 			    this.status.moderationStatus="rejected"
 			    this.status.inquiryStatus="rejected"
 			    this.configuration.access="private"
-		    } else if (status === 'submit_for_moderate') {
+		    } else if (action === 'submit_for_moderate') {
 			    this.status.moderationStatus="pending"
 			    this.status.inquiryStatus="waiting_approval"
 			    this.configuration.access="moderate"
-
 		    }
 		    const response = await InquiriesAPI.submitInquiry(this.id,action)
 		    if (!response || !response.data) {

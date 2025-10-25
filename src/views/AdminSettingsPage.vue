@@ -98,46 +98,44 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div v-if="isLoaded">
-    <FlexSettings>
-      <NcSettingsSection>
-          <NcSettingsSection v-bind="sections.globalSettings">
-             <AdminSettings />
-        </NcSettingsSection>
-        <NcSettingsSection v-bind="sections.inquirySettings">
-          <AdminInquiryCreation />
-          <AdminUnrescrictedOwners />
-          <AdminArchiveInquiries />
-          <AdminDeleteInquiries />
-        </NcSettingsSection>
-        <NcSettingsSection v-bind="sections.shareSettings">
-          <AdminShareOpenInquiry />
-          <AdminSharePublicCreate />
-          <AdminSharePublicShowLogin />
-          <AdminLegal />
-        </NcSettingsSection>
-        <NcSettingsSection v-bind="sections.otherSettings">
-          <AdminActivities />
-          <AdminShowMailAddresses />
-        </NcSettingsSection>
-
-        <NcSettingsSection v-bind="sections.performanceSettings">
-          <AdminPerformance />
-          <AdminInquiriesInNavigation />
-        </NcSettingsSection>
-
-        <NcSettingsSection v-bind="sections.emailSettings">
-          <AdminEmail />
-        </NcSettingsSection>
-      </NcSettingsSection>
-      <NcSettingsSection>
-	  <NcSettingsSection v-bind="sections.inquiryCategoryLocation">
-             <AdminCategoryLocation />
-          </NcSettingsSection>
-        <NcSettingsSection v-bind="sections.jobSettings">
-          <AdminJobs />
-        </NcSettingsSection>
-      </NcSettingsSection>
-    </FlexSettings>
-  </div>
+	<div v-if="isLoaded">
+		<FlexSettings>
+		<NcSettingsSection>
+		<NcSettingsSection v-bind="sections.globalSettings">
+		<AdminSettings />
+		</NcSettingsSection>
+		<NcSettingsSection v-bind="sections.inquirySettings">
+		<AdminInquiryCreation />
+		<AdminUnrescrictedOwners />
+		<AdminArchiveInquiries />
+		<AdminDeleteInquiries />
+		</NcSettingsSection>
+		<NcSettingsSection v-bind="sections.shareSettings">
+		<AdminShareOpenInquiry />
+		<AdminSharePublicCreate />
+		<AdminSharePublicShowLogin />
+		<AdminLegal />
+		</NcSettingsSection>
+		<NcSettingsSection v-bind="sections.otherSettings">
+		<AdminActivities />
+		<AdminShowMailAddresses />
+		</NcSettingsSection>
+		</NcSettingsSection>
+		<NcSettingsSection>
+		<NcSettingsSection v-bind="sections.inquiryCategoryLocation">
+		<AdminCategoryLocation />
+		</NcSettingsSection>
+		<NcSettingsSection v-bind="sections.emailSettings">
+		<AdminEmail />
+		</NcSettingsSection>
+		<NcSettingsSection v-bind="sections.performanceSettings">
+		<AdminPerformance />
+		<AdminInquiriesInNavigation />
+		</NcSettingsSection>
+		<NcSettingsSection v-bind="sections.jobSettings">
+		<AdminJobs />
+		</NcSettingsSection>
+		</NcSettingsSection>
+		</FlexSettings>
+	</div>
 </template>

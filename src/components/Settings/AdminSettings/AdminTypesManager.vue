@@ -196,7 +196,8 @@ const openTypeSettings = (type) => {
           <NcSelect
             v-model="newType.icon"
             :options="availableIcons"
-            :label="t('agora', 'Icon')"
+	    :clearable="false"
+            :placeholder="t('agora', 'Select an icon')"
 	    label="label"
             class="form-field"
           />
@@ -279,7 +280,8 @@ const openTypeSettings = (type) => {
             <NcSelect
               v-model="editingType.icon"
               :options="availableIcons"
-              :label="t('agora', 'Icon')"
+	      :clearable="false"
+              :placeholder="t('agora', 'Select an icon')"
               class="form-field"
             />
           </div>

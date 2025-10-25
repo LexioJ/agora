@@ -76,9 +76,7 @@ const defaultViewMode = computed(() => {
 
 // DEBUG: Check data
 onMounted(() => {
-  console.log('🔍 DEBUG NavigationMenu - Families:', inquiryFamilies.value)
-  console.log('🔍 DEBUG NavigationMenu - Inquiry Types:', allInquiryTypes.value)
-  console.log('🔍 DEBUG NavigationMenu - Selected family:', selectedFamily.value)
+  inquiriesStore.load(false)
 })
 
 // Toggle family expansion

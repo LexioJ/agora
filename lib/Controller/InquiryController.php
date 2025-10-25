@@ -201,11 +201,9 @@ class InquiryController extends BaseController
     public function add(): JSONResponse
     {
         try {
-            // Récupérer les données JSON brutes
             $rawData = $this->request->getParams('data');
             $data =$rawData;
 
-            // Validation des champs obligatoires
             if (empty($data['title'])) {
                 throw new \InvalidArgumentException('Title is required');
             }
@@ -267,7 +265,6 @@ class InquiryController extends BaseController
             $rawData = $this->request->getParams('updateData');
             $data =$rawData;
 
-            // Validation des champs obligatoires
             if (empty($data['title'])) {
                 throw new \InvalidArgumentException('Title is required');
             }

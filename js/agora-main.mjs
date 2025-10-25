@@ -15,6 +15,30 @@
 .danger[data-v-65e9e2b8] {
   color: var(--color-error);
 }
+[data-v-65e9e2b8] .app-navigation-entry__actions {
+  display: flex !important;
+  align-items: center !important;
+  gap: 4px !important;
+}
+[data-v-65e9e2b8] .app-navigation-entry-link {
+  display: flex !important;
+  align-items: center !important;
+}
+[data-v-65e9e2b8] .app-navigation-entry__title {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-right: 8px;
+}
+[data-v-65e9e2b8] .action-button {
+  padding: 4px !important;
+  margin: 0 !important;
+}
+[data-v-65e9e2b8] .action-button__icon {
+  margin-right: 0 !important;
+}
 .agora-navigation {
   padding: 12px 0;
 }
@@ -3355,11 +3379,11 @@ tr.file-picker__row td.row-name[data-v-1f96131b] {
 const appName = "agora";
 const appVersion = "1.5.0-beta";
 import { at as h$1, i as defineStore, bc as Settings, u as _export_sfc, d as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, e as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, a as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, S as withDirectives, bg as vModelRadio, bh as withKeys, W as withModifiers, F as useModel, r as renderSlot, af as useCssVars, bi as useIsDarkTheme, B as unref, bj as mdiCreation, f as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, V as NcButton, bk as userStatus, L as NcAvatar, X as resolveComponent, K as mergeProps, M as normalizeStyle, E as mergeModels, Q as ref, bl as provide, I as warn$1, J as watch, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, aw as logger, a2 as mdiCheck, a3 as mdiAlertCircle, bm as useRouter, b as onMounted, G as Fragment$1, H as renderList, aK as onBeforeUnmount, ae as NcLoadingIcon, T as vShow, bn as Teleport, bo as useRoute, b6 as emit, n as normalizeProps, g as guardReactiveProps, P as DateTime, R as RouterLink, b8 as onUnmounted, ba as NcActions, bp as translatePlural, bq as TransitionGroup, aL as nextTick, q as _$2, br as NcModal, b7 as shallowRef, bs as markRaw, bt as watchEffect, bu as getCurrentInstance, bv as customRef, bw as global, bx as getAugmentedNamespace, aN as process$1, a_ as commonjsGlobal, by as Buffer, Z as getDefaultExportFromCjs, bz as vModelSelect, bA as toRaw, bB as subscribe, bC as unsubscribe, as as Transition, bD as onBeforeRouteUpdate, aR as getCurrentUser, U as vModelText, bE as createRouter, bF as createWebHistory, bG as axios, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang--E6jl8E8.chunk.mjs";
-import { b as useSessionStore, p as publicInquiry, h as supports, L as Logger, I as InquiryGeneralIcons, S as StatusIcons, a as useInquiriesStore, i as useInquiryGroupsStore, j as NavigationIcons, s as showError, k as useInquiryStore, l as showSuccess, E as Event$1, m as NcEmptyContent, B as BadgeIcons, n as sortTitlesMapping, o as lodashExports, d as appSettings, q as showInfo, v as validators, r as inquiries, t as commonjsRequire, w as useAttachmentsStore, x as useCommentsStore, y as useSharesStore, z as moment, A as useOptionsStore, C as ShareIcons } from "./NcDashboardWidget-BEUtfCxs-odCb4aXv.chunk.mjs";
-import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-YkIqcv3G.chunk.mjs";
-import { b as NcAppNavigationItem, u as useAppSettingsDialog, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcAppSidebar, a as NcAppSettingsDialog, l as NcContent } from "./index-CYLLFans.chunk.mjs";
+import { f as useSessionStore, p as publicInquiry, h as supports, L as Logger, I as InquiryGeneralIcons, S as StatusIcons, i as createPermissionContextForContent, C as ContentType, j as canTransfer, k as canDelete, l as canArchive, a as useInquiriesStore, m as useInquiryGroupsStore, n as NavigationIcons, s as showError, o as useInquiryStore, q as showSuccess, E as Event$1, r as NcEmptyContent, B as BadgeIcons, t as canSupport, v as canComment, w as sortTitlesMapping, x as lodashExports, y as appSettings, z as showInfo, A as canEdit, D as canRestore, F as shouldShowResponseActions, G as shouldShowTransformationActions, H as canCreateResponseType, J as canCreateTransformationType, K as canViewToggle, M as validators, O as inquiries, P as commonjsRequire, Q as useAttachmentsStore, R as useCommentsStore, T as useSharesStore, U as moment, V as useOptionsStore, W as ShareIcons, X as canShare } from "./NcDashboardWidget-BEUtfCxs-BPKo71zP.chunk.mjs";
+import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-D-shPqne.chunk.mjs";
+import { b as NcAppNavigationItem, u as useAppSettingsDialog, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcAppSidebar, a as NcAppSettingsDialog, l as NcContent } from "./index-BTd3gyp4.chunk.mjs";
 import { _ as _sfc_main$1C, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1D, e as NcRichText } from "./NcRichText-Dht_wH3t-CLSOeSu_.chunk.mjs";
-import { R as RadioGroupDiv, c as createPermissionContextForContent, a as ContentType, b as canSupport, d as canComment, e as canTransfer, f as canEdit, g as canDelete, h as canRestore, i as canArchive, s as shouldShowResponseActions, j as shouldShowTransformationActions, k as canCreateResponseType, l as canCreateTransformationType, m as canViewToggle, C as CardDiv, n as canShare } from "./markdown-W3EUkT54.chunk.mjs";
+import { R as RadioGroupDiv, C as CardDiv } from "./markdown-BOposYkW.chunk.mjs";
 import { A as AgoraAppIcon } from "./AgoraAppIcon-B9bZ5ZJq.chunk.mjs";
 const setCookie = (cookieName, cookieValue = "", cookieExpiration = 360) => {
   const expirationTime = /* @__PURE__ */ new Date();
@@ -3785,7 +3809,7 @@ const _sfc_main$1A = /* @__PURE__ */ defineComponent({
   props: {
     inquiry: { type: Object, required: true }
   },
-  emits: ["cloneInquiry", "toggleArchive", "deleteInquiry"],
+  emits: ["cloneInquiry", "toggleArchive", "deleteInquiry", "transferInquiry"],
   setup(__props, { expose: __expose, emit: __emit }) {
     __expose();
     const sessionStore = useSessionStore();
@@ -3794,7 +3818,25 @@ const _sfc_main$1A = /* @__PURE__ */ defineComponent({
       const inquiryTypes = sessionStore.appSettings.inquiryTypeTab || [];
       return getInquiryTypeData(__props.inquiry.type, inquiryTypes);
     });
-    const __returned__ = { sessionStore, emit: emit2, inquiryTypeData, get t() {
+    const context2 = computed(
+      () => createPermissionContextForContent(
+        ContentType.Inquiry,
+        __props.inquiry.owner.id,
+        __props.inquiry.configuration.access === "public",
+        __props.inquiry.status.isLocked,
+        __props.inquiry.status.isExpired,
+        __props.inquiry.status.deletionDate > 0,
+        __props.inquiry.status.isArchived,
+        __props.inquiry.inquiryGroups.length > 0,
+        __props.inquiry.inquiryGroups,
+        __props.inquiry.type,
+        __props.inquiry.family,
+        __props.inquiry.configuration.access,
+        __props.inquiry.status.isFinalStatus,
+        __props.inquiry.status.moderationStatus
+      )
+    );
+    const __returned__ = { sessionStore, emit: emit2, inquiryTypeData, context: context2, get t() {
       return translate;
     }, get NcActionButton() {
       return NcActionButton;
@@ -3802,6 +3844,12 @@ const _sfc_main$1A = /* @__PURE__ */ defineComponent({
       return NcAppNavigationItem;
     }, get InquiryGeneralIcons() {
       return InquiryGeneralIcons;
+    }, get canArchive() {
+      return canArchive;
+    }, get canDelete() {
+      return canDelete;
+    }, get canTransfer() {
+      return canTransfer;
     } };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
@@ -3812,7 +3860,7 @@ function _sfc_render$1t(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcAppNavigationItem"], {
     name: $props.inquiry.title,
     to: $props.inquiry.permissions.view ? { name: "inquiry", params: { id: $props.inquiry.id } } : null,
-    class: normalizeClass({ closed: $props.inquiry.status.isExpired })
+    class: normalizeClass({ closed: $props.inquiry.status.isExpired, "inquiry-navigation-item": true })
   }, {
     icon: withCtx(() => [
       createBaseVNode("div", _hoisted_1$1b, [
@@ -3820,39 +3868,45 @@ function _sfc_render$1t(_ctx, _cache, $props, $setup, $data, $options) {
       ])
     ]),
     actions: withCtx(() => [
-      $props.inquiry.permissions.edit && !$props.inquiry.status.isArchived ? (openBlock(), createBlock($setup["NcActionButton"], {
+      createCommentVNode(" Archive/Restore Button "),
+      $setup.canArchive($setup.context) ? (openBlock(), createBlock($setup["NcActionButton"], {
         key: 0,
-        name: $setup.t("agora", "Archive inquiry"),
-        "aria-label": $setup.t("agora", "Archive inquiry"),
+        name: $props.inquiry.status.isArchived ? $setup.t("agora", "Restore inquiry") : $setup.t("agora", "Archive inquiry"),
+        "aria-label": $props.inquiry.status.isArchived ? $setup.t("agora", "Restore inquiry") : $setup.t("agora", "Archive inquiry"),
+        "close-after-click": "",
         onClick: _cache[0] || (_cache[0] = ($event) => $setup.emit("toggleArchive"))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Archive)))
+          (openBlock(), createBlock(resolveDynamicComponent($props.inquiry.status.isArchived ? $setup.InquiryGeneralIcons.Restore : $setup.InquiryGeneralIcons.Archive), { size: 20 }))
         ]),
         _: 1
         /* STABLE */
       }, 8, ["name", "aria-label"])) : createCommentVNode("v-if", true),
-      $props.inquiry.permissions.edit && $props.inquiry.status.isArchived ? (openBlock(), createBlock($setup["NcActionButton"], {
+      createCommentVNode(" Delete Button "),
+      $setup.canDelete($setup.context) ? (openBlock(), createBlock($setup["NcActionButton"], {
         key: 1,
-        name: $setup.t("agora", "Restore inquiry"),
-        "aria-label": $setup.t("agora", "Restore inquiry"),
-        onClick: _cache[1] || (_cache[1] = ($event) => $setup.emit("toggleArchive"))
-      }, {
-        icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Restore)))
-        ]),
-        _: 1
-        /* STABLE */
-      }, 8, ["name", "aria-label"])) : createCommentVNode("v-if", true),
-      $props.inquiry.permissions.edit ? (openBlock(), createBlock($setup["NcActionButton"], {
-        key: 2,
         class: "danger",
         name: $setup.t("agora", "Delete inquiry"),
         "aria-label": $setup.t("agora", "Delete inquiry"),
-        onClick: _cache[2] || (_cache[2] = ($event) => $setup.emit("deleteInquiry"))
+        "close-after-click": "",
+        onClick: _cache[1] || (_cache[1] = ($event) => $setup.emit("deleteInquiry"))
       }, {
         icon: withCtx(() => [
-          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Delete)))
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Delete), { size: 20 }))
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["name", "aria-label"])) : createCommentVNode("v-if", true),
+      createCommentVNode(" Transfer Button "),
+      $setup.canTransfer($setup.context) ? (openBlock(), createBlock($setup["NcActionButton"], {
+        key: 2,
+        name: $setup.t("agora", "Transfer inquiry"),
+        "aria-label": $setup.t("agora", "Transfer inquiry ownership"),
+        "close-after-click": "",
+        onClick: _cache[2] || (_cache[2] = ($event) => $setup.emit("transferInquiry"))
+      }, {
+        icon: withCtx(() => [
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Transfer), { size: 20 }))
         ]),
         _: 1
         /* STABLE */
@@ -4981,20 +5035,7 @@ function _sfc_render$1m(_ctx, _cache, $props, $setup, $data, $options) {
                 ]),
                 default: withCtx(() => [
                   $setup.sessionStore.appSettings.navigationInquiriesInList ? (openBlock(), createElementBlock("ul", _hoisted_2$I, [
-                    (openBlock(true), createElementBlock(
-                      Fragment$1,
-                      null,
-                      renderList($setup.inquiriesStore.groupList(inquiryGroup.inquiryIds), (inquiry) => {
-                        return openBlock(), createBlock($setup["InquiryNavigationItems"], {
-                          key: inquiry.id,
-                          inquiry,
-                          onToggleArchive: ($event) => $setup.toggleArchive(inquiry.id),
-                          onDeleteInquiry: ($event) => $setup.deleteInquiry(inquiry.id)
-                        }, null, 8, ["inquiry", "onToggleArchive", "onDeleteInquiry"]);
-                      }),
-                      128
-                      /* KEYED_FRAGMENT */
-                    )),
+                    createCommentVNode(' <InquiryNavigationItems\n              v-for="inquiry in inquiriesStore.groupList(inquiryGroup.inquiryIds)"\n              :key="inquiry.id"\n              :inquiry="inquiry"\n              @toggle-archive="toggleArchive(inquiry.id)"\n              @delete-inquiry="deleteInquiry(inquiry.id)"\n	      /> '),
                     $setup.inquiriesStore.groupList(inquiryGroup.inquiryIds).length === 0 ? (openBlock(), createBlock($setup["NcAppNavigationItem"], {
                       key: 0,
                       name: $setup.t("agora", "No inquiries found"),
@@ -6147,9 +6188,7 @@ const _sfc_main$1c = /* @__PURE__ */ defineComponent({
       return preferencesStore.user.defaultDisplayMode === "view" ? "view" : "create";
     });
     onMounted(() => {
-      console.log("🔍 DEBUG NavigationMenu - Families:", inquiryFamilies.value);
-      console.log("🔍 DEBUG NavigationMenu - Inquiry Types:", allInquiryTypes.value);
-      console.log("🔍 DEBUG NavigationMenu - Selected family:", selectedFamily.value);
+      inquiriesStore.load(false);
     });
     function toggleFamily(familyType) {
       if (expandedFamilies.value.has(familyType)) {
@@ -6595,11 +6634,11 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
     });
     const formatDate = (timestamp) => DateTime.fromMillis(timestamp * 1e3).toLocaleString(DateTime.DATE_SHORT);
     const inquiryStatus = computed(
-      () => __props.inquiry.inquiryStatus || inquiryStore.getInquiryStatus?.(__props.inquiry.id)
+      () => __props.inquiry.status.inquiryStatus || inquiryStore.getInquiryStatus?.(__props.inquiry.id)
     );
     const inquiryStatusIcon = computed(() => {
       const statusItem = sessionStore.appSettings.inquiryStatusTab.find(
-        (item) => item.inquiryType === __props.inquiry.type && item.statusKey === __props.inquiry.inquiryStatus
+        (item) => item.inquiryType === __props.inquiry.type && item.statusKey === __props.inquiry.status.inquiryStatus
       );
       if (!statusItem) {
         return StatusIcons.Draft;
@@ -6608,7 +6647,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
     });
     const inquiryStatusLabel = computed(() => {
       const statusItem = sessionStore.appSettings.inquiryStatusTab.find(
-        (item) => item.inquiryType === __props.inquiry.type && item.statusKey === __props.inquiry.inquiryStatus
+        (item) => item.inquiryType === __props.inquiry.type && item.statusKey === __props.inquiry.status.inquiryStatus
       );
       if (!statusItem) {
         return "Draft";
@@ -6654,6 +6693,8 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       return canComment;
     }, get canSupport() {
       return canSupport;
+    }, get InquiryGeneralIcons() {
+      return InquiryGeneralIcons;
     }, get BadgeIcons() {
       return BadgeIcons;
     }, get StatusIcons() {
@@ -6682,44 +6723,53 @@ const _hoisted_13$6 = ["title"];
 const _hoisted_14$5 = ["title"];
 const _hoisted_15$4 = ["title"];
 const _hoisted_16$4 = ["title"];
-const _hoisted_17$4 = ["title"];
-const _hoisted_18$4 = { class: "actions" };
-const _hoisted_19$4 = { class: "grid-card" };
-const _hoisted_20$2 = { class: "grid-cover-container" };
-const _hoisted_21$2 = {
+const _hoisted_17$4 = {
+  key: 5,
+  class: "metadata-item"
+};
+const _hoisted_18$4 = { class: "metadata-value" };
+const _hoisted_19$4 = { class: "actions" };
+const _hoisted_20$2 = { class: "grid-card" };
+const _hoisted_21$2 = { class: "grid-cover-container" };
+const _hoisted_22$2 = {
   key: 0,
   class: "grid-cover"
 };
-const _hoisted_22$2 = ["src", "alt"];
-const _hoisted_23$2 = { class: "user-avatar-top" };
-const _hoisted_24$1 = { class: "first-line" };
-const _hoisted_25$1 = { class: "type-title" };
-const _hoisted_26$1 = { class: "inquiry-type" };
-const _hoisted_27$1 = { class: "type-label" };
-const _hoisted_28$1 = { class: "grid-title" };
-const _hoisted_29$1 = {
+const _hoisted_23$2 = ["src", "alt"];
+const _hoisted_24$1 = { class: "user-avatar-top" };
+const _hoisted_25$1 = { class: "first-line" };
+const _hoisted_26$1 = { class: "type-title" };
+const _hoisted_27$1 = { class: "inquiry-type" };
+const _hoisted_28$1 = { class: "type-label" };
+const _hoisted_29$1 = { class: "grid-title" };
+const _hoisted_30$1 = {
   key: 1,
   class: "grid-title"
 };
-const _hoisted_30$1 = { class: "toggle-view" };
-const _hoisted_31$1 = { class: "description-line" };
-const _hoisted_32$1 = { class: "grid-description" };
-const _hoisted_33$1 = { class: "bottom-section" };
-const _hoisted_34$1 = { class: "second-line" };
-const _hoisted_35$1 = { class: "left-items" };
-const _hoisted_36$1 = {
+const _hoisted_31$1 = { class: "toggle-view" };
+const _hoisted_32$1 = { class: "description-line" };
+const _hoisted_33$1 = { class: "grid-description" };
+const _hoisted_34$1 = { class: "bottom-section" };
+const _hoisted_35$1 = { class: "second-line" };
+const _hoisted_36$1 = { class: "left-items" };
+const _hoisted_37$1 = {
   key: 0,
   class: "metadata-item parent-link"
 };
-const _hoisted_37$1 = ["title"];
-const _hoisted_38$1 = { class: "right-items" };
-const _hoisted_39$1 = ["title"];
-const _hoisted_40$1 = ["title"];
-const _hoisted_41$1 = { class: "third-line" };
-const _hoisted_42$1 = { class: "started-info" };
-const _hoisted_43$1 = { class: "dates" };
-const _hoisted_44$1 = ["title"];
-const _hoisted_45$1 = ["title"];
+const _hoisted_38$1 = ["title"];
+const _hoisted_39$1 = {
+  key: 2,
+  class: "metadata-item"
+};
+const _hoisted_40$1 = { class: "metadata-value" };
+const _hoisted_41$1 = { class: "right-items" };
+const _hoisted_42$1 = ["title"];
+const _hoisted_43$1 = ["title"];
+const _hoisted_44$1 = { class: "third-line" };
+const _hoisted_45$1 = { class: "started-info" };
+const _hoisted_46$1 = { class: "dates" };
+const _hoisted_47 = ["title"];
+const _hoisted_48 = ["title"];
 function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock(
     "div",
@@ -6840,7 +6890,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                   1
                   /* TEXT */
                 )
-              ], 8, _hoisted_12$6)) : $props.inquiry.inquiryStatus ? (openBlock(), createElementBlock("div", {
+              ], 8, _hoisted_12$6)) : $props.inquiry.status.inquiryStatus ? (openBlock(), createElementBlock("div", {
                 key: 1,
                 class: "badge-bubble status--inquiry",
                 title: $setup.inquiryStatusLabel
@@ -6923,25 +6973,18 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
               "show-name": false,
               size: 32
             }, null, 8, ["user"]),
-            $props.inquiry.configuration.expire ? (openBlock(), createElementBlock("div", {
-              key: 5,
-              class: normalizeClass(["badge-bubble", $setup.expiryClass]),
-              title: $setup.t("agora", "Expiration")
-            }, [
-              (openBlock(), createBlock(resolveDynamicComponent($props.inquiry.status.isExpired ? $setup.BadgeIcons.Closed : $setup.BadgeIcons.Expiration), {
-                size: 16,
-                class: "icon"
-              })),
+            $props.inquiry.configuration.expire ? (openBlock(), createElementBlock("div", _hoisted_17$4, [
+              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Expiration), { size: 12 })),
               createBaseVNode(
                 "span",
-                null,
+                _hoisted_18$4,
                 toDisplayString($setup.timeExpirationRelative),
                 1
                 /* TEXT */
               )
-            ], 10, _hoisted_17$4)) : createCommentVNode("v-if", true)
+            ])) : createCommentVNode("v-if", true)
           ]),
-          createBaseVNode("div", _hoisted_18$4, [
+          createBaseVNode("div", _hoisted_19$4, [
             renderSlot(_ctx.$slots, "actions")
           ])
         ],
@@ -6952,18 +6995,18 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
         { key: 1 },
         [
           createCommentVNode(" Grid Mode "),
-          createBaseVNode("div", _hoisted_19$4, [
+          createBaseVNode("div", _hoisted_20$2, [
             createCommentVNode(" Cover Image with User Avatar "),
-            createBaseVNode("div", _hoisted_20$2, [
-              $setup.currentCoverUrl ? (openBlock(), createElementBlock("div", _hoisted_21$2, [
+            createBaseVNode("div", _hoisted_21$2, [
+              $setup.currentCoverUrl ? (openBlock(), createElementBlock("div", _hoisted_22$2, [
                 createBaseVNode("img", {
                   src: $setup.currentCoverUrl,
                   alt: $props.inquiry.title,
                   class: "cover-image"
-                }, null, 8, _hoisted_22$2)
+                }, null, 8, _hoisted_23$2)
               ])) : createCommentVNode("v-if", true),
               createCommentVNode(" User Avatar top left "),
-              createBaseVNode("div", _hoisted_23$2, [
+              createBaseVNode("div", _hoisted_24$1, [
                 createVNode($setup["NcAvatar"], {
                   user: $props.inquiry.owner.id,
                   size: 44,
@@ -6980,9 +7023,9 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
               },
               [
                 createCommentVNode(" First Line: Type + Title + Toggle "),
-                createBaseVNode("div", _hoisted_24$1, [
-                  createBaseVNode("div", _hoisted_25$1, [
-                    createBaseVNode("div", _hoisted_26$1, [
+                createBaseVNode("div", _hoisted_25$1, [
+                  createBaseVNode("div", _hoisted_26$1, [
+                    createBaseVNode("div", _hoisted_27$1, [
                       (openBlock(), createBlock(resolveDynamicComponent($setup.inquiryTypeData.icon), {
                         title: $setup.inquiryTypeData.label,
                         size: 18,
@@ -6990,7 +7033,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                       }, null, 8, ["title"])),
                       createBaseVNode(
                         "span",
-                        _hoisted_27$1,
+                        _hoisted_28$1,
                         toDisplayString($setup.inquiryTypeData.label),
                         1
                         /* TEXT */
@@ -7008,7 +7051,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                       default: withCtx(() => [
                         createBaseVNode(
                           "h3",
-                          _hoisted_28$1,
+                          _hoisted_29$1,
                           toDisplayString($props.inquiry.title),
                           1
                           /* TEXT */
@@ -7018,32 +7061,32 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                       /* STABLE */
                     }, 8, ["title", "to"])) : (openBlock(), createElementBlock(
                       "h3",
-                      _hoisted_29$1,
+                      _hoisted_30$1,
                       toDisplayString($props.inquiry.title),
                       1
                       /* TEXT */
                     ))
                   ]),
-                  createBaseVNode("div", _hoisted_30$1, [
+                  createBaseVNode("div", _hoisted_31$1, [
                     renderSlot(_ctx.$slots, "actions")
                   ])
                 ]),
                 createCommentVNode(" Description "),
-                createBaseVNode("div", _hoisted_31$1, [
+                createBaseVNode("div", _hoisted_32$1, [
                   createBaseVNode(
                     "p",
-                    _hoisted_32$1,
+                    _hoisted_33$1,
                     toDisplayString($setup.gridDescription),
                     1
                     /* TEXT */
                   )
                 ]),
                 createCommentVNode(" Bottom Section: Metadata and Dates "),
-                createBaseVNode("div", _hoisted_33$1, [
+                createBaseVNode("div", _hoisted_34$1, [
                   createCommentVNode(" Second Line: Parent Link + Participated + Comments + Supports "),
-                  createBaseVNode("div", _hoisted_34$1, [
-                    createBaseVNode("div", _hoisted_35$1, [
-                      $props.inquiry.parentId !== 0 ? (openBlock(), createElementBlock("div", _hoisted_36$1, [
+                  createBaseVNode("div", _hoisted_35$1, [
+                    createBaseVNode("div", _hoisted_36$1, [
+                      $props.inquiry.parentId !== 0 ? (openBlock(), createElementBlock("div", _hoisted_37$1, [
                         createVNode($setup["RouterLink"], {
                           to: `/inquiry/${$props.inquiry.parentId}`
                         }, {
@@ -7072,9 +7115,19 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                           1
                           /* TEXT */
                         )
-                      ], 8, _hoisted_37$1)) : createCommentVNode("v-if", true)
+                      ], 8, _hoisted_38$1)) : createCommentVNode("v-if", true),
+                      $props.inquiry.configuration.expire ? (openBlock(), createElementBlock("div", _hoisted_39$1, [
+                        (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Expiration), { size: 12 })),
+                        createBaseVNode(
+                          "span",
+                          _hoisted_40$1,
+                          toDisplayString($setup.timeExpirationRelative),
+                          1
+                          /* TEXT */
+                        )
+                      ])) : createCommentVNode("v-if", true)
                     ]),
-                    createBaseVNode("div", _hoisted_38$1, [
+                    createBaseVNode("div", _hoisted_41$1, [
                       $setup.canComment($setup.context) ? (openBlock(), createElementBlock("div", {
                         key: 0,
                         class: "metadata-item comments",
@@ -7090,7 +7143,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                           1
                           /* TEXT */
                         )
-                      ], 8, _hoisted_39$1)) : createCommentVNode("v-if", true),
+                      ], 8, _hoisted_42$1)) : createCommentVNode("v-if", true),
                       $setup.canSupport($setup.context) ? (openBlock(), createElementBlock("div", {
                         key: 1,
                         class: "metadata-item supports",
@@ -7110,19 +7163,19 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                           1
                           /* TEXT */
                         )
-                      ], 8, _hoisted_40$1)) : createCommentVNode("v-if", true)
+                      ], 8, _hoisted_43$1)) : createCommentVNode("v-if", true)
                     ])
                   ]),
                   createCommentVNode(" Third Line: Dates "),
-                  createBaseVNode("div", _hoisted_41$1, [
+                  createBaseVNode("div", _hoisted_44$1, [
                     createBaseVNode(
                       "div",
-                      _hoisted_42$1,
+                      _hoisted_45$1,
                       toDisplayString($setup.safeDescription),
                       1
                       /* TEXT */
                     ),
-                    createBaseVNode("div", _hoisted_43$1, [
+                    createBaseVNode("div", _hoisted_46$1, [
                       $props.inquiry.status.lastInteraction ? (openBlock(), createElementBlock("div", {
                         key: 0,
                         class: "date-item last-interaction",
@@ -7138,7 +7191,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                           1
                           /* TEXT */
                         )
-                      ], 8, _hoisted_44$1)) : createCommentVNode("v-if", true),
+                      ], 8, _hoisted_47)) : createCommentVNode("v-if", true),
                       createBaseVNode("div", {
                         class: "date-item created",
                         title: $setup.t("agora", "Created on {date}", {
@@ -7153,7 +7206,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                           1
                           /* TEXT */
                         )
-                      ], 8, _hoisted_45$1)
+                      ], 8, _hoisted_48)
                     ])
                   ])
                 ])
@@ -13408,9 +13461,13 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
     });
     const inquiryAccess = computed({
       get: () => props2.inquiryStore.configuration.access === "moderate",
-      set: (value) => {
+      set: async (value) => {
         if (value) {
-          setModerationStatus("pending");
+          try {
+            await setModerationStatus("pending");
+          } catch (error) {
+            console.error("Failed to toggle moderation:", error);
+          }
         }
       }
     });
@@ -60239,9 +60296,28 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
       console.log("🔧 [InquiryEditViewForm] Inquiry type data:", data);
       return data;
     });
-    const availableInquiryStatuses = computed(
-      () => sessionStore.appSettings.inquiryStatusTab?.filter((status) => status.inquiryType === inquiryStore.type)?.sort((a, b) => a.order - b.order) || []
-    );
+    const availableInquiryStatuses = computed(() => {
+      const statusesFromSettings = sessionStore.appSettings.inquiryStatusTab?.filter((status) => status.inquiryType === inquiryStore.type)?.sort((a, b) => a.order - b.order) || [];
+      if (inquiryStore.status.inquiryStatus === "draft") {
+        statusesFromSettings.unshift({
+          statusKey: "draft",
+          label: "Draft",
+          icon: "draft",
+          inquiryType: inquiryStore.type,
+          order: 0
+        });
+      }
+      if (inquiryStore.status.inquiryStatus === "waiting_approval") {
+        statusesFromSettings.unshift({
+          statusKey: "waiting_approval",
+          label: "Waiting Approval",
+          icon: "waitingapproval",
+          inquiryType: inquiryStore.type,
+          order: 1
+        });
+      }
+      return statusesFromSettings;
+    });
     const currentInquiryStatus = computed(
       () => {
         const specialStatuses = {

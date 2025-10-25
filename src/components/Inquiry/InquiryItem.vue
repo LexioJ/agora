@@ -19,7 +19,7 @@ import {
   ContentType,
 } from '../../utils/permissions.ts'
 
-import { InquiryTypesUI, BadgeIcons, StatusIcons } from '../../utils/icons.ts'
+import { InquiryGeneralIcons, BadgeIcons, StatusIcons } from '../../utils/icons.ts'
 
 import { useInquiryStore, Inquiry } from '../../stores/inquiry'
 import { useInquiriesStore } from '../../stores/inquiries'
@@ -136,12 +136,12 @@ const formatDate = (timestamp: number) =>
   DateTime.fromMillis(timestamp * 1000).toLocaleString(DateTime.DATE_SHORT)
 
 const inquiryStatus = computed(
-  () => inquiry.inquiryStatus || inquiryStore.getInquiryStatus?.(inquiry.id)
+  () => inquiry.status.inquiryStatus || inquiryStore.getInquiryStatus?.(inquiry.id)
 )
 
 const inquiryStatusIcon = computed(() => {
   const statusItem = sessionStore.appSettings.inquiryStatusTab.find(
-    (item) => item.inquiryType === inquiry.type && item.statusKey === inquiry.inquiryStatus
+    (item) => item.inquiryType === inquiry.type && item.statusKey === inquiry.status.inquiryStatus
   )
 
   if (!statusItem) {
@@ -153,7 +153,7 @@ const inquiryStatusIcon = computed(() => {
 
 const inquiryStatusLabel = computed(() => {
   const statusItem = sessionStore.appSettings.inquiryStatusTab.find(
-    (item) => item.inquiryType === inquiry.type && item.statusKey === inquiry.inquiryStatus
+    (item) => item.inquiryType === inquiry.type && item.statusKey === inquiry.status.inquiryStatus
   )
 
   if (!statusItem) {
@@ -278,7 +278,7 @@ const gridDescription = computed(() => {
             <span>{{ inquiryStatusInfo.label }}</span>
           </div>
           <div
-            v-else-if="inquiry.inquiryStatus"
+            v-else-if="inquiry.status.inquiryStatus"
             class="badge-bubble status--inquiry"
             :title="inquiryStatusLabel"
           >
@@ -335,616 +335,611 @@ const gridDescription = computed(() => {
           :size="32"
         />
 
-        <div
-          v-if="inquiry.configuration.expire"
-          class="badge-bubble"
-          :class="expiryClass"
-          :title="t('agora', 'Expiration')"
-        >
-          <component
-            :is="inquiry.status.isExpired ? BadgeIcons.Closed : BadgeIcons.Expiration"
-            :size="16"
-            class="icon"
-          />
-          <span>{{ timeExpirationRelative }}</span>
-        </div>
-      </div>
 
-      <div class="actions">
-        <slot name="actions" />
-      </div>
+	<div v-if="inquiry.configuration.expire" class="metadata-item">
+		<component :is="InquiryGeneralIcons.Expiration" :size="12" />
+		<span class="metadata-value">{{ timeExpirationRelative }}</span>
+	</div>
+	</div>
+		<div class="actions">
+			<slot name="actions" />
+		</div>
     </template>
 
     <!-- Grid Mode -->
     <template v-else>
-      <div class="grid-card">
-        <!-- Cover Image with User Avatar -->
-        <div class="grid-cover-container">
-          <div v-if="currentCoverUrl" class="grid-cover">
-            <img 
-              :src="currentCoverUrl" 
-              :alt="inquiry.title"
-              class="cover-image"
-            />
-          </div>
-          <!-- User Avatar top left -->
-          <div class="user-avatar-top">
-            <NcAvatar
-              :user="inquiry.owner.id"
-              :size="44"
-              class="user-avatar-main"
-              :show-name="false"
-            />
-          </div>
-        </div>
+	    <div class="grid-card">
+		    <!-- Cover Image with User Avatar -->
+		    <div class="grid-cover-container">
+			    <div v-if="currentCoverUrl" class="grid-cover">
+				    <img 
+				    :src="currentCoverUrl" 
+							  :alt="inquiry.title"
+									      class="cover-image"
+										     />
+			    </div>
+			    <!-- User Avatar top left -->
+			    <div class="user-avatar-top">
+				    <NcAvatar
+				    :user="inquiry.owner.id"
+							    :size="44"
+								   class="user-avatar-main"
+									  :show-name="false"
+										      />
+			    </div>
+		    </div>
 
-        <!-- Content -->
-        <div class="grid-content" :class="{ 'no-cover': !currentCoverUrl }">
-          <!-- First Line: Type + Title + Toggle -->
-          <div class="first-line">
-            <div class="type-title">
-              <div class="inquiry-type">
-                <component
-                  :is="inquiryTypeData.icon"
-                  :title="inquiryTypeData.label"
-                  :size="18"
-                  class="type-icon"
-                />
-                <span class="type-label">{{ inquiryTypeData.label }}</span>
-              </div>
-              <RouterLink
-                v-if="!noLink"
-                class="title-link"
-                :title="inquiry.description"
-                :to="{
-                  name: 'inquiry',
-                  params: { id: inquiry.id },
-                }"
-              >
-                <h3 class="grid-title">
-                  {{ inquiry.title }}
-                </h3>
-              </RouterLink>
-              <h3 v-else class="grid-title">
-                {{ inquiry.title }}
-              </h3>
-            </div>
-            <div class="toggle-view">
-              <slot name="actions" />
-            </div>
-          </div>
+		    <!-- Content -->
+		    <div class="grid-content" :class="{ 'no-cover': !currentCoverUrl }">
+			    <!-- First Line: Type + Title + Toggle -->
+			    <div class="first-line">
+				    <div class="type-title">
+					    <div class="inquiry-type">
+						    <component
+								    :is="inquiryTypeData.icon"
+								    :title="inquiryTypeData.label"
+								    :size="18"
+								    class="type-icon"
+								    />
+						    <span class="type-label">{{ inquiryTypeData.label }}</span>
+					    </div>
+					    <RouterLink
+							    v-if="!noLink"
+							    class="title-link"
+							    :title="inquiry.description"
+							    :to="{
+								  name: 'inquiry',
+								  params: { id: inquiry.id },
+								  }"
+							    >
+							    <h3 class="grid-title">
+								    {{ inquiry.title }}
+							    </h3>
+					    </RouterLink>
+					    <h3 v-else class="grid-title">
+						    {{ inquiry.title }}
+					    </h3>
+				    </div>
+				    <div class="toggle-view">
+					    <slot name="actions" />
+				    </div>
+			    </div>
 
-          <!-- Description -->
-          <div class="description-line">
-            <p class="grid-description">
-              {{ gridDescription }}
-            </p>
-          </div>
+			    <!-- Description -->
+			    <div class="description-line">
+				    <p class="grid-description">
+				    {{ gridDescription }}
+				    </p>
+			    </div>
 
-          <!-- Bottom Section: Metadata and Dates -->
-          <div class="bottom-section">
-            <!-- Second Line: Parent Link + Participated + Comments + Supports -->
-            <div class="second-line">
-              <div class="left-items">
-                <div v-if="inquiry.parentId!==0" class="metadata-item parent-link">
-                  <RouterLink
-                    :to="`/inquiry/${inquiry.parentId}`"
-                  >
-                    <component :is="StatusIcons.LinkIcon" :size="16" :title="`id:inquiry.parentId`"/>
-                  </RouterLink>
-                </div> 
-                
-                <div
-                  v-if="inquiry.type !== 'official' && inquiry.status.countParticipants > 0"
-                  class="metadata-item participated"
-                  :title="
-                    t('agora', '{count} participants', {
-                      count: inquiry.status.countParticipants,
-                    })
-                  "
-                >
-                  <component :is="BadgeIcons.Participated" :size="14" />
-                  <span>{{ inquiry.status.countParticipants }}</span>
-                </div>
-              </div>
+			    <!-- Bottom Section: Metadata and Dates -->
+			    <div class="bottom-section">
+				    <!-- Second Line: Parent Link + Participated + Comments + Supports -->
+				    <div class="second-line">
+					    <div class="left-items">
+						    <div v-if="inquiry.parentId!==0" class="metadata-item parent-link">
+							    <RouterLink
+									    :to="`/inquiry/${inquiry.parentId}`"
+									    >
+									    <component :is="StatusIcons.LinkIcon" :size="16" :title="`id:inquiry.parentId`"/>
+							    </RouterLink>
+						    </div> 
 
-              <div class="right-items">
-                <div
-                  v-if="canComment(context)"
-                  class="metadata-item comments"
-                  :title="
-                    t('agora', '{count} comments', {
-                      count: inquiry.status.countComments || 0,
-                    })
-                  "
-                >
-                  <component :is="StatusIcons.ForumOutline" :size="14" />
-                  <span>{{ inquiry.status.countComments || 0 }}</span>
-                </div>
+						    <div
+								    v-if="inquiry.type !== 'official' && inquiry.status.countParticipants > 0"
+								    class="metadata-item participated"
+								    :title="
+									    t('agora', '{count} participants', {
+									    count: inquiry.status.countParticipants,
+									    })
+									    "
+								    >
+								    <component :is="BadgeIcons.Participated" :size="14" />
+								    <span>{{ inquiry.status.countParticipants }}</span>
+						    </div>
+						   <div v-if="inquiry.configuration.expire" class="metadata-item">
+						   <component :is="InquiryGeneralIcons.Expiration" :size="12" />
+						   <span class="metadata-value">{{ timeExpirationRelative }}</span>
+						   </div>
+					    </div>
 
-                <div
-                  v-if="canSupport(context)"
-                  class="metadata-item supports"
-                  :title="
-                    t('agora', '{count} supports', {
-                      count: inquiry.status.countSupports || 0,
-                    })
-                  "
-                  @click="onToggleSupport"
-                >
-                  <ThumbIcon :supported="inquiry.currentUserStatus.hasSupported" :size="16" />
-                  <span>{{ inquiry.status.countSupports || 0 }}</span>
-                </div>
-              </div>
-            </div>
+					    <div class="right-items">
+						    <div
+								    v-if="canComment(context)"
+								    class="metadata-item comments"
+								    :title="
+									    t('agora', '{count} comments', {
+									    count: inquiry.status.countComments || 0,
+									    })
+									    "
+								    >
+								    <component :is="StatusIcons.ForumOutline" :size="14" />
+								    <span>{{ inquiry.status.countComments || 0 }}</span>
+						    </div>
 
-            <!-- Third Line: Dates -->
-            <div class="third-line">
-              <div class="started-info">
-                {{ safeDescription }}
-              </div>
-              
-              <div class="dates">
-                <div
-                  v-if="inquiry.status.lastInteraction"
-                  class="date-item last-interaction"
-                  :title="
-                    t('agora', 'Last interaction on {date}', {
-                      date: formatDate(inquiry.status.lastInteraction),
-                    })
-                  "
-                >
-                  <component :is="StatusIcons.Updated" :size="12" />
-                  <span>{{ formatDate(inquiry.status.lastInteraction) }}</span>
-                </div>
+						    <div
+								    v-if="canSupport(context)"
+								    class="metadata-item supports"
+								    :title="
+									    t('agora', '{count} supports', {
+									    count: inquiry.status.countSupports || 0,
+									    })
+									    "
+								    @click="onToggleSupport"
+								    >
+								    <ThumbIcon :supported="inquiry.currentUserStatus.hasSupported" :size="16" />
+								    <span>{{ inquiry.status.countSupports || 0 }}</span>
+						    </div>
+					    </div>
+				    </div>
 
-                <div
-                  class="date-item created"
-                  :title="
-                    t('agora', 'Created on {date}', {
-                      date: formatDate(inquiry.status.created),
-                    })
-                  "
-                >
-                  <component :is="StatusIcons.Calendar" :size="12" />
-                  <span>{{ formatDate(inquiry.status.created) }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+				    <!-- Third Line: Dates -->
+				    <div class="third-line">
+					    <div class="started-info">
+						    {{ safeDescription }}
+					    </div>
+
+					    <div class="dates">
+						    <div
+								    v-if="inquiry.status.lastInteraction"
+								    class="date-item last-interaction"
+								    :title="
+									    t('agora', 'Last interaction on {date}', {
+									    date: formatDate(inquiry.status.lastInteraction),
+									    })
+									    "
+								    >
+								    <component :is="StatusIcons.Updated" :size="12" />
+								    <span>{{ formatDate(inquiry.status.lastInteraction) }}</span>
+						    </div>
+
+						    <div
+								    class="date-item created"
+								    :title="
+									    t('agora', 'Created on {date}', {
+									    date: formatDate(inquiry.status.created),
+									    })
+									    "
+								    >
+								    <component :is="StatusIcons.Calendar" :size="12" />
+								    <span>{{ formatDate(inquiry.status.created) }}</span>
+						    </div>
+					    </div>
+				    </div>
+			    </div>
+		    </div>
+	    </div>
     </template>
-  </div>
+	</div>
 </template>
 
 <style lang="scss">
 .inquiry-item {
-  &.list-view {
-    display: flex;
-    column-gap: 0.5rem;
-    align-items: center;
-    padding: 0.5rem;
-    border-radius: 8px;
-    border-bottom: 1px solid var(--color-border);
-    margin-bottom: 0.25rem;
-    transition: all 0.2s ease;
+	&.list-view {
+		display: flex;
+		column-gap: 0.5rem;
+		align-items: center;
+		padding: 0.5rem;
+		border-radius: 8px;
+		border-bottom: 1px solid var(--color-border);
+		margin-bottom: 0.25rem;
+		transition: all 0.2s ease;
 
-    &:hover {
-      background-color: var(--color-background-hover);
-    }
+		&:hover {
+			background-color: var(--color-background-hover);
+		}
 
-    &.active {
-      background-color: var(--color-primary-element-light);
-    }
+		&.active {
+			background-color: var(--color-primary-element-light);
+		}
 
-    .item__type {
-      flex: 0 0 2.5rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 4px;
-    }
+		.item__type {
+			flex: 0 0 2.5rem;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			gap: 4px;
+		}
 
-    .item__title {
-      flex: 1;
-      min-width: 0;
-      overflow: hidden;
+		.item__title {
+			flex: 1;
+			min-width: 0;
+			overflow: hidden;
 
-      .title_line,
-      .description_line {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
+			.title_line,
+			.description_line {
+				display: flex;
+				gap: 0.5rem;
+				align-items: center;
 
-        .title,
-        .description {
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-        }
+				.title,
+				.description {
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+				}
 
-        .title {
-          font-weight: 600;
-          color: var(--color-main-text);
-        }
-      }
+				.title {
+					font-weight: 600;
+					color: var(--color-main-text);
+				}
+			}
 
-      .description_line {
-        opacity: 0.7;
-        font-size: 0.9rem;
-        margin-top: 0.25rem;
+			.description_line {
+				opacity: 0.7;
+				font-size: 0.9rem;
+				margin-top: 0.25rem;
 
-        .description {
-          flex: 1;
-        }
-      }
-    }
+				.description {
+					flex: 1;
+				}
+			}
+		}
 
-    .badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      align-items: center;
-      justify-content: flex-end;
+		.badges {
+			display: flex;
+			flex-wrap: wrap;
+			gap: 0.4rem;
+			align-items: center;
+			justify-content: flex-end;
 
-      .badge-bubble {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 16px;
-        padding: 4px 8px;
-        font-size: 0.8rem;
-        line-height: 1;
-        min-height: 32px;
-        min-width: 32px;
-        transition: all 0.2s ease;
+			.badge-bubble {
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				border-radius: 16px;
+				padding: 4px 8px;
+				font-size: 0.8rem;
+				line-height: 1;
+				min-height: 32px;
+				min-width: 32px;
+				transition: all 0.2s ease;
 
-        &.error {
-          background-color: var(--color-error);
-          color: white;
-          border-color: var(--color-error);
-        }
+				&.error {
+					background-color: var(--color-error);
+					color: white;
+					border-color: var(--color-error);
+				}
 
-        &.warning {
-          background-color: var(--color-warning);
-          color: white;
-          border-color: var(--color-warning);
-        }
+				&.warning {
+					background-color: var(--color-warning);
+					color: white;
+					border-color: var(--color-warning);
+				}
 
-        &.success {
-          background-color: var(--color-success);
-          color: white;
-          border-color: var(--color-success);
-        }
+				&.success {
+					background-color: var(--color-success);
+					color: white;
+					border-color: var(--color-success);
+				}
 
-        &.participated {
-          background-color: var(--color-success);
-          color: white;
-          border-color: var(--color-success);
-        }
+				&.participated {
+					background-color: var(--color-success);
+					color: white;
+					border-color: var(--color-success);
+				}
 
-        &.status--inquiry {
-        }
+				&.status--inquiry {
+				}
 
-        .icon {
-          margin-right: 4px;
-          display: flex;
-          align-items: center;
-        }
-      }
+				.icon {
+					margin-right: 4px;
+					display: flex;
+					align-items: center;
+				}
+			}
 
-      .user-bubble__wrapper {
-        line-height: normal;
-        min-height: 1.6rem;
+			.user-bubble__wrapper {
+				line-height: normal;
+				min-height: 1.6rem;
 
-        &.user-avatar {
-          margin-left: -6px;
-          margin-right: 2px;
-        }
-      }
-    }
+				&.user-avatar {
+					margin-left: -6px;
+					margin-right: 2px;
+				}
+			}
+		}
 
-    .actions {
-      display: flex;
-      flex: 0 0 auto;
-      justify-content: center;
-      align-items: center;
-    }
-  }
+		.actions {
+			display: flex;
+			flex: 0 0 auto;
+			justify-content: center;
+			align-items: center;
+		}
+	}
 
-  &.grid-view {
-    .grid-card {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
-      border: 1px solid var(--color-border);
-      border-radius: 12px;
-      background-color: var(--color-main-background);
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-      transition: all 0.3s ease;
-      overflow: hidden;
-      position: relative;
+	&.grid-view {
+		.grid-card {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+			border: 1px solid var(--color-border);
+			border-radius: 12px;
+			background-color: var(--color-main-background);
+			box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+			transition: all 0.3s ease;
+			overflow: hidden;
+			position: relative;
 
-      &:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        border-color: var(--color-primary-element);
-      }
-    }
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+				border-color: var(--color-primary-element);
+			}
+		}
 
-    .grid-cover-container {
-      position: relative;
-      width: 100%;
-      
-      .grid-cover {
-        height: 160px;
-        overflow: hidden;
-        
-        .cover-image {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
-        }
-      }
+		.grid-cover-container {
+			position: relative;
+			width: 100%;
 
-      .user-avatar-top {
-        position: absolute;
-        top: 12px;
-        left: 12px;
-        z-index: 2;
-        
-        .user-avatar-main {
-          border: 3px solid var(--color-main-background);
-          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-          background-color: var(--color-main-background);
-        }
-      }
-    }
+			.grid-cover {
+				height: 160px;
+				overflow: hidden;
 
-    .grid-content {
-      flex: 1;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
+				.cover-image {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+					object-position: center;
+				}
+			}
 
-      &.no-cover {
-        padding-top: 60px; /* Space for the user avatar */
+			.user-avatar-top {
+				position: absolute;
+				top: 12px;
+				left: 12px;
+				z-index: 2;
 
-        .user-avatar-top {
-          top: 12px;
-          left: 12px;
-        }
-      }
+				.user-avatar-main {
+					border: 3px solid var(--color-main-background);
+					box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+					background-color: var(--color-main-background);
+				}
+			}
+		}
 
-      .first-line {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 12px;
+		.grid-content {
+			flex: 1;
+			padding: 16px;
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
 
-        .type-title {
-          flex: 1;
-          min-width: 0;
+			&.no-cover {
+				padding-top: 60px; /* Space for the user avatar */
 
-          .inquiry-type {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--color-text-lighter);
-            margin-bottom: 4px;
-            padding-top: 10px;
-            
-            .type-icon {
-              flex-shrink: 0;
-              color: var(--color-primary-element);
-            }
-            
-            .type-label {
-              white-space: nowrap;
-              overflow: hidden;
-              text-overflow: ellipsis;
-            }
-          }
+				.user-avatar-top {
+					top: 12px;
+					left: 12px;
+				}
+			}
 
-          .title-link {
-            text-decoration: none;
-            color: inherit;
-          }
+			.first-line {
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-start;
+				gap: 12px;
 
-          .grid-title {
-            font-size: 16px;
-            font-weight: 700;
-            line-height: 1.3;
-            margin: 0;
-            color: var(--color-main-text);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-          }
-        }
+				.type-title {
+					flex: 1;
+					min-width: 0;
 
-        .toggle-view {
-          flex-shrink: 0;
-          margin-left: 8px;
-        }
-      }
+					.inquiry-type {
+						display: flex;
+						align-items: center;
+						gap: 6px;
+						font-size: 12px;
+						font-weight: 600;
+						color: var(--color-text-lighter);
+						margin-bottom: 4px;
+						padding-top: 10px;
 
-      .description-line {
-        .grid-description {
-          font-size: 13px;
-          line-height: 1.4;
-          color: var(--color-text-lighter);
-          margin: 0;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-      }
+						.type-icon {
+							flex-shrink: 0;
+							color: var(--color-primary-element);
+						}
 
-      .bottom-section {
-        margin-top: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
+						.type-label {
+							white-space: nowrap;
+							overflow: hidden;
+							text-overflow: ellipsis;
+						}
+					}
 
-        .second-line {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 12px;
+					.title-link {
+						text-decoration: none;
+						color: inherit;
+					}
 
-          .left-items,
-          .right-items {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-          }
+					.grid-title {
+						font-size: 16px;
+						font-weight: 700;
+						line-height: 1.3;
+						margin: 0;
+						color: var(--color-main-text);
+						display: -webkit-box;
+						-webkit-line-clamp: 2;
+						-webkit-box-orient: vertical;
+						overflow: hidden;
+					}
+				}
 
-          .metadata-item {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 12px;
-            color: var(--color-text-maxcontrast);
-            background-color: var(--color-background-dark);
-            white-space: nowrap;
+				.toggle-view {
+					flex-shrink: 0;
+					margin-left: 8px;
+				}
+			}
 
-            &.parent-link {
-              background-color: transparent;
-              padding: 2px 4px;
-            }
+			.description-line {
+				.grid-description {
+					font-size: 13px;
+					line-height: 1.4;
+					color: var(--color-text-lighter);
+					margin: 0;
+					display: -webkit-box;
+					-webkit-line-clamp: 2;
+					-webkit-box-orient: vertical;
+					overflow: hidden;
+				}
+			}
 
-            &.participated {
-              background-color: var(--color-success-light);
-              color: var(--color-success);
-            }
+			.bottom-section {
+				margin-top: auto;
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
 
-            &.comments,
-            &.supports {
-              cursor: pointer;
-              transition: background-color 0.2s ease;
+				.second-line {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					gap: 12px;
 
-              &:hover {
-                background-color: var(--color-background-darker);
-              }
-            }
-          }
-        }
+					.left-items,
+					.right-items {
+						display: flex;
+						align-items: center;
+						gap: 8px;
+					}
 
-        .third-line {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          gap: 12px;
-          font-size: 11px;
-          color: var(--color-text-maxcontrast);
+					.metadata-item {
+						display: flex;
+						align-items: center;
+						gap: 4px;
+						padding: 4px 8px;
+						border-radius: 6px;
+						font-size: 12px;
+						color: var(--color-text-maxcontrast);
+						background-color: var(--color-background-dark);
+						white-space: nowrap;
 
-          .started-info {
-            flex: 1;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-          }
+						&.parent-link {
+							background-color: transparent;
+							padding: 2px 4px;
+						}
 
-          .dates {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-shrink: 0;
+						&.participated {
+							background-color: var(--color-success-light);
+							color: var(--color-success);
+						}
 
-            .date-item {
-              display: flex;
-              align-items: center;
-              gap: 4px;
-              white-space: nowrap;
+						&.comments,
+						&.supports {
+							cursor: pointer;
+							transition: background-color 0.2s ease;
 
-              &.last-interaction,
-              &.created {
-                opacity: 0.8;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+							&:hover {
+								background-color: var(--color-background-darker);
+							}
+						}
+					}
+				}
+
+				.third-line {
+					display: flex;
+					justify-content: space-between;
+					align-items: center;
+					gap: 12px;
+					font-size: 11px;
+					color: var(--color-text-maxcontrast);
+
+					.started-info {
+						flex: 1;
+						white-space: nowrap;
+						overflow: hidden;
+						text-overflow: ellipsis;
+					}
+
+					.dates {
+						display: flex;
+						align-items: center;
+						gap: 12px;
+						flex-shrink: 0;
+
+						.date-item {
+							display: flex;
+							align-items: center;
+							gap: 4px;
+							white-space: nowrap;
+
+							&.last-interaction,
+							&.created {
+								opacity: 0.8;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }
 
-// Responsive styles
+    // Responsive styles
 @media (max-width: 768px) {
-  .inquiry-item.grid-view {
-    .grid-card {
-      border-radius: 10px;
+	    .inquiry-item.grid-view {
+		    .grid-card {
+			    border-radius: 10px;
+		    }
+
+		    .grid-cover-container {
+			    .grid-cover {
+				    height: 140px;
+			    }
+
+			    .user-avatar-top {
+				    top: 10px;
+				    left: 10px;
+
+				    .user-avatar-main {
+					    width: 40px;
+					    height: 40px;
+				    }
+			    }
+		    }
+
+		    .grid-content {
+			    padding: 12px;
+			    gap: 10px;
+
+			    &.no-cover {
+				    padding-top: 50px;
+			    }
+
+			    .first-line {
+				    .type-title {
+					    .inquiry-type {
+						    font-size: 11px;
+					    }
+
+					    .grid-title {
+						    font-size: 15px;
+					    }
+				    }
+			    }
+
+			    .description-line {
+				    .grid-description {
+					    font-size: 12px;
+				    }
+			    }
+
+			    .bottom-section {
+				    .second-line {
+					    .metadata-item {
+						    font-size: 11px;
+						    padding: 3px 6px;
+					    }
+				    }
+
+				    .third-line {
+					    font-size: 10px;
+
+					    .dates {
+						    gap: 8px;
+					    }
+				    }
+			    }
+		    }
+	    }
     }
-
-    .grid-cover-container {
-      .grid-cover {
-        height: 140px;
-      }
-      
-      .user-avatar-top {
-        top: 10px;
-        left: 10px;
-        
-        .user-avatar-main {
-          width: 40px;
-          height: 40px;
-        }
-      }
-    }
-
-    .grid-content {
-      padding: 12px;
-      gap: 10px;
-
-      &.no-cover {
-        padding-top: 50px;
-      }
-
-      .first-line {
-        .type-title {
-          .inquiry-type {
-            font-size: 11px;
-          }
-
-          .grid-title {
-            font-size: 15px;
-          }
-        }
-      }
-
-      .description-line {
-        .grid-description {
-          font-size: 12px;
-        }
-      }
-
-      .bottom-section {
-        .second-line {
-          .metadata-item {
-            font-size: 11px;
-            padding: 3px 6px;
-          }
-        }
-
-        .third-line {
-          font-size: 10px;
-
-          .dates {
-            gap: 8px;
-          }
-        }
-      }
-    }
-  }
-}
 </style>

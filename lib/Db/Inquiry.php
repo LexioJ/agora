@@ -223,7 +223,6 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'showResults' => $this->getShowResults(),
         'allowComment' => $this->getAllowComment(),
         'allowSupport' => $this->getAllowSupport(),
-        'expire' => $this->getExpire(),
         'archived' => $this->getArchived(),
         'deleted' => $this->getDeleted(),
         'lastInteraction' => $this->getLastInteraction(),
@@ -316,7 +315,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     {
 	    $this->setAccess($inquiryConfiguration['access'] ?? $this->getAccess());
 	    $this->setAutoReminder($inquiryConfiguration['autoReminder'] ?? $this->getAutoReminder());
-	    $this->setAllowComment($inquiryConfiguration['allowComment'] ?? $this->getAllowComment()); // Correction: inquiryConfiguration au lieu de pollConfiguration
+	    $this->setAllowComment($inquiryConfiguration['allowComment'] ?? $this->getAllowComment()); 
 	    $this->setExpire($inquiryConfiguration['expire'] ?? $this->getExpire());
 	    $this->setForceConfidentialComments($inquiryConfiguration['forceConfidentialComments'] ?? $this->getForceConfidentialComments());
 	    $this->setShowResults($inquiryConfiguration['showResults'] ?? $this->getShowResults());

@@ -357,7 +357,8 @@ public function deleteInquiryFamily(string $familyId): JSONResponse
 #[FrontpageRoute(verb: 'PUT', url: '/inquiry/families/{familyId}')]
 public function updateInquiryFamily(string $familyId): JSONResponse
 {
-    $family = $this->request->getParams();
+    $family = $this->request->getParams('data');
+
     if ($family === null && json_last_error() !== JSON_ERROR_NONE) {
         return new JSONResponse(['error' => 'Invalid JSON data'], Http::STATUS_BAD_REQUEST);
     }

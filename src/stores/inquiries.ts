@@ -8,6 +8,7 @@ import orderBy from 'lodash/orderBy'
 import { DateTime } from 'luxon'
 import { t } from '@nextcloud/l10n'
 import {  SessionSettings } from './preferences.ts'
+import { useAppSettingsStore } from '../stores/appSettings.ts'
 
 import { Logger } from '../helpers/index.ts'
 import { InquiriesAPI } from '../Api/index.ts'
@@ -126,14 +127,14 @@ const inquiryCategories: InquiryCategoryList = {
     titleExt: t('agora', 'Relevant inquiries'),
     description: t(
       'agora',
-      'All inquiries who are relevant for you.'
+      'All inquiries who are relevant for you, not older than 30 days.'
     ),
     pinned: false,
     showInNavigation: () => true,
     filterCondition: (inquiry: Inquiry) =>
       !inquiry.status.isArchived &&
-      DateTime.fromSeconds(inquiry.status.relevantThreshold).diffNow('days').days > -100 &&
-      (inquiry.permissions.view && inquiry.configuration.access === 'open'),
+      DateTime.fromSeconds(inquiry.status.relevantThreshold).diffNow('days').days > -30 &&
+      (inquiry.permissions.view && (inquiry.configuration.access === 'open' || inquiry.configuration.access === 'public')),
   },
   my: {
     id: 'my',
@@ -152,7 +153,7 @@ const inquiryCategories: InquiryCategoryList = {
     id: 'private',
     title: t('agora', 'Private inquiries'),
     titleExt: t('agora', 'Private inquiries'),
-    description: t('agora', 'All private inquiries, not submitted yet or rejected.'),
+    description: t('agora', 'All private inquiries, not submitted yet or inquiry rejected.'),
     pinned: false,
     showInNavigation: () => {
       const sessionStore = useSessionStore()
@@ -191,10 +192,11 @@ const inquiryCategories: InquiryCategoryList = {
     id: 'all',
     title: t('agora', 'All inquiries'),
     titleExt: t('agora', 'All inquiries'),
-    description: t('agora', 'All inquiries, where you have access to.'),
+    description: t('agora', 'All inquiries open and public, where you have access to'),
     pinned: false,
     showInNavigation: () => true,
-    filterCondition: (inquiry: Inquiry) => !inquiry.status.isArchived && inquiry.permissions.view && inquiry.configuration.access === 'open',
+    filterCondition: (inquiry: Inquiry) => !inquiry.status.isArchived && inquiry.permissions.view && 
+      (inquiry.configuration.access === 'open' || inquiry.configuration.access === 'public'),
   },
   closed: {
     id: 'closed',
@@ -239,7 +241,7 @@ const inquiryCategories: InquiryCategoryList = {
     titleExt: t('agora', 'Moderator access'),
     description: t(
       'agora',
-      'All new inquiries who asking for validation.'
+      'All new inquiries who required validation.'
     ),
     pinned: true,
     showInNavigation: () => {
@@ -543,24 +545,30 @@ export const useInquiriesStore = defineStore('inquiries', {
 
 	  //Updating an inquiry into the store
 	  submitInquiry(inquiryId, action): Promise<void> {
-	    const sessionStore = useSessionStore()
+	    const appSettingsStore = useAppSettingsStore()
 		  const inquiry = this.inquiries.find(inq => inq.id === inquiryId)
-		  console.log(" WE FOUND the inquiries ",inquiry)
+		  console.log(" WE FOUND the inquiries the action is ",action)
 		  if (inquiry) {
 			  if (action === 'submit_for_accepted') {
-				  inquiry.status.moderationStatus="accepted"
-				  inquiry.status.inquiryStatus="under_process"
-			          inquiry.status.inquiryStatus=sessionStore.appSettings.getFirstStatusKeyByInquiryType(inquiry.type)
-				  inquiry.configuration.access="open"
-			  } else if (status === "submit_for_rejected") {
+				  inquiry.status.moderationStatus = "accepted"
+				  console.log(" WE FOUND the inquiries WE ARE GOING TO ENTER")
+				  console.log("Inquiry type:", inquiry.type)
+				  console.log("app SETTINGS STORE:", appSettingsStore.inquiryStatusTab)
+				  console.log("Function exists:", typeof appSettingsStore.getFirstStatusKeyByInquiryType)
+				  const status = appSettingsStore.getFirstStatusKeyByInquiryType(inquiry.type)
+				  console.log("Returned status:", status)
+
+				  inquiry.status.inquiryStatus = status
+				  console.log(" WE FOUND the inquiries and we set the status  ", inquiry.status.inquiryStatus)
+				  inquiry.configuration.access = "open"
+			  } else if (action === "submit_for_rejected") {
 				  inquiry.status.moderationStatus="rejected"
 				  inquiry.status.inquiryStatus="rejected"
 				  inquiry.configuration.access="private"
-			  } else if (status === 'submit_for_moderate') {
+			  } else if (action === 'submit_for_moderate') {
 				  inquiry.status.moderationStatus="pending"
 				  inquiry.status.inquiryStatus="waiting_approval"
 				  inquiry.configuration.access="moderate"
-
 			  }
 		  }
 	  },

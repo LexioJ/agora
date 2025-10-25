@@ -151,39 +151,35 @@ export const useAppSettingsStore = defineStore('appSettings', {
 		 },
 
 
-		 getFirstStatusKeyByInquiryType: (state) => {
-			 return (inquiryType: string): string | null => {
-				 console.log('🔧 [SettingsStore] Getting first status key for type:', inquiryType)
-
-				 if (!state.inquiryStatusTab.length) {
-					 console.warn('🔧 [SettingsStore] No statuses available')
-					 return null
-				 }
-
-				 const statuses = state.inquiryStatusTab.filter(
-					 status => status.inquiry_type === inquiryType
-				 )
-
-				 console.log('🔧 [SettingsStore] Found statuses for type', inquiryType + ':', statuses.length)
-
-				 if (statuses.length > 0) {
-					 const sortedStatuses = [...statuses].sort((a, b) =>
-										   a.sort_order - b.sort_order
-										  )
-
-										  const firstStatus = sortedStatuses[0]
-										  console.log('🔧 [SettingsStore] First status key:', firstStatus.status_key)
-										  return firstStatus.status_key
-				 }
-
-				 console.warn('🔧 [SettingsStore] No status found for type:', inquiryType)
-				 return null
-			 }
-		 },
-
 	},
 
 	actions: {
+		 getFirstStatusKeyByInquiryType(inquiryType: string): string | null {
+
+			if (!this.inquiryStatusTab.length) {
+				console.warn('🔧 [SettingsStore] No statuses available')
+
+			}
+
+
+			const statuses = this.inquiryStatusTab.filter(
+				status => status.inquiryType === inquiryType
+			)
+
+
+			if (statuses.length > 0) {
+				const sortedStatuses = [...statuses].sort((a, b) =>
+									  a.sort_order - b.sort_order
+									 )
+
+									 const firstStatus = sortedStatuses[0]
+									 return firstStatus.statusKey
+			}
+
+			return null
+		},
+
+
 		initializeInquiryTypeRights(inquiryType: string) {
 			if (!this.inquiryTypeRights[inquiryType]) {
 				this.inquiryTypeRights[inquiryType] = {
@@ -505,7 +501,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
 
 		//METHOD FOR FAMILY
 		// STORE FOR INQUIRY FAMILY MANAGEMENT
-		async addInquiryFamily(familyData: {
+		async addFamily(familyData: {
 			family_type: string;
 			label: string;
 			description?: string;
@@ -531,7 +527,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
 			}
 		},
 
-		async updateInquiryFamily(id: number, familyData: {
+		async updateFamily(id: number, familyData: {
 			family_type?: string;
 			label?: string;
 			description?: string;
@@ -550,7 +546,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
 			}
 		},
 
-		async deleteInquiryFamily(id: number): Promise<void> {
+		async deleteFamily(id: number): Promise<void> {
 			try {
 				await AppSettingsAPI.deleteInquiryFamily(id);
 				this.inquiryFamilyTab = this.inquiryFamilyTab.filter((f) => f.id !== id);

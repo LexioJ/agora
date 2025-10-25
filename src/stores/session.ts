@@ -7,7 +7,7 @@ import { defineStore } from 'pinia'
 import { getCurrentUser } from '@nextcloud/auth'
 import { PublicAPI, SessionAPI } from '../Api/index.ts'
 import { createDefault, User, AppPermissions } from '../Types/index.ts'
-import { AppSettings, UpdateType } from './appSettings.ts'
+import { useAppSettingsStore, AppSettings, UpdateType } from './appSettings.ts'
 import {  SessionSettings } from './preferences.ts'
 import { FilterType, useInquiriesStore } from './inquiries.ts'
 import { Share } from './shares.ts'
@@ -156,6 +156,7 @@ export const useSessionStore = defineStore('session', {
     generateWatcherId() {
       this.watcher.id = Math.random().toString(36).substring(2)
     },
+
     async load(
       to: null | RouteLocationNormalized,
       cheapLoading: boolean = false,
@@ -190,6 +191,16 @@ export const useSessionStore = defineStore('session', {
         })()
 
         this.$patch(response.data)
+	// We store the appSettingsStore
+	const appSettingsStore = useAppSettingsStore()
+	 appSettingsStore.$patch({
+      		inquiryStatusTab: this.appSettings.inquiryStatusTab,
+      		inquiryTypeTab: this.appSettings.inquiryTypeTab,
+      		inquiryFamilyTab: this.appSettings.inquiryFamilyTab,
+      		categoryTab: this.appSettings.categoryTab,
+      		locationTab: this.appSettings.locationTab,
+    	})
+
         this.isLoaded = true
         lastLoadedUserId = this.currentUser.id
       } catch (error) {

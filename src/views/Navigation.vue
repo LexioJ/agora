@@ -166,13 +166,13 @@ onMounted(() => {
             v-if="sessionStore.appSettings.navigationInquiriesInList"
             class="navigation-sublist"
           >
-            <InquiryNavigationItems
+            <!-- <InquiryNavigationItems
               v-for="inquiry in inquiriesStore.groupList(inquiryGroup.inquiryIds)"
               :key="inquiry.id"
               :inquiry="inquiry"
               @toggle-archive="toggleArchive(inquiry.id)"
               @delete-inquiry="deleteInquiry(inquiry.id)"
-            />
+	      /> -->
             <NcAppNavigationItem
               v-if="inquiriesStore.groupList(inquiryGroup.inquiryIds).length === 0"
               :name="t('agora', 'No inquiries found')"

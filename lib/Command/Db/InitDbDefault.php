@@ -1067,7 +1067,7 @@ private array $inquiryTypes = [
 
 	$this->log($output, 'Creating default Nextcloud groups...');
 
-	$groups = ['Agora Users','Agora Moderator', 'Agora Official','Agora Legislatives','Agora Administratif','Agora Collective'];
+	$groups = ['Agora Users','Agora Moderator', 'Agora Official','Agora Legislative','Agora Administrative','Agora Collective'];
 
 	foreach ($groups as $groupName) {
 	    $group = $this->groupManager->get($groupName);
