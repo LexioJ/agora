@@ -14,7 +14,8 @@ use Psr\Log\LoggerInterface;
 
 /**
  */
-class AIService {
+class AIService
+{
 
     private ?ITextProcessing $textProcessing;
     private LoggerInterface $logger;
@@ -29,7 +30,8 @@ class AIService {
 
     /**
      */
-    public function enhanceText(string $text): string {
+    public function enhanceText(string $text): string
+    {
         if ($this->textProcessing === null) {
             $this->logger->warning('AIService: no service available, install AI nextcloud.');
             return $text;
@@ -46,7 +48,8 @@ class AIService {
 
     /**
      */
-    public function isAvailable(): bool {
+    public function isAvailable(): bool
+    {
         return $this->textProcessing !== null;
     }
 }

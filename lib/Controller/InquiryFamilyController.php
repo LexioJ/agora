@@ -108,11 +108,11 @@ class InquiryFamilyController extends BaseController
     /**
      * Create a new inquiry type family
      *
-     * @param string $inquiryType Inquiry type
-     * @param string $label Family label
+     * @param string      $inquiryType Inquiry type
+     * @param string      $label       Family label
      * @param string|null $description Family description
-     * @param string $icon Family icon
-     * @param int|null $sortOrder Sort order
+     * @param string      $icon        Family icon
+     * @param int|null    $sortOrder   Sort order
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'POST', url: '/inquiry-family')]
@@ -139,12 +139,12 @@ class InquiryFamilyController extends BaseController
     /**
      * Update an inquiry type family
      *
-     * @param int $id Family ID
-     * @param string $inquiryType Inquiry type
-     * @param string $label Family label
+     * @param int         $id          Family ID
+     * @param string      $inquiryType Inquiry type
+     * @param string      $label       Family label
      * @param string|null $description Family description
-     * @param string $icon Family icon
-     * @param int|null $sortOrder Sort order
+     * @param string      $icon        Family icon
+     * @param int|null    $sortOrder   Sort order
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry-family/{id}')]

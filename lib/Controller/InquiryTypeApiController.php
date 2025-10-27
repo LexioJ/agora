@@ -110,13 +110,13 @@ class InquiryTypeApiController extends BaseApiV2Controller
     /**
      * Create a new inquiry setting
      *
-     * @param string $type Setting type
-     * @param string $inquiryType Inquiry type
-     * @param string $family Family name
-     * @param string $label Setting label
-     * @param string|null $description Setting description
-     * @param array|null $fields Setting fields
-     * @param array|null $allowedResponse Allowed responses
+     * @param string      $type            Setting type
+     * @param string      $inquiryType     Inquiry type
+     * @param string      $family          Family name
+     * @param string      $label           Setting label
+     * @param string|null $description     Setting description
+     * @param array|null  $fields          Setting fields
+     * @param array|null  $allowedResponse Allowed responses
      */
     #[CORS]
     #[NoAdminRequired]

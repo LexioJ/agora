@@ -78,11 +78,11 @@ class InquiryFamilyApiController extends BaseApiV2Controller
     /**
      * Create a new inquiry type family
      *
-     * @param string $inquiryType Inquiry type
-     * @param string $label Family label
+     * @param string      $inquiryType Inquiry type
+     * @param string      $label       Family label
      * @param string|null $description Family description
-     * @param string $icon Family icon
-     * @param int|null $sortOrder Sort order
+     * @param string      $icon        Family icon
+     * @param int|null    $sortOrder   Sort order
      */
     #[CORS]
     #[NoAdminRequired]

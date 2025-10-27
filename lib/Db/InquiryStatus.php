@@ -73,7 +73,7 @@ class InquiryStatus extends Entity implements JsonSerializable
             'description' => $this->getDescription(),
             'isFinal' => $this->getIsFinal(),
             'created' => $this->getCreated(),
-	    'sort_order' => $this->getSortOrder(),
+        'sort_order' => $this->getSortOrder(),
             'updated' => $this->getUpdated(),
             'icon' => $this->getIcon()
         ];

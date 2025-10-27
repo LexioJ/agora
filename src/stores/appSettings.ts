@@ -71,6 +71,8 @@ export type AppSettings = {
 	updateType: UpdateType
 	useActivity: boolean
 	useCollaboration: boolean
+	useModeration: boolean
+	officialBypassModeration: boolean
 	useSiteLegalTerms: boolean
 	navigationInquiriesInList: boolean
 	finalPrivacyUrl: string
@@ -121,6 +123,8 @@ export const useAppSettingsStore = defineStore('appSettings', {
 		updateType: 'noInquirying',
 		useActivity: false,
 		useCollaboration: true,
+		useModeration: true,
+		officialBypassModeration: true,
 		useSiteLegalTerms: true,
 		navigationInquiriesInList: true,
 		finalPrivacyUrl: '',

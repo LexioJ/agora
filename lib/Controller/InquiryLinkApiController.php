@@ -48,9 +48,9 @@ class InquiryLinkApiController extends BaseApiV2Controller
     /**
      * Get links by target
      *
-     * @param string $targetApp Target application
+     * @param string $targetApp  Target application
      * @param string $targetType Target type
-     * @param string $targetId Target ID
+     * @param string $targetId   Target ID
      */
     #[CORS]
     #[NoAdminRequired]
@@ -82,12 +82,12 @@ class InquiryLinkApiController extends BaseApiV2Controller
     /**
      * Create a new link
      *
-     * @param int $inquiryId Inquiry ID
-     * @param string $targetApp Target application
+     * @param int    $inquiryId  Inquiry ID
+     * @param string $targetApp  Target application
      * @param string $targetType Target type
-     * @param string $targetId Target ID
-     * @param int $sortOrder Sort order
-     * @param int $createdBy Created by user ID
+     * @param string $targetId   Target ID
+     * @param int    $sortOrder  Sort order
+     * @param int    $createdBy  Created by user ID
      */
     #[CORS]
     #[NoAdminRequired]
@@ -118,8 +118,8 @@ class InquiryLinkApiController extends BaseApiV2Controller
     /**
      * Create multiple links for an inquiry
      *
-     * @param int $inquiryId Inquiry ID
-     * @param array $links Array of links data
+     * @param int   $inquiryId Inquiry ID
+     * @param array $links     Array of links data
      */
     #[CORS]
     #[NoAdminRequired]

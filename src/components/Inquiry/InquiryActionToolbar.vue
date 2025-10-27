@@ -100,9 +100,16 @@ const inquiryAccess =  computed({
   set: async (value) => {
     if (value) {
 	try {
-	await setModerationStatus("pending")
+	if (props.sessionStore.appSettings.currentUser.isOfficial && props.sessionStore.appSettings.officialBypassModeration) {
+	   await setModerationStatus("accepted")
+	} else if (!props.sessionStore.appSettings.allowModeration) { 
+	    await setModerationStatus("accepted")
+	    }
+	 else {
+	    await setModerationStatus("pending")
+	    }
     } catch (error) {
-      	console.error('Failed to toggle moderation:', error)
+	console.error('Failed to toggle moderation:', error)
 	}
   }
   }
@@ -392,114 +399,114 @@ const handleAllowedTransformation = (transformType: string) => {
 	justify-content: flex-end;
 }
 
-					  .access-control {
-						  display: flex;
-						  align-items: center;
-						  gap: 0.75rem;
+						  .access-control {
+							  display: flex;
+							  align-items: center;
+							  gap: 0.75rem;
 
-						  .control-label {
-							  font-weight: 600;
-							  color: var(--color-text-lighter);
-							  white-space: nowrap;
-							  margin: 0;
-							  font-size: 0.875rem;
+							  .control-label {
+								  font-weight: 600;
+								  color: var(--color-text-lighter);
+								  white-space: nowrap;
+								  margin: 0;
+								  font-size: 0.875rem;
+							  }
 						  }
-					  }
-					  .status-label {
-						  font-weight: bold;
-						  padding: 4px 8px;
-						  border-radius: 4px;
-						  background: var(--color-background-darker);
-					  }
-					  .status-select {
-						  width: 160px !important;
-						  min-width: 120px !important;
-
-						  :deep(.nc-select__input) {
-							  font-size: 0.8rem !important;
-							  padding: 4px 8px !important;
+						  .status-label {
+							  font-weight: bold;
+							  padding: 4px 8px;
+							  border-radius: 4px;
+							  background: var(--color-background-darker);
 						  }
+						  .status-select {
+							  width: 160px !important;
+							  min-width: 120px !important;
 
-						  :deep(.nc-select__toggle) {
-							  min-height: 32px !important;
-						  }
-					  }
+							  :deep(.nc-select__input) {
+								  font-size: 0.8rem !important;
+								  padding: 4px 8px !important;
+							  }
 
-					  .primary-actions {
-						  display: flex;
-						  gap: 0.5rem;
-						  align-items: center;
-					  }
-
-					  .save-button {
-						  background-color: var(--color-primary);
-						  color: white;
-						  border: none;
-						  padding: 8px 16px;
-						  border-radius: 20px;
-						  font-weight: 500;
-						  min-width: 100px;
-						  white-space: nowrap;
-					  }
-
-					  .response-actions,
-					  .transform-actions {
-						  margin: 0 0.25rem;
-					  }
-
-					  .loading-icon {
-						  display: inline-block;
-						  width: 16px;
-						  height: 16px;
-						  border: 2px solid transparent;
-						  border-top: 2px solid currentColor;
-						  border-radius: 50%;
-						  animation: spin 1s linear infinite;
-						  margin-right: 8px;
-					  }
-
-					  @keyframes spin {
-						  from {
-							  transform: rotate(0deg);
-						  }
-						  to {
-							  transform: rotate(360deg);
-						  }
-					  }
-
-					  /* Mobile responsive */
-					  @media (max-width: 768px) {
-						  .inquiry-action-toolbar {
-							  flex-direction: column;
-							  gap: 1rem;
-							  padding: 1rem;
-						  }
-
-						  .left-actions {
-							  flex-direction: column;
-							  width: 100%;
+							  :deep(.nc-select__toggle) {
+								  min-height: 32px !important;
+							  }
 						  }
 
 						  .primary-actions {
-							  flex-wrap: wrap;
-							  justify-content: center;
-							  width: 100%;
+							  display: flex;
+							  gap: 0.5rem;
+							  align-items: center;
 						  }
 
-						  .right-actions {
-							  width: 100%;
-							  justify-content: center;
-							  flex-wrap: wrap;
+						  .save-button {
+							  background-color: var(--color-primary);
+							  color: white;
+							  border: none;
+							  padding: 8px 16px;
+							  border-radius: 20px;
+							  font-weight: 500;
+							  min-width: 100px;
+							  white-space: nowrap;
 						  }
 
-						  .access-control {
-							  justify-content: center;
-							  width: 100%;
+						  .response-actions,
+						  .transform-actions {
+							  margin: 0 0.25rem;
 						  }
 
-						  .status-select {
-							  width: 100px !important;
-							  min-width: 100px !important;
+						  .loading-icon {
+							  display: inline-block;
+							  width: 16px;
+							  height: 16px;
+							  border: 2px solid transparent;
+							  border-top: 2px solid currentColor;
+							  border-radius: 50%;
+							  animation: spin 1s linear infinite;
+							  margin-right: 8px;
 						  }
-					  }
+
+						  @keyframes spin {
+							  from {
+								  transform: rotate(0deg);
+							  }
+							  to {
+								  transform: rotate(360deg);
+							  }
+						  }
+
+						  /* Mobile responsive */
+						  @media (max-width: 768px) {
+							  .inquiry-action-toolbar {
+								  flex-direction: column;
+								  gap: 1rem;
+								  padding: 1rem;
+							  }
+
+							  .left-actions {
+								  flex-direction: column;
+								  width: 100%;
+							  }
+
+							  .primary-actions {
+								  flex-wrap: wrap;
+								  justify-content: center;
+								  width: 100%;
+							  }
+
+							  .right-actions {
+								  width: 100%;
+								  justify-content: center;
+								  flex-wrap: wrap;
+							  }
+
+							  .access-control {
+								  justify-content: center;
+								  width: 100%;
+							  }
+
+							  .status-select {
+								  width: 100px !important;
+								  min-width: 100px !important;
+							  }
+						  }
 </style>

@@ -142,7 +142,7 @@ class InquiryController extends BaseController
     {
         $timerMicro['start'] = microtime(true);
 
-        $inquiry = $this->inquiryService->get($inquiryId,true);
+        $inquiry = $this->inquiryService->get($inquiryId, true);
         $timerMicro['inquiry'] = microtime(true);
 
         $options = $this->optionService->list($inquiryId);
@@ -161,7 +161,7 @@ class InquiryController extends BaseController
         $timerMicro['attachments'] = microtime(true);
 
         $inquiryLink = $this->inquiryLinkService->findByInquiryId($inquiryId);
-	$timerMicro['inquiryLink'] = microtime(true);
+        $timerMicro['inquiryLink'] = microtime(true);
 
         $diffMicro['total'] = microtime(true) - $timerMicro['start'];
         $diffMicro['inquiry'] = $timerMicro['inquiry'] - $timerMicro['start'];
@@ -214,13 +214,13 @@ class InquiryController extends BaseController
 
             $dto = new InquiryDto(
                 (string) $data['title'],
-		(string) $data['type'],
+                (string) $data['type'],
                 isset($data['ownedGroup']) ? (string) $data['ownedGroup'] : '',
                 isset($data['description']) ? (string) $data['description'] : '',
                 isset($data['parentId']) ? (int) $data['parentId'] : 0,
                 isset($data['locationId']) ? (int) $data['locationId'] : 0,
                 isset($data['categoryId']) ? (int) $data['categoryId'] : 0,
-		[],
+                [],
             );
 
             $inquiry = $this->inquiryService->createFromDto($dto);
@@ -281,7 +281,7 @@ class InquiryController extends BaseController
                 isset($data['parentId']) ? (int) $data['parentId'] : 0,
                 isset($data['locationId']) ? (int) $data['locationId'] : 0,
                 isset($data['categoryId']) ? (int) $data['categoryId'] : 0,
-	        isset($data['miscFields']) && is_array($data['miscFields']) ? $data['miscFields'] : null,
+                isset($data['miscFields']) && is_array($data['miscFields']) ? $data['miscFields'] : null,
             );
 
             // Partial update - only changed fields
@@ -348,7 +348,7 @@ class InquiryController extends BaseController
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/submitinquiry/{inquiryId}')]
     public function submitInquiry(int $inquiryId): JSONResponse
     {
-       $rawData = $this->request->getParams('data');
+        $rawData = $this->request->getParams('data');
         return $this->response(
             fn () => [
             'inquiry' => $this->inquiryService->applyAction($inquiryId, $rawData['action']),
@@ -462,10 +462,10 @@ class InquiryController extends BaseController
     #[FrontpageRoute(verb: 'POST', url: '/inquiry/{inquiryId}/clone')]
     public function clone(int $inquiryId): JSONResponse
     {
-       $rawData = $this->request->getParams('data');
+        $rawData = $this->request->getParams('data');
         return $this->response(
             fn () => [
-                'inquiry' => $this->cloneInquiry($inquiryId,$rawData['type'])
+                'inquiry' => $this->cloneInquiry($inquiryId, $rawData['type'])
             ]
         );
     }
@@ -517,13 +517,12 @@ class InquiryController extends BaseController
 
     /**
      * Get echance Text for inquiry
-     *
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'POST', url: '/inquiry/get-text-ai')]
     public function getTextAi(string $text): JSONResponse
     {
-       $rawData = $this->request->getParams('data');
-       return $this->response(fn () => $this->aiService->echanceText($rawData));
+        $rawData = $this->request->getParams('data');
+        return $this->response(fn () => $this->aiService->echanceText($rawData));
     }
 }

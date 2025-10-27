@@ -12,13 +12,13 @@
 })();
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { _ as _export_sfc, c as createElementBlock, o as openBlock, g as createVNode, w as withCtx, j as createTextVNode, k as toDisplayString, t as translate, f as createBlock, C as createCommentVNode, b as createBaseVNode, K as mergeProps, U as ref, l as computed, m as purify, V as withDirectives, W as vShow, X as vModelText, Y as NcButton, G as Fragment, H as renderList, s as resolveDynamicComponent, Z as withModifiers, e as onMounted, J as watch, a as defineComponent, A as normalizeClass, $ as resolveComponent, M as normalizeStyle, n as normalizeProps, h as guardReactiveProps, i as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DmAwCDvH.chunk.mjs";
-import { I as InputDiv, a as NcAppSettingsDialog, N as NcSettingsSection } from "./index-D1DpF30f.chunk.mjs";
-import { d as useAppSettingsStore, e as d, g as gfmHeadingId, f as adminJobs, L as Logger, I as InquiryGeneralIcons, s as showError, S as StatusIcons } from "./NcDashboardWidget-BEUtfCxs-BLxGdpMe.chunk.mjs";
-import { F as FlexSettings } from "./FlexSettings-Dk5cpfB6.chunk.mjs";
-import { N as NcCheckboxRadioSwitch, a as NcSelect, b as NcInputField } from "./NcRichText-Dht_wH3t-DShVcyhW.chunk.mjs";
-import { R as RadioGroupDiv, C as CardDiv } from "./markdown-Do9QQ770.chunk.mjs";
-const _sfc_main$q = {
+import { _ as _export_sfc, c as createElementBlock, o as openBlock, g as createVNode, w as withCtx, j as createTextVNode, k as toDisplayString, t as translate, f as createBlock, C as createCommentVNode, b as createBaseVNode, K as mergeProps, U as ref, l as computed, m as purify, V as withDirectives, W as vShow, X as vModelText, Y as NcButton, G as Fragment, H as renderList, s as resolveDynamicComponent, Z as withModifiers, e as onMounted, J as watch, a as defineComponent, A as normalizeClass, $ as resolveComponent, M as normalizeStyle, n as normalizeProps, h as guardReactiveProps, i as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-jKCq2TlB.chunk.mjs";
+import { I as InputDiv, a as NcAppSettingsDialog, N as NcSettingsSection } from "./index-iYy1HK-n.chunk.mjs";
+import { d as useAppSettingsStore, e as d, g as gfmHeadingId, f as adminJobs, L as Logger, I as InquiryGeneralIcons, s as showError, S as StatusIcons } from "./NcDashboardWidget-Bu7bWoUK-Mvj_xSe5.chunk.mjs";
+import { F as FlexSettings } from "./FlexSettings-dDX-zZgS.chunk.mjs";
+import { N as NcCheckboxRadioSwitch, a as NcSelect, b as NcInputField } from "./NcRichText-CETsOVBU-C02V-rjj.chunk.mjs";
+import { R as RadioGroupDiv, C as CardDiv } from "./markdown-DmFkFk-D.chunk.mjs";
+const _sfc_main$r = {
   __name: "AdminActivities",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -34,9 +34,9 @@ const _sfc_main$q = {
     return __returned__;
   }
 };
-const _hoisted_1$q = { class: "user_settings" };
-function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$q, [
+const _hoisted_1$r = { class: "user_settings" };
+function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$r, [
     createVNode($setup["NcCheckboxRadioSwitch"], {
       modelValue: $setup.appSettingsStore.useActivity,
       "onUpdate:modelValue": [
@@ -57,8 +57,8 @@ function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
     }, 8, ["modelValue"])
   ]);
 }
-const AdminActivities = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$q], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminActivities.vue"]]);
-const _sfc_main$p = {
+const AdminActivities = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$r], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminActivities.vue"]]);
+const _sfc_main$q = {
   __name: "AdminArchiveInquiries",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -76,9 +76,9 @@ const _sfc_main$p = {
     return __returned__;
   }
 };
-const _hoisted_1$p = { class: "user_settings" };
-function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$p, [
+const _hoisted_1$q = { class: "user_settings" };
+function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$q, [
     createVNode($setup["NcCheckboxRadioSwitch"], {
       modelValue: $setup.appSettingsStore.autoArchive,
       "onUpdate:modelValue": [
@@ -110,8 +110,8 @@ function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["modelValue", "label"])) : createCommentVNode("v-if", true)
   ]);
 }
-const AdminArchiveInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$p], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminArchiveInquiries.vue"]]);
-const _sfc_main$o = {
+const AdminArchiveInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$q], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminArchiveInquiries.vue"]]);
+const _sfc_main$p = {
   __name: "AdminDeleteInquiries",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -129,9 +129,9 @@ const _sfc_main$o = {
     return __returned__;
   }
 };
-const _hoisted_1$o = { class: "user_settings" };
-function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$o, [
+const _hoisted_1$p = { class: "user_settings" };
+function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$p, [
     createVNode($setup["NcCheckboxRadioSwitch"], {
       modelValue: $setup.appSettingsStore.autoDelete,
       "onUpdate:modelValue": [
@@ -163,8 +163,8 @@ function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["modelValue", "label"])) : createCommentVNode("v-if", true)
   ]);
 }
-const AdminDeleteInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$o], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminDeleteInquiries.vue"]]);
-const _sfc_main$n = {
+const AdminDeleteInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$p], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminDeleteInquiries.vue"]]);
+const _sfc_main$o = {
   __name: "AdminExpireInquiries",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -182,9 +182,9 @@ const _sfc_main$n = {
     return __returned__;
   }
 };
-const _hoisted_1$n = { class: "user_settings" };
-function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$n, [
+const _hoisted_1$o = { class: "user_settings" };
+function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$o, [
     createVNode($setup["NcCheckboxRadioSwitch"], {
       modelValue: $setup.appSettingsStore.autoExpire,
       "onUpdate:modelValue": [
@@ -216,8 +216,8 @@ function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8, ["modelValue", "label"])) : createCommentVNode("v-if", true)
   ]);
 }
-const AdminExpireInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$n], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminExpireInquiries.vue"]]);
-const _sfc_main$m = {
+const AdminExpireInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$o], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminExpireInquiries.vue"]]);
+const _sfc_main$n = {
   name: "LanguageMarkdownIcon",
   emits: ["click"],
   props: {
@@ -234,11 +234,11 @@ const _sfc_main$m = {
     }
   }
 };
-const _hoisted_1$m = ["aria-hidden", "aria-label"];
-const _hoisted_2$i = ["fill", "width", "height"];
+const _hoisted_1$n = ["aria-hidden", "aria-label"];
+const _hoisted_2$j = ["fill", "width", "height"];
 const _hoisted_3$d = { d: "M20.56 18H3.44C2.65 18 2 17.37 2 16.59V7.41C2 6.63 2.65 6 3.44 6H20.56C21.35 6 22 6.63 22 7.41V16.59C22 17.37 21.35 18 20.56 18M6.81 15.19V11.53L8.73 13.88L10.65 11.53V15.19H12.58V8.81H10.65L8.73 11.16L6.81 8.81H4.89V15.19H6.81M19.69 12H17.77V8.81H15.85V12H13.92L16.81 15.28L19.69 12Z" };
 const _hoisted_4$b = { key: 0 };
-function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
     "aria-hidden": $props.title ? null : "true",
     "aria-label": $props.title,
@@ -262,11 +262,11 @@ function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
           /* TEXT */
         )) : createCommentVNode("v-if", true)
       ])
-    ], 8, _hoisted_2$i))
-  ], 16, _hoisted_1$m);
+    ], 8, _hoisted_2$j))
+  ], 16, _hoisted_1$n);
 }
-const LanguageMarkdownIcon = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/LanguageMarkdown.vue"]]);
-const _sfc_main$l = {
+const LanguageMarkdownIcon = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$n], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/LanguageMarkdown.vue"]]);
+const _sfc_main$m = {
   __name: "AdminEmail",
   setup(__props, { expose: __expose }) {
     __expose();
@@ -296,12 +296,12 @@ const _sfc_main$l = {
     return __returned__;
   }
 };
-const _hoisted_1$l = { class: "user_settings" };
-const _hoisted_2$h = { class: "disclaimer_group" };
+const _hoisted_1$m = { class: "user_settings" };
+const _hoisted_2$i = { class: "disclaimer_group" };
 const _hoisted_3$c = { class: "grow_title" };
 const _hoisted_4$a = ["innerHTML"];
-function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1$l, [
+function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$m, [
     createVNode($setup["NcCheckboxRadioSwitch"], {
       modelValue: $setup.appSettingsStore.legalTermsInEmail,
       "onUpdate:modelValue": [
@@ -320,7 +320,7 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
       _: 1
       /* STABLE */
     }, 8, ["modelValue"]),
-    createBaseVNode("div", _hoisted_2$h, [
+    createBaseVNode("div", _hoisted_2$i, [
       createBaseVNode("div", _hoisted_3$c, [
         createBaseVNode(
           "span",
@@ -370,7 +370,73 @@ function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
     ])
   ]);
 }
-const AdminEmail = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminEmail.vue"]]);
+const AdminEmail = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminEmail.vue"]]);
+const _sfc_main$l = {
+  __name: "AdminModeration",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$l = { class: "user_settings" };
+const _hoisted_2$h = {
+  key: 0,
+  class: "settings_details"
+};
+function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$l, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.useModeration,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.useModeration = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Enable the moderation feature")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    !$setup.appSettingsStore.allowModeration ? (openBlock(), createElementBlock("div", _hoisted_2$h, [
+      createVNode($setup["NcCheckboxRadioSwitch"], {
+        modelValue: $setup.appSettingsStore.officialBypassModeration,
+        "onUpdate:modelValue": [
+          _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.officialBypassModeration = $event),
+          _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+        ],
+        type: "switch"
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            toDisplayString($setup.t("agora", "Official user(s) bypass moderation")),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["modelValue"])
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminModeration = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminModeration.vue"]]);
 const _sfc_main$k = {
   __name: "AdminJobs",
   setup(__props, { expose: __expose }) {
@@ -3818,6 +3884,10 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         name: translate("agora", "Inquiry rights"),
         description: translate("agora", "Change inquiry rights globally (for all accounts)")
       },
+      moderationSettings: {
+        name: translate("agora", "Moderation settings"),
+        description: translate("agora", "Change moderation settings")
+      },
       jobSettings: {
         name: translate("agora", "Job control"),
         description: translate("agora", "Manually start backgropund jobs, independent from the cron schedule.")
@@ -3846,6 +3916,8 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       return AdminDeleteInquiries;
     }, get AdminEmail() {
       return AdminEmail;
+    }, get AdminModeration() {
+      return AdminModeration;
     }, get AdminJobs() {
       return AdminJobs;
     }, get AdminLegal() {
@@ -3958,6 +4030,19 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
               {
                 default: withCtx(() => [
                   createVNode($setup["AdminCategoryLocation"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            ),
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.moderationSettings)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminModeration"])
                 ]),
                 _: 1
                 /* STABLE */

@@ -80,14 +80,14 @@ class QuorumApiController extends BaseApiV2Controller
     /**
      * Create a new quorum
      *
-     * @param int $inquiryId Inquiry ID
-     * @param int $optionId Option ID
-     * @param string $phase Phase
-     * @param string $type Type
-     * @param float $value Value
-     * @param string $base Base
+     * @param int         $inquiryId   Inquiry ID
+     * @param int         $optionId    Option ID
+     * @param string      $phase       Phase
+     * @param string      $type        Type
+     * @param float       $value       Value
+     * @param string      $base        Base
      * @param string|null $description Description
-     * @param int|null $sortOrder Sort order
+     * @param int|null    $sortOrder   Sort order
      */
     #[CORS]
     #[NoAdminRequired]
@@ -138,9 +138,9 @@ class QuorumApiController extends BaseApiV2Controller
     /**
      * Check if quorum is reached
      *
-     * @param int $id Quorum ID
+     * @param int $id          Quorum ID
      * @param int $actualCount Actual count
-     * @param int $totalCount Total count
+     * @param int $totalCount  Total count
      */
     #[CORS]
     #[NoAdminRequired]

@@ -35,7 +35,7 @@ class SettingsService
         InquiryStatusService $inquiryStatusService,
         InquiryFamilyService $inquiryFamilyService,
         InquiryTypeService $inquiryTypeService,
-		 LoggerInterface $logger
+        LoggerInterface $logger
     ) {
         $this->appSettings = $appSettings;
         $this->locationService = $locationService;
@@ -76,6 +76,8 @@ class SettingsService
         $this->appSettings->setBooleanSetting(AppSettings::SETTING_LOAD_INQUIRIES_IN_NAVIGATION, $settingsArray[AppSettings::SETTING_LOAD_INQUIRIES_IN_NAVIGATION]);
         $this->appSettings->setBooleanSetting(AppSettings::SETTING_UNRESTRICTED_INQUIRY_OWNER, $settingsArray[AppSettings::SETTING_UNRESTRICTED_INQUIRY_OWNER]);
         $this->appSettings->setBooleanSetting(AppSettings::SETTING_USE_COLLABORATION, $settingsArray[AppSettings::SETTING_USE_COLLABORATION]);
+        $this->appSettings->setBooleanSetting(AppSettings::SETTING_USE_MODERATION, $settingsArray[AppSettings::SETTING_USE_MODERATION]);
+        $this->appSettings->setBooleanSetting(AppSettings::SETTING_OFFICIAL_BYPASS_MODERATION, $settingsArray[AppSettings::SETTING_OFFICIAL_BYPASS_MODERATION]);
 
         // Group settings
         $this->appSettings->setGroupSetting(AppSettings::SETTING_SHOW_MAIL_ADDRESSES_GROUPS, array_column($settingsArray[AppSettings::SETTING_SHOW_MAIL_ADDRESSES_GROUPS], 'id'));
@@ -89,8 +91,8 @@ class SettingsService
         // Integer settings
         $this->appSettings->setIntegerSetting(AppSettings::SETTING_AUTO_ARCHIVE_OFFSET_DAYS, intval($settingsArray[AppSettings::SETTING_AUTO_ARCHIVE_OFFSET_DAYS]));
         $this->appSettings->setIntegerSetting(AppSettings::SETTING_AUTO_DELETE_OFFSET_DAYS, intval($settingsArray[AppSettings::SETTING_AUTO_DELETE_OFFSET_DAYS]));
-	
-	$this->appSettings->setIntegerSetting(AppSettings::SETTING_AUTO_EXPIRE_OFFSET_DAYS, intval($settingsArray[AppSettings::SETTING_AUTO_EXPIRE_OFFSET_DAYS]));
+    
+        $this->appSettings->setIntegerSetting(AppSettings::SETTING_AUTO_EXPIRE_OFFSET_DAYS, intval($settingsArray[AppSettings::SETTING_AUTO_EXPIRE_OFFSET_DAYS]));
 
         // String settings
         $this->appSettings->setStringSetting(AppSettings::SETTING_UPDATE_TYPE, $settingsArray[AppSettings::SETTING_UPDATE_TYPE]);
@@ -162,14 +164,14 @@ class SettingsService
      */
     public function updateInquiryStatus(string $statusId, array $statusData)
     {
-	    return $this->inquiryStatusService->update(
-		    (int)$statusId,
-		    $statusData['statusKey'] ?? '',
-		    $statusData['label'] ?? '',
-		    $statusData['description'] ?? null,
-		    $statusData['isFinal'] ?? false,
-		    $statusData['icon'] ?? ''
-	    );
+        return $this->inquiryStatusService->update(
+            (int)$statusId,
+            $statusData['statusKey'] ?? '',
+            $statusData['label'] ?? '',
+            $statusData['description'] ?? null,
+            $statusData['isFinal'] ?? false,
+            $statusData['icon'] ?? ''
+        );
     }
 
     /**
@@ -177,7 +179,7 @@ class SettingsService
      */
     public function deleteInquiryStatus(string $statusId): void
     {
-	    $this->inquiryStatusService->delete((int)$statusId);
+        $this->inquiryStatusService->delete((int)$statusId);
     }
 
     // INQUIRY TYPE METHODS
@@ -186,17 +188,17 @@ class SettingsService
      */
     public function addInquiryType(array $typeData)
     {
-	    return $this->inquiryTypeService->create(
-		    $typeData['inquiry_type'] ?? '',
-		    $typeData['family'] ?? 'deliberative',
-		    $typeData['icon'] ?? '',
-		    $typeData['label'] ?? '',
-		    $typeData['is_option'] ?? false,
-		    $typeData['description'] ?? null,
-		    $typeData['fields'] ?? null,
-		    $typeData['allowed_response'] ?? null,
-		    $typeData['allowed_transformation'] ?? null
-	    );
+        return $this->inquiryTypeService->create(
+            $typeData['inquiry_type'] ?? '',
+            $typeData['family'] ?? 'deliberative',
+            $typeData['icon'] ?? '',
+            $typeData['label'] ?? '',
+            $typeData['is_option'] ?? false,
+            $typeData['description'] ?? null,
+            $typeData['fields'] ?? null,
+            $typeData['allowed_response'] ?? null,
+            $typeData['allowed_transformation'] ?? null
+        );
     }
 
     /**
@@ -204,26 +206,26 @@ class SettingsService
      */
     public function updateInquiryType(string $typeId, array $typeData)
     {
-	    $typeData = $typeData['typeData'];
-	    return $this->inquiryTypeService->update(
-		    (int)$typeId,
-		    $typeData['inquiry_type'] ?? '',
-		    $typeData['family'] ?? 'deliberative',
-		    $typeData['icon'] ?? '',
-		    $typeData['label'] ?? '',
-		    $typeData['is_option'] ?? false,
-		    $typeData['description'] ?? null,
-		    $typeData['fields'] ?? null,
-		    $typeData['allowed_response'] ?? null,
-		    $typeData['allowed_transformation'] ?? null
-	    );
+        $typeData = $typeData['typeData'];
+        return $this->inquiryTypeService->update(
+            (int)$typeId,
+            $typeData['inquiry_type'] ?? '',
+            $typeData['family'] ?? 'deliberative',
+            $typeData['icon'] ?? '',
+            $typeData['label'] ?? '',
+            $typeData['is_option'] ?? false,
+            $typeData['description'] ?? null,
+            $typeData['fields'] ?? null,
+            $typeData['allowed_response'] ?? null,
+            $typeData['allowed_transformation'] ?? null
+        );
     }
     /**
      * Delete an inquiry type
      */
     public function deleteInquiryType(string $typeId): void
     {
-	    $this->inquiryTypeService->delete((int)$typeId);
+        $this->inquiryTypeService->delete((int)$typeId);
     }
 
     // INQUIRY FAMILY METHODS
@@ -232,13 +234,13 @@ class SettingsService
      */
     public function addInquiryFamily(array $familyData)
     {
-	    return $this->inquiryFamilyService->create(
-		    $familyData['family_type'] ?? '',
-		    $familyData['label'] ?? '',
-		    $familyData['description'] ?? null,
-		    $familyData['icon'] ?? '',
-		    $familyData['sort_order'] ?? null
-	    );
+        return $this->inquiryFamilyService->create(
+            $familyData['family_type'] ?? '',
+            $familyData['label'] ?? '',
+            $familyData['description'] ?? null,
+            $familyData['icon'] ?? '',
+            $familyData['sort_order'] ?? null
+        );
     }
 
     /**
@@ -246,22 +248,22 @@ class SettingsService
      */
     public function updateInquiryFamily(string $familyId, array $familyData)
     {
-	    $familyData = $familyData['familyData'];
-	    return $this->inquiryFamilyService->update(
-		    (int)$familyId,
-		    $familyData['family_type'] ?? '',
-		    $familyData['label'] ?? '',
-		    $familyData['description'] ?? '',
-		    $familyData['icon'] ?? '',
-		    $familyData['sort_order'] ?? 0
-	    );
+        $familyData = $familyData['familyData'];
+        return $this->inquiryFamilyService->update(
+            (int)$familyId,
+            $familyData['family_type'] ?? '',
+            $familyData['label'] ?? '',
+            $familyData['description'] ?? '',
+            $familyData['icon'] ?? '',
+            $familyData['sort_order'] ?? 0
+        );
     }
     /**
      * Delete an inquiry family
      */
     public function deleteInquiryFamily(string $familyId): void
     {
-	    $this->inquiryFamilyService->delete((int)$familyId);
+        $this->inquiryFamilyService->delete((int)$familyId);
     }
 
     // MODERATION STATUS (keeping your existing methods)
@@ -270,14 +272,14 @@ class SettingsService
      */
     public function addModerationStatus(array $statusData)
     {
-	    return $this->moderationStatusService->create(
-		    $statusData['inquiryType'] ?? '',
-		    $statusData['statusKey'] ?? '',
-		    $statusData['label'] ?? '',
-		    $statusData['description'] ?? null,
-		    $statusData['isFinal'] ?? false,
-		    $statusData['icon'] ?? ''
-	    );
+        return $this->moderationStatusService->create(
+            $statusData['inquiryType'] ?? '',
+            $statusData['statusKey'] ?? '',
+            $statusData['label'] ?? '',
+            $statusData['description'] ?? null,
+            $statusData['isFinal'] ?? false,
+            $statusData['icon'] ?? ''
+        );
     }
 
     /**
@@ -285,14 +287,14 @@ class SettingsService
      */
     public function updateModerationStatus(string $statusId, array $statusData)
     {
-	    return $this->moderationStatusService->update(
-		    (int)$statusId,
-		    $statusData['statusKey'] ?? '',
-		    $statusData['label'] ?? '',
-		    $statusData['description'] ?? null,
-		    $statusData['isFinal'] ?? false,
-		    $statusData['icon'] ?? ''
-	    );
+        return $this->moderationStatusService->update(
+            (int)$statusId,
+            $statusData['statusKey'] ?? '',
+            $statusData['label'] ?? '',
+            $statusData['description'] ?? null,
+            $statusData['isFinal'] ?? false,
+            $statusData['icon'] ?? ''
+        );
     }
 
     /**
@@ -300,7 +302,7 @@ class SettingsService
      */
     public function deleteModerationStatus(string $statusId): void
     {
-	    $this->moderationStatusService->delete((int)$statusId);
+        $this->moderationStatusService->delete((int)$statusId);
     }
 
     /**
@@ -308,10 +310,10 @@ class SettingsService
      */
     public function addCategory(array $categoryData)
     {
-	    return $this->categoryService->create(
-		    $categoryData['name'] ?? '',
-		    $categoryData['parentId'] ?? 0
-	    );
+        return $this->categoryService->create(
+            $categoryData['name'] ?? '',
+            $categoryData['parentId'] ?? 0
+        );
     }
 
     /**
@@ -319,11 +321,11 @@ class SettingsService
      */
     public function updateCategory(string $categoryId, array $categoryData)
     {
-	    return $this->categoryService->update(
-		    (int)$categoryId,
-		    $categoryData['name'] ?? '',
-		    $categoryData['parentId'] ?? 0
-	    );
+        return $this->categoryService->update(
+            (int)$categoryId,
+            $categoryData['name'] ?? '',
+            $categoryData['parentId'] ?? 0
+        );
     }
 
     /**
@@ -331,6 +333,6 @@ class SettingsService
      */
     public function deleteCategory(string $categoryId): void
     {
-	    $this->categoryService->delete((int)$categoryId);
+        $this->categoryService->delete((int)$categoryId);
     }
 }

@@ -17,8 +17,8 @@ use Psr\Log\LoggerInterface;
 class InquiryFamilyService
 {
     public function __construct(
-		private LoggerInterface $logger,
-		private InquiryFamilyMapper $inquiryFamilyMapper,
+        private LoggerInterface $logger,
+        private InquiryFamilyMapper $inquiryFamilyMapper,
     ) {
     }
 
@@ -75,7 +75,7 @@ class InquiryFamilyService
         if ($this->familyTypeExists($familyType)) {
             throw new \InvalidArgumentException('Family type already exists');
         }
-	
+    
 
         $inquiryFamily = new InquiryFamily();
         $inquiryFamily->setFamilyType($familyType);
@@ -101,12 +101,12 @@ class InquiryFamilyService
         string $icon = '',
         ?int $sortOrder = 0
     ): InquiryFamily {
-	$this->logger->warning(' DEBUG : ', ['familyType' =>$familyType]);
+        $this->logger->warning(' DEBUG : ', ['familyType' =>$familyType]);
         $inquiryFamily = $this->find($id);
         $inquiryFamily->setFamilyType($familyType);
         $inquiryFamily->setLabel($label);
-	$inquiryFamily->setIcon($icon);
-	$inquiryFamily->setDescription($description !== null ? $description : '');
+        $inquiryFamily->setIcon($icon);
+        $inquiryFamily->setDescription($description !== null ? $description : '');
         $inquiryFamily->setSortOrder($sortOrder !== null ? $sortOrder : 0);
 
         return $this->inquiryFamilyMapper->update($inquiryFamily);

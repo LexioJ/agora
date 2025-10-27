@@ -46,7 +46,7 @@ class QuorumMapper extends QBMapper
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
         $qb->orderBy(self::TABLE . '.sort_order', 'ASC')
-           ->addOrderBy(self::TABLE . '.phase', 'ASC');
+            ->addOrderBy(self::TABLE . '.phase', 'ASC');
         return $this->findEntities($qb);
     }
 
@@ -58,7 +58,7 @@ class QuorumMapper extends QBMapper
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
         $qb->orderBy(self::TABLE . '.sort_order', 'ASC')
-           ->addOrderBy(self::TABLE . '.phase', 'ASC');
+            ->addOrderBy(self::TABLE . '.phase', 'ASC');
         return $this->findEntities($qb);
     }
 
@@ -107,8 +107,8 @@ class QuorumMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->select($qb->func()->max('sort_order'))
-           ->from($this->getTableName())
-           ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+            ->from($this->getTableName())
+            ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
 
         $result = $qb->executeQuery()->fetchOne();
         return $result ? (int)$result : 0;
@@ -121,8 +121,8 @@ class QuorumMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->select($qb->func()->max('sort_order'))
-           ->from($this->getTableName())
-           ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
+            ->from($this->getTableName())
+            ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
 
         $result = $qb->executeQuery()->fetchOne();
         return $result ? (int)$result : 0;
@@ -136,10 +136,10 @@ class QuorumMapper extends QBMapper
         foreach ($sortOrders as $id => $sortOrder) {
             $qb = $this->db->getQueryBuilder();
             $qb->update($this->getTableName())
-               ->set('sort_order', $qb->createNamedParameter((int)$sortOrder, IQueryBuilder::PARAM_INT))
-               ->set('updated', $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
-               ->where($qb->expr()->eq('id', $qb->createNamedParameter((int)$id, IQueryBuilder::PARAM_INT)))
-               ->executeStatement();
+                ->set('sort_order', $qb->createNamedParameter((int)$sortOrder, IQueryBuilder::PARAM_INT))
+                ->set('updated', $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
+                ->where($qb->expr()->eq('id', $qb->createNamedParameter((int)$id, IQueryBuilder::PARAM_INT)))
+                ->executeStatement();
         }
     }
 

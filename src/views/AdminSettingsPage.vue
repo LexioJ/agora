@@ -17,6 +17,7 @@ import {
   AdminDeleteInquiries,
   AdminEmail,
   AdminInquiryStatus,
+  AdminModeration,
   AdminJobs,
   AdminLegal,
   AdminSettings,
@@ -87,6 +88,10 @@ const sections = {
     name: t('agora', 'Inquiry rights'),
     description: t('agora', 'Change inquiry rights globally (for all accounts)'),
   },
+  moderationSettings: {
+    name: t('agora', 'Moderation settings'),
+    description: t('agora', 'Change moderation settings'),
+  },
   jobSettings: {
     name: t('agora', 'Job control'),
     description: t('agora', 'Manually start backgropund jobs, independent from the cron schedule.'),
@@ -133,10 +138,13 @@ onMounted(async () => {
 		<NcSettingsSection v-bind="sections.inquiryCategoryLocation">
 		<AdminCategoryLocation />
 		</NcSettingsSection>
+		<NcSettingsSection v-bind="sections.moderationSettings">
+		<AdminModeration />
+		</NcSettingsSection>
 	        <NcSettingsSection v-bind="sections.inquiryRights">
         	  <AdminModeratorRights />
           	  <AdminOfficialRights />
-                  </NcSettingsSection>
+                </NcSettingsSection>
 		<NcSettingsSection v-bind="sections.emailSettings">
 		<AdminEmail />
 		</NcSettingsSection>

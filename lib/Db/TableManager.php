@@ -65,63 +65,63 @@ class TableManager
      * @psalm-return non-empty-list<string>
      */
     public function purgeTables(): array
-{
-    $messages = [];
-    $droppedTables = [];
+    {
+        $messages = [];
+        $droppedTables = [];
 
-    // Étape 1: Collecter toutes les tables dans l'ordre inverse des dépendances
-    $allTables = array_keys(TableSchema::TABLES);
+        // Étape 1: Collecter toutes les tables dans l'ordre inverse des dépendances
+        $allTables = array_keys(TableSchema::TABLES);
 
-    // Étape 2: Désactiver temporairement les contraintes de clés étrangères
-    $this->connection->executeStatement('SET FOREIGN_KEY_CHECKS = 0');
-    $messages[] = 'Foreign key constraints disabled';
+        // Étape 2: Désactiver temporairement les contraintes de clés étrangères
+        $this->connection->executeStatement('SET FOREIGN_KEY_CHECKS = 0');
+        $messages[] = 'Foreign key constraints disabled';
 
-    try {
-        $tablesToDrop = [];
+        try {
+            $tablesToDrop = [];
 
-        foreach ($allTables as $table) {
-            $isParent = isset(TableSchema::FK_INDICES[$table]);
-            if (!$isParent) {
-                $tablesToDrop[] = $table;
+            foreach ($allTables as $table) {
+                $isParent = isset(TableSchema::FK_INDICES[$table]);
+                if (!$isParent) {
+                    $tablesToDrop[] = $table;
+                }
             }
+
+            $parentTables = array_reverse(array_keys(TableSchema::FK_INDICES));
+            $tablesToDrop = array_merge($tablesToDrop, $parentTables);
+
+            foreach ($tablesToDrop as $tableName) {
+                if ($this->connection->tableExists($tableName)) {
+                    $this->connection->dropTable($tableName);
+                    $droppedTables[] = $this->dbPrefix . $tableName;
+                    $messages[] = 'Dropped ' . $this->dbPrefix . $tableName;
+                }
+            }
+
+        } finally {
+            $this->connection->executeStatement('SET FOREIGN_KEY_CHECKS = 1');
+            $messages[] = 'Foreign key constraints re-enabled';
         }
 
-        $parentTables = array_reverse(array_keys(TableSchema::FK_INDICES));
-        $tablesToDrop = array_merge($tablesToDrop, $parentTables);
+        $query = $this->connection->getQueryBuilder();
+        $query->delete('migrations')
+            ->where('app = :appName')
+            ->setParameter('appName', AppConstants::APP_ID)
+            ->executeStatement();
 
-        foreach ($tablesToDrop as $tableName) {
-            if ($this->connection->tableExists($tableName)) {
-                $this->connection->dropTable($tableName);
-                $droppedTables[] = $this->dbPrefix . $tableName;
-                $messages[] = 'Dropped ' . $this->dbPrefix . $tableName;
-            }
-        }
+        $messages[] = 'Removed all migration records from ' . $this->dbPrefix . 'migrations';
 
-    } finally {
-        $this->connection->executeStatement('SET FOREIGN_KEY_CHECKS = 1');
-        $messages[] = 'Foreign key constraints re-enabled';
+        $query->delete('appconfig')
+            ->where('appid = :appid')
+            ->setParameter('appid', AppConstants::APP_ID)
+            ->executeStatement();
+
+        $messages[] = 'Removed all app config records from ' . $this->dbPrefix . 'appconfig';
+        $messages[] = 'Done.';
+        $messages[] = '';
+        $messages[] = 'Please call \'occ app:remove inquiries\' now!';
+
+        return $messages;
     }
-
-    $query = $this->connection->getQueryBuilder();
-    $query->delete('migrations')
-        ->where('app = :appName')
-        ->setParameter('appName', AppConstants::APP_ID)
-        ->executeStatement();
-
-    $messages[] = 'Removed all migration records from ' . $this->dbPrefix . 'migrations';
-
-    $query->delete('appconfig')
-        ->where('appid = :appid')
-        ->setParameter('appid', AppConstants::APP_ID)
-        ->executeStatement();
-
-    $messages[] = 'Removed all app config records from ' . $this->dbPrefix . 'appconfig';
-    $messages[] = 'Done.';
-    $messages[] = '';
-    $messages[] = 'Please call \'occ app:remove inquiries\' now!';
-
-    return $messages;
-}
     /**
      * @return string[]
      */

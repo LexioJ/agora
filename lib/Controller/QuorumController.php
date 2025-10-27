@@ -62,8 +62,8 @@ class QuorumController extends BaseController
     /**
      * Get quorums for an inquiry and phase
      *
-     * @param int $inquiryId Inquiry ID
-     * @param string $phase Phase
+     * @param int    $inquiryId Inquiry ID
+     * @param string $phase     Phase
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'GET', url: '/inquiry/{inquiryId}/quorums/phase/{phase}')]
@@ -79,8 +79,8 @@ class QuorumController extends BaseController
     /**
      * Get quorums for an option and phase
      *
-     * @param int $optionId Option ID
-     * @param string $phase Phase
+     * @param int    $optionId Option ID
+     * @param string $phase    Phase
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'GET', url: '/option/{optionId}/quorums/phase/{phase}')]
@@ -112,9 +112,9 @@ class QuorumController extends BaseController
     /**
      * Get quorum by inquiry, phase and type
      *
-     * @param int $inquiryId Inquiry ID
-     * @param string $phase Phase
-     * @param string $type Type
+     * @param int    $inquiryId Inquiry ID
+     * @param string $phase     Phase
+     * @param string $type      Type
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'GET', url: '/inquiry/{inquiryId}/quorum/phase/{phase}/type/{type}')]
@@ -130,14 +130,14 @@ class QuorumController extends BaseController
     /**
      * Create a new quorum
      *
-     * @param int $inquiryId Inquiry ID
-     * @param int $optionId Option ID
-     * @param string $phase Phase
-     * @param string $type Type
-     * @param float $value Value
-     * @param string $base Base
+     * @param int         $inquiryId   Inquiry ID
+     * @param int         $optionId    Option ID
+     * @param string      $phase       Phase
+     * @param string      $type        Type
+     * @param float       $value       Value
+     * @param string      $base        Base
      * @param string|null $description Description
-     * @param int|null $sortOrder Sort order
+     * @param int|null    $sortOrder   Sort order
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'POST', url: '/quorum')]
@@ -170,13 +170,13 @@ class QuorumController extends BaseController
     /**
      * Update a quorum
      *
-     * @param int $id Quorum ID
-     * @param string $phase Phase
-     * @param string $type Type
-     * @param float $value Value
-     * @param string $base Base
+     * @param int         $id          Quorum ID
+     * @param string      $phase       Phase
+     * @param string      $type        Type
+     * @param float       $value       Value
+     * @param string      $base        Base
      * @param string|null $description Description
-     * @param int|null $sortOrder Sort order
+     * @param int|null    $sortOrder   Sort order
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/quorum/{id}')]
@@ -271,9 +271,9 @@ class QuorumController extends BaseController
     /**
      * Check if quorum is reached
      *
-     * @param int $id Quorum ID
+     * @param int $id          Quorum ID
      * @param int $actualCount Actual count
-     * @param int $totalCount Total count
+     * @param int $totalCount  Total count
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'POST', url: '/quorum/{id}/check')]

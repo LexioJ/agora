@@ -192,18 +192,18 @@ class QuorumService
         }
 
         switch ($quorum->getType()) {
-            case Quorum::TYPE_PERCENTAGE:
-                $required = ($totalCount * $quorum->getValue()) / 100;
-                return $actualCount >= $required;
+        case Quorum::TYPE_PERCENTAGE:
+            $required = ($totalCount * $quorum->getValue()) / 100;
+            return $actualCount >= $required;
 
-            case Quorum::TYPE_ABSOLUTE:
-                return $actualCount >= $quorum->getValue();
+        case Quorum::TYPE_ABSOLUTE:
+            return $actualCount >= $quorum->getValue();
 
-            case Quorum::TYPE_MAJORITY:
-                return $actualCount > ($totalCount / 2);
+        case Quorum::TYPE_MAJORITY:
+            return $actualCount > ($totalCount / 2);
 
-            default:
-                return false;
+        default:
+            return false;
         }
     }
 }

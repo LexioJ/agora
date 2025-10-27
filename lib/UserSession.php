@@ -224,29 +224,29 @@ class UserSession
 
     public function getInquiryTypeFields(bool $isOption, ?string $specificType = null): array
     {
-	    if ($this->inquiryTypes === null) {
-		    $this->inquiryTypes = $this->inquiryTypeMapper->findAll();
-	    }
+        if ($this->inquiryTypes === null) {
+            $this->inquiryTypes = $this->inquiryTypeMapper->findAll();
+        }
 
-	    $result = [];
+        $result = [];
 
-	    foreach ($this->inquiryTypes as $type) {
-		    if ((int)$type->getIsOption() === (int)$isOption) {
-			    if ($specificType !== null && $type->getInquiryType() !== $specificType) {
-				    continue;
-			    }
+        foreach ($this->inquiryTypes as $type) {
+            if ((int)$type->getIsOption() === (int)$isOption) {
+                if ($specificType !== null && $type->getInquiryType() !== $specificType) {
+                    continue;
+                }
 
-			    $fields = $type->getFields() ?? [];
+                $fields = $type->getFields() ?? [];
 
-			    if ($specificType !== null) {
-				    return is_array($fields) ? $fields : [];
-			    }
+                if ($specificType !== null) {
+                    return is_array($fields) ? $fields : [];
+                }
 
-			    $result[$type->getInquiryType()] = is_array($fields) ? $fields : [];
-		    }
-	    }
+                $result[$type->getInquiryType()] = is_array($fields) ? $fields : [];
+            }
+        }
 
-	    return $result;
+        return $result;
     }
     /**
      *
@@ -255,12 +255,12 @@ class UserSession
 
     public function getClientIdHashed(): string
     {
-	    return hash('md5', $this->getClientId());
+        return hash('md5', $this->getClientId());
     }
 
     public function setClientId(string $clientId): void
     {
-	    $this->session->set(self::CLIENT_ID, $clientId);
+        $this->session->set(self::CLIENT_ID, $clientId);
     }
 
     /**
@@ -269,11 +269,11 @@ class UserSession
      */
     public function getClientTimeZone(): string
     {
-	    return $this->session->get(self::CLIENT_TZ) ?? date_default_timezone_get();
+        return $this->session->get(self::CLIENT_TZ) ?? date_default_timezone_get();
     }
 
     public function setClientTimeZone(string $clientTimeZone): void
     {
-	    $this->session->set(self::CLIENT_TZ, $clientTimeZone);
+        $this->session->set(self::CLIENT_TZ, $clientTimeZone);
     }
 }

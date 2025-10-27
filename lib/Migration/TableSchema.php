@@ -130,19 +130,43 @@ abstract class TableSchema
      * obsolete migration entries, which can be deleted
      */
     public const GONE_MIGRATIONS = [
+	    '20250715120000',
     ];
 
     /**
      * define obsolete tables to drop
      */
     public const GONE_TABLES = [
+	    'assemblies',           
+	    'assembly_relations',   
+	    'moderation_statuses', 
     ];
 
     /**
      * define obsolete columns to drop
      */
     public const GONE_COLUMNS = [
+	    'inquiries' => [
+		    'anonymous',
+		    'suggestions_expire', 
+		    'support_limit',
+		    'admin_access',
+		    'hide_booked_up',
+		    'misc_settings',
+		    'level',
+		    'slug',
+		    'tags'
+	    ],
+	    'options' => [
+		    'inquiry_option_hash',
+		    'timestamp',
+		    'duration',
+		    'order',
+		    'confirmed',
+		    'released'
+	    ],
     ];
+
 
     /**
      * define table structure
@@ -150,227 +174,227 @@ abstract class TableSchema
      * IMPORTANT: After adding or deletion check queries in ShareMapper
      */
     public const TABLES = [
-        InquiryGroup::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'title' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 128]],
-            'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 128]],
-            'owner' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
-            'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'default' => null, 'length' => 65535]],
-            'groupStatus' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
-            'title_ext' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 128]],
-        ],
-        InquiryGroup::RELATION_TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'group_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
+	    InquiryGroup::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'title' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 128]],
+		    'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 128]],
+		    'owner' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
+		    'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'default' => null, 'length' => 65535]],
+		    'groupStatus' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
+		    'title_ext' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 128]],
+	    ],
+	    InquiryGroup::RELATION_TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'group_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+	    ],
 
-        Inquiry::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'cover_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'length' => 20]],
-            'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'petition', 'length' => 64]],
-            'title' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 128]],
-            'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'default' => null, 'length' => 65535]],
-            'location_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
-            'category_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
-            'owner' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => '', 'length' => 256]],
-            'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'archived' => ['type' => Types::BOOLEAN, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
-            'expire' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'owned_group' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => '', 'length' => 255]],
-            'access' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'private', 'length' => 50]],
-            'show_results' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'always', 'length' => 64]],
-            'last_interaction' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'moderation_status' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
-            'inquiry_status' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
-            'allow_comment' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
-            'allow_support' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
-        ],
+	    Inquiry::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'cover_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'length' => 20]],
+		    'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'petition', 'length' => 64]],
+		    'title' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 128]],
+		    'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'default' => null, 'length' => 65535]],
+		    'location_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
+		    'category_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
+		    'owner' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => '', 'length' => 256]],
+		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'archived' => ['type' => Types::BOOLEAN, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
+		    'expire' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'owned_group' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => '', 'length' => 255]],
+		    'access' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'private', 'length' => 50]],
+		    'show_results' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'always', 'length' => 64]],
+		    'last_interaction' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'moderation_status' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
+		    'inquiry_status' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
+		    'allow_comment' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
+		    'allow_support' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
+	    ],
 
-        InquiryMisc::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
-            'key' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 64]],
-            'value' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'length' => 256]],
-        ],
+	    InquiryMisc::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
+		    'key' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 64]],
+		    'value' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'length' => 256]],
+	    ],
 
-        Location::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'name' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 255]],
-            'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
-        ],
+	    Location::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'name' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 255]],
+		    'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
+	    ],
 
-        Category::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'name' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 255]],
-            'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
-        ],
+	    Category::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'name' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 255]],
+		    'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
+	    ],
 
-        Attachment::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'file_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 255]],
-            'size' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => '0', 'length' => 255]],
-            'name' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 255]],
-            'mime_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'application/octet-stream', 'length' => 100]],
-            'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
+	    Attachment::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'file_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 255]],
+		    'size' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => '0', 'length' => 255]],
+		    'name' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 255]],
+		    'mime_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'application/octet-stream', 'length' => 100]],
+		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+	    ],
 
-        InquiryFamily::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'family_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
-            'label' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 100]],
-            'description' => ['type' => Types::TEXT, 'options' => ['notnull' => true, 'default' => '']],
-            'icon' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '']],
-            'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
+	    InquiryFamily::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'family_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
+		    'label' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 100]],
+		    'description' => ['type' => Types::TEXT, 'options' => ['notnull' => true, 'default' => '']],
+		    'icon' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '']],
+		    'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+	    ],
 
-        InquiryStatus::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'inquiry_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
-            'status_key' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
-            'label' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 100]],
-            'description' => ['type' => Types::TEXT, 'options' => ['notnull' => true, 'default' => '']],
-            'is_final' => ['type' => Types::BOOLEAN, 'options' => ['notnull' => false, 'default' =>false]],
-            'icon' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '']],
-            'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'updated' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
+	    InquiryStatus::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
+		    'status_key' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
+		    'label' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 100]],
+		    'description' => ['type' => Types::TEXT, 'options' => ['notnull' => true, 'default' => '']],
+		    'is_final' => ['type' => Types::BOOLEAN, 'options' => ['notnull' => false, 'default' =>false]],
+		    'icon' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '']],
+		    'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'updated' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+	    ],
 
-        InquiryType::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'inquiry_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
-            'family' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'deliberative', 'length' => 64]],
-            'icon' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '']],
-            'label' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 100]],
-            'is_option' => ['type' => Types::BOOLEAN, 'options' => ['notnull' => false, 'default' => false, 'length' => 20]],
-            'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
-            'fields' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
-            'allowed_response' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
-            'allowed_transformation' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
-            'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
+	    InquiryType::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
+		    'family' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'deliberative', 'length' => 64]],
+		    'icon' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '']],
+		    'label' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 100]],
+		    'is_option' => ['type' => Types::BOOLEAN, 'options' => ['notnull' => false, 'default' => false, 'length' => 20]],
+		    'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
+		    'fields' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
+		    'allowed_response' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
+		    'allowed_transformation' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
+		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+	    ],
 
-        InquiryLink::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
-            'target_app' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
-            'target_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
-            'target_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 100]],
-            'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'created_by' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
+	    InquiryLink::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
+		    'target_app' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
+		    'target_type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
+		    'target_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 100]],
+		    'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'created_by' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+	    ],
 
-        Option::TABLE => [
-            'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-            'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 64]],
-            'access' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'private', 'length' => 64]],
-            'option_text' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 1024]],
-            'owner' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
-            'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'updated' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-            'show_results' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'always', 'length' => 64]],
-            'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
-            'archived' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
-            'status' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
-            'allow_comment' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
-            'allow_support' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
-            'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
+	    Option::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 64]],
+		    'access' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'private', 'length' => 64]],
+		    'option_text' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 1024]],
+		    'owner' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
+		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'updated' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'show_results' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'always', 'length' => 64]],
+		    'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
+		    'archived' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => 0, 'length' => 20]],
+		    'status' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
+		    'allow_comment' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
+		    'allow_support' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
+		    'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+	    ],
 
-        OptionMisc::TABLE => [
-        'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-        'option_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
-        'key' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 64]],
-        'value' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'length' => 65535]],
-        ],
+	    OptionMisc::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'option_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
+		    'key' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 64]],
+		    'value' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'length' => 65535]],
+	    ],
 
-        Quorum::TABLE => [
-        'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-        'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
-        'option_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
-        'phase' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
-        'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 20]], 
-        'value' => ['type' => Types::FLOAT, 'options' => ['notnull' => true, 'default' => 0]],
-        'base' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]], 
-        'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
-        'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'updated' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
+	    Quorum::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
+		    'option_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'length' => 20]],
+		    'phase' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]],
+		    'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 20]], 
+		    'value' => ['type' => Types::FLOAT, 'options' => ['notnull' => true, 'default' => 0]],
+		    'base' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 50]], 
+		    'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
+		    'sort_order' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'updated' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+	    ],
 
-        Support::TABLE => [
-        'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-        'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'option_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
-        'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'support_hash' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 64]],
-        ],
+	    Support::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'option_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
+		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'support_hash' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'length' => 64]],
+	    ],
 
-        Comment::TABLE => [
-        'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-        'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'option_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
-        'comment' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 1024]],
-        'timestamp' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'confidential' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'recipient' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 256]],
-        ],
-        Share::TABLE => [
-        'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-        'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => null, 'length' => 20]],
-        'group_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => null, 'length' => 20]],
-        'token' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 64]],
-        'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 64]],
-        'label' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => '', 'length' => 256]],
-        'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
-        'display_name' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 256]],
-        'email_address' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 256]],
-        'invitation_sent' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'reminder_sent' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'locked' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'misc_settings' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'default' => null, 'length' => 65535]],
-        'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
-        Subscription::TABLE => [
-        'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-        'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
-        ],
-        Log::TABLE => [
-        'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-        'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 256]],
-        'display_name' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 256]],
-        'message_id' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 64]],
-        'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'processed' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        ],
-        Watch::TABLE => [
-        'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-        'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'table' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 64]],
-        'updated' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'session_id' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null]],
-        ],
-        Preferences::TABLE => [
-        'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
-        'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
-        'timestamp' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-        'preferences' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'default' => null, 'length' => 65535]],
-        ],
+	    Comment::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'option_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
+		    'comment' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 1024]],
+		    'timestamp' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'confidential' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'recipient' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 256]],
+	    ],
+	    Share::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => null, 'length' => 20]],
+		    'group_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => null, 'length' => 20]],
+		    'token' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 64]],
+		    'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 64]],
+		    'label' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => '', 'length' => 256]],
+		    'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
+		    'display_name' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 256]],
+		    'email_address' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 256]],
+		    'invitation_sent' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'reminder_sent' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'locked' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'misc_settings' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'default' => null, 'length' => 65535]],
+		    'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+	    ],
+	    Subscription::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
+	    ],
+	    Log::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 256]],
+		    'display_name' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 256]],
+		    'message_id' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null, 'length' => 64]],
+		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'processed' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+	    ],
+	    Watch::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'table' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 64]],
+		    'updated' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'session_id' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => null]],
+	    ],
+	    Preferences::TABLE => [
+		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
+		    'user_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
+		    'timestamp' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+		    'preferences' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'default' => null, 'length' => 65535]],
+	    ],
     ];
 
     /**
@@ -381,39 +405,39 @@ abstract class TableSchema
      */
     public static function createOrUpdateSchema(ISchemaWrapper &$schema): array
     {
-        $messages = [];
-        foreach (self::TABLES as $tableName => $columns) {
-            $tableCreated = false;
+	    $messages = [];
+	    foreach (self::TABLES as $tableName => $columns) {
+		    $tableCreated = false;
 
-            if ($schema->hasTable($tableName)) {
-                $messages[] = 'Validating table ' . $tableName;
-                $table = $schema->getTable($tableName);
-            } else {
-                $messages[] = 'Creating table ' . $tableName;
-                $table = $schema->createTable($tableName);
-                $tableCreated = true;
-            }
+		    if ($schema->hasTable($tableName)) {
+			    $messages[] = 'Validating table ' . $tableName;
+			    $table = $schema->getTable($tableName);
+		    } else {
+			    $messages[] = 'Creating table ' . $tableName;
+			    $table = $schema->createTable($tableName);
+			    $tableCreated = true;
+		    }
 
-            foreach ($columns as $columnName => $columnDefinition) {
-                if ($table->hasColumn($columnName)) {
-                    $column = $table->getColumn($columnName);
-                    $column->setOptions($columnDefinition['options']);
-                    if (Type::lookupName($column->getType()) !== $columnDefinition['type']) {
-                        $messages[] = 'Migrating type of ' . $tableName . ', ' . $columnName . ' to ' . $columnDefinition['type'];
-                        $column->setType(Type::getType($columnDefinition['type']));
-                    }
+		    foreach ($columns as $columnName => $columnDefinition) {
+			    if ($table->hasColumn($columnName)) {
+				    $column = $table->getColumn($columnName);
+				    $column->setOptions($columnDefinition['options']);
+				    if (Type::lookupName($column->getType()) !== $columnDefinition['type']) {
+					    $messages[] = 'Migrating type of ' . $tableName . ', ' . $columnName . ' to ' . $columnDefinition['type'];
+					    $column->setType(Type::getType($columnDefinition['type']));
+				    }
 
-                    // force change to current options definition
-                    $table->modifyColumn($columnName, $columnDefinition['options']);
-                } else {
-                    $table->addColumn($columnName, $columnDefinition['type'], $columnDefinition['options']);
-                }
-            }
+				    // force change to current options definition
+				    $table->modifyColumn($columnName, $columnDefinition['options']);
+			    } else {
+				    $table->addColumn($columnName, $columnDefinition['type'], $columnDefinition['options']);
+			    }
+		    }
 
-            if ($tableCreated) {
-                $table->setPrimaryKey(['id']);
-            }
-        }
-        return $messages;
+		    if ($tableCreated) {
+			    $table->setPrimaryKey(['id']);
+		    }
+	    }
+	    return $messages;
     }
 }

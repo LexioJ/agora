@@ -83,6 +83,13 @@ class AppSettings implements JsonSerializable
     public const SETTING_USE_COLLABORATION = 'useCollaboration';
     public const SETTING_USE_COLLABORATION_DEFAULT = true;
 
+    //Moderation 
+    public const SETTING_USE_MODERATION = 'useModeration';
+    public const SETTING_USE_MODERATION_DEFAULT = true;
+
+    public const SETTING_OFFICIAL_BYPASS_MODERATION = 'officialBypassModeration';
+    public const SETTING_OFFICIAL_BYPASS_MODERATION_DEFAULT = true;
+
     public const SETTING_DEFAULT_PRIVACY_URL = 'defaultPrivacyUrl';
     public const SETTING_DEFAULT_IMPRINT_URL = 'defaultImprintUrl';
     public const SETTING_FINAL_PRIVACY_URL = 'finalPrivacyUrl';
@@ -129,7 +136,8 @@ class AppSettings implements JsonSerializable
         'publicShares' => $this->getPublicSharesAllowed(),
         'seeMailAddresses' => $this->getAllowSeeMailAddresses(),
         'unrestrictedOwner' => $this->getIsUnrestrictedInquiryOwner(),
-        'useCollaboration' => $this->getUseCollaboration(),
+        'useModeration' => $this->getUseModeration(),
+        'officialBypassModeration' => $this->getOfficialBypassModeration(),
         ];
     }
 
@@ -142,6 +150,8 @@ class AppSettings implements JsonSerializable
         'useSiteLegalTerms' => true,
         'useActivity' => false,
         'useCollaboration' => true,
+        'useModeration' => true,
+        'officialBypassModeration' => true,
         'navigationInquiriesInList' => false,
         'updateType' => $this->getUpdateType(),
         ];
@@ -270,6 +280,8 @@ class AppSettings implements JsonSerializable
         return [
         'useActivity' => $this->getUseActivity(),
         'useCollaboration' => $this->getUseCollaboration(),
+        'useModeration' => $this->getUseModeration(),
+        'officialBypassModeration' => $this->getOfficialBypassModeration(),
         'navigationInquiriesInList' => $this->getLoadInquiriesInNavigation(),
         // Array settings for internal use only
         'categoryTab' =>  $this->categoryService->findAll(),
@@ -476,6 +488,24 @@ class AppSettings implements JsonSerializable
     }
 
     /**
+     * Get moderation feature
+     */
+    public function getUseModeration(): bool
+    {
+        return $this->getBooleanSetting(self::SETTING_USE_MODERATION, default: self::SETTING_USE_MODERATION_DEFAULT);
+    }
+
+    /**
+     * Official bypass moderaton 
+     */
+    public function getOfficialBypassModeration(): bool
+    {
+        return $this->getBooleanSetting(self::SETTING_OFFICIAL_BYPASS_MODERATION, default: self::SETTING_OFFICIAL_BYPASS_MODERATION_DEFAULT);
+    }
+
+
+
+    /**
      * Get whether to use collaboration features
      */
     public function getUseCollaboration(): bool
@@ -594,7 +624,6 @@ class AppSettings implements JsonSerializable
     }
 
     /**
-
     /**
      * Get the update type for frontend inquirying of new data
      * returning one of the following:
@@ -682,7 +711,7 @@ class AppSettings implements JsonSerializable
 
         self::SETTING_AUTO_ARCHIVE => $this->getBooleanSetting(self::SETTING_AUTO_ARCHIVE, default: self::SETTING_AUTO_ARCHIVE_DEFAULT),
         self::SETTING_AUTO_ARCHIVE_OFFSET_DAYS => $this->getAutoArchiveOffsetDays(),
-	
+    
         self::SETTING_AUTO_EXPIRE => $this->getBooleanSetting(self::SETTING_AUTO_EXPIRE, default: self::SETTING_AUTO_EXPIRE_DEFAULT),
         self::SETTING_AUTO_EXPIRE_OFFSET_DAYS => $this->getAutoExpireOffsetDays(),
 

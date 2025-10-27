@@ -1,12 +1,12 @@
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { a as defineComponent, t as translate, e as onMounted, _ as _export_sfc, f as createBlock, o as openBlock, w as withCtx, g as createVNode, n as normalizeProps, h as guardReactiveProps, i as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DmAwCDvH.chunk.mjs";
-import { N as NcSettingsSection } from "./index-D1DpF30f.chunk.mjs";
-import "./NcDashboardWidget-BEUtfCxs-BLxGdpMe.chunk.mjs";
-import { F as FlexSettings } from "./FlexSettings-Dk5cpfB6.chunk.mjs";
-import { u as usePreferencesStore } from "./preferences-PhW3Iloj.chunk.mjs";
-import "./NcRichText-Dht_wH3t-DShVcyhW.chunk.mjs";
-import { S as StyleSettings, F as FeatureSettings } from "./StyleSettings-BZ4sfLOU.chunk.mjs";
+import { a as defineComponent, t as translate, e as onMounted, _ as _export_sfc, f as createBlock, o as openBlock, w as withCtx, g as createVNode, n as normalizeProps, h as guardReactiveProps, i as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-jKCq2TlB.chunk.mjs";
+import { N as NcSettingsSection } from "./index-iYy1HK-n.chunk.mjs";
+import "./NcDashboardWidget-Bu7bWoUK-Mvj_xSe5.chunk.mjs";
+import { F as FlexSettings } from "./FlexSettings-dDX-zZgS.chunk.mjs";
+import { u as usePreferencesStore } from "./preferences-Db4EJqw7.chunk.mjs";
+import "./NcRichText-CETsOVBU-C02V-rjj.chunk.mjs";
+import { S as StyleSettings, F as FeatureSettings } from "./StyleSettings-CXQ8Yeho.chunk.mjs";
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "UserSettingsPage",
   setup(__props, { expose: __expose }) {

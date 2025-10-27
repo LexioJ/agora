@@ -3385,15 +3385,15 @@ tr.file-picker__row td.row-name[data-v-1f96131b] {
 })();
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { at as h$1, d as defineStore, bc as Settings, u as _export_sfc, a as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, f as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, b as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, V as withDirectives, bg as vModelRadio, bh as withKeys, Z as withModifiers, F as useModel, r as renderSlot, af as useCssVars, bi as useIsDarkTheme, B as unref, bj as mdiCreation, g as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, Y as NcButton, bk as userStatus, L as NcAvatar, $ as resolveComponent, K as mergeProps, M as normalizeStyle, E as mergeModels, U as ref, bl as provide, I as warn$1, J as watch, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, aw as logger, a2 as mdiCheck, a3 as mdiAlertCircle, bm as useRouter, e as onMounted, G as Fragment$1, H as renderList, aK as onBeforeUnmount, ae as NcLoadingIcon, W as vShow, bn as Teleport, bo as useRoute, b6 as emit, n as normalizeProps, h as guardReactiveProps, P as DateTime, R as RouterLink, b8 as onUnmounted, ba as NcActions, bp as translatePlural, bq as TransitionGroup, aL as nextTick, q as _$2, br as NcModal, b7 as shallowRef, bs as markRaw, bt as watchEffect, bu as getCurrentInstance, bv as customRef, bw as global, bx as getAugmentedNamespace, aN as process$1, a_ as commonjsGlobal, by as Buffer, S as getDefaultExportFromCjs, bz as vModelSelect, bA as toRaw, bB as subscribe, bC as unsubscribe, as as Transition, bD as onBeforeRouteUpdate, aR as getCurrentUser, X as vModelText, bE as createRouter, bF as createWebHistory, bG as axios, i as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DmAwCDvH.chunk.mjs";
-import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, i as createPermissionContextForContent, C as ContentType, j as canTransfer, k as canDelete, l as canArchive, I as InquiryGeneralIcons, b as useInquiriesStore, m as useInquiryGroupsStore, n as NavigationIcons, s as showError, o as useInquiryStore, q as showSuccess, E as Event$1, r as NcEmptyContent, S as StatusIcons, B as BadgeIcons, t as canSupport, v as canComment, w as sortTitlesMapping, x as lodashExports, y as appSettings, z as showInfo, A as canEdit, D as canRestore, F as shouldShowResponseActions, G as shouldShowTransformationActions, H as canCreateResponseType, J as canCreateTransformationType, K as canViewToggle, M as validators, O as inquiries, P as commonjsRequire, Q as useAttachmentsStore, R as useCommentsStore, T as useSharesStore, U as moment, V as useOptionsStore, W as ShareIcons, X as canShare } from "./NcDashboardWidget-BEUtfCxs-BLxGdpMe.chunk.mjs";
-import { u as usePreferencesStore } from "./preferences-PhW3Iloj.chunk.mjs";
-import { b as NcAppNavigationItem, u as useAppSettingsDialog, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcAppSidebar, a as NcAppSettingsDialog, l as NcContent } from "./index-D1DpF30f.chunk.mjs";
-import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getInquiryTypesByFamily, d as getInquiryTypesForFamily, e as getInquiryItemData, i as isInquiryFinalStatus, f as getAvailableResponseTypes, h as getAvailableTransformTypes } from "./InquiryHelper-CIwMhmaB.chunk.mjs";
-import { _ as _sfc_main$1C, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1D, e as NcRichText } from "./NcRichText-Dht_wH3t-DShVcyhW.chunk.mjs";
-import { R as RadioGroupDiv, C as CardDiv } from "./markdown-Do9QQ770.chunk.mjs";
-import { A as AgoraAppIcon } from "./AgoraAppIcon-BIym6e5f.chunk.mjs";
-import { S as StyleSettings, F as FeatureSettings } from "./StyleSettings-BZ4sfLOU.chunk.mjs";
+import { at as h$1, d as defineStore, bc as Settings, u as _export_sfc, a as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, f as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, b as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, V as withDirectives, bg as vModelRadio, bh as withKeys, Z as withModifiers, F as useModel, bi as useSlots, J as watch, aw as logger, e as onMounted, aK as onBeforeUnmount, r as renderSlot, af as useCssVars, bj as useIsDarkTheme, B as unref, bk as mdiCreation, g as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, Y as NcButton, bl as userStatus, L as NcAvatar, $ as resolveComponent, K as mergeProps, M as normalizeStyle, E as mergeModels, U as ref, bm as provide, I as warn$1, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, a2 as mdiCheck, a3 as mdiAlertCircle, bn as useRouter, G as Fragment$1, H as renderList, ae as NcLoadingIcon, W as vShow, bo as Teleport, bp as useRoute, b6 as emit, n as normalizeProps, h as guardReactiveProps, P as DateTime, R as RouterLink, b8 as onUnmounted, ba as NcActions, bq as translatePlural, br as TransitionGroup, aL as nextTick, q as _$2, bs as NcModal, b7 as shallowRef, bt as markRaw, bu as watchEffect, bv as getCurrentInstance, bw as customRef, bx as global, by as getAugmentedNamespace, aN as process$1, a_ as commonjsGlobal, bz as Buffer, S as getDefaultExportFromCjs, bA as vModelSelect, bB as toRaw, bC as subscribe, bD as unsubscribe, as as Transition, bE as onBeforeRouteUpdate, aR as getCurrentUser, X as vModelText, bF as createRouter, bG as createWebHistory, bH as axios, i as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-jKCq2TlB.chunk.mjs";
+import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, i as createPermissionContextForContent, C as ContentType, j as canTransfer, k as canDelete, l as canArchive, I as InquiryGeneralIcons, b as useInquiriesStore, m as useInquiryGroupsStore, n as NavigationIcons, s as showError, o as useInquiryStore, q as showSuccess, E as Event$1, r as NcEmptyContent, S as StatusIcons, B as BadgeIcons, t as canSupport, v as canComment, w as sortTitlesMapping, x as lodashExports, y as appSettings, z as showInfo, A as canEdit, D as canRestore, F as shouldShowResponseActions, G as shouldShowTransformationActions, H as canCreateResponseType, J as canCreateTransformationType, K as canViewToggle, M as validators, O as inquiries, P as commonjsRequire, Q as useAttachmentsStore, R as useCommentsStore, T as useSharesStore, U as moment, V as useOptionsStore, W as ShareIcons, X as canShare } from "./NcDashboardWidget-Bu7bWoUK-Mvj_xSe5.chunk.mjs";
+import { u as usePreferencesStore } from "./preferences-Db4EJqw7.chunk.mjs";
+import { b as NcAppNavigationItem, u as useAppSettingsDialog, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcAppSidebar, a as NcAppSettingsDialog, l as NcContent } from "./index-iYy1HK-n.chunk.mjs";
+import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getInquiryTypesByFamily, d as getInquiryTypesForFamily, e as getInquiryItemData, i as isInquiryFinalStatus, f as getAvailableResponseTypes, h as getAvailableTransformTypes } from "./InquiryHelper-DyPoMXac.chunk.mjs";
+import { _ as _sfc_main$1C, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1D, e as NcRichText } from "./NcRichText-CETsOVBU-C02V-rjj.chunk.mjs";
+import { R as RadioGroupDiv, C as CardDiv } from "./markdown-DmFkFk-D.chunk.mjs";
+import { A as AgoraAppIcon } from "./AgoraAppIcon-BCcb8Z8A.chunk.mjs";
+import { S as StyleSettings, F as FeatureSettings } from "./StyleSettings-CXQ8Yeho.chunk.mjs";
 const setCookie = (cookieName, cookieValue = "", cookieExpiration = 360) => {
   const expirationTime = /* @__PURE__ */ new Date();
   expirationTime.setTime(expirationTime.getTime() + cookieExpiration);
@@ -3755,7 +3755,7 @@ const _sfc_main$1A = /* @__PURE__ */ defineComponent({
   }
 });
 const _hoisted_1$1b = { class: "type-icon" };
-function _sfc_render$1t(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcAppNavigationItem"], {
     name: $props.inquiry.title,
     to: $props.inquiry.permissions.view ? { name: "inquiry", params: { id: $props.inquiry.id } } : null,
@@ -3815,7 +3815,7 @@ function _sfc_render$1t(_ctx, _cache, $props, $setup, $data, $options) {
     /* STABLE */
   }, 8, ["name", "to", "class"]);
 }
-const InquiryNavigationItems = /* @__PURE__ */ _export_sfc$1(_sfc_main$1A, [["render", _sfc_render$1t], ["__scopeId", "data-v-65e9e2b8"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Navigation/InquiryNavigationItems.vue"]]);
+const InquiryNavigationItems = /* @__PURE__ */ _export_sfc$1(_sfc_main$1A, [["render", _sfc_render$1s], ["__scopeId", "data-v-65e9e2b8"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Navigation/InquiryNavigationItems.vue"]]);
 const _sfc_main$1z = {
   name: "NcActionCaption",
   inject: {
@@ -3835,13 +3835,13 @@ const _sfc_main$1z = {
   }
 };
 const _hoisted_1$1a = ["role"];
-function _sfc_render$1s(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1r(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("li", {
     class: "app-navigation-caption",
     role: $options.isInSemanticMenu && "presentation"
   }, toDisplayString($props.name), 9, _hoisted_1$1a);
 }
-const NcActionCaption = /* @__PURE__ */ _export_sfc(_sfc_main$1z, [["render", _sfc_render$1s], ["__scopeId", "data-v-1009e96c"]]);
+const NcActionCaption = /* @__PURE__ */ _export_sfc(_sfc_main$1z, [["render", _sfc_render$1r], ["__scopeId", "data-v-1009e96c"]]);
 const _sfc_main$1y = {
   name: "NcActionRadio",
   mixins: [ActionGlobalMixin],
@@ -3934,7 +3934,7 @@ const _hoisted_1$19 = ["role"];
 const _hoisted_2$P = ["aria-checked"];
 const _hoisted_3$I = ["id", "disabled", "name", "value"];
 const _hoisted_4$E = ["for"];
-function _sfc_render$1r(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1q(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("li", {
     class: normalizeClass(["action", { "action--disabled": $props.disabled }]),
     role: $options.isInSemanticMenu && "presentation"
@@ -3967,7 +3967,7 @@ function _sfc_render$1r(_ctx, _cache, $props, $setup, $data, $options) {
     ], 8, _hoisted_2$P)
   ], 10, _hoisted_1$19);
 }
-const NcActionRadio = /* @__PURE__ */ _export_sfc(_sfc_main$1y, [["render", _sfc_render$1r], ["__scopeId", "data-v-9e878692"]]);
+const NcActionRadio = /* @__PURE__ */ _export_sfc(_sfc_main$1y, [["render", _sfc_render$1q], ["__scopeId", "data-v-9e878692"]]);
 const _sfc_main$1x = {
   name: "NcActionSeparator"
 };
@@ -3975,10 +3975,10 @@ const _hoisted_1$18 = {
   class: "action action-separator action--disabled",
   role: "separator"
 };
-function _sfc_render$1q(_ctx, _cache, $props, $setup, $data, $options) {
+function _sfc_render$1p(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("li", _hoisted_1$18);
 }
-const NcActionSeparator = /* @__PURE__ */ _export_sfc(_sfc_main$1x, [["render", _sfc_render$1q], ["__scopeId", "data-v-3e2324b7"]]);
+const NcActionSeparator = /* @__PURE__ */ _export_sfc(_sfc_main$1x, [["render", _sfc_render$1p], ["__scopeId", "data-v-3e2324b7"]]);
 const _hoisted_1$17 = { class: "app-navigation-spacer" };
 const _sfc_main$1w = /* @__PURE__ */ defineComponent({
   __name: "NcAppNavigationSpacer",
@@ -3989,73 +3989,51 @@ const _sfc_main$1w = /* @__PURE__ */ defineComponent({
   }
 });
 const NcAppNavigationSpacer = /* @__PURE__ */ _export_sfc(_sfc_main$1w, [["__scopeId", "data-v-277fa710"]]);
-const _sfc_main$1v = {
-  name: "NcAppSettingsSection",
-  props: {
-    /**
-     * Name of the section
-     */
-    name: {
-      type: String,
-      required: true
-    },
-    /**
-     * The id of the section
-     */
-    id: {
-      type: String,
-      required: true,
-      validator(id) {
-        return /^[a-z0-9\-_]+$/.test(id);
-      }
-    }
-  },
-  setup() {
-    return {
-      ...useAppSettingsDialog()
-    };
-  },
-  computed: {
-    // generate an id for each settingssection based on the name without whitespaces
-    htmlId() {
-      return "settings-section_" + this.id;
-    }
-  },
-  // Reactive changes for section navigation
-  watch: {
-    id(newId, oldId) {
-      this.unregisterSection(oldId);
-      this.registerSection(newId, this.name, this.$slots?.icon?.());
-    },
-    name(newName) {
-      this.unregisterSection(this.id);
-      this.registerSection(this.id, newName, this.$slots?.icon?.());
-    }
-  },
-  mounted() {
-    this.registerSection(this.id, this.name, this.$slots?.icon?.());
-  },
-  beforeUnmount() {
-    this.unregisterSection(this.id);
-  }
-};
 const _hoisted_1$16 = ["id", "aria-labelledby"];
 const _hoisted_2$O = ["id"];
-function _sfc_render$1p(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("section", {
-    id: $options.htmlId,
-    "aria-labelledby": `${$options.htmlId}--label`,
-    class: "app-settings-section"
-  }, [
-    createBaseVNode("h3", {
-      id: `${$options.htmlId}--label`,
-      class: "app-settings-section__name"
-    }, toDisplayString($props.name), 9, _hoisted_2$O),
-    renderSlot(_ctx.$slots, "default", {}, void 0, true),
-    createCommentVNode("", true)
-  ], 8, _hoisted_1$16);
-}
-const NcAppSettingsSection = /* @__PURE__ */ _export_sfc(_sfc_main$1v, [["render", _sfc_render$1p], ["__scopeId", "data-v-a9004e4c"]]);
+const _sfc_main$1v = /* @__PURE__ */ defineComponent({
+  __name: "NcAppSettingsSection",
+  props: {
+    name: {},
+    id: {},
+    order: {}
+  },
+  setup(__props) {
+    const props2 = __props;
+    const slots = useSlots();
+    const { registerSection, unregisterSection } = useAppSettingsDialog();
+    const htmlId = computed(() => "settings-section_" + props2.id);
+    watch(() => props2.id, () => {
+      if (!/^[a-z0-9\-_]+$/.test(props2.id)) {
+        logger.warn(`Invalid id prop: ${props2.id}. Only alphanumeric, dash and underscore are allowed.`);
+      }
+    }, { immediate: true });
+    watch([() => props2.id, () => props2.name, () => props2.order], ([newId, newName, newOrder], [oldId, ,]) => {
+      unregisterSection(oldId);
+      registerSection(newId, newName, newOrder, slots?.icon?.());
+    });
+    onMounted(() => {
+      registerSection(props2.id, props2.name, props2.order, slots?.icon?.());
+    });
+    onBeforeUnmount(() => {
+      unregisterSection(props2.id);
+    });
+    return (_ctx, _cache) => {
+      return openBlock(), createElementBlock("section", {
+        id: htmlId.value,
+        "aria-labelledby": `${htmlId.value}--label`,
+        class: "app-settings-section"
+      }, [
+        createBaseVNode("h3", {
+          id: `${htmlId.value}--label`,
+          class: "app-settings-section__name"
+        }, toDisplayString(_ctx.name), 9, _hoisted_2$O),
+        renderSlot(_ctx.$slots, "default", {}, void 0, true)
+      ], 8, _hoisted_1$16);
+    };
+  }
+});
+const NcAppSettingsSection = /* @__PURE__ */ _export_sfc(_sfc_main$1v, [["__scopeId", "data-v-78ad5bf4"]]);
 const _sfc_main$1u = {
   name: "NcAppSidebarTab",
   inject: ["registerTab", "unregisterTab", "getActiveTab", "isTablistShown"],
@@ -4781,7 +4759,7 @@ const _sfc_main$1n = /* @__PURE__ */ defineComponent({
     };
   }
 });
-const NcTextArea = /* @__PURE__ */ _export_sfc(_sfc_main$1n, [["__scopeId", "data-v-808cdfc6"]]);
+const NcTextArea = /* @__PURE__ */ _export_sfc(_sfc_main$1n, [["__scopeId", "data-v-d7a7d046"]]);
 const iconSize = 20;
 const _sfc_main$1m = /* @__PURE__ */ defineComponent({
   __name: "Navigation",
@@ -13381,7 +13359,13 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
       set: async (value) => {
         if (value) {
           try {
-            await setModerationStatus("pending");
+            if (props2.sessionStore.appSettings.currentUser.isOfficial && props2.sessionStore.appSettings.officialBypassModeration) {
+              await setModerationStatus("accepted");
+            } else if (!props2.sessionStore.appSettings.allowModeration) {
+              await setModerationStatus("accepted");
+            } else {
+              await setModerationStatus("pending");
+            }
           } catch (error) {
             console.error("Failed to toggle moderation:", error);
           }

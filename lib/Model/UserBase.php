@@ -399,7 +399,7 @@ class UserBase implements JsonSerializable
 
     /**
      * @psalm-suppress PossiblyUnusedMethod 
-     * @return array
+     * @return         array
      */
     public function jsonSerialize(): array
     {
