@@ -367,7 +367,6 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
   background: var(--color-main-background);
   border-radius: 0 0 12px 12px;
   padding: 30px;
-  min-height: 600px;
   height: auto;
   overflow: visible;
   flex: 1;
@@ -521,7 +520,6 @@ const rootLocations = computed(() => locations.value.filter((item) => item.paren
 
   .tab-content {
     padding: 20px;
-    min-height: 500px;
   }
 
   .form-fields {

@@ -4,14 +4,15 @@
 -->
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { t } from '@nextcloud/l10n'
 
 import AdminTypeRights from './AdminTypeRights.vue'
-import AdminOfficialRights from './AdminOfficialRights.vue'
-import AdminModeratorRights from './AdminModeratorRights.vue'
 import AdminTypeStatus from './AdminTypeStatus.vue'
 import { InquiryGeneralIcons } from '../../../utils/icons.ts'
+import { useAppSettingsStore } from '../../../stores/appSettings.js'
+
+const appSettingsStore = useAppSettingsStore()
 
 const props = defineProps(['selectedType'])
 const emit = defineEmits(['close'])
@@ -29,21 +30,16 @@ const settingsTabs = [
     component: AdminTypeRights,
   },
   { 
-    id: 'official-rights', 
-    label: t('agora', 'Official Rights'), 
-    component: AdminOfficialRights,
-  },
-  { 
-    id: 'moderator-rights', 
-    label: t('agora', 'Moderator Rights'), 
-    component: AdminModeratorRights,
-  },
-  { 
     id: 'status', 
     label: t('agora', 'Inquiry Status'), 
     component: AdminTypeStatus,
   },
 ]
+
+const updateTypeRights = (typeKey, rights) => {
+  appSettingsStore.inquiryTypeRights[typeKey] = rights
+  appSettingsStore.write()
+}
 </script>
 
 <template>
@@ -51,13 +47,16 @@ const settingsTabs = [
     <div class="modal-header">
       <div class="type-info">
         <div class="type-icon">
-	  <component :is="getIconComponent(selectedType.icon)" :size="20" />
+          <component :is="getIconComponent(selectedType.icon)" :size="20" />
         </div>
         <div class="type-details">
           <h3>{{ selectedType.label }}</h3>
           <p class="type-key">{{ selectedType.inquiry_type }}</p>
         </div>
       </div>
+      <button class="close-button" @click="$emit('close')">
+        {{ t('agora', 'Close') }}
+      </button>
     </div>
 
     <div class="simple-menu">
@@ -76,7 +75,7 @@ const settingsTabs = [
       <component 
         :is="settingsTabs.find(t => t.id === activeSettingsTab)?.component"
         :selected-type="selectedType"
-        :in-modal="true"
+        @update-rights="updateTypeRights"
       />
     </div>
   </div>
@@ -96,6 +95,9 @@ const settingsTabs = [
   border-bottom: 1px solid var(--color-border);
   background: var(--color-background-dark);
   flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
 .type-info {
@@ -133,6 +135,19 @@ const settingsTabs = [
   padding: 4px 8px;
   border-radius: 4px;
   display: inline-block;
+}
+
+.close-button {
+  background: var(--color-background-darker);
+  border: 1px solid var(--color-border);
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  color: var(--color-text-light);
+}
+
+.close-button:hover {
+  background: var(--color-background-hover);
 }
 
 /* Menu simple */

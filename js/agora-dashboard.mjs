@@ -12,18 +12,25 @@
 })();
 const appName = "agora";
 const appVersion = "1.5.0-beta";
-import { d as defineComponent, t as translate, b as onMounted, m as purify, q as _, _ as _export_sfc, c as createElementBlock, o as openBlock, f as createVNode, w as withCtx, a as createBaseVNode, e as createBlock, s as resolveDynamicComponent, k as toDisplayString, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang--E6jl8E8.chunk.mjs";
-import { a as useInquiriesStore, L as Logger, s as showError, N as NcDashboardWidget } from "./NcDashboardWidget-BEUtfCxs-BPKo71zP.chunk.mjs";
-import { A as AgoraAppIcon } from "./AgoraAppIcon-B9bZ5ZJq.chunk.mjs";
+import { a as defineComponent, t as translate, l as computed, e as onMounted, m as purify, q as _, _ as _export_sfc, c as createElementBlock, o as openBlock, g as createVNode, w as withCtx, b as createBaseVNode, f as createBlock, s as resolveDynamicComponent, k as toDisplayString, i as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DmAwCDvH.chunk.mjs";
+import { a as useSessionStore, b as useInquiriesStore, L as Logger, s as showError, I as InquiryGeneralIcons, N as NcDashboardWidget } from "./NcDashboardWidget-BEUtfCxs-BLxGdpMe.chunk.mjs";
+import { u as usePreferencesStore } from "./preferences-PhW3Iloj.chunk.mjs";
+import { A as AgoraAppIcon } from "./AgoraAppIcon-BIym6e5f.chunk.mjs";
+import { g as getInquiryTypeData } from "./InquiryHelper-CIwMhmaB.chunk.mjs";
 
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "Dashboard",
   setup(__props, { expose: __expose }) {
     __expose();
+    const preferencesStore = usePreferencesStore();
+    const sessionStore = useSessionStore();
     const dashboardWidgetProperties = {
       emptyContentMessage: translate("agora", "No inquiries found for this category"),
       showMoreText: translate("agora", "Relevant inquiries")
     };
+    const allInquiryTypes = computed(() => {
+      return sessionStore.appSettings.inquiryTypeTab || [];
+    });
     const inquiriesStore = useInquiriesStore();
     function loadInquiries() {
       Logger.debug("Loading inquiries in dashboard widget");
@@ -33,10 +40,17 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
         showError(translate("agora", "Error setting dashboard list"));
       }
     }
+    function getInquiryIcon(inquiry) {
+      if (inquiry.type) {
+        const typeData = getInquiryTypeData(inquiry.type, allInquiryTypes.value);
+        return typeData?.icon || InquiryGeneralIcons.Flash;
+      }
+      return InquiryGeneralIcons.Flash;
+    }
     onMounted(() => {
       loadInquiries();
     });
-    const __returned__ = { dashboardWidgetProperties, inquiriesStore, loadInquiries, get generateUrl() {
+    const __returned__ = { preferencesStore, sessionStore, dashboardWidgetProperties, allInquiryTypes, inquiriesStore, loadInquiries, getInquiryIcon, get generateUrl() {
       return _;
     }, get t() {
       return translate;
@@ -74,7 +88,7 @@ function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
         }, [
           createBaseVNode("div", _hoisted_2, [
             createBaseVNode("div", _hoisted_3, [
-              (openBlock(), createBlock(resolveDynamicComponent(_ctx.InquiryTypesUI[item.type].icon)))
+              (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryIcon(_ctx.inquiry)), { class: "nav-icon" }))
             ]),
             createBaseVNode("div", _hoisted_4, [
               createBaseVNode(

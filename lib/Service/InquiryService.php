@@ -55,7 +55,7 @@ class InquiryService
 		private UserMapper $userMapper,
 		private UserSession $userSession,
 		private SupportMapper $supportMapper,
-		private LoggerInterface $ogger,
+		private LoggerInterface $logger,
 	) {
 	}
 
@@ -284,6 +284,7 @@ class InquiryService
 			throw new EmptyTitleException('Title must not be empty');
 		}
 
+
 		$timestamp = time();
 		$this->inquiry = new Inquiry();
 		$this->inquiry->setTitle($dto->title);
@@ -299,7 +300,13 @@ class InquiryService
 		// Optional fields with defaults
 		$this->inquiry->setDescription($dto->description ?? '');
 		$this->inquiry->setAccess(Inquiry::ACCESS_PRIVATE);
-		$this->inquiry->setExpire(0);
+		if ($this->appSettings->getAutoExpireEnabled()) {
+			$expireDays=$this->appSettings->getAutoExpireOffsetDays();
+		        $expireTimestamp = $timestamp + ($expireDays * 24 * 60 * 60); 
+		}
+		else 
+		        $expireTimestamp = 0;
+		$this->inquiry->setExpire($expireTimestamp);
 		$this->inquiry->setShowResults(Inquiry::SHOW_RESULTS_ALWAYS);
 
 		$this->inquiry = $this->inquiryMapper->insert($this->inquiry);

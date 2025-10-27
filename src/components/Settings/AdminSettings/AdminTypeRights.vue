@@ -11,7 +11,7 @@ import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useAppSettingsStore } from '../../../stores/appSettings.js'
 
 const props = defineProps(['selectedType'])
-const emit = defineEmits(['back-to-types'])
+const emit = defineEmits(['update-rights'])
 
 const appSettingsStore = useAppSettingsStore()
 
@@ -21,12 +21,41 @@ const editorOptions = [
   { value: 'texteditor', label: t('agora', 'Nextcloud text editor') },
 ]
 
-// Initialize rights for the selected type
+// Réactive rights object pour le type sélectionné
+const typeRights = computed({
+  get: () => {
+    if (!props.selectedType) return {}
+    return appSettingsStore.inquiryTypeRights[props.selectedType.inquiry_type] || getDefaultRights()
+  },
+  set: (newRights) => {
+    if (props.selectedType) {
+      // Émettre l'événement pour mettre à jour le store parent
+      emit('update-rights', props.selectedType.inquiry_type, newRights)
+    }
+  }
+})
+
+const getDefaultRights = () => ({
+  supportInquiry: true,
+  commentInquiry: true,
+  attachFileInquiry: true,
+  editorType: 'wysiwyg'
+})
+
+// Initialiser les droits si le type n'existe pas encore
 watch(() => props.selectedType, (newType) => {
   if (newType && !appSettingsStore.inquiryTypeRights[newType.inquiry_type]) {
-    appSettingsStore.initializeInquiryTypeRights(newType.inquiry_type)
+    const defaultRights = getDefaultRights()
+    emit('update-rights', newType.inquiry_type, defaultRights)
   }
 }, { immediate: true })
+
+// Mettre à jour les droits quand ils changent localement
+const updateRights = () => {
+  if (props.selectedType) {
+    emit('update-rights', props.selectedType.inquiry_type, typeRights.value)
+  }
+}
 </script>
 
 <template>
@@ -35,6 +64,9 @@ watch(() => props.selectedType, (newType) => {
       <h2>
         {{ t('agora', 'Rights for {type}', { type: selectedType?.label }) }}
       </h2>
+      <p v-if="selectedType" class="type-id">
+        {{ selectedType.inquiry_type }}
+      </p>
     </div>
 
     <div v-if="selectedType" class="settings-container">
@@ -45,9 +77,9 @@ watch(() => props.selectedType, (newType) => {
       <div class="settings-list">
         <div class="setting-item">
           <NcCheckboxRadioSwitch
-            v-model="appSettingsStore.inquiryTypeRights[selectedType.inquiry_type].supportInquiry"
+            v-model="typeRights.supportInquiry"
             type="switch"
-            @update:model-value="appSettingsStore.write()"
+            @update:model-value="updateRights"
           >
             {{ t('agora', 'Allow support') }}
           </NcCheckboxRadioSwitch>
@@ -58,9 +90,9 @@ watch(() => props.selectedType, (newType) => {
 
         <div class="setting-item">
           <NcCheckboxRadioSwitch
-            v-model="appSettingsStore.inquiryTypeRights[selectedType.inquiry_type].commentInquiry"
+            v-model="typeRights.commentInquiry"
             type="switch"
-            @update:model-value="appSettingsStore.write()"
+            @update:model-value="updateRights"
           >
             {{ t('agora', 'Allow comments') }}
           </NcCheckboxRadioSwitch>
@@ -71,9 +103,9 @@ watch(() => props.selectedType, (newType) => {
 
         <div class="setting-item">
           <NcCheckboxRadioSwitch
-            v-model="appSettingsStore.inquiryTypeRights[selectedType.inquiry_type].attachFileInquiry"
+            v-model="typeRights.attachFileInquiry"
             type="switch"
-            @update:model-value="appSettingsStore.write()"
+            @update:model-value="updateRights"
           >
             {{ t('agora', 'Allow file attachments') }}
           </NcCheckboxRadioSwitch>
@@ -86,12 +118,12 @@ watch(() => props.selectedType, (newType) => {
           <label for="editor-type-select">{{ t('agora', 'Editor type:') }}</label>
           <NcSelect
             id="editor-type-select"
-            v-model="appSettingsStore.inquiryTypeRights[selectedType.inquiry_type].editorType"
+            v-model="typeRights.editorType"
             :options="editorOptions"
             option-value="value"
             option-label="label"
             class="editor-select"
-            @update:model-value="appSettingsStore.write()"
+            @update:model-value="updateRights"
           />
           <p class="setting-description">
             {{ t('agora', 'Select the editor type for this inquiry') }}
@@ -101,11 +133,10 @@ watch(() => props.selectedType, (newType) => {
     </div>
 
     <div v-else class="no-selection">
-      <p>{{ t('agora', 'No type selected') }}</p>
+      <p>{{ t('agora', 'Please select an inquiry type to configure its rights') }}</p>
     </div>
   </div>
 </template>
-
 <style scoped>
 .type-rights {
   padding: 20px;

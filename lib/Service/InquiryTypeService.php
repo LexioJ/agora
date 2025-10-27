@@ -54,6 +54,12 @@ class InquiryTypeService
         return $this->inquiryTypeMapper->delete($inquiryType);
     }
 
+    public function inquiryTypeExists(string $inquiryType): bool
+    {
+        return $this->inquiryTypeMapper->inquiryTypeExists($inquiryType);
+    }
+
+
     public function create(
         string $inquiryType,
         string $family = 'deliberative',
@@ -65,6 +71,9 @@ class InquiryTypeService
         ?string $allowedResponse = null,
         ?string $allowedTransformation = null
     ): InquiryType {
+        if ($this->inquiryTypeExists($inquiryType)) {
+            throw new \InvalidArgumentException('Inquiry type already exists');
+        }
         $type = new InquiryType();
         $type->setInquiryType($inquiryType);
         $type->setFamily($family);

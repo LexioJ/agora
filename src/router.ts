@@ -178,13 +178,6 @@ const routes: RouteRecordRaw[] = [
 	  },
   },
   {
-	  name: 'root',
-	  path: '/',
-	  redirect: {
-		  name: 'menu',
-	  },
-  },
-  {
 	  path: '/:pathMatch(.*)*',
 	  redirect: {
 		  name: 'notfound',

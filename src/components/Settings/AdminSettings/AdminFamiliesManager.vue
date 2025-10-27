@@ -11,6 +11,7 @@ import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useAppSettingsStore } from '../../../stores/appSettings.ts'
 import { InquiryGeneralIcons } from '../../../utils/icons.ts'
+import { showError } from '@nextcloud/dialogs'
 
 const emit = defineEmits(['family-selected'])
 const appSettingsStore = useAppSettingsStore()
@@ -19,9 +20,22 @@ const newFamily = ref({
   family_type: '',
   label: '',
   description: '',
-  icon: '',
+  icon: null,
   sort_order: 0
 })
+
+// Helper to find icon object by id
+const findIconById = (iconId) => {
+  if (!iconId) return null
+  return availableIcons.value.find(icon => icon.id === iconId) || null
+}
+
+const startEditing = (family) => {
+  editingFamily.value = { 
+    ...family,
+    icon: findIconById(family.icon) // Convert string icon to object for NcSelect
+  }
+}
 
 // Get statuses for the selected inquiry type
 const availableIcons = computed(() =>
@@ -51,28 +65,42 @@ const familiesWithStats = computed(() => {
   })
 })
 
+const extractIconId = (icon) => {
+  if (!icon) return ''
+  if (typeof icon === 'string') return icon
+  if (typeof icon === 'object') return icon.id || ''
+  return String(icon)
+}
+
 const addFamily = async () => {
-  if (!newFamily.value.family_type || !newFamily.value.label) return
+  if (!newFamily.value.family_type ) {
+  	showError(t('agora', 'Inquiry family type is mandatory'), { timeout: 2000 })
+ 	return 
+  }
   
   await appSettingsStore.addFamily({
     ...newFamily.value,
+    icon: extractIconId(newFamily.value.icon),
     created: Date.now()
-  })
-  
-  // Reset form
+  })    
+          
+  // Reset form 
   newFamily.value = {
     family_type: '',
     label: '',
     description: '',
     icon: '',
     sort_order: appSettingsStore.inquiryFamilyTab.length
-  }
+  }         
 }
 
 const updateFamily = async (family) => {
-  await appSettingsStore.updateFamily(family.id, family)
+  await appSettingsStore.updateFamily(family.id, {
+    ...family,
+    icon: extractIconId(family.icon),
+  })
   editingFamily.value = null
-}
+}         
 
 const deleteFamily = async (familyId) => {
   if (confirm(t('agora', 'Are you sure you want to delete this family?'))) {
@@ -119,7 +147,7 @@ const selectFamily = (family) => {
           </div>
         </div>
         <div class="family-actions">
-          <NcButton @click.stop="editingFamily = { ...family }">
+          <NcButton @click.stop="startEditing(family)">
             {{ t('agora', 'Edit') }}
           </NcButton>
           <NcButton @click.stop="deleteFamily(family.id)">
@@ -154,13 +182,14 @@ const selectFamily = (family) => {
             v-model="newFamily.icon"
             :options="availableIcons"
 	    :clearable="false"
+	    track-by="id"
             :placeholder="t('agora', 'Select an icon')"
             class="form-field"
           />
         </div>
         
         <NcInputField
-          v-model="newFamily.description"
+	  v-model="newFamily.description"
           :label="t('agora', 'Description')"
           :placeholder="t('agora', 'Optional description')"
           type="textarea"
@@ -208,6 +237,7 @@ const selectFamily = (family) => {
             <NcSelect
               v-model="editingFamily.icon"
               :options="availableIcons"
+	      track-by="id"
 	      :clearable="false"
               :placeholder="t('agora', 'Select an icon')"
               class="form-field"
@@ -216,7 +246,7 @@ const selectFamily = (family) => {
         </div>
 	<div>
           <NcInputField
-            v-model="editingFamily.description"
+	   v-model="editingFamily.description"
             :label="t('agora', 'Description')"
             type="textarea"
             class="full-width"
@@ -276,15 +306,16 @@ const selectFamily = (family) => {
 }
 
 .family-icon {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
   background: var(--color-primary);
   color: white;
-  border-radius: 8px;
-  font-size: 20px;
+  border-radius: 10px;
+  font-size: 24px;
+  flex-shrink: 0;
 }
 
 .family-info h4 {

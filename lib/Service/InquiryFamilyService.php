@@ -12,11 +12,13 @@ use OCA\Agora\Db\InquiryFamily;
 use OCA\Agora\Db\InquiryFamilyMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
+use Psr\Log\LoggerInterface;
 
 class InquiryFamilyService
 {
     public function __construct(
-        private InquiryFamilyMapper $inquiryFamilyMapper
+		private LoggerInterface $logger,
+		private InquiryFamilyMapper $inquiryFamilyMapper,
     ) {
     }
 
@@ -66,13 +68,14 @@ class InquiryFamilyService
     public function create(
         string $familyType,
         string $label,
-        ?string $description = null,
+        ?string $description = '',
         string $icon = '',
-        ?int $sortOrder = null
+        ?int $sortOrder = 0
     ): InquiryFamily {
         if ($this->familyTypeExists($familyType)) {
             throw new \InvalidArgumentException('Family type already exists');
         }
+	
 
         $inquiryFamily = new InquiryFamily();
         $inquiryFamily->setFamilyType($familyType);
@@ -80,7 +83,7 @@ class InquiryFamilyService
         $inquiryFamily->setDescription($description);
         $inquiryFamily->setIcon($icon);
         
-        if ($sortOrder === null) {
+        if ($sortOrder === 0) {
             $sortOrder = $this->getMaxSortOrder() + 1;
         }
         $inquiryFamily->setSortOrder($sortOrder);
@@ -94,26 +97,17 @@ class InquiryFamilyService
         int $id,
         string $familyType,
         string $label,
-        ?string $description = null,
+        ?string $description = '',
         string $icon = '',
-        ?int $sortOrder = null
+        ?int $sortOrder = 0
     ): InquiryFamily {
+	$this->logger->warning(' DEBUG : ', ['familyType' =>$familyType]);
         $inquiryFamily = $this->find($id);
-        
-        // Check if family type already exists for other records
-        if ($inquiryFamily->getFamilyType() !== $familyType && 
-            $this->familyTypeExists($familyType)) {
-            throw new \InvalidArgumentException('Family type already exists');
-        }
-
         $inquiryFamily->setFamilyType($familyType);
         $inquiryFamily->setLabel($label);
-        $inquiryFamily->setDescription($description);
-        $inquiryFamily->setIcon($icon);
-        
-        if ($sortOrder !== null) {
-            $inquiryFamily->setSortOrder($sortOrder);
-        }
+	$inquiryFamily->setIcon($icon);
+	$inquiryFamily->setDescription($description !== null ? $description : '');
+        $inquiryFamily->setSortOrder($sortOrder !== null ? $sortOrder : 0);
 
         return $this->inquiryFamilyMapper->update($inquiryFamily);
     }

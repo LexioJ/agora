@@ -13,7 +13,7 @@ use OCP\IDBConnection;
 use OCP\AppFramework\Db\QBMapper;
 
 /**
- * @template-extends QBMapper<InquiryTypeFamily>
+ * @template-extends QBMapper<InquiryFamily>
  */
 class InquiryFamilyMapper extends QBMapper
 {
@@ -44,10 +44,10 @@ class InquiryFamilyMapper extends QBMapper
      * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException if more than one result
      * @return InquiryFamily
      */
-    public function findByInquiryType(string $inquiryType): InquiryFamily
+    public function findByFamilyType(string $familyType): InquiryFamily
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.family_type', $qb->createNamedParameter($inquiryType, IQueryBuilder::PARAM_STR)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.family_type', $qb->createNamedParameter($familyType, IQueryBuilder::PARAM_STR)));
         return $this->findEntity($qb);
     }
 
@@ -92,12 +92,12 @@ class InquiryFamilyMapper extends QBMapper
     }
 
     /**
-     * Check if an inquiry type already exists
+     * Check if a family type already exists
      */
-    public function inquiryTypeExists(string $inquiryType): bool
+    public function familyTypeExists(string $familyType): bool
     {
         try {
-            $this->findByInquiryType($inquiryType);
+            $this->findByFamilyType($familyType);
             return true;
         } catch (\OCP\AppFramework\Db\DoesNotExistException $e) {
             return false;

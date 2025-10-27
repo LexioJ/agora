@@ -13,12 +13,15 @@ import { FlexSettings } from '../components/Base/index.ts'
 import {
   AdminActivities,
   AdminArchiveInquiries,
+  AdminExpireInquiries,
   AdminDeleteInquiries,
   AdminEmail,
   AdminInquiryStatus,
   AdminJobs,
   AdminLegal,
   AdminSettings,
+  AdminModeratorRights,
+  AdminOfficialRights,
   AdminCategoryLocation,
   AdminPerformance,
   AdminInquiryCreation,
@@ -80,6 +83,10 @@ const sections = {
       'Add links to legal terms, if they exist and add an optional disclaimer to emails.'
     ),
   },
+  inquiryRights: {
+    name: t('agora', 'Inquiry rights'),
+    description: t('agora', 'Change inquiry rights globally (for all accounts)'),
+  },
   jobSettings: {
     name: t('agora', 'Job control'),
     description: t('agora', 'Manually start backgropund jobs, independent from the cron schedule.'),
@@ -107,6 +114,7 @@ onMounted(async () => {
 		<NcSettingsSection v-bind="sections.inquirySettings">
 		<AdminInquiryCreation />
 		<AdminUnrescrictedOwners />
+		<AdminExpireInquiries />
 		<AdminArchiveInquiries />
 		<AdminDeleteInquiries />
 		</NcSettingsSection>
@@ -125,6 +133,10 @@ onMounted(async () => {
 		<NcSettingsSection v-bind="sections.inquiryCategoryLocation">
 		<AdminCategoryLocation />
 		</NcSettingsSection>
+	        <NcSettingsSection v-bind="sections.inquiryRights">
+        	  <AdminModeratorRights />
+          	  <AdminOfficialRights />
+                  </NcSettingsSection>
 		<NcSettingsSection v-bind="sections.emailSettings">
 		<AdminEmail />
 		</NcSettingsSection>

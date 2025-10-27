@@ -74,15 +74,25 @@ class InquiryTypeMapper extends QBMapper
         return $this->findEntities($qb);
     }
 
+
+    public function inquiryTypeExists(string $inquiryType): bool
+    {
+	    $qb = $this->db->getQueryBuilder();
+	    $qb->select($qb->func()->count('*'))
+	->from(self::TABLE)
+	->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType)));
+
+	    return (int)$qb->executeQuery()->fetchOne() > 0;
+    }
     /**
      * @return InquiryType[]
      */
     public function findByInquiryType(string $inquiryType): array
     {
-        $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_type', $qb->createNamedParameter($inquiryType, IQueryBuilder::PARAM_STR)));
-        $qb->orderBy(self::TABLE . '.created', 'DESC');
-        return $this->findEntities($qb);
+	    $qb = $this->buildQuery();
+	    $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_type', $qb->createNamedParameter($inquiryType, IQueryBuilder::PARAM_STR)));
+	    $qb->orderBy(self::TABLE . '.created', 'DESC');
+	    return $this->findEntities($qb);
     }
 
     /**
@@ -90,49 +100,49 @@ class InquiryTypeMapper extends QBMapper
      */
     protected function buildQuery(): IQueryBuilder
     {
-        $qb = $this->db->getQueryBuilder();
+	    $qb = $this->db->getQueryBuilder();
 
-        $qb->select(self::TABLE . '.*')
-            ->from($this->getTableName(), self::TABLE);
+	    $qb->select(self::TABLE . '.*')
+	->from($this->getTableName(), self::TABLE);
 
-        return $qb;
+	    return $qb;
     }
 
     /**
      * Get fields JSON value for specific inquiry type
      * @return array
      */
-public function getFields(string $inquiryType): array
-{
-    $qb = $this->db->getQueryBuilder();
-    $qb->select('fields')
-       ->from($this->getTableName())
-       ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType)));
+    public function getFields(string $inquiryType): array
+    {
+	    $qb = $this->db->getQueryBuilder();
+	    $qb->select('fields')
+	->from($this->getTableName())
+	->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType)));
 
-    $result = $qb->executeQuery()->fetch();
+	    $result = $qb->executeQuery()->fetch();
 
-    if ($result && !empty($result['fields'])) {
-        $fields = json_decode($result['fields'], true);
-        if (json_last_error() === JSON_ERROR_NONE && is_array($fields)) {
-            return $fields;
-        }
+	    if ($result && !empty($result['fields'])) {
+		    $fields = json_decode($result['fields'], true);
+		    if (json_last_error() === JSON_ERROR_NONE && is_array($fields)) {
+			    return $fields;
+		    }
+	    }
+
+	    return [];
     }
 
-    return [];
-}
 
+    public function getFamilyFromType(string $type): string
+    {
+	    $qb = $this->db->getQueryBuilder();
+	    $qb->select('family')
+	->from($this->getTableName())
+	->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($type)));
 
-public function getFamilyFromType(string $type): string
-{
-    $qb = $this->db->getQueryBuilder();
-    $qb->select('family')
-       ->from($this->getTableName())
-       ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($type)));
+	    $result = $qb->execute()->fetch();
 
-    $result = $qb->execute()->fetch();
-
-    return $result['family'];
-}
+	    return $result['family'];
+    }
 
     /**
      * Get allowed_response JSON value for specific inquiry type
@@ -140,7 +150,7 @@ public function getFamilyFromType(string $type): string
      */
     public function getAllowedResponse(string $inquiryType): array
     {
-        	$qb = $this->db->getQueryBuilder();
+	    $qb = $this->db->getQueryBuilder();
 	    $qb->select('allowed_response')
 	->from(InquiryType::TABLE)
 	->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType)));
@@ -155,7 +165,7 @@ public function getFamilyFromType(string $type): string
      */
     public function getAllowedTransformation(string $inquiryType): array
     {
-        	$qb = $this->db->getQueryBuilder();
+	    $qb = $this->db->getQueryBuilder();
 	    $qb->select('allowed_transformation')
 	->from(InquiryType::TABLE)
 	->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType)));

@@ -12,6 +12,7 @@ import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import { useAppSettingsStore } from '../../../stores/appSettings.ts'
 import { InquiryGeneralIcons } from '../../../utils/icons.ts'
+import { showError } from '@nextcloud/dialogs'
 
 const props = defineProps(['selectedFamily'])
 const emit = defineEmits(['type-selected', 'back-to-families'])
@@ -45,6 +46,13 @@ const availableIcons = computed(() =>
     }))
 )
 
+const extractIconId = (icon) => {
+  if (!icon) return ''
+  if (typeof icon === 'string') return icon
+  if (typeof icon === 'object') return icon.id || ''
+  return String(icon)
+}
+
 // Filter types for selected family
 const familyTypes = computed(() => 
   appSettingsStore.inquiryTypeTab.filter(
@@ -52,16 +60,27 @@ const familyTypes = computed(() =>
   )
 )
 
+const convertToJsonString = (value) => {
+  if (typeof value === 'string') return value
+  return JSON.stringify(value || [])
+}
+
 const addType = async () => {
-  if (!newType.value.inquiry_type || !newType.value.label || !newType.value.family) return
-  
-  await appSettingsStore.addType({
+  if (!newType.value.inquiry_type ) {
+  	showError(t('agora', 'Inquiry type is mandatory'), { timeout: 2000 })
+  	return
+  }
+
+  await appSettingsStore.addInquiryType({
     ...newType.value,
     family: props.selectedFamily.family_type,
     created: Date.now(),
-    fields: JSON.parse(newType.value.fields || '[]'),
-    allowed_response: JSON.parse(newType.value.allowed_response || '[]'),
-    allowed_transformation: JSON.parse(newType.value.allowed_transformation || '[]')
+    icon: extractIconId(newType.value.icon),
+    description: newType.value.description || '',
+    is_option: Boolean(newType.value.is_option),
+    fields: convertToJsonString(newType.value.fields),
+    allowed_response: convertToJsonString(newType.value.allowed_response),
+    allowed_transformation: convertToJsonString(newType.value.allowed_transformation)
   })
   
   // Reset form
@@ -79,11 +98,17 @@ const addType = async () => {
 }
 
 const updateType = async (type) => {
-  await appSettingsStore.updateType(type.id, {
+  if (!type.inquiry_type ){
+  	showError(t('agora', 'Inquiry type is mandatory'), { timeout: 2000 })
+  	return
+  }
+
+  await appSettingsStore.updateInquiryType(type.id, {
     ...type,
-    fields: JSON.parse(type.fields || '[]'),
-    allowed_response: JSON.parse(type.allowed_response || '[]'),
-    allowed_transformation: JSON.parse(type.allowed_transformation || '[]')
+    icon: extractIconId(type.icon),
+    fields: convertToJsonString(type.fields),
+    allowed_response: convertToJsonString(type.allowed_response),
+    allowed_transformation: convertToJsonString(type.allowed_transformation)
   })
   editingType.value = null
 }

@@ -14,6 +14,7 @@ use OCA\Agora\Service\CategoryService;
 use OCA\Agora\Service\InquiryTypeService;
 use OCA\Agora\Service\InquiryStatusService;
 use OCA\Agora\Service\InquiryFamilyService;
+use Psr\Log\LoggerInterface;
 
 class SettingsService
 {
@@ -33,7 +34,8 @@ class SettingsService
         CategoryService $categoryService,
         InquiryStatusService $inquiryStatusService,
         InquiryFamilyService $inquiryFamilyService,
-        InquiryTypeService $inquiryTypeService
+        InquiryTypeService $inquiryTypeService,
+		 LoggerInterface $logger
     ) {
         $this->appSettings = $appSettings;
         $this->locationService = $locationService;
@@ -41,6 +43,7 @@ class SettingsService
         $this->inquiryStatusService = $inquiryStatusService;
         $this->inquiryFamilyService = $inquiryFamilyService;
         $this->inquiryTypeService = $inquiryTypeService;
+        $this->logger = $logger;
     }
 
     /**
@@ -64,6 +67,7 @@ class SettingsService
         $this->appSettings->setBooleanSetting(AppSettings::SETTING_ALLOW_INQUIRY_CREATION, $settingsArray[AppSettings::SETTING_ALLOW_INQUIRY_CREATION]);
         $this->appSettings->setBooleanSetting(AppSettings::SETTING_ALLOW_INQUIRY_DOWNLOAD, $settingsArray[AppSettings::SETTING_ALLOW_INQUIRY_DOWNLOAD]);
         $this->appSettings->setBooleanSetting(AppSettings::SETTING_AUTO_ARCHIVE, $settingsArray[AppSettings::SETTING_AUTO_ARCHIVE]);
+        $this->appSettings->setBooleanSetting(AppSettings::SETTING_AUTO_EXPIRE, $settingsArray[AppSettings::SETTING_AUTO_EXPIRE]);
         $this->appSettings->setBooleanSetting(AppSettings::SETTING_AUTO_DELETE, $settingsArray[AppSettings::SETTING_AUTO_DELETE]);
         $this->appSettings->setBooleanSetting(AppSettings::SETTING_SHOW_LOGIN, $settingsArray[AppSettings::SETTING_SHOW_LOGIN]);
         $this->appSettings->setBooleanSetting(AppSettings::SETTING_USE_ACTIVITY, $settingsArray[AppSettings::SETTING_USE_ACTIVITY]);
@@ -85,6 +89,8 @@ class SettingsService
         // Integer settings
         $this->appSettings->setIntegerSetting(AppSettings::SETTING_AUTO_ARCHIVE_OFFSET_DAYS, intval($settingsArray[AppSettings::SETTING_AUTO_ARCHIVE_OFFSET_DAYS]));
         $this->appSettings->setIntegerSetting(AppSettings::SETTING_AUTO_DELETE_OFFSET_DAYS, intval($settingsArray[AppSettings::SETTING_AUTO_DELETE_OFFSET_DAYS]));
+	
+	$this->appSettings->setIntegerSetting(AppSettings::SETTING_AUTO_EXPIRE_OFFSET_DAYS, intval($settingsArray[AppSettings::SETTING_AUTO_EXPIRE_OFFSET_DAYS]));
 
         // String settings
         $this->appSettings->setStringSetting(AppSettings::SETTING_UPDATE_TYPE, $settingsArray[AppSettings::SETTING_UPDATE_TYPE]);
@@ -198,6 +204,7 @@ class SettingsService
      */
     public function updateInquiryType(string $typeId, array $typeData)
     {
+	    $typeData = $typeData['typeData'];
 	    return $this->inquiryTypeService->update(
 		    (int)$typeId,
 		    $typeData['inquiry_type'] ?? '',
@@ -239,13 +246,14 @@ class SettingsService
      */
     public function updateInquiryFamily(string $familyId, array $familyData)
     {
+	    $familyData = $familyData['familyData'];
 	    return $this->inquiryFamilyService->update(
 		    (int)$familyId,
 		    $familyData['family_type'] ?? '',
 		    $familyData['label'] ?? '',
-		    $familyData['description'] ?? null,
+		    $familyData['description'] ?? '',
 		    $familyData['icon'] ?? '',
-		    $familyData['sort_order'] ?? null
+		    $familyData['sort_order'] ?? 0
 	    );
     }
     /**

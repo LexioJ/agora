@@ -286,7 +286,7 @@ class SettingsController extends BaseController
 #[FrontpageRoute(verb: 'POST', url: '/inquiry/types')]
 public function addInquiryType(array $type): JSONResponse
 {
-    $newType = $this->inquiryService->addInquiryType($type);
+    $newType = $this->settingsService->addInquiryType($type);
     return $this->response(fn () => ['type' => $newType]);
 }
 
@@ -299,7 +299,7 @@ public function addInquiryType(array $type): JSONResponse
 #[FrontpageRoute(verb: 'DELETE', url: '/inquiry/types/{typeId}')]
 public function deleteInquiryType(string $typeId): JSONResponse
 {
-    $this->inquiryService->deleteInquiryType($typeId);
+    $this->settingsService->deleteInquiryType($typeId);
     return $this->response(fn () => []);
 }
 
@@ -317,7 +317,7 @@ public function updateInquiryType(string $typeId): JSONResponse
         return new JSONResponse(['error' => 'Invalid JSON data'], Http::STATUS_BAD_REQUEST);
     }
 
-    $updatedType = $this->inquiryService->updateInquiryType($typeId, (array)$type);
+    $updatedType = $this->settingsService->updateInquiryType($typeId, (array)$type);
     return $this->response(fn () => ['type' => (array) $updatedType]);
 }
 
@@ -331,7 +331,7 @@ public function updateInquiryType(string $typeId): JSONResponse
 #[FrontpageRoute(verb: 'POST', url: '/inquiry/families')]
 public function addInquiryFamily(array $family): JSONResponse
 {
-    $newFamily = $this->inquiryService->addInquiryFamily($family);
+    $newFamily = $this->settingsService->addInquiryFamily($family);
     return $this->response(fn () => ['family' => $newFamily]);
 }
 
@@ -344,7 +344,7 @@ public function addInquiryFamily(array $family): JSONResponse
 #[FrontpageRoute(verb: 'DELETE', url: '/inquiry/families/{familyId}')]
 public function deleteInquiryFamily(string $familyId): JSONResponse
 {
-    $this->inquiryService->deleteInquiryFamily($familyId);
+    $this->settingsService->deleteInquiryFamily($familyId);
     return $this->response(fn () => []);
 }
 
@@ -357,13 +357,13 @@ public function deleteInquiryFamily(string $familyId): JSONResponse
 #[FrontpageRoute(verb: 'PUT', url: '/inquiry/families/{familyId}')]
 public function updateInquiryFamily(string $familyId): JSONResponse
 {
-    $family = $this->request->getParams('data');
+    $family = $this->request->getParams('familyData');
 
     if ($family === null && json_last_error() !== JSON_ERROR_NONE) {
         return new JSONResponse(['error' => 'Invalid JSON data'], Http::STATUS_BAD_REQUEST);
     }
 
-    $updatedFamily = $this->inquiryService->updateInquiryFamily($familyId, (array)$family);
+    $updatedFamily = $this->settingsService->updateInquiryFamily($familyId, (array)$family);
     return $this->response(fn () => ['family' => (array) $updatedFamily]);
 }
 

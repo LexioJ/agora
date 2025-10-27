@@ -53,6 +53,8 @@ export type AppSettings = {
 	allowAllAccess: boolean
 	allowInquiryCreation: boolean
 	allowInquiryDownload: boolean
+	autoExpire: boolean
+	autoExpireOffset: number
 	autoArchive: boolean
 	autoArchiveOffset: number
 	autoDelete: boolean
@@ -102,8 +104,10 @@ export const useAppSettingsStore = defineStore('appSettings', {
 		allowInquiryCreation: true,
 		allowInquiryDownload: true,
 		autoArchive: false,
+		autoExpire: false,
 		autoDelete: false,
 		autoArchiveOffset: 30,
+		autoExpireOffset: 180,
 		autoDeleteOffset: 30,
 		defaultPrivacyUrl: '',
 		defaultImprintUrl: '',

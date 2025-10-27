@@ -67,6 +67,12 @@ class AppSettings implements JsonSerializable
     public const SETTING_AUTO_DELETE_OFFSET_DAYS = 'autoDeleteOffset';
     public const SETTING_AUTO_DELETE_OFFSET_DAYS_DEFAULT = 30;
 
+
+    public const SETTING_AUTO_EXPIRE = 'autoExpire';
+    public const SETTING_AUTO_EXPIRE_DEFAULT = false;
+    public const SETTING_AUTO_EXPIRE_OFFSET_DAYS = 'autoExpireOffset';
+    public const SETTING_AUTO_EXPIRE_OFFSET_DAYS_DEFAULT = 180;
+
     public const SETTING_UPDATE_TYPE = 'updateType';
     public const SETTING_UPDATE_TYPE_LONG_INQUIRYING = 'longInquirying';
     public const SETTING_UPDATE_TYPE_NO_INQUIRYING = 'noInquirying';
@@ -542,6 +548,14 @@ class AppSettings implements JsonSerializable
     /**
      * Get the auto archive offset in days
      */
+    public function getAutoExpireOffsetDays(): int
+    {
+        return $this->getIntegerSetting(self::SETTING_AUTO_EXPIRE_OFFSET_DAYS, self::SETTING_AUTO_EXPIRE_OFFSET_DAYS_DEFAULT);
+    }
+
+    /**
+     * Get the auto archive offset in days
+     */
     public function getAutoArchiveOffsetDays(): int
     {
         return $this->getIntegerSetting(self::SETTING_AUTO_ARCHIVE_OFFSET_DAYS, self::SETTING_AUTO_ARCHIVE_OFFSET_DAYS_DEFAULT);
@@ -570,6 +584,16 @@ class AppSettings implements JsonSerializable
     {
         return $this->getBooleanSetting(self::SETTING_AUTO_DELETE, default: self::SETTING_AUTO_DELETE_DEFAULT);
     }
+
+    /**
+     * Get the auto expire setting enabled or disabled
+     */
+    public function getAutoExpireEnabled(): bool
+    {
+        return $this->getBooleanSetting(self::SETTING_AUTO_EXPIRE, default: self::SETTING_AUTO_EXPIRE_DEFAULT);
+    }
+
+    /**
 
     /**
      * Get the update type for frontend inquirying of new data
@@ -658,6 +682,9 @@ class AppSettings implements JsonSerializable
 
         self::SETTING_AUTO_ARCHIVE => $this->getBooleanSetting(self::SETTING_AUTO_ARCHIVE, default: self::SETTING_AUTO_ARCHIVE_DEFAULT),
         self::SETTING_AUTO_ARCHIVE_OFFSET_DAYS => $this->getAutoArchiveOffsetDays(),
+	
+        self::SETTING_AUTO_EXPIRE => $this->getBooleanSetting(self::SETTING_AUTO_EXPIRE, default: self::SETTING_AUTO_EXPIRE_DEFAULT),
+        self::SETTING_AUTO_EXPIRE_OFFSET_DAYS => $this->getAutoExpireOffsetDays(),
 
         self::SETTING_AUTO_DELETE => $this->getBooleanSetting(self::SETTING_AUTO_DELETE, default: self::SETTING_AUTO_DELETE_DEFAULT),
         self::SETTING_AUTO_DELETE_OFFSET_DAYS => $this->getAutoDeleteOffsetDays(),

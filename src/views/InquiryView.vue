@@ -168,7 +168,7 @@ watch(
 const isReadonly = computed(() => {
   const user = sessionStore.currentUser
   console.log('🔧 [InquiryEditViewForm] Checking readonly - User:', user)
-
+  if (inquiryStore.status.moderationStatus === 'rejected' || inquiryStore.status.moderationStatus === 'pending') return true
   if (!user) {
     console.log('🔧 [InquiryEditViewForm] No user - READONLY')
     return true

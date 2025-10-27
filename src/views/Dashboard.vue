@@ -4,22 +4,36 @@
 -->
 
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import { computed, onMounted } from 'vue'
 import { generateUrl } from '@nextcloud/router'
 import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import DOMPurify from 'dompurify'
-
+import { InquiryGeneralIcons } from '../utils/icons.ts'
 import NcDashboardWidget from '@nextcloud/vue/components/NcDashboardWidget'
-
+import { useSessionStore } from '../stores/session.ts'
+import { usePreferencesStore } from '../stores/preferences.ts'
 import { AgoraAppIcon } from '../components/AppIcons/index.ts'
 import { Logger } from '../helpers/index.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
+import { 
+  getInquiryItemData,
+  getInquiryTypeData,
+  type InquiryType
+} from '../helpers/modules/InquiryHelper.ts'
+
+const preferencesStore = usePreferencesStore()
+const sessionStore = useSessionStore()
 
 const dashboardWidgetProperties = {
   emptyContentMessage: t('agora', 'No inquiries found for this category'),
   showMoreText: t('agora', 'Relevant inquiries'),
 }
+
+// Computed for all inquiry types
+const allInquiryTypes = computed((): InquiryType[] => {
+  return sessionStore.appSettings.inquiryTypeTab || []
+})
 
 const inquiriesStore = useInquiriesStore()
 
@@ -34,6 +48,16 @@ function loadInquiries(): void {
   } catch {
     showError(t('agora', 'Error setting dashboard list'))
   }
+}
+
+// Function to get icon for an inquiry based on its type
+function getInquiryIcon(inquiry) {
+  if (inquiry.type) {
+    const typeData = getInquiryTypeData(inquiry.type, allInquiryTypes.value)
+    return typeData?.icon || InquiryGeneralIcons.Flash
+  }
+
+  return InquiryGeneralIcons.Flash
 }
 
 onMounted(() => {
@@ -57,7 +81,7 @@ onMounted(() => {
         <a :href="generateUrl(`/apps/agora/inquiry/${item.id}`)">
           <div class="inquiry-item__item">
             <div class="type-icon">
-              <component :is="InquiryTypesUI[item.type].icon" />
+              <component :is="getInquiryIcon(inquiry)" class="nav-icon" />
             </div>
 
             <div class="item__title">
