@@ -1,78 +1,16 @@
-const appName = "agora";
-const appVersion = "1.5.0-beta";
-import { a as defineComponent, t as translate, e as onMounted, _ as _export_sfc, f as createBlock, o as openBlock, w as withCtx, g as createVNode, n as normalizeProps, h as guardReactiveProps, i as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-jKCq2TlB.chunk.mjs";
-import { N as NcSettingsSection } from "./index-iYy1HK-n.chunk.mjs";
-import "./NcDashboardWidget-Bu7bWoUK-Mvj_xSe5.chunk.mjs";
-import { F as FlexSettings } from "./FlexSettings-dDX-zZgS.chunk.mjs";
-import { u as usePreferencesStore } from "./preferences-Db4EJqw7.chunk.mjs";
-import "./NcRichText-CETsOVBU-C02V-rjj.chunk.mjs";
-import { S as StyleSettings, F as FeatureSettings } from "./StyleSettings-CXQ8Yeho.chunk.mjs";
-const _sfc_main = /* @__PURE__ */ defineComponent({
-  __name: "UserSettingsPage",
-  setup(__props, { expose: __expose }) {
-    __expose();
-    const preferencesStore = usePreferencesStore();
-    const sections = {
-      personalSettings: {
-        name: translate("agora", "Personal preferences"),
-        description: translate("agora", "Set your personal preferences for the agora app")
-      },
-      styleSettings: {
-        name: translate("agora", "Experimental styles"),
-        description: translate("agora", "Some visual styling options.")
-      }
-    };
-    onMounted(() => {
-      preferencesStore.load();
-    });
-    const __returned__ = { preferencesStore, sections, get NcSettingsSection() {
-      return NcSettingsSection;
-    }, get FlexSettings() {
-      return FlexSettings;
-    }, get FeatureSettings() {
-      return FeatureSettings;
-    }, get StyleSettings() {
-      return StyleSettings;
-    } };
-    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
-    return __returned__;
-  }
-});
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createBlock($setup["FlexSettings"], null, {
-    default: withCtx(() => [
-      createVNode(
-        $setup["NcSettingsSection"],
-        normalizeProps(guardReactiveProps($setup.sections.personalSettings)),
-        {
-          default: withCtx(() => [
-            createVNode($setup["FeatureSettings"])
-          ]),
-          _: 1
-          /* STABLE */
-        },
-        16
-        /* FULL_PROPS */
-      ),
-      createVNode(
-        $setup["NcSettingsSection"],
-        normalizeProps(guardReactiveProps($setup.sections.styleSettings)),
-        {
-          default: withCtx(() => [
-            createVNode($setup["StyleSettings"])
-          ]),
-          _: 1
-          /* STABLE */
-        },
-        16
-        /* FULL_PROPS */
-      )
-    ]),
-    _: 1
-    /* STABLE */
-  });
-}
-const UserSettingsPage = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/var/www/nextcloud/apps/agora/src/views/UserSettingsPage.vue"]]);
-const Agora = createApp(UserSettingsPage).use(pinia);
-Agora.mount("#content_agora");
+const v = "agora", w = "1.5.0-beta";
+import { a as c, t as a, e as m, f as l, o as f, w as s, g as t, u as e, n as r, h as n, i as g, p as u } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_3109c301_lang-BHFm0nDv.chunk.mjs";
+import { N as i } from "./index-DtuExfoC.chunk.mjs";
+import "./NcDashboardWidget-Bu7bWoUK-DUUdNege.chunk.mjs";
+import { F as _ } from "./FlexSettings-8HdKkfyo.chunk.mjs";
+import { u as S } from "./preferences-F4p7Zmjk.chunk.mjs";
+import "./NcRichText-CETsOVBU-D-QDiRZ9.chunk.mjs";
+import { _ as d, a as y } from "./StyleSettings-DIrdsI19.chunk.mjs";
+const P = c({ __name: "UserSettingsPage", setup(x) {
+  const p = S(), o = { personalSettings: { name: a("agora", "Personal preferences"), description: a("agora", "Set your personal preferences for the agora app") }, styleSettings: { name: a("agora", "Experimental styles"), description: a("agora", "Some visual styling options.") } };
+  return m(() => {
+    p.load();
+  }), (N, k) => (f(), l(e(_), null, { default: s(() => [t(e(i), r(n(o.personalSettings)), { default: s(() => [t(e(d))]), _: 1 }, 16), t(e(i), r(n(o.styleSettings)), { default: s(() => [t(e(y))]), _: 1 }, 16)]), _: 1 }));
+} }), h = g(P).use(u);
+h.mount("#content_agora");
 //# sourceMappingURL=agora-userSettings.mjs.map

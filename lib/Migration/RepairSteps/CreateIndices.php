@@ -10,44 +10,44 @@ declare(strict_types=1);
 namespace OCA\Agora\Migration\RepairSteps;
 
 use Doctrine\DBAL\Schema\Schema;
+use OCA\Agora\Db\Share;
 use OCA\Agora\Db\IndexManager;
 use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
-/**
- * @psalm-suppress UnusedClass
- */
-class CreateIndices implements IRepairStep
-{
-    public function __construct(
-        private IndexManager $indexManager,
-        private IDBConnection $connection,
-        private Schema $schema,
-    ) {
-    }
+class CreateIndices implements IRepairStep {
+	public function __construct(
+		private IndexManager $indexManager,
+		private IDBConnection $connection,
+		private Schema $schema,
+	) {
+	}
 
-    public function getName()
-    {
-        return 'Agora - Create indices and foreign key constraints';
-    }
+	public function getName() {
+		return 'Agora - Create all unique and optional indices and foreign key constraints';
+	}
 
-    public function run(IOutput $output): void
-    {
-        $messages = [];
-        // secure, that the schema is updated to the current status
-        $this->schema = $this->connection->createSchema();
-        $this->indexManager->setSchema($this->schema);
+	public function run(IOutput $output): void {
+		$messages = [];
+		// secure, that the schema is updated to the current status
+		$this->schema = $this->connection->createSchema();
+		$this->indexManager->setSchema($this->schema);
 
-        $messages = array_merge($messages, $this->indexManager->createForeignKeyConstraints());
-        $messages = array_merge($messages, $this->indexManager->createIndices());
-        $this->connection->migrateToSchema($this->schema);
+		// remove foreign keys from the share table
+		// cannot be used anymore since v8.0.0
+		$messages = array_merge($messages, $this->indexManager->removeForeignKeysFromTable(Share::TABLE));
 
-        foreach ($messages as $message) {
-            $output->info($message);
-        }
+		$messages = array_merge($messages, $this->indexManager->createForeignKeyConstraints());
+		$messages = array_merge($messages, $this->indexManager->createUniqueIndices());
+		$messages = array_merge($messages, $this->indexManager->createOptionalIndices());
+		$this->connection->migrateToSchema($this->schema);
 
-        $output->info('Agora - Foreign key contraints created.');
-        $output->info('Agora - Indices created.');
-    }
+		foreach ($messages as $message) {
+			$output->info($message);
+		}
+
+		$output->info('Agora - Foreign key contraints created.');
+		$output->info('Agora - Indices created.');
+	}
 }

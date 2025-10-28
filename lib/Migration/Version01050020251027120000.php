@@ -39,30 +39,6 @@ class Version01050020251027120000 extends SimpleMigrationStep {
 	}
 
 	/**
-	 * Pre-migration steps for data preparation
-	 */
-	public function preSchemaChange(IOutput $output, \Closure $schemaClosure, array $options): void {
-		$this->output = $output;
-		$this->logInfo('Preparing migration');
-
-		// Préparer les tables en supprimant les contraintes temporairement si nécessaire
-		$this->indexManager->createSchema();
-		$message = $this->indexManager->removeUniqueIndicesFromTable('shares');
-		$this->logInfo($message, 'preMigration:  ');
-		$message = $this->indexManager->removeForeignKeysFromTable('shares');
-		$this->logInfo($message, 'preMigration:  ');
-		$this->indexManager->migrateToSchema();
-
-		// Nettoyer les données temporaires
-		$message = $this->tableManager->tidyWatchTable(time());
-		$this->logInfo($message, 'preMigration:  ');
-
-		// Préparer les données pour la migration
-		$message = $this->tableManager->prepareDataMigration();
-		$this->logInfo($message, 'preMigration:  ');
-	}
-
-	/**
 	 * Main schema migration using TableSchema definitions
 	 */
 	public function changeSchema(IOutput $output, \Closure $schemaClosure, array $options): ?ISchemaWrapper {
@@ -71,9 +47,8 @@ class Version01050020251027120000 extends SimpleMigrationStep {
 		$this->tableManager->setConnection($this->connection);
 		$this->tableManager->setSchema($this->schema);
 
-		// Créer/mettre à jour les tables selon TableSchema
-		$message = $this->tableManager->createTables();
-		$this->logInfo($message, 'runMigration:  ');
+		$messages = $this->tableManager->createTables();
+		$this->logInfo($messages, 'runMigration:  ');
 
 		if (!($this->schema instanceof ISchemaWrapper)) {
 			return null;
@@ -89,47 +64,27 @@ class Version01050020251027120000 extends SimpleMigrationStep {
 		$this->output = $output;
 		$this->logInfo('Finalizing migration');
 
-		// Migrer les données vers les nouvelles structures
-		$message = $this->tableManager->migrateModerationToInquiryStatus();
-		$this->logInfo($message, 'postMigration: ');
+		$messages = $this->tableManager->initDefaultData($this->output);
+    		$this->logInfo($messages, 'postMigration: ');
 
-		$message = $this->tableManager->migrateMiscSettings();
-		$this->logInfo($message, 'postMigration: ');
+		$messages = $this->tableManager->removeOrphaned();
+		$this->logInfo($messages, 'postMigration:  ');
 
-		$message = $this->tableManager->migrateAssemblyToInquiryFamily();
-		$this->logInfo($message, 'postMigration: ');
+		$messages = $this->tableManager->removeObsoleteTables();
+		$this->logInfo($messages, 'postMigration: ');
 
-		// Mettre à jour les hash de support
-		$message = $this->tableManager->updateSupportHashes();
-		$this->logInfo($message, 'postMigration: ');
+		$messages = $this->tableManager->removeObsoleteColumns();
+		$this->logInfo($messages, 'postMigration: ');
 
-		// Nettoyer les données dupliquées
-		$message = $this->tableManager->deleteAllDuplicates();
-		$this->logInfo($message, 'postMigration:  ');
+		$messages = $this->tableManager->removeObsoleteMigrations();
+		$this->logInfo($messages, 'postMigration: ');
 
-		// Supprimer les données orphelines
-		$message = $this->tableManager->removeOrphaned();
-		$this->logInfo($message, 'postMigration:  ');
-
-		// Supprimer les tables et colonnes obsolètes
-		$message = $this->tableManager->removeObsoleteTables();
-		$this->logInfo($message, 'postMigration: ');
-
-		$this->tableManager->createSchema();
-		$message = $this->tableManager->removeObsoleteColumns();
-		$this->logInfo($message, 'postMigration: ');
-		$this->tableManager->migrateToSchema();
-
-		// Recréer les contraintes et indices
 		$this->indexManager->createSchema();
-		$message = $this->indexManager->createForeignKeyConstraints();
-		$this->logInfo($message, 'postMigration:  ');
+		$messages = $this->indexManager->createForeignKeyConstraints();
+		$this->logInfo($messages, 'postMigration:  ');
 
-		$message = $this->indexManager->createUniqueIndices();
-		$this->logInfo($message, 'postMigration:  ');
-
-		// Les indices optionnels peuvent être créés via 'occ db:add-missing-indices'
-		$this->indexManager->migrateToSchema();
+		$messages = $this->indexManager->createUniqueIndices();
+		$this->logInfo($messages, 'postMigration:  ');
 
 		$this->logInfo('Migration completed successfully');
 	}

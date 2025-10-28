@@ -14,30 +14,24 @@ use OCP\IDBConnection;
 use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 
-/**
- * @psalm-suppress UnusedClass
- */
-class UpdateHashes implements IRepairStep
-{
-    public function __construct(
-        private TableManager $tableManager,
-        private IDBConnection $connection,
-    ) {
-    }
+class UpdateHashes implements IRepairStep {
+	public function __construct(
+		private TableManager $tableManager,
+		private IDBConnection $connection,
+	) {
+	}
 
-    public function getName()
-    {
-        return 'Agora - Create hashes for supports';
-    }
+	public function getName() {
+		return 'Agora - Update or create hashes for votes and options';
+	}
 
-    public function run(IOutput $output): void
-    {
-        $this->tableManager->setConnection($this->connection);
+	public function run(IOutput $output): void {
+		$this->tableManager->setConnection($this->connection);
 
-        $messages = $this->tableManager->migrateSupportsToHash();
-        foreach ($messages as $message) {
-            $output->info($message);
-        }
+		$messages = $this->tableManager->updateHashes();
+		foreach ($messages as $message) {
+			$output->info($message);
+		}
 
-    }
+	}
 }

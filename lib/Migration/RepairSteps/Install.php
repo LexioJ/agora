@@ -16,45 +16,36 @@ use OCP\Migration\IOutput;
 use OCP\Migration\IRepairStep;
 use OCA\Agora\Command\Db\InitDbDefault;
 
-/**
- * @psalm-suppress UnusedClass
- */
-class Install implements IRepairStep
-{
-    private InitDbDefault $initDbDefault;
-    
-    public function __construct(
-        private IndexManager $indexManager,
-        private IDBConnection $connection,
-        private Schema $schema,
-        InitDbDefault $initDbDefault
-    ) {
-        $this->initDbDefault = $initDbDefault;
-    }
+class Install implements IRepairStep {
+	public function __construct(
+		private IndexManager $indexManager,
+		private IDBConnection $connection,
+		private Schema $schema,
+                private InitDbDefault $initDbDefault
+	) {
+	}
 
-    public function getName()
-    {
-        return 'Agora - Install';
-    }
+	public function getName() {
+		return 'Agora - Install';
+	}
 
-    public function run(IOutput $output): void
-    {
-        $messages = [];
-        $this->schema = $this->connection->createSchema();
-        $this->indexManager->setSchema($this->schema);
+	public function run(IOutput $output): void {
+		$messages = [];
+		$this->schema = $this->connection->createSchema();
+		$this->indexManager->setSchema($this->schema);
 
-        $messages = array_merge($messages, $this->indexManager->createForeignKeyConstraints());
-        $messages = array_merge($messages, $this->indexManager->createIndices());
+		$messages = array_merge($messages, $this->indexManager->createForeignKeyConstraints());
+		$messages = array_merge($messages, $this->indexManager->createUniqueIndices());
 
-        $this->connection->migrateToSchema($this->schema);
+		$this->connection->migrateToSchema($this->schema);
 
-        foreach ($messages as $message) {
-            $output->info($message);
-        }
+		foreach ($messages as $message) {
+			$output->info($message);
+		}
 
-        $output->info('Agora - Foreign key contraints created.');
-        $output->info('Agora - Indices created.');
-        $this->initDbDefault->runCommands($output);
-        $output->info('Agora - default values inserted.');
-    }
+		$output->info('Agora - Foreign key contraints created.');
+		$output->info('Agora - Indices created.');
+		$output->info('Agora - Initialization begin.');
+                $this->initDbDefault->runCommands($output);
+	}
 }

@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Agora\Db;
 
 use Exception;
+use OCA\Agora\Helper\SqlHelper;
 use OCA\Agora\UserSession;
 use OCP\AppFramework\Db\QBMapper;
 use OCP\DB\QueryBuilder\IQueryBuilder;
@@ -134,7 +135,7 @@ class InquiryGroupMapper extends QBMapper
         IQueryBuilder $qb,
         string $joinAlias = 'inqs',
     ): void {
-        TableManager::getConcatenatedArray(
+        SqlHelper::getConcatenatedArray(
             qb: $qb,
             concatColumn: $joinAlias . '.inquiry_id',
             asColumn: 'inquiry_ids',

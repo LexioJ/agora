@@ -108,24 +108,69 @@ abstract class TableSchema
             'columns' => ['user_id']
         ],
     ];
+	/**
+	 * define useful optional indices, which are not unique
+	 * tableName => [
+	 * 	indexName => ['columns' => [column1, column2, ...]],
+	 * ...]
+	 */
+	public const OPTIONAL_INDICES = [
+		Inquiry::TABLE => [
+			'inquiries_inquiries_owners_non_deleted' => ['columns' => ['owner', 'deleted']],
+			'inquiries_inquiries_deleted' => ['columns' => ['deleted']],
+			'inquiries_inquiries_owners' => ['columns' => ['owner']],
+		],
+		Option::TABLE => [
+			'inquiries_options_non_deleted' => ['columns' => ['inquiry_id', 'deleted']],
+			'inquiries_options_owner' => ['columns' => ['inquiry_id', 'owner']],
+		],
+		Share::TABLE => [
+			'inquiries_shares_user' => ['columns' => ['inquiry_id', 'user_id', 'deleted']],
+			'inquiries_shares_types' => ['columns' => ['inquiry_id', 'type', 'deleted']],
+			'inquiries_group_shares_user' => ['columns' => ['group_id', 'user_id', 'deleted']],
+		],
+		Support::TABLE => [
+			'inquiries_supports_hash' => ['columns' => ['inquiry_id', 'support_hash']],
+		],
+	];
 
     /**
      * define unique indices, which are not primary keys
      * table => ['name' => 'indexName', 'unique' => true, 'columns' => ['column1', 'column2']]
      */
-    public const UNIQUE_INDICES = [
-        Option::TABLE => ['name' => 'UNIQ_options', 'unique' => true, 'columns' => ['inquiry_id']],
-        Log::TABLE => ['name' => 'UNIQ_unprocessed', 'unique' => true, 'columns' => ['processed', 'inquiry_id', 'user_id', 'message_id']],
-        Subscription::TABLE => ['name' => 'UNIQ_subscription', 'unique' => true, 'columns' => ['inquiry_id', 'user_id']],
-        Share::TABLE => ['name' => 'UNIQ_shares', 'unique' => true, 'columns' => ['inquiry_id', 'group_id', 'user_id']],
-        Support::TABLE => ['name' => 'UNIQ_supports', 'unique' => true,'columns' => ['support_hash']],
-        Preferences::TABLE => ['name' => 'UNIQ_preferences', 'unique' => true, 'columns' => ['user_id']],
-        Watch::TABLE => ['name' => 'UNIQ_watch', 'unique' => true, 'columns' => ['inquiry_id', 'table', 'session_id']],
-        InquiryGroup::RELATION_TABLE => ['name' => 'UNIQ_inquiry_group_relation', 'unique' => true, 'columns' => ['inquiry_id', 'group_id']],
-        InquiryMisc::TABLE => ['name' => 'UNIQ_inquiry_misc', 'unique' => true, 'columns' => ['inquiry_id', 'key']],
-        OptionMisc::TABLE => ['name' => 'UNIQ_option_misc', 'unique' => true, 'columns' => ['option_id', 'key']],
-    ];
-
+public const UNIQUE_INDICES = [
+    Option::TABLE => [
+        'UNIQ_options' => ['columns' => ['inquiry_id', 'created']],
+    ],
+    Log::TABLE => [
+        'UNIQ_unprocessed' => ['columns' => ['processed', 'inquiry_id', 'user_id', 'message_id']],
+    ],
+    Subscription::TABLE => [
+        'UNIQ_subscription' => ['columns' => ['inquiry_id', 'user_id']],
+    ],
+    Share::TABLE => [
+        'UNIQ_shares' => ['columns' => ['inquiry_id', 'group_id', 'user_id']],
+        'UNIQ_token' => ['columns' => ['token']],
+    ],
+    Support::TABLE => [
+        'UNIQ_supports' => ['columns' => ['support_hash']],
+    ],
+    Preferences::TABLE => [
+        'UNIQ_preferences' => ['columns' => ['user_id']],
+    ],
+    Watch::TABLE => [
+        'UNIQ_watch' => ['columns' => ['inquiry_id', 'table', 'session_id']],
+    ],
+    InquiryGroup::RELATION_TABLE => [
+        'UNIQ_inquiry_group_relation' => ['columns' => ['inquiry_id', 'group_id']],
+    ],
+    InquiryMisc::TABLE => [
+        'UNIQ_inquiry_misc' => ['columns' => ['inquiry_id', 'key']],
+    ],
+    OptionMisc::TABLE => [
+        'UNIQ_option_misc' => ['columns' => ['option_id', 'key']],
+    ],
+];
     /**
      * obsolete migration entries, which can be deleted
      */
@@ -137,16 +182,16 @@ abstract class TableSchema
      * define obsolete tables to drop
      */
     public const GONE_TABLES = [
-	    'assemblies',           
-	    'assembly_relations',   
-	    'moderation_statuses', 
+	    'oc_agora_assembly',           
+	    'oc_agora_assembly_inq',   
+	    'oc_agora_mod_status', 
     ];
 
     /**
      * define obsolete columns to drop
      */
     public const GONE_COLUMNS = [
-	    'inquiries' => [
+	    'oc_agora_inquiries' => [
 		    'anonymous',
 		    'suggestions_expire', 
 		    'support_limit',
@@ -157,7 +202,7 @@ abstract class TableSchema
 		    'slug',
 		    'tags'
 	    ],
-	    'options' => [
+	    'oc_agora_options' => [
 		    'inquiry_option_hash',
 		    'timestamp',
 		    'duration',
@@ -166,7 +211,6 @@ abstract class TableSchema
 		    'released'
 	    ],
     ];
-
 
     /**
      * define table structure
@@ -180,7 +224,7 @@ abstract class TableSchema
 		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
 		    'deleted' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
 		    'title' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 128]],
-		    'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 128]],
+		    'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'default', 'length' => 128]],
 		    'owner' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
 		    'description' => ['type' => Types::TEXT, 'options' => ['notnull' => false, 'default' => null, 'length' => 65535]],
 		    'groupStatus' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 50]],
@@ -296,9 +340,9 @@ abstract class TableSchema
 		    'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
 		    'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
 		    'parent_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
-		    'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 64]],
+		    'type' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'debate', 'length' => 64]],
 		    'access' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'private', 'length' => 64]],
-		    'option_text' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 1024]],
+		    'option_text' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'enter ur text', 'length' => 1024]],
 		    'owner' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 256]],
 		    'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
 		    'updated' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
