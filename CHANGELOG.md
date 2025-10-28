@@ -4,8 +4,16 @@
 -->
 
 # Changelog
-
 All notable changes to this project will be documented in this file.
+# [1.5.0-rc1] - 2025-10-27
+- UPDATE: New database architecture
+- IMPROVEMENT:
+    - CoverId : Let u put an image for inquiry
+    - Moderation status :
+    - Possibility to create inquiries types and families types.
+    - New UX design.
+ 
+
 # [1.1.0] - 2025-10-02
 - UPDATE: Most of Nc style have been used ( NcButton, NcSelect,..)
 - FIX: insert image now working in tiptap,.

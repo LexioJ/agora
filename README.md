@@ -14,30 +14,37 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 
 ---
 
-## 🌟 Features in 1.5.0
+## 🌟 New Features in 1.5.0
 
-- 🔍 **Improved Search Bar** – Quickly find proposals, debates, or projects  
-- 📝 **Create Contributions**  
-  - 📌 **Proposals** – Suggest ideas or improvements  
-  - 💬 **Debates** – Discuss and exchange opinions  
-  - 📃 **Petitions** – Collect support for initiatives  
-  - 🏗 **Projects** – Manage tasks or initiatives collaboratively  
-- 💬 **Comments & Suggestions** – Shape ideas together  
-- 🏷 **Sort by Category & Location** – Keep content organized  
-- 🔒 **Private & Secure** – All data stays on your Nextcloud server
+- 🧱 **Architecture Database** – New database design for better scalability and structure  
+- 🎨 **New UX Landing Page** – A more modern and user-friendly entry point  
+- 🆔 **Cover ID for Inquiries** – Visual cover and unique identifiers  
+- 🧩 **Linked Families** – Inquiries are now linked to families; create your own families  
+- ⚙️ **Custom Inquiry Types** – Define reply formats and transformation possibilities  
+- 🧑‍⚖️ **Real Moderation Mode** – Fully functional moderation (can be deactivated)  
+- 🤖 **AI Integration Fix & Tests** – AI suggestions and analysis reworked  
 
 ---
 
-## 🚀 Why Agora?
+## ✨ Features
 
-Agora encourages **participation and collaboration** in small teams, community groups, or local initiatives.  
-It simplifies decision-making, keeps discussions structured, and ensures **every voice counts**.
+- 💬 Comments and discussions  
+- 👍 Supports (likes/upvotes)  
+- 🧾 Multiple inquiry types (proposals, debates, petitions, projects)  
+- 📂 Categorization and filtering by location/family  
+- 🔒 Secure and private – all data stays on your Nextcloud server  
 
 ---
 
-## 🐞 Known Issues
+## 🧭 Roadmap
 
-- Public share not fully tested  
+- ⚙️ Integrate miscellaneous settings  
+- 🔗 Link with other Nextcloud apps (Forms, Polls, Deck, Cospend…)  
+- 🗣 Real debate features (structured replies, multi-thread discussions)  
+- 📜 Project law reading with article-level comments and supports  
+- 🏛 Collectives → Polls for consultation or referendum  
+- 🧮 Quorums and workflow automation  
+- 🧰 Better permission control and moderation tools  
 
 ---
 
@@ -83,10 +90,9 @@ occ app:enable agora
 
 ## 🖼 Screenshots
 
-| Edit Inquiry | Manage Category | Moderation Status | View as Non-owner | Grid View | List View || Family | Creation | Inquiry Type |
-| :----------: | :-------------: | :---------------: | :---------------: | :-------: | :-------: |:-------: | :-------: |
-| :----------: | :-------------: | :---------------: | :---------------: | :-------: | :-------: |:-------: | :-------: |
-| ![Edit Inquiry](screenshots/Edit.png) | ![Category](screenshots/Category.png) | ![Moderation](screenshots/ModerationStatus.png) | ![View](screenshots/UserViewInquiry.png) | ![Grid](screenshots/GridView.png) | ![List](screenshots/ListView.png) | ![List](screenshots/Family.png) | ![List](screenshots/Creation.png) | ![List](screenshots/InquiryType.png) |
+| Edit Inquiry | Manage Category | Moderation Status | View as Non-owner | Grid View | List View | Family | Creation | Inquiry Type |
+| :----------: | :-------------: | :---------------: | :---------------: | :-------: | :-------: | :-------: | :-------: | :-------: |
+| ![Edit Inquiry](screenshots/Edit.png) | ![Category](screenshots/Category.png) | ![Moderation](screenshots/ModerationStatus.png) | ![View](screenshots/UserViewInquiry.png) | ![Grid](screenshots/GridView.png) | ![List](screenshots/ListView.png) | ![Family](screenshots/Family.png) | ![Creation](screenshots/Creation.png) | ![InquiryType](screenshots/InquiryType.png) |
 
 ---
 
@@ -108,12 +114,3 @@ occ app:enable agora
 ## 🤝 Contribution
 
 Please read our [Code of Conduct](https://vinimoz.com/community/code-of-conduct/) to ensure collaboration in a positive and respectful way.
-
----
-
-## 🏷 Changelog Highlights for 1.1.0
-
-- ✨ Improved **search bar** for fast filtering  
-- 📝 Minor UI improvements  
-- 🐞 Bug fixes: comments display, image handling in Tiptap
-
