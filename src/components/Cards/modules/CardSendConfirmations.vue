@@ -29,7 +29,7 @@ function confirmationSendError() {
  */
 function confirmationSendSuccess() {
   cardType.value = 'success'
-  confirmationSendMessage.value = t('agora', 'Messages sent.')
+  confirmationSendMessage.value = t('agora', 'Messages sent')
   emit('sendConfirmationError')
 }
 </script>

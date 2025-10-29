@@ -15,7 +15,6 @@ import { ConfigBox, QrModal } from '../Base/index.ts'
 import ShareItem from './ShareItem.vue'
 import UserSearch from '../User/UserSearch.vue'
 import SharePublicAdd from './SharePublicAdd.vue'
-import ShareItemAllUsers from './ShareItemAllUsers.vue'
 import MarkDownDescription from '../Inquiry/MarkDownDescription.vue'
 
 import { useInquiryStore } from '../../stores/inquiry.ts'

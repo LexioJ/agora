@@ -19,10 +19,10 @@ import {
 
 import {
   canArchive,
-  canRestore,
+  // canRestore,
   canDelete,
   canTransfer,
-  canEdit,
+  // canEdit,
   createPermissionContextForContent,
   ContentType,
 } from '../../utils/permissions.ts'

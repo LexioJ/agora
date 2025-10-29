@@ -31,7 +31,7 @@ const inquiriesLeft = computed(() =>
 
 const optionsAvailableText = computed(() => {
   if (optionsStore.countOptionsLeft === 0) {
-    return t('agora', 'No more voting options are available.')
+    return t('agora', 'No more voting options are available')
   }
 
   return n(
@@ -44,7 +44,7 @@ const optionsAvailableText = computed(() => {
 
 const inquiriesLeftText = computed(() => {
   if (!inquiriesLeft.value) {
-    return t('agora', 'You have no inquiries left.')
+    return t('agora', 'You have no inquiries left')
   }
   return n(
     'inquiries',
@@ -63,7 +63,7 @@ const cardType = computed(() =>
 </script>
 
 <template>
-  <CardDiv :heading="t('agora', 'Limited inquiries.')" :type="cardType">
+  <CardDiv :heading="t('agora', 'Limited inquiries')" :type="cardType">
     <span v-if="inquiryStore.configuration.maxInquiriesPerOption">
       {{ optionsAvailableText }}
     </span>

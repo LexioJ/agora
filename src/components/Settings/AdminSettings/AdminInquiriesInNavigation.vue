@@ -18,7 +18,7 @@ const appSettingsStore = useAppSettingsStore()
       type="switch"
       @update:model-value="appSettingsStore.write()"
     >
-      {{ t('agora', 'Load inquiries into the navigation.') }}
+      {{ t('agora', 'Load inquiries into the navigation') }}
     </NcCheckboxRadioSwitch>
   </div>
 </template>

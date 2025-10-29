@@ -56,7 +56,7 @@ function addedInquiry(payLoad: { id: number; title: string }) {
 }
 
 const confirmationDialogMessage = computed(() =>
-  t('agora', '"{inquiryTitle}" has been successfully created.', {
+  t('agora', 'inquiryTitle has been successfully created', {
     inquiryTitle: newInquiry.value.title,
   })
 )

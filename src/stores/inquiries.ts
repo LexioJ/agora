@@ -7,7 +7,6 @@ import { defineStore } from 'pinia'
 import orderBy from 'lodash/orderBy'
 import { DateTime } from 'luxon'
 import { t } from '@nextcloud/l10n'
-import {  SessionSettings } from './preferences.ts'
 import { useAppSettingsStore } from '../stores/appSettings.ts'
 
 import { Logger } from '../helpers/index.ts'
@@ -358,9 +357,7 @@ export const useInquiriesStore = defineStore('inquiries', {
 
 	      // First filter by familyType if specified
 	      if (state.advancedFilters.familyType) {
-		      filteredInquiries = filteredInquiries.filter((inquiry) => {
-			      return inquiry.family === state.advancedFilters.familyType
-		      })
+		      filteredInquiries = filteredInquiries.filter((inquiry) => inquiry.family === state.advancedFilters.familyType)
 	      }
 
 	      // Then filter by current category
@@ -543,23 +540,15 @@ export const useInquiriesStore = defineStore('inquiries', {
 		  this.viewMode = viewMode
 	  },
 
-	  //Updating an inquiry into the store
+	  // Updating an inquiry into the store
 	  submitInquiry(inquiryId, action): Promise<void> {
 	    const appSettingsStore = useAppSettingsStore()
 		  const inquiry = this.inquiries.find(inq => inq.id === inquiryId)
-		  console.log(" WE FOUND the inquiries the action is ",action)
 		  if (inquiry) {
 			  if (action === 'submit_for_accepted') {
 				  inquiry.status.moderationStatus = "accepted"
-				  console.log(" WE FOUND the inquiries WE ARE GOING TO ENTER")
-				  console.log("Inquiry type:", inquiry.type)
-				  console.log("app SETTINGS STORE:", appSettingsStore.inquiryStatusTab)
-				  console.log("Function exists:", typeof appSettingsStore.getFirstStatusKeyByInquiryType)
 				  const status = appSettingsStore.getFirstStatusKeyByInquiryType(inquiry.type)
-				  console.log("Returned status:", status)
-
 				  inquiry.status.inquiryStatus = status
-				  console.log(" WE FOUND the inquiries and we set the status  ", inquiry.status.inquiryStatus)
 				  inquiry.configuration.access = "open"
 			  } else if (action === "submit_for_rejected") {
 				  inquiry.status.moderationStatus="rejected"
@@ -596,6 +585,7 @@ export const useInquiriesStore = defineStore('inquiries', {
 
 	  /**
 	   * Filter set
+	   * @param filters
 	   */
 	  setFilters(filters: AdvancedFilters): void {
 		  this.advancedFilters = { 

@@ -10,7 +10,7 @@ import { BaseEntry, InquiryType, InquiryFamily } from '../Types/index.ts'
 import { AxiosError } from '@nextcloud/axios'
 
 import type { InquiryTypeRights, ModeratorRights, OfficialRights } from '../utils/permissions.ts'
-import { DefaultInquiryRights, DefaultModeratorRights, DefaultOfficialRights } from '../utils/permissions.ts'
+import { DefaultModeratorRights, DefaultOfficialRights } from '../utils/permissions.ts'
 
 export type UpdateType = 'noInquirying' | 'periodicInquirying' | 'longInquirying'
 
@@ -150,13 +150,9 @@ export const useAppSettingsStore = defineStore('appSettings', {
 	}),
 
 	getters: {
-		 getInquiryTypeRights: (state) => (inquiryType: string) => {
-      			return state.inquiryTypeRights[inquiryType]
-		 },
+		 getInquiryTypeRights: (state) => (inquiryType: string) => state.inquiryTypeRights[inquiryType],
 
-		 getMainInquiryTypes: (state) => {
-			 return state.inquiryTypeTab.filter(type => !type.is_option)
-		 },
+		 getMainInquiryTypes: (state) => state.inquiryTypeTab.filter(type => !type.is_option),
 
 
 	},
@@ -507,7 +503,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
 			}
 		},
 
-		//METHOD FOR FAMILY
+		// METHOD FOR FAMILY
 		// STORE FOR INQUIRY FAMILY MANAGEMENT
 		async addFamily(familyData: {
 			family_type: string;
@@ -564,7 +560,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
 		},
 
 
-		//METHOD FOR TYPE
+		// METHOD FOR TYPE
 		// STORE FOR INQUIRY TYPE MANAGEMENT
 		async addInquiryType(typeData: {
 			inquiry_type: string;

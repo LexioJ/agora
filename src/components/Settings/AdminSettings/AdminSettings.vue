@@ -73,7 +73,7 @@ const currentComponent = computed(() => {
 <template>
   <div class="admin-settings-container">
     <!-- Breadcrumb Navigation -->
-    <div class="breadcrumb" v-if="breadcrumb.length > 0">
+    <div v-if="breadcrumb.length > 0" class="breadcrumb">
       <span
         v-for="(item, index) in breadcrumb"
         :key="item.view"
@@ -110,8 +110,8 @@ const currentComponent = computed(() => {
       v-model:open="settingsModalOpen"
       :show-navigation="false"
       :name="t('agora', 'Settings - {type}', { type: selectedType?.label || '' })"
-      @close="handleSettingsModalClose"
       class="large-modal"
+      @close="handleSettingsModalClose"
     >
       <TypeSettingsModal
         v-if="selectedType"

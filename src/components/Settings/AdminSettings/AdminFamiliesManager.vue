@@ -4,7 +4,7 @@
 -->
 
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { computed, ref } from 'vue'
 import { t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
@@ -47,13 +47,10 @@ const availableIcons = computed(() =>
     }))
 )
 
-const getIconComponent = (iconName) => {
-  return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
-}
+const getIconComponent = (iconName) => InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
 
 // Calculate types count for each family
-const familiesWithStats = computed(() => {
-  return appSettingsStore.inquiryFamilyTab.map(family => {
+const familiesWithStats = computed(() => appSettingsStore.inquiryFamilyTab.map(family => {
     const typesCount = appSettingsStore.inquiryTypeTab.filter(
       type => type.family === family.family_type
     ).length
@@ -62,8 +59,7 @@ const familiesWithStats = computed(() => {
       ...family,
       typesCount
     }
-  })
-})
+  }))
 
 const extractIconId = (icon) => {
   if (!icon) return ''
@@ -117,7 +113,7 @@ const selectFamily = (family) => {
   <div class="families-manager">
     <h2>{{ t('agora', 'Inquiry Families Management') }}</h2>
     <p class="description">
-      {{ t('agora', 'Manage inquiry families to organize different types of inquiries. Each family can contain multiple inquiry types.') }}
+      {{ t('agora', 'Manage inquiry families to organize different types of inquiries Each family can contain multiple inquiry types') }}
     </p>
 
     <!-- Families List -->

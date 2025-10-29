@@ -63,7 +63,7 @@ const defaultDisplayMode = computed({
         {{ t('agora', 'Default display mode') }}
       </NcCheckboxRadioSwitch>
       <div class="settings_details">
-        {{ t('agora', 'How u wish to display the application in mode creation or mode view. The initial default is view mode.') }}
+        {{ t('agora', 'How u wish to display the application in mode creation or mode view The initial default is view mode') }}
       </div>
     </div>
 
@@ -76,7 +76,7 @@ const defaultDisplayMode = computed({
         {{ t('agora', 'Verbose inquiry list') }}
       </NcCheckboxRadioSwitch>
       <div class="settings_details">
-        {{ t('agora', 'Check this for more inquiry information in the overview.') }}
+        {{ t('agora', 'Check this for more inquiry information in the overview') }}
       </div>
     </div>
 

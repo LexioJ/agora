@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { ref, computed, watch, type Ref } from 'vue'
+import { ref, computed, watch  } from 'vue'
 import { useSessionStore } from '../../stores/session'
 import { useInquiryStore } from '../../stores/inquiry'
 import { BaseEntry } from '../../Types/index.ts'
@@ -26,6 +26,7 @@ interface SelectOption {
 }
 
 /**
+ * @param inquiryStore
  */
 export function useHierarchicalSelect(inquiryStore: ReturnType<typeof useInquiryStore>) {
 	const sessionStore = useSessionStore()
@@ -115,6 +116,7 @@ export function useHierarchicalSelect(inquiryStore: ReturnType<typeof useInquiry
 }
 
 /**
+ * @param inquiryStore
  */
 export function useCategoryLocationSelection(inquiryStore: ReturnType<typeof useInquiryStore>) {
 	const sessionStore = useSessionStore() // IMPORTANT: Ajouter cette ligne
@@ -191,6 +193,7 @@ export function useCategoryLocationSelection(inquiryStore: ReturnType<typeof use
 }
 
 /**
+ * @param inquiryStore
  */
 export function useInquiryPermissions(inquiryStore: ReturnType<typeof useInquiryStore>) {
 	const sessionStore = useSessionStore()
@@ -245,6 +248,7 @@ export function useInquiryPermissions(inquiryStore: ReturnType<typeof useInquiry
 
 /**
  * Fonction for UI actions
+ * @param inquiryStore
  */
 export function useInquiryActions(inquiryStore: ReturnType<typeof useInquiryStore>) {
 	const sessionStore = useSessionStore()
@@ -253,17 +257,11 @@ export function useInquiryActions(inquiryStore: ReturnType<typeof useInquiryStor
 	const allowedTypesForActions = ref(['standard', 'debate', 'official'])
 
 	// Check if actions menu should be shown
-	const showActionsMenu = computed(() => {
-		return !isReadonly.value && allowedTypesForActions.value.includes(inquiryStore.type)
-	})
+	const showActionsMenu = computed(() => !isReadonly.value && allowedTypesForActions.value.includes(inquiryStore.type))
 
-	const showResponseButton = computed(() => {
-		return sessionStore.currentUser?.isOfficial
-	})
+	const showResponseButton = computed(() => sessionStore.currentUser?.isOfficial)
 
-	const showSaveButton = computed(() => {
-		return !isReadonlyDescription.value
-	})
+	const showSaveButton = computed(() => !isReadonlyDescription.value)
 
 	return {
 		allowedTypesForActions,

@@ -289,11 +289,11 @@
             </h3>
             
             <div class="form-group">
-              <label for="ai-prompt">{{ t('agora', 'Describe what you want to generate:') }}</label>
+              <label for="ai-prompt">{{ t('agora', 'Describe what you want to generate') }}</label>
               <NcTextField
                 id="ai-prompt"
                 v-model:value="aiPrompt"
-                :placeholder="t('agora', 'e.g., Write a professional introduction for a business inquiry about...')"
+                :placeholder="t('agora', 'eg Write a professional introduction for a business inquiry about')"
                 type="textarea"
                 label="Prompt for AI"
                 :rows="4"
@@ -302,14 +302,14 @@
             </div>
 
             <div v-if="aiGeneratedContent" class="ai-preview">
-              <h3>{{ t('agora', 'Preview:') }}</h3>
+              <h3>{{ t('agora', 'Preview') }}</h3>
               <div class="preview-content">
-                <p>{{ t('agora', 'AI generated content is ready to be inserted.') }}</p>
+                <p>{{ t('agora', 'AI generated content is ready to be inserted') }}</p>
                 <div class="content-length">
                   {{ t('agora', 'Content length: {length} characters', { length: aiGeneratedContent.length }) }}
                 </div>
                 <div class="content-summary">
-                  <strong>{{ t('agora', 'Summary:') }}</strong>
+                  <strong>{{ t('agora', 'Summary') }}</strong>
                   {{ getContentSummary(aiGeneratedContent) }}
                 </div>
               </div>
@@ -727,7 +727,7 @@ const generateWithAI = async () => {
     showSuccess(t('agora', 'Content generated successfully'))
   } catch (error) {
     console.error('AI generation failed:', error)
-    showError(t('agora', 'AI generation failed. Please try again.'))
+    showError(t('agora', 'AI generation failed Please try again'))
   } finally {
     aiLoading.value = false
   }

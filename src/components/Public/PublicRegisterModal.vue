@@ -74,13 +74,13 @@ const loginLink = computed(() => {
 
 const userNameHint = computed(() => {
   if (checkStatus.value.userName === 'checking') {
-    return t('agora', 'Checking name …')
+    return t('agora', 'Checking name ')
   }
   if (checkStatus.value.userName === 'empty') {
-    return t('agora', 'A name is required.')
+    return t('agora', 'A name is required')
   }
   if (checkStatus.value.userName === 'invalid') {
-    return t('agora', 'The name {username} is invalid or reserved.', {
+    return t('agora', 'The name username is invalid or reserved', {
       username: userName.value,
     })
   }
@@ -89,13 +89,13 @@ const userNameHint = computed(() => {
 
 const emailAddressHint = computed(() => {
   if (emailGeneratedStatus.value === 'checking') {
-    return t('agora', 'Checking email address …')
+    return t('agora', 'Checking email address ')
   }
   if (emailGeneratedStatus.value === 'mandatory') {
-    return t('agora', 'An email address is required.')
+    return t('agora', 'An email address is required')
   }
   if (emailGeneratedStatus.value === 'invalid') {
-    return t('agora', 'Invalid email address.')
+    return t('agora', 'Invalid email address')
   }
   if (sessionStore.share.type === 'public') {
     if (emailGeneratedStatus.value === 'valid') {
@@ -331,7 +331,7 @@ async function submitRegistration(): Promise<void> {
           {{ t('inquiries', 'You can also log in and participate with your regular account.') }}
         </div>
         <div>
-          {{ t('agora', 'Otherwise participate as a guest participant.') }}
+          {{ t('agora', 'Otherwise participate as a guest participant') }}
         </div>
       </div>
     </div>

@@ -39,7 +39,7 @@ onUnmounted(() => {
       </div>
       <NcEmptyContent
         v-else
-        :name="t('agora', 'This inquiry is closed.')"
+        :name="t('agora', 'This inquiry is closed')"
         :description="t('agora', 'Adding options is disabled')"
       >
         <template #icon>

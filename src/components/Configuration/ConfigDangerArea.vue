@@ -31,7 +31,7 @@ function toggleArchive() {
     inquiryStore.toggleArchive({ inquiryId: inquiryStore.id })
   } catch {
     showError(
-      t('agora', 'Error {action} inquiry.', {
+      t('agora', 'Error action inquiry', {
         action: inquiryStore.status.isArchived ? 'restoring' : 'archiving',
       })
     )

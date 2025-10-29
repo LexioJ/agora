@@ -13,7 +13,6 @@ import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 import InquiryCreateDlg from '../components/Create/InquiryCreateDlg.vue'
-import { HeaderBar } from '../components/Base/index.ts'
 import { AgoraAppIcon } from '../components/AppIcons/index.ts'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
@@ -38,9 +37,7 @@ const preferencesStore = usePreferencesStore()
 
 
 // Computed for default view mode based on boolean
-const defaultViewMode = computed(() => {
-  return preferencesStore.user.defaultDisplayMode || 'view'
-})
+const defaultViewMode = computed(() => preferencesStore.user.defaultDisplayMode || 'view')
 
 // ViewMode state
 const viewMode = ref<string>(
@@ -60,15 +57,11 @@ const availableGroups = computed(() => {
 const selectedFamily = ref<string | null>(inquiriesStore.familyType || null)
 
 // Computed for available families
-const inquiryFamilies = computed((): InquiryFamily[] => {
-  return sessionStore.appSettings.inquiryFamilyTab || []
-})
+const inquiryFamilies = computed((): InquiryFamily[] => sessionStore.appSettings.inquiryFamilyTab || [])
 
 
 // Computed for all inquiry types (templates)
-const allInquiryTypes = computed((): InquiryType[] => {
-  return sessionStore.appSettings.inquiryTypeTab || []
-})
+const allInquiryTypes = computed((): InquiryType[] => sessionStore.appSettings.inquiryTypeTab || [])
 
 const inquiryTypesByFamily = computed(() => {
   const types = allInquiryTypes.value.filter(type => type.isOption === 0)
@@ -91,15 +84,7 @@ onMounted(() => {
   inquiriesStore.load(false)
    if (inquiriesStore.advancedFilters.familyType) {
     selectedFamily.value = inquiriesStore.advancedFilters.familyType
-    console.log('🔍 Initialized selectedFamily from store:', selectedFamily.value)
   }
-
-  console.log('🔍 DEBUG InquiryMenu - Using helper functions:')
-  console.log('🔍 Families:', inquiryFamilies.value)
-  console.log('🔍 Inquiry Types by Family:', inquiryTypesByFamily.value)
-  console.log('🔍 Selected family:', selectedFamily.value)
-  console.log('🔍 Filtered types:', filteredInquiryTypes.value)
-
 })
 
 // Get family by ID
@@ -109,15 +94,12 @@ const currentFamily = computed(() => {
 })
 
 // Get current family data (icon, label, description)
-const currentFamilyData = computed(() => {
-  return getInquiryItemData(currentFamily.value, t('agora', 'Inquiry Types'))
-})
+const currentFamilyData = computed(() => getInquiryItemData(currentFamily.value, t('agora', 'Inquiry Types')))
 
 // Watch for preferences changes
 watch(
   () => preferencesStore.user.defaultDisplayMode,
   (newMode) => {
-    console.log('🔍 Preferences defaultDisplayMode:', newMode)
     // Only update if no viewMode in URL
     if (!route.query.viewMode && newMode) {
       viewMode.value = newMode
@@ -133,7 +115,6 @@ watch(
   (newFamilyType) => {
     if (newFamilyType && newFamilyType !== selectedFamily.value) {
       selectedFamily.value = newFamilyType
-      console.log('🔍 selectedFamily updated from store:', newFamilyType)
     }
   },
   { immediate: true }
@@ -144,7 +125,6 @@ watch(
 function selectFamily(familyType: string) {
     selectedFamily.value = familyType
     inquiriesStore.setFamilyType(familyType)
-    console.log(" SELECT FAMIL ",familyType) 
   if (viewMode.value === 'view') {
     router.push({
       name: 'list',
@@ -175,7 +155,6 @@ watch(
   (newFamilyId) => {
     if (!newFamilyId) return
    
-    console.log(`🔍 Family selected: ${newFamilyId}, navigating with viewMode: ${viewMode.value}`)
     
    inquiriesStore.setFamilyType(newFamilyId)
     // Navigate based on current viewMode
@@ -196,7 +175,6 @@ watch(
 
 // Function to handle view mode change
 function handleViewModeChange(mode: string) {
-  console.log(`🔄 View mode changed to: ${mode}`)
   viewMode.value = mode
    inquiriesStore.setFamilyType(selectedFamily.value)
    
@@ -220,7 +198,6 @@ function handleViewModeChange(mode: string) {
 
 // Function to create new inquiry from type
 function createInquiry(inquiryType: InquiryType) {
-  //console.log('Creating inquiry from type:', inquiryType)
   selectedInquiryTypeForCreation.value = inquiryType
   createDlgToggle.value = true
 }
@@ -315,7 +292,7 @@ function handleCloseDialog() {
           </div>
           <div class="family-card-large__content">
             <h3 class="family-card-large__title">{{ getInquiryItemData(family).label }}</h3>
-            <p class="family-card-large__description" v-if="getInquiryItemData(family).description">
+            <p v-if="getInquiryItemData(family).description" class="family-card-large__description">
               {{ getInquiryItemData(family).description }}
             </p>
           </div>
@@ -355,7 +332,7 @@ function handleCloseDialog() {
             <h4 class="inquiry-type-card__title">
               {{ getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).label }}
             </h4>
-            <p class="inquiry-type-card__description" v-if="getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description">
+            <p v-if="getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description" class="inquiry-type-card__description">
               {{ getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description }}
             </p>
           </div>

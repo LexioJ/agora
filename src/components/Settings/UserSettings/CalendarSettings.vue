@@ -43,7 +43,7 @@ const clickedCalendar = (calendar) => {
       </NcCheckboxRadioSwitch>
 
       <div v-show="preferencesStore.user.calendarPeek" class="settings_details">
-        {{ t('agora', 'Select the calendars to use for lookup.') }}
+        {{ t('agora', 'Select the calendars to use for lookup') }}
 
         <div v-for="calendar in calendarChoices" :key="calendar.key" class="calendar-item">
           <NcCheckboxRadioSwitch

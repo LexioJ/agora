@@ -311,7 +311,6 @@ export const useInquiryStore = defineStore('inquiry', {
 		    if (action === 'submit_for_accepted') {
 			    this.status.moderationStatus="accepted"
 			    this.status.inquiryStatus=appSettingsStore.getFirstStatusKeyByInquiryType(this.type)
-		  	     console.log(" WE FOUND the inquiries and we set the status  ",this.status.inquiryStatus)
 			    this.configuration.access="open"
 		    } else if (action === "submit_for_rejected") {
 			    this.status.moderationStatus="rejected"
@@ -325,12 +324,12 @@ export const useInquiryStore = defineStore('inquiry', {
 		    const response = await InquiriesAPI.submitInquiry(this.id,action)
 		    if (!response || !response.data) {
 			    this.$reset()
-			    return
+			    
 		    }
 
 	    } catch (error) {
 		    if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-			    return
+			   return null 
 		    }
 	    }
     },
@@ -392,10 +391,6 @@ export const useInquiryStore = defineStore('inquiry', {
     }): Promise<Inquiry | void> {
 	    const inquiriesStore = useInquiriesStore()
 
-	    console.log("PARENT ID ",payload.parentId)
-	    console.log("LOCATION ",payload.locationId)
-	    console.log("CATEGORY", payload.categoryId)
-	    console.log(" DESCRIPTION",payload.description)
 	    try {
 		    const response = await InquiriesAPI.addInquiry({
 			    title: payload.title,

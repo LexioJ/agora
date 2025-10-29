@@ -67,7 +67,7 @@ const expiryClass = richObject?.inquiry?.expiry
       </span>
     </div>
     <div v-if="richObject.inquiry.ownerId" class="widget_footer">
-      <span>{{ t('agora', 'By:') }}</span>
+      <span>{{ t('agora', 'By') }}</span>
       <NcUserBubble
         :user="richObject.inquiry.ownerId"
         :display-name="richObject.inquiry.ownerDisplayName"

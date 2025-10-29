@@ -12,17 +12,14 @@ import DOMPurify from 'dompurify'
 import { InquiryGeneralIcons } from '../utils/icons.ts'
 import NcDashboardWidget from '@nextcloud/vue/components/NcDashboardWidget'
 import { useSessionStore } from '../stores/session.ts'
-import { usePreferencesStore } from '../stores/preferences.ts'
 import { AgoraAppIcon } from '../components/AppIcons/index.ts'
 import { Logger } from '../helpers/index.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
 import { 
-  getInquiryItemData,
   getInquiryTypeData,
   type InquiryType
 } from '../helpers/modules/InquiryHelper.ts'
 
-const preferencesStore = usePreferencesStore()
 const sessionStore = useSessionStore()
 
 const dashboardWidgetProperties = {
@@ -31,9 +28,7 @@ const dashboardWidgetProperties = {
 }
 
 // Computed for all inquiry types
-const allInquiryTypes = computed((): InquiryType[] => {
-  return sessionStore.appSettings.inquiryTypeTab || []
-})
+const allInquiryTypes = computed((): InquiryType[] => sessionStore.appSettings.inquiryTypeTab || [])
 
 const inquiriesStore = useInquiriesStore()
 

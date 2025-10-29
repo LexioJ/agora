@@ -48,7 +48,6 @@ const context = computed(() => {
     inquiryStore.status.isFinalStatus,
     inquiryStore.status.moderationStatus 
   )
-  console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
   return ctx
 }) 
 

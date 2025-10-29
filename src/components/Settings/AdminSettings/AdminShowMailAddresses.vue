@@ -32,7 +32,7 @@ const appSettingsStore = useAppSettingsStore()
         :user-select="true"
         :multiple="true"
         :loading="isLoading"
-        :placeholder="t('agora', 'Leave empty to disable globally.')"
+        :placeholder="t('agora', 'Leave empty to disable globally')"
         @update:model-value="appSettingsStore.write()"
         @search="appSettingsStore.loadGroups"
       />

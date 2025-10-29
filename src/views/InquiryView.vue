@@ -5,19 +5,14 @@
 <script setup lang="ts">
 import { computed, onUnmounted, ref, watch, nextTick } from 'vue'
 import { emit, unsubscribe } from '@nextcloud/event-bus'
-import { n, t } from '@nextcloud/l10n'
+import { t } from '@nextcloud/l10n'
 import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router'
 import { showError, showSuccess } from '@nextcloud/dialogs'
-import moment from 'moment'
 
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
-import NcUserBubble from '@nextcloud/vue/components/NcUserBubble'
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
 import InquiryActionToolbar from '../components/Inquiry/InquiryActionToolbar.vue'
 import InquiryHeaderButtons from '../components/Inquiry/InquiryHeaderButtons.vue'
-import LoadingOverlay from '../components/Base/modules/LoadingOverlay.vue'
-import HeaderBar from '../components/Base/modules/HeaderBar.vue'
 import InquiryEditViewForm from '../components/Inquiry/InquiryEditViewForm.vue'
 import InquiryTransition from '../components/Inquiry/InquiryTransition.vue'
 import InquiryCreateDlg from '../components/Create/InquiryCreateDlg.vue'
@@ -26,14 +21,7 @@ import { useInquiriesStore } from '../stores/inquiries.ts'
 import { useSessionStore } from '../stores/session.ts'
 import Collapsible from '../components/Base/modules/Collapsible.vue'
 import type { CollapsibleProps } from '../components/Base/modules/Collapsible.vue'
-import IntersectionObserver from '../components/Base/modules/IntersectionObserver.vue'
 import InquiryInfoCards from '../components/Cards/InquiryInfoCards.vue'
-import { DateTime } from 'luxon'
-import { InquiryGeneralIcons } from '../utils/icons.ts'
-import {
-  getInquiryTypeData,
-  confirmAction,
-} from '../helpers/modules/InquiryHelper.ts'
 import { createPermissionContextForContent, ContentType, canEdit } from '../utils/permissions.ts'
 
 
@@ -45,7 +33,6 @@ const router = useRouter()
 const inquiryStore = useInquiryStore()
 const inquiriesStore = useInquiriesStore()
 const sessionStore = useSessionStore()
-const tableSticky = ref(false)
 const editMode = ref(false)
 const isAppLoaded = ref(false)
 
@@ -53,7 +40,6 @@ const createDlgToggle = ref(false)
 const selectedInquiryTypeForCreation = ref('')
 const selectedGroups = ref([])
 const isSaving = ref(false)
-const selectedFamily = ref<string | null>(inquiriesStore.familyType || null)
 
 // Context for permissions
 const context = computed(() => {
@@ -73,22 +59,8 @@ const context = computed(() => {
     inquiryStore.status.isFinalStatus,
     inquiryStore.status.moderationStatus 
   )
-  console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
   return ctx
 })
-
-const showMore = computed(
-  () =>
-    inquiriesStore.chunkedList.length < inquiriesStore.inquiriesFilteredSorted.length &&
-    inquiriesStore.meta.status !== 'loading'
-)
-
-const formatDate = (timestamp: number) =>
-  DateTime.fromMillis(timestamp * 1000).toLocaleString(DateTime.DATE_SHORT)
-
-const countLoadedInquiries = computed(() =>
-  Math.min(inquiriesStore.chunkedList.length, inquiriesStore.inquiriesFilteredSorted.length)
-)
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -97,33 +69,6 @@ const availableGroups = computed(() => {
   }
   return groups
 })
-
-const closeToClosing = computed(() => {
-  if (!inquiryStore.configuration.expire) return false
-  const expireTime = inquiryStore.configuration.expire * 1000
-  const timeUntilExpire = expireTime - Date.now()
-  return timeUntilExpire < 86400000 && timeUntilExpire > 0
-})
-
-const timeExpirationRelative = computed(() => {
-  if (inquiryStore.configuration.expire) {
-    return moment.unix(inquiryStore.configuration.expire).fromNow()
-  }
-  return t('agora', 'never')
-})
-
-const infoLoaded = computed(() =>
-  n(
-    'agora',
-    '{loadedInquiries} of {countInquiries} inquiry loaded.',
-    '{loadedInquiries} of {countInquiries} inquiries loaded.',
-    inquiriesStore.inquiriesFilteredSorted.length,
-    {
-      loadedInquiries: countLoadedInquiries.value,
-      countInquiries: inquiriesStore.inquiriesFilteredSorted.length,
-    }
-  )
-)
 
 async function routeChild(childId: string) {
   router.push({ name: 'inquiry', params: { id: childId } })
@@ -147,8 +92,7 @@ async function loadInquiry(id: string) {
     }
     await nextTick()
     forceRenderKey.value += 1
-  } catch (error) {
-    console.error('Loading error:', error)
+  } catch  {
     showError(t('agora', 'Failed to load inquiry'))
   } finally {
     isAppLoaded.value = true
@@ -164,30 +108,23 @@ watch(
   { immediate: true }
 )
 
-//Compute isReadonly
+// Compute isReadonly
 const isReadonly = computed(() => {
   const user = sessionStore.currentUser
-  console.log('🔧 [InquiryEditViewForm] Checking readonly - User:', user)
   if (inquiryStore.status.moderationStatus === 'rejected' || inquiryStore.status.moderationStatus === 'pending') return true
   if (!user) {
-    console.log('🔧 [InquiryEditViewForm] No user - READONLY')
     return true
   }
-
   const canEditResult = canEdit(context.value)
-  console.log('🔧 [InquiryEditViewForm] canEdit result:', canEditResult)
 
   return !canEditResult
 })
 
 const isReadonlyDescription = computed(() => {
-  console.log('🔧 [InquiryEditViewForm] isReadonlyDescription check - type:', inquiryStore.type, 'isReadonly:', isReadonly.value)
 
   if (inquiryStore.type === 'debate') {
-    console.log('🔧 [InquiryEditViewForm] Debate type - EDITABLE')
     return false
   }
-  console.log('🔧 [InquiryEditViewForm] Other type - READONLY:', isReadonly.value)
    return isReadonly.value
 })
 
@@ -251,27 +188,23 @@ const handleSave = async () => {
 }
 
 const handleAllowedResponse = (responseType: string) => {
-  console.log('Opening dialog for response type:', responseType)
   selectedMode.value = 'response' 
   selectedInquiryTypeForCreation.value = responseType
   createDlgToggle.value = true
 }
 
 const handleAllowedTransformation = (transformType: string) => {
-  console.log('Opening dialog for transformation type:', transformType)
   selectedMode.value = 'transform' 
   selectedInquiryTypeForCreation.value = transformType
   createDlgToggle.value = true
 }
 
 const handleCloseDialog = () => {
-  console.log('Closing dialog')
   createDlgToggle.value = false
   selectedInquiryTypeForCreation.value = ''
 }
 
 const inquiryAdded = (inquiry) => {
-  console.log('Inquiry added:', inquiry)
   showSuccess(t('agora', 'Inquiry {title} added', { title: inquiry.title }))
   createDlgToggle.value = false
   selectedInquiryTypeForCreation.value = ''
@@ -284,7 +217,6 @@ const inquiryAdded = (inquiry) => {
 }
 
 const handleGroupUpdate = (groups) => {
-  console.log('Groups updated:', groups)
   selectedGroups.value = groups
 }
 </script>
@@ -326,7 +258,7 @@ const handleGroupUpdate = (groups) => {
 
     <InquiryCreateDlg
       v-if="createDlgToggle"
-      :responseType="selectedInquiryTypeForCreation"
+      :response-type="selectedInquiryTypeForCreation"
       :selected-groups="selectedGroups"
       :selected-mode="selectedMode"
       :available-groups="availableGroups"

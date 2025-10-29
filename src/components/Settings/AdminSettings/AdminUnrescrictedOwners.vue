@@ -40,7 +40,7 @@ const appSettingsStore = useAppSettingsStore()
     </div>
     <CardDiv type="info">
       <p>
-        {{ t('agora', 'Effects on restricted owners:') }}
+        {{ t('agora', 'Effects on restricted owners') }}
       </p>
       <ul>
         <li>

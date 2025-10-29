@@ -4,7 +4,6 @@
 -->
 <script setup lang="ts">
 import { watch, ref, computed, nextTick } from 'vue' 
-import { useSessionStore } from '../../stores/session'
 import { AccessType } from '../../stores/inquiry'
 import { useInquiriesStore } from '../../stores/inquiries.ts'
 import { t } from '@nextcloud/l10n'
@@ -29,8 +28,8 @@ import {
   ContentType,
   shouldShowResponseActions,
   shouldShowTransformationActions,
-  getFilteredResponseTypes,
-  getFilteredTransformTypes,
+  // getFilteredResponseTypes,
+  // getFilteredTransformTypes,
   canCreateResponseType,
   canCreateTransformationType
 } from '../../utils/permissions.ts'
@@ -44,12 +43,6 @@ const props = defineProps<{
 }>()
 
 const inquiriesStore = useInquiriesStore()
-
-
-console.log('🔧 [InquiryActionToolbar] Component mounted - Debug info:')
-console.log('🔧 Props isReadonlyDescription:', props.isReadonlyDescription)
-console.log('🔧 Inquiry store:', props.inquiryStore)
-console.log('🔧 Current user:', props.sessionStore.currentUser)
 
 
 // Emits
@@ -77,7 +70,6 @@ const context = computed(() => {
     isInquiryFinalStatus(props.inquiryStore,props.sessionStore.appSettings),
     props.inquiryStore.status.moderationStatus 
   )
-  console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
   return ctx
 })
 
@@ -88,12 +80,6 @@ const statusOptions = [
   { id: 'accepted', label: t('agora', 'Accepted'), value: 'accepted' },
   { id: 'rejected', label: t('agora', 'Rejected'), value: 'rejected' },
 ]
-
-const showModerationSwitch = computed(() => {
-  return props.inquiryStore.configuration.access === 'private' &&
-         props.inquiryStore.status.moderationStatus !== 'rejected' &&
-         props.inquiryStore.status.moderationStatus !== 'pending'
-})
 
 const inquiryAccess =  computed({
   get: () => props.inquiryStore.configuration.access === 'moderate',
@@ -118,7 +104,6 @@ const inquiryAccess =  computed({
 watch(() => props.inquiryStore.status.moderationStatus, (newStatus) => {
   if (newStatus) {
     selectedStatus.value = newStatus
-    console.log('🔧 Moderation status updated:', newStatus)
   }
 })
 
@@ -128,7 +113,6 @@ const resolveTypeData = (inquiryType: string, types: any[]) => {
 }
 
 const setModerationStatus = async (status: string) => {
-  console.log("Setting moderation status:", status)
   try {
   if (status === 'accepted') {
     await props.inquiryStore.submitInquiry("submit_for_accepted")
@@ -173,17 +157,13 @@ const showTransformActionsMenu = computed(() => {
 })
 
 //  Get filtered types (applying permissions)
-const availableResponseTypes = computed(() => {
-  return rawResponseTypes.value.filter(type =>
+const availableResponseTypes = computed(() => rawResponseTypes.value.filter(type =>
     canCreateResponseType(type.inquiry_type, context.value)
-  )
-})
+  ))
 
-const availableTransformTypes = computed(() => {
-  return rawTransformTypes.value.filter(type =>
+const availableTransformTypes = computed(() => rawTransformTypes.value.filter(type =>
     canCreateTransformationType(type.inquiry_type, context.value)
-  )
-})
+  ))
 
 //  Enriched types for display (using InquiryHelper)
 const enrichedResponseTypes = computed(() => {
@@ -229,32 +209,23 @@ const getStatusColor = (status: string) => {
 }
 
 
-const canEditInquiry = computed(() => {
-  console.log('🔧 [InquiryActionToolbar] canEditInquiry check - isReadonlyDescription:', props.isReadonlyDescription)
-  return !props.isReadonlyDescription
-})
+const canEditInquiry = computed(() => !props.isReadonlyDescription)
 
 // Check if save button should be shown
-const showSaveButton = computed(() => {
-  console.log('🔧 [InquiryActionToolbar] showSaveButton:', canEditInquiry.value)
-  return canEditInquiry.value
-})
+const showSaveButton = computed(() => canEditInquiry.value)
 
 // Handle save
 const handleSave = () => {
-  console.log('🔧 [InquiryActionToolbar] Save triggered from toolbar')
   emit('save')
 }
 
 // Handle allowed response
 const handleAllowedResponse = (responseType: string) => {
-  console.log('🔧 [InquiryActionToolbar] Allowed response triggered:', responseType)
   emit('allowedResponse', responseType)
 }
 
 // Handle allowed transformation
 const handleAllowedTransformation = (transformType: string) => {
-  console.log('🔧 [InquiryActionToolbar] Allowed transformation triggered:', transformType)
   emit('allowedTransformation', transformType)
 }
 </script>

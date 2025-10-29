@@ -103,7 +103,7 @@ async function runNotificationJob() {
             'Each job can only be run once. If you want to rerun them, you have to refresh the page.'
           )
         }}
-        {{ t('agora', 'If you want to see the result, please check the logs.') }}
+        {{ t('agora', 'If you want to see the result please check the logs') }}
       </p>
     </div>
     <div class="job_buttons_section">

@@ -4,16 +4,13 @@
 -->
 
 <script setup lang="ts">
-import { watch, ref, computed, onMounted } from 'vue'
-import { emit } from '@nextcloud/event-bus'
+import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { showError } from '@nextcloud/dialogs'
 import { t, n } from '@nextcloud/l10n'
 
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
-import NcActionButton from '@nextcloud/vue/components/NcActionButton'
-import NcActionButtonGroup from '@nextcloud/vue/components/NcActionButtonGroup'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 
 import { HeaderBar, IntersectionObserver } from '../components/Base/index.ts'
@@ -23,7 +20,6 @@ import InquiryFilter from '../components/Inquiry/InquiryFilter.vue'
 import { FilterType, useInquiriesStore } from '../stores/inquiries.ts'
 import InquiryListSort from '../components/Inquiry/InquiryListSort.vue'
 import InquiryItemActions from '../components/Inquiry/InquiryItemActions.vue'
-import ActionAddInquiry from '../components/Actions/modules/ActionAddInquiry.vue'
 import { usePreferencesStore } from '../stores/preferences.ts'
 import { useSessionStore } from '../stores/session.ts'
 import ActionToggleSidebar from '../components/Actions/modules/ActionToggleSidebar.vue'
@@ -129,11 +125,11 @@ const loadingOverlayProps = {
   name: t('agora', 'Loading overview'),
   teleportTo: '#content-vue',
   loadingTexts: [
-    t('agora', 'Fetching inquiries…'),
-    t('agora', 'Checking access…'),
-    t('agora', 'Almost ready…'),
-    t('agora', 'Do not go away…'),
-    t('agora', 'Please be patient…'),
+    t('agora', 'Fetching inquiries'),
+    t('agora', 'Checking access'),
+    t('agora', 'Almost ready'),
+    t('agora', 'Do not go away'),
+    t('agora', 'Please be patient'),
   ],
 }
 
@@ -196,8 +192,8 @@ onMounted(() => {
                 name="main_mode_radio"
                 type="radio"
                 button-variant-grouped="horizontal"
-                @update:model-value="handleMainModeChange"
                 class="mode-switch"
+                @update:model-value="handleMainModeChange"
               >
                 <template #icon>
                   <component :is="InquiryGeneralIcons.Add" size="16" />
@@ -212,8 +208,8 @@ onMounted(() => {
                 name="sub_mode_radio"
                 type="radio"
                 button-variant-grouped="horizontal"
-                @update:model-value="handleSubModeChange"
                 class="mode-switch sub-mode"
+                @update:model-value="handleSubModeChange"
               >
                 <template #icon>
                   <component :is="InquiryGeneralIcons.Table" size="16" />
@@ -227,8 +223,8 @@ onMounted(() => {
                 name="sub_mode_radio"
                 type="radio"
                 button-variant-grouped="horizontal"
-                @update:model-value="handleSubModeChange"
                 class="mode-switch sub-mode"
+                @update:model-value="handleSubModeChange"
               >
                 <template #icon>
                   <component :is="InquiryGeneralIcons.ViewListOutline" size="16" />

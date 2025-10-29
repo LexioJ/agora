@@ -35,38 +35,7 @@ interface Props {
 }
 const props = defineProps<Props>()
 
-console.log(" FAMILY ID INTO FILTER" ,props.familyType)
-
-const inquiryTypesForFamily = computed(() => {
-  if (!props.familyType) {
-    return sessionStore.appSettings.inquiryTypeTab || []
-  }
-  
-  const family = sessionStore.appSettings.inquiryFamilyTab?.find(
-    f => f.family_type === props.familyType
-  )
-
-  if (!family) {
-    console.warn(`Family with id ${props.familyType} not found`)
-    console.log('Available families:', sessionStore.appSettings.inquiryFamilyTab)
-    return sessionStore.appSettings.inquiryTypeTab || []
-  }
-
-  const filteredTypes = sessionStore.appSettings.inquiryTypeTab?.filter(
-    type => type.family === family.family_type && type.isOption === 0
-  ) || []
-
-  console.log('🔍 Filtered inquiry types for family:', {
-    familyType: props.familyType,
-    familyInquiryType: family.family_type,
-    filteredTypes
-  })
-
-  return filteredTypes
-})
-
-watch(() => props.familyType, (newFamilyId) => {
-  console.log('🔍 Family ID changed in filter:', newFamilyId)
+watch(() => props.familyType, () => {
   // Reset type filter when family changes
   selectedType.value = 'all'
   applyFilters()
@@ -126,7 +95,6 @@ const typeOptions = !props.familyType
 
 const applyFilters = () => {
   if (!inquiriesStore) {
-    console.error('Inquiries store not initialized')
     return
   }
 
@@ -137,10 +105,6 @@ const applyFilters = () => {
       f => f.family_type  === props.familyType
     )
     familyType = family?.family_type
-    console.log('🔍 Converting familyType to family_type:', {
-      familyType: props.familyType,
-      family: family
-    })
   }
 
   inquiriesStore.setFilters({
@@ -233,7 +197,7 @@ onUnmounted(() => {
 			<div class="main-filters">
 				<!-- Location filter -->
 				<div v-if="filterOptions.locations.length > 1" class="filter-group compact">
-					<label>{{ t('agora', 'Location:') }}</label>
+					<label>{{ t('agora', 'Location') }}</label>
 					<NcSelect 
 									       v-model="selectedLocation"
 									       :options="filterOptions.locations"
@@ -249,7 +213,7 @@ onUnmounted(() => {
 
 				<!-- Category filter -->
 				<div v-if="filterOptions.categories.length > 1" class="filter-group compact">
-					<label>{{ t('agora', 'Category:') }}</label>
+					<label>{{ t('agora', 'Category') }}</label>
 					<NcSelect 
 										v-model="selectedCategory"
 										:options="filterOptions.categories"
@@ -336,7 +300,7 @@ onUnmounted(() => {
 
 		<!-- Active filters summary -->
 		<div v-if="activeFiltersCount > 0" class="active-filters-summary">
-			<span class="summary-label">{{ t('agora', 'Active filters:') }}</span>
+			<span class="summary-label">{{ t('agora', 'Active filters') }}</span>
 
 			<span v-if="getValue(selectedType) !== 'all'" class="filter-tag">
 				{{ filterOptions.types.find(t => t.value === getValue(selectedType))?.label }}
@@ -363,7 +327,7 @@ onUnmounted(() => {
 				{{ filterOptions.support.find(s => s.value === getValue(hasSupports))?.label }}
 			</span>
 			<span v-if="searchQuery" class="filter-tag">
-				{{ t('agora', 'Search:') }} "{{ searchQuery }}"
+				{{ t('agora', 'Search') }} "{{ searchQuery }}"
 			</span>
 		</div>
 

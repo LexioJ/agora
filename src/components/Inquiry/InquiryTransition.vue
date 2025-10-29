@@ -6,11 +6,9 @@
 import { t } from '@nextcloud/l10n'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { showError } from '@nextcloud/dialogs'
-import { useRouter } from 'vue-router'
-import { Inquiry, useInquiryStore } from '../../stores/inquiry.ts'
+import { useInquiryStore } from '../../stores/inquiry.ts'
 import InquiryItem from './InquiryItem.vue'
 import { useSessionStore } from '../../stores/session.ts'
-import NcButton from '@nextcloud/vue/components/NcButton'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import { useCommentsStore } from '../../stores/comments'
 import { usePreferencesStore } from '../..//stores/preferences.ts'
@@ -42,7 +40,6 @@ const inquiryParent = ref({
   inquiryStatus: 'active',
 })
 
-const router = useRouter()
 const inquiryStore = useInquiryStore()
 const commentsStore = useCommentsStore()
 const preferencesStore = usePreferencesStore()
@@ -66,9 +63,7 @@ function handleSubModeChange(mode: string) {
 const isGridView = computed(() => subMode.value === 'table-view')
 
 // Computed for inquiry types from app settings
-const inquiryTypes = computed(() => {
-  return sessionStore.appSettings.inquiryTypeTab || []
-})
+const inquiryTypes = computed(() => sessionStore.appSettings.inquiryTypeTab || [])
 
 // Group children by their inquiry type with official preference order
 const childrenByType = computed(() => {
@@ -117,9 +112,7 @@ const childrenByType = computed(() => {
 })
 
 // Get ordered child types for display
-const childTypes = computed(() => {
-  return Object.keys(childrenByType.value)
-})
+const childTypes = computed(() => Object.keys(childrenByType.value))
 
 const emit = defineEmits(['editParent', 'routeChild'])
 
@@ -247,8 +240,8 @@ const loadInquiryData = async () => {
             name="children_view_mode"
             type="radio"
             button-variant-grouped="horizontal"
-            @update:model-value="handleSubModeChange"
             class="mode-switch"
+            @update:model-value="handleSubModeChange"
           >
             <template #icon>
               <component :is="InquiryGeneralIcons.Table" size="16" />
@@ -263,8 +256,8 @@ const loadInquiryData = async () => {
             name="children_view_mode"
             type="radio"
             button-variant-grouped="horizontal"
-            @update:model-value="handleSubModeChange"
             class="mode-switch"
+            @update:model-value="handleSubModeChange"
           >
             <template #icon>
               <component :is="InquiryGeneralIcons.ViewListOutline" size="16" />
@@ -292,7 +285,8 @@ const loadInquiryData = async () => {
         </div>
         
         <!-- Children displayed in grid or list based on subMode -->
-        <div :class="[
+        <div
+:class="[
           'children-container',
           isGridView ? 'children-grid' : 'children-list'
         ]">

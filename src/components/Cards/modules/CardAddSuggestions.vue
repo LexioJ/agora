@@ -22,10 +22,10 @@ const optionAddDatesModalProps = {
 
 <template>
   <CardDiv :type="cardType">
-    {{ t('agora', 'You are asked to propose more options.') }}
+    {{ t('agora', 'You are asked to propose more options') }}
     <p v-if="inquiryStore.isSuggestionExpirySet && !inquiryStore.isSuggestionExpired">
       {{
-        t('agora', 'The suggestion period ends {timeRelative}.', {
+        t('agora', 'The suggestion period ends timeRelative', {
           timeRelative: inquiryStore.suggestionsExpireRelative,
         })
       }}

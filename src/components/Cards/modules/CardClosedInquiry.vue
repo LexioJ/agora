@@ -14,9 +14,9 @@ const cardType = 'warning'
 
 <template>
   <CardDiv :type="cardType">
-    {{ t('agora', 'This inquiry is closed.') }}
+    {{ t('agora', 'This inquiry is closed') }}
     <span v-if="!inquiryStore.permissions.edit">
-      {{ t('agora', 'No further action is possible.') }}
+      {{ t('agora', 'No further action is possible') }}
     </span>
   </CardDiv>
 </template>

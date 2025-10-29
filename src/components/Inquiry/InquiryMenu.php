@@ -98,7 +98,7 @@ async function writeSubscription() {
 async function deleteEmailAddress() {
   try {
     await sessionStore.deleteEmailAddress()
-    showSuccess(t('agora', 'Email address deleted.'))
+    showSuccess(t('agora', 'Email address deleted'))
   } catch {
     showError(
       t('agora', 'Error deleting email address {emailAddress}', {
@@ -253,10 +253,10 @@ async function submitDisplayName() {
     await sessionStore.updateDisplayName({
       displayName: sessionStore.share.user.displayName,
     })
-    showSuccess(t('agora', 'Name changed.'))
+    showSuccess(t('agora', 'Name changed'))
     setDisplayNameStatus('unchanged')
   } catch {
-    showError(t('agora', 'Error changing name.'))
+    showError(t('agora', 'Error changing name'))
     setDisplayNameStatus('error')
   }
 }
@@ -302,7 +302,7 @@ async function submitEmail() {
       emailAddress: sessionStore.share.user.emailAddress,
     })
     showSuccess(
-      t('agora', 'Email address {emailAddress} saved.', {
+      t('agora', 'Email address emailAddress saved', {
         emailAddress: sessionStore.share.user.emailAddress,
       })
     )

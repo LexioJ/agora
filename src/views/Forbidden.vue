@@ -13,7 +13,7 @@ import CancelIcon from 'vue-material-design-icons/Cancel.vue'
 
 const emptyContentProps = {
   name: t('agora', '403 - You are not allowed to access this inquiry'),
-  description: t('agora', 'Contact the owner, if you think that this is wrong.'),
+  description: t('agora', 'Contact the owner if you think that this is wrong'),
 }
 </script>
 

@@ -277,6 +277,7 @@ function isAccessRestrictedForAttachments(context: PermissionContext): boolean {
 
 /**
  * Check if user can create official response
+ * @param context
  */
 export function canCreateOfficialResponse(context: PermissionContext): boolean {
   const sessionStore = useSessionStore()
@@ -297,6 +298,7 @@ export function canCreateOfficialResponse(context: PermissionContext): boolean {
 
 /**
  * Check if user can create transformation based on inquiry family
+ * @param context
  */
 export function canCreateTransformation(context: PermissionContext): boolean {
   const sessionStore = useSessionStore()
@@ -331,6 +333,7 @@ export function canCreateTransformation(context: PermissionContext): boolean {
 
 /**
  * Check if user can create content based on family type
+ * @param context
  */
 export function canCreateByFamily(context: PermissionContext): boolean {
   const sessionStore = useSessionStore()
@@ -669,14 +672,10 @@ export function canLock(context: PermissionContext): boolean {
 
 /**
  * Check if user can create a specific response type
+ * @param responseType
+ * @param context
  */
 export function canCreateResponseType(responseType: string, context: PermissionContext): boolean {
-  console.log('🔧 [canCreateResponseType] Checking:', {
-    responseType,
-    userType: context.userType,
-    moderationStatus: context.moderationStatus,
-    canEdit: canEdit(context)
-  })
 
   if (responseType === 'official') {
     return canCreateOfficialResponse(context)
@@ -684,27 +683,24 @@ export function canCreateResponseType(responseType: string, context: PermissionC
   
   // For regular responses: need edit rights AND accepted moderation
   const canCreate = canEdit(context) && context.moderationStatus === 'accepted'
-  console.log('🔧 [canCreateResponseType] Regular response permission:', canCreate)
   return canCreate
 }
 
 /**
  * Check if user can create a specific transformation type
+ * @param transformType
+ * @param context
  */
 export function canCreateTransformationType(transformType: string, context: PermissionContext): boolean {
-  console.log('🔧 [canCreateTransformationType] Checking:', {
-    transformType,
-    userType: context.userType,
-    moderationStatus: context.moderationStatus,
-    inquiryFamily: context.inquiryFamily
-  })
-  
   // All transformations use the same permission check
   return canCreateTransformation(context)
 }
 
 /**
  * Check if response actions menu should be shown
+ * @param inquiryType
+ * @param inquiryTypes
+ * @param context
  */
 export function shouldShowResponseActions(
   inquiryType: string, 
@@ -732,7 +728,6 @@ export function shouldShowResponseActions(
   })
   
   if (availableTypes.length === 0) {
-    console.log('🔧 [shouldShowResponseActions] No response types configured for:', inquiryType)
     return false
   }
   
@@ -741,17 +736,14 @@ export function shouldShowResponseActions(
     canCreateResponseType(type.inquiry_type, context)
   )
   
-  console.log('🔧 [shouldShowResponseActions] Result:', {
-    inquiryType,
-    availableTypes: availableTypes.map(t => t.inquiry_type),
-    hasPermission
-  })
-  
   return hasPermission
 }
 
 /**
  * Check if transformation actions menu should be shown
+ * @param inquiryType
+ * @param inquiryTypes
+ * @param context
  */
 export function shouldShowTransformationActions(
   inquiryType: string, 
@@ -778,17 +770,10 @@ export function shouldShowTransformationActions(
   })
   
   if (availableTypes.length === 0) {
-    console.log('🔧 [shouldShowTransformationActions] No transformation types configured for:', inquiryType)
     return false
   }
   
   const hasPermission = canCreateTransformation(context)
-  
-  console.log('🔧 [shouldShowTransformationActions] Result:', {
-    inquiryType,
-    availableTypes: availableTypes.map(t => t.inquiry_type),
-    hasPermission
-  })
   
   return hasPermission
 }

@@ -12,7 +12,7 @@ SPDX-FileCopyrightText = "none"
 SPDX-License-Identifier = "CC0-1.0"
 
 [[annotations]]
-path = ["screenshots/edit-inquiry.png", "screenshots/overview.png", "screenshots/share.png", "screenshots/vote.png"]
+path = ["screenshots/Edit.png", "screenshots/Creation.png", "screenshots/Grid.png", "screenshots/ListView.png"]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "Nextcloud contributors"
 SPDX-License-Identifier = "CC0-1.0"

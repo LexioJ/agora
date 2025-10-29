@@ -3,10 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-or-later
  */
 
-import { t } from '@nextcloud/l10n'
 import { computed, type Ref } from 'vue'
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
-import { useSessionStore } from '../../stores/session.ts'
 
 
 export interface InquiryFamily {
@@ -37,6 +35,8 @@ export async function confirmAction(message: string): Promise<boolean> {
 
 /**
  * Get inquiry item data (works for both families and types)
+ * @param item
+ * @param fallbackLabel
  */
 export function getInquiryItemData(item: InquiryFamily | InquiryType | null, fallbackLabel: string = '') {
   if (!item) {
@@ -59,6 +59,9 @@ export function getInquiryItemData(item: InquiryFamily | InquiryType | null, fal
 
 /**
  * Get inquiry type data from type string
+ * @param inquiryType
+ * @param inquiryTypes
+ * @param fallbackLabel
  */
 export function getInquiryTypeData(inquiryType: string, inquiryTypes: InquiryType[], fallbackLabel: string = '') {
   const typeInfo = inquiryTypes.find(t => t.inquiry_type === inquiryType)
@@ -71,6 +74,10 @@ export function getInquiryTypeData(inquiryType: string, inquiryTypes: InquiryTyp
 
 /**
  * Get filtered inquiry types by family
+ * @param selectedFamily
+ * @param inquiryFamilies
+ * @param inquiryTypes
+ * @param isOptionFilter
  */
 export function getFilteredInquiryTypes(
   selectedFamily: Ref<string | null>,
@@ -92,6 +99,7 @@ export function getFilteredInquiryTypes(
 
 /**
  * Group inquiry types by family
+ * @param inquiryTypes
  */
 export function getInquiryTypesByFamily(inquiryTypes: InquiryType[]) {
   const grouped: Record<string, InquiryType[]> = {}
@@ -109,6 +117,8 @@ export function getInquiryTypesByFamily(inquiryTypes: InquiryType[]) {
 
 /**
  * Get available transformation types for an inquiry type based on transform_response field
+ * @param inquiryType
+ * @param inquiryTypes
  */
 export function getAvailableTransformTypes(inquiryType: string, inquiryTypes: InquiryType[]): InquiryType[] {
   const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
@@ -134,6 +144,8 @@ export function getAvailableTransformTypes(inquiryType: string, inquiryTypes: In
 
 /**
  * Get available response types for an inquiry type based on allowed_response field
+ * @param inquiryType
+ * @param inquiryTypes
  */
 export function getAvailableResponseTypes(inquiryType: string, inquiryTypes: InquiryType[]): InquiryType[] {
   const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
@@ -159,6 +171,7 @@ export function getAvailableResponseTypes(inquiryType: string, inquiryTypes: Inq
 
 /**
  * Get available inquiry types for creation (filter out official and suggestion)
+ * @param inquiryTypes
  */
 export function getAvailableInquiryTypesForCreation(inquiryTypes: InquiryType[]): InquiryType[] {
   return inquiryTypes.filter(type =>
@@ -169,14 +182,11 @@ export function getAvailableInquiryTypesForCreation(inquiryTypes: InquiryType[])
 
 /**
  * Check if inquiry has final status based on appSettings.inquiryStatusTab
+ * @param inquiryStore
+ * @param appSettings
  */
 export function isInquiryFinalStatus(inquiryStore: any, appSettings: any): boolean {
   if (!inquiryStore?.type || !inquiryStore?.status?.inquiryStatus || !appSettings?.inquiryStatusTab) {
-    console.warn('🔧 [isInquiryFinalStatus] Missing required data:', {
-      inquiryType: inquiryStore?.type,
-      inquiryStatus: inquiryStore?.status?.inquiryStatus,
-      hasStatusTab: !!appSettings?.inquiryStatusTab
-    })
     return false
   }
 
@@ -189,28 +199,17 @@ export function isInquiryFinalStatus(inquiryStore: any, appSettings: any): boole
   )
 
   if (!statusConfig) {
-    console.warn('🔧 [isInquiryFinalStatus] No status config found for:', {
-      inquiryType,
-      currentStatus,
-      availableStatuses: appSettings.inquiryStatusTab
-        .filter((s: any) => s.inquiryType === inquiryType)
-        .map((s: any) => s.statusKey)
-    })
     return false
   }
-
-  console.log('🔧 [isInquiryFinalStatus] Status config found:', {
-    inquiryType,
-    currentStatus,
-    isFinal: statusConfig.isFinal,
-    statusConfig
-  })
 
   return statusConfig.isFinal === true
 }
 
 /**
  * Get inquiry types for specific family
+ * @param familyInquiryType
+ * @param inquiryTypesByFamily
+ * @param isOptionFilter
  */
 export function getInquiryTypesForFamily(
   familyInquiryType: string,
@@ -223,6 +222,9 @@ export function getInquiryTypesForFamily(
 
 /**
  * Count inquiry types by family
+ * @param familyInquiryType
+ * @param inquiryTypes
+ * @param isOptionFilter
  */
 export function countInquiryTypesByFamily(
   familyInquiryType: string,
@@ -237,6 +239,7 @@ export function countInquiryTypesByFamily(
 
 /**
  * Get inquiry type options for radio/select components
+ * @param inquiryTypes
  */
 export function getInquiryTypeOptions(inquiryTypes: InquiryType[]) {
   return inquiryTypes.map(type => ({
@@ -248,6 +251,9 @@ export function getInquiryTypeOptions(inquiryTypes: InquiryType[]) {
 
 /**
  * Get family by inquiry type
+ * @param inquiryType
+ * @param inquiryTypes
+ * @param inquiryFamilies
  */
 export function getFamilyByInquiryType(inquiryType: string, inquiryTypes: InquiryType[], inquiryFamilies: InquiryFamily[]): InquiryFamily | null {
   const typeInfo = inquiryTypes.find(t => t.inquiry_type === inquiryType)

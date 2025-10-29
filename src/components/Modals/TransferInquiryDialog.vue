@@ -31,12 +31,12 @@ async function dialogOK() {
       userId: newUser.value ? newUser.value.id : '',
     })
     showSuccess(
-      t('agora', 'Transfered inquiry to {user}.', {
+      t('agora', 'Transfered inquiry to user', {
         user: newUser.value ? newUser.value.displayName : '',
       })
     )
   } catch {
-    showError(t('agora', 'Error transfering inquiry.'))
+    showError(t('agora', 'Error transfering inquiry'))
   } finally {
     try {
       // reload the inquiry to refresh the configuration

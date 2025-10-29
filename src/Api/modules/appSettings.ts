@@ -153,7 +153,7 @@ const appSettings = {
 		})
 	},
 
-	//TYPES METHODS API
+	// TYPES METHODS API
 	// Inquiry Type functions
 	addInquiryType(type: {
 		inquiry_type: string;
@@ -205,7 +205,7 @@ const appSettings = {
 		});
 	},
 
-	//FAMILY METHODS API
+	// FAMILY METHODS API
 
 	// Inquiry Family functions
 	addInquiryFamily(family: {

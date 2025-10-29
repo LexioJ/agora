@@ -13,7 +13,6 @@ import { AxiosError } from 'axios'
 import Navigation from './views/Navigation.vue'
 import NavigationMenu from './views/NavigationMenu.vue'
 
-import Combo from './views/Combo.vue'
 import Forbidden from './views/Forbidden.vue'
 import List from './views/InquiryList.vue'
 import Menu from './views/InquiryMenu.vue'
@@ -22,7 +21,6 @@ import InquiryView from './views/InquiryView.vue'
 
 import SideBar from './views/SideBar.vue'
 import SideBarInquiryGroup from './views/SideBarInquiryGroup.vue'
-import SideBarCombo from './views/SideBarCombo.vue'
 
 import { useInquiryStore } from './stores/inquiry.ts'
 import { useSessionStore } from './stores/session.ts'

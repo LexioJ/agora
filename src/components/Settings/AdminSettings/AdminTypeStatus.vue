@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { t } from '@nextcloud/l10n'
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { useAppSettingsStore } from '../../../stores/appSettings.ts'
 import { StatusIcons } from '../../../utils/icons.ts'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -14,7 +14,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 
 const props = defineProps(['selectedType'])
-const emit = defineEmits(['back-to-types'])
+// const emit = defineEmits(['back-to-types'])
 
 interface StatusForm {
   id?: number
@@ -134,7 +134,7 @@ const cancelEdit = () => {
 
     <div v-if="selectedType" class="status-management">
       <p class="description">
-        {{ t('agora', 'Manage statuses for this inquiry type. Statuses define the workflow stages.') }}
+        {{ t('agora', 'Manage statuses for this inquiry type Statuses define the workflow stages') }}
       </p>
 
       <!-- Status list for current inquiry type -->
@@ -149,7 +149,7 @@ const cancelEdit = () => {
 
         <div v-if="statuses.length === 0" class="empty-state">
           <p>
-            {{ t('agora', 'No statuses configured for this inquiry type.') }}
+            {{ t('agora', 'No statuses configured for this inquiry type') }}
           </p>
         </div>
 

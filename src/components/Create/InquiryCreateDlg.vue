@@ -61,19 +61,13 @@ const accessType = ref<'user' | 'groups'>('user')
 const selectedGroup = ref<string | null>(null)
 
 // Get inquiry types from app settings
-const inquiryTypes = computed(() => {
-  return sessionStore.appSettings.inquiryTypeTab || []
-})
+const inquiryTypes = computed(() => sessionStore.appSettings.inquiryTypeTab || [])
 
 // Filter out official and suggestion types for creation
-const availableInquiryTypes = computed(() => {
-  return getAvailableInquiryTypesForCreation(inquiryTypes.value)
-})
+const availableInquiryTypes = computed(() => getAvailableInquiryTypesForCreation(inquiryTypes.value))
 
 // Inquiry type options for radio group
-const inquiryTypeOptions = computed(() => {
-  return getInquiryTypeOptions(availableInquiryTypes.value)
-})
+const inquiryTypeOptions = computed(() => getInquiryTypeOptions(availableInquiryTypes.value))
 
 // Selected inquiry type (pour l'affichage du sélecteur)
 const inquiryType = ref(availableInquiryTypes.value[0]?.inquiry_type || '')
@@ -90,19 +84,13 @@ const selectedType = computed(() => {
 })
 
 // Data for display
-const currentInquiryTypeData = computed(() => {
-  return getInquiryTypeData(selectedType.value, inquiryTypes.value)
-})
+const currentInquiryTypeData = computed(() => getInquiryTypeData(selectedType.value, inquiryTypes.value))
 
 // Check if type is predefined (don't show selector)
-const hasPredefinedType = computed(() => {
-  return !!(props.inquiryType || props.responseType)
-})
+const hasPredefinedType = computed(() => !!(props.inquiryType || props.responseType))
 
 // Check if a group is selected
-const isGroupSelected = (group: string) => {
-  return selectedGroup.value === group
-}
+const isGroupSelected = (group: string) => selectedGroup.value === group
 
 const selectGroup = (group: string) => {
   selectedGroup.value = group
@@ -112,7 +100,6 @@ const selectGroup = (group: string) => {
 // Watch to pre-fill type when prop changes
 watch(() => props.inquiryType, (newType) => {
   if (newType && newType.inquiry_type) {
-    console.log('Pre-filling inquiry type:', newType.inquiry_type)
     inquiryType.value = newType.inquiry_type
   }
 }, { immediate: true })
@@ -147,15 +134,10 @@ async function addInquiry() {
       inquiryData.ownedGroup = selectedGroup.value
     }
     
-    console.log(" SELECTED MODE :", props.selectedMode)
-    console.log(" ADD PARENT ID :", props.parentInquiryId)
-    console.log(" ADD GROUPS :", selectedGroup.value)
-    console.log(" ADD TYPE :", selectedType.value)
-    console.log(" ADD TITLE :", inquiryTitle.value)
     if (props.selectedMode === 'transform' ) {
       inquiryData.description = inquiryStore.description
-   	//Clone the inquirhy with the new mode.
-	//Archived the old one
+   	// Clone the inquirhy with the new mode.
+	// Archived the old one
     }
     // Add the inquiry
     const inquiry = await inquiryStore.add(inquiryData)
@@ -200,8 +182,8 @@ function resetInquiry() {
     <div class="create-dialog" @click.stop>
       <!-- Access Configuration -->
       <ConfigBox
-        :name="t('agora', 'Access Settings')"
         v-if="availableGroups.length > 0"
+        :name="t('agora', 'Access Settings')"
       >
         <template #icon>
           <Component :is="InquiryGeneralIcons.AccountGroup" />
@@ -229,8 +211,8 @@ function resetInquiry() {
             <div class="groups-list">
               <NcRadioGroup
                 v-model="selectedGroup"
-                @update:value="selectGroup"
                 :description="t('agora', 'Choose which of your groups can access this inquiry')"
+                @update:value="selectGroup"
               >
                 <div
                   v-for="group in availableGroups"
@@ -269,9 +251,9 @@ function resetInquiry() {
 
       <!-- Inquiry Type Selector -->
       <ConfigBox
+        v-if="!hasPredefinedType"
         :name="t('agora', 'Inquiry type')"
         :label="t('agora', 'Inquiry type')"
-        v-if="!hasPredefinedType"
       >
         <template #icon>
           <Component :is="InquiryGeneralIcons.Check" />
@@ -290,7 +272,7 @@ function resetInquiry() {
         </template>
         <div class="selected-type">
           <strong>{{ currentInquiryTypeData?.label }}</strong>
-          <p class="type-description" v-if="currentInquiryTypeData?.description">
+          <p v-if="currentInquiryTypeData?.description" class="type-description">
             {{ currentInquiryTypeData.description }}
           </p>
         </div>

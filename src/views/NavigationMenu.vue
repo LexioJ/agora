@@ -5,7 +5,7 @@
 -->
 <script setup lang="ts">
 import { watch,ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import {  useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import { emit } from '@nextcloud/event-bus'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
@@ -28,7 +28,6 @@ import {
 
 const preferencesStore = usePreferencesStore()
 
-const route = useRoute()
 const router = useRouter()
 const sessionStore = useSessionStore()
 const inquiriesStore = useInquiriesStore()
@@ -50,19 +49,13 @@ const selectedFamily = ref<string | null>(inquiriesStore.familyType || null)
 const expandedFamilies = ref<Set<string>>(new Set())
 
 // Computed for available families
-const inquiryFamilies = computed((): InquiryFamily[] => {
-  return sessionStore.appSettings.inquiryFamilyTab || []
-})
+const inquiryFamilies = computed((): InquiryFamily[] => sessionStore.appSettings.inquiryFamilyTab || [])
 
 // Computed for recent inquiries
-const recentInquiries = computed(() => {
-  return inquiriesStore.inquiries.slice(0, 5)
-})
+const recentInquiries = computed(() => inquiriesStore.inquiries.slice(0, 5))
 
 // Computed for all inquiry types
-const allInquiryTypes = computed((): InquiryType[] => {
-  return sessionStore.appSettings.inquiryTypeTab || []
-})
+const allInquiryTypes = computed((): InquiryType[] => sessionStore.appSettings.inquiryTypeTab || [])
 
 // Computed for inquiry types grouped by family (with filter isOption === 0)
 const inquiryTypesByFamily = computed(() => {
@@ -71,9 +64,7 @@ const inquiryTypesByFamily = computed(() => {
 })
 
 // Computed for default view mode from app settings
-const defaultViewMode = computed(() => {
-  return preferencesStore.user.defaultDisplayMode === 'view' ? 'view' : 'create'
-})
+const defaultViewMode = computed(() => preferencesStore.user.defaultDisplayMode === 'view' ? 'view' : 'create')
 
 // DEBUG: Check data
 onMounted(() => {
@@ -130,7 +121,6 @@ function navigateToFamilyInquiries(familyType: string) {
 
 // Function to create new inquiry from type
 function createInquiry(inquiryType: InquiryType) {
-  console.log('Creating inquiry from type:', inquiryType)
   selectedInquiryTypeForCreation.value = inquiryType
   createDlgToggle.value = true
 }
@@ -219,9 +209,9 @@ watch(
             :name="getFamilyData(family).label"
             :allow-collapse="true"
             :open="isFamilyExpanded(family.family_type)"
+            class="navigation-item"
             @update:open="toggleFamily(family.family_type)"
             @click="navigateToFamilyInquiries(family.family_type)"
-            class="navigation-item"
           >
             <template #icon>
               <component :is="getFamilyData(family).icon" />
@@ -238,8 +228,8 @@ watch(
               v-for="inquiryType in getInquiryTypesForCurrentFamily(family.family_type)"
               :key="inquiryType.id"
               :name="getInquiryTypeDisplayData(inquiryType).label"
-              @click="createInquiry(inquiryType)"
               class="navigation-item"
+              @click="createInquiry(inquiryType)"
             >
               <template #icon>
                 <component :is="getInquiryTypeDisplayData(inquiryType).icon" />

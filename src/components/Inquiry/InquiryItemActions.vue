@@ -76,13 +76,13 @@ async function removeInquiryFromGroup(inquiryId: number, inquiryGroupId: number)
       inquiryGroupId,
     })
     if (!inquiryGroupsStore.currentInquiryGroup) {
-      showInfo(t('agora', 'The inquiry group was deleted by removing the last member.'))
+      showInfo(t('agora', 'The inquiry group was deleted by removing the last member'))
       if (route.name === 'group') {
         router.push({ name: 'root' })
       }
     }
   } catch {
-    showError(t('agora', 'Error removing inquiry from group.'))
+    showError(t('agora', 'Error removing inquiry from group'))
   }
 }
 
@@ -107,7 +107,7 @@ async function addInquiryToNewInquiryGroup(inquiryId: number) {
     newGroupTitle.value = ''
     subMenu.value = null
   } catch {
-    showError(t('agora', 'Error creating new inquiry group.'))
+    showError(t('agora', 'Error creating new inquiry group'))
   }
 }
 
@@ -115,7 +115,7 @@ async function toggleArchive() {
   try {
     await inquiriesStore.toggleArchive({ inquiryId: inquiry.id })
   } catch {
-    showError(t('agora', 'Error archiving/restoring inquiry.'))
+    showError(t('agora', 'Error archivingrestoring inquiry'))
   }
 }
 </script>

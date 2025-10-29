@@ -23,13 +23,11 @@ import { InquiryGeneralIcons, BadgeIcons, StatusIcons } from '../../utils/icons.
 
 import { useInquiryStore, Inquiry } from '../../stores/inquiry'
 import { useInquiriesStore } from '../../stores/inquiries'
-import { usePreferencesStore } from '../../stores/preferences.ts'
 import { useSessionStore } from '../../stores/session.ts'
 import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
 
 const inquiryStore = useInquiryStore()
 const inquiriesStore = useInquiriesStore()
-const preferencesStore = usePreferencesStore()
 const sessionStore = useSessionStore()
 const supportsStore = useSupportsStore()
 
@@ -59,7 +57,6 @@ const context = computed(() => {
     inquiry.status.isFinalStatus,
     inquiry.status.moderationStatus 
   )
-  console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
   return ctx
 })
 
@@ -85,34 +82,11 @@ function htmlToFirstLine(html) {
   return firstLine
 }
 
-const closeToClosing = computed(
-  () =>
-    !inquiry.status.isExpired &&
-    inquiry.configuration.expire &&
-    DateTime.fromMillis(inquiry.configuration.expire * 1000).diffNow('hours').hours < 36
-)
-
 const timeExpirationRelative = computed(() => {
   if (inquiry.configuration.expire) {
     return DateTime.fromMillis(inquiry.configuration.expire * 1000).toRelative()
   }
   return t('agora', 'never')
-})
-
-const expiryClass = computed(() => {
-  if (inquiry.status.isExpired) {
-    return 'error'
-  }
-
-  if (inquiry.configuration.expire && closeToClosing.value) {
-    return 'warning'
-  }
-
-  if (inquiry.configuration.expire && !inquiry.status.isExpired) {
-    return 'success'
-  }
-
-  return 'success'
 })
 
 const timeCreatedRelative = computed(
@@ -174,9 +148,7 @@ const inquiryStatusInfo = computed(() => {
 })
 
 // Get inquiry type data using helper
-const inquiryTypeData = computed(() => {
-  return getInquiryTypeData(inquiry.type, sessionStore.appSettings.inquiryTypeTab || [], inquiry.type)
-})
+const inquiryTypeData = computed(() => getInquiryTypeData(inquiry.type, sessionStore.appSettings.inquiryTypeTab || [], inquiry.type))
 
 // Image URL function
 function getNextcloudPreviewUrl(fileId, x = 1920, y = 1080, autoScale = true) {
@@ -221,7 +193,7 @@ const gridDescription = computed(() => {
           <component :is="StatusIcons.Lock" :size="16" />
           <div class="description">
             {{
-              t('agora', 'No access to this inquiry of {ownerName}.', {
+              t('agora', 'No access to this inquiry of ownerName', {
                 ownerName: inquiry.owner.displayName,
               })
             }}

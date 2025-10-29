@@ -31,9 +31,7 @@ const newType = ref({
   allowed_transformation: '[]'
 })
 
-const getIconComponent = (iconName) => {
-  return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
-}
+const getIconComponent = (iconName) => InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
 
 
 // Get statuses for the selected inquiry type
@@ -167,24 +165,24 @@ const openTypeSettings = (type) => {
           <div class="type-actions">
             <NcButton 
               type="primary"
-              @click.stop="openTypeSettings(type)"
               class="configure-btn"
+              @click.stop="openTypeSettings(type)"
             >
               {{ t('agora', 'Configure') }}
             </NcButton>
             <div class="secondary-actions">
               <NcButton 
+                class="edit-btn"
                 @click.stop="editingType = { 
                   ...type, 
                   fields: JSON.stringify(type.fields || []), 
                   allowed_response: JSON.stringify(type.allowed_response || []), 
                   allowed_transformation: JSON.stringify(type.allowed_transformation || []) 
                 }"
-                class="edit-btn"
               >
                 {{ t('agora', 'Edit') }}
               </NcButton>
-              <NcButton @click.stop="deleteType(type.id)" class="delete-btn">
+              <NcButton class="delete-btn" @click.stop="deleteType(type.id)">
                 {{ t('agora', 'Delete') }}
               </NcButton>
             </div>
@@ -193,7 +191,7 @@ const openTypeSettings = (type) => {
       </div>
 
       <div v-if="familyTypes.length === 0" class="empty-state">
-        <p>{{ t('agora', 'No types configured for this family yet.') }}</p>
+        <p>{{ t('agora', 'No types configured for this family yet') }}</p>
       </div>
     </div>
 

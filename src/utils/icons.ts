@@ -42,7 +42,6 @@ import Lock from '@iconify-icons/mdi/lock'
 import ClockOutline from '@iconify-icons/mdi/clock-outline'
 import CalendarEnd from '@iconify-icons/mdi/calendar-end'
 import Cancel from '@iconify-icons/mdi/cancel'
-import Check from '@iconify-icons/mdi/check'
 import EyeOutline from '@iconify-icons/mdi/eye-outline'
 import Magnify from '@iconify-icons/mdi/magnify'
 import AlertCircleOutline from '@iconify-icons/mdi/alert-circle-outline'
@@ -180,6 +179,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   ChartBar: makeIconComponent(ChartBar, '#5C6BC0'),
   BriefcaseCheck: makeIconComponent(BriefcaseCheck, '#43A047'),
   Map: makeIconComponent(Map, '#2196F3'),
+  FileTree: makeIconComponent(FileTree, '#2196F3'),
   RocketLaunch: makeIconComponent(RocketLaunch, '#E91E63'),
   Gavel: makeIconComponent(Gavel, '#9C27B0'),
   OfficeBuilding: makeIconComponent(OfficeBuilding, '#546E7A'),
@@ -188,6 +188,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   Comment: makeIconComponent(CommentIcon, '#2196F3'),
   Thumb: makeIconComponent(ThumbUp, '#1976D2'),
   Talk: makeIconComponent(ChatOutline, '#0097A7'),
+  CommentAlert: makeIconComponent(CommentAlert, '#0097A7'),
   Collectives: makeIconComponent(AccountGroup, '#6D4C41'),
   Form: makeIconComponent(FormTextbox, '#8E24AA'),
   Menu: makeIconComponent(Menu, '#455A64'),

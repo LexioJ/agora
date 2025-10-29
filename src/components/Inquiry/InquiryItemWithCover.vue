@@ -5,7 +5,7 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { computed, ref, onMounted, watch } from 'vue'
+import { computed, ref,  watch } from 'vue'
 import { showSuccess } from '@nextcloud/dialogs'
 import { DateTime } from 'luxon'
 import { t } from '@nextcloud/l10n'
@@ -19,7 +19,7 @@ import {
   ContentType,
 } from '../../utils/permissions.ts'
 
-import { InquiryTypesUI, BadgeIcons, StatusIcons } from '../../utils/icons.ts'
+import {  BadgeIcons, StatusIcons } from '../../utils/icons.ts'
 
 import { useInquiryStore, Inquiry } from '../../stores/inquiry'
 import { useInquiriesStore } from '../../stores/inquiries'
@@ -174,9 +174,7 @@ const inquiryStatusInfo = computed(() => {
 })
 
 // Get inquiry type data using helper
-const inquiryTypeData = computed(() => {
-  return getInquiryTypeData(inquiry.type, sessionStore.appSettings.inquiryTypes || [], inquiry.type)
-})
+const inquiryTypeData = computed(() => getInquiryTypeData(inquiry.type, sessionStore.appSettings.inquiryTypes || [], inquiry.type))
 
 // Cover image management
 const coverImageUrl = ref<string | null>(null)
@@ -205,11 +203,11 @@ const loadCoverImage = async () => {
   }
 }
 
-const getDirectFileUrl = async (fileId: number): Promise<string> => {
+const getDirectFileUrl = async (fileId: number): Promise<string> => 
   // Implementation depends on your Nextcloud file API
   // This is a placeholder implementation
-  return `/remote.php/dav/files/${sessionStore.currentUser.id}/${fileId}`
-}
+   `/remote.php/dav/files/${sessionStore.currentUser.id}/${fileId}`
+
 
 // Watch for coverId changes
 watch(() => inquiry.coverId, loadCoverImage, { immediate: true })
@@ -232,12 +230,10 @@ const gridCardStyle = computed(() => {
   }
 })
 
-const gridContentClass = computed(() => {
-  return {
+const gridContentClass = computed(() => ({
     'has-cover': hasCoverImage.value && gridView,
     'no-cover': !hasCoverImage.value || !gridView
-  }
-})
+  }))
 </script>
 
 <template>
@@ -265,7 +261,7 @@ const gridContentClass = computed(() => {
           <component :is="StatusIcons.Lock" :size="16" />
           <div class="description">
             {{
-              t('agora', 'No access to this inquiry of {ownerName}.', {
+              t('agora', 'No access to this inquiry of ownerName', {
                 ownerName: inquiry.owner.displayName,
               })
             }}
@@ -561,7 +557,7 @@ const gridContentClass = computed(() => {
           </h3>
           <p class="grid-description">
             {{
-              t('agora', 'No access to this inquiry of {ownerName}.', {
+              t('agora', 'No access to this inquiry of ownerName', {
                 ownerName: inquiry.owner.displayName,
               })
             }}

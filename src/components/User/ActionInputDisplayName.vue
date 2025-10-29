@@ -74,10 +74,10 @@ async function submit() {
     await sessionStore.updateDisplayName({
       displayName: sessionStore.share.user.displayName,
     })
-    showSuccess(t('agora', 'Name changed.'))
+    showSuccess(t('agora', 'Name changed'))
     setStatus('unchanged')
   } catch {
-    showError(t('agora', 'Error changing name.'))
+    showError(t('agora', 'Error changing name'))
     setStatus('error')
   }
 }

@@ -10,9 +10,9 @@ import { t } from '@nextcloud/l10n'
 <template>
   <div class="auto-reminder-information">
     <h1>
-      {{ t('agora', 'The automatic reminder is sent to all shares via email:') }}
+      {{ t('agora', 'The automatic reminder is sent to all shares via email') }}
     </h1>
-    <h2>{{ t('agora', 'For inquiries with expiration:') }}</h2>
+    <h2>{{ t('agora', 'For inquiries with expiration') }}</h2>
     <ul>
       <li>
         {{
@@ -31,7 +31,7 @@ import { t } from '@nextcloud/l10n'
         }}
       </li>
     </ul>
-    <h2>{{ t('agora', 'For date inquiries without expiration:') }}</h2>
+    <h2>{{ t('agora', 'For date inquiries without expiration') }}</h2>
     <ul>
       <li>
         {{
@@ -50,9 +50,9 @@ import { t } from '@nextcloud/l10n'
         }}
       </li>
     </ul>
-    <h2>{{ t('agora', 'No reminder is sent:') }}</h2>
+    <h2>{{ t('agora', 'No reminder is sent') }}</h2>
     <ul>
-      <li>{{ t('agora', 'For text inquiries without expiration.') }}</li>
+      <li>{{ t('agora', 'For text inquiries without expiration') }}</li>
       <li>
         {{ t('inquiries', 'For inquiries created less than 2 days before the expiration.') }}
       </li>
@@ -64,7 +64,7 @@ import { t } from '@nextcloud/l10n'
           )
         }}
       </li>
-      <li>{{ t('agora', 'If the inquiry is already closed.') }}</li>
+      <li>{{ t('agora', 'If the inquiry is already closed') }}</li>
     </ul>
   </div>
 </template>

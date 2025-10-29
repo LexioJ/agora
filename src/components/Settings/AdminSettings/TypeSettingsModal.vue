@@ -4,7 +4,7 @@
 -->
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { t } from '@nextcloud/l10n'
 
 import AdminTypeRights from './AdminTypeRights.vue'
@@ -14,14 +14,11 @@ import { useAppSettingsStore } from '../../../stores/appSettings.js'
 
 const appSettingsStore = useAppSettingsStore()
 
-const props = defineProps(['selectedType'])
-const emit = defineEmits(['close'])
+// const props = defineProps(['selectedType'])
 
 const activeSettingsTab = ref('user-rights')
 
-const getIconComponent = (iconName) => {
-  return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
-}
+const getIconComponent = (iconName) => InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
 
 const settingsTabs = [
   { 

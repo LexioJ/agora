@@ -5,7 +5,7 @@
 
 <script setup>
 import { t } from '@nextcloud/l10n'
-import { ref, computed, onMounted, watch } from 'vue'
+import { computed, watch } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useAppSettingsStore } from '../../../stores/appSettings.js'
@@ -115,7 +115,7 @@ const updateRights = () => {
         </div>
 
         <div class="setting-item">
-          <label for="editor-type-select">{{ t('agora', 'Editor type:') }}</label>
+          <label for="editor-type-select">{{ t('agora', 'Editor type') }}</label>
           <NcSelect
             id="editor-type-select"
             v-model="typeRights.editorType"

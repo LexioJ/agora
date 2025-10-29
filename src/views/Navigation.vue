@@ -5,33 +5,24 @@
 -->
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import { showError } from '@nextcloud/dialogs'
-import { emit } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
 import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
-import NcAppNavigationNew from '@nextcloud/vue/components/NcAppNavigationNew'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
 import NcCounterBubble from '@nextcloud/vue/components/NcCounterBubble'
 import InquiryNavigationItems from '../components/Navigation/InquiryNavigationItems.vue'
 import { NavigationIcons } from '../utils/icons.ts'
-import InquiryCreateDlg from '../components/Create/InquiryCreateDlg.vue'
 import { FilterType, useInquiriesStore } from '../stores/inquiries.ts'
 import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
 import { useSessionStore } from '../stores/session.ts'
-import ActionAddInquiry from '../components/Actions/modules/ActionAddInquiry.vue'
-import { usePreferencesStore } from '../stores/preferences.ts'
-import { Event } from '../Types/index.ts'
-import { useRouter } from 'vue-router'
 import { NcAppNavigationSpacer } from '@nextcloud/vue'
 
-const router = useRouter()
 
 const inquiriesStore = useInquiriesStore()
 const inquiryGroupsStore = useInquiryGroupsStore()
 const sessionStore = useSessionStore()
-const preferencesStore = usePreferencesStore()
 
 const iconSize = 20
 
@@ -78,8 +69,6 @@ const icons = {
   },
 }
 
-const createDlgToggle = ref(false)
-
 /**
  * Get icon component for a specific filter type
  * @param iconId
@@ -96,7 +85,7 @@ function toggleArchive(inquiryId: number) {
   try {
     inquiriesStore.toggleArchive({ inquiryId })
   } catch {
-    showError(t('agora', 'Error archiving/restoring inquiry.'))
+    showError(t('agora', 'Error archivingrestoring inquiry'))
   }
 }
 
@@ -108,22 +97,8 @@ function deleteInquiry(inquiryId: number) {
   try {
     inquiriesStore.delete({ inquiryId })
   } catch {
-    showError(t('agora', 'Error deleting inquiry.'))
+    showError(t('agora', 'Error deleting inquiry'))
   }
-}
-
-/**
- * Handle inquiry creation
- * @param payLoad
- * @param payLoad.id
- * @param payLoad.title
- */
-async function inquiryAdded(payLoad: { id: number; title: string }) {
-  createDlgToggle.value = false
-  router.push({
-    name: 'inquiry',
-    params: { id: payLoad.id },
-  })
 }
 
 onMounted(() => {

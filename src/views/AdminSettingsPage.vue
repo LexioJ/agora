@@ -16,7 +16,6 @@ import {
   AdminExpireInquiries,
   AdminDeleteInquiries,
   AdminEmail,
-  AdminInquiryStatus,
   AdminModeration,
   AdminJobs,
   AdminLegal,
@@ -54,7 +53,7 @@ const sections = {
   },
   otherSettings: {
     name: t('agora', 'Other settings'),
-    description: t('agora', 'Enable or disable individual features.'),
+    description: t('agora', 'Enable or disable individual features'),
   },
   performanceSettings: {
     name: t('agora', 'Performance settings'),
@@ -94,7 +93,7 @@ const sections = {
   },
   jobSettings: {
     name: t('agora', 'Job control'),
-    description: t('agora', 'Manually start backgropund jobs, independent from the cron schedule.'),
+    description: t('agora', 'Manually start backgropund jobs independent from the cron schedule'),
   },
 }
 

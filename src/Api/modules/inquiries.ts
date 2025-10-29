@@ -122,7 +122,6 @@ const inquiries = {
     inquiryId: number,
     action: string
   ): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
-	  console.log(" The inquiry is sended for moderation ",action)
     return httpInstance.request({
       method: 'PUT',
       url: `inquiry/submitinquiry/${inquiryId}`,

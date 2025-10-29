@@ -18,7 +18,7 @@ const cardText = computed(() =>
         'inquiries',
         'This share is locked and allows only read access. Registering is not possible.'
       )
-    : t('agora', 'Voting is locked and you have just read access to this inquiry.')
+    : t('agora', 'Voting is locked and you have just read access to this inquiry')
 )
 </script>
 

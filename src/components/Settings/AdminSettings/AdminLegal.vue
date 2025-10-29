@@ -50,7 +50,7 @@ const placeholder = computed(() => {
       v-model="appSettingsStore.privacyUrl"
       type="url"
       :placeholder="placeholder.privacy"
-      :label="t('agora', 'Privacy policy link:')"
+      :label="t('agora', 'Privacy policy link')"
       @change="appSettingsStore.write()"
     />
 
@@ -58,7 +58,7 @@ const placeholder = computed(() => {
       v-model="appSettingsStore.imprintUrl"
       type="url"
       inputmode="url"
-      :label="t('agora', 'Legal terms link:')"
+      :label="t('agora', 'Legal terms link')"
       :placeholder="placeholder.imprint"
       @change="appSettingsStore.write()"
     />

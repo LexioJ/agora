@@ -13,7 +13,7 @@ import SearchIcon from 'vue-material-design-icons/Magnify.vue'
 
 const emptyContentProps = {
   name: t('agora', '404 - inquiry not found'),
-  description: t('agora', 'Enter a inquiry or start a new one.'),
+  description: t('agora', 'Enter a inquiry or start a new one'),
 }
 </script>
 

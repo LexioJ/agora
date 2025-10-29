@@ -29,7 +29,7 @@ function dialogOK() {
     inquiriesStore.delete({ inquiryId: inquiry.id })
     emit('deleted')
   } catch {
-    showError(t('agora', 'Error deleting inquiry.'))
+    showError(t('agora', 'Error deleting inquiry'))
   }
 }
 
@@ -37,7 +37,7 @@ const dialogText = adminAccess.value
   ? t('inquiries', 'This will finally delete the inquiry and {username} will get notified.', {
       username: inquiry.owner.displayName,
     })
-  : t('agora', 'This will finally delete the inquiry.')
+  : t('agora', 'This will finally delete the inquiry')
 
 const dialogProps = {
   name: t('agora', 'Delete inquiry'),

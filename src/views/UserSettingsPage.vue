@@ -22,7 +22,7 @@ const sections = {
   },
   styleSettings: {
     name: t('agora', 'Experimental styles'),
-    description: t('agora', 'Some visual styling options.'),
+    description: t('agora', 'Some visual styling options'),
   },
 }
 

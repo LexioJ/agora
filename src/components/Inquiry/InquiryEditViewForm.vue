@@ -4,7 +4,6 @@
 -->
 <script setup lang="ts">
 import { ref, watch, computed, onMounted, onUnmounted, toRaw } from 'vue'
-import { useRouter } from 'vue-router'
 import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import { useInquiryStore } from '../../stores/inquiry'
@@ -25,14 +24,12 @@ import {
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import NcBadge from '@nextcloud/vue/components/NcBadge'
-import { InputDiv } from '../Base/index.ts'
+import { NcTextArea, NcRichText } from '@nextcloud/vue'
+
 import { ThumbIcon } from '../AppIcons'
 import InquiryEditor from '../Editor/InquiryEditor.vue'
-import { NcTextArea, NcRichText } from '@nextcloud/vue'
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
 import {
-  canEdit,
   canSupport,
   canComment,
   createPermissionContextForContent,
@@ -54,7 +51,6 @@ const supportsStore = useSupportsStore()
 const inquiryStore = useInquiryStore()
 const inquiriesStore = useInquiriesStore()
 const sharesStore = useSharesStore()
-const router = useRouter()
 const attachmentsStore = useAttachmentsStore()
 const imageFileInput = ref(null)
 const currentCoverUrl = ref('')
@@ -63,9 +59,6 @@ const triggerImageUpload = () => {
   imageFileInput.value?.click()
 }
 
-console.log('🔧 [InquiryEditViewForm] Component mounted - Debug info:')
-console.log('🔧 Current user:', sessionStore.currentUser)
-console.log('🔧 Inquiry store:', inquiryStore)
 
 // Context for permissions
 const context = computed(() => {
@@ -85,7 +78,6 @@ const context = computed(() => {
     isInquiryFinalStatus(inquiryStore,sessionStore.appSettings),
     inquiryStore.status.moderationStatus 
   )
-  console.log('🔧 [InquiryActionToolbar] Permission context:', ctx)
   return ctx
 })
 
@@ -100,7 +92,6 @@ const hasSupported = computed(() => inquiryStore.currentUserStatus.hasSupported)
 // Get current inquiry type data
 const inquiryTypeData = computed(() => {
   const data = getInquiryTypeData(inquiryStore.type, sessionStore.appSettings.inquiryTypeTab || [])
-  console.log('🔧 [InquiryEditViewForm] Inquiry type data:', data)
   return data
 })
 
@@ -184,8 +175,7 @@ const onStatusChange = async (newStatus: string) => {
     const statusId = newStatus?.id || newStatus
     await inquiryStore.setInquiryStatus(statusId)
     showSuccess(t('agora', 'Inquiry status of this inquiry has been updated'))
-  } catch (error) {
-    console.error('Failed to update status:', error)
+  } catch {
     selectedInquiryStatusKey.value = currentInquiryStatus.value.statusKey
   }
 }
@@ -196,69 +186,6 @@ const isNoAccessSet = computed(
     !sharesStore.hasShares &&
     inquiryStore.permissions.edit
 )
-
-const subTexts = computed(() => {
-  const subTexts = []
-
-  if (inquiryStore.status.isArchived) {
-    subTexts.push({
-      id: 'deleted',
-      text: t('agora', 'Archived'),
-      class: 'archived',
-      iconComponent: InquiryGeneralIcons.Archived,
-    })
-    return subTexts
-  }
-
-  if (isNoAccessSet.value) {
-    subTexts.push({
-      id: 'no-access',
-      text: [t('agora', 'Unpublished')].join('. '),
-      class: 'unpublished',
-      iconComponent: InquiryGeneralIcons.Unpublished,
-    })
-    return subTexts
-  }
-  if (inquiryStore.configuration.access === 'private') {
-    subTexts.push({
-      id: inquiryStore.configuration.access,
-      text: t('agora', 'A private inquiry from {name}', {
-	name: inquiryStore.owner.displayName,
-      }),
-      class: '',
-      iconComponent: InquiryGeneralIcons.Private,
-    })
-  } else {
-    subTexts.push({
-      id: inquiryStore.configuration.access,
-      text: t('agora', 'An openly accessible inquiry from {name}', {
-	name: inquiryStore.owner.displayName,
-      }),
-      class: '',
-      iconComponent: InquiryGeneralIcons.Open,
-    })
-  }
-
-  if (inquiryStore.isClosed) {
-    subTexts.push({
-      id: 'closed',
-      text: timeExpirationRelative.value,
-      class: 'closed',
-      iconComponent: InquiryGeneralIcons.Closed,
-    })
-    return subTexts
-  }
-
-  if (subTexts.length < 2) {
-    subTexts.push({
-      id: 'created',
-      text: dateCreatedRelative.value,
-      class: 'created',
-      iconComponent: InquiryGeneralIcons.Creation,
-    })
-  }
-  return subTexts
-})
 
 const dateCreatedRelative = computed(() => moment.unix(inquiryStore.status.created).fromNow())
 
@@ -301,7 +228,7 @@ function getHierarchyPath(items, targetId) {
 
   return buildPath(itemMap[targetId])
 }
-//Watchers for the image
+// Watchers for the image
 watch(() => inquiryStore.coverId, (newCoverId) => {
   if (newCoverId) {
     currentCoverUrl.value = getNextcloudPreviewUrl(newCoverId)
@@ -420,11 +347,8 @@ const onToggleSupport = async () => {
 
 // Event subscriptions
 onMounted(() => {
-  	console.log('COVERIDDDDDDDDDDDDDDDd', inquiryStore.coverId)
   if (inquiryStore.coverId) { 
         currentCoverUrl.value = getNextcloudPreviewUrl(inquiryStore.coverId)
-  	console.log('COVERIDDDDDDDDDDDDDDDd', currentCoverUrl.value)
-	console.log('🔧 [InquiryEditViewForm]', currentCoverUrl.value)
    }
   subscribe(Event.UpdateComments, () => commentsStore.load())
   isLoaded.value = true
@@ -438,13 +362,11 @@ onUnmounted(() => {
 // Determine if category/location should be shown as select or label
 const showCategoryAsLabel = computed(() => {
   const result = inquiryStore.parentId !== 0 || props.isReadonly
-  console.log('🔧 [InquiryEditViewForm] showCategoryAsLabel:', result, 'parentId:', inquiryStore.parentId, 'isReadonly:', props.isReadonly)
   return result
 })
 
 const showLocationAsLabel = computed(() => {
   const result = inquiryStore.parentId !== 0 || props.isReadonly
-  console.log('🔧 [InquiryEditViewForm] showLocationAsLabel:', result, 'parentId:', inquiryStore.parentId, 'isReadonly:', props.isReadonly)
   return result
 })
 
@@ -457,6 +379,7 @@ function getNextcloudPreviewUrl(fileId, x = 1920, y = 1080, autoScale = true) {
 /**
  * Upload a single file and add to attachments list
  * @param file
+ * @param event
  */
 const handleImageUpload = async (event) => {
   const file = event.target.files[0]
@@ -467,7 +390,7 @@ const handleImageUpload = async (event) => {
     return
   }
 
-  //Check image size 5Mb max
+  // Check image size 5Mb max
   const maxSize = 5 * 1024 * 1024
   if (file.size > maxSize) {
     showError(t('agora', 'Image size should be less than 5MB'))
@@ -475,11 +398,9 @@ const handleImageUpload = async (event) => {
   }
 
   try {
-	const loadingMessage = showSuccess(t('agora', 'Uploading image...'), { timeout: 0 })
 
     const response = await attachmentsStore.upload(inquiryStore.id, file,true)
 
-    console.log("ATTTTTTTTTTTTTTTT ",response)
     const attachment = {
       id: response.id ?? `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       name: response.name ?? file.name,
@@ -491,11 +412,9 @@ const handleImageUpload = async (event) => {
     // Use immutable update for better reactivity
     attachmentsStore.attachments = [...attachmentsStore.attachments, attachment]
     currentCoverUrl.value = getNextcloudPreviewUrl(attachment.fileId)
-    console.log(" WE GET FILE ID ", response.fileId)
     inquiryStore.coverId=attachment.fileId
     showSuccess(t('agora', '{file} uploaded', { file: response.name ?? file.name }))
   } catch (error) {
-    console.error('Upload failed for file:', file.name, error)
     showError(t('agora', 'Failed to upload {file}', { file: file.name }))
     throw error // Re-throw to handle in parent function
     }
@@ -503,16 +422,14 @@ const handleImageUpload = async (event) => {
 }
 
 // Format date
-const formatDate = (timestamp: number) => {
-  return new Date(timestamp * 1000).toLocaleDateString()
-}
+const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDateString()
 </script>
 
 <template>
 	<div v-if="isLoaded" class="inquiry-edit-view">
 		<!-- Debug info -->
 		<!-- Cover Image Section -->
-<div class="cover-image-section" v-if="inquiryStore.currentUserStatus?.isOwner">
+<div v-if="inquiryStore.currentUserStatus?.isOwner" class="cover-image-section">
   <input
     id="cover-upload-input"
     ref="imageFileInput"
@@ -640,15 +557,15 @@ const formatDate = (timestamp: number) => {
 		<div class="user-info-section">
 			<div class="header-left-content">
 				<component
-						v-if="inquiryStore.ownedGroup !== ''"
 						:is="NcAvatar"
+						v-if="inquiryStore.ownedGroup !== ''"
 						:display-name="inquiryStore.ownedGroup"
 						:show-user-status="false"
 						:size="44"
 						/>
 				<component
-						v-else
 						:is="NcAvatar"
+						v-else
 						:user="inquiryStore.owner.id"
 						:display-name="inquiryStore.owner.displayName"
 						:size="44"
@@ -738,8 +655,8 @@ const formatDate = (timestamp: number) => {
 									v-model="selectedInquiryStatus"
 									:options="statusInquiryOptions"
 									:clearable="false"
-									@update:model-value="onStatusChange"
 									class="status-select"
+									@update:model-value="onStatusChange"
 									/>
 						</template>
 						<template v-else>

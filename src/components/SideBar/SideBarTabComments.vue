@@ -25,7 +25,7 @@ const sessionStore = useSessionStore()
 
 const emptyContentProps = {
   name: t('agora', 'No comments'),
-  description: t('agora', 'Be the first.'),
+  description: t('agora', 'Be the first'),
 }
 
 const showEmptyContent = computed(() => commentsStore.comments.length === 0)

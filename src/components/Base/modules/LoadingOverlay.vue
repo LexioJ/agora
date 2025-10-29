@@ -8,11 +8,11 @@ import { t } from '@nextcloud/l10n'
 import { Spinner } from '../../AppIcons/index.ts'
 import { onMounted, ref, watch } from 'vue'
 
-const description = ref(t('agora', 'Please wait…'))
+const description = ref(t('agora', 'Please wait'))
 
 const {
   show = false,
-  name = t('agora', 'Loading …'),
+  name = t('agora', 'Loading '),
   loadingTexts = '',
   teleportTo = '#content-vue',
 } = defineProps<{
