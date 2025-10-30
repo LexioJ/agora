@@ -111,7 +111,6 @@ const applyFilters = () => {
     //	familyType = family?.family_type
   }
   */
-  console.log(" TTTTTTTTTTTTTTTTTTT ",props.familyType)
   inquiriesStore.setFilters({
     type: getValue(selectedType.value) === 'all' 
       ? undefined
