@@ -1,6 +1,6 @@
 {
   "name": "agora",
-  "version": "1.5.0-beta",
+  "version": "1.5.0-rc1",
   "private": true,
   "description": "Decidim like application, for nextcloud",
   "homepage": "https://github.com/vinimoz/agora#readme",

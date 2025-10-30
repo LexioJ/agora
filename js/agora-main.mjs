@@ -3384,15 +3384,15 @@ tr.file-picker__row td.row-name[data-v-1f96131b] {
   }
 })();
 const appName = "agora";
-const appVersion = "1.5.0-beta";
-import { at as h$1, i as defineStore, bc as Settings, u as _export_sfc, d as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, e as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, a as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, V as withDirectives, bg as vModelRadio, bh as withKeys, Z as withModifiers, F as useModel, bi as useSlots, J as watch, aw as logger, b as onMounted, aK as onBeforeUnmount, r as renderSlot, af as useCssVars, bj as useIsDarkTheme, B as unref, bk as mdiCreation, f as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, Y as NcButton, bl as userStatus, L as NcAvatar, $ as resolveComponent, K as mergeProps, M as normalizeStyle, E as mergeModels, U as ref, bm as provide, I as warn, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, a2 as mdiCheck, a3 as mdiAlertCircle, G as Fragment$1, H as renderList, ae as NcLoadingIcon, W as vShow, bn as Teleport, bo as useRouter, b6 as emit, n as normalizeProps, g as guardReactiveProps, P as DateTime, R as RouterLink, b8 as onUnmounted, ba as NcActions, bp as useRoute, bq as translatePlural, br as TransitionGroup, aL as nextTick, q as _$2, bs as NcModal, b7 as shallowRef, bt as markRaw, bu as watchEffect, bv as getCurrentInstance, bw as customRef, bx as global, by as getAugmentedNamespace, aN as process$1, a_ as commonjsGlobal, bz as Buffer, S as getDefaultExportFromCjs, bA as vModelSelect, bB as toRaw, bC as subscribe, bD as unsubscribe, as as Transition, bE as onBeforeRouteUpdate, aR as getCurrentUser, X as vModelText, bF as createRouter, bG as createWebHistory, bH as axios, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-CMXwBaMD.chunk.mjs";
-import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, i as createPermissionContextForContent, C as ContentType, j as canTransfer, k as canDelete, l as canArchive, I as InquiryGeneralIcons, b as useInquiriesStore, m as useInquiryGroupsStore, n as NavigationIcons, s as showError, o as useInquiryStore, q as showSuccess, E as Event$1, r as NcEmptyContent, S as StatusIcons, B as BadgeIcons, t as canSupport, v as canComment, w as sortTitlesMapping, x as lodashExports, y as appSettings, z as showInfo, A as canEdit, D as canRestore, F as shouldShowResponseActions, G as shouldShowTransformationActions, H as canCreateResponseType, J as canCreateTransformationType, K as canViewToggle, M as validators, O as inquiries, P as commonjsRequire, Q as useAttachmentsStore, R as useCommentsStore, T as useOptionsStore, U as useSharesStore, V as moment, W as ShareIcons, X as canShare } from "./NcDashboardWidget-Bu7bWoUK-DdvuZMqn.chunk.mjs";
-import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-CQ9z4GRz.chunk.mjs";
-import { b as NcAppNavigationItem, u as useAppSettingsDialog, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcAppSidebar, a as NcAppSettingsDialog, l as NcContent } from "./index-C-a_qy5d.chunk.mjs";
-import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getInquiryTypesByFamily, d as getInquiryTypesForFamily, e as getInquiryItemData, i as isInquiryFinalStatus, f as getAvailableResponseTypes, h as getAvailableTransformTypes } from "./InquiryHelper-zvWf7oib.chunk.mjs";
-import { _ as _sfc_main$1C, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1D, e as NcRichText } from "./NcRichText-CETsOVBU-CBs2XHdP.chunk.mjs";
-import { R as RadioGroupDiv, C as CardDiv } from "./markdown-Bpw74OWH.chunk.mjs";
-import { A as AgoraAppIcon } from "./AgoraAppIcon-DJsG89MX.chunk.mjs";
+const appVersion = "1.5.0-rc1";
+import { at as h$1, i as defineStore, bc as Settings, u as _export_sfc, d as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, e as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, a as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, V as withDirectives, bg as vModelRadio, bh as withKeys, Z as withModifiers, F as useModel, bi as useSlots, J as watch, aw as logger, b as onMounted, aK as onBeforeUnmount, r as renderSlot, af as useCssVars, bj as useIsDarkTheme, B as unref, bk as mdiCreation, f as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, Y as NcButton, bl as userStatus, L as NcAvatar, $ as resolveComponent, K as mergeProps, M as normalizeStyle, E as mergeModels, U as ref, bm as provide, I as warn, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, a2 as mdiCheck, a3 as mdiAlertCircle, G as Fragment$1, H as renderList, ae as NcLoadingIcon, W as vShow, bn as Teleport, bo as useRouter, b6 as emit, n as normalizeProps, g as guardReactiveProps, P as DateTime, R as RouterLink, b8 as onUnmounted, ba as NcActions, bp as useRoute, bq as translatePlural, br as TransitionGroup, aL as nextTick, q as _$2, bs as NcModal, b7 as shallowRef, bt as markRaw, bu as watchEffect, bv as getCurrentInstance, bw as customRef, bx as global, by as getAugmentedNamespace, aN as process$1, a_ as commonjsGlobal, bz as Buffer, S as getDefaultExportFromCjs, bA as vModelSelect, bB as toRaw, bC as subscribe, bD as unsubscribe, as as Transition, bE as onBeforeRouteUpdate, aR as getCurrentUser, X as vModelText, bF as createRouter, bG as createWebHistory, bH as axios, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DYQk92DU.chunk.mjs";
+import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, i as createPermissionContextForContent, C as ContentType, j as canTransfer, k as canDelete, l as canArchive, I as InquiryGeneralIcons, b as useInquiriesStore, m as useInquiryGroupsStore, n as NavigationIcons, s as showError, o as useInquiryStore, q as showSuccess, E as Event$1, r as NcEmptyContent, S as StatusIcons, B as BadgeIcons, t as canSupport, v as canComment, w as sortTitlesMapping, x as lodashExports, y as appSettings, z as showInfo, A as canEdit, D as canRestore, F as shouldShowResponseActions, G as shouldShowTransformationActions, H as canCreateResponseType, J as canCreateTransformationType, K as canViewToggle, M as validators, O as inquiries, P as commonjsRequire, Q as useAttachmentsStore, R as useCommentsStore, T as useOptionsStore, U as useSharesStore, V as moment, W as ShareIcons, X as canShare } from "./NcDashboardWidget-Bu7bWoUK-DQyKICqd.chunk.mjs";
+import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-6v-hgSKs.chunk.mjs";
+import { b as NcAppNavigationItem, u as useAppSettingsDialog, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcAppSidebar, a as NcAppSettingsDialog, l as NcContent } from "./index-CfE-zqcl.chunk.mjs";
+import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getInquiryTypesByFamily, d as getInquiryTypesForFamily, e as getInquiryItemData, i as isInquiryFinalStatus, f as getAvailableResponseTypes, h as getAvailableTransformTypes } from "./InquiryHelper-BYdzayFT.chunk.mjs";
+import { _ as _sfc_main$1C, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1D, e as NcRichText } from "./NcRichText-CETsOVBU--0kneo3l.chunk.mjs";
+import { R as RadioGroupDiv, C as CardDiv } from "./markdown-F7wLOhcM.chunk.mjs";
+import { A as AgoraAppIcon } from "./AgoraAppIcon-ZkOlM5dl.chunk.mjs";
 const setCookie = (cookieName, cookieValue = "", cookieExpiration = 360) => {
   const expirationTime = /* @__PURE__ */ new Date();
   expirationTime.setTime(expirationTime.getTime() + cookieExpiration);
@@ -3713,8 +3713,8 @@ const _sfc_main$1A = /* @__PURE__ */ defineComponent({
     const sessionStore = useSessionStore();
     const emit2 = __emit;
     const inquiryTypeData = computed(() => {
-      const inquiryTypes2 = sessionStore.appSettings.inquiryTypeTab || [];
-      return getInquiryTypeData(__props.inquiry.type, inquiryTypes2);
+      const inquiryTypes = sessionStore.appSettings.inquiryTypeTab || [];
+      return getInquiryTypeData(__props.inquiry.type, inquiryTypes);
     });
     const context2 = computed(
       () => createPermissionContextForContent(
@@ -5639,20 +5639,22 @@ const _sfc_main$1d = /* @__PURE__ */ defineComponent({
     parentInquiryId: { type: [String, Number, null], required: false, default: null },
     defaultTitle: { type: [String, null], required: false, default: null }
   },
-  emits: ["close", "added", "update:selected-groups", "update:inquiry-type"],
+  emits: ["close", "added", "update:selected-groups"],
   setup(__props, { expose: __expose, emit: __emit }) {
     __expose();
     const props2 = __props;
     const emit2 = __emit;
     const inquiryStore = useInquiryStore();
+    const sessionStore = useSessionStore();
     const inquiryTitle = ref("");
     const inquiryId = ref(null);
     const adding = ref(false);
     const accessType = ref("user");
     const selectedGroup = ref(null);
-    const localInquiryType = ref("");
+    const inquiryTypes = computed(() => sessionStore.appSettings.inquiryTypeTab || []);
     const availableInquiryTypes = computed(() => getAvailableInquiryTypesForCreation(inquiryTypes.value));
     const inquiryTypeOptions = computed(() => getInquiryTypeOptions(availableInquiryTypes.value));
+    const localInquiryType = ref(availableInquiryTypes.value[0]?.inquiry_type || "");
     const selectedType = computed(() => {
       if (props2.inquiryType) {
         return props2.inquiryType.inquiry_type;
@@ -5670,7 +5672,6 @@ const _sfc_main$1d = /* @__PURE__ */ defineComponent({
     };
     const updateLocalInquiryType = (newType) => {
       localInquiryType.value = newType;
-      emit2("update:inquiry-type", newType);
     };
     watch(() => props2.inquiryType, (newType) => {
       if (newType && newType.inquiry_type) {
@@ -5682,17 +5683,17 @@ const _sfc_main$1d = /* @__PURE__ */ defineComponent({
         inquiryTitle.value = newTitle;
       }
     }, { immediate: true });
-    const titleIsEmpty = computed(() => inquiryTitle.value === "");
+    const titleIsEmpty = computed(() => inquiryTitle.value.trim() === "");
     const disableAddButton = computed(() => titleIsEmpty.value || adding.value);
     async function addInquiry() {
       try {
         adding.value = true;
         const inquiryData = {
           type: selectedType.value,
-          title: inquiryTitle.value
+          title: inquiryTitle.value.trim()
         };
         if (props2.parentInquiryId) {
-          inquiryData.parentId = inquiryStore.id;
+          inquiryData.parentId = props2.parentInquiryId;
         }
         if (inquiryStore.locationId) {
           inquiryData.locationId = inquiryStore.locationId;
@@ -5737,7 +5738,7 @@ const _sfc_main$1d = /* @__PURE__ */ defineComponent({
       selectedGroup.value = null;
       emit2("update:selected-groups", []);
     }
-    const __returned__ = { props: props2, emit: emit2, inquiryStore, inquiryTitle, inquiryId, adding, accessType, selectedGroup, localInquiryType, availableInquiryTypes, inquiryTypeOptions, selectedType, currentInquiryTypeData, hasPredefinedType, selectGroup, updateLocalInquiryType, titleIsEmpty, disableAddButton, addInquiry, resetInquiry, get t() {
+    const __returned__ = { props: props2, emit: emit2, inquiryStore, sessionStore, inquiryTitle, inquiryId, adding, accessType, selectedGroup, inquiryTypes, availableInquiryTypes, inquiryTypeOptions, localInquiryType, selectedType, currentInquiryTypeData, hasPredefinedType, selectGroup, updateLocalInquiryType, titleIsEmpty, disableAddButton, addInquiry, resetInquiry, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -7140,7 +7141,6 @@ const _sfc_main$18 = /* @__PURE__ */ defineComponent({
       if (!inquiriesStore) {
         return;
       }
-      console.log(" TTTTTTTTTTTTTTTTTTT ", props2.familyType);
       inquiriesStore.setFilters({
         type: getValue(selectedType.value) === "all" ? void 0 : getValue(selectedType.value),
         inquiryStatus: getValue(selectedInquiryStatus.value) === "all" ? void 0 : getValue(selectedInquiryStatus.value),
@@ -9284,20 +9284,20 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
       }
     };
     const rawResponseTypes = computed(() => {
-      const inquiryTypes2 = props2.sessionStore.appSettings.inquiryTypeTab || [];
-      return getAvailableResponseTypes(props2.inquiryStore.type, inquiryTypes2);
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      return getAvailableResponseTypes(props2.inquiryStore.type, inquiryTypes);
     });
     const rawTransformTypes = computed(() => {
-      const inquiryTypes2 = props2.sessionStore.appSettings.inquiryTypeTab || [];
-      return getAvailableTransformTypes(props2.inquiryStore.type, inquiryTypes2);
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      return getAvailableTransformTypes(props2.inquiryStore.type, inquiryTypes);
     });
     const showActionsMenu = computed(() => {
-      const inquiryTypes2 = props2.sessionStore.appSettings.inquiryTypeTab || [];
-      return shouldShowResponseActions(props2.inquiryStore.type, inquiryTypes2, context2.value);
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      return shouldShowResponseActions(props2.inquiryStore.type, inquiryTypes, context2.value);
     });
     const showTransformActionsMenu = computed(() => {
-      const inquiryTypes2 = props2.sessionStore.appSettings.inquiryTypeTab || [];
-      return shouldShowTransformationActions(props2.inquiryStore.type, inquiryTypes2, context2.value);
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      return shouldShowTransformationActions(props2.inquiryStore.type, inquiryTypes, context2.value);
     });
     const availableResponseTypes = computed(() => rawResponseTypes.value.filter(
       (type) => canCreateResponseType(type.inquiry_type, context2.value)
@@ -9306,9 +9306,9 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
       (type) => canCreateTransformationType(type.inquiry_type, context2.value)
     ));
     const enrichedResponseTypes = computed(() => {
-      const inquiryTypes2 = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
       return availableResponseTypes.value.map((responseType) => {
-        const typeData = getInquiryTypeData(responseType.inquiry_type, inquiryTypes2);
+        const typeData = getInquiryTypeData(responseType.inquiry_type, inquiryTypes);
         return {
           ...responseType,
           icon: typeData.icon,
@@ -9317,9 +9317,9 @@ const _sfc_main$Y = /* @__PURE__ */ defineComponent({
       });
     });
     const enrichedTransformTypes = computed(() => {
-      const inquiryTypes2 = props2.sessionStore.appSettings.inquiryTypeTab || [];
+      const inquiryTypes = props2.sessionStore.appSettings.inquiryTypeTab || [];
       return availableTransformTypes.value.map((transformType) => {
-        const typeData = getInquiryTypeData(transformType.inquiry_type, inquiryTypes2);
+        const typeData = getInquiryTypeData(transformType.inquiry_type, inquiryTypes);
         return {
           ...transformType,
           icon: typeData.icon,
@@ -56878,11 +56878,11 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
       }
     }
     const isGridView = computed(() => subMode.value === "table-view");
-    const inquiryTypes2 = computed(() => sessionStore.appSettings.inquiryTypeTab || []);
+    const inquiryTypes = computed(() => sessionStore.appSettings.inquiryTypeTab || []);
     const childrenByType = computed(() => {
       const grouped = {};
-      const officialTypes = inquiryTypes2.value.filter((type) => type.official).map((type) => type.label);
-      const otherTypes = inquiryTypes2.value.filter((type) => !type.official).map((type) => type.label);
+      const officialTypes = inquiryTypes.value.filter((type) => type.official).map((type) => type.label);
+      const otherTypes = inquiryTypes.value.filter((type) => !type.official).map((type) => type.label);
       const orderedTypes = [...officialTypes, ...otherTypes];
       orderedTypes.forEach((typeLabel) => {
         grouped[typeLabel] = [];
@@ -56976,7 +56976,7 @@ const _sfc_main$J = /* @__PURE__ */ defineComponent({
       inquiryStore.childs = inquiryStore.childs.map(transformOwner);
       return true;
     };
-    const __returned__ = { props: props2, inquiryParent, inquiryStore, commentsStore, preferencesStore, sessionStore, isLoadedLocal, isMobile, subMode, handleSubModeChange, isGridView, inquiryTypes: inquiryTypes2, childrenByType, childTypes, emit: emit2, editParent, routeChild, handleResize, transformOwner, loadInquiryData, get t() {
+    const __returned__ = { props: props2, inquiryParent, inquiryStore, commentsStore, preferencesStore, sessionStore, isLoadedLocal, isMobile, subMode, handleSubModeChange, isGridView, inquiryTypes, childrenByType, childTypes, emit: emit2, editParent, routeChild, handleResize, transformOwner, loadInquiryData, get t() {
       return translate;
     }, InquiryItem, get NcCheckboxRadioSwitch() {
       return NcCheckboxRadioSwitch;

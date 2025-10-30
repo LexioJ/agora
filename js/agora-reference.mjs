@@ -11,10 +11,10 @@
   }
 })();
 const appName = "agora";
-const appVersion = "1.5.0-beta";
-import { u as _export_sfc, d as defineComponent, E as mergeModels, F as useModel, l as computed, I as warn, R as RouterLink, J as watch, e as createBlock, o as openBlock, w as withCtx, r as renderSlot, s as resolveDynamicComponent, K as mergeProps, f as createVNode, a as createBaseVNode, c as createElementBlock, C as createCommentVNode, B as unref, L as NcAvatar, M as normalizeStyle, k as toDisplayString, O as NcPopover, _ as _export_sfc$1, P as DateTime, t as translate, j as createTextVNode, A as normalizeClass, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-CMXwBaMD.chunk.mjs";
-import { r as registerWidget } from "./NcRichText-CETsOVBU-CBs2XHdP.chunk.mjs";
-import { A as AgoraAppIcon } from "./AgoraAppIcon-DJsG89MX.chunk.mjs";
+const appVersion = "1.5.0-rc1";
+import { u as _export_sfc, d as defineComponent, E as mergeModels, F as useModel, l as computed, I as warn, R as RouterLink, J as watch, e as createBlock, o as openBlock, w as withCtx, r as renderSlot, s as resolveDynamicComponent, K as mergeProps, f as createVNode, a as createBaseVNode, c as createElementBlock, C as createCommentVNode, B as unref, L as NcAvatar, M as normalizeStyle, k as toDisplayString, O as NcPopover, _ as _export_sfc$1, P as DateTime, t as translate, j as createTextVNode, A as normalizeClass, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-DYQk92DU.chunk.mjs";
+import { r as registerWidget } from "./NcRichText-CETsOVBU--0kneo3l.chunk.mjs";
+import { A as AgoraAppIcon } from "./AgoraAppIcon-ZkOlM5dl.chunk.mjs";
 
 const _sfc_main$1$1 = {};
 function _sfc_render$3(_ctx, _cache) {

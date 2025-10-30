@@ -15,6 +15,7 @@ import { ConfigBox, RadioGroupDiv, InputDiv } from '../Base/index.ts'
 import { InquiryGeneralIcons } from '../../utils/icons.ts'
 
 import { useInquiryStore } from '../../stores/inquiry.ts'
+import { useSessionStore } from '../../stores/session.ts'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import {
   getAvailableInquiryTypesForCreation,
@@ -46,18 +47,19 @@ const emit = defineEmits<{
   (e: 'close'): void
   (e: 'added', inquiry: { id: number; title: string }): void
   (e: 'update:selected-groups', groups: string[]): void
-  (e: 'update:inquiry-type', type: string): void
 }>()
 
 const inquiryStore = useInquiryStore()
-// Remove unused sessionStore assignment
+const sessionStore = useSessionStore()
 
 const inquiryTitle = ref('')
 const inquiryId = ref<number | null>(null)
 const adding = ref(false)
 const accessType = ref<'user' | 'groups'>('user')
 const selectedGroup = ref<string | null>(null)
-const localInquiryType = ref<string>('')
+
+// Get inquiry types from app settings
+const inquiryTypes = computed(() => sessionStore.appSettings.inquiryTypeTab || [])
 
 // Filter out official and suggestion types for creation
 const availableInquiryTypes = computed(() => getAvailableInquiryTypesForCreation(inquiryTypes.value))
@@ -65,7 +67,10 @@ const availableInquiryTypes = computed(() => getAvailableInquiryTypesForCreation
 // Inquiry type options for radio group
 const inquiryTypeOptions = computed(() => getInquiryTypeOptions(availableInquiryTypes.value))
 
-// Type final sélectionné (priorité aux props)
+// Selected inquiry type (for selector display)
+const localInquiryType = ref(availableInquiryTypes.value[0]?.inquiry_type || '')
+
+// Final selected type (priority to props)
 const selectedType = computed(() => {
   if (props.inquiryType) {
     return props.inquiryType.inquiry_type
@@ -82,15 +87,14 @@ const currentInquiryTypeData = computed(() => getInquiryTypeData(selectedType.va
 // Check if type is predefined (don't show selector)
 const hasPredefinedType = computed(() => !!(props.inquiryType || props.responseType))
 
-const selectGroup = (group: string) => {
+const selectGroup = (group: string | null) => {
   selectedGroup.value = group
   emit('update:selected-groups', group ? [group] : [])
 }
 
-// Update local inquiry type when prop changes
+// Update local inquiry type
 const updateLocalInquiryType = (newType: string) => {
   localInquiryType.value = newType
-  emit('update:inquiry-type', newType)
 }
 
 // Watch to pre-fill type when prop changes
@@ -107,7 +111,7 @@ watch(() => props.defaultTitle, (newTitle) => {
   }
 }, { immediate: true })
 
-const titleIsEmpty = computed(() => inquiryTitle.value === '')
+const titleIsEmpty = computed(() => inquiryTitle.value.trim() === '')
 const disableAddButton = computed(() => titleIsEmpty.value || adding.value)
 
 interface InquiryData {
@@ -126,11 +130,11 @@ async function addInquiry() {
     // Prepare inquiry data with proper typing
     const inquiryData: InquiryData = {
       type: selectedType.value,
-      title: inquiryTitle.value,
+      title: inquiryTitle.value.trim(),
     }
 
     if (props.parentInquiryId) {
-      inquiryData.parentId = inquiryStore.id
+      inquiryData.parentId = props.parentInquiryId
     }
     
     if (inquiryStore.locationId) {
@@ -168,7 +172,7 @@ async function addInquiry() {
       })
       resetInquiry()
     }
-  } catch {
+  } catch  {
     showError(
       t('agora', 'Error while creating Inquiry "{inquiryTitle}"', {
         inquiryTitle: inquiryTitle.value,
