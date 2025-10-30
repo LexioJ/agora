@@ -92,9 +92,9 @@ occ app:enable agora
 
 ## 🖼 Screenshots
 
-| Creation | Edit Inquiry | Inquiry Type | Manage Category | Family | Grid View | Grid 2 | List View |  Settings | Settings Inquiry |
-| :-------: | :----------: | :-----------: | :-------------: | :-----: | :-------: | :-----: | :-------: | :------: | :---------------: |
-| ![Creation](screenshots/Creation.png) | ![Edit Inquiry](screenshots/Edit.png) | ![Inquiry Type](screenshots/SettingInquiryType.png) | ![Category](screenshots/Category.png) | ![Family](screenshots/Family.png) | ![Grid](screenshots/Grid.png) | ![Grid2](screenshots/Grid2.png) | ![List](screenshots/ListView.png)  | ![Settings](screenshots/Settings.png) | ![Settings Inquiry](screenshots/SettingsInquiry.png) |
+| Creation | Edit Inquiry | Inquiry Type | Family | Grid View | Grid 2 | List View |  Settings | Settings Inquiry |
+| :-------: | :----------: | :-----------: | :-----: | :-------: | :-----: | :-------: | :------: | :---------------: |
+| ![Creation](screenshots/Creation.png) | ![Edit Inquiry](screenshots/Edit.png) | ![Inquiry Type](screenshots/SettingInquiryType.png) | ![Family](screenshots/Family.png) | ![Grid](screenshots/Grid.png) | ![Grid2](screenshots/Grid2.png) | ![List](screenshots/ListView.png)  | ![Settings](screenshots/Settings.png) | ![Settings Inquiry](screenshots/SettingsInquiry.png) |
 
 ---
 
