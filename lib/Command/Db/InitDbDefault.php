@@ -65,11 +65,18 @@ class InitDbDefault extends Command
     'created' => '',
     ],
     [
+    'family_type' => 'social',
+    'label' => 'Social',
+    'description' => 'Social request by citizan to help them in their daily life',
+    'icon' => 'Offer',
+    'sort_order' => 6,
+    ],
+    [
     'family_type' => 'official',
     'label' => 'Official',
     'description' => 'Responses and contributions from official entities such as city hall, experts, or commissions.',
     'icon' => 'Seal',
-    'sort_order' => 6,
+    'sort_order' => 7,
     'created' => '',
     ],
     ];

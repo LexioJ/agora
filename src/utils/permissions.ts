@@ -4,6 +4,7 @@
 import { useSessionStore } from '../stores/session.ts'
 import { useAppSettingsStore } from '../stores/appSettings.ts'
 import { InquiryType } from '../helpers/index.ts'
+import { t } from '@nextcloud/l10n'
 
 export interface InquiryTypeSettings {
   supportInquiry: boolean
@@ -48,6 +49,13 @@ export interface InquiryType {
   isOption?: number
 }
 
+export interface InquiryRights {
+  supportInquiry: boolean
+  commentInquiry: boolean
+  attachFileInquiry: boolean
+  shareInquiry?: boolean
+  editorType: string
+}
 
 export const DefaultInquiryRights: InquiryRights = {
   supportInquiry: true, 
@@ -114,7 +122,8 @@ export enum AccessLevel {
 export enum InquiryFamily {
   Legislatif = 'legislatif',
   Administratif = 'administratif', 
-  Collective = 'collective'
+  Collective = 'collective',
+  Official = 'official'
 }
 
 /**
@@ -140,7 +149,6 @@ export interface PermissionContext {
 }
 
 // GET METHODS
-
 
 function getCurrentUserType(): UserType {
   const sessionStore = useSessionStore()
@@ -274,6 +282,85 @@ function isAccessRestrictedForAttachments(context: PermissionContext): boolean {
   }
 }
 
+/**
+ * Check if user can edit result based on moderation status
+ * @param moderationStatus
+ */
+export function canEditResult(moderationStatus: string): boolean {
+  return moderationStatus !== 'rejected' && moderationStatus !== 'pending'
+}
+
+/**
+ * Check if user can perform actions based on moderation status
+ * @param moderationStatus
+ */
+export function canPerformActions(moderationStatus: string): {
+  canAttachFile: boolean
+  canTransfer: boolean
+  canDelete: boolean
+  canArchive: boolean
+} {
+  const canPerform = moderationStatus !== 'rejected' && moderationStatus !== 'pending'
+  
+  return {
+    canAttachFile: canPerform,
+    canTransfer: canPerform,
+    canDelete: canPerform,
+    canArchive: canPerform,
+  }
+}
+
+/**
+ * Verify access to family menu based on user permissions and selected family type
+ * @param selectedFamilyType
+ */
+export function accessFamilyMenu(selectedFamilyType: InquiryFamily): boolean {
+  const sessionStore = useSessionStore()
+  const currentUser = sessionStore.currentUser
+
+  if (!currentUser) {
+    showError(t('agora', 'Sorry, you are not allowed to access to this family'))
+    return false
+  }
+
+  let hasAccess = false
+
+  switch (selectedFamilyType) {
+    case InquiryFamily.Official:
+      hasAccess = currentUser.isOfficial || false
+      break
+    case InquiryFamily.Legislatif:
+      hasAccess = currentUser.isLegislative || false
+      break
+    case InquiryFamily.Administratif:
+      hasAccess = currentUser.isAdministrative || false
+      break
+    case InquiryFamily.Collective:
+      hasAccess = currentUser.isCollective || false
+      break
+    default:
+      hasAccess = false
+  }
+
+  if (!hasAccess) {
+    showError(t('agora', 'Sorry, you are not allowed to access to this family'))
+  }
+
+  return hasAccess
+}
+
+/**
+ * Show error message
+ * @param message
+ */
+function showError(message: string): void {
+  // You can implement your error display logic here
+  // This could use a notification system, console error, or other method
+  console.error(message)
+  // Example with a notification system:
+  // import { showError } from '@nextcloud/dialogs'
+  // showError(message)
+}
 
 /**
  * Check if user can create official response
@@ -318,9 +405,9 @@ export function canCreateTransformation(context: PermissionContext): boolean {
   if (context.inquiryFamily) {
     switch (context.inquiryFamily) {
       case InquiryFamily.Legislatif:
-        return currentUser?.isLegislatif || false
+        return currentUser?.isLegislative || false
       case InquiryFamily.Administratif:
-        return currentUser?.isAdministratif || false
+        return currentUser?.isAdministrative || false
       case InquiryFamily.Collective:
         return currentUser?.isCollective || false
       default:
@@ -348,9 +435,9 @@ export function canCreateByFamily(context: PermissionContext): boolean {
   if (context.inquiryFamily) {
     switch (context.inquiryFamily) {
       case InquiryFamily.Legislatif:
-        return currentUser?.isLegislatif || false
+        return currentUser?.isLegislative || false
       case InquiryFamily.Administratif:
-        return currentUser?.isAdministratif || false
+        return currentUser?.isAdministrative || false
       case InquiryFamily.Collective:
         return currentUser?.isCollective || false
       default:
@@ -372,6 +459,11 @@ export function canViewToggle(context: PermissionContext): boolean {
  */
 export function canDelete(context: PermissionContext): boolean {
   if (context.isDeleted) return false
+
+  // Check moderation status restrictions
+  if (context.moderationStatus === 'rejected' || context.moderationStatus === 'pending') {
+    return false
+  }
 
   if (context.userType === UserType.Admin || context.isOwner) {
     return true
@@ -419,6 +511,11 @@ export function canRestore(context: PermissionContext): boolean {
 export function canArchive(context: PermissionContext): boolean {
   if (context.isArchived || context.isDeleted) return false
 
+  // Check moderation status restrictions
+  if (context.moderationStatus === 'rejected' || context.moderationStatus === 'pending') {
+    return false
+  }
+
   if (context.userType === UserType.Admin || context.isOwner) {
     return true
   }
@@ -440,6 +537,11 @@ export function canArchive(context: PermissionContext): boolean {
  * @param context
  */
 export function canTransfer(context: PermissionContext): boolean {
+  // Check moderation status restrictions
+  if (context.moderationStatus === 'rejected' || context.moderationStatus === 'pending') {
+    return false
+  }
+
   if (context.userType === UserType.Admin || context.isOwner) {
     return true
   }
@@ -485,6 +587,12 @@ export function canEdit(context: PermissionContext): boolean {
   if (context.isLocked || context.isArchived || context.isDeleted) {
     return false
   }
+
+  // Check moderation status restrictions
+  if (context.moderationStatus === 'rejected' || context.moderationStatus === 'pending') {
+    return false
+  }
+
   if (context.userType === UserType.Admin || context.isOwner) {
     return true
   }
@@ -605,6 +713,11 @@ export function canAttachFile(context: PermissionContext): boolean {
     return false
   }
 
+  // Check moderation status restrictions
+  if (context.moderationStatus === 'rejected' || context.moderationStatus === 'pending') {
+    return false
+  }
+
   if (isAccessRestrictedForAttachments(context)) {
     return false
   }
@@ -704,7 +817,7 @@ export function canCreateTransformationType(transformType: string, context: Perm
  */
 export function shouldShowResponseActions(
   inquiryType: string, 
-  inquiryTypes: any[],
+  inquiryTypes: InquiryType[],
   context: PermissionContext
 ): boolean {
   // You'll need to import getAvailableResponseTypes or recreate the logic here
@@ -747,7 +860,7 @@ export function shouldShowResponseActions(
  */
 export function shouldShowTransformationActions(
   inquiryType: string, 
-  inquiryTypes: any[],
+  inquiryTypes: InquiryType[],
   context: PermissionContext
 ): boolean {
   // Simplified logic - adjust based on your data structure
@@ -846,6 +959,11 @@ export default {
   canCreate,
   canLock,
   
+  // New moderation status functions
+  canEditResult,
+  canPerformActions,
+  accessFamilyMenu,
+  
   // Creation, filtering inquiries
   canCreateOfficialResponse,
   canCreateTransformation,
@@ -854,7 +972,6 @@ export default {
   canCreateTransformationType,
   shouldShowResponseActions,
   shouldShowTransformationActions,
-
 
   // Context functions
   createPermissionContextForContent,

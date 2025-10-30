@@ -90,7 +90,7 @@ export interface InquiryType {
   label: string
   is_option: boolean
   description?: string
-  fields: any[]
+  fields: string[]
   allowed_response: string[]
   allowed_transformation: string[]
   created: number

@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed } from 'vue'
 import { t } from '@nextcloud/l10n'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -14,8 +14,16 @@ import { useAppSettingsStore } from '../../../stores/appSettings.ts'
 import { InquiryGeneralIcons } from '../../../utils/icons.ts'
 import { showError } from '@nextcloud/dialogs'
 
-const props = defineProps(['selectedFamily'])
-const emit = defineEmits(['type-selected', 'back-to-families'])
+
+interface Props {
+  selectedFamily?: {
+    family_type: string
+  }
+}
+
+const props = defineProps<Props>()
+
+const emit = defineEmits(['typeSelected', 'backToFamilies'])
 
 const appSettingsStore = useAppSettingsStore()
 const editingType = ref(null)
@@ -118,14 +126,14 @@ const deleteType = async (typeId) => {
 }
 
 const openTypeSettings = (type) => {
-  emit('type-selected', type)
+  emit('typeSelected', type)
 }
 </script>
 
 <template>
   <div class="types-manager">
     <div class="header">
-      <NcButton @click="emit('back-to-families')">
+      <NcButton @click="emit('backToFamilies')">
         ← {{ t('agora', 'Back to Families') }}
       </NcButton>
       <h2>

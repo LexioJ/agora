@@ -6,6 +6,7 @@
 import { t } from '@nextcloud/l10n'
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { showError } from '@nextcloud/dialogs'
+import { Inquiry } from '../../Types/index.ts'
 import { useInquiryStore } from '../../stores/inquiry.ts'
 import InquiryItem from './InquiryItem.vue'
 import { useSessionStore } from '../../stores/session.ts'
@@ -67,7 +68,7 @@ const inquiryTypes = computed(() => sessionStore.appSettings.inquiryTypeTab || [
 
 // Group children by their inquiry type with official preference order
 const childrenByType = computed(() => {
-  const grouped: Record<string, any[]> = {}
+  const grouped: Record<string, Inquiry[]> = {}
   
   // Get official preference types first, then others
   const officialTypes = inquiryTypes.value.filter(type => type.official).map(type => type.label)
@@ -94,7 +95,7 @@ const childrenByType = computed(() => {
   })
   
   // Filter out empty groups and maintain order
-  const result: Record<string, any[]> = {}
+  const result: Record<string, Inquiry[]> = {}
   orderedTypes.forEach(typeLabel => {
     if (grouped[typeLabel] && grouped[typeLabel].length > 0) {
       result[typeLabel] = grouped[typeLabel]
@@ -179,13 +180,13 @@ function transformOwner(obj) {
   }
   
   // Ensure coverId and inquiryStatus are present
-  if (!obj.hasOwnProperty('coverId')) {
+  if (!Object.prototype.hasOwnProperty.call(obj, 'coverId')) {
     obj.coverId = null
   }
-  if (!obj.hasOwnProperty('inquiryStatus')) {
+
+  if (!Object.prototype.hasOwnProperty.call(obj, 'inquiryStatus')) {
     obj.inquiryStatus = 'active'
-  }
-  
+  } 
   return obj
 }
 

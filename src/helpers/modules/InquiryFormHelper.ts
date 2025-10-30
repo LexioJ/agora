@@ -6,7 +6,7 @@
 import { ref, computed, watch  } from 'vue'
 import { useSessionStore } from '../../stores/session'
 import { useInquiryStore } from '../../stores/inquiry'
-import { BaseEntry } from '../../Types/index.ts'
+import { Location, Category , BaseEntry } from '../../Types/index.ts'
 import { canEdit, createPermissionContextForContent, ContentType } from '../../utils/permissions.ts'
 import { t } from '@nextcloud/l10n'
 
@@ -26,9 +26,8 @@ interface SelectOption {
 }
 
 /**
- * @param inquiryStore
  */
-export function useHierarchicalSelect(inquiryStore: ReturnType<typeof useInquiryStore>) {
+export function useHierarchicalSelect() {
 	const sessionStore = useSessionStore()
 
 	// Build hierarchy for location and category dropdowns
@@ -119,8 +118,8 @@ export function useHierarchicalSelect(inquiryStore: ReturnType<typeof useInquiry
  * @param inquiryStore
  */
 export function useCategoryLocationSelection(inquiryStore: ReturnType<typeof useInquiryStore>) {
-	const sessionStore = useSessionStore() // IMPORTANT: Ajouter cette ligne
-	const { hierarchicalLocation, hierarchicalCategory, getHierarchyPath } = useHierarchicalSelect(inquiryStore)
+	const sessionStore = useSessionStore() 
+	const { hierarchicalLocation, hierarchicalCategory, getHierarchyPath } = useHierarchicalSelect()
 
 	const selectedCategory = ref<number | bigint>(inquiryStore.categoryId || 0)
 	const selectedLocation = ref<number | bigint>(inquiryStore.locationId || 0)
@@ -162,7 +161,7 @@ export function useCategoryLocationSelection(inquiryStore: ReturnType<typeof use
 				selectedLocation.value = locationsArray[0].id
 				inquiryStore.locationId = locationsArray[0].id
 			} else {
-				const selected = locationsArray.find((loc: any) => loc.id.toString() === inquiryStore.locationId.toString())
+				const selected = locationsArray.find((loc: Location) => loc.id.toString() === inquiryStore.locationId.toString())
 				selectedLocation.value = selected?.id || locationsArray[0].id
 				inquiryStore.locationId = selected?.id || locationsArray[0].id
 			}
@@ -174,7 +173,7 @@ export function useCategoryLocationSelection(inquiryStore: ReturnType<typeof use
 				selectedCategory.value = categoriesArray[0].id
 				inquiryStore.categoryId = categoriesArray[0].id
 			} else {
-				const selected = categoriesArray.find((cat: any) => cat.id.toString() === inquiryStore.categoryId.toString())
+				const selected = categoriesArray.find((cat: Category) => cat.id.toString() === inquiryStore.categoryId.toString())
 				selectedCategory.value = selected?.id || categoriesArray[0].id
 				inquiryStore.categoryId = selected?.id || categoriesArray[0].id
 			}

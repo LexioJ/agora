@@ -13,7 +13,7 @@ import { useAppSettingsStore } from '../../../stores/appSettings.ts'
 import { InquiryGeneralIcons } from '../../../utils/icons.ts'
 import { showError } from '@nextcloud/dialogs'
 
-const emit = defineEmits(['family-selected'])
+const emit = defineEmits(['familySelected'])
 const appSettingsStore = useAppSettingsStore()
 const editingFamily = ref(null)
 const newFamily = ref({
@@ -105,7 +105,7 @@ const deleteFamily = async (familyId) => {
 }
 
 const selectFamily = (family) => {
-  emit('family-selected', family)
+  emit('familySelected', family)
 }
 </script>
 

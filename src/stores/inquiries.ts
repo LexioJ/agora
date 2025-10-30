@@ -132,8 +132,7 @@ const inquiryCategories: InquiryCategoryList = {
     showInNavigation: () => true,
     filterCondition: (inquiry: Inquiry) =>
       !inquiry.status.isArchived &&
-      DateTime.fromSeconds(inquiry.status.relevantThreshold).diffNow('days').days > -30 &&
-      (inquiry.permissions.view && (inquiry.configuration.access === 'open' || inquiry.configuration.access === 'public')),
+      DateTime.fromSeconds(inquiry.status.relevantThreshold).diffNow('days').days > -30 && (inquiry.permissions.view && (inquiry.configuration.access === 'open' || inquiry.configuration.access === 'public')),
   },
   my: {
     id: 'my',
@@ -195,7 +194,7 @@ const inquiryCategories: InquiryCategoryList = {
     pinned: false,
     showInNavigation: () => true,
     filterCondition: (inquiry: Inquiry) => !inquiry.status.isArchived && inquiry.permissions.view && 
-      (inquiry.configuration.access === 'open' || inquiry.configuration.access === 'public'),
+      (inquiry.configuration.access === 'open' || inquiry.configuration.access === 'public'),
   },
   closed: {
     id: 'closed',
@@ -437,7 +436,7 @@ export const useInquiriesStore = defineStore('inquiries', {
 
 								  // For "all" category, only show open access inquiries
 								  if (this.currentCategory?.id === 'all') {
-									  return inquiry.configuration.access === 'open'
+									  return (inquiry.configuration.access === 'open' || inquiry.configuration.access === 'public')
 								  }
 
 								  return true
@@ -550,7 +549,7 @@ export const useInquiriesStore = defineStore('inquiries', {
 				  const status = appSettingsStore.getFirstStatusKeyByInquiryType(inquiry.type)
 				  inquiry.status.inquiryStatus = status
 				  inquiry.configuration.access = "open"
-			  } else if (action === "submit_for_rejected") {
+			  } else if (action === "submit_for_rejected") {
 				  inquiry.status.moderationStatus="rejected"
 				  inquiry.status.inquiryStatus="rejected"
 				  inquiry.configuration.access="private"

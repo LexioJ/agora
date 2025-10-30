@@ -14,6 +14,7 @@ import { useAppSettingsStore } from '../../../stores/appSettings.js'
 
 const appSettingsStore = useAppSettingsStore()
 
+defineEmits(['close'])
 // const props = defineProps(['selectedType'])
 
 const activeSettingsTab = ref('user-rights')

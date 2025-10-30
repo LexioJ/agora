@@ -11,11 +11,9 @@ import { useInquiriesStore } from '../../stores/inquiries'
 import { useSupportsStore } from '../../stores/supports'
 import { useCommentsStore } from '../../stores/comments'
 import { useSessionStore } from '../../stores/session'
-import { useSharesStore } from '../../stores/shares'
 import { useAttachmentsStore } from '../../stores/attachments'
 import { BaseEntry, Event } from '../../Types/index.ts'
 import { t } from '@nextcloud/l10n'
-import moment from '@nextcloud/moment'
 import {
   getInquiryTypeData,
   isInquiryFinalStatus
@@ -50,7 +48,6 @@ const commentsStore = useCommentsStore()
 const supportsStore = useSupportsStore()
 const inquiryStore = useInquiryStore()
 const inquiriesStore = useInquiriesStore()
-const sharesStore = useSharesStore()
 const attachmentsStore = useAttachmentsStore()
 const imageFileInput = ref(null)
 const currentCoverUrl = ref('')
@@ -179,22 +176,6 @@ const onStatusChange = async (newStatus: string) => {
     selectedInquiryStatusKey.value = currentInquiryStatus.value.statusKey
   }
 }
-
-const isNoAccessSet = computed(
-  () =>
-    inquiryStore.configuration.access === 'private' &&
-    !sharesStore.hasShares &&
-    inquiryStore.permissions.edit
-)
-
-const dateCreatedRelative = computed(() => moment.unix(inquiryStore.status.created).fromNow())
-
-const timeExpirationRelative = computed(() => {
-  if (inquiryStore.configuration.expire) {
-    return moment.unix(inquiryStore.configuration.expire).fromNow()
-  }
-  return t('agora', 'never')
-})
 
 const statusInquiryOptions = computed(() => 
   availableInquiryStatuses.value.map(status => ({
@@ -378,7 +359,6 @@ function getNextcloudPreviewUrl(fileId, x = 1920, y = 1080, autoScale = true) {
 
 /**
  * Upload a single file and add to attachments list
- * @param file
  * @param event
  */
 const handleImageUpload = async (event) => {

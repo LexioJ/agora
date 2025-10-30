@@ -46,23 +46,25 @@ const filterOptions = computed(() => {
     { value: 'all', label: t('agora', 'All types') }
   ]
 
-const typeOptions = !props.familyType 
-    ? [
-	...baseTypeOptions,
-	...(sessionStore.appSettings.inquiryTypeTab?.filter(type => type.isOption === 0).map(type => ({
-	  value: type.inquiry_type,
-	  label: type.label || type.inquiry_type
-	})) || [])
-      ]
-    : [
-	...baseTypeOptions,
-	...(sessionStore.appSettings.inquiryTypeTab?.filter(type => 
-	  type.family === props.familyType && type.isOption === 0
-	).map(type => ({
-	  value: type.inquiry_type,
-	  label: type.label || type.inquiry_type
-	})) || [])
-      ]
+const typeOptions = props.familyType
+  ? [
+      ...baseTypeOptions,
+      ...(sessionStore.appSettings.inquiryTypeTab
+        ?.filter(type => type.family === props.familyType && type.isOption === 0)
+        .map(type => ({
+          value: type.inquiry_type,
+          label: type.label || type.inquiry_type,
+        })) || []),
+    ]
+  : [
+      ...baseTypeOptions,
+      ...(sessionStore.appSettings.inquiryTypeTab
+        ?.filter(type => type.isOption === 0)
+        .map(type => ({
+          value: type.inquiry_type,
+          label: type.label || type.inquiry_type,
+        })) || []),
+    ]
 
   return {
     types: typeOptions,
@@ -99,14 +101,17 @@ const applyFilters = () => {
   }
 
   // Get family_type from familyType
-  let familyType = ''
+ /**
+ let familyType = ''
+  
   if (props.familyType) {
     const family = sessionStore.appSettings.inquiryFamilyTab?.find(
       f => f.family_type  === props.familyType
     )
-    familyType = family?.family_type
+    //	familyType = family?.family_type
   }
-
+  */
+  console.log(" TTTTTTTTTTTTTTTTTTT ",props.familyType)
   inquiriesStore.setFilters({
     type: getValue(selectedType.value) === 'all' 
       ? undefined

@@ -312,7 +312,7 @@ export const useInquiryStore = defineStore('inquiry', {
 			    this.status.moderationStatus="accepted"
 			    this.status.inquiryStatus=appSettingsStore.getFirstStatusKeyByInquiryType(this.type)
 			    this.configuration.access="open"
-		    } else if (action === "submit_for_rejected") {
+		    } else if (action === 'submit_for_rejected') {
 			    this.status.moderationStatus="rejected"
 			    this.status.inquiryStatus="rejected"
 			    this.configuration.access="private"

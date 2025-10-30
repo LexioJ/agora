@@ -3,17 +3,27 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-<script setup>
+<script setup lang="ts">
 import { t } from '@nextcloud/l10n'
 import { computed, watch } from 'vue'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import { useAppSettingsStore } from '../../../stores/appSettings.js'
+import type { InquiryTypeRights } from '../../utils/permissions'
 
-const props = defineProps(['selectedType'])
-const emit = defineEmits(['update-rights'])
+interface Props {
+  selectedType?: {
+    inquiry_type: string
+  }
+}
+
+const props = defineProps<Props>()
+const emit = defineEmits<{
+  updateRights: [type: string, rights: InquiryTypeRights]
+}>()
 
 const appSettingsStore = useAppSettingsStore()
+
 
 const editorOptions = [
   { value: 'wysiwyg', label: t('agora', 'Rich Text Editor') },
@@ -21,7 +31,6 @@ const editorOptions = [
   { value: 'texteditor', label: t('agora', 'Nextcloud text editor') },
 ]
 
-// Réactive rights object pour le type sélectionné
 const typeRights = computed({
   get: () => {
     if (!props.selectedType) return {}
@@ -29,8 +38,7 @@ const typeRights = computed({
   },
   set: (newRights) => {
     if (props.selectedType) {
-      // Émettre l'événement pour mettre à jour le store parent
-      emit('update-rights', props.selectedType.inquiry_type, newRights)
+      emit('updateRights', props.selectedType.inquiry_type, newRights)
     }
   }
 })
@@ -46,14 +54,14 @@ const getDefaultRights = () => ({
 watch(() => props.selectedType, (newType) => {
   if (newType && !appSettingsStore.inquiryTypeRights[newType.inquiry_type]) {
     const defaultRights = getDefaultRights()
-    emit('update-rights', newType.inquiry_type, defaultRights)
+    emit('updateRights', newType.inquiry_type, defaultRights)
   }
 }, { immediate: true })
 
 // Mettre à jour les droits quand ils changent localement
 const updateRights = () => {
   if (props.selectedType) {
-    emit('update-rights', props.selectedType.inquiry_type, typeRights.value)
+    emit('updateRights', props.selectedType.inquiry_type, typeRights.value)
   }
 }
 </script>

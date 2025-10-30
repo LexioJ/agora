@@ -13,8 +13,14 @@ import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 
-const props = defineProps(['selectedType'])
 // const emit = defineEmits(['back-to-types'])
+interface Props {
+  selectedType?: {
+    inquiry_type: string
+  }
+}
+
+const props = defineProps<Props>()
 
 interface StatusForm {
   id?: number

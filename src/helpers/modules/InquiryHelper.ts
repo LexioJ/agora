@@ -5,6 +5,9 @@
 
 import { computed, type Ref } from 'vue'
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
+import { useInquiryStore } from '../../stores/inquiry.ts'
+import { useAppSettingsStore } from '../../stores/appSettings.ts'
+import { InquiryStatus } from '../../Types/index.ts'
 
 
 export interface InquiryFamily {
@@ -185,7 +188,7 @@ export function getAvailableInquiryTypesForCreation(inquiryTypes: InquiryType[])
  * @param inquiryStore
  * @param appSettings
  */
-export function isInquiryFinalStatus(inquiryStore: any, appSettings: any): boolean {
+export function isInquiryFinalStatus(inquiryStore: useInquiryStore, appSettings: useAppSettingsStore): boolean {
   if (!inquiryStore?.type || !inquiryStore?.status?.inquiryStatus || !appSettings?.inquiryStatusTab) {
     return false
   }
@@ -194,7 +197,7 @@ export function isInquiryFinalStatus(inquiryStore: any, appSettings: any): boole
   const currentStatus = inquiryStore.status.inquiryStatus
 
   // Find status configuration for this inquiry type and status
-  const statusConfig = appSettings.inquiryStatusTab.find((status: any) => 
+  const statusConfig = appSettings.inquiryStatusTab.find((status: InquiryStatus) => 
     status.inquiryType === inquiryType && status.statusKey === currentStatus
   )
 

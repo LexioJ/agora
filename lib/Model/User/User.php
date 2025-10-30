@@ -28,8 +28,8 @@ class User extends UserBase
     public const PRINCIPAL_PREFIX = 'principals/users/';
     public const GROUP_MODERATOR = 'agora_moderator';
     public const GROUP_OFFICIAL = 'agora_official';
-    public const GROUP_LEGISLATIF = 'agora_legislatif';
-    public const GROUP_ADMINISTRATIF = 'agora_administratif';
+    public const GROUP_LEGISLATIF = 'agora_legislative';
+    public const GROUP_ADMINISTRATIF = 'agora_administrative';
     public const GROUP_COLLECTIVE = 'agora_collective';
 
     private IConfig $config;

@@ -22,7 +22,6 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 - 🧩 **Linked Families** – Inquiries are now linked to families; create your own families  
 - ⚙️ **Custom Inquiry Types** – Define reply formats and transformation possibilities  
 - 🧑‍⚖️ **Real Moderation Mode** – Fully functional moderation (can be deactivated)  
-- 🤖 **AI Integration Fix & Tests** – AI suggestions and analysis reworked  
 
 ---
 
@@ -30,7 +29,10 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 
 - 💬 Comments and discussions  
 - 👍 Supports (likes/upvotes)  
-- 🧾 Multiple inquiry types (proposals, debates, petitions, projects)  
+- 🤖 Create your own inquiries family.
+- 🧩 Reply and transform inquiries.  
+- 🔗 Attach files with your inquiries. 
+- 🧾 Multiple inquiry types and customization (proposals, debates, petitions, projects,.... )  
 - 📂 Categorization and filtering by location/family  
 - 🔒 Secure and private – all data stays on your Nextcloud server  
 
@@ -42,7 +44,7 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 - 🔗 Link with other Nextcloud apps (Forms, Polls, Deck, Cospend…)  
 - 🗣 Real debate features (structured replies, multi-thread discussions)  
 - 📜 Project law reading with article-level comments and supports  
-- 🏛 Collectives → Polls for consultation or referendum  
+- 🏛 Collectives → Submit group of inquiries to Polls application for consultation or referendum  
 - 🧮 Quorums and workflow automation  
 - 🧰 Better permission control and moderation tools  
 
@@ -52,7 +54,7 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 
 ### Requirements
 
-- Nextcloud 21+  
+- Nextcloud 31+  
 - PHP 8.1+
 
 ### Install Latest Release
