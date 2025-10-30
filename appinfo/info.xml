@@ -5,16 +5,8 @@
 	<summary>Participatory democracy platform for proposals, debates, petitions, and surveys.</summary>
 	<description>
 		Agora – Participatory democracy, self-hosted!
-
-		All-in-one participation: Citizens can create proposals, debates, petitions, and more – all in a single platform.
-		Engage with ideas: Support or vote on proposals, add comments, and contribute with suggestions.
-		Moderation workflow: Every contribution goes through clear moderation statuses for transparency and trust.
-		Follow the process: Contributions evolve step by step, with visible statuses and participation records.
-		Your data, your control: Unlike external platforms, all discussions, votes, and contributions stay private and under your instance.
-		Future-proof: Built to connect with other Nextcloud apps and services – integrations with Polls, Forms, Deck, and more are on the roadmap.
-		Community-driven: Flexible workflows, new contribution types, and collaborative drafting are planned – get involved!
 	</description>
-	<version>1.5.0-beta</version>
+	<version>1.5.0-rc1</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author>Vincent TRAPPE</author>
 	<documentation>
