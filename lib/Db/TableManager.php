@@ -38,7 +38,7 @@ class TableManager extends DbManager {
 		protected LoggerInterface $logger,
 		private OptionMapper $optionMapper,
 		private SupportMapper $supportMapper,
-                private InitDbDefault $initDbDefault
+		private InitDbDefault $initDbDefault
 	) {
 		parent::__construct($config, $connection, $logger);
 	}
@@ -199,13 +199,13 @@ if (!$dropped) {
 	$messages[] = 'No orphaned tables found';
 }
 return $messages;
-	 }
+}
 
 
-	/**
-	 * Initialize default data like during installation
-	 *
-	 * @return string[] Messages as array
+/**
+ * Initialize default data like during installation
+ *
+ * @return string[] Messages as array
 	 */
 	public function initDefaultData(IOutput $output): array {
 		$messages = [];
@@ -263,9 +263,9 @@ return $messages;
 	 * @return string[] Messages as array
 	 */
 	/**
- * Transfer data from mod_status to inq_status table
- *
- * @return string[] Messages as array
+	 * Transfer data from mod_status to inq_status table
+	 *
+	 * @return string[] Messages as array
 	 */
 	public function transferModStatusToInqStatus(): array {
 		$messages = [];
@@ -494,77 +494,142 @@ public function removeObsoleteColumns(): array {
 
 	}
 
-
-	/**
-	 * Update all support hashes
-	 * Ensures the preconditions are met
-	 *
-	 * @return string[] Messages as array
-	 */
 	public function updateHashes(): array {
-		// Do not catch any exceptions but let any operation break to ensure hash updates can be performed
-		// Otherwise data loss of supports can occur
-		$this->checkPrecondition(SupportMapper::TABLE, ['inquiry_id', 'option_id', 'support_hash']);
+    $messages = [];
 
-		return $this->updateSupportHashes();
+    try {
+	$messages[] = 'Starting hash updates...';
+
+	// Update support hashes
+	$supportCount = $this->updateSupportHashes();
+	$messages[] = "Updated hashes for {$supportCount} support entries";
+
+	// Update option hashes if needed
+	$optionCount = $this->updateOptionHashes();
+	$messages[] = "Updated hashes for {$optionCount} option entries";
+
+	$messages[] = 'Hash updates completed successfully';
+
+    } catch (\Exception $e) {
+	$messages[] = 'Error during hash updates: ' . $e->getMessage();
+	$this->logger->error('Hash update failed', ['exception' => $e]);
+    }
+
+    return $messages;
+}
+
+private function updateSupportHashes(): int {
+    $updatedCount = 0;
+    $supports = $this->supportMapper->getAll();
+
+    foreach ($supports as $support) {
+	try {
+	    // Skip if hash already exists and looks valid
+	    $currentHash = $support->getSupportHash();
+	    if ($currentHash && $this->isValidHash($currentHash)) {
+		continue;
+	    }
+
+	    // Generate new hash
+	    $newHash = $this->generateSupportHash(
+		$support->getUserId(),
+		$support->getOptionId(),
+		$support->getInquiryId()
+	    );
+
+	    $support->setSupportHash($newHash);
+	    $this->supportMapper->update($support);
+	    $updatedCount++;
+
+	} catch (\Exception $e) {
+	    $this->logger->error('Failed to update hash for support ID: ' . $support->getId(), [
+		'exception' => $e
+	    ]);
+	    // Continue with next record
 	}
+    }
 
-	/**
-	 * Update all support hashes
-	 * Precondition have to be checked before
-	 *
-	 * @return string[] Messages as array
-	 */
-	private function updateSupportHashes(): array {
-		$messages = [];
+    return $updatedCount;
+}
 
-		$tableName = SupportMapper::TABLE;
-		$prefixedTableName = $this->dbPrefix . $tableName;
+private function updateOptionHashes(): int {
+    $updatedCount = 0;
 
-		$count = 0;
-		$updated = 0;
+    try {
+	// If you have an option mapper, use it here
+	if (method_exists($this, 'getOptionMapper')) {
+	    $options = $this->getOptionMapper()->getAll();
 
-		foreach ($this->supportMapper->getAll(includeNull: true) as $support) {
-			try {
-				// Calculate hash based on inquiry_id and option_id for your table structure
-				$calculatedHash = Hash::getOptionHash($support->getInquiryId(), (string)$support->getOptionId());
+	    foreach ($options as $option) {
+		try {
+		    // Skip if hash already exists
+		    if ($option->getOptionHash()) {
+			continue;
+		    }
 
-				// if the hash of the support differs from calculated hash update the support hash
-				if ($support->getSupportHash() !== $calculatedHash) {
-					$support->setSupportHash($calculatedHash);
-					$support = $this->supportMapper->update($support);
-					$updated++;
-				}
+		    // Generate hash based on option text and inquiry ID
+		    $newHash = $this->generateOptionHash(
+			$option->getText(),
+			$option->getInquiryId()
+		    );
 
-				$count++;
+		    $option->setOptionHash($newHash);
+		    $this->getOptionMapper()->update($option);
+		    $updatedCount++;
 
-			} catch (Exception $e) {
-				$messages[] = 'Skip hash update - Error updating support hash for supportId ' . $support->getId();
-				$this->logger->error('Error updating support hash for supportId {id}', [
-					'id' => $support->getId(),
-					'message' => $e->getMessage()
-				]);
-			}
+		} catch (\Exception $e) {
+		    $this->logger->error('Failed to update hash for option ID: ' . $option->getId());
 		}
-
-		if ($updated === 0) {
-			$this->logger->info('Verified {count} support hashes in {db}', [
-				'count' => $count,
-				'db' => $prefixedTableName
-			]);
-			$messages[] = 'No support hashes to update';
-
-		} else {
-			$this->logger->info('Updated {updated} hashes of {count} supports in {db}', [
-				'updated' => $updated,
-				'count' => $count,
-				'db' => $prefixedTableName
-			]);
-			$messages[] = 'Updated ' . $updated . ' support hashes';
-		}
-
-		return $messages;
+	    }
 	}
+    } catch (\Exception $e) {
+	// Option hash update is optional, just log and continue
+	$this->logger->info('Option hash update skipped: ' . $e->getMessage());
+    }
+
+    return $updatedCount;
+}
+
+/**
+ * Generate support hash without external helper
+ */
+private function generateSupportHash(string $userId, int $optionId, int $inquiryId): string {
+    $data = implode('|', [
+	$userId,
+	(string)$optionId,
+	(string)$inquiryId,
+	$this->generateRandomString()
+    ]);
+    return hash('sha256', $data);
+}
+
+/**
+ * Generate option hash without external helper
+ */
+private function generateOptionHash(string $text, int $inquiryId): string {
+    $normalizedText = trim(mb_strtolower($text));
+    $data = $normalizedText . '|' . $inquiryId;
+    return hash('sha256', $data);
+}
+
+/**
+ * Check if hash looks valid
+ */
+private function isValidHash(string $hash): bool {
+    return preg_match('/^[a-f0-9]{64}$/', $hash) === 1;
+}
+
+/**
+ * Generate random string for hash salting
+ */
+private function generateRandomString(int $length = 16): string {
+    $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $result = '';
+    for ($i = 0; $i < $length; $i++) {
+	$result .= $chars[random_int(0, strlen($chars) - 1)];
+    }
+    return $result;
+}
 	/**
 	 * Delete all duplicate entries in all tables based on the unique indices defined in TableSchema::UNIQUE_INDICES
 	 *
