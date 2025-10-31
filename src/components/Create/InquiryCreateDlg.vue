@@ -254,7 +254,7 @@ function resetInquiry() {
       <!-- Title -->
       <ConfigBox :name="t('agora', 'Title')">
         <template #icon>
-          <Component :is="InquiryGeneralIcons.BullHorn" />
+          <Component :is="InquiryGeneralIcons.Bullhorn" />
         </template>
         <InputDiv
           :model-value="inquiryTitle"

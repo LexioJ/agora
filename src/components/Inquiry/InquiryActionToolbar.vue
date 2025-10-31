@@ -10,8 +10,6 @@ import { useSessionStore } from '../../stores/session.ts'
 import { t } from '@nextcloud/l10n'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import {
-  getAvailableResponseTypes,
-  getAvailableTransformTypes,
   getInquiryTypeData,
   isInquiryFinalStatus
 } from '../../helpers/modules/InquiryHelper.ts'
@@ -25,14 +23,10 @@ import InquiryItemActions from './InquiryItemActions.vue'
 import { InquiryGeneralIcons } from '../../utils/icons.ts'
 import {
   canViewToggle,
+  getAvailableResponseTypesWithPermissions,
+  getAvailableTransformTypesWithPermissions,
   createPermissionContextForContent,
   ContentType,
-  shouldShowResponseActions,
-  shouldShowTransformationActions,
-  // getFilteredResponseTypes,
-  // getFilteredTransformTypes,
-  canCreateResponseType,
-  canCreateTransformationType
 } from '../../utils/permissions.ts'
 
 // Props
@@ -95,9 +89,9 @@ const inquiryAccess = computed({
 
       const shouldAutoAccept =
         (isOfficial && officialBypassModeration) || !useModeration;
-
+    
       const status = shouldAutoAccept ? 'accepted' : 'pending';
-      await setModerationStatus(status);
+    await setModerationStatus(status);
 
     } catch (error) {
       console.error('Failed to set moderation status:', error);
@@ -132,39 +126,22 @@ const setModerationStatus = async (status: string) => {
   }
 
 }
-
-// First get the raw available types
-const rawResponseTypes = computed(() => {
+// Get available types directly (already filtered by permissions)
+const availableResponseTypes = computed(() => {
   const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-  return getAvailableResponseTypes(props.inquiryStore.type, inquiryTypes)
+  return getAvailableResponseTypesWithPermissions(props.inquiryStore.type, inquiryTypes, context.value)
 })
 
-const rawTransformTypes = computed(() => {
+const availableTransformTypes = computed(() => {
   const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-  return getAvailableTransformTypes(props.inquiryStore.type, inquiryTypes)
+  return getAvailableTransformTypesWithPermissions(props.inquiryStore.type, inquiryTypes, context.value)
 })
 
-// Check if menus should be shown (using permissions)
-const showActionsMenu = computed(() => {
-  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-  return shouldShowResponseActions(props.inquiryStore.type, inquiryTypes, context.value)
-})
+// Check if menus should be shown (just check if any types available)
+const showActionsMenu = computed(() => availableResponseTypes.value.length > 0)
+const showTransformActionsMenu = computed(() => availableTransformTypes.value.length > 0)
 
-const showTransformActionsMenu = computed(() => {
-  const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-  return shouldShowTransformationActions(props.inquiryStore.type, inquiryTypes, context.value)
-})
-
-//  Get filtered types (applying permissions)
-const availableResponseTypes = computed(() => rawResponseTypes.value.filter(type =>
-    canCreateResponseType(type.inquiry_type, context.value)
-  ))
-
-const availableTransformTypes = computed(() => rawTransformTypes.value.filter(type =>
-    canCreateTransformationType(type.inquiry_type, context.value)
-  ))
-
-//  Enriched types for display (using InquiryHelper)
+// Enriched types for display
 const enrichedResponseTypes = computed(() => {
   const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
   return availableResponseTypes.value.map(responseType => {
@@ -188,6 +165,7 @@ const enrichedTransformTypes = computed(() => {
     }
   })
 })
+
 
 const getStatusLabel = (status: string) => {
   const option = statusOptions.find(opt => opt.value === status)

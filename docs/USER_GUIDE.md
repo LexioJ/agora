@@ -1,89 +1,126 @@
-# 📖 Agora – User Guide
+# 📖 Agora – User Guide (v1.5.0)
 
 ## 🔹 Overview
 
-Agora is a participatory democracy application for Nextcloud.  
-It allows users to create, support, and comment on different types of contributions (_inquiries_).
+Agora is a **participatory democracy app for Nextcloud**.  
+It allows communities and organizations to **create, support, and debate** contributions called _inquiries_.  
+
+Agora ensures **transparency, inclusion, and democratic participation**.
 
 ---
 
-## 🔹 Inquiry Types
+## 🔹 Families & Inquiry Types
 
-Users can create or respond with the following types of inquiries:
-
-- **Project** → long-term initiative or plan.
-- **Proposal** → concrete suggestion, can be linked to a project.
-- **Debate** → open discussion, cannot have children.
-- **Petition** → citizen demand, cannot have children.
-- **Grievance** → complaint or issue, can be linked to a project or proposal.
-- **Suggestion** → improvement or alternative idea, can be linked to a grievance or proposal.
-- **Official Response** → response created by an _official_ account, linked to a project, proposal, or grievance.
-
-⚠️ **Debates, petitions, suggestions, and official responses cannot have children.**
+- Each inquiry belongs to a **family**, representing a theme or organizational area.  
+- **Inquiry types and fields are fully configurable** in **Admin Settings**: creation, editing, response rules, and transformation rules.  
+- **Only authorized group members** can modify families and types:  
+  - **Legislative menu** → `Agora Legislative` group.  
+  - **Administrative menu** → `Agora Administrative` group.  
+  - **Collective menu** → `Agora Collective` group.  
+  - Other groups can only access menus/families assigned to them.
 
 ---
 
-## 🔹 Features
+## 🔹 Moderation System
 
-- **Create inquiries** (proposals, debates, petitions, projects, grievances, suggestions).
-- **Reply with a child inquiry** depending on the parent type.
-- **Add comments** to any inquiry.
-- **Support inquiries** (similar to voting or endorsement).
-- **Attach files** to inquiries.
-- **Archive** inquiries (visible but no longer editable).
-- **Soft delete** inquiries (hidden but not permanently erased).
+Agora includes a **configurable moderation system**, which can be enabled or disabled in **Admin Settings**.
+
+- **Use Moderation** → toggles moderation on/off.  
+  - If disabled: all inquiries are automatically accepted.  
+  - If enabled: a **“To Moderate”** menu appears for review.  
+- **Moderators** (`Agora Moderator`) can:  
+  - Approve, reject, or archive an inquiry.  
+  - Change moderation status.  
+- **Officials** (`Agora Official`) can:  
+  - Post official responses.  
+  - Bypass moderation if configured.
 
 ---
 
 ## 🔹 Permissions and Groups
 
-Access and permissions are controlled by **Nextcloud groups**:
+Agora has **six main groups**:
 
-- `Agora Users` → regular users, can create and support inquiries.
-- `Agora Moderators` → can moderate content (archive, delete, update status), depending of the settings in admin configuration.
-- `Agora Officials` → can post official responses, and other rights defined in admin configuration.
+| Group | Role |
+|-------|------|
+| `Agora Users` | Create, support, and comment on inquiries within their families. Mandatory to see attached files and inquries covers|
+| `Agora Moderator` | Moderate inquiries (if moderation is enabled). |
+| `Agora Official` | Publish official responses and may bypass moderation. |
+| `Agora Legislative` | Access to legislative menu/families. Can modify families and types in legislative scope. |
+| `Agora Administrative` | Access to administrative menu/families. Can modify families and types in administrative scope. |
+| `Agora Collective` | Access to collective families. Can manage collective inquiries. |
 
-📂 **Attachments**: only visible to users who belong to one of the Agora groups.
+📂 **Attachments and private inquiries**: visible only to groups with access to the corresponding families.
 
 ---
 
 ## 🔹 Administration
 
-Administrators can configure the following via the **Admin settings** panel:
+Administrators can configure all app features via **Admin Settings**:
 
-- **Locations** → list of geographical locations (e.g., cities, districts).
-- **Categories** → thematic classification (e.g., environment, education, transport).
-- **Moderation statuses** → workflow states (e.g., _collecting_support_, _under_process_, _discussion_open_, _integrated_).
-- **Inquiry permissions** → define which inquiry types can reply to others.
+- **Locations** → cities, districts, zones.  
+- **Categories** → thematic classification (e.g., environment, education).  
+- **Families** → create/edit families, assign allowed groups.  
+- **Inquiry Types** → define types, fields, response rules, and transformations.  
+- **Moderation Settings** → enable/disable moderation and assign groups.  
+- **Permissions** → control access by family or menu for each group.
 
 ---
 
 ## 🔹 Usage
 
-1. **Open Agora** from the Nextcloud app menu.
-2. **Create a new inquiry**:
-   - Click _New Inquiry_ and choose a type.
-   - Provide title, description, location, category.
-   - Save and publish.
-3. **Interact with existing inquiries**:
-   - Add a **comment**.
-   - Add a **support**.
-   - If allowed, create a **child inquiry** (e.g., grievance on a proposal).
-4. **Attach files** (if authorized and group member).
-5. **Moderate** (moderators or officials only):
-   - Change moderation status.
-   - Archive or delete inquiries.
-   - Post official responses (official accounts only).
+1. **Open Agora** from the Nextcloud app menu.  
+2. **Create an inquiry**:  
+   - Click _New Inquiry_.  
+   - Choose the user or group user to oepn.  
+   - Fill in title, description, category, location.  
+   - Add files and cover if needed.  
+   - Publish (moderation applies if enabled).  
+3. **Interact with inquiries**:  
+   - Comment.  
+   - Support.  
+   - Create a **child inquiry** if allowed by the family/type.  
+4. **Moderate** (if member of `Agora Moderator` or `Agora Official`):  
+   - Approve or reject an inquiry.  
+   - Archive or delete inquiries.  
+5. **Legislative/Administrative/Collective administrators**:  
+   - Access menus and features specific to their group.  
+   - Edit families and inquiry types assigned to their menu.
+
+---
+
+## 🔹 Features
+
+- 🧱 **New database architecture**  
+- 🎨 **Improved UX landing page**  
+- 🆔 **Cover ID for each inquiry**  
+- 🧩 **Configurable families and inquiry types**  
+- 💬 **Comments and discussions**  
+- 👍 **Supports/votes for inquiries**  
+- 🔄 **Configurable transformations and responses**  
+- 📎 **File attachments**  
+- 🗃️ **Archiving & Soft Delete**  
+- 🔒 **Data remains private on your Nextcloud server**  
 
 ---
 
 ## 🔹 Practical Examples
 
-- A **user** (`Agora User`) can create a petition to protect local reefs and receive supports.
-- A **moderator** (`Agora Moderator`) can archive an old debate or mark a grievance as under investigation.
-- An **official** (`Agora Official`) can reply to a project with an official response.
-- A **proposal** can be linked to a project (child).
-- A **grievance** can be linked to a project or proposal.
-- A **suggestion** can be linked to a grievance or proposal.
+| Role | Example |
+|------|---------|
+| **User** | Creates a petition “Tree Planting” and receives supports. |
+| **Moderator** | Reviews a debate or archives an old inquiry. |
+| **Official** | Posts an official response to a legislative inquiry. |
+| **Legislative / Administrative / Collective** | Manage families and inquiry types assigned to their menu. |
 
 ---
+
+## 🔹 Roadmap
+
+- Integration with **Forms**, **Deck**, **Polls**, **Cospend**.  
+- Structured debates.  
+- Law project modules: article comments and supports.  
+- Collectives → Polls for consultation/referendum.  
+- Advanced quorums & workflows.  
+- Improved permissions and visibility control.
+

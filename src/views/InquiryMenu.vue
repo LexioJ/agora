@@ -8,6 +8,7 @@ import { computed, ref, watch, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import NcDialog from '@nextcloud/vue/components/NcDialog'
+import { showError } from '@nextcloud/dialogs'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -25,6 +26,7 @@ import {
   type InquiryFamily,
   type InquiryType
 } from '../helpers/modules/InquiryHelper.ts'
+import { accessFamilyMenu } from '../utils/permissions.ts'
 
 const route = useRoute()
 const router = useRouter()
@@ -123,6 +125,7 @@ watch(
 
 // Function to select a family
 function selectFamily(familyType: string) {
+  if (accessFamilyMenu(familyType) ) {
     selectedFamily.value = familyType
     inquiriesStore.setFamilyType(familyType)
   if (viewMode.value === 'view') {
@@ -134,8 +137,9 @@ function selectFamily(familyType: string) {
     router.push({
       name: 'menu',
       query: { viewMode: 'create' }
-    })
-  }
+      })
+    }
+  } else { showError("You are not allowed to access this family") }
 
 }
 

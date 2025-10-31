@@ -400,6 +400,13 @@ const handleImageUpload = async (event) => {
     }
 
 }
+const timeExpirationRelative = computed(() => {
+  if (inquiryStore.configuration.expire) {
+    return moment.unix(inquiryStore.configuration.expire).fromNow()
+  }
+  return t('agora', 'never')
+})
+
 
 // Format date
 const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDateString()

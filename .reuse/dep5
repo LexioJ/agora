@@ -1,0 +1,30 @@
+# Format: https://reuse.software/spec/
+Version: 1.0
+
+# Fichiers générés
+Files: assets/dist/js/*.map
+Copyright: 2024 Votre Organisation
+License: AGPL-3.0-or-later
+
+# Images
+Files: img/*.svg
+Copyright: 2024 Votre Organisation
+License: AGPL-3.0-or-later
+
+Files: screenshots/*
+Copyright: 2024 Votre Organisation
+License: CC-BY-4.0
+
+# Polices KaTeX (vérifiez la licence réelle)
+Files: css/fonts/KaTeX_*
+Copyright: Les auteurs de KaTeX
+License: MIT
+
+# Fichiers de configuration
+Files: .gitignore
+Copyright: 2024 Votre Organisation
+License: CC0-1.0
+
+Files: *.json
+Copyright: 2024 Votre Organisation
+License: CC0-1.0

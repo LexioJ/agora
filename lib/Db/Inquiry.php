@@ -251,6 +251,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'created' => $this->getCreated(),
         'isArchived' => (bool)$this->getArchived(),
         'isExpired' => $this->getExpired(),
+	'archivedDate' => $this->getDeleted(),
         'relevantThreshold' => $this->getRelevantThreshold(),
         'countParticipants' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountParticipants() : 0,
         'countComments' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountComments() : 0,

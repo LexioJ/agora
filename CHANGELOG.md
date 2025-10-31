@@ -5,6 +5,10 @@
 
 # Changelog
 All notable changes to this project will be documented in this file.
+# [1.5.0-rc2] - 2025-10-31
+- FIX permissions rights
+- FIX archiving
+
 # [1.5.0-rc1] - 2025-10-27
 - UPDATE: New database architecture
 - IMPROVEMENT:

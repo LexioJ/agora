@@ -3,6 +3,7 @@
 
 import { useSessionStore } from '../stores/session.ts'
 import { useAppSettingsStore } from '../stores/appSettings.ts'
+import { showError } from '@nextcloud/dialogs'
 import { InquiryType } from '../helpers/index.ts'
 import { t } from '@nextcloud/l10n'
 
@@ -120,8 +121,8 @@ export enum AccessLevel {
  * Inquiry Family types
  */
 export enum InquiryFamily {
-  Legislatif = 'legislatif',
-  Administratif = 'administratif', 
+  Legislatif = 'legislative',
+  Administratif = 'administrative', 
   Collective = 'collective',
   Official = 'official'
 }
@@ -339,7 +340,7 @@ export function accessFamilyMenu(selectedFamilyType: InquiryFamily): boolean {
       hasAccess = currentUser.isCollective || false
       break
     default:
-      hasAccess = false
+      hasAccess = true
   }
 
   if (!hasAccess) {
@@ -789,13 +790,18 @@ export function canLock(context: PermissionContext): boolean {
  * @param context
  */
 export function canCreateResponseType(responseType: string, context: PermissionContext): boolean {
-
   if (responseType === 'official') {
     return canCreateOfficialResponse(context)
   }
-  
+
+  // Check if user has required group membership for this response type
+  if (!hasRequiredGroupForResponseType(responseType)) {
+    return false
+  }
+
   // For regular responses: need edit rights AND accepted moderation
-  const canCreate = canEdit(context) && context.moderationStatus === 'accepted'
+  // const canCreate = canEdit(context) && context.moderationStatus === 'accepted'
+  const canCreate = context.moderationStatus === 'accepted'
   return canCreate
 }
 
@@ -805,8 +811,69 @@ export function canCreateResponseType(responseType: string, context: PermissionC
  * @param context
  */
 export function canCreateTransformationType(transformType: string, context: PermissionContext): boolean {
-  // All transformations use the same permission check
+  // Check if user has required group membership for this transformation type
+  if (!hasRequiredGroupForTransformationType(transformType)) {
+    return false
+  }
+
   return canCreateTransformation(context)
+}
+
+
+/**
+ * Check if user has required group membership for response type
+ * @param responseType
+ */
+function hasRequiredGroupForResponseType(responseType: string): boolean {
+  const sessionStore = useSessionStore()
+  const currentUser = sessionStore.currentUser
+  
+  if (!currentUser) return false
+  
+  // Only check group membership for specific family-related response types
+  const responseTypeRequirements: { [key: string]: boolean } = {
+    'legislative': currentUser.isLegislative || false,
+    'administrative': currentUser.isAdministrative || false, 
+    'collective': currentUser.isCollective || false,
+    'official': currentUser.isOfficial || false
+  }
+  
+  // If this response type requires specific group membership, check it
+  const requiredPermission = responseTypeRequirements[responseType]
+  if (requiredPermission !== undefined) {
+    return requiredPermission
+  }
+  
+  // For all other response types, allow by default
+  return true
+}
+
+/**
+ * Check if user has required group membership for transformation type  
+ * @param transformType
+ */
+function hasRequiredGroupForTransformationType(transformType: string): boolean {
+  const sessionStore = useSessionStore()
+  const currentUser = sessionStore.currentUser
+  
+  if (!currentUser) return false
+  
+  // Only check group membership for specific family-related transformation types
+  const transformTypeRequirements: { [key: string]: boolean } = {
+    'legislative': currentUser.isLegislative || false,
+    'administrative': currentUser.isAdministrative || false,
+    'collective': currentUser.isCollective || false, 
+    'official': currentUser.isOfficial || false
+  }
+  
+  // If this transformation type requires specific group membership, check it
+  const requiredPermission = transformTypeRequirements[transformType]
+  if (requiredPermission !== undefined) {
+    return requiredPermission
+  }
+  
+  // For all other transformation types, allow by default
+  return true
 }
 
 /**
@@ -820,9 +887,37 @@ export function shouldShowResponseActions(
   inquiryTypes: InquiryType[],
   context: PermissionContext
 ): boolean {
-  // You'll need to import getAvailableResponseTypes or recreate the logic here
+  const availableTypes = getAvailableResponseTypesWithPermissions(inquiryType, inquiryTypes, context)
+  return availableTypes.length > 0
+}
+
+/**
+ * Check if transformation actions menu should be shown
+ * @param inquiryType
+ * @param inquiryTypes
+ * @param context
+ */
+export function shouldShowTransformationActions(
+  inquiryType: string, 
+  inquiryTypes: InquiryType[],
+  context: PermissionContext
+): boolean {
+  const availableTypes = getAvailableTransformTypesWithPermissions(inquiryType, inquiryTypes, context)
+  return availableTypes.length > 0
+}
+
+/**
+ * Get available response types with permission filtering
+ * @param inquiryType
+ * @param inquiryTypes
+ * @param context
+ */
+export function getAvailableResponseTypesWithPermissions(
+  inquiryType: string, 
+  inquiryTypes: InquiryType[],
+  context: PermissionContext
+): InquiryType[] {
   const availableTypes = inquiryTypes.filter(type => {
-    // Simplified logic - you might need to adjust this based on your data structure
     const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
     if (!currentType?.allowed_response) return false
     
@@ -837,33 +932,25 @@ export function shouldShowResponseActions(
       allowedResponses = currentType.allowed_response
     }
     
-    return allowedResponses.includes(type.inquiry_type) && type.isOption === 0
+    return allowedResponses.includes(type.inquiry_type) && 
+           type.isOption === 0 &&
+           canCreateResponseType(type.inquiry_type, context)
   })
   
-  if (availableTypes.length === 0) {
-    return false
-  }
-  
-  // Check if user has permission for at least one response type
-  const hasPermission = availableTypes.some(type => 
-    canCreateResponseType(type.inquiry_type, context)
-  )
-  
-  return hasPermission
+  return availableTypes
 }
 
 /**
- * Check if transformation actions menu should be shown
+ * Get available transformation types with permission filtering
  * @param inquiryType
  * @param inquiryTypes
  * @param context
  */
-export function shouldShowTransformationActions(
+export function getAvailableTransformTypesWithPermissions(
   inquiryType: string, 
   inquiryTypes: InquiryType[],
   context: PermissionContext
-): boolean {
-  // Simplified logic - adjust based on your data structure
+): InquiryType[] {
   const availableTypes = inquiryTypes.filter(type => {
     const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
     if (!currentType?.allowed_transformation) return false
@@ -879,16 +966,12 @@ export function shouldShowTransformationActions(
       allowedTransforms = currentType.allowed_transformation
     }
     
-    return allowedTransforms.includes(type.inquiry_type) && type.isOption === 0
+    return allowedTransforms.includes(type.inquiry_type) && 
+           type.isOption === 0 &&
+           canCreateTransformationType(type.inquiry_type, context)
   })
   
-  if (availableTypes.length === 0) {
-    return false
-  }
-  
-  const hasPermission = canCreateTransformation(context)
-  
-  return hasPermission
+  return availableTypes
 }
 
 export function createPermissionContextForContent(

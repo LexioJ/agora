@@ -15,7 +15,6 @@ import { Logger } from '../helpers/index.ts'
 import { PublicAPI, InquiriesAPI } from '../Api/index.ts'
 import { Chunking, createDefault, Event, StatusResults, User, UserType } from '../Types/index.ts'
 
-import { useOptionsStore } from './options.ts'
 import { useInquiriesStore } from './inquiries.ts'
 import { useSessionStore } from './session.ts'
 import { useSubscriptionStore } from './subscription.ts'
@@ -291,7 +290,7 @@ export const useInquiryStore = defineStore('inquiry', {
 
     async resetInquiry(): Promise<void> {
       const inquiriesStore = useInquiriesStore()
-      const optionsStore = useOptionsStore()
+      // const optionsStore = useOptionsStore()
       const sharesStore = useSharesStore()
       const commentsStore = useCommentsStore()
       const supportsStore = useSupportsStore()
@@ -336,7 +335,7 @@ export const useInquiryStore = defineStore('inquiry', {
 
     async load(inquiryId: number | null = null): Promise<void> {
 	    const sessionStore = useSessionStore()
-	    const optionsStore = useOptionsStore()
+	    // const optionsStore = useOptionsStore()
 	    const sharesStore = useSharesStore()
 	    const commentsStore = useCommentsStore()
 	    const attachmentsStore = useAttachmentsStore()
@@ -358,7 +357,7 @@ export const useInquiryStore = defineStore('inquiry', {
 			    return
 		    }
 		    this.$patch(response.data.inquiry)
-		    optionsStore.options = response.data.options
+		    // optionsStore.options = response.data.options
 		    sharesStore.shares = response.data.shares
 		    commentsStore.comments = response.data.comments
 		    subscriptionStore.subscribed = response.data.subscribed

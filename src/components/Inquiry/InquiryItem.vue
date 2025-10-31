@@ -202,7 +202,7 @@ const gridDescription = computed(() => {
       </div>
 
       <RouterLink
-        v-else
+        v-else-if="!inquiry.status.isArchived"
         class="item__title"
         :title="inquiry.description"
         :to="{
@@ -356,7 +356,7 @@ const gridDescription = computed(() => {
 						    <span class="type-label">{{ inquiryTypeData.label }}</span>
 					    </div>
 					    <RouterLink
-							    v-if="!noLink"
+							    v-if="!noLink && !inquiry.status.isArchived"
 							    class="title-link"
 							    :title="inquiry.description"
 							    :to="{
