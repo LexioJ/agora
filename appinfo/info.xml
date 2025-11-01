@@ -6,7 +6,7 @@
 	<description>
 		Agora – Participatory democracy, self-hosted!
 	</description>
-	<version>1.5.0-rc2</version>
+	<version>1.5.0</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author>Vincent TRAPPE</author>
 	<documentation>
@@ -18,13 +18,18 @@
 	<website>https://github.com/vinimoz/agora</website>
 	<bugs>https://github.com/vinimoz/agora/issues</bugs>
 	<repository type="git">https://github.com/vinimoz/agora.git</repository>
-	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/GridView.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Family.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Creation.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/CreateInquiryView.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Grid.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Grid2.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/ListView.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Edit.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/ModerationStatus.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Settings.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/SettingsInquiry.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/SettingInquiryType.png</screenshot>
 	<dependencies>
 		<php min-version="8.1"/>
-		<nextcloud min-version="30" max-version="32"/>
+		<nextcloud min-version="31" max-version="32"/>
 	</dependencies>
 	<background-jobs>
 		<job>OCA\Agora\Cron\NotificationCron</job>

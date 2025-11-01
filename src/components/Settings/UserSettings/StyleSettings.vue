@@ -25,14 +25,5 @@ const preferencesStore = usePreferencesStore()
         {{ t('agora', 'Use alternative styling for the comments sidebar') }}
       </NcCheckboxRadioSwitch>
     </div>
-    <div class="user_settings">
-      <NcCheckboxRadioSwitch
-        v-model="preferencesStore.user.useAlternativeStyling"
-        type="switch"
-        @update:model-value="preferencesStore.write()"
-      >
-        {{ t('agora', 'Use alternative inquiry page styling') }}
-      </NcCheckboxRadioSwitch>
-    </div>
   </div>
 </template>

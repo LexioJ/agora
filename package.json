@@ -1,6 +1,6 @@
 {
   "name": "agora",
-  "version": "1.5.0-rc2",
+  "version": "1.5.0",
   "private": true,
   "description": "Decidim like application, for nextcloud",
   "homepage": "https://github.com/vinimoz/agora#readme",
@@ -11,7 +11,7 @@
     "type": "git",
     "url": "git+https://github.com/vinimoz/agora.git"
   },
-  "license": "AGPL-3.0",
+  "license": "AGPL-3.0-or-later",
   "type": "module",
   "main": "src/main.js",
   "scripts": {
@@ -103,13 +103,8 @@
   },
   "authors": [
     {
-      "name": "Vinzenz Rosenkranz",
-      "email": "vinzenz.rosenkranz@gmail.com",
-      "role": "Developer"
-    },
-    {
-      "name": "Rene Gieling",
-      "email": "github@dartcafe.de",
+      "name": "TRAPPE Vincent",
+      "email": "trappe.vincent@laposte.net",
       "role": "Developer"
     }
   ]

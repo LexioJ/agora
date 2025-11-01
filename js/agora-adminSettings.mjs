@@ -10,13 +10,13 @@
     console.error("vite-plugin-css-injected-by-js", e);
   }
 })();
-const Lo = "agora", Eo = "1.5.0-rc1";
-import { c as y, o as p, f as s, w as g, k as _, l as n, u as e, t, e as M, z as I, _ as j, a as i, K as me, U as F, j as L, H as ge, V as ie, W as se, X as ye, Y as k, F as G, D as z, G as W, Z as X, d as Z, J as ve, y as Q, $ as fe, M as _e, b as ne, n as J, g as K, h as be, p as he } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_3109c301_lang-DJZOxAH0.chunk.mjs";
-import { I as Y, a as Ve, N as O } from "./index-BRl7UlYg.chunk.mjs";
-import { d as x, e as re, g as $e, f as ee, L as te, I as H, s as ae, S as le } from "./NcDashboardWidget-Bu7bWoUK-BMS5f-Wd.chunk.mjs";
-import { F as we } from "./FlexSettings-Cb9z505-.chunk.mjs";
-import { N as C, a as T, b as N } from "./NcRichText-CETsOVBU-D8OHrkEp.chunk.mjs";
-import { _ as Se, a as qe } from "./markdown-DKPgl8QK.chunk.mjs";
+const Lo = "agora", Eo = "1.5.0";
+import { c as y, o as p, f as s, w as g, k as _, l as n, u as e, t, e as M, z as I, _ as j, a as i, K as me, U as F, j as L, H as ge, V as ie, W as se, X as ye, Y as k, F as G, D as z, G as W, Z as X, d as Z, J as ve, y as Q, $ as fe, M as _e, b as ne, n as J, g as K, h as be, p as he } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_3109c301_lang-CfCMm5F1.chunk.mjs";
+import { I as Y, a as Ve, N as O } from "./index-XngDmaLW.chunk.mjs";
+import { d as x, e as re, g as $e, f as ee, L as te, I as H, s as ae, S as le } from "./NcDashboardWidget-Bu7bWoUK-Cw5bxB3X.chunk.mjs";
+import { F as we } from "./FlexSettings-DGA4EcQB.chunk.mjs";
+import { N as C, a as T, b as N } from "./NcRichText-CETsOVBU-KZ5bQI-3.chunk.mjs";
+import { _ as Se, a as qe } from "./markdown-BLjNRC9d.chunk.mjs";
 const ke = { class: "user_settings" }, Ce = { __name: "AdminActivities", setup(h) {
   const l = x();
   return (c, a) => (p(), y("div", ke, [s(e(C), { modelValue: e(l).useActivity, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).useActivity = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Enable the tracking of activities with the Activities app")), 1)]), _: 1 }, 8, ["modelValue"])]));

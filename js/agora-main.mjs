@@ -3383,15 +3383,15 @@ tr.file-picker__row td.row-name[data-v-1f96131b] {
     console.error("vite-plugin-css-injected-by-js", e);
   }
 })();
-const WM = "agora", $M = "1.5.0-rc1";
-import { at as uf, i as df, bb as p2, m as tn, d as ke, j as de, bc as g2, c as K, o as E, l as re, y as Ne, e as H, u as v, w as j, z as ce, b8 as Qe, t as U, G as De, a as P, _ as et, bd as ff, a4 as io, be as m2, V as dn, bf as y2, bg as b2, Z as Ui, C as fr, bh as v2, J as xt, b as bt, aK as Gr, r as Ct, aw as hf, af as D2, bi as x2, bj as pf, f as ae, a7 as la, k as Ae, N as ao, Y as Pe, bk as _2, L as Ii, $ as oo, K as Ge, M as so, B as yn, U as be, bl as w2, a1 as T2, a0 as C2, A as Tl, a2 as k2, a3 as S2, F as rt, D as mt, ae as A2, bm as E2, W as Ln, bn as ca, b5 as Kr, n as Jn, g as lo, P as ua, R as co, b7 as Cn, b9 as Fi, bo as hr, bp as Jr, bq as pr, aL as da, E as fa, br as uo, b6 as U2, bs as gf, bt as I2, bu as F2, bv as M2, bw as fo, bx as N2, by as nn, aZ as gr, bz as rn, S as B2, bA as O2, bB as Wn, bC as kn, bD as mf, as as R2, bE as yf, aQ as Cl, X as q2, bF as L2, bG as W2, bH as $2, h as P2, p as z2 } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_3109c301_lang-DJZOxAH0.chunk.mjs";
-import { a as Ke, p as Zn, h as Mi, L as tt, o as $n, b as Rt, i as ct, j as bf, k as Zr, C as Yr, l as vf, I as We, m as Df, n as xf, q as Yn, r as an, s as Ve, t as yt, v as kl, E as ut, w as Ni, S as st, x as ho, y as Sl, B as _f, z as Qn, A as po, D as V2, F as H2, G as wf, H as Tf, J as j2, K as X2, M as G2, O as Cf, P as K2, Q as go, R as Al, T as Qr, U as Pn, V as J2, W as Sn, X as Z2 } from "./NcDashboardWidget-Bu7bWoUK-BMS5f-Wd.chunk.mjs";
-import { u as ei, _ as Y2, a as Q2 } from "./StyleSettings-1Pg_vWJr.chunk.mjs";
-import { b as Kt, u as e0, c as Bi, d as kf, S as t0, Q as n0, I as ti, e as ha, f as r0, g as El, h as Sf, i as Af, r as Ef, t as Uf, j as i0, O as a0, P as o0, k as If, a as s0, l as l0 } from "./index-BRl7UlYg.chunk.mjs";
-import { g as fn, a as c0, b as u0, c as Ff, d as Mf, e as Oi, i as Nf } from "./InquiryHelper-DAis3FZn.chunk.mjs";
-import { _ as d0, I as f0, b as zn, N as on, d as Bf, e as h0 } from "./NcRichText-CETsOVBU-D8OHrkEp.chunk.mjs";
-import { _ as p0, a as ni } from "./markdown-DKPgl8QK.chunk.mjs";
-import { _ as Ul } from "./AgoraAppIcon.vue_vue_type_script_setup_true_lang-BJx1NZlo.chunk.mjs";
+const WM = "agora", $M = "1.5.0";
+import { at as uf, i as df, bb as p2, m as tn, d as ke, j as de, bc as g2, c as K, o as E, l as re, y as Ne, e as H, u as v, w as j, z as ce, b8 as Qe, t as U, G as De, a as P, _ as et, bd as ff, a4 as io, be as m2, V as dn, bf as y2, bg as b2, Z as Ui, C as fr, bh as v2, J as xt, b as bt, aK as Gr, r as Ct, aw as hf, af as D2, bi as x2, bj as pf, f as ae, a7 as la, k as Ae, N as ao, Y as Pe, bk as _2, L as Ii, $ as oo, K as Ge, M as so, B as yn, U as be, bl as w2, a1 as T2, a0 as C2, A as Tl, a2 as k2, a3 as S2, F as rt, D as mt, ae as A2, bm as E2, W as Ln, bn as ca, b5 as Kr, n as Jn, g as lo, P as ua, R as co, b7 as Cn, b9 as Fi, bo as hr, bp as Jr, bq as pr, aL as da, E as fa, br as uo, b6 as U2, bs as gf, bt as I2, bu as F2, bv as M2, bw as fo, bx as N2, by as nn, aZ as gr, bz as rn, S as B2, bA as O2, bB as Wn, bC as kn, bD as mf, as as R2, bE as yf, aQ as Cl, X as q2, bF as L2, bG as W2, bH as $2, h as P2, p as z2 } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_3109c301_lang-CfCMm5F1.chunk.mjs";
+import { a as Ke, p as Zn, h as Mi, L as tt, o as $n, b as Rt, i as ct, j as bf, k as Zr, C as Yr, l as vf, I as We, m as Df, n as xf, q as Yn, r as an, s as Ve, t as yt, v as kl, E as ut, w as Ni, S as st, x as ho, y as Sl, B as _f, z as Qn, A as po, D as V2, F as H2, G as wf, H as Tf, J as j2, K as X2, M as G2, O as Cf, P as K2, Q as go, R as Al, T as Qr, U as Pn, V as J2, W as Sn, X as Z2 } from "./NcDashboardWidget-Bu7bWoUK-Cw5bxB3X.chunk.mjs";
+import { u as ei, _ as Y2, a as Q2 } from "./StyleSettings-BemkDcmL.chunk.mjs";
+import { b as Kt, u as e0, c as Bi, d as kf, S as t0, Q as n0, I as ti, e as ha, f as r0, g as El, h as Sf, i as Af, r as Ef, t as Uf, j as i0, O as a0, P as o0, k as If, a as s0, l as l0 } from "./index-XngDmaLW.chunk.mjs";
+import { g as fn, a as c0, b as u0, c as Ff, d as Mf, e as Oi, i as Nf } from "./InquiryHelper-D53BjE-N.chunk.mjs";
+import { _ as d0, I as f0, b as zn, N as on, d as Bf, e as h0 } from "./NcRichText-CETsOVBU-KZ5bQI-3.chunk.mjs";
+import { _ as p0, a as ni } from "./markdown-BLjNRC9d.chunk.mjs";
+import { _ as Ul } from "./AgoraAppIcon.vue_vue_type_script_setup_true_lang-CN9UKC7P.chunk.mjs";
 const Of = (n7, e = "", t = 360) => {
   const r = /* @__PURE__ */ new Date();
   r.setTime(r.getTime() + t), document.cookie = `${n7}=${e};expires=${r.toUTCString()};path=/`;
