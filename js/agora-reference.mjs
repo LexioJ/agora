@@ -11,9 +11,9 @@
   }
 })();
 const be = "agora", ge = "1.5.0";
-import { m as I, d as g, B as O, C as R, j as c, I as M, R as D, J as A, e as p, o as i, w as o, r as f, G as w, K as j, f as v, a as d, c as l, z as m, u as n, L as E, M as P, l as u, O as T, _ as $, P as z, k, t as N, y as W, h as G, p as J } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_3109c301_lang-CfCMm5F1.chunk.mjs";
-import { r as K } from "./NcRichText-CETsOVBU-KZ5bQI-3.chunk.mjs";
-import { _ as Z } from "./AgoraAppIcon.vue_vue_type_script_setup_true_lang-CN9UKC7P.chunk.mjs";
+import { m as I, d as g, B as O, C as R, j as c, I as M, R as D, J as A, e as p, o as i, w as o, r as f, G as w, K as j, f as v, a as d, c as l, z as m, u as n, L as E, M as P, l as u, O as T, _ as $, P as z, k, t as N, y as W, h as G, p as J } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_3109c301_lang-CekQlE73.chunk.mjs";
+import { r as K } from "./NcRichText-CETsOVBU-C7FWwkuS.chunk.mjs";
+import { _ as Z } from "./AgoraAppIcon.vue_vue_type_script_setup_true_lang-DJsdTPy6.chunk.mjs";
 
 const F = {};
 function Q(t, r) {
