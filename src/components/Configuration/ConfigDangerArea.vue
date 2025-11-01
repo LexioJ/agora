@@ -28,7 +28,7 @@ const showTransferDialog = ref(false)
  */
 function toggleArchive() {
   try {
-    nquiryStore.toggleArchive({ inquiryId: inquiryStore.id })
+    inquiryStore.toggleArchive({ inquiryId: inquiryStore.id })
   } catch {
   showError(
   t('agora', 'Error {action} inquiry', {
