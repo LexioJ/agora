@@ -624,7 +624,6 @@ OC.L10N.register(
     "Enter the amount of days, inquiries without activity stay in the relevant list:" : "Etkinlik olmayan araştırmaların ilişkili araştırmalar listesinde kalacağı gün sayısını yazın:",
     "The style settings are still experimental!" : "Biçem ayarları henüz deneme aşamasındadır!",
     "Use alternative styling for the comments sidebar" : "Yorumlar kenar çubuğu için alternatif biçemlendirme kullanılsın",
-    "Use alternative inquiry page styling" : "Alternatif araştırma sayfası biçemi kullanılsın",
     "Personal preferences" : "Kişisel tercihler",
     "Styles" : "Biçemler",
     "Share label" : "Paylaşım etiketi",

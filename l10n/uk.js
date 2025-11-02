@@ -621,7 +621,6 @@ OC.L10N.register(
     "Enter the amount of days, inquiries without activity stay in the relevant list:" : "Введіть кількість днів, запити без активності залишаються у відповідному списку:",
     "The style settings are still experimental!" : "Налаштування стилю все ще експериментальні!",
     "Use alternative styling for the comments sidebar" : "Використовуйте альтернативний стиль для бічної панелі коментарів",
-    "Use alternative inquiry page styling" : "Використовуйте альтернативний стиль сторінки запиту",
     "Personal preferences" : "Особисті уподобання",
     "Styles" : "Стилі",
     "Share label" : "Поділитися етикеткою",

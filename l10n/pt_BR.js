@@ -692,7 +692,6 @@ OC.L10N.register(
     "Enter the amount of days, inquiries without activity stay in the relevant list:" : "Insira o número de dias que as consultas sem atividade permanecem na lista de consultas relevantes:",
     "The style settings are still experimental!" : "As configurações de estilo ainda são experimentais! ",
     "Use alternative styling for the comments sidebar" : "Usar um estilo alternativo para a barra lateral de comentários",
-    "Use alternative inquiry page styling" : "Usar estilos alternativos para a página de consulta",
     "Personal preferences" : "Preferências pessoais",
     "Styles" : "Estilos",
     "Share label" : "Rótulo de compartilhamento",

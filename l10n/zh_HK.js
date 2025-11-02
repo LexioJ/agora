@@ -624,7 +624,6 @@ OC.L10N.register(
     "Enter the amount of days, inquiries without activity stay in the relevant list:" : "輸入天數，無活動的查詢將保持在相關列表中：",
     "The style settings are still experimental!" : "風格設定仍處於實驗性階段！",
     "Use alternative styling for the comments sidebar" : "為評論側欄使用代用樣式",
-    "Use alternative inquiry page styling" : "使用替代查詢頁面樣式",
     "Personal preferences" : "個人偏好設定",
     "Styles" : "風格",
     "Share label" : "共享標籤",

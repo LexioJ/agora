@@ -623,7 +623,6 @@ OC.L10N.register(
     "Enter the amount of days, inquiries without activity stay in the relevant list:" : "Enter the amount of days, inquiries without activity stay in the relevant list:",
     "The style settings are still experimental!" : "The style settings are still experimental!",
     "Use alternative styling for the comments sidebar" : "Use alternative styling for the comments sidebar",
-    "Use alternative inquiry page styling" : "Use alternative inquiry page styling",
     "Personal preferences" : "Personal preferences",
     "Styles" : "Styles",
     "Share label" : "Share label",
