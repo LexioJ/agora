@@ -328,6 +328,7 @@ OC.L10N.register(
     "Reopen inquiry" : "Anfrage wieder öffnen",
     "Close inquiry" : "Anfrage schließen",
     "Inquiry closing date" : "Endtermin der Anfrage",
+    "Error {action} inquiry" : "Fehler {action}-Anfrage",
     "Restore inquiry" : "Anfrage wiederherstellen",
     "Archive inquiry" : "Anfrage archivieren",
     "Delete inquiry" : "Anfrage löschen",

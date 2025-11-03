@@ -326,6 +326,7 @@
     "Reopen inquiry" : "Anfrage wieder öffnen",
     "Close inquiry" : "Anfrage schließen",
     "Inquiry closing date" : "Endetermin der Anfrage",
+    "Error {action} inquiry" : "Fehler {action}-Anfrage",
     "Restore inquiry" : "Anfrage wiederherstellen",
     "Archive inquiry" : "Anfrage archivieren",
     "Delete inquiry" : "Anfrage löschen",
