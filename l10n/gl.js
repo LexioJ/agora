@@ -753,8 +753,6 @@ OC.L10N.register(
     "Invitation sent to {displayName} ({emailAddress})" : "Enviouse o convite a {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Produciuse un erro ao enviar o convite a {displayName} ({emailAddress})",
     "Resolve group into individual invitations" : "Dividir o grupo en convites individuais",
-    "Resolving of name is not possible The contacts app is not enabled" : "Non é posíbel resolver o nome A aplicación Contactos non está activada.",
-    "Resolving of name is not possible The circles app is not enabled" : "Non é posíbel resolver o nome A aplicación Círculos non está activada.",
     "Error resolving name" : "Produciuse un erro ao resolver o nome",
     "Grant administrative inquiry access" : "Conceder acceso administrativo á consulta",
     "Withdraw administrative inquiry access" : "Retirar o acceso á administración da consulta",
