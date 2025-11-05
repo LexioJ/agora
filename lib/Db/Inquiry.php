@@ -15,6 +15,7 @@ use OCA\Agora\Helper\Container;
 use OCA\Agora\Model\Settings\AppSettings;
 use OCA\Agora\Model\Settings\SystemSettings;
 use OCA\Agora\UserSession;
+use OCA\Agora\Db\InquiryMisc;
 use OCP\IURLGenerator;
 
 /**
@@ -227,7 +228,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'deleted' => $this->getDeleted(),
         'lastInteraction' => $this->getLastInteraction(),
         'configuration' => $this->getConfigurationArray(),
-        'misc' => $this->getMiscArray(),
+        'miscFields' => $this->getMiscArray(),
         ];
         return $baseData;
     }
@@ -365,6 +366,14 @@ class Inquiry extends EntityWithUser implements JsonSerializable
             return 0;
         }
         return $this->maxDate;
+    }
+
+    public function setMiscFields(array $misc): void
+    {
+        foreach ($misc as $field) {
+            $key = $field->getKey();
+	    $this->miscFields[$key] = $field->getValue() ?? null;
+	}
     }
 
     public function initializeMiscFields(array $fieldsDefinition): void

@@ -13,6 +13,7 @@ import { useCommentsStore } from '../../stores/comments'
 import { useSessionStore } from '../../stores/session'
 import { useAttachmentsStore } from '../../stores/attachments'
 import { BaseEntry, Event } from '../../Types/index.ts'
+import { DateTime } from 'luxon'
 import { t } from '@nextcloud/l10n'
 import {
   getInquiryTypeData,
@@ -400,9 +401,10 @@ const handleImageUpload = async (event) => {
     }
 
 }
+
 const timeExpirationRelative = computed(() => {
   if (inquiryStore.configuration.expire) {
-    return moment.unix(inquiryStore.configuration.expire).fromNow()
+    return DateTime.fromMillis(inquiryStore.configuration.expire * 1000).toRelative()
   }
   return t('agora', 'never')
 })

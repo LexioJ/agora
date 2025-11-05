@@ -1,0 +1,6 @@
+version = 1
+# Licence par défaut
+[reuse]
+default_license = "AGPL-3.0-or-later"
+default_copyright_holder = "Nextcloud contributors"
+

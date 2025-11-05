@@ -5,6 +5,10 @@
 
 # Changelog
 All notable changes to this project will be documented in this file.
+# [1.5.1] - 2025-11-04
+- Add Misc fields features 
+- FIX support hashes when upgrading
+
 # [1.5.0] - 2025-10-31
 - FIX unused settings
 - FIX info.xml

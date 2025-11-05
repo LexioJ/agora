@@ -18,6 +18,7 @@ use OCA\Agora\Service\OptionService;
 use OCA\Agora\Service\InquiryGroupService;
 use OCA\Agora\Service\AttachmentService;
 use OCA\Agora\Service\InquiryService;
+use OCA\Agora\Service\InquiryMiscService;
 use OCA\Agora\Service\InquiryLinkService;
 use OCA\Agora\Service\ShareService;
 use OCA\Agora\Service\SubscriptionService;
@@ -40,6 +41,7 @@ class InquiryController extends BaseController
         private MailService $mailService,
         private OptionService $optionService,
         private InquiryService $inquiryService,
+        private InquiryMiscService $inquiryMiscService,
         private InquiryGroupService $inquiryGroupService,
         private InquiryLinkService $inquiryLinkService,
         private CommentService $commentService,
@@ -143,6 +145,9 @@ class InquiryController extends BaseController
         $timerMicro['start'] = microtime(true);
 
         $inquiry = $this->inquiryService->get($inquiryId, true);
+	$inquiry->setMiscFields($this->inquiryMiscService->findByInquiryId($inquiryId));
+
+        $diffMicro['total'] = microtime(true) - $timerMicro['start'];
         $timerMicro['inquiry'] = microtime(true);
 
         $options = $this->optionService->list($inquiryId);
@@ -162,8 +167,7 @@ class InquiryController extends BaseController
 
         $inquiryLink = $this->inquiryLinkService->findByInquiryId($inquiryId);
         $timerMicro['inquiryLink'] = microtime(true);
-
-        $diffMicro['total'] = microtime(true) - $timerMicro['start'];
+	
         $diffMicro['inquiry'] = $timerMicro['inquiry'] - $timerMicro['start'];
         $diffMicro['options'] = $timerMicro['options'] - $timerMicro['inquiry'];
         $diffMicro['comments'] = $timerMicro['comments'] - $timerMicro['options'];
@@ -192,7 +196,6 @@ class InquiryController extends BaseController
         'shares' => $shares,
         'subscribed' => $subscribed,
         'attachments' => $attachments,
-        'inquiryLink' => $inquiryLink,
         ];
     }
 
@@ -241,80 +244,113 @@ class InquiryController extends BaseController
                 'exception' => $e->getMessage(),
                 'trace' => $e->getTraceAsString()
                 ]
-            );
+	    );
 
-            return new JSONResponse(
-                ['error' => 'SERVER_ERROR', 'message' => 'An unexpected error occurred'],
-                Http::STATUS_INTERNAL_SERVER_ERROR
-            );
-        }
+	    return new JSONResponse(
+		    ['error' => 'SERVER_ERROR', 'message' => 'An unexpected error occurred'],
+		    Http::STATUS_INTERNAL_SERVER_ERROR
+	    );
+	}
     }
 
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'PUT', url: '/inquiry/{inquiryId}/updatemiscfield')]
+    public function updateMiscField(int $inquiryId): JSONResponse
+    {
+	    $data = $this->request->getParams();
+
+	    if (!isset($data['key']) || empty(trim($data['key']))) {
+		    $this->logger->error('Missing or empty key in misc field update', ['data' => $data]);
+		    return new JSONResponse([
+			    'error' => 'Key cannot be null or empty for misc field update'
+		    ], Http::STATUS_BAD_REQUEST);
+	    }
+
+	    try {
+		    $result = $this->inquiryMiscService->setValue($inquiryId, $data['key'], $data['value'] ?? null);
+
+		    return new JSONResponse([
+			    'success' => true,
+			    'misc' => $result
+		    ]);
+
+	    } catch (\Exception $e) {
+		    $this->logger->error('Error updating misc field: ' . $e->getMessage(), [
+			    'inquiryId' => $inquiryId,
+			    'key' => $data['key'],
+			    'value' => $data['value'] ?? null
+		    ]);
+
+		    return new JSONResponse([
+			    'error' => $e->getMessage()
+		    ], Http::STATUS_BAD_REQUEST);
+	    }
+    }
 
     /**
-    * Update inquiry with all possible fields
-    *
-    * @param  int $id Inquiry ID to update
-    * @return JSONResponse<array{inquiry: Inquiry}>
-    */
+     * Update inquiry with all possible fields
+     *
+     * @param  int $id Inquiry ID to update
+     * @return JSONResponse<array{inquiry: Inquiry}>
+     */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/{inquiryId}')]
     public function update(int $inquiryId): JSONResponse
     {
-        try {
-            $rawData = $this->request->getParams('updateData');
-            $data =$rawData;
+	    try {
+		    $rawData = $this->request->getParams('updateData');
+		    $data =$rawData;
 
-            if (empty($data['title'])) {
-                throw new \InvalidArgumentException('Title is required');
-            }
+		    if (empty($data['title'])) {
+			    throw new \InvalidArgumentException('Title is required');
+		    }
 
-            /*if (empty($data['type']) || !in_array($data['type'], Inquiry::INQ_VALID_TYPE::true)) {
-            throw new \InvalidArgumentException('Invalid inquiry type');
-            }*/
+	    /*if (empty($data['type']) || !in_array($data['type'], Inquiry::INQ_VALID_TYPE::true)) {
+	    throw new \InvalidArgumentException('Invalid inquiry type');
+	    }*/
 
-            $dto = new InquiryDto(
-                (string) $data['title'],
-                (string) $data['type'],
-                isset($data['ownedGroup']) ? (string) $data['ownedGroup'] : '',
-                isset($data['description']) ? (string) $data['description'] : '',
-                isset($data['parentId']) ? (int) $data['parentId'] : 0,
-                isset($data['locationId']) ? (int) $data['locationId'] : 0,
-                isset($data['categoryId']) ? (int) $data['categoryId'] : 0,
-                isset($data['miscFields']) && is_array($data['miscFields']) ? $data['miscFields'] : null,
-            );
+		    $dto = new InquiryDto(
+			    (string) $data['title'],
+			    (string) $data['type'],
+			    isset($data['ownedGroup']) ? (string) $data['ownedGroup'] : '',
+			    isset($data['description']) ? (string) $data['description'] : '',
+			    isset($data['parentId']) ? (int) $data['parentId'] : 0,
+			    isset($data['locationId']) ? (int) $data['locationId'] : 0,
+			    isset($data['categoryId']) ? (int) $data['categoryId'] : 0,
+			    isset($data['miscFields']) && is_array($data['miscFields']) ? $data['miscFields'] : null,
+		    );
 
-            // Partial update - only changed fields
-            $updatedInquiry = $this->inquiryService->updatePartial($inquiryId, $dto);
+		    // Partial update - only changed fields
+		    $updatedInquiry = $this->inquiryService->updatePartial($inquiryId, $dto);
 
-            return new JSONResponse(
-                ['inquiry' => $updatedInquiry->jsonSerialize()],
-                Http::STATUS_OK
-            );
+		    return new JSONResponse(
+			    ['inquiry' => $updatedInquiry->jsonSerialize()],
+			    Http::STATUS_OK
+		    );
 
-        } catch (\InvalidArgumentException $e) {
-            return new JSONResponse(
-                ['error' => $e->getMessage()],
-                Http::STATUS_BAD_REQUEST
-            );
-        } catch (\Exception $e) {
-            return new JSONResponse(
-                ['error' => 'Internal server error in update'],
-                Http::STATUS_INTERNAL_SERVER_ERROR
-            );
-        }
+	    } catch (\InvalidArgumentException $e) {
+		    return new JSONResponse(
+			    ['error' => $e->getMessage()],
+			    Http::STATUS_BAD_REQUEST
+		    );
+	    } catch (\Exception $e) {
+		    return new JSONResponse(
+			    ['error' => 'Internal server error in update'],
+			    Http::STATUS_INTERNAL_SERVER_ERROR
+		    );
+	    }
     }
-    
-    
+
+
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/updateconfig/{inquiryId}')]
     public function updateConfiguration(int $inquiryId, array $inquiry): JSONResponse
     {
-        return $this->response(
-            fn () => [
-            'inquiry' => $this->inquiryService->updateConfig($inquiryId, $inquiry),
-            ]
-        );
+	    return $this->response(
+		    fn () => [
+			    'inquiry' => $this->inquiryService->updateConfig($inquiryId, $inquiry),
+		    ]
+	    );
     }
 
     /*
@@ -329,11 +365,11 @@ class InquiryController extends BaseController
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/updatestatus/{inquiryId}/{status}')]
     public function updateInquiryStatus(int $inquiryId, string $status): JSONResponse
     {
-        return $this->response(
-            fn () => [
-            'inquiry' => $this->inquiryService->setInquiryStatus($inquiryId, $status),
-            ]
-        );
+	    return $this->response(
+		    fn () => [
+			    'inquiry' => $this->inquiryService->setInquiryStatus($inquiryId, $status),
+		    ]
+	    );
     }
 
     /*
@@ -348,150 +384,150 @@ class InquiryController extends BaseController
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/submitinquiry/{inquiryId}')]
     public function submitInquiry(int $inquiryId): JSONResponse
     {
-        $rawData = $this->request->getParams('data');
-        return $this->response(
-            fn () => [
-            'inquiry' => $this->inquiryService->applyAction($inquiryId, $rawData['action']),
-            ]
-        );
+	    $rawData = $this->request->getParams('data');
+	    return $this->response(
+		    fn () => [
+			    'inquiry' => $this->inquiryService->applyAction($inquiryId, $rawData['action']),
+		    ]
+	    );
     }
 
 
     /**
      * Lock Anonymous
-  *
+     *
      * @param int $inquiryId Inquiry id
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/{inquiryId}/lockAnonymous')]
     public function lockAnonymous(int $inquiryId): JSONResponse
     {
-        return $this->response(
-            fn () => [
-                'inquiry' => $this->inquiryService->lockAnonymous($inquiryId),
-            ]
-        );
+	    return $this->response(
+		    fn () => [
+			    'inquiry' => $this->inquiryService->lockAnonymous($inquiryId),
+		    ]
+	    );
     }
 
     /**
      * Send confirmation mails
-  *
+     *
      * @param int $inquiryId Inquiry id
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'POST', url: '/inquiry/{inquiryId}/confirmation')]
     public function sendConfirmation(int $inquiryId): JSONResponse
     {
-        return $this->response(
-            fn () => [
-                'confirmations' => $this->mailService->sendConfirmations($inquiryId),
-            ]
-        );
+	    return $this->response(
+		    fn () => [
+			    'confirmations' => $this->mailService->sendConfirmations($inquiryId),
+		    ]
+	    );
     }
 
     /**
      * Switch archived status (move to archive inquiries)
-  *
+     *
      * @param int $inquiryId Inquiry id
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/{inquiryId}/toggleArchive')]
     public function toggleArchive(int $inquiryId): JSONResponse
     {
-        return $this->response(
-            fn () => [
-                'inquiry' => $this->inquiryService->toggleArchiveRecursive($inquiryId)
-            ]
-        );
+	    return $this->response(
+		    fn () => [
+			    'inquiry' => $this->inquiryService->toggleArchiveRecursive($inquiryId)
+		    ]
+	    );
     }
 
     /**
      * Delete inquiry
-  *
+     *
      * @param int $inquiryId Inquiry id
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'DELETE', url: '/inquiry/{inquiryId}')]
     public function delete(int $inquiryId): JSONResponse
     {
-        return $this->response(
-            fn () => [
-                'inquiry' => $this->inquiryService->delete($inquiryId)
-            ]
-        );
+	    return $this->response(
+		    fn () => [
+			    'inquiry' => $this->inquiryService->delete($inquiryId)
+		    ]
+	    );
     }
 
     /**
      * Close inquiry
-  *
+     *
      * @param int $inquiryId Inquiry id
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/{inquiryId}/close')]
     public function close(int $inquiryId): JSONResponse
     {
-        return $this->response(
-            fn () => [
-                'inquiry' => $this->inquiryService->close($inquiryId),
-            ]
-        );
+	    return $this->response(
+		    fn () => [
+			    'inquiry' => $this->inquiryService->close($inquiryId),
+		    ]
+	    );
     }
 
     /**
      * Reopen inquiry
-  *
+     *
      * @param int $inquiryId Inquiry id
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/{inquiryId}/reopen')]
     public function reopen(int $inquiryId): JSONResponse
     {
-        return $this->response(
-            fn () => [
-                'inquiry' => $this->inquiryService->reopen($inquiryId),
-            ]
-        );
+	    return $this->response(
+		    fn () => [
+			    'inquiry' => $this->inquiryService->reopen($inquiryId),
+		    ]
+	    );
     }
 
     /**
      * Clone inquiry
-  *
+     *
      * @param int $inquiryId Inquiry id
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'POST', url: '/inquiry/{inquiryId}/clone')]
     public function clone(int $inquiryId): JSONResponse
     {
-        $rawData = $this->request->getParams('data');
-        return $this->response(
-            fn () => [
-                'inquiry' => $this->cloneInquiry($inquiryId, $rawData['type'])
-            ]
-        );
+	    $rawData = $this->request->getParams('data');
+	    return $this->response(
+		    fn () => [
+			    'inquiry' => $this->cloneInquiry($inquiryId, $rawData['type'])
+		    ]
+	    );
     }
 
     private function cloneInquiry(int $inquiryId): Inquiry
     {
-        $inquiry = $this->inquiryService->clone($inquiryId);
-        $this->optionService->clone($inquiryId, $inquiry->getId());
-        return $this->inquiryService->get($inquiryId);
+	    $inquiry = $this->inquiryService->clone($inquiryId);
+	    $this->optionService->clone($inquiryId, $inquiry->getId());
+	    return $this->inquiryService->get($inquiryId);
     }
 
     /**
      * Transfer inquiries between users
-  *
+     *
      * @param string $sourceUserId User id to transfer inquiries from
      * @param string $targetUserId User id to transfer inquiries to
      */
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/transfer/{sourceUserId}/{targetUserId}')]
     public function transferInquiries(string $sourceUserId, string $targetUserId): JSONResponse
     {
-        return $this->response(fn () => $this->inquiryService->transferInquiries($sourceUserId, $targetUserId));
+	    return $this->response(fn () => $this->inquiryService->transferInquiries($sourceUserId, $targetUserId));
     }
 
     /**
      * Transfer ownership of one inquiry
-  *
+     *
      * @param int    $inquiryId    inquiry to transfer ownership
      * @param string $targetUserId User to transfer inquiries to
      */
@@ -499,19 +535,19 @@ class InquiryController extends BaseController
     #[FrontpageRoute(verb: 'PUT', url: '/inquiry/{inquiryId}/changeowner/{targetUserId}')]
     public function changeOwner(int $inquiryId, string $targetUserId): JSONResponse
     {
-        return $this->response(fn () => $this->inquiryService->transferInquiry($inquiryId, $targetUserId));
+	    return $this->response(fn () => $this->inquiryService->transferInquiry($inquiryId, $targetUserId));
     }
 
     /**
      * Collect email addresses from particitipants
-  *
+     *
      * @param int $inquiryId Inquiry id
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'GET', url: '/inquiry/{inquiryId}/addresses')]
     public function getParticipantsEmailAddresses(int $inquiryId): JSONResponse
     {
-        return $this->response(fn () => $this->inquiryService->getParticipantsEmailAddresses($inquiryId));
+	    return $this->response(fn () => $this->inquiryService->getParticipantsEmailAddresses($inquiryId));
     }
 
 
@@ -522,7 +558,7 @@ class InquiryController extends BaseController
     #[FrontpageRoute(verb: 'POST', url: '/inquiry/get-text-ai')]
     public function getTextAi(string $text): JSONResponse
     {
-        $rawData = $this->request->getParams('data');
-        return $this->response(fn () => $this->aiService->echanceText($rawData));
+	    $rawData = $this->request->getParams('data');
+	    return $this->response(fn () => $this->aiService->echanceText($rawData));
     }
 }

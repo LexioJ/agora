@@ -33,8 +33,9 @@ class SupportMapper extends QBMapperWithUser
 
         $qb->select('*')->from($this->getTableName());
 
-        if (!$includeNull) {
-            $qb->where($qb->expr()->isNotNull(self::TABLE . '.inquiry_id'));
+	if (!$includeNull) {
+	     $qb->where($qb->expr()->isNotNull('inquiry_id'));
+            //$qb->where($qb->expr()->isNotNull(self::TABLE . '.inquiry_id'));
         }
 
         return $this->findEntities($qb);

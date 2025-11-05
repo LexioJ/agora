@@ -3,9 +3,7 @@
 
 import { useSessionStore } from '../stores/session.ts'
 import { useAppSettingsStore } from '../stores/appSettings.ts'
-import { showError } from '@nextcloud/dialogs'
 import { InquiryType } from '../helpers/index.ts'
-import { t } from '@nextcloud/l10n'
 
 export interface InquiryTypeSettings {
   supportInquiry: boolean
@@ -320,7 +318,6 @@ export function accessFamilyMenu(selectedFamilyType: InquiryFamily): boolean {
   const currentUser = sessionStore.currentUser
 
   if (!currentUser) {
-    showError(t('agora', 'Sorry, you are not allowed to access to this family'))
     return false
   }
 
@@ -344,24 +341,12 @@ export function accessFamilyMenu(selectedFamilyType: InquiryFamily): boolean {
   }
 
   if (!hasAccess) {
-    showError(t('agora', 'Sorry, you are not allowed to access to this family'))
+	  return false 
   }
 
   return hasAccess
 }
 
-/**
- * Show error message
- * @param message
- */
-function showError(message: string): void {
-  // You can implement your error display logic here
-  // This could use a notification system, console error, or other method
-  console.error(message)
-  // Example with a notification system:
-  // import { showError } from '@nextcloud/dialogs'
-  // showError(message)
-}
 
 /**
  * Check if user can create official response

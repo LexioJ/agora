@@ -144,6 +144,27 @@ export function getAvailableTransformTypes(inquiryType: string, inquiryTypes: In
     allowedTransforms.includes(type.inquiry_type) && type.isOption === 0
   )
 }
+/**
+ * Get available fields for an inquiry type based on fields
+ * @param inquiryType
+ * @param inquiryTypes
+ */
+export function getAvailableFields(inquiryType: string, inquiryTypes: InquiryType[]): array {
+  const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
+  if (!currentType || !currentType.fields) return []
+  // Parse allowed_response if it's a string (JSON)
+  let fields: string[] = []
+  if (typeof currentType.fields === 'string') {
+    try {
+      fields = JSON.parse(currentType.fields)
+    } catch {
+      fields = []
+    }
+  } else if (Array.isArray(currentType.fields)) {
+    fields = currentType.fields
+  }
+  return fields
+}
 
 /**
  * Get available response types for an inquiry type based on allowed_response field

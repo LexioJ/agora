@@ -1,30 +1,28 @@
-# Format: https://reuse.software/spec/
-Version: 1.0
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: Agora
+Upstream-Contact: Nextcloud contributors
+Source: https://github.com/nextcloud/agora
 
-# Fichiers générés
-Files: assets/dist/js/*.map
-Copyright: 2024 Votre Organisation
+Files: *
+Copyright: 2018-2023 Nextcloud contributors
 License: AGPL-3.0-or-later
 
-# Images
-Files: img/*.svg
-Copyright: 2024 Votre Organisation
+# Ignorer les fichiers générés automatiquement
+Files: *.map
+Copyright: 2018-2023 Nextcloud contributors
 License: AGPL-3.0-or-later
-
-Files: screenshots/*
-Copyright: 2024 Votre Organisation
-License: CC-BY-4.0
-
-# Polices KaTeX (vérifiez la licence réelle)
-Files: css/fonts/KaTeX_*
-Copyright: Les auteurs de KaTeX
-License: MIT
 
 # Fichiers de configuration
-Files: .gitignore
-Copyright: 2024 Votre Organisation
-License: CC0-1.0
+Files: *.json *.toml *.xml *.php *.md *.sql
+Copyright: 2018-2023 Nextcloud contributors
+License: AGPL-3.0-or-later
 
-Files: *.json
-Copyright: 2024 Votre Organisation
-License: CC0-1.0
+# Assets et images
+Files: img/* svg/* css/fonts/* assets/dist/img/*
+Copyright: 2018-2023 Nextcloud contributors
+License: AGPL-3.0-or-later
+
+# Fichiers de traduction
+Files: l10n/* l10nextra/*
+Copyright: 2018-2023 Nextcloud contributors
+License: AGPL-3.0-or-later

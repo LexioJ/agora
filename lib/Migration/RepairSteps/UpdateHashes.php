@@ -22,7 +22,7 @@ class UpdateHashes implements IRepairStep {
 	}
 
 	public function getName() {
-		return 'Agora - Update or create hashes for votes and options';
+		return 'Agora - Update or create hashes for supports and options';
 	}
 
 	public function run(IOutput $output): void {

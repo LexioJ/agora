@@ -3,10 +3,25 @@
 	<id>agora</id>
 	<name>Agora</name>
 	<summary>Participatory democracy platform for proposals, debates, petitions, and surveys.</summary>
-	<description>
-		Agora – Participatory democracy, self-hosted!
-	</description>
-	<version>1.5.0</version>
+	<description><![CDATA[
+		**Agora** is a **Nextcloud app for participatory democracy**, inspired by [Decidim](https://decidim.org) and built on [Nextcloud Polls](https://github.com/nextcloud/polls).
+		It enables communities and organizations to collaborate on **proposals, debates, petitions, and projects** in a transparent and structured way.
+
+		### ✨ Key Features
+		- 💬 Comments and discussions
+		- 👍 Supports (likes/upvotes)
+		- 🧩 Custom inquiry families and types
+		- 🧾 Multiple inquiry formats (proposals, debates, petitions, projects…)
+		- 📂 Categorization and filtering by family or location
+		- 🧱 Scalable architecture and modern UX
+		- 🔒 Secure and private — all data stays on your Nextcloud server
+
+		### 🧭 Coming Next
+		- 🗣 Structured debates and multi-thread replies
+		- 🏛 Collectives and referendums
+		- 🔗 Integration with Forms, Polls, Deck, and more
+		]]></description>
+	<version>1.5.1</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author>Vincent TRAPPE</author>
 	<documentation>

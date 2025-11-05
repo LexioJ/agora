@@ -16,6 +16,7 @@ import { InquiryGeneralIcons } from '../utils/icons.ts'
 import {
   canComment,
   canShare,
+  canEdit,
   createPermissionContextForContent,
   ContentType,
 } from '../utils/permissions.ts'
@@ -23,6 +24,7 @@ import {
   SideBarTabComments,
   SideBarTabShare,
   SideBarTabAttachments,
+  SideBarTabMisc,
 } from '../components/SideBar/index.js'
 import { useInquiryStore } from '../stores/inquiry.ts'
 import { useSessionStore } from '../stores/session.ts'
@@ -112,11 +114,23 @@ function closeSideBar() {
         </template>
         <SideBarTabAttachments />
       </NcAppSidebarTab>
+      
+      <NcAppSidebarTab
+        id="misc"
+        :order="3"
+        :name="t('agora', 'Settings')"
+      >
+        <template #icon>
+	   <component :is="InquiryGeneralIcons.Map" />
+        </template>
+      <SideBarTabMisc :is-readonly="!canEdit(context)" />
+      </NcAppSidebarTab>
+
 
       <NcAppSidebarTab
         v-if="canShare(context)"
         id="sharing"
-        :order="3"
+        :order="4"
         :name="t('agora', 'Sharing')"
       >
         <template #icon>

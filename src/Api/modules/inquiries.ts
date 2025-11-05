@@ -318,17 +318,31 @@ const inquiries = {
     })
   },
 
+updateMiscField(inquiryId: number, updateData: { key: string, value: string }): Promise<AxiosResponse<{ miscField: string }>> {
+    if (!updateData.key || updateData.key.trim() === '') {
+        throw new Error('Key cannot be null or empty for misc field update');
+    }
+
+    return httpInstance.request({
+        method: 'PUT',
+        data: updateData,
+        url: `inquiry/${inquiryId}/updatemiscfield`,
+        cancelToken: cancelTokenHandlerObject[this.updateMiscField.name].handleRequestCancellation().token,
+    })
+},
+
+
   enhanceText(text: string): Promise<AxiosResponse<{ text: string }>> {
-  return httpInstance.request({
-    method: 'POST',
-    url: 'inquiry/get-text-ai',
-    data: { text },
-    cancelToken:
-      cancelTokenHandlerObject[this.enhanceText.name]
-        .handleRequestCancellation()
-        .token,
-  })
-}
+	  return httpInstance.request({
+		  method: 'POST',
+		  url: 'inquiry/get-text-ai',
+		  data: { text },
+		  cancelToken:
+			  cancelTokenHandlerObject[this.enhanceText.name]
+		  .handleRequestCancellation()
+		  .token,
+	  })
+  }
 
 
 }

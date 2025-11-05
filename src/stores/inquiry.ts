@@ -100,6 +100,7 @@ export type Inquiry = {
   descriptionSafe: string
   configuration: InquiryConfiguration
   parentId: number
+  miscFields: array
   locationId: number
   categoryId: number
   owner: User
@@ -130,6 +131,7 @@ export const useInquiryStore = defineStore('inquiry', {
     locationId: 0,
     categoryId: 0,
     childs: [],
+    miscFields: [],
     configuration: {
       description: '',
       access: 'private',
@@ -458,6 +460,22 @@ export const useInquiryStore = defineStore('inquiry', {
 		    }
 	    }, 500)
 	    debouncedLoad()
+    },
+
+    async updateMiscField(key: string,val: string): Promise<void> {
+	    try {
+		     await InquiriesAPI.updateMiscField(this.id, { key, value: val })
+		     this.miscFields[key]=val
+	    } catch (error) {
+		    if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+			    return
+		    }
+		    Logger.error('Error setting inquiry status:', {
+			    error,
+			    state: this.$state,
+		    })
+		    throw error
+	    }
     },
 
     async setInquiryStatus(inquiryStatus: string): Promise<void> {
