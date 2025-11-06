@@ -1,18 +1,34 @@
-# SPDX-FileCopyrightText: 2024 Nextcloud contributors
-# SPDX-License-Identifier: AGPL-3.0-or-later
 version = 1
-SPDX-PackageName = "agora"
-SPDX-PackageSupplier = "Nextcloud <info@vinimoz.com>"
-SPDX-PackageDownloadLocation = "https://github.com/vinimoz/agora"
+SPDX-PackageName = "Agora"
+SPDX-PackageSupplier = "Nextcloud contributors"
+SPDX-PackageDownloadLocation = "https://github.com/nextcloud/agora"
 
 [[annotations]]
-path = [".gitattributes", ".github/CODEOWNERS", "package-lock.json", "package.json", "composer.json", "composer.lock", "**/composer.json", "**/composer.lock", ".l10nignore", "cypress/tsconfig.json", "vendor-bin/**/composer.json", "vendor-bin/**/composer.lock", ".tx/config", "tsconfig.json", "js/vendor.LICENSE.txt", "krankerl.toml", ".npmignore", ".eslintrc.json", ".tx/backport"]
+path = "**"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "none"
-SPDX-License-Identifier = "CC0-1.0"
+SPDX-FileCopyrightText = "2018-2023 Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
 
 [[annotations]]
-path = ["screenshots/Edit.png", "screenshots/Creation.png", "screenshots/Grid.png", "screenshots/ListView.png"]
+path = "**.map"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "Nextcloud contributors"
-SPDX-License-Identifier = "CC0-1.0"
+SPDX-FileCopyrightText = "2018-2023 Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["**.json", "**.toml", "**.xml", "**.php", "**.md", "**.sql"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018-2023 Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["img/**", "svg/**", "css/fonts/**", "assets/dist/img/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018-2023 Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
+
+[[annotations]]
+path = ["l10n/**", "l10nextra/**"]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018-2023 Nextcloud contributors"
+SPDX-License-Identifier = "AGPL-3.0-or-later"
