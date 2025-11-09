@@ -3,274 +3,4101 @@
   try {
     if (typeof document != "undefined") {
       var elementStyle = document.createElement("style");
-      elementStyle.appendChild(document.createTextNode(".disclaimer_group {\n  display: flex;\n  align-items: center;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.disclaimer_group .grow_title {\n  display: flex;\n  flex-grow: 1;\n  margin-inline-end: 12px;\n}\n.disclaimer_group .grow_title .material-design-icon {\n  margin-inline-start: 4px;\n}.user_settings {\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.user_settings .job_buttons_section {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 20px;\n  gap: 12px;\n}\n.user_settings .job_hints p {\n  margin-bottom: 0.5em;\n}\n.families-manager[data-v-1c01ab15] {\n  padding: 20px;\n}\n.families-list[data-v-1c01ab15] {\n  margin-bottom: 30px;\n}\n.families-list h3[data-v-1c01ab15] {\n  margin-bottom: 15px;\n  color: var(--color-text-lighter);\n}\n.family-item[data-v-1c01ab15] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  margin-bottom: 10px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n}\n.family-item[data-v-1c01ab15]:hover {\n  background: var(--color-background-hover);\n}\n.family-content[data-v-1c01ab15] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  flex: 1;\n}\n.family-icon[data-v-1c01ab15] {\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 10px;\n  font-size: 24px;\n  flex-shrink: 0;\n}\n.family-info h4[data-v-1c01ab15] {\n  margin: 0 0 5px 0;\n  color: var(--color-text-light);\n}\n.family-type[data-v-1c01ab15] {\n  margin: 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 0.9em;\n}\n.family-description[data-v-1c01ab15] {\n  margin: 5px 0 0 0;\n  color: var(--color-text-lighter);\n}\n.family-stats[data-v-1c01ab15] {\n  margin-top: 8px;\n}\n.types-count[data-v-1c01ab15] {\n  font-size: 0.8em;\n  color: var(--color-primary);\n  background: var(--color-primary-element-light);\n  padding: 2px 8px;\n  border-radius: 12px;\n}\n.family-actions[data-v-1c01ab15] {\n  display: flex;\n  gap: 10px;\n}\n.add-family-form[data-v-1c01ab15] {\n  padding: 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-1c01ab15] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.form-row[data-v-1c01ab15] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 15px;\n  align-items: start;\n}\n.form-field[data-v-1c01ab15] {\n  margin: 0;\n}\n.full-width[data-v-1c01ab15] {\n  grid-column: 1 / -1;\n}\n.form-actions[data-v-1c01ab15] {\n  display: flex;\n  justify-content: flex-start;\n}\n.modal-overlay[data-v-1c01ab15] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-1c01ab15] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 800px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-content.large-modal[data-v-1c01ab15] {\n  width: 900px;\n  max-width: 95vw;\n}\n.modal-actions[data-v-1c01ab15] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 20px;\n}\n\n.types-manager[data-v-f2729c43] {\n  padding: 20px;\n}\n.header[data-v-f2729c43] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-f2729c43] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.types-list[data-v-f2729c43] {\n  margin-bottom: 30px;\n}\n.list-description[data-v-f2729c43] {\n  color: var(--color-text-lighter);\n  margin-bottom: 20px;\n}\n.types-grid[data-v-f2729c43] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 20px;\n}\n.type-card[data-v-f2729c43] {\n  background: var(--color-background-dark);\n  border-radius: 12px;\n  padding: 20px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.type-card[data-v-f2729c43]:hover {\n  background: var(--color-background-hover);\n  border-color: var(--color-primary);\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.type-card-content[data-v-f2729c43] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n  margin-bottom: 15px;\n}\n.type-icon[data-v-f2729c43] {\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 10px;\n  font-size: 24px;\n  flex-shrink: 0;\n}\n.type-info[data-v-f2729c43] {\n  flex: 1;\n}\n.type-info h4[data-v-f2729c43] {\n  margin: 0 0 8px 0;\n  color: var(--color-text-light);\n  font-size: 1.1em;\n}\n.type-key[data-v-f2729c43] {\n  margin: 0 0 10px 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 0.9em;\n  background: var(--color-background-darker);\n  padding: 4px 8px;\n  border-radius: 4px;\n  display: inline-block;\n}\n.type-description[data-v-f2729c43] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n  line-height: 1.4;\n}\n.type-badge[data-v-f2729c43] {\n  display: inline-block;\n  padding: 4px 10px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.type-badge.option[data-v-f2729c43] {\n  background: var(--color-warning);\n  color: white;\n}\n.type-actions[data-v-f2729c43] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n.configure-btn[data-v-f2729c43] {\n  width: 100%;\n}\n.secondary-actions[data-v-f2729c43] {\n  display: flex;\n  gap: 8px;\n}\n.edit-btn[data-v-f2729c43], .delete-btn[data-v-f2729c43] {\n  flex: 1;\n}\n.empty-state[data-v-f2729c43] {\n  text-align: center;\n  padding: 60px 40px;\n  color: var(--color-text-lighter);\n  background: var(--color-background-dark);\n  border-radius: 12px;\n  grid-column: 1 / -1;\n}\n.empty-state p[data-v-f2729c43] {\n  margin: 0;\n  font-size: 1.1em;\n}\n.add-type-form[data-v-f2729c43] {\n  padding: 25px;\n  background: var(--color-background-dark);\n  border-radius: 12px;\n}\n.form-grid[data-v-f2729c43] {\n  display: flex;\n  flex-direction: column;\n  gap: 25px;\n}\n.form-row[data-v-f2729c43] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.form-field[data-v-f2729c43] {\n  margin: 0;\n}\n.full-width[data-v-f2729c43] {\n  grid-column: 1 / -1;\n}\n.checkbox-field[data-v-f2729c43] {\n  grid-column: 1 / -1;\n  padding: 15px;\n  background: var(--color-background-darker);\n  border-radius: 8px;\n}\n.field-description[data-v-f2729c43] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.form-actions[data-v-f2729c43] {\n  display: flex;\n  justify-content: flex-start;\n}\n.modal-overlay[data-v-f2729c43] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-f2729c43] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 900px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-content.large-modal[data-v-f2729c43] {\n  width: 1000px;\n  max-width: 95vw;\n}\n.modal-actions[data-v-f2729c43] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 15px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n\n.type-rights[data-v-dd030fa5] {\n  padding: 20px;\n}\n.header[data-v-dd030fa5] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-dd030fa5] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.description[data-v-dd030fa5] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.settings-container[data-v-dd030fa5] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.settings-list[data-v-dd030fa5] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.setting-item[data-v-dd030fa5] {\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n}\n.setting-item label[data-v-dd030fa5] {\n  display: block;\n  margin-bottom: 8px;\n  font-weight: bold;\n}\n.editor-select[data-v-dd030fa5] {\n  max-width: 250px;\n  margin-top: 8px;\n}\n.setting-description[data-v-dd030fa5] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n.no-selection[data-v-dd030fa5] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n\n.type-status[data-v-b4a5ff9a] {\n  padding: 20px;\n}\n.header[data-v-b4a5ff9a] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-b4a5ff9a] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.description[data-v-b4a5ff9a] {\n  margin-bottom: 25px;\n  color: var(--color-text-lighter);\n}\n.status-management[data-v-b4a5ff9a] {\n  max-width: 1000px;\n}\n.status-list[data-v-b4a5ff9a] {\n  margin-bottom: 30px;\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.empty-state[data-v-b4a5ff9a] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n.status-items[data-v-b4a5ff9a] {\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n}\n.status-item[data-v-b4a5ff9a] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n  border-left: 4px solid var(--color-primary);\n}\n.status-content[data-v-b4a5ff9a] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n}\n.status-icon[data-v-b4a5ff9a] {\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--color-primary);\n  color: white;\n  border-radius: 8px;\n  flex-shrink: 0;\n}\n.status-icon[data-v-b4a5ff9a] svg {\n  fill: white;\n}\n.status-info h4[data-v-b4a5ff9a] {\n  margin: 0 0 5px 0;\n  font-weight: 600;\n}\n.status-key[data-v-b4a5ff9a] {\n  margin: 0 0 8px 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  font-family: monospace;\n}\n.status-description[data-v-b4a5ff9a] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n}\n.status-properties[data-v-b4a5ff9a] {\n  display: flex;\n  gap: 10px;\n}\n.status-badge[data-v-b4a5ff9a] {\n  padding: 4px 8px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.status-badge.final[data-v-b4a5ff9a] {\n  background-color: var(--color-success);\n  color: white;\n}\n.status-badge.non-final[data-v-b4a5ff9a] {\n  background-color: var(--color-warning);\n  color: white;\n}\n.status-actions[data-v-b4a5ff9a] {\n  display: flex;\n  gap: 8px;\n  flex-wrap: wrap;\n}\n.add-status-form[data-v-b4a5ff9a] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-b4a5ff9a] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.checkbox-field[data-v-b4a5ff9a] {\n  grid-column: span 2;\n}\n.field-description[data-v-b4a5ff9a] {\n  margin: 5px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.modal-overlay[data-v-b4a5ff9a] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 1000;\n}\n.modal-content[data-v-b4a5ff9a] {\n  background-color: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 600px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-actions[data-v-b4a5ff9a] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n.no-selection[data-v-b4a5ff9a] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n@media (max-width: 768px) {\n.form-grid[data-v-b4a5ff9a] {\n    grid-template-columns: 1fr;\n}\n.status-item[data-v-b4a5ff9a] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 15px;\n}\n.status-actions[data-v-b4a5ff9a] {\n    justify-content: center;\n}\n}\n\n.type-settings-modal[data-v-27227009] {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  min-height: 600px;\n  width: 100%;\n}\n.modal-header[data-v-27227009] {\n  padding: 25px;\n  border-bottom: 1px solid var(--color-border);\n  background: var(--color-background-dark);\n  flex-shrink: 0;\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n}\n.type-info[data-v-27227009] {\n  display: flex;\n  align-items: center;\n  gap: 20px;\n}\n.type-icon[data-v-27227009] {\n  width: 60px;\n  height: 60px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 12px;\n  font-size: 28px;\n  flex-shrink: 0;\n}\n.type-details h3[data-v-27227009] {\n  margin: 0 0 8px 0;\n  color: var(--color-text-light);\n  font-size: 1.5em;\n  font-weight: 600;\n}\n.type-key[data-v-27227009] {\n  margin: 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 1em;\n  background: var(--color-background-darker);\n  padding: 4px 8px;\n  border-radius: 4px;\n  display: inline-block;\n}\n.close-button[data-v-27227009] {\n  background: var(--color-background-darker);\n  border: 1px solid var(--color-border);\n  padding: 8px 16px;\n  border-radius: 4px;\n  cursor: pointer;\n  color: var(--color-text-light);\n}\n.close-button[data-v-27227009]:hover {\n  background: var(--color-background-hover);\n}\n\n/* Menu simple */\n.simple-menu[data-v-27227009] {\n  display: flex;\n  background: var(--color-background-dark);\n  border-bottom: 1px solid var(--color-border);\n  padding: 0;\n  flex-shrink: 0;\n}\n.menu-item[data-v-27227009] {\n  flex: 1;\n  background: none;\n  border: none;\n  padding: 16px 20px;\n  color: var(--color-text-lighter);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  border-bottom: 3px solid transparent;\n  font-size: 1em;\n  font-weight: 500;\n}\n.menu-item[data-v-27227009]:hover {\n  background: var(--color-background-hover);\n  color: var(--color-text-light);\n}\n.menu-item.active[data-v-27227009] {\n  color: var(--color-primary);\n  border-bottom-color: var(--color-primary);\n  background: var(--color-background-darker);\n}\n\n/* Contenu */\n.settings-content[data-v-27227009] {\n  flex: 1;\n  padding: 30px;\n  overflow-y: auto;\n  background: var(--color-main-background);\n}\n\n.admin-settings-container[data-v-aa6bd186] {\n  min-height: 600px;\n  background: var(--color-main-background);\n  padding: 20px;\n}\n.breadcrumb[data-v-aa6bd186] {\n  margin-bottom: 25px;\n  padding: 15px 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  font-size: 1em;\n}\n.breadcrumb-item[data-v-aa6bd186] {\n  display: inline-flex;\n  align-items: center;\n}\n.breadcrumb-link[data-v-aa6bd186] {\n  background: none;\n  border: none;\n  color: var(--color-primary);\n  cursor: pointer;\n  padding: 4px 8px;\n  border-radius: 4px;\n  transition: background-color 0.2s ease;\n}\n.breadcrumb-link[data-v-aa6bd186]:hover {\n  background: var(--color-background-hover);\n}\n.breadcrumb-current[data-v-aa6bd186] {\n  color: var(--color-text-light);\n  font-weight: 600;\n  padding: 4px 8px;\n}\n.breadcrumb-separator[data-v-aa6bd186] {\n  margin: 0 10px;\n  color: var(--color-text-lighter);\n}\n.settings-content[data-v-aa6bd186] {\n  flex: 1;\n  overflow-y: auto;\n}\n[data-v-aa6bd186] .large-modal {\n  --width: 95vw;\n  --height: 90vh;\n  max-width: 1200px;\n  max-height: 800px;\n}\n[data-v-aa6bd186] .large-modal .modal-container {\n  width: 95vw;\n  height: 90vh;\n  max-width: 1200px;\n  max-height: 800px;\n}\n\n.tree-item[data-v-94b6fd9c] {\n  margin-bottom: 8px;\n}\n.tree-node[data-v-94b6fd9c] {\n  display: flex;\n  align-items: center;\n  padding: 8px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.tree-label[data-v-94b6fd9c] {\n  flex-grow: 1;\n  font-weight: bold;\n}\n.tree-actions[data-v-94b6fd9c] {\n  display: flex;\n  gap: 8px;\n}\n.tree-children[data-v-94b6fd9c] {\n  margin-left: 20px;\n  margin-top: 8px;\n}\n\n.category-location-manager[data-v-f3793a92] {\n  padding: 0;\n  max-width: 1200px;\n  margin: 0 auto;\n  height: auto;\n  min-height: 80vh;\n  background: var(--color-main-background);\n  border-radius: 12px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n\n/* Menu simple appliqué aux tabs - Style forcé */\n.tabs[data-v-f3793a92] {\n  display: flex;\n  background: var(--color-background-dark);\n  border-bottom: 1px solid var(--color-border);\n  padding: 0;\n  flex-shrink: 0;\n  border-radius: 12px 12px 0 0;\n}\n.tabs[data-v-f3793a92] .button-vue {\n  flex: 1 !important;\n  background: none !important;\n  border: none !important;\n  padding: 16px 20px !important;\n  color: var(--color-text-lighter) !important;\n  cursor: pointer;\n  transition: all 0.2s ease !important;\n  border-bottom: 3px solid transparent !important;\n  font-size: 1em !important;\n  font-weight: 500 !important;\n  margin: 0 !important;\n  border-radius: 0 !important;\n  box-shadow: none !important;\n  min-height: auto !important;\n  display: flex !important;\n  align-items: center !important;\n  justify-content: center !important;\n}\n.tabs[data-v-f3793a92] .button-vue:hover {\n  background: var(--color-background-hover) !important;\n  color: var(--color-text-light) !important;\n}\n.tabs[data-v-f3793a92] .button-vue.active {\n  color: var(--color-primary) !important;\n  border-bottom-color: var(--color-primary) !important;\n  background: var(--color-background-darker) !important;\n}\n.tabs[data-v-f3793a92] .button-vue--vue-secondary {\n  --button-background-hover: var(--color-background-hover) !important;\n  --button-color-hover: var(--color-text-light) !important;\n}\n.tabs[data-v-f3793a92] .button-vue--vue-secondary.active {\n  --button-background: var(--color-background-darker) !important;\n  --button-color: var(--color-primary) !important;\n  --button-border-color: transparent !important;\n}\n.tab-content[data-v-f3793a92] {\n  margin-top: 0;\n  background: var(--color-main-background);\n  border-radius: 0 0 12px 12px;\n  padding: 30px;\n  height: auto;\n  overflow: visible;\n  flex: 1;\n}\n.add-form[data-v-f3793a92] {\n  margin-bottom: 30px;\n  padding: 25px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  border: 1px solid var(--color-border);\n}\n.add-form h3[data-v-f3793a92] {\n  margin: 0 0 20px 0;\n  color: var(--color-text);\n  font-weight: 600;\n  font-size: 18px;\n}\n.form-fields[data-v-f3793a92] {\n  display: flex;\n  gap: 15px;\n  align-items: end;\n  flex-wrap: wrap;\n}\n.form-fields .nc-input-field[data-v-f3793a92],\n.form-fields .nc-select[data-v-f3793a92] {\n  flex: 1;\n  min-width: 200px;\n}\n.tree-view[data-v-f3793a92] {\n  margin-top: 30px;\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n.tree-view h3[data-v-f3793a92] {\n  margin: 0 0 20px 0;\n  color: var(--color-text);\n  font-weight: 600;\n  font-size: 18px;\n  padding-bottom: 10px;\n  border-bottom: 2px solid var(--color-border);\n}\n.tree-container[data-v-f3793a92] {\n  margin-top: 15px;\n  border: 1px solid var(--color-border);\n  border-radius: 8px;\n  padding: 20px;\n  background: var(--color-background-dark);\n  max-height: 500px;\n  overflow-y: auto;\n  flex: 1;\n}\n.loading[data-v-f3793a92],\n.error[data-v-f3793a92] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n  font-size: 16px;\n}\n.error[data-v-f3793a92] {\n  color: var(--color-error);\n  background: var(--color-error-background);\n  border: 1px solid var(--color-error-border);\n  border-radius: 8px;\n  margin: 20px 0;\n}\n.modal[data-v-f3793a92] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.6);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n  backdrop-filter: blur(4px);\n}\n.modal-content[data-v-f3793a92] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  min-width: 400px;\n  max-width: 500px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);\n  border: 1px solid var(--color-border);\n  max-height: 80vh;\n  overflow-y: auto;\n}\n.modal-content h3[data-v-f3793a92] {\n  margin: 0 0 20px 0;\n  color: var(--color-text);\n  font-weight: 600;\n  font-size: 20px;\n}\n.modal-actions[data-v-f3793a92] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 12px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n.category-location-manager > div[data-v-f3793a92]:last-child {\n  max-height: calc(100vh - 100px);\n  overflow-y: auto;\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n\n/* Responsive design */\n@media (max-width: 768px) {\n.category-location-manager[data-v-f3793a92] {\n    padding: 0;\n    min-height: auto;\n    margin: 10px;\n}\n.tabs[data-v-f3793a92] {\n    flex-direction: column;\n    gap: 0;\n}\n.tabs[data-v-f3793a92] .button-vue {\n    padding: 16px 20px !important;\n    border-bottom: 2px solid transparent !important;\n    border-right: 3px solid transparent !important;\n    text-align: left !important;\n}\n.tabs[data-v-f3793a92] .button-vue.active {\n    border-bottom-color: transparent !important;\n    border-right-color: var(--color-primary) !important;\n}\n.tab-content[data-v-f3793a92] {\n    padding: 20px;\n}\n.form-fields[data-v-f3793a92] {\n    flex-direction: column;\n    align-items: stretch;\n}\n.form-fields .nc-input-field[data-v-f3793a92],\n  .form-fields .nc-select[data-v-f3793a92] {\n    min-width: auto;\n}\n.modal-content[data-v-f3793a92] {\n    min-width: auto;\n    margin: 20px;\n    padding: 20px;\n    max-height: 70vh;\n}\n.tree-container[data-v-f3793a92] {\n    max-height: 400px;\n}\n}\n.tab-content[data-v-f3793a92] {\n  animation: fadeIn-f3793a92 0.3s ease-in-out;\n}\n@keyframes fadeIn-f3793a92 {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.category-location-manager[data-v-f3793a92] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.category-location-manager > div[data-v-f3793a92]:last-child {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n.tab-content[data-v-f3793a92] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n\n.rights-management[data-v-0b685007] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-0b685007] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-0b685007] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-0b685007] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-0b685007] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.rights-management[data-v-32a0099d] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-32a0099d] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-32a0099d] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-32a0099d] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-32a0099d] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}"));
+      elementStyle.appendChild(document.createTextNode(".disclaimer_group {\n  display: flex;\n  align-items: center;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.disclaimer_group .grow_title {\n  display: flex;\n  flex-grow: 1;\n  margin-inline-end: 12px;\n}\n.disclaimer_group .grow_title .material-design-icon {\n  margin-inline-start: 4px;\n}.user_settings {\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.user_settings .job_buttons_section {\n  display: flex;\n  flex-wrap: wrap;\n  margin-top: 20px;\n  gap: 12px;\n}\n.user_settings .job_hints p {\n  margin-bottom: 0.5em;\n}\n.families-manager[data-v-b0578289] {\n  padding: 20px;\n}\n.families-list[data-v-b0578289] {\n  margin-bottom: 30px;\n}\n.families-list h3[data-v-b0578289] {\n  margin-bottom: 15px;\n  color: var(--color-text-lighter);\n}\n.family-item[data-v-b0578289] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  margin-bottom: 10px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  cursor: pointer;\n  transition: background-color 0.2s ease;\n}\n.family-item[data-v-b0578289]:hover {\n  background: var(--color-background-hover);\n}\n.family-content[data-v-b0578289] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  flex: 1;\n}\n.family-icon[data-v-b0578289] {\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 10px;\n  font-size: 24px;\n  flex-shrink: 0;\n}\n.family-info h4[data-v-b0578289] {\n  margin: 0 0 5px 0;\n  color: var(--color-text-light);\n}\n.family-type[data-v-b0578289] {\n  margin: 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 0.9em;\n}\n.family-description[data-v-b0578289] {\n  margin: 5px 0 0 0;\n  color: var(--color-text-lighter);\n}\n.family-stats[data-v-b0578289] {\n  margin-top: 8px;\n}\n.types-count[data-v-b0578289] {\n  font-size: 0.8em;\n  color: var(--color-primary);\n  background: var(--color-primary-element-light);\n  padding: 2px 8px;\n  border-radius: 12px;\n}\n.family-actions[data-v-b0578289] {\n  display: flex;\n  gap: 10px;\n}\n.add-family-form[data-v-b0578289] {\n  padding: 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-b0578289] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.form-row[data-v-b0578289] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 15px;\n  align-items: start;\n}\n.form-field[data-v-b0578289] {\n  margin: 0;\n}\n.full-width[data-v-b0578289] {\n  grid-column: 1 / -1;\n}\n.form-actions[data-v-b0578289] {\n  display: flex;\n  justify-content: flex-start;\n}\n.modal-overlay[data-v-b0578289] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-b0578289] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 800px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-content.large-modal[data-v-b0578289] {\n  width: 900px;\n  max-width: 95vw;\n}\n.modal-actions[data-v-b0578289] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 20px;\n}\n\n.types-manager[data-v-f2f32798] {\n  padding: 20px;\n}\n.header[data-v-f2f32798] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-f2f32798] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.types-list[data-v-f2f32798] {\n  margin-bottom: 30px;\n}\n.list-description[data-v-f2f32798] {\n  color: var(--color-text-lighter);\n  margin-bottom: 20px;\n}\n.types-grid[data-v-f2f32798] {\n  display: grid;\n  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));\n  gap: 20px;\n}\n.type-card[data-v-f2f32798] {\n  background: var(--color-background-dark);\n  border-radius: 12px;\n  padding: 20px;\n  cursor: pointer;\n  transition: all 0.3s ease;\n  border: 2px solid transparent;\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.type-card[data-v-f2f32798]:hover {\n  background: var(--color-background-hover);\n  border-color: var(--color-primary);\n  transform: translateY(-2px);\n  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);\n}\n.type-card-content[data-v-f2f32798] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n  margin-bottom: 15px;\n}\n.type-icon[data-v-f2f32798] {\n  width: 50px;\n  height: 50px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 10px;\n  font-size: 24px;\n  flex-shrink: 0;\n}\n.type-info[data-v-f2f32798] {\n  flex: 1;\n}\n.type-info h4[data-v-f2f32798] {\n  margin: 0 0 8px 0;\n  color: var(--color-text-light);\n  font-size: 1.1em;\n}\n.type-key[data-v-f2f32798] {\n  margin: 0 0 10px 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 0.9em;\n  background: var(--color-background-darker);\n  padding: 4px 8px;\n  border-radius: 4px;\n  display: inline-block;\n}\n.type-description[data-v-f2f32798] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n  line-height: 1.4;\n}\n.type-badge[data-v-f2f32798] {\n  display: inline-block;\n  padding: 4px 10px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.type-badge.option[data-v-f2f32798] {\n  background: var(--color-warning);\n  color: white;\n}\n.type-actions[data-v-f2f32798] {\n  display: flex;\n  flex-direction: column;\n  gap: 10px;\n}\n.configure-btn[data-v-f2f32798] {\n  width: 100%;\n}\n.secondary-actions[data-v-f2f32798] {\n  display: flex;\n  gap: 8px;\n}\n.edit-btn[data-v-f2f32798], .delete-btn[data-v-f2f32798] {\n  flex: 1;\n}\n.empty-state[data-v-f2f32798] {\n  text-align: center;\n  padding: 60px 40px;\n  color: var(--color-text-lighter);\n  background: var(--color-background-dark);\n  border-radius: 12px;\n  grid-column: 1 / -1;\n}\n.empty-state p[data-v-f2f32798] {\n  margin: 0;\n  font-size: 1.1em;\n}\n.add-type-form[data-v-f2f32798] {\n  padding: 25px;\n  background: var(--color-background-dark);\n  border-radius: 12px;\n}\n.form-grid[data-v-f2f32798] {\n  display: flex;\n  flex-direction: column;\n  gap: 25px;\n}\n.form-row[data-v-f2f32798] {\n  display: grid;\n  grid-template-columns: 1fr 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.form-field[data-v-f2f32798] {\n  margin: 0;\n}\n.full-width[data-v-f2f32798] {\n  grid-column: 1 / -1;\n}\n.checkbox-field[data-v-f2f32798] {\n  grid-column: 1 / -1;\n  padding: 15px;\n  background: var(--color-background-darker);\n  border-radius: 8px;\n}\n.field-description[data-v-f2f32798] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.form-actions[data-v-f2f32798] {\n  display: flex;\n  justify-content: flex-start;\n}\n.modal-overlay[data-v-f2f32798] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.5);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n}\n.modal-content[data-v-f2f32798] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 900px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-content.large-modal[data-v-f2f32798] {\n  width: 1000px;\n  max-width: 95vw;\n}\n.modal-actions[data-v-f2f32798] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 15px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n\n.type-rights[data-v-60290e39] {\n  padding: 20px;\n}\n.header[data-v-60290e39] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-60290e39] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.description[data-v-60290e39] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.settings-container[data-v-60290e39] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.settings-list[data-v-60290e39] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.setting-item[data-v-60290e39] {\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n}\n.setting-item label[data-v-60290e39] {\n  display: block;\n  margin-bottom: 8px;\n  font-weight: bold;\n}\n.editor-select[data-v-60290e39] {\n  max-width: 250px;\n  margin-top: 8px;\n}\n.setting-description[data-v-60290e39] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n.no-selection[data-v-60290e39] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n\n.type-status[data-v-832d89d2] {\n  padding: 20px;\n}\n.header[data-v-832d89d2] {\n  display: flex;\n  align-items: center;\n  gap: 15px;\n  margin-bottom: 25px;\n}\n.header h2[data-v-832d89d2] {\n  margin: 0;\n  color: var(--color-text-light);\n}\n.description[data-v-832d89d2] {\n  margin-bottom: 25px;\n  color: var(--color-text-lighter);\n}\n.status-management[data-v-832d89d2] {\n  max-width: 1000px;\n}\n.status-list[data-v-832d89d2] {\n  margin-bottom: 30px;\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.empty-state[data-v-832d89d2] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n.status-items[data-v-832d89d2] {\n  display: flex;\n  flex-direction: column;\n  gap: 15px;\n}\n.status-item[data-v-832d89d2] {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 15px;\n  background-color: var(--color-background-darker);\n  border-radius: 8px;\n  border-left: 4px solid var(--color-primary);\n}\n.status-content[data-v-832d89d2] {\n  display: flex;\n  align-items: flex-start;\n  gap: 15px;\n  flex: 1;\n}\n.status-icon[data-v-832d89d2] {\n  width: 40px;\n  height: 40px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background-color: var(--color-primary);\n  color: white;\n  border-radius: 8px;\n  flex-shrink: 0;\n}\n.status-icon[data-v-832d89d2] svg {\n  fill: white;\n}\n.status-info h4[data-v-832d89d2] {\n  margin: 0 0 5px 0;\n  font-weight: 600;\n}\n.status-key[data-v-832d89d2] {\n  margin: 0 0 8px 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  font-family: monospace;\n}\n.status-description[data-v-832d89d2] {\n  margin: 0 0 10px 0;\n  color: var(--color-text-lighter);\n  font-size: 0.95em;\n}\n.status-properties[data-v-832d89d2] {\n  display: flex;\n  gap: 10px;\n}\n.status-badge[data-v-832d89d2] {\n  padding: 4px 8px;\n  border-radius: 12px;\n  font-size: 0.8em;\n  font-weight: 600;\n}\n.status-badge.final[data-v-832d89d2] {\n  background-color: var(--color-success);\n  color: white;\n}\n.status-badge.non-final[data-v-832d89d2] {\n  background-color: var(--color-warning);\n  color: white;\n}\n.status-actions[data-v-832d89d2] {\n  display: flex;\n  gap: 8px;\n  flex-wrap: wrap;\n}\n.add-status-form[data-v-832d89d2] {\n  padding: 20px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.form-grid[data-v-832d89d2] {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  gap: 20px;\n  align-items: start;\n}\n.checkbox-field[data-v-832d89d2] {\n  grid-column: span 2;\n}\n.field-description[data-v-832d89d2] {\n  margin: 5px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n}\n.modal-overlay[data-v-832d89d2] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background-color: rgba(0, 0, 0, 0.5);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  z-index: 1000;\n}\n.modal-content[data-v-832d89d2] {\n  background-color: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  width: 600px;\n  max-width: 90%;\n  max-height: 90vh;\n  overflow-y: auto;\n}\n.modal-actions[data-v-832d89d2] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 10px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n.no-selection[data-v-832d89d2] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n}\n@media (max-width: 768px) {\n.form-grid[data-v-832d89d2] {\n    grid-template-columns: 1fr;\n}\n.status-item[data-v-832d89d2] {\n    flex-direction: column;\n    align-items: stretch;\n    gap: 15px;\n}\n.status-actions[data-v-832d89d2] {\n    justify-content: center;\n}\n}\n\n.type-settings-modal[data-v-077dce28] {\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  min-height: 600px;\n  width: 100%;\n}\n.modal-header[data-v-077dce28] {\n  padding: 25px;\n  border-bottom: 1px solid var(--color-border);\n  background: var(--color-background-dark);\n  flex-shrink: 0;\n  display: flex;\n  justify-content: space-between;\n  align-items: flex-start;\n}\n.type-info[data-v-077dce28] {\n  display: flex;\n  align-items: center;\n  gap: 20px;\n}\n.type-icon[data-v-077dce28] {\n  width: 60px;\n  height: 60px;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  background: var(--color-primary);\n  color: white;\n  border-radius: 12px;\n  font-size: 28px;\n  flex-shrink: 0;\n}\n.type-details h3[data-v-077dce28] {\n  margin: 0 0 8px 0;\n  color: var(--color-text-light);\n  font-size: 1.5em;\n  font-weight: 600;\n}\n.type-key[data-v-077dce28] {\n  margin: 0;\n  font-family: monospace;\n  color: var(--color-text-lighter);\n  font-size: 1em;\n  background: var(--color-background-darker);\n  padding: 4px 8px;\n  border-radius: 4px;\n  display: inline-block;\n}\n.close-button[data-v-077dce28] {\n  background: var(--color-background-darker);\n  border: 1px solid var(--color-border);\n  padding: 8px 16px;\n  border-radius: 4px;\n  cursor: pointer;\n  color: var(--color-text-light);\n}\n.close-button[data-v-077dce28]:hover {\n  background: var(--color-background-hover);\n}\n\n/* Menu simple */\n.simple-menu[data-v-077dce28] {\n  display: flex;\n  background: var(--color-background-dark);\n  border-bottom: 1px solid var(--color-border);\n  padding: 0;\n  flex-shrink: 0;\n}\n.menu-item[data-v-077dce28] {\n  flex: 1;\n  background: none;\n  border: none;\n  padding: 16px 20px;\n  color: var(--color-text-lighter);\n  cursor: pointer;\n  transition: all 0.2s ease;\n  border-bottom: 3px solid transparent;\n  font-size: 1em;\n  font-weight: 500;\n}\n.menu-item[data-v-077dce28]:hover {\n  background: var(--color-background-hover);\n  color: var(--color-text-light);\n}\n.menu-item.active[data-v-077dce28] {\n  color: var(--color-primary);\n  border-bottom-color: var(--color-primary);\n  background: var(--color-background-darker);\n}\n\n/* Contenu */\n.settings-content[data-v-077dce28] {\n  flex: 1;\n  padding: 30px;\n  overflow-y: auto;\n  background: var(--color-main-background);\n}\n\n.admin-settings-container[data-v-cd782848] {\n  min-height: 600px;\n  background: var(--color-main-background);\n  padding: 20px;\n}\n.breadcrumb[data-v-cd782848] {\n  margin-bottom: 25px;\n  padding: 15px 20px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  font-size: 1em;\n}\n.breadcrumb-item[data-v-cd782848] {\n  display: inline-flex;\n  align-items: center;\n}\n.breadcrumb-link[data-v-cd782848] {\n  background: none;\n  border: none;\n  color: var(--color-primary);\n  cursor: pointer;\n  padding: 4px 8px;\n  border-radius: 4px;\n  transition: background-color 0.2s ease;\n}\n.breadcrumb-link[data-v-cd782848]:hover {\n  background: var(--color-background-hover);\n}\n.breadcrumb-current[data-v-cd782848] {\n  color: var(--color-text-light);\n  font-weight: 600;\n  padding: 4px 8px;\n}\n.breadcrumb-separator[data-v-cd782848] {\n  margin: 0 10px;\n  color: var(--color-text-lighter);\n}\n.settings-content[data-v-cd782848] {\n  flex: 1;\n  overflow-y: auto;\n}\n[data-v-cd782848] .large-modal {\n  --width: 95vw;\n  --height: 90vh;\n  max-width: 1200px;\n  max-height: 800px;\n}\n[data-v-cd782848] .large-modal .modal-container {\n  width: 95vw;\n  height: 90vh;\n  max-width: 1200px;\n  max-height: 800px;\n}\n\n.tree-item[data-v-37a5142a] {\n  margin-bottom: 8px;\n}\n.tree-node[data-v-37a5142a] {\n  display: flex;\n  align-items: center;\n  padding: 8px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.tree-label[data-v-37a5142a] {\n  flex-grow: 1;\n  font-weight: bold;\n}\n.tree-actions[data-v-37a5142a] {\n  display: flex;\n  gap: 8px;\n}\n.tree-children[data-v-37a5142a] {\n  margin-left: 20px;\n  margin-top: 8px;\n}\n\n.category-location-manager[data-v-da2e3bfe] {\n  padding: 0;\n  max-width: 1200px;\n  margin: 0 auto;\n  height: auto;\n  min-height: 80vh;\n  background: var(--color-main-background);\n  border-radius: 12px;\n  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);\n}\n\n/* Menu simple appliqué aux tabs - Style forcé */\n.tabs[data-v-da2e3bfe] {\n  display: flex;\n  background: var(--color-background-dark);\n  border-bottom: 1px solid var(--color-border);\n  padding: 0;\n  flex-shrink: 0;\n  border-radius: 12px 12px 0 0;\n}\n.tabs[data-v-da2e3bfe] .button-vue {\n  flex: 1 !important;\n  background: none !important;\n  border: none !important;\n  padding: 16px 20px !important;\n  color: var(--color-text-lighter) !important;\n  cursor: pointer;\n  transition: all 0.2s ease !important;\n  border-bottom: 3px solid transparent !important;\n  font-size: 1em !important;\n  font-weight: 500 !important;\n  margin: 0 !important;\n  border-radius: 0 !important;\n  box-shadow: none !important;\n  min-height: auto !important;\n  display: flex !important;\n  align-items: center !important;\n  justify-content: center !important;\n}\n.tabs[data-v-da2e3bfe] .button-vue:hover {\n  background: var(--color-background-hover) !important;\n  color: var(--color-text-light) !important;\n}\n.tabs[data-v-da2e3bfe] .button-vue.active {\n  color: var(--color-primary) !important;\n  border-bottom-color: var(--color-primary) !important;\n  background: var(--color-background-darker) !important;\n}\n.tabs[data-v-da2e3bfe] .button-vue--vue-secondary {\n  --button-background-hover: var(--color-background-hover) !important;\n  --button-color-hover: var(--color-text-light) !important;\n}\n.tabs[data-v-da2e3bfe] .button-vue--vue-secondary.active {\n  --button-background: var(--color-background-darker) !important;\n  --button-color: var(--color-primary) !important;\n  --button-border-color: transparent !important;\n}\n.tab-content[data-v-da2e3bfe] {\n  margin-top: 0;\n  background: var(--color-main-background);\n  border-radius: 0 0 12px 12px;\n  padding: 30px;\n  height: auto;\n  overflow: visible;\n  flex: 1;\n}\n.add-form[data-v-da2e3bfe] {\n  margin-bottom: 30px;\n  padding: 25px;\n  background: var(--color-background-dark);\n  border-radius: 8px;\n  border: 1px solid var(--color-border);\n}\n.add-form h3[data-v-da2e3bfe] {\n  margin: 0 0 20px 0;\n  color: var(--color-text);\n  font-weight: 600;\n  font-size: 18px;\n}\n.form-fields[data-v-da2e3bfe] {\n  display: flex;\n  gap: 15px;\n  align-items: end;\n  flex-wrap: wrap;\n}\n.form-fields .nc-input-field[data-v-da2e3bfe],\n.form-fields .nc-select[data-v-da2e3bfe] {\n  flex: 1;\n  min-width: 200px;\n}\n.tree-view[data-v-da2e3bfe] {\n  margin-top: 30px;\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n.tree-view h3[data-v-da2e3bfe] {\n  margin: 0 0 20px 0;\n  color: var(--color-text);\n  font-weight: 600;\n  font-size: 18px;\n  padding-bottom: 10px;\n  border-bottom: 2px solid var(--color-border);\n}\n.tree-container[data-v-da2e3bfe] {\n  margin-top: 15px;\n  border: 1px solid var(--color-border);\n  border-radius: 8px;\n  padding: 20px;\n  background: var(--color-background-dark);\n  max-height: 500px;\n  overflow-y: auto;\n  flex: 1;\n}\n.loading[data-v-da2e3bfe],\n.error[data-v-da2e3bfe] {\n  text-align: center;\n  padding: 40px;\n  color: var(--color-text-lighter);\n  font-size: 16px;\n}\n.error[data-v-da2e3bfe] {\n  color: var(--color-error);\n  background: var(--color-error-background);\n  border: 1px solid var(--color-error-border);\n  border-radius: 8px;\n  margin: 20px 0;\n}\n.modal[data-v-da2e3bfe] {\n  position: fixed;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  background: rgba(0, 0, 0, 0.6);\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  z-index: 1000;\n  backdrop-filter: blur(4px);\n}\n.modal-content[data-v-da2e3bfe] {\n  background: var(--color-main-background);\n  padding: 30px;\n  border-radius: 12px;\n  min-width: 400px;\n  max-width: 500px;\n  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);\n  border: 1px solid var(--color-border);\n  max-height: 80vh;\n  overflow-y: auto;\n}\n.modal-content h3[data-v-da2e3bfe] {\n  margin: 0 0 20px 0;\n  color: var(--color-text);\n  font-weight: 600;\n  font-size: 20px;\n}\n.modal-actions[data-v-da2e3bfe] {\n  display: flex;\n  justify-content: flex-end;\n  gap: 12px;\n  margin-top: 25px;\n  padding-top: 20px;\n  border-top: 1px solid var(--color-border);\n}\n.category-location-manager > div[data-v-da2e3bfe]:last-child {\n  max-height: calc(100vh - 100px);\n  overflow-y: auto;\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n\n/* Responsive design */\n@media (max-width: 768px) {\n.category-location-manager[data-v-da2e3bfe] {\n    padding: 0;\n    min-height: auto;\n    margin: 10px;\n}\n.tabs[data-v-da2e3bfe] {\n    flex-direction: column;\n    gap: 0;\n}\n.tabs[data-v-da2e3bfe] .button-vue {\n    padding: 16px 20px !important;\n    border-bottom: 2px solid transparent !important;\n    border-right: 3px solid transparent !important;\n    text-align: left !important;\n}\n.tabs[data-v-da2e3bfe] .button-vue.active {\n    border-bottom-color: transparent !important;\n    border-right-color: var(--color-primary) !important;\n}\n.tab-content[data-v-da2e3bfe] {\n    padding: 20px;\n}\n.form-fields[data-v-da2e3bfe] {\n    flex-direction: column;\n    align-items: stretch;\n}\n.form-fields .nc-input-field[data-v-da2e3bfe],\n  .form-fields .nc-select[data-v-da2e3bfe] {\n    min-width: auto;\n}\n.modal-content[data-v-da2e3bfe] {\n    min-width: auto;\n    margin: 20px;\n    padding: 20px;\n    max-height: 70vh;\n}\n.tree-container[data-v-da2e3bfe] {\n    max-height: 400px;\n}\n}\n.tab-content[data-v-da2e3bfe] {\n  animation: fadeIn-da2e3bfe 0.3s ease-in-out;\n}\n@keyframes fadeIn-da2e3bfe {\nfrom {\n    opacity: 0;\n    transform: translateY(10px);\n}\nto {\n    opacity: 1;\n    transform: translateY(0);\n}\n}\n.category-location-manager[data-v-da2e3bfe] {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n}\n.category-location-manager > div[data-v-da2e3bfe]:last-child {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n.tab-content[data-v-da2e3bfe] {\n  flex: 1;\n  display: flex;\n  flex-direction: column;\n}\n\n.rights-management[data-v-fb7cbc5e] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-fb7cbc5e] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-fb7cbc5e] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-fb7cbc5e] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-fb7cbc5e] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}\n\n.rights-management[data-v-14c25bb2] {\n  padding: 20px;\n  max-width: 700px;\n}\n.description[data-v-14c25bb2] {\n  color: var(--color-text-lighter);\n  margin-bottom: 25px;\n}\n.rights-list[data-v-14c25bb2] {\n  display: flex;\n  flex-direction: column;\n  gap: 20px;\n}\n.right-item[data-v-14c25bb2] {\n  padding: 15px;\n  background-color: var(--color-background-dark);\n  border-radius: 8px;\n}\n.right-description[data-v-14c25bb2] {\n  margin: 8px 0 0 0;\n  font-size: 0.9em;\n  color: var(--color-text-lighter);\n  padding-left: 36px;\n}"));
       document.head.appendChild(elementStyle);
     }
   } catch (e) {
     console.error("vite-plugin-css-injected-by-js", e);
   }
 })();
-const Lo = "agora", Eo = "1.5.1";
-import { c as y, o as p, f as s, w as g, k as _, l as n, u as e, t, e as M, z as I, _ as j, a as i, K as me, U as F, j as L, H as ge, V as ie, W as se, X as ye, Y as k, F as G, D as z, G as W, Z as X, d as Z, J as ve, y as Q, $ as fe, M as _e, b as ne, n as J, g as K, h as be, p as he } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_3109c301_lang-CVbjbzgN.chunk.mjs";
-import { I as Y, a as Ve, N as O } from "./index-s2bHshSt.chunk.mjs";
-import { d as x, e as re, g as $e, f as ee, L as te, I as H, s as ae, S as le } from "./NcDashboardWidget-Bu7bWoUK-DDYyE70r.chunk.mjs";
-import { F as we } from "./FlexSettings-DvInfIgH.chunk.mjs";
-import { N as C, a as T, b as N } from "./NcRichText-CETsOVBU-BSVupiJK.chunk.mjs";
-import { _ as Se, a as qe } from "./markdown-Bn6KgY09.chunk.mjs";
-const ke = { class: "user_settings" }, Ce = { __name: "AdminActivities", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", ke, [s(e(C), { modelValue: e(l).useActivity, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).useActivity = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Enable the tracking of activities with the Activities app")), 1)]), _: 1 }, 8, ["modelValue"])]));
-} }, Ie = { class: "user_settings" }, Te = { __name: "AdminArchiveInquiries", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", Ie, [s(e(C), { modelValue: e(l).autoArchive, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).autoArchive = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Enable the automatic inquiry archiving")), 1)]), _: 1 }, 8, ["modelValue"]), e(l).autoArchive ? (p(), M(e(Y), { key: 0, modelValue: e(l).autoArchiveOffset, "onUpdate:modelValue": a[2] || (a[2] = (o) => e(l).autoArchiveOffset = o), class: "settings_details", type: "number", inputmode: "numeric", "use-num-modifiers": "", label: e(t)("agora", "Days after which inquiries should be archived after closing"), onChange: a[3] || (a[3] = (o) => e(l).write()) }, null, 8, ["modelValue", "label"])) : I("", true)]));
-} }, Ae = { class: "user_settings" }, Ue = { __name: "AdminDeleteInquiries", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", Ae, [s(e(C), { modelValue: e(l).autoDelete, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).autoDelete = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Enable the automatic deletion of archived inquiries")), 1)]), _: 1 }, 8, ["modelValue"]), e(l).autoDelete ? (p(), M(e(Y), { key: 0, modelValue: e(l).autoDeleteOffset, "onUpdate:modelValue": a[2] || (a[2] = (o) => e(l).autoDeleteOffset = o), class: "settings_details", type: "number", inputmode: "numeric", "use-num-modifiers": "", label: e(t)("inquiries", "Days after which archived inquiries should be finally deleted"), onChange: a[3] || (a[3] = (o) => e(l).write()) }, null, 8, ["modelValue", "label"])) : I("", true)]));
-} }, xe = { class: "user_settings" }, Fe = { __name: "AdminExpireInquiries", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", xe, [s(e(C), { modelValue: e(l).autoExpire, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).autoExpire = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Enable the automatic inquiry expiration")), 1)]), _: 1 }, 8, ["modelValue"]), e(l).autoExpire ? (p(), M(e(Y), { key: 0, modelValue: e(l).autoExpireOffset, "onUpdate:modelValue": a[2] || (a[2] = (o) => e(l).autoExpireOffset = o), class: "settings_details", type: "number", inputmode: "numeric", "use-num-modifiers": "", label: e(t)("agora", "Days after which inquiries should expire after openning"), onChange: a[3] || (a[3] = (o) => e(l).write()) }, null, 8, ["modelValue", "label"])) : I("", true)]));
-} }, Le = { name: "LanguageMarkdownIcon", emits: ["click"], props: { title: { type: String }, fillColor: { type: String, default: "currentColor" }, size: { type: Number, default: 24 } } }, Ee = ["aria-hidden", "aria-label"], Ne = ["fill", "width", "height"], Re = { d: "M20.56 18H3.44C2.65 18 2 17.37 2 16.59V7.41C2 6.63 2.65 6 3.44 6H20.56C21.35 6 22 6.63 22 7.41V16.59C22 17.37 21.35 18 20.56 18M6.81 15.19V11.53L8.73 13.88L10.65 11.53V15.19H12.58V8.81H10.65L8.73 11.16L6.81 8.81H4.89V15.19H6.81M19.69 12H17.77V8.81H15.85V12H13.92L16.81 15.28L19.69 12Z" }, Me = { key: 0 };
-function De(h, l, c, a, o, v) {
-  return p(), y("span", me(h.$attrs, { "aria-hidden": c.title ? null : "true", "aria-label": c.title, class: "material-design-icon language-markdown-icon", role: "img", onClick: l[0] || (l[0] = (m) => h.$emit("click", m)) }), [(p(), y("svg", { fill: c.fillColor, class: "material-design-icon__svg", width: c.size, height: c.size, viewBox: "0 0 24 24" }, [i("path", Re, [c.title ? (p(), y("title", Me, n(c.title), 1)) : I("", true)])], 8, Ne))], 16, Ee);
+const appName = "agora";
+const appVersion = "1.5.1";
+import { _ as _export_sfc, c as createElementBlock, o as openBlock, f as createVNode, w as withCtx, j as createTextVNode, k as toDisplayString, t as translate, e as createBlock, C as createCommentVNode, a as createBaseVNode, K as mergeProps, U as ref, l as computed, m as purify, V as withDirectives, W as vShow, X as vModelText, Y as NcButton, G as Fragment, H as renderList, s as resolveDynamicComponent, Z as withModifiers, d as defineComponent, J as watch, A as normalizeClass, $ as resolveComponent, M as normalizeStyle, b as onMounted, n as normalizeProps, g as guardReactiveProps, h as createApp, p as pinia } from "./ThumbIcon.vue_vue_type_style_index_0_scoped_24ed4f43_lang-B3ZZmmu2.chunk.mjs";
+import { I as InputDiv, a as NcAppSettingsDialog, N as NcSettingsSection } from "./index-DWs1ituq.chunk.mjs";
+import { d as useAppSettingsStore, e as d, g as gfmHeadingId, f as adminJobs, L as Logger, I as InquiryGeneralIcons, s as showError, S as StatusIcons } from "./NcDashboardWidget-Bu7bWoUK-Y6uq0Q0W.chunk.mjs";
+import { F as FlexSettings } from "./FlexSettings-DxXGkSv5.chunk.mjs";
+import { N as NcCheckboxRadioSwitch, a as NcSelect, b as NcInputField } from "./NcRichText-CETsOVBU-KnJlB91U.chunk.mjs";
+import { R as RadioGroupDiv, C as CardDiv } from "./markdown-gfJW32jT.chunk.mjs";
+const _sfc_main$r = {
+  __name: "AdminActivities",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$r = { class: "user_settings" };
+function _sfc_render$r(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$r, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.useActivity,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.useActivity = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Enable the tracking of activities with the Activities app")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"])
+  ]);
 }
-const Oe = j(Le, [["render", De]]), je = { class: "user_settings" }, Pe = { class: "disclaimer_group" }, Je = { class: "grow_title" }, Ke = ["innerHTML"], Ge = { __name: "AdminEmail", setup(h) {
-  const l = x(), c = { prefix: "disclaimer-" }, a = F(false), o = L(() => (re.use($e(c)), ge.sanitize(re.parse(l.disclaimer))));
-  return (v, m) => (p(), y("div", je, [s(e(C), { modelValue: e(l).legalTermsInEmail, "onUpdate:modelValue": [m[0] || (m[0] = (b) => e(l).legalTermsInEmail = b), m[1] || (m[1] = (b) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Add terms links also to the email footer")), 1)]), _: 1 }, 8, ["modelValue"]), i("div", Pe, [i("div", Je, [i("span", null, n(e(t)("agora", "Additional email disclaimer")), 1), s(Oe)]), s(e(C), { modelValue: a.value, "onUpdate:modelValue": m[2] || (m[2] = (b) => a.value = b), type: "switch", onChange: m[3] || (m[3] = (b) => e(l).write()) }, { default: g(() => [_(n(e(t)("agora", "Preview")), 1)]), _: 1 }, 8, ["modelValue"])]), ie(i("textarea", { "onUpdate:modelValue": m[4] || (m[4] = (b) => e(l).disclaimer = b), onChange: m[5] || (m[5] = (b) => e(l).write()) }, null, 544), [[se, !a.value], [ye, e(l).disclaimer]]), ie(i("div", { class: "inquiries-markdown", innerHTML: o.value }, null, 8, Ke), [[se, a.value]])]));
-} }, ze = { class: "user_settings" }, He = { key: 0, class: "settings_details" }, Be = { __name: "AdminModeration", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", ze, [s(e(C), { modelValue: e(l).useModeration, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).useModeration = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Enable the moderation feature")), 1)]), _: 1 }, 8, ["modelValue"]), e(l).allowModeration ? I("", true) : (p(), y("div", He, [s(e(C), { modelValue: e(l).officialBypassModeration, "onUpdate:modelValue": [a[2] || (a[2] = (o) => e(l).officialBypassModeration = o), a[3] || (a[3] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Official user(s) bypass moderation")), 1)]), _: 1 }, 8, ["modelValue"])]))]));
-} }, Ze = { class: "user_settings" }, We = { class: "job_hints" }, Xe = { class: "job_buttons_section" }, Ye = { __name: "AdminJobs", setup(h) {
-  const l = { text: t("agora", "Run autoreminder"), disabled: false }, c = { text: t("agora", "Run janitor"), disabled: false }, a = { text: t("agora", "Run notification"), disabled: false };
-  async function o() {
-    try {
-      ee.runAutoReminder(), l.disabled = true, l.text = t("agora", "Autoreminder started");
-    } catch (b) {
-      l.text = t("agora", "Autoreminder failed"), te.error("Error on executing autoreminder job", { error: b });
-    } finally {
-      l.disabled = true;
+const AdminActivities = /* @__PURE__ */ _export_sfc(_sfc_main$r, [["render", _sfc_render$r], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminActivities.vue"]]);
+const _sfc_main$q = {
+  __name: "AdminArchiveInquiries",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get InputDiv() {
+      return InputDiv;
+    }, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$q = { class: "user_settings" };
+function _sfc_render$q(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$q, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.autoArchive,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.autoArchive = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Enable the automatic inquiry archiving")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    $setup.appSettingsStore.autoArchive ? (openBlock(), createBlock($setup["InputDiv"], {
+      key: 0,
+      modelValue: $setup.appSettingsStore.autoArchiveOffset,
+      "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.autoArchiveOffset = $event),
+      class: "settings_details",
+      type: "number",
+      inputmode: "numeric",
+      "use-num-modifiers": "",
+      label: $setup.t("agora", "Days after which inquiries should be archived after closing"),
+      onChange: _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+    }, null, 8, ["modelValue", "label"])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminArchiveInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$q, [["render", _sfc_render$q], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminArchiveInquiries.vue"]]);
+const _sfc_main$p = {
+  __name: "AdminDeleteInquiries",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get InputDiv() {
+      return InputDiv;
+    }, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$p = { class: "user_settings" };
+function _sfc_render$p(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$p, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.autoDelete,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.autoDelete = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Enable the automatic deletion of archived inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    $setup.appSettingsStore.autoDelete ? (openBlock(), createBlock($setup["InputDiv"], {
+      key: 0,
+      modelValue: $setup.appSettingsStore.autoDeleteOffset,
+      "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.autoDeleteOffset = $event),
+      class: "settings_details",
+      type: "number",
+      inputmode: "numeric",
+      "use-num-modifiers": "",
+      label: $setup.t("inquiries", "Days after which archived inquiries should be finally deleted"),
+      onChange: _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+    }, null, 8, ["modelValue", "label"])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminDeleteInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$p, [["render", _sfc_render$p], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminDeleteInquiries.vue"]]);
+const _sfc_main$o = {
+  __name: "AdminExpireInquiries",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get InputDiv() {
+      return InputDiv;
+    }, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$o = { class: "user_settings" };
+function _sfc_render$o(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$o, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.autoExpire,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.autoExpire = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Enable the automatic inquiry expiration")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    $setup.appSettingsStore.autoExpire ? (openBlock(), createBlock($setup["InputDiv"], {
+      key: 0,
+      modelValue: $setup.appSettingsStore.autoExpireOffset,
+      "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.autoExpireOffset = $event),
+      class: "settings_details",
+      type: "number",
+      inputmode: "numeric",
+      "use-num-modifiers": "",
+      label: $setup.t("agora", "Days after which inquiries should expire after openning"),
+      onChange: _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+    }, null, 8, ["modelValue", "label"])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminExpireInquiries = /* @__PURE__ */ _export_sfc(_sfc_main$o, [["render", _sfc_render$o], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminExpireInquiries.vue"]]);
+const _sfc_main$n = {
+  name: "LanguageMarkdownIcon",
+  emits: ["click"],
+  props: {
+    title: {
+      type: String
+    },
+    fillColor: {
+      type: String,
+      default: "currentColor"
+    },
+    size: {
+      type: Number,
+      default: 24
     }
   }
-  async function v() {
-    try {
-      ee.runJanitor(), c.text = t("agora", "Janitor started");
-    } catch (b) {
-      c.text = t("agora", "Janitor failed"), te.error("Error on executing janitor job", { error: b });
-    } finally {
-      c.disabled = true;
-    }
+};
+const _hoisted_1$n = ["aria-hidden", "aria-label"];
+const _hoisted_2$j = ["fill", "width", "height"];
+const _hoisted_3$d = { d: "M20.56 18H3.44C2.65 18 2 17.37 2 16.59V7.41C2 6.63 2.65 6 3.44 6H20.56C21.35 6 22 6.63 22 7.41V16.59C22 17.37 21.35 18 20.56 18M6.81 15.19V11.53L8.73 13.88L10.65 11.53V15.19H12.58V8.81H10.65L8.73 11.16L6.81 8.81H4.89V15.19H6.81M19.69 12H17.77V8.81H15.85V12H13.92L16.81 15.28L19.69 12Z" };
+const _hoisted_4$b = { key: 0 };
+function _sfc_render$n(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("span", mergeProps(_ctx.$attrs, {
+    "aria-hidden": $props.title ? null : "true",
+    "aria-label": $props.title,
+    class: "material-design-icon language-markdown-icon",
+    role: "img",
+    onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("click", $event))
+  }), [
+    (openBlock(), createElementBlock("svg", {
+      fill: $props.fillColor,
+      class: "material-design-icon__svg",
+      width: $props.size,
+      height: $props.size,
+      viewBox: "0 0 24 24"
+    }, [
+      createBaseVNode("path", _hoisted_3$d, [
+        $props.title ? (openBlock(), createElementBlock(
+          "title",
+          _hoisted_4$b,
+          toDisplayString($props.title),
+          1
+          /* TEXT */
+        )) : createCommentVNode("v-if", true)
+      ])
+    ], 8, _hoisted_2$j))
+  ], 16, _hoisted_1$n);
+}
+const LanguageMarkdownIcon = /* @__PURE__ */ _export_sfc(_sfc_main$n, [["render", _sfc_render$n], ["__file", "/var/www/nextcloud/apps/agora/node_modules/vue-material-design-icons/LanguageMarkdown.vue"]]);
+const _sfc_main$m = {
+  __name: "AdminEmail",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const markedPrefix = {
+      prefix: "disclaimer-"
+    };
+    const preview = ref(false);
+    const markedDisclaimer = computed(() => {
+      d.use(gfmHeadingId(markedPrefix));
+      return purify.sanitize(d.parse(appSettingsStore.disclaimer));
+    });
+    const __returned__ = { appSettingsStore, markedPrefix, preview, markedDisclaimer, computed, ref, get marked() {
+      return d;
+    }, get gfmHeadingId() {
+      return gfmHeadingId;
+    }, get DOMPurify() {
+      return purify;
+    }, LanguageMarkdownIcon, get t() {
+      return translate;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
   }
-  async function m() {
-    try {
-      ee.runNotification(), a.text = t("agora", "Notification started");
-    } catch (b) {
-      a.text = t("agora", "Notification failed"), te.error("Error on executing notification job", { error: b });
-    } finally {
-      a.disabled = true;
-    }
+};
+const _hoisted_1$m = { class: "user_settings" };
+const _hoisted_2$i = { class: "disclaimer_group" };
+const _hoisted_3$c = { class: "grow_title" };
+const _hoisted_4$a = ["innerHTML"];
+function _sfc_render$m(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$m, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.legalTermsInEmail,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.legalTermsInEmail = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Add terms links also to the email footer")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    createBaseVNode("div", _hoisted_2$i, [
+      createBaseVNode("div", _hoisted_3$c, [
+        createBaseVNode(
+          "span",
+          null,
+          toDisplayString($setup.t("agora", "Additional email disclaimer")),
+          1
+          /* TEXT */
+        ),
+        createVNode($setup["LanguageMarkdownIcon"])
+      ]),
+      createVNode($setup["NcCheckboxRadioSwitch"], {
+        modelValue: $setup.preview,
+        "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.preview = $event),
+        type: "switch",
+        onChange: _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            toDisplayString($setup.t("agora", "Preview")),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["modelValue"])
+    ]),
+    withDirectives(createBaseVNode(
+      "textarea",
+      {
+        "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.disclaimer = $event),
+        onChange: _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.write())
+      },
+      null,
+      544
+      /* NEED_HYDRATION, NEED_PATCH */
+    ), [
+      [vShow, !$setup.preview],
+      [vModelText, $setup.appSettingsStore.disclaimer]
+    ]),
+    createCommentVNode(" eslint-disable-next-line vue/no-v-html "),
+    withDirectives(createBaseVNode("div", {
+      class: "inquiries-markdown",
+      innerHTML: $setup.markedDisclaimer
+    }, null, 8, _hoisted_4$a), [
+      [vShow, $setup.preview]
+    ])
+  ]);
+}
+const AdminEmail = /* @__PURE__ */ _export_sfc(_sfc_main$m, [["render", _sfc_render$m], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminEmail.vue"]]);
+const _sfc_main$l = {
+  __name: "AdminModeration",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
   }
-  return (b, f) => (p(), y("div", Ze, [i("div", We, [i("p", null, n(e(t)("agora", "Please understand, that the jobs were defined as asynchronous jobs by intention.")) + " " + n(e(t)("agora", "Only use them, if it is absolutely neccessary (i.error. your cron does not work properly) or for testing.")) + " " + n(e(t)("agora", "Starting the jobs does not mean, that the rules for these actions are overridden.")), 1), i("p", null, n(e(t)("agora", "Each job can only be run once. If you want to rerun them, you have to refresh the page.")) + " " + n(e(t)("agora", "If you want to see the result please check the logs")), 1)]), i("div", Xe, [s(e(k), { variant: "primary", "aria-label": l.text, disabled: l.disabled, onClick: f[0] || (f[0] = (w) => o()) }, { default: g(() => [_(n(l.text), 1)]), _: 1 }, 8, ["aria-label", "disabled"]), s(e(k), { variant: "primary", "aria-label": c.text, disabled: c.disabled, onClick: f[1] || (f[1] = (w) => v()) }, { default: g(() => [_(n(c.text), 1)]), _: 1 }, 8, ["aria-label", "disabled"]), s(e(k), { variant: "primary", "aria-label": a.text, disabled: a.disabled, onClick: f[2] || (f[2] = (w) => m()) }, { default: g(() => [_(n(a.text), 1)]), _: 1 }, 8, ["aria-label", "disabled"])])]));
-} }, Qe = { class: "user_settings" }, et = { key: 0, class: "user_settings" }, tt = { class: "settings-description" }, at = { __name: "AdminLegal", setup(h) {
-  const l = x(), c = L(() => {
-    let a = t("agora", "Enter the URL of your privacy policy"), o = t("agora", "Enter the URL of your legal notice");
-    return l.defaultPrivacyUrl && (a = l.defaultPrivacyUrl), l.defaultImprintUrl && (o = l.defaultImprintUrl), { privacy: a, imprint: o };
-  });
-  return (a, o) => (p(), y(G, null, [i("div", Qe, [s(e(C), { modelValue: e(l).useSiteLegalTerms, "onUpdate:modelValue": [o[0] || (o[0] = (v) => e(l).useSiteLegalTerms = v), o[1] || (o[1] = (v) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("inquiries", "Use the default terms for public inquiries and enable the default footer")), 1)]), _: 1 }, 8, ["modelValue"])]), e(l).useSiteLegalTerms ? I("", true) : (p(), y("div", et, [i("p", tt, n(e(t)("inquiries", "If you want to use different terms for public inquiries, enter them below.")), 1), s(e(Y), { modelValue: e(l).privacyUrl, "onUpdate:modelValue": o[2] || (o[2] = (v) => e(l).privacyUrl = v), type: "url", placeholder: c.value.privacy, label: e(t)("agora", "Privacy policy link"), onChange: o[3] || (o[3] = (v) => e(l).write()) }, null, 8, ["modelValue", "placeholder", "label"]), s(e(Y), { modelValue: e(l).imprintUrl, "onUpdate:modelValue": o[4] || (o[4] = (v) => e(l).imprintUrl = v), type: "url", inputmode: "url", label: e(t)("agora", "Legal terms link"), placeholder: c.value.imprint, onChange: o[5] || (o[5] = (v) => e(l).write()) }, null, 8, ["modelValue", "label", "placeholder"])]))], 64));
-} }, lt = { class: "families-manager" }, ot = { class: "description" }, it = { class: "families-list" }, st = ["onClick"], nt = { class: "family-content" }, rt = { class: "family-icon" }, dt = { class: "family-info" }, ut = { class: "family-type" }, pt = { key: 0, class: "family-description" }, ct = { class: "family-stats" }, mt = { class: "types-count" }, gt = { class: "family-actions" }, yt = { class: "add-family-form" }, vt = { class: "form-grid" }, ft = { class: "form-row" }, _t = { class: "form-actions" }, bt = { key: 0, class: "modal-overlay" }, ht = { class: "modal-content large-modal" }, Vt = { class: "form-grid" }, $t = { class: "form-row" }, wt = { class: "modal-actions" }, St = { __name: "AdminFamiliesManager", emits: ["familySelected"], setup(h, { emit: l }) {
-  const c = l, a = x(), o = F(null), v = F({ family_type: "", label: "", description: "", icon: null, sort_order: 0 }), m = (d) => d && f.value.find((r) => r.id === d) || null, b = (d) => {
-    o.value = { ...d, icon: m(d.icon) };
-  }, f = L(() => Object.keys(H).filter((d) => d !== "default").map((d) => ({ id: d, label: t("agora", d.replace(/([A-Z])/g, " $1").trim()) }))), w = (d) => H[d] || H.default, A = L(() => a.inquiryFamilyTab.map((d) => {
-    const r = a.inquiryTypeTab.filter((u) => u.family === d.family_type).length;
-    return { ...d, typesCount: r };
-  })), V = (d) => d ? typeof d == "string" ? d : typeof d == "object" ? d.id || "" : String(d) : "", R = async () => {
-    if (!v.value.family_type) {
-      ae(t("agora", "Inquiry family type is mandatory"), { timeout: 2e3 });
-      return;
+};
+const _hoisted_1$l = { class: "user_settings" };
+const _hoisted_2$h = {
+  key: 0,
+  class: "settings_details"
+};
+function _sfc_render$l(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$l, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.useModeration,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.useModeration = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Enable the moderation feature")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    !$setup.appSettingsStore.allowModeration ? (openBlock(), createElementBlock("div", _hoisted_2$h, [
+      createVNode($setup["NcCheckboxRadioSwitch"], {
+        modelValue: $setup.appSettingsStore.officialBypassModeration,
+        "onUpdate:modelValue": [
+          _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.officialBypassModeration = $event),
+          _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+        ],
+        type: "switch"
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            toDisplayString($setup.t("agora", "Official user(s) bypass moderation")),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["modelValue"])
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminModeration = /* @__PURE__ */ _export_sfc(_sfc_main$l, [["render", _sfc_render$l], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminModeration.vue"]]);
+const _sfc_main$k = {
+  __name: "AdminJobs",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const autoreminder = {
+      text: translate("agora", "Run autoreminder"),
+      disabled: false
+    };
+    const janitor = {
+      text: translate("agora", "Run janitor"),
+      disabled: false
+    };
+    const notification = {
+      text: translate("agora", "Run notification"),
+      disabled: false
+    };
+    async function runAutoReminderJob() {
+      try {
+        adminJobs.runAutoReminder();
+        autoreminder.disabled = true;
+        autoreminder.text = translate("agora", "Autoreminder started");
+      } catch (error) {
+        autoreminder.text = translate("agora", "Autoreminder failed");
+        Logger.error("Error on executing autoreminder job", { error });
+      } finally {
+        autoreminder.disabled = true;
+      }
     }
-    await a.addFamily({ ...v.value, icon: V(v.value.icon), created: Date.now() }), v.value = { family_type: "", label: "", description: "", icon: "", sort_order: a.inquiryFamilyTab.length };
-  }, E = async (d) => {
-    await a.updateFamily(d.id, { ...d, icon: V(d.icon) }), o.value = null;
-  }, P = async (d) => {
-    confirm(t("agora", "Are you sure you want to delete this family?")) && await a.deleteFamily(d);
-  }, q = (d) => {
-    c("familySelected", d);
-  };
-  return (d, r) => (p(), y("div", lt, [i("h2", null, n(e(t)("agora", "Inquiry Families Management")), 1), i("p", ot, n(e(t)("agora", "Manage inquiry families to organize different types of inquiries Each family can contain multiple inquiry types")), 1), i("div", it, [i("h3", null, n(e(t)("agora", "Existing Families")), 1), (p(true), y(G, null, z(A.value, (u) => (p(), y("div", { key: u.id, class: "family-item", onClick: (D) => q(u) }, [i("div", nt, [i("div", rt, [(p(), M(W(w(u.icon)), { size: 20 }))]), i("div", dt, [i("h4", null, n(u.label), 1), i("p", ut, n(u.family_type), 1), u.description ? (p(), y("p", pt, n(u.description), 1)) : I("", true), i("div", ct, [i("span", mt, n(e(t)("agora", "{count} types", { count: u.typesCount })), 1)])])]), i("div", gt, [s(e(k), { onClick: X((D) => b(u), ["stop"]) }, { default: g(() => [_(n(e(t)("agora", "Edit")), 1)]), _: 2 }, 1032, ["onClick"]), s(e(k), { onClick: X((D) => P(u.id), ["stop"]) }, { default: g(() => [_(n(e(t)("agora", "Delete")), 1)]), _: 2 }, 1032, ["onClick"])])], 8, st))), 128))]), i("div", yt, [i("h3", null, n(e(t)("agora", "Add New Family")), 1), i("div", vt, [i("div", ft, [s(e(T), { modelValue: v.value.family_type, "onUpdate:modelValue": r[0] || (r[0] = (u) => v.value.family_type = u), label: e(t)("agora", "Family Type Key"), placeholder: e(t)("agora", "e.g., deliberative, consultative"), required: "", class: "form-field" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(T), { modelValue: v.value.label, "onUpdate:modelValue": r[1] || (r[1] = (u) => v.value.label = u), label: e(t)("agora", "Display Label"), placeholder: e(t)("agora", "e.g., Deliberative Process"), required: "", class: "form-field" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(N), { modelValue: v.value.icon, "onUpdate:modelValue": r[2] || (r[2] = (u) => v.value.icon = u), options: f.value, clearable: false, "track-by": "id", placeholder: e(t)("agora", "Select an icon"), class: "form-field" }, null, 8, ["modelValue", "options", "placeholder"])]), s(e(T), { modelValue: v.value.description, "onUpdate:modelValue": r[3] || (r[3] = (u) => v.value.description = u), label: e(t)("agora", "Description"), placeholder: e(t)("agora", "Optional description"), type: "textarea", class: "full-width" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(T), { modelValue: v.value.sort_order, "onUpdate:modelValue": r[4] || (r[4] = (u) => v.value.sort_order = u), label: e(t)("agora", "Sort Order"), type: "number", min: 0, class: "form-field" }, null, 8, ["modelValue", "label"]), i("div", _t, [s(e(k), { type: "primary", disabled: !v.value.family_type || !v.value.label, onClick: R }, { default: g(() => [_(n(e(t)("agora", "Add Family")), 1)]), _: 1 }, 8, ["disabled"])])])]), o.value ? (p(), y("div", bt, [i("div", ht, [i("h3", null, n(e(t)("agora", "Edit Family")), 1), i("div", Vt, [i("div", $t, [s(e(T), { modelValue: o.value.family_type, "onUpdate:modelValue": r[5] || (r[5] = (u) => o.value.family_type = u), label: e(t)("agora", "Family Type Key"), required: "", class: "form-field" }, null, 8, ["modelValue", "label"]), s(e(T), { modelValue: o.value.label, "onUpdate:modelValue": r[6] || (r[6] = (u) => o.value.label = u), label: e(t)("agora", "Display Label"), required: "", class: "form-field" }, null, 8, ["modelValue", "label"]), s(e(N), { modelValue: o.value.icon, "onUpdate:modelValue": r[7] || (r[7] = (u) => o.value.icon = u), options: f.value, "track-by": "id", clearable: false, placeholder: e(t)("agora", "Select an icon"), class: "form-field" }, null, 8, ["modelValue", "options", "placeholder"])])]), i("div", null, [s(e(T), { modelValue: o.value.description, "onUpdate:modelValue": r[8] || (r[8] = (u) => o.value.description = u), label: e(t)("agora", "Description"), type: "textarea", class: "full-width" }, null, 8, ["modelValue", "label"]), i("div", wt, [s(e(k), { onClick: r[9] || (r[9] = (u) => o.value = null) }, { default: g(() => [_(n(e(t)("agora", "Cancel")), 1)]), _: 1 }), s(e(k), { type: "primary", onClick: r[10] || (r[10] = (u) => E(o.value)) }, { default: g(() => [_(n(e(t)("agora", "Save Changes")), 1)]), _: 1 })])])])])) : I("", true)]));
-} }, qt = j(St, [["__scopeId", "data-v-1c01ab15"]]), kt = { class: "types-manager" }, Ct = { class: "header" }, It = { class: "types-list" }, Tt = { class: "list-description" }, At = { class: "types-grid" }, Ut = ["onClick"], xt = { class: "type-card-content" }, Ft = { class: "type-icon" }, Lt = { class: "type-info" }, Et = { class: "type-key" }, Nt = { key: 0, class: "type-description" }, Rt = { key: 1, class: "type-badge option" }, Mt = { class: "type-actions" }, Dt = { class: "secondary-actions" }, Ot = { key: 0, class: "empty-state" }, jt = { class: "add-type-form" }, Pt = { class: "form-grid" }, Jt = { class: "form-row" }, Kt = { class: "form-row" }, Gt = { class: "checkbox-field" }, zt = { class: "field-description" }, Ht = { class: "form-row" }, Bt = { class: "form-actions" }, Zt = { key: 0, class: "modal-overlay" }, Wt = { class: "modal-content large-modal" }, Xt = { class: "form-grid" }, Yt = { class: "form-row" }, Qt = { class: "form-row" }, ea = { class: "checkbox-field" }, ta = { class: "form-row" }, aa = { class: "modal-actions" }, la = Z({ __name: "AdminTypesManager", props: { selectedFamily: {} }, emits: ["typeSelected", "backToFamilies"], setup(h, { emit: l }) {
-  const c = h, a = l, o = x(), v = F(null), m = F({ inquiry_type: "", label: "", family: c.selectedFamily?.family_type || "", icon: "", description: "", is_option: false, fields: "[]", allowed_response: "[]", allowed_transformation: "[]" }), b = (d) => H[d] || H.default, f = L(() => Object.keys(H).filter((d) => d !== "default").map((d) => ({ id: d, label: t("agora", d.replace(/([A-Z])/g, " $1").trim()) }))), w = (d) => d ? typeof d == "string" ? d : typeof d == "object" ? d.id || "" : String(d) : "", A = L(() => o.inquiryTypeTab.filter((d) => d.family === c.selectedFamily?.family_type)), V = (d) => typeof d == "string" ? d : JSON.stringify(d || []), R = async () => {
-    if (!m.value.inquiry_type) {
-      ae(t("agora", "Inquiry type is mandatory"), { timeout: 2e3 });
-      return;
+    async function runJanitorJob() {
+      try {
+        adminJobs.runJanitor();
+        janitor.text = translate("agora", "Janitor started");
+      } catch (error) {
+        janitor.text = translate("agora", "Janitor failed");
+        Logger.error("Error on executing janitor job", { error });
+      } finally {
+        janitor.disabled = true;
+      }
     }
-    await o.addInquiryType({ ...m.value, family: c.selectedFamily.family_type, created: Date.now(), icon: w(m.value.icon), description: m.value.description || "", is_option: !!m.value.is_option, fields: V(m.value.fields), allowed_response: V(m.value.allowed_response), allowed_transformation: V(m.value.allowed_transformation) }), m.value = { inquiry_type: "", label: "", family: c.selectedFamily.family_type, icon: "", description: "", is_option: false, fields: "[]", allowed_response: "[]", allowed_transformation: "[]" };
-  }, E = async (d) => {
-    if (!d.inquiry_type) {
-      ae(t("agora", "Inquiry type is mandatory"), { timeout: 2e3 });
-      return;
+    async function runNotificationJob() {
+      try {
+        adminJobs.runNotification();
+        notification.text = translate("agora", "Notification started");
+      } catch (error) {
+        notification.text = translate("agora", "Notification failed");
+        Logger.error("Error on executing notification job", { error });
+      } finally {
+        notification.disabled = true;
+      }
     }
-    await o.updateInquiryType(d.id, { ...d, icon: w(d.icon), fields: V(d.fields), allowed_response: V(d.allowed_response), allowed_transformation: V(d.allowed_transformation) }), v.value = null;
-  }, P = async (d) => {
-    confirm(t("agora", "Are you sure you want to delete this inquiry type?")) && await o.deleteType(d);
-  }, q = (d) => {
-    a("typeSelected", d);
-  };
-  return (d, r) => (p(), y("div", kt, [i("div", Ct, [s(e(k), { onClick: r[0] || (r[0] = (u) => a("backToFamilies")) }, { default: g(() => [_(" ← " + n(e(t)("agora", "Back to Families")), 1)]), _: 1 }), i("h2", null, n(e(t)("agora", "Types for {family}", { family: d.selectedFamily?.label })), 1)]), i("div", It, [i("h3", null, n(e(t)("agora", "Configured Types")), 1), i("p", Tt, n(e(t)("agora", "Click on a type to configure its rights and status settings")), 1), i("div", At, [(p(true), y(G, null, z(A.value, (u) => (p(), y("div", { key: u.id, class: "type-card", onClick: (D) => q(u) }, [i("div", xt, [i("div", Ft, [(p(), M(W(b(u.icon)), { size: 20 }))]), i("div", Lt, [i("h4", null, n(u.label), 1), i("p", Et, n(u.inquiry_type), 1), u.description ? (p(), y("p", Nt, n(u.description), 1)) : I("", true), u.is_option ? (p(), y("div", Rt, n(e(t)("agora", "Option")), 1)) : I("", true)])]), i("div", Mt, [s(e(k), { type: "primary", class: "configure-btn", onClick: X((D) => q(u), ["stop"]) }, { default: g(() => [_(n(e(t)("agora", "Configure")), 1)]), _: 2 }, 1032, ["onClick"]), i("div", Dt, [s(e(k), { class: "edit-btn", onClick: X((D) => v.value = { ...u, fields: JSON.stringify(u.fields || []), allowed_response: JSON.stringify(u.allowed_response || []), allowed_transformation: JSON.stringify(u.allowed_transformation || []) }, ["stop"]) }, { default: g(() => [_(n(e(t)("agora", "Edit")), 1)]), _: 2 }, 1032, ["onClick"]), s(e(k), { class: "delete-btn", onClick: X((D) => P(u.id), ["stop"]) }, { default: g(() => [_(n(e(t)("agora", "Delete")), 1)]), _: 2 }, 1032, ["onClick"])])])], 8, Ut))), 128))]), A.value.length === 0 ? (p(), y("div", Ot, [i("p", null, n(e(t)("agora", "No types configured for this family yet")), 1)])) : I("", true)]), i("div", jt, [i("h3", null, n(e(t)("agora", "Add New Type to {family}", { family: d.selectedFamily?.label })), 1), i("div", Pt, [i("div", Jt, [s(e(T), { modelValue: m.value.inquiry_type, "onUpdate:modelValue": r[1] || (r[1] = (u) => m.value.inquiry_type = u), label: e(t)("agora", "Type Key"), placeholder: e(t)("agora", "e.g., petition, survey, poll"), required: "", class: "form-field" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(T), { modelValue: m.value.label, "onUpdate:modelValue": r[2] || (r[2] = (u) => m.value.label = u), label: e(t)("agora", "Display Label"), placeholder: e(t)("agora", "e.g., Public Petition, Survey"), required: "", class: "form-field" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(N), { modelValue: m.value.icon, "onUpdate:modelValue": r[3] || (r[3] = (u) => m.value.icon = u), options: f.value, clearable: false, placeholder: e(t)("agora", "Select an icon"), label: "label", class: "form-field" }, null, 8, ["modelValue", "options", "placeholder"])]), s(e(T), { modelValue: m.value.description, "onUpdate:modelValue": r[4] || (r[4] = (u) => m.value.description = u), label: e(t)("agora", "Description"), type: "textarea", class: "full-width" }, null, 8, ["modelValue", "label"]), i("div", Kt, [i("div", Gt, [s(e(C), { modelValue: m.value.is_option, "onUpdate:modelValue": r[5] || (r[5] = (u) => m.value.is_option = u), type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Is Option Type")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", zt, n(e(t)("agora", "Option types are used as responses or transformations for other types")), 1)])]), i("div", Ht, [s(e(T), { modelValue: m.value.fields, "onUpdate:modelValue": r[6] || (r[6] = (u) => m.value.fields = u), label: e(t)("agora", "Fields Configuration (JSON)"), type: "textarea", placeholder: 'e.g., ["title", "description", "deadline"]', class: "form-field" }, null, 8, ["modelValue", "label"]), s(e(T), { modelValue: m.value.allowed_response, "onUpdate:modelValue": r[7] || (r[7] = (u) => m.value.allowed_response = u), label: e(t)("agora", "Allowed Responses (JSON)"), type: "textarea", placeholder: 'e.g., ["vote_yes_no", "comment"]', class: "form-field" }, null, 8, ["modelValue", "label"]), s(e(T), { modelValue: m.value.allowed_transformation, "onUpdate:modelValue": r[8] || (r[8] = (u) => m.value.allowed_transformation = u), label: e(t)("agora", "Allowed Transformations (JSON)"), type: "textarea", placeholder: 'e.g., ["official_proposal"]', class: "form-field" }, null, 8, ["modelValue", "label"])]), i("div", Bt, [s(e(k), { type: "primary", disabled: !m.value.inquiry_type || !m.value.label, onClick: R }, { default: g(() => [_(n(e(t)("agora", "Add Type")), 1)]), _: 1 }, 8, ["disabled"])])])]), v.value ? (p(), y("div", Zt, [i("div", Wt, [i("h3", null, n(e(t)("agora", "Edit Inquiry Type")), 1), i("div", Xt, [i("div", Yt, [s(e(T), { modelValue: v.value.inquiry_type, "onUpdate:modelValue": r[9] || (r[9] = (u) => v.value.inquiry_type = u), label: e(t)("agora", "Type Key"), required: "", class: "form-field" }, null, 8, ["modelValue", "label"]), s(e(T), { modelValue: v.value.label, "onUpdate:modelValue": r[10] || (r[10] = (u) => v.value.label = u), label: e(t)("agora", "Display Label"), required: "", class: "form-field" }, null, 8, ["modelValue", "label"]), s(e(N), { modelValue: v.value.icon, "onUpdate:modelValue": r[11] || (r[11] = (u) => v.value.icon = u), options: f.value, clearable: false, placeholder: e(t)("agora", "Select an icon"), class: "form-field" }, null, 8, ["modelValue", "options", "placeholder"])]), s(e(T), { modelValue: v.value.description, "onUpdate:modelValue": r[12] || (r[12] = (u) => v.value.description = u), label: e(t)("agora", "Description"), type: "textarea", class: "full-width" }, null, 8, ["modelValue", "label"]), i("div", Qt, [i("div", ea, [s(e(C), { modelValue: v.value.is_option, "onUpdate:modelValue": r[13] || (r[13] = (u) => v.value.is_option = u), type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Is Option Type")), 1)]), _: 1 }, 8, ["modelValue"])])]), i("div", ta, [s(e(T), { modelValue: v.value.fields, "onUpdate:modelValue": r[14] || (r[14] = (u) => v.value.fields = u), label: e(t)("agora", "Fields Configuration (JSON)"), type: "textarea", class: "form-field" }, null, 8, ["modelValue", "label"]), s(e(T), { modelValue: v.value.allowed_response, "onUpdate:modelValue": r[15] || (r[15] = (u) => v.value.allowed_response = u), label: e(t)("agora", "Allowed Responses (JSON)"), type: "textarea", class: "form-field" }, null, 8, ["modelValue", "label"]), s(e(T), { modelValue: v.value.allowed_transformation, "onUpdate:modelValue": r[16] || (r[16] = (u) => v.value.allowed_transformation = u), label: e(t)("agora", "Allowed Transformations (JSON)"), type: "textarea", class: "form-field" }, null, 8, ["modelValue", "label"])]), i("div", aa, [s(e(k), { onClick: r[17] || (r[17] = (u) => v.value = null) }, { default: g(() => [_(n(e(t)("agora", "Cancel")), 1)]), _: 1 }), s(e(k), { type: "primary", onClick: r[18] || (r[18] = (u) => E(v.value)) }, { default: g(() => [_(n(e(t)("agora", "Save")), 1)]), _: 1 })])])])])) : I("", true)]));
-} }), oa = j(la, [["__scopeId", "data-v-f2729c43"]]), ia = { class: "type-rights" }, sa = { class: "header" }, na = { key: 0, class: "type-id" }, ra = { key: 0, class: "settings-container" }, da = { class: "description" }, ua = { class: "settings-list" }, pa = { class: "setting-item" }, ca = { class: "setting-description" }, ma = { class: "setting-item" }, ga = { class: "setting-description" }, ya = { class: "setting-item" }, va = { class: "setting-description" }, fa = { class: "setting-item" }, _a = { for: "editor-type-select" }, ba = { class: "setting-description" }, ha = { key: 1, class: "no-selection" }, Va = Z({ __name: "AdminTypeRights", props: { selectedType: {} }, emits: ["updateRights"], setup(h, { emit: l }) {
-  const c = h, a = l, o = x(), v = [{ value: "wysiwyg", label: t("agora", "Rich Text Editor") }, { value: "textarea", label: t("agora", "Simple Text Area") }, { value: "texteditor", label: t("agora", "Nextcloud text editor") }], m = L({ get: () => c.selectedType ? o.inquiryTypeRights[c.selectedType.inquiry_type] || b() : {}, set: (w) => {
-    c.selectedType && a("updateRights", c.selectedType.inquiry_type, w);
-  } }), b = () => ({ supportInquiry: true, commentInquiry: true, attachFileInquiry: true, editorType: "wysiwyg" });
-  ve(() => c.selectedType, (w) => {
-    if (w && !o.inquiryTypeRights[w.inquiry_type]) {
-      const A = b();
-      a("updateRights", w.inquiry_type, A);
-    }
-  }, { immediate: true });
-  const f = () => {
-    c.selectedType && a("updateRights", c.selectedType.inquiry_type, m.value);
-  };
-  return (w, A) => (p(), y("div", ia, [i("div", sa, [i("h2", null, n(e(t)("agora", "Rights for {type}", { type: w.selectedType?.label })), 1), w.selectedType ? (p(), y("p", na, n(w.selectedType.inquiry_type), 1)) : I("", true)]), w.selectedType ? (p(), y("div", ra, [i("p", da, n(e(t)("agora", "Configure default rights and settings for this inquiry type")), 1), i("div", ua, [i("div", pa, [s(e(C), { modelValue: m.value.supportInquiry, "onUpdate:modelValue": [A[0] || (A[0] = (V) => m.value.supportInquiry = V), f], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Allow support")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", ca, n(e(t)("agora", "Allow users to support this inquiry type")), 1)]), i("div", ma, [s(e(C), { modelValue: m.value.commentInquiry, "onUpdate:modelValue": [A[1] || (A[1] = (V) => m.value.commentInquiry = V), f], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Allow comments")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", ga, n(e(t)("agora", "Allow users to comment on this inquiry type")), 1)]), i("div", ya, [s(e(C), { modelValue: m.value.attachFileInquiry, "onUpdate:modelValue": [A[2] || (A[2] = (V) => m.value.attachFileInquiry = V), f], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Allow file attachments")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", va, n(e(t)("agora", "Allow users to attach files to this inquiry type")), 1)]), i("div", fa, [i("label", _a, n(e(t)("agora", "Editor type")), 1), s(e(N), { id: "editor-type-select", modelValue: m.value.editorType, "onUpdate:modelValue": [A[3] || (A[3] = (V) => m.value.editorType = V), f], options: v, "option-value": "value", "option-label": "label", class: "editor-select" }, null, 8, ["modelValue"]), i("p", ba, n(e(t)("agora", "Select the editor type for this inquiry")), 1)])])])) : (p(), y("div", ha, [i("p", null, n(e(t)("agora", "Please select an inquiry type to configure its rights")), 1)]))]));
-} }), $a = j(Va, [["__scopeId", "data-v-dd030fa5"]]), wa = { class: "type-status" }, Sa = { class: "header" }, qa = { key: 0, class: "status-management" }, ka = { class: "description" }, Ca = { class: "status-list" }, Ia = { key: 0, class: "empty-state" }, Ta = { key: 1, class: "status-items" }, Aa = { class: "status-content" }, Ua = ["title"], xa = { class: "status-info" }, Fa = { class: "status-key" }, La = { key: 0, class: "status-description" }, Ea = { class: "status-properties" }, Na = { class: "status-actions" }, Ra = { class: "add-status-form" }, Ma = { class: "form-grid" }, Da = { class: "checkbox-field" }, Oa = { class: "field-description" }, ja = { key: 0, class: "modal-overlay" }, Pa = { class: "modal-content" }, Ja = { class: "form-grid" }, Ka = { class: "checkbox-field" }, Ga = { class: "field-description" }, za = { class: "modal-actions" }, Ha = { key: 1, class: "no-selection" }, Ba = Z({ __name: "AdminTypeStatus", props: { selectedType: {} }, setup(h) {
-  const l = h, c = x(), a = F(null), o = F({ statusKey: "", label: "", description: "", isFinal: false, icon: "ClockOutline" }), v = L(() => Object.keys(le).filter((q) => q !== "default").map((q) => ({ id: q, label: t("agora", q.replace(/([A-Z])/g, " $1").trim()) }))), m = L(() => l.selectedType ? c.getStatusesForInquiryType(l.selectedType.inquiry_type) : []), b = (q) => le[q] || le.ClockOutline, f = () => {
-    !o.value.statusKey || !o.value.label || !l.selectedType || (c.addStatusForInquiryType(l.selectedType.inquiry_type, { ...o.value, icon: String(o.value.icon) }), o.value = { statusKey: "", label: "", description: "", isFinal: false, icon: "ClockOutline" });
-  }, w = (q) => {
-    a.value = { id: q.id, statusKey: q.statusKey, label: q.label, description: q.description || "", isFinal: q.isFinal, icon: q.icon || "ClockOutline" };
-  }, A = () => {
-    a.value && l.selectedType && (c.updateStatusForInquiryType(l.selectedType.inquiry_type, a.value.id, { ...a.value, icon: a.value.icon?.id || String(a.value.icon) }), a.value = null);
-  }, V = (q) => {
-    confirm(t("agora", "Are you sure you want to delete this status?")) && l.selectedType && c.deleteStatusForInquiryType(l.selectedType.inquiry_type, q);
-  }, R = (q) => {
-    l.selectedType && c.moveStatusUp(l.selectedType.inquiry_type, q);
-  }, E = (q) => {
-    l.selectedType && c.moveStatusDown(l.selectedType.inquiry_type, q);
-  }, P = () => {
-    a.value = null;
-  };
-  return (q, d) => (p(), y("div", wa, [i("div", Sa, [i("h2", null, n(e(t)("agora", "Status for {type}", { type: q.selectedType?.label })), 1)]), q.selectedType ? (p(), y("div", qa, [i("p", ka, n(e(t)("agora", "Manage statuses for this inquiry type Statuses define the workflow stages")), 1), i("div", Ca, [i("h3", null, n(e(t)("agora", "Statuses for {type}", { type: q.selectedType.label })), 1), m.value.length === 0 ? (p(), y("div", Ia, [i("p", null, n(e(t)("agora", "No statuses configured for this inquiry type")), 1)])) : (p(), y("div", Ta, [(p(true), y(G, null, z(m.value, (r, u) => (p(), y("div", { key: r.statusKey, class: "status-item" }, [i("div", Aa, [i("div", { class: "status-icon", title: r.icon }, [(p(), M(W(b(r.icon)), { size: 20 }))], 8, Ua), i("div", xa, [i("h4", null, n(r.label), 1), i("p", Fa, n(r.statusKey), 1), r.description ? (p(), y("p", La, n(r.description), 1)) : I("", true), i("div", Ea, [i("span", { class: Q(["status-badge", r.isFinal ? "final" : "non-final"]) }, n(r.isFinal ? e(t)("agora", "Final") : e(t)("agora", "Non-Final")), 3)])])]), i("div", Na, [s(e(k), { disabled: u === 0, onClick: (D) => R(r.statusKey) }, { default: g(() => [_(n(e(t)("agora", "Up")), 1)]), _: 2 }, 1032, ["disabled", "onClick"]), s(e(k), { disabled: u === m.value.length - 1, onClick: (D) => E(r.statusKey) }, { default: g(() => [_(n(e(t)("agora", "Down")), 1)]), _: 2 }, 1032, ["disabled", "onClick"]), s(e(k), { onClick: (D) => w(r) }, { default: g(() => [_(n(e(t)("agora", "Edit")), 1)]), _: 2 }, 1032, ["onClick"]), s(e(k), { onClick: (D) => V(r.id) }, { default: g(() => [_(n(e(t)("agora", "Delete")), 1)]), _: 2 }, 1032, ["onClick"])])]))), 128))]))]), i("div", Ra, [i("h3", null, n(e(t)("agora", "Add New Status")), 1), i("div", Ma, [s(e(T), { modelValue: o.value.statusKey, "onUpdate:modelValue": d[0] || (d[0] = (r) => o.value.statusKey = r), label: e(t)("agora", "Status Key"), placeholder: e(t)("agora", "Enter unique status key"), required: "" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(T), { modelValue: o.value.label, "onUpdate:modelValue": d[1] || (d[1] = (r) => o.value.label = r), label: e(t)("agora", "Label"), placeholder: e(t)("agora", "Enter display label"), required: "" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(T), { modelValue: o.value.description, "onUpdate:modelValue": d[2] || (d[2] = (r) => o.value.description = r), label: e(t)("agora", "Description"), placeholder: e(t)("agora", "Enter description (optional)"), type: "textarea" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(N), { modelValue: o.value.icon, "onUpdate:modelValue": d[3] || (d[3] = (r) => o.value.icon = r), options: v.value, label: "label", "input-label": e(t)("agora", "Select Icon") }, null, 8, ["modelValue", "options", "input-label"]), i("div", Da, [s(e(C), { modelValue: o.value.isFinal, "onUpdate:modelValue": d[4] || (d[4] = (r) => o.value.isFinal = r), type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Final Status")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", Oa, n(e(t)("agora", "Final statuses cannot be changed once set")), 1)]), s(e(k), { type: "primary", disabled: !o.value.statusKey || !o.value.label, onClick: f }, { default: g(() => [_(n(e(t)("agora", "Add Status")), 1)]), _: 1 }, 8, ["disabled"])])]), a.value ? (p(), y("div", ja, [i("div", Pa, [i("h3", null, n(e(t)("agora", "Edit Status")), 1), i("div", Ja, [s(e(T), { modelValue: a.value.statusKey, "onUpdate:modelValue": d[5] || (d[5] = (r) => a.value.statusKey = r), label: e(t)("agora", "Status Key"), placeholder: e(t)("agora", "Enter unique status key"), required: "" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(T), { modelValue: a.value.label, "onUpdate:modelValue": d[6] || (d[6] = (r) => a.value.label = r), label: e(t)("agora", "Label"), placeholder: e(t)("agora", "Enter display label"), required: "" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(T), { modelValue: a.value.description, "onUpdate:modelValue": d[7] || (d[7] = (r) => a.value.description = r), label: e(t)("agora", "Description"), placeholder: e(t)("agora", "Enter description (optional)"), type: "textarea" }, null, 8, ["modelValue", "label", "placeholder"]), s(e(N), { modelValue: a.value.icon, "onUpdate:modelValue": d[8] || (d[8] = (r) => a.value.icon = r), options: v.value, label: "label", "input-label": e(t)("agora", "Select Icon") }, null, 8, ["modelValue", "options", "input-label"]), i("div", Ka, [s(e(C), { modelValue: a.value.isFinal, "onUpdate:modelValue": d[9] || (d[9] = (r) => a.value.isFinal = r), type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Final Status")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", Ga, n(e(t)("agora", "Final statuses cannot be changed once set")), 1)])]), i("div", za, [s(e(k), { onClick: P }, { default: g(() => [_(n(e(t)("agora", "Cancel")), 1)]), _: 1 }), s(e(k), { type: "primary", disabled: !a.value.statusKey || !a.value.label, onClick: A }, { default: g(() => [_(n(e(t)("agora", "Save Changes")), 1)]), _: 1 }, 8, ["disabled"])])])])) : I("", true)])) : (p(), y("div", Ha, [i("p", null, n(e(t)("agora", "No type selected")), 1)]))]));
-} }), Za = j(Ba, [["__scopeId", "data-v-b4a5ff9a"]]), Wa = { class: "type-settings-modal" }, Xa = { class: "modal-header" }, Ya = { class: "type-info" }, Qa = { class: "type-icon" }, el = { class: "type-details" }, tl = { class: "type-key" }, al = { class: "simple-menu" }, ll = ["onClick"], ol = { class: "settings-content" }, il = { __name: "TypeSettingsModal", emits: ["close"], setup(h) {
-  const l = x(), c = F("user-rights"), a = (m) => H[m] || H.default, o = [{ id: "user-rights", label: t("agora", "Inquiry Features"), component: $a }, { id: "status", label: t("agora", "Inquiry Status"), component: Za }], v = (m, b) => {
-    l.inquiryTypeRights[m] = b, l.write();
-  };
-  return (m, b) => (p(), y("div", Wa, [i("div", Xa, [i("div", Ya, [i("div", Qa, [(p(), M(W(a(m.selectedType.icon)), { size: 20 }))]), i("div", el, [i("h3", null, n(m.selectedType.label), 1), i("p", tl, n(m.selectedType.inquiry_type), 1)])]), i("button", { class: "close-button", onClick: b[0] || (b[0] = (f) => m.$emit("close")) }, n(e(t)("agora", "Close")), 1)]), i("div", al, [(p(), y(G, null, z(o, (f) => i("button", { key: f.id, class: Q(["menu-item", { active: c.value === f.id }]), onClick: (w) => c.value = f.id }, n(f.label), 11, ll)), 64))]), i("div", ol, [(p(), M(W(o.find((f) => f.id === c.value)?.component), { "selected-type": m.selectedType, onUpdateRights: v }, null, 40, ["selected-type"]))])]));
-} }, sl = j(il, [["__scopeId", "data-v-27227009"]]), nl = { class: "admin-settings-container" }, rl = { key: 0, class: "breadcrumb" }, dl = ["onClick"], ul = { key: 1, class: "breadcrumb-current" }, pl = { key: 2, class: "breadcrumb-separator" }, cl = { class: "settings-content" }, ml = { __name: "AdminSettings", setup(h) {
-  const l = F("families"), c = F(null), a = F(null), o = F(false), v = L(() => {
-    const V = [{ label: t("agora", "Inquiry Families"), view: "families" }];
-    return c.value && V.push({ label: c.value.label, view: "types" }), V;
-  }), m = (V) => {
-    c.value = V, l.value = "types";
-  }, b = (V) => {
-    a.value = V, o.value = true;
-  }, f = (V) => {
-    V === "families" && (c.value = null, a.value = null), l.value = V;
-  }, w = () => {
-    o.value = false, a.value = null;
-  }, A = L(() => {
-    switch (l.value) {
-      case "types":
-        return oa;
-      case "families":
-      default:
-        return qt;
-    }
-  });
-  return (V, R) => (p(), y("div", nl, [v.value.length > 0 ? (p(), y("div", rl, [(p(true), y(G, null, z(v.value, (E, P) => (p(), y("span", { key: E.view, class: "breadcrumb-item" }, [P < v.value.length - 1 ? (p(), y("button", { key: 0, class: "breadcrumb-link", onClick: (q) => f(E.view) }, n(E.label), 9, dl)) : (p(), y("span", ul, n(E.label), 1)), P < v.value.length - 1 ? (p(), y("span", pl, " / ")) : I("", true)]))), 128))])) : I("", true), i("div", cl, [(p(), M(W(A.value), { "selected-family": c.value, onFamilySelected: m, onTypeSelected: b, onBackToFamilies: R[0] || (R[0] = (E) => f("families")) }, null, 40, ["selected-family"]))]), s(e(Ve), { open: o.value, "onUpdate:open": R[1] || (R[1] = (E) => o.value = E), "show-navigation": false, name: e(t)("agora", "Settings - {type}", { type: a.value?.label || "" }), class: "large-modal", onClose: w }, { default: g(() => [a.value ? (p(), M(sl, { key: 0, "selected-type": a.value, onClose: w }, null, 8, ["selected-type"])) : I("", true)]), _: 1 }, 8, ["open", "name"])]));
-} }, gl = j(ml, [["__scopeId", "data-v-aa6bd186"]]), yl = { class: "user_settings" }, vl = Z({ __name: "AdminPerformance", setup(h) {
-  const l = x(), c = [{ value: "longInquirying", label: t("agora", 'Enable "long inquirying" for instant updates') }, { value: "periodicInquirying", label: t("agora", "Enable periodic requests of inquiry updates from the client") }, { value: "noInquirying", label: t("agora", "Disable automatic updates (inquiry must be reloaded to get updates)") }];
-  return (a, o) => (p(), y("div", yl, [s(e(Se), { modelValue: e(l).updateType, "onUpdate:modelValue": o[0] || (o[0] = (v) => e(l).updateType = v), options: c, onUpdate: o[1] || (o[1] = (v) => e(l).write()) }, null, 8, ["modelValue"])]));
-} }), fl = { class: "tree-item" }, _l = { class: "tree-label" }, bl = { class: "tree-actions" }, hl = { key: 0, class: "tree-children" }, Vl = Z({ __name: "TreeItem", props: { item: { type: Object, default: () => ({ id: 0, name: "" }) }, items: { type: Array, default: () => [] }, level: { type: Number, default: 0 }, type: { type: String, default: "default" } }, emits: ["edit", "delete"], setup(h, { emit: l }) {
-  const c = h, a = l, o = L(() => c.items.filter((b) => b.parentId === c.item.id)), v = () => {
-    a("edit", c.item, c.type);
-  }, m = () => {
-    a("delete", c.item.id, c.type);
-  };
-  return (b, f) => {
-    const w = fe("TreeItem", true);
-    return p(), y("div", fl, [i("div", { class: "tree-node", style: _e("margin-left: " + h.level * 20 + "px") }, [i("span", _l, n(h.item.name), 1), i("div", bl, [s(e(k), { onClick: v }, { default: g(() => [_(n(e(t)("agora", "Edit")), 1)]), _: 1 }), s(e(k), { onClick: m }, { default: g(() => [_(n(e(t)("agora", "Delete")), 1)]), _: 1 })])], 4), o.value.length > 0 ? (p(), y("div", hl, [(p(true), y(G, null, z(o.value, (A) => (p(), M(w, { key: A.id, item: A, items: h.items, level: h.level + 1, type: h.type, onEdit: f[0] || (f[0] = (V) => b.$emit("edit", V, h.type)), onDelete: f[1] || (f[1] = (V) => b.$emit("delete", V, h.type)) }, null, 8, ["item", "items", "level", "type"]))), 128))])) : I("", true)]);
-  };
-} }), de = j(Vl, [["__scopeId", "data-v-94b6fd9c"]]), $l = { class: "category-location-manager" }, wl = { key: 0, class: "loading" }, Sl = { key: 1 }, ql = { class: "tabs" }, kl = { key: 0, class: "tab-content" }, Cl = { class: "add-form" }, Il = { class: "form-fields" }, Tl = { class: "tree-view" }, Al = { class: "tree-container" }, Ul = { key: 1, class: "tab-content" }, xl = { class: "add-form" }, Fl = { class: "form-fields" }, Ll = { class: "tree-view" }, El = { class: "tree-container" }, Nl = { key: 2, class: "modal" }, Rl = { class: "modal-content" }, Ml = { class: "modal-actions" }, Dl = Z({ __name: "AdminCategoryLocation", setup(h) {
-  const l = x(), c = F({ value: 0, label: t("agora", "No parent") }), a = F({ value: 0, label: t("agora", "No parent") }), o = L(() => l.categoryTab || []), v = L(() => l.locationTab || []), m = F({ name: "", parentId: 0 }), b = F({ name: "", parentId: 0 }), f = F(null), w = F("categories"), A = F(false);
-  ne(() => {
-    A.value = true;
-  });
-  const V = L(() => {
-    if (!Array.isArray(l.categoryTab)) return [];
-    const S = E(l.categoryTab).map(($) => ({ value: $.id, label: `${"— ".repeat($.depth ?? 0)}${$.name ?? "[no name]"}`, original: $ }));
-    return [{ value: 0, label: t("agora", "No parent") }, ...S];
-  }), R = L(() => {
-    if (!Array.isArray(l.locationTab)) return [];
-    const S = E(l.locationTab).map(($) => ({ value: $.id, label: `${"— ".repeat($.depth ?? 0)}${$.name ?? "[no name]"}`, original: $ }));
-    return [{ value: 0, label: t("agora", "No parent") }, ...S];
-  });
-  function E(S, $ = 0, U = 0) {
-    return Array.isArray(S) ? S.filter((B) => B?.parentId === $).map((B) => {
-      const ce = E(S, B.id, U + 1);
-      return { ...B, depth: U, children: ce };
-    }).flatMap((B) => [B, ...B.children]) : [];
+    const __returned__ = { autoreminder, janitor, notification, runAutoReminderJob, runJanitorJob, runNotificationJob, get Logger() {
+      return Logger;
+    }, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get AdminAPI() {
+      return adminJobs;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
   }
-  const P = L(() => f.value ? f.value.type === "category" ? V.value.filter((S) => S.value !== f.value.id) : R.value.filter((S) => S.value !== f.value.id) : []), q = () => {
-    if (m.value.name.trim()) {
-      const S = c.value?.value || 0;
-      l.addCategory(m.value.name, S), m.value.name = "", c.value = { value: 0, label: t("agora", "No parent") };
+};
+const _hoisted_1$k = { class: "user_settings" };
+const _hoisted_2$g = { class: "job_hints" };
+const _hoisted_3$b = { class: "job_buttons_section" };
+function _sfc_render$k(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$k, [
+    createBaseVNode("div", _hoisted_2$g, [
+      createBaseVNode(
+        "p",
+        null,
+        toDisplayString($setup.t(
+          "agora",
+          "Please understand, that the jobs were defined as asynchronous jobs by intention."
+        )) + " " + toDisplayString($setup.t(
+          "agora",
+          "Only use them, if it is absolutely neccessary (i.error. your cron does not work properly) or for testing."
+        )) + " " + toDisplayString($setup.t(
+          "agora",
+          "Starting the jobs does not mean, that the rules for these actions are overridden."
+        )),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode(
+        "p",
+        null,
+        toDisplayString($setup.t(
+          "agora",
+          "Each job can only be run once. If you want to rerun them, you have to refresh the page."
+        )) + " " + toDisplayString($setup.t("agora", "If you want to see the result please check the logs")),
+        1
+        /* TEXT */
+      )
+    ]),
+    createBaseVNode("div", _hoisted_3$b, [
+      createVNode($setup["NcButton"], {
+        variant: "primary",
+        "aria-label": $setup.autoreminder.text,
+        disabled: $setup.autoreminder.disabled,
+        onClick: _cache[0] || (_cache[0] = ($event) => $setup.runAutoReminderJob())
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            toDisplayString($setup.autoreminder.text),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["aria-label", "disabled"]),
+      createVNode($setup["NcButton"], {
+        variant: "primary",
+        "aria-label": $setup.janitor.text,
+        disabled: $setup.janitor.disabled,
+        onClick: _cache[1] || (_cache[1] = ($event) => $setup.runJanitorJob())
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            toDisplayString($setup.janitor.text),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["aria-label", "disabled"]),
+      createVNode($setup["NcButton"], {
+        variant: "primary",
+        "aria-label": $setup.notification.text,
+        disabled: $setup.notification.disabled,
+        onClick: _cache[2] || (_cache[2] = ($event) => $setup.runNotificationJob())
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            toDisplayString($setup.notification.text),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["aria-label", "disabled"])
+    ])
+  ]);
+}
+const AdminJobs = /* @__PURE__ */ _export_sfc(_sfc_main$k, [["render", _sfc_render$k], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminJobs.vue"]]);
+const _sfc_main$j = {
+  __name: "AdminLegal",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const placeholder = computed(() => {
+      let privacy = translate("agora", "Enter the URL of your privacy policy");
+      let imprint = translate("agora", "Enter the URL of your legal notice");
+      if (appSettingsStore.defaultPrivacyUrl) {
+        privacy = appSettingsStore.defaultPrivacyUrl;
+      }
+      if (appSettingsStore.defaultImprintUrl) {
+        imprint = appSettingsStore.defaultImprintUrl;
+      }
+      return {
+        privacy,
+        imprint
+      };
+    });
+    const __returned__ = { appSettingsStore, placeholder, get InputDiv() {
+      return InputDiv;
+    }, get t() {
+      return translate;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    }, computed, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$j = { class: "user_settings" };
+const _hoisted_2$f = {
+  key: 0,
+  class: "user_settings"
+};
+const _hoisted_3$a = { class: "settings-description" };
+function _sfc_render$j(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock(
+    Fragment,
+    null,
+    [
+      createBaseVNode("div", _hoisted_1$j, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.useSiteLegalTerms,
+          "onUpdate:modelValue": [
+            _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.useSiteLegalTerms = $event),
+            _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("inquiries", "Use the default terms for public inquiries and enable the default footer")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"])
+      ]),
+      !$setup.appSettingsStore.useSiteLegalTerms ? (openBlock(), createElementBlock("div", _hoisted_2$f, [
+        createBaseVNode(
+          "p",
+          _hoisted_3$a,
+          toDisplayString($setup.t("inquiries", "If you want to use different terms for public inquiries, enter them below.")),
+          1
+          /* TEXT */
+        ),
+        createVNode($setup["InputDiv"], {
+          modelValue: $setup.appSettingsStore.privacyUrl,
+          "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.privacyUrl = $event),
+          type: "url",
+          placeholder: $setup.placeholder.privacy,
+          label: $setup.t("agora", "Privacy policy link"),
+          onChange: _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+        }, null, 8, ["modelValue", "placeholder", "label"]),
+        createVNode($setup["InputDiv"], {
+          modelValue: $setup.appSettingsStore.imprintUrl,
+          "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.imprintUrl = $event),
+          type: "url",
+          inputmode: "url",
+          label: $setup.t("agora", "Legal terms link"),
+          placeholder: $setup.placeholder.imprint,
+          onChange: _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.write())
+        }, null, 8, ["modelValue", "label", "placeholder"])
+      ])) : createCommentVNode("v-if", true)
+    ],
+    64
+    /* STABLE_FRAGMENT */
+  );
+}
+const AdminLegal = /* @__PURE__ */ _export_sfc(_sfc_main$j, [["render", _sfc_render$j], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminLegal.vue"]]);
+const _sfc_main$i = {
+  __name: "AdminFamiliesManager",
+  emits: ["familySelected"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const emit = __emit;
+    const appSettingsStore = useAppSettingsStore();
+    const editingFamily = ref(null);
+    const newFamily = ref({
+      family_type: "",
+      label: "",
+      description: "",
+      icon: null,
+      sort_order: 0
+    });
+    const findIconById = (iconId) => {
+      if (!iconId) return null;
+      return availableIcons.value.find((icon) => icon.id === iconId) || null;
+    };
+    const startEditing = (family) => {
+      editingFamily.value = {
+        ...family,
+        icon: findIconById(family.icon)
+        // Convert string icon to object for NcSelect
+      };
+    };
+    const availableIcons = computed(
+      () => Object.keys(InquiryGeneralIcons).filter((key) => key !== "default").map((iconId) => ({
+        id: iconId,
+        label: translate("agora", iconId.replace(/([A-Z])/g, " $1").trim())
+      }))
+    );
+    const getIconComponent = (iconName) => InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default;
+    const familiesWithStats = computed(() => appSettingsStore.inquiryFamilyTab.map((family) => {
+      const typesCount = appSettingsStore.inquiryTypeTab.filter(
+        (type) => type.family === family.family_type
+      ).length;
+      return {
+        ...family,
+        typesCount
+      };
+    }));
+    const extractIconId = (icon) => {
+      if (!icon) return "";
+      if (typeof icon === "string") return icon;
+      if (typeof icon === "object") return icon.id || "";
+      return String(icon);
+    };
+    const addFamily = async () => {
+      if (!newFamily.value.family_type) {
+        showError(translate("agora", "Inquiry family type is mandatory"), { timeout: 2e3 });
+        return;
+      }
+      await appSettingsStore.addFamily({
+        ...newFamily.value,
+        icon: extractIconId(newFamily.value.icon),
+        created: Date.now()
+      });
+      newFamily.value = {
+        family_type: "",
+        label: "",
+        description: "",
+        icon: "",
+        sort_order: appSettingsStore.inquiryFamilyTab.length
+      };
+    };
+    const updateFamily = async (family) => {
+      await appSettingsStore.updateFamily(family.id, {
+        ...family,
+        icon: extractIconId(family.icon)
+      });
+      editingFamily.value = null;
+    };
+    const deleteFamily = async (familyId) => {
+      if (confirm(translate("agora", "Are you sure you want to delete this family?"))) {
+        await appSettingsStore.deleteFamily(familyId);
+      }
+    };
+    const selectFamily = (family) => {
+      emit("familySelected", family);
+    };
+    const __returned__ = { emit, appSettingsStore, editingFamily, newFamily, findIconById, startEditing, availableIcons, getIconComponent, familiesWithStats, extractIconId, addFamily, updateFamily, deleteFamily, selectFamily, computed, ref, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcInputField() {
+      return NcInputField;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    }, get InquiryGeneralIcons() {
+      return InquiryGeneralIcons;
+    }, get showError() {
+      return showError;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$i = { class: "families-manager" };
+const _hoisted_2$e = { class: "description" };
+const _hoisted_3$9 = { class: "families-list" };
+const _hoisted_4$9 = ["onClick"];
+const _hoisted_5$8 = { class: "family-content" };
+const _hoisted_6$8 = { class: "family-icon" };
+const _hoisted_7$7 = { class: "family-info" };
+const _hoisted_8$7 = { class: "family-type" };
+const _hoisted_9$7 = {
+  key: 0,
+  class: "family-description"
+};
+const _hoisted_10$5 = { class: "family-stats" };
+const _hoisted_11$5 = { class: "types-count" };
+const _hoisted_12$4 = { class: "family-actions" };
+const _hoisted_13$4 = { class: "add-family-form" };
+const _hoisted_14$4 = { class: "form-grid" };
+const _hoisted_15$4 = { class: "form-row" };
+const _hoisted_16$4 = { class: "form-actions" };
+const _hoisted_17$3 = {
+  key: 0,
+  class: "modal-overlay"
+};
+const _hoisted_18$2 = { class: "modal-content large-modal" };
+const _hoisted_19$2 = { class: "form-grid" };
+const _hoisted_20$2 = { class: "form-row" };
+const _hoisted_21$2 = { class: "modal-actions" };
+function _sfc_render$i(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$i, [
+    createBaseVNode(
+      "h2",
+      null,
+      toDisplayString($setup.t("agora", "Inquiry Families Management")),
+      1
+      /* TEXT */
+    ),
+    createBaseVNode(
+      "p",
+      _hoisted_2$e,
+      toDisplayString($setup.t("agora", "Manage inquiry families to organize different types of inquiries Each family can contain multiple inquiry types")),
+      1
+      /* TEXT */
+    ),
+    createCommentVNode(" Families List "),
+    createBaseVNode("div", _hoisted_3$9, [
+      createBaseVNode(
+        "h3",
+        null,
+        toDisplayString($setup.t("agora", "Existing Families")),
+        1
+        /* TEXT */
+      ),
+      (openBlock(true), createElementBlock(
+        Fragment,
+        null,
+        renderList($setup.familiesWithStats, (family) => {
+          return openBlock(), createElementBlock("div", {
+            key: family.id,
+            class: "family-item",
+            onClick: ($event) => $setup.selectFamily(family)
+          }, [
+            createBaseVNode("div", _hoisted_5$8, [
+              createBaseVNode("div", _hoisted_6$8, [
+                (openBlock(), createBlock(resolveDynamicComponent($setup.getIconComponent(family.icon)), { size: 20 }))
+              ]),
+              createBaseVNode("div", _hoisted_7$7, [
+                createBaseVNode(
+                  "h4",
+                  null,
+                  toDisplayString(family.label),
+                  1
+                  /* TEXT */
+                ),
+                createBaseVNode(
+                  "p",
+                  _hoisted_8$7,
+                  toDisplayString(family.family_type),
+                  1
+                  /* TEXT */
+                ),
+                family.description ? (openBlock(), createElementBlock(
+                  "p",
+                  _hoisted_9$7,
+                  toDisplayString(family.description),
+                  1
+                  /* TEXT */
+                )) : createCommentVNode("v-if", true),
+                createBaseVNode("div", _hoisted_10$5, [
+                  createBaseVNode(
+                    "span",
+                    _hoisted_11$5,
+                    toDisplayString($setup.t("agora", "{count} types", { count: family.typesCount })),
+                    1
+                    /* TEXT */
+                  )
+                ])
+              ])
+            ]),
+            createBaseVNode("div", _hoisted_12$4, [
+              createVNode($setup["NcButton"], {
+                onClick: withModifiers(($event) => $setup.startEditing(family), ["stop"])
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(
+                    toDisplayString($setup.t("agora", "Edit")),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 2
+                /* DYNAMIC */
+              }, 1032, ["onClick"]),
+              createVNode($setup["NcButton"], {
+                onClick: withModifiers(($event) => $setup.deleteFamily(family.id), ["stop"])
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(
+                    toDisplayString($setup.t("agora", "Delete")),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 2
+                /* DYNAMIC */
+              }, 1032, ["onClick"])
+            ])
+          ], 8, _hoisted_4$9);
+        }),
+        128
+        /* KEYED_FRAGMENT */
+      ))
+    ]),
+    createCommentVNode(" Add New Family Form "),
+    createBaseVNode("div", _hoisted_13$4, [
+      createBaseVNode(
+        "h3",
+        null,
+        toDisplayString($setup.t("agora", "Add New Family")),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode("div", _hoisted_14$4, [
+        createBaseVNode("div", _hoisted_15$4, [
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newFamily.family_type,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.newFamily.family_type = $event),
+            label: $setup.t("agora", "Family Type Key"),
+            placeholder: $setup.t("agora", "e.g., deliberative, consultative"),
+            required: "",
+            class: "form-field"
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newFamily.label,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.newFamily.label = $event),
+            label: $setup.t("agora", "Display Label"),
+            placeholder: $setup.t("agora", "e.g., Deliberative Process"),
+            required: "",
+            class: "form-field"
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcSelect"], {
+            modelValue: $setup.newFamily.icon,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newFamily.icon = $event),
+            options: $setup.availableIcons,
+            clearable: false,
+            "track-by": "id",
+            placeholder: $setup.t("agora", "Select an icon"),
+            class: "form-field"
+          }, null, 8, ["modelValue", "options", "placeholder"])
+        ]),
+        createVNode($setup["NcInputField"], {
+          modelValue: $setup.newFamily.description,
+          "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.newFamily.description = $event),
+          label: $setup.t("agora", "Description"),
+          placeholder: $setup.t("agora", "Optional description"),
+          type: "textarea",
+          class: "full-width"
+        }, null, 8, ["modelValue", "label", "placeholder"]),
+        createVNode($setup["NcInputField"], {
+          modelValue: $setup.newFamily.sort_order,
+          "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newFamily.sort_order = $event),
+          label: $setup.t("agora", "Sort Order"),
+          type: "number",
+          min: 0,
+          class: "form-field"
+        }, null, 8, ["modelValue", "label"]),
+        createBaseVNode("div", _hoisted_16$4, [
+          createVNode($setup["NcButton"], {
+            type: "primary",
+            disabled: !$setup.newFamily.family_type || !$setup.newFamily.label,
+            onClick: $setup.addFamily
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Add Family")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["disabled"])
+        ])
+      ])
+    ]),
+    createCommentVNode(" Edit Family Modal "),
+    $setup.editingFamily ? (openBlock(), createElementBlock("div", _hoisted_17$3, [
+      createBaseVNode("div", _hoisted_18$2, [
+        createBaseVNode(
+          "h3",
+          null,
+          toDisplayString($setup.t("agora", "Edit Family")),
+          1
+          /* TEXT */
+        ),
+        createBaseVNode("div", _hoisted_19$2, [
+          createBaseVNode("div", _hoisted_20$2, [
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingFamily.family_type,
+              "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.editingFamily.family_type = $event),
+              label: $setup.t("agora", "Family Type Key"),
+              required: "",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingFamily.label,
+              "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.editingFamily.label = $event),
+              label: $setup.t("agora", "Display Label"),
+              required: "",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcSelect"], {
+              modelValue: $setup.editingFamily.icon,
+              "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.editingFamily.icon = $event),
+              options: $setup.availableIcons,
+              "track-by": "id",
+              clearable: false,
+              placeholder: $setup.t("agora", "Select an icon"),
+              class: "form-field"
+            }, null, 8, ["modelValue", "options", "placeholder"])
+          ])
+        ]),
+        createBaseVNode("div", null, [
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.editingFamily.description,
+            "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.editingFamily.description = $event),
+            label: $setup.t("agora", "Description"),
+            type: "textarea",
+            class: "full-width"
+          }, null, 8, ["modelValue", "label"]),
+          createBaseVNode("div", _hoisted_21$2, [
+            createVNode($setup["NcButton"], {
+              onClick: _cache[9] || (_cache[9] = ($event) => $setup.editingFamily = null)
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Cancel")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }),
+            createVNode($setup["NcButton"], {
+              type: "primary",
+              onClick: _cache[10] || (_cache[10] = ($event) => $setup.updateFamily($setup.editingFamily))
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Save Changes")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            })
+          ])
+        ])
+      ])
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminFamiliesManager = /* @__PURE__ */ _export_sfc(_sfc_main$i, [["render", _sfc_render$i], ["__scopeId", "data-v-b0578289"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminFamiliesManager.vue"]]);
+const _sfc_main$h = /* @__PURE__ */ defineComponent({
+  __name: "AdminTypesManager",
+  props: {
+    selectedFamily: { type: Object, required: false }
+  },
+  emits: ["typeSelected", "backToFamilies"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const props = __props;
+    const emit = __emit;
+    const appSettingsStore = useAppSettingsStore();
+    const editingType = ref(null);
+    const newType = ref({
+      inquiry_type: "",
+      label: "",
+      family: props.selectedFamily?.family_type || "",
+      icon: "",
+      description: "",
+      is_option: false,
+      fields: "[]",
+      allowed_response: "[]",
+      allowed_transformation: "[]"
+    });
+    const getIconComponent = (iconName) => InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default;
+    const availableIcons = computed(
+      () => Object.keys(InquiryGeneralIcons).filter((key) => key !== "default").map((iconId) => ({
+        id: iconId,
+        label: translate("agora", iconId.replace(/([A-Z])/g, " $1").trim())
+      }))
+    );
+    const extractIconId = (icon) => {
+      if (!icon) return "";
+      if (typeof icon === "string") return icon;
+      if (typeof icon === "object") return icon.id || "";
+      return String(icon);
+    };
+    const familyTypes = computed(
+      () => appSettingsStore.inquiryTypeTab.filter(
+        (type) => type.family === props.selectedFamily?.family_type
+      )
+    );
+    const convertToJsonString = (value) => {
+      if (typeof value === "string") return value;
+      return JSON.stringify(value || []);
+    };
+    const addType = async () => {
+      if (!newType.value.inquiry_type) {
+        showError(translate("agora", "Inquiry type is mandatory"), { timeout: 2e3 });
+        return;
+      }
+      await appSettingsStore.addInquiryType({
+        ...newType.value,
+        family: props.selectedFamily.family_type,
+        created: Date.now(),
+        icon: extractIconId(newType.value.icon),
+        description: newType.value.description || "",
+        is_option: Boolean(newType.value.is_option),
+        fields: convertToJsonString(newType.value.fields),
+        allowed_response: convertToJsonString(newType.value.allowed_response),
+        allowed_transformation: convertToJsonString(newType.value.allowed_transformation)
+      });
+      newType.value = {
+        inquiry_type: "",
+        label: "",
+        family: props.selectedFamily.family_type,
+        icon: "",
+        description: "",
+        is_option: false,
+        fields: "[]",
+        allowed_response: "[]",
+        allowed_transformation: "[]"
+      };
+    };
+    const updateType = async (type) => {
+      if (!type.inquiry_type) {
+        showError(translate("agora", "Inquiry type is mandatory"), { timeout: 2e3 });
+        return;
+      }
+      await appSettingsStore.updateInquiryType(type.id, {
+        ...type,
+        icon: extractIconId(type.icon),
+        fields: convertToJsonString(type.fields),
+        allowed_response: convertToJsonString(type.allowed_response),
+        allowed_transformation: convertToJsonString(type.allowed_transformation)
+      });
+      editingType.value = null;
+    };
+    const deleteType = async (typeId) => {
+      if (confirm(translate("agora", "Are you sure you want to delete this inquiry type?"))) {
+        await appSettingsStore.deleteType(typeId);
+      }
+    };
+    const openTypeSettings = (type) => {
+      emit("typeSelected", type);
+    };
+    const __returned__ = { props, emit, appSettingsStore, editingType, newType, getIconComponent, availableIcons, extractIconId, familyTypes, convertToJsonString, addType, updateType, deleteType, openTypeSettings, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcInputField() {
+      return NcInputField;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1$h = { class: "types-manager" };
+const _hoisted_2$d = { class: "header" };
+const _hoisted_3$8 = { class: "types-list" };
+const _hoisted_4$8 = { class: "list-description" };
+const _hoisted_5$7 = { class: "types-grid" };
+const _hoisted_6$7 = ["onClick"];
+const _hoisted_7$6 = { class: "type-card-content" };
+const _hoisted_8$6 = { class: "type-icon" };
+const _hoisted_9$6 = { class: "type-info" };
+const _hoisted_10$4 = { class: "type-key" };
+const _hoisted_11$4 = {
+  key: 0,
+  class: "type-description"
+};
+const _hoisted_12$3 = {
+  key: 1,
+  class: "type-badge option"
+};
+const _hoisted_13$3 = { class: "type-actions" };
+const _hoisted_14$3 = { class: "secondary-actions" };
+const _hoisted_15$3 = {
+  key: 0,
+  class: "empty-state"
+};
+const _hoisted_16$3 = { class: "add-type-form" };
+const _hoisted_17$2 = { class: "form-grid" };
+const _hoisted_18$1 = { class: "form-row" };
+const _hoisted_19$1 = { class: "form-row" };
+const _hoisted_20$1 = { class: "checkbox-field" };
+const _hoisted_21$1 = { class: "field-description" };
+const _hoisted_22$1 = { class: "form-row" };
+const _hoisted_23$1 = { class: "form-actions" };
+const _hoisted_24$1 = {
+  key: 0,
+  class: "modal-overlay"
+};
+const _hoisted_25$1 = { class: "modal-content large-modal" };
+const _hoisted_26 = { class: "form-grid" };
+const _hoisted_27 = { class: "form-row" };
+const _hoisted_28 = { class: "form-row" };
+const _hoisted_29 = { class: "checkbox-field" };
+const _hoisted_30 = { class: "form-row" };
+const _hoisted_31 = { class: "modal-actions" };
+function _sfc_render$h(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$h, [
+    createBaseVNode("div", _hoisted_2$d, [
+      createVNode($setup["NcButton"], {
+        onClick: _cache[0] || (_cache[0] = ($event) => $setup.emit("backToFamilies"))
+      }, {
+        default: withCtx(() => [
+          createTextVNode(
+            " ← " + toDisplayString($setup.t("agora", "Back to Families")),
+            1
+            /* TEXT */
+          )
+        ]),
+        _: 1
+        /* STABLE */
+      }),
+      createBaseVNode(
+        "h2",
+        null,
+        toDisplayString($setup.t("agora", "Types for {family}", { family: $props.selectedFamily?.label })),
+        1
+        /* TEXT */
+      )
+    ]),
+    createCommentVNode(" Types List "),
+    createBaseVNode("div", _hoisted_3$8, [
+      createBaseVNode(
+        "h3",
+        null,
+        toDisplayString($setup.t("agora", "Configured Types")),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode(
+        "p",
+        _hoisted_4$8,
+        toDisplayString($setup.t("agora", "Click on a type to configure its rights and status settings")),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode("div", _hoisted_5$7, [
+        (openBlock(true), createElementBlock(
+          Fragment,
+          null,
+          renderList($setup.familyTypes, (type) => {
+            return openBlock(), createElementBlock("div", {
+              key: type.id,
+              class: "type-card",
+              onClick: ($event) => $setup.openTypeSettings(type)
+            }, [
+              createBaseVNode("div", _hoisted_7$6, [
+                createBaseVNode("div", _hoisted_8$6, [
+                  (openBlock(), createBlock(resolveDynamicComponent($setup.getIconComponent(type.icon)), { size: 20 }))
+                ]),
+                createBaseVNode("div", _hoisted_9$6, [
+                  createBaseVNode(
+                    "h4",
+                    null,
+                    toDisplayString(type.label),
+                    1
+                    /* TEXT */
+                  ),
+                  createBaseVNode(
+                    "p",
+                    _hoisted_10$4,
+                    toDisplayString(type.inquiry_type),
+                    1
+                    /* TEXT */
+                  ),
+                  type.description ? (openBlock(), createElementBlock(
+                    "p",
+                    _hoisted_11$4,
+                    toDisplayString(type.description),
+                    1
+                    /* TEXT */
+                  )) : createCommentVNode("v-if", true),
+                  type.is_option ? (openBlock(), createElementBlock(
+                    "div",
+                    _hoisted_12$3,
+                    toDisplayString($setup.t("agora", "Option")),
+                    1
+                    /* TEXT */
+                  )) : createCommentVNode("v-if", true)
+                ])
+              ]),
+              createBaseVNode("div", _hoisted_13$3, [
+                createVNode($setup["NcButton"], {
+                  type: "primary",
+                  class: "configure-btn",
+                  onClick: withModifiers(($event) => $setup.openTypeSettings(type), ["stop"])
+                }, {
+                  default: withCtx(() => [
+                    createTextVNode(
+                      toDisplayString($setup.t("agora", "Configure")),
+                      1
+                      /* TEXT */
+                    )
+                  ]),
+                  _: 2
+                  /* DYNAMIC */
+                }, 1032, ["onClick"]),
+                createBaseVNode("div", _hoisted_14$3, [
+                  createVNode($setup["NcButton"], {
+                    class: "edit-btn",
+                    onClick: withModifiers(($event) => $setup.editingType = {
+                      ...type,
+                      fields: JSON.stringify(type.fields || []),
+                      allowed_response: JSON.stringify(type.allowed_response || []),
+                      allowed_transformation: JSON.stringify(type.allowed_transformation || [])
+                    }, ["stop"])
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Edit")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["onClick"]),
+                  createVNode($setup["NcButton"], {
+                    class: "delete-btn",
+                    onClick: withModifiers(($event) => $setup.deleteType(type.id), ["stop"])
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Delete")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["onClick"])
+                ])
+              ])
+            ], 8, _hoisted_6$7);
+          }),
+          128
+          /* KEYED_FRAGMENT */
+        ))
+      ]),
+      $setup.familyTypes.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_15$3, [
+        createBaseVNode(
+          "p",
+          null,
+          toDisplayString($setup.t("agora", "No types configured for this family yet")),
+          1
+          /* TEXT */
+        )
+      ])) : createCommentVNode("v-if", true)
+    ]),
+    createCommentVNode(" Add New Type Form "),
+    createBaseVNode("div", _hoisted_16$3, [
+      createBaseVNode(
+        "h3",
+        null,
+        toDisplayString($setup.t("agora", "Add New Type to {family}", { family: $props.selectedFamily?.label })),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode("div", _hoisted_17$2, [
+        createBaseVNode("div", _hoisted_18$1, [
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newType.inquiry_type,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.newType.inquiry_type = $event),
+            label: $setup.t("agora", "Type Key"),
+            placeholder: $setup.t("agora", "e.g., petition, survey, poll"),
+            required: "",
+            class: "form-field"
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newType.label,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newType.label = $event),
+            label: $setup.t("agora", "Display Label"),
+            placeholder: $setup.t("agora", "e.g., Public Petition, Survey"),
+            required: "",
+            class: "form-field"
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcSelect"], {
+            modelValue: $setup.newType.icon,
+            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.newType.icon = $event),
+            options: $setup.availableIcons,
+            clearable: false,
+            placeholder: $setup.t("agora", "Select an icon"),
+            label: "label",
+            class: "form-field"
+          }, null, 8, ["modelValue", "options", "placeholder"])
+        ]),
+        createVNode($setup["NcInputField"], {
+          modelValue: $setup.newType.description,
+          "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newType.description = $event),
+          label: $setup.t("agora", "Description"),
+          type: "textarea",
+          class: "full-width"
+        }, null, 8, ["modelValue", "label"]),
+        createBaseVNode("div", _hoisted_19$1, [
+          createBaseVNode("div", _hoisted_20$1, [
+            createVNode($setup["NcCheckboxRadioSwitch"], {
+              modelValue: $setup.newType.is_option,
+              "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.newType.is_option = $event),
+              type: "switch"
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Is Option Type")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }, 8, ["modelValue"]),
+            createBaseVNode(
+              "p",
+              _hoisted_21$1,
+              toDisplayString($setup.t("agora", "Option types are used as responses or transformations for other types")),
+              1
+              /* TEXT */
+            )
+          ])
+        ]),
+        createBaseVNode("div", _hoisted_22$1, [
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newType.fields,
+            "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.newType.fields = $event),
+            label: $setup.t("agora", "Fields Configuration (JSON)"),
+            type: "textarea",
+            placeholder: `e.g., ["title", "description", "deadline"]`,
+            class: "form-field"
+          }, null, 8, ["modelValue", "label"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newType.allowed_response,
+            "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.newType.allowed_response = $event),
+            label: $setup.t("agora", "Allowed Responses (JSON)"),
+            type: "textarea",
+            placeholder: `e.g., ["vote_yes_no", "comment"]`,
+            class: "form-field"
+          }, null, 8, ["modelValue", "label"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newType.allowed_transformation,
+            "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.newType.allowed_transformation = $event),
+            label: $setup.t("agora", "Allowed Transformations (JSON)"),
+            type: "textarea",
+            placeholder: `e.g., ["official_proposal"]`,
+            class: "form-field"
+          }, null, 8, ["modelValue", "label"])
+        ]),
+        createBaseVNode("div", _hoisted_23$1, [
+          createVNode($setup["NcButton"], {
+            type: "primary",
+            disabled: !$setup.newType.inquiry_type || !$setup.newType.label,
+            onClick: $setup.addType
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Add Type")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["disabled"])
+        ])
+      ])
+    ]),
+    createCommentVNode(" Edit Type Modal "),
+    $setup.editingType ? (openBlock(), createElementBlock("div", _hoisted_24$1, [
+      createBaseVNode("div", _hoisted_25$1, [
+        createBaseVNode(
+          "h3",
+          null,
+          toDisplayString($setup.t("agora", "Edit Inquiry Type")),
+          1
+          /* TEXT */
+        ),
+        createBaseVNode("div", _hoisted_26, [
+          createBaseVNode("div", _hoisted_27, [
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingType.inquiry_type,
+              "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $setup.editingType.inquiry_type = $event),
+              label: $setup.t("agora", "Type Key"),
+              required: "",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingType.label,
+              "onUpdate:modelValue": _cache[10] || (_cache[10] = ($event) => $setup.editingType.label = $event),
+              label: $setup.t("agora", "Display Label"),
+              required: "",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcSelect"], {
+              modelValue: $setup.editingType.icon,
+              "onUpdate:modelValue": _cache[11] || (_cache[11] = ($event) => $setup.editingType.icon = $event),
+              options: $setup.availableIcons,
+              clearable: false,
+              placeholder: $setup.t("agora", "Select an icon"),
+              class: "form-field"
+            }, null, 8, ["modelValue", "options", "placeholder"])
+          ]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.editingType.description,
+            "onUpdate:modelValue": _cache[12] || (_cache[12] = ($event) => $setup.editingType.description = $event),
+            label: $setup.t("agora", "Description"),
+            type: "textarea",
+            class: "full-width"
+          }, null, 8, ["modelValue", "label"]),
+          createBaseVNode("div", _hoisted_28, [
+            createBaseVNode("div", _hoisted_29, [
+              createVNode($setup["NcCheckboxRadioSwitch"], {
+                modelValue: $setup.editingType.is_option,
+                "onUpdate:modelValue": _cache[13] || (_cache[13] = ($event) => $setup.editingType.is_option = $event),
+                type: "switch"
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(
+                    toDisplayString($setup.t("agora", "Is Option Type")),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 1
+                /* STABLE */
+              }, 8, ["modelValue"])
+            ])
+          ]),
+          createBaseVNode("div", _hoisted_30, [
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingType.fields,
+              "onUpdate:modelValue": _cache[14] || (_cache[14] = ($event) => $setup.editingType.fields = $event),
+              label: $setup.t("agora", "Fields Configuration (JSON)"),
+              type: "textarea",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingType.allowed_response,
+              "onUpdate:modelValue": _cache[15] || (_cache[15] = ($event) => $setup.editingType.allowed_response = $event),
+              label: $setup.t("agora", "Allowed Responses (JSON)"),
+              type: "textarea",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingType.allowed_transformation,
+              "onUpdate:modelValue": _cache[16] || (_cache[16] = ($event) => $setup.editingType.allowed_transformation = $event),
+              label: $setup.t("agora", "Allowed Transformations (JSON)"),
+              type: "textarea",
+              class: "form-field"
+            }, null, 8, ["modelValue", "label"])
+          ]),
+          createBaseVNode("div", _hoisted_31, [
+            createVNode($setup["NcButton"], {
+              onClick: _cache[17] || (_cache[17] = ($event) => $setup.editingType = null)
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Cancel")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }),
+            createVNode($setup["NcButton"], {
+              type: "primary",
+              onClick: _cache[18] || (_cache[18] = ($event) => $setup.updateType($setup.editingType))
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Save")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            })
+          ])
+        ])
+      ])
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminTypesManager = /* @__PURE__ */ _export_sfc(_sfc_main$h, [["render", _sfc_render$h], ["__scopeId", "data-v-f2f32798"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminTypesManager.vue"]]);
+const _sfc_main$g = /* @__PURE__ */ defineComponent({
+  __name: "AdminTypeRights",
+  props: {
+    selectedType: { type: Object, required: false }
+  },
+  emits: ["updateRights"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const props = __props;
+    const emit = __emit;
+    const appSettingsStore = useAppSettingsStore();
+    const editorOptions = [
+      { value: "wysiwyg", label: translate("agora", "Rich Text Editor") },
+      { value: "textarea", label: translate("agora", "Simple Text Area") },
+      { value: "texteditor", label: translate("agora", "Nextcloud text editor") }
+    ];
+    const typeRights = computed({
+      get: () => {
+        if (!props.selectedType) return {};
+        return appSettingsStore.inquiryTypeRights[props.selectedType.inquiry_type] || getDefaultRights();
+      },
+      set: (newRights) => {
+        if (props.selectedType) {
+          emit("updateRights", props.selectedType.inquiry_type, newRights);
+        }
+      }
+    });
+    const getDefaultRights = () => ({
+      supportInquiry: true,
+      commentInquiry: true,
+      attachFileInquiry: true,
+      editorType: "wysiwyg"
+    });
+    watch(() => props.selectedType, (newType) => {
+      if (newType && !appSettingsStore.inquiryTypeRights[newType.inquiry_type]) {
+        const defaultRights = getDefaultRights();
+        emit("updateRights", newType.inquiry_type, defaultRights);
+      }
+    }, { immediate: true });
+    const updateRights = () => {
+      if (props.selectedType) {
+        emit("updateRights", props.selectedType.inquiry_type, typeRights.value);
+      }
+    };
+    const __returned__ = { props, emit, appSettingsStore, editorOptions, typeRights, getDefaultRights, updateRights, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1$g = { class: "type-rights" };
+const _hoisted_2$c = { class: "header" };
+const _hoisted_3$7 = {
+  key: 0,
+  class: "type-id"
+};
+const _hoisted_4$7 = {
+  key: 0,
+  class: "settings-container"
+};
+const _hoisted_5$6 = { class: "description" };
+const _hoisted_6$6 = { class: "settings-list" };
+const _hoisted_7$5 = { class: "setting-item" };
+const _hoisted_8$5 = { class: "setting-description" };
+const _hoisted_9$5 = { class: "setting-item" };
+const _hoisted_10$3 = { class: "setting-description" };
+const _hoisted_11$3 = { class: "setting-item" };
+const _hoisted_12$2 = { class: "setting-description" };
+const _hoisted_13$2 = { class: "setting-item" };
+const _hoisted_14$2 = { for: "editor-type-select" };
+const _hoisted_15$2 = { class: "setting-description" };
+const _hoisted_16$2 = {
+  key: 1,
+  class: "no-selection"
+};
+function _sfc_render$g(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$g, [
+    createBaseVNode("div", _hoisted_2$c, [
+      createBaseVNode(
+        "h2",
+        null,
+        toDisplayString($setup.t("agora", "Rights for {type}", { type: $props.selectedType?.label })),
+        1
+        /* TEXT */
+      ),
+      $props.selectedType ? (openBlock(), createElementBlock(
+        "p",
+        _hoisted_3$7,
+        toDisplayString($props.selectedType.inquiry_type),
+        1
+        /* TEXT */
+      )) : createCommentVNode("v-if", true)
+    ]),
+    $props.selectedType ? (openBlock(), createElementBlock("div", _hoisted_4$7, [
+      createBaseVNode(
+        "p",
+        _hoisted_5$6,
+        toDisplayString($setup.t("agora", "Configure default rights and settings for this inquiry type")),
+        1
+        /* TEXT */
+      ),
+      createBaseVNode("div", _hoisted_6$6, [
+        createBaseVNode("div", _hoisted_7$5, [
+          createVNode($setup["NcCheckboxRadioSwitch"], {
+            modelValue: $setup.typeRights.supportInquiry,
+            "onUpdate:modelValue": [
+              _cache[0] || (_cache[0] = ($event) => $setup.typeRights.supportInquiry = $event),
+              $setup.updateRights
+            ],
+            type: "switch"
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Allow support")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["modelValue"]),
+          createBaseVNode(
+            "p",
+            _hoisted_8$5,
+            toDisplayString($setup.t("agora", "Allow users to support this inquiry type")),
+            1
+            /* TEXT */
+          )
+        ]),
+        createBaseVNode("div", _hoisted_9$5, [
+          createVNode($setup["NcCheckboxRadioSwitch"], {
+            modelValue: $setup.typeRights.commentInquiry,
+            "onUpdate:modelValue": [
+              _cache[1] || (_cache[1] = ($event) => $setup.typeRights.commentInquiry = $event),
+              $setup.updateRights
+            ],
+            type: "switch"
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Allow comments")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["modelValue"]),
+          createBaseVNode(
+            "p",
+            _hoisted_10$3,
+            toDisplayString($setup.t("agora", "Allow users to comment on this inquiry type")),
+            1
+            /* TEXT */
+          )
+        ]),
+        createBaseVNode("div", _hoisted_11$3, [
+          createVNode($setup["NcCheckboxRadioSwitch"], {
+            modelValue: $setup.typeRights.attachFileInquiry,
+            "onUpdate:modelValue": [
+              _cache[2] || (_cache[2] = ($event) => $setup.typeRights.attachFileInquiry = $event),
+              $setup.updateRights
+            ],
+            type: "switch"
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Allow file attachments")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["modelValue"]),
+          createBaseVNode(
+            "p",
+            _hoisted_12$2,
+            toDisplayString($setup.t("agora", "Allow users to attach files to this inquiry type")),
+            1
+            /* TEXT */
+          )
+        ]),
+        createBaseVNode("div", _hoisted_13$2, [
+          createBaseVNode(
+            "label",
+            _hoisted_14$2,
+            toDisplayString($setup.t("agora", "Editor type")),
+            1
+            /* TEXT */
+          ),
+          createVNode($setup["NcSelect"], {
+            id: "editor-type-select",
+            modelValue: $setup.typeRights.editorType,
+            "onUpdate:modelValue": [
+              _cache[3] || (_cache[3] = ($event) => $setup.typeRights.editorType = $event),
+              $setup.updateRights
+            ],
+            options: $setup.editorOptions,
+            "option-value": "value",
+            "option-label": "label",
+            class: "editor-select"
+          }, null, 8, ["modelValue"]),
+          createBaseVNode(
+            "p",
+            _hoisted_15$2,
+            toDisplayString($setup.t("agora", "Select the editor type for this inquiry")),
+            1
+            /* TEXT */
+          )
+        ])
+      ])
+    ])) : (openBlock(), createElementBlock("div", _hoisted_16$2, [
+      createBaseVNode(
+        "p",
+        null,
+        toDisplayString($setup.t("agora", "Please select an inquiry type to configure its rights")),
+        1
+        /* TEXT */
+      )
+    ]))
+  ]);
+}
+const AdminTypeRights = /* @__PURE__ */ _export_sfc(_sfc_main$g, [["render", _sfc_render$g], ["__scopeId", "data-v-60290e39"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminTypeRights.vue"]]);
+const _sfc_main$f = /* @__PURE__ */ defineComponent({
+  __name: "AdminTypeStatus",
+  props: {
+    selectedType: { type: Object, required: false }
+  },
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const props = __props;
+    const appSettingsStore = useAppSettingsStore();
+    const editingStatus = ref(null);
+    const newStatus = ref({
+      statusKey: "",
+      label: "",
+      description: "",
+      isFinal: false,
+      icon: "ClockOutline"
+    });
+    const availableIcons = computed(
+      () => Object.keys(StatusIcons).filter((key) => key !== "default").map((iconId) => ({
+        id: iconId,
+        label: translate("agora", iconId.replace(/([A-Z])/g, " $1").trim())
+      }))
+    );
+    const statuses = computed(
+      () => props.selectedType ? appSettingsStore.getStatusesForInquiryType(props.selectedType.inquiry_type) : []
+    );
+    const getIconComponent = (iconName) => StatusIcons[iconName] || StatusIcons.ClockOutline;
+    const addStatus = () => {
+      if (!newStatus.value.statusKey || !newStatus.value.label || !props.selectedType) {
+        return;
+      }
+      appSettingsStore.addStatusForInquiryType(props.selectedType.inquiry_type, {
+        ...newStatus.value,
+        icon: String(newStatus.value.icon)
+      });
+      newStatus.value = {
+        statusKey: "",
+        label: "",
+        description: "",
+        isFinal: false,
+        icon: "ClockOutline"
+      };
+    };
+    const editStatus = (status) => {
+      editingStatus.value = {
+        id: status.id,
+        statusKey: status.statusKey,
+        label: status.label,
+        description: status.description || "",
+        isFinal: status.isFinal,
+        icon: status.icon || "ClockOutline"
+      };
+    };
+    const saveUpdateStatus = () => {
+      if (editingStatus.value && props.selectedType) {
+        appSettingsStore.updateStatusForInquiryType(props.selectedType.inquiry_type, editingStatus.value.id, {
+          ...editingStatus.value,
+          icon: editingStatus.value.icon?.id || String(editingStatus.value.icon)
+        });
+        editingStatus.value = null;
+      }
+    };
+    const deleteStatus = (statusId) => {
+      if (confirm(translate("agora", "Are you sure you want to delete this status?")) && props.selectedType) {
+        appSettingsStore.deleteStatusForInquiryType(props.selectedType.inquiry_type, statusId);
+      }
+    };
+    const moveStatusUp = (statusId) => {
+      if (props.selectedType) {
+        appSettingsStore.moveStatusUp(props.selectedType.inquiry_type, statusId);
+      }
+    };
+    const moveStatusDown = (statusId) => {
+      if (props.selectedType) {
+        appSettingsStore.moveStatusDown(props.selectedType.inquiry_type, statusId);
+      }
+    };
+    const cancelEdit = () => {
+      editingStatus.value = null;
+    };
+    const __returned__ = { props, appSettingsStore, editingStatus, newStatus, availableIcons, statuses, getIconComponent, addStatus, editStatus, saveUpdateStatus, deleteStatus, moveStatusUp, moveStatusDown, cancelEdit, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcInputField() {
+      return NcInputField;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1$f = { class: "type-status" };
+const _hoisted_2$b = { class: "header" };
+const _hoisted_3$6 = {
+  key: 0,
+  class: "status-management"
+};
+const _hoisted_4$6 = { class: "description" };
+const _hoisted_5$5 = { class: "status-list" };
+const _hoisted_6$5 = {
+  key: 0,
+  class: "empty-state"
+};
+const _hoisted_7$4 = {
+  key: 1,
+  class: "status-items"
+};
+const _hoisted_8$4 = { class: "status-content" };
+const _hoisted_9$4 = ["title"];
+const _hoisted_10$2 = { class: "status-info" };
+const _hoisted_11$2 = { class: "status-key" };
+const _hoisted_12$1 = {
+  key: 0,
+  class: "status-description"
+};
+const _hoisted_13$1 = { class: "status-properties" };
+const _hoisted_14$1 = { class: "status-actions" };
+const _hoisted_15$1 = { class: "add-status-form" };
+const _hoisted_16$1 = { class: "form-grid" };
+const _hoisted_17$1 = { class: "checkbox-field" };
+const _hoisted_18 = { class: "field-description" };
+const _hoisted_19 = {
+  key: 0,
+  class: "modal-overlay"
+};
+const _hoisted_20 = { class: "modal-content" };
+const _hoisted_21 = { class: "form-grid" };
+const _hoisted_22 = { class: "checkbox-field" };
+const _hoisted_23 = { class: "field-description" };
+const _hoisted_24 = { class: "modal-actions" };
+const _hoisted_25 = {
+  key: 1,
+  class: "no-selection"
+};
+function _sfc_render$f(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$f, [
+    createBaseVNode("div", _hoisted_2$b, [
+      createBaseVNode(
+        "h2",
+        null,
+        toDisplayString($setup.t("agora", "Status for {type}", { type: $props.selectedType?.label })),
+        1
+        /* TEXT */
+      )
+    ]),
+    $props.selectedType ? (openBlock(), createElementBlock("div", _hoisted_3$6, [
+      createBaseVNode(
+        "p",
+        _hoisted_4$6,
+        toDisplayString($setup.t("agora", "Manage statuses for this inquiry type Statuses define the workflow stages")),
+        1
+        /* TEXT */
+      ),
+      createCommentVNode(" Status list for current inquiry type "),
+      createBaseVNode("div", _hoisted_5$5, [
+        createBaseVNode(
+          "h3",
+          null,
+          toDisplayString($setup.t("agora", "Statuses for {type}", {
+            type: $props.selectedType.label
+          })),
+          1
+          /* TEXT */
+        ),
+        $setup.statuses.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_6$5, [
+          createBaseVNode(
+            "p",
+            null,
+            toDisplayString($setup.t("agora", "No statuses configured for this inquiry type")),
+            1
+            /* TEXT */
+          )
+        ])) : (openBlock(), createElementBlock("div", _hoisted_7$4, [
+          (openBlock(true), createElementBlock(
+            Fragment,
+            null,
+            renderList($setup.statuses, (status, index) => {
+              return openBlock(), createElementBlock("div", {
+                key: status.statusKey,
+                class: "status-item"
+              }, [
+                createBaseVNode("div", _hoisted_8$4, [
+                  createBaseVNode("div", {
+                    class: "status-icon",
+                    title: status.icon
+                  }, [
+                    (openBlock(), createBlock(resolveDynamicComponent($setup.getIconComponent(status.icon)), { size: 20 }))
+                  ], 8, _hoisted_9$4),
+                  createBaseVNode("div", _hoisted_10$2, [
+                    createBaseVNode(
+                      "h4",
+                      null,
+                      toDisplayString(status.label),
+                      1
+                      /* TEXT */
+                    ),
+                    createBaseVNode(
+                      "p",
+                      _hoisted_11$2,
+                      toDisplayString(status.statusKey),
+                      1
+                      /* TEXT */
+                    ),
+                    status.description ? (openBlock(), createElementBlock(
+                      "p",
+                      _hoisted_12$1,
+                      toDisplayString(status.description),
+                      1
+                      /* TEXT */
+                    )) : createCommentVNode("v-if", true),
+                    createBaseVNode("div", _hoisted_13$1, [
+                      createBaseVNode(
+                        "span",
+                        {
+                          class: normalizeClass(["status-badge", status.isFinal ? "final" : "non-final"])
+                        },
+                        toDisplayString(status.isFinal ? $setup.t("agora", "Final") : $setup.t("agora", "Non-Final")),
+                        3
+                        /* TEXT, CLASS */
+                      )
+                    ])
+                  ])
+                ]),
+                createBaseVNode("div", _hoisted_14$1, [
+                  createVNode($setup["NcButton"], {
+                    disabled: index === 0,
+                    onClick: ($event) => $setup.moveStatusUp(status.statusKey)
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Up")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["disabled", "onClick"]),
+                  createVNode($setup["NcButton"], {
+                    disabled: index === $setup.statuses.length - 1,
+                    onClick: ($event) => $setup.moveStatusDown(status.statusKey)
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Down")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["disabled", "onClick"]),
+                  createVNode($setup["NcButton"], {
+                    onClick: ($event) => $setup.editStatus(status)
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Edit")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["onClick"]),
+                  createVNode($setup["NcButton"], {
+                    onClick: ($event) => $setup.deleteStatus(status.id)
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        toDisplayString($setup.t("agora", "Delete")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 2
+                    /* DYNAMIC */
+                  }, 1032, ["onClick"])
+                ])
+              ]);
+            }),
+            128
+            /* KEYED_FRAGMENT */
+          ))
+        ]))
+      ]),
+      createCommentVNode(" Add new status form "),
+      createBaseVNode("div", _hoisted_15$1, [
+        createBaseVNode(
+          "h3",
+          null,
+          toDisplayString($setup.t("agora", "Add New Status")),
+          1
+          /* TEXT */
+        ),
+        createBaseVNode("div", _hoisted_16$1, [
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newStatus.statusKey,
+            "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.newStatus.statusKey = $event),
+            label: $setup.t("agora", "Status Key"),
+            placeholder: $setup.t("agora", "Enter unique status key"),
+            required: ""
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newStatus.label,
+            "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.newStatus.label = $event),
+            label: $setup.t("agora", "Label"),
+            placeholder: $setup.t("agora", "Enter display label"),
+            required: ""
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.newStatus.description,
+            "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newStatus.description = $event),
+            label: $setup.t("agora", "Description"),
+            placeholder: $setup.t("agora", "Enter description (optional)"),
+            type: "textarea"
+          }, null, 8, ["modelValue", "label", "placeholder"]),
+          createVNode($setup["NcSelect"], {
+            modelValue: $setup.newStatus.icon,
+            "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.newStatus.icon = $event),
+            options: $setup.availableIcons,
+            label: "label",
+            "input-label": $setup.t("agora", "Select Icon")
+          }, null, 8, ["modelValue", "options", "input-label"]),
+          createBaseVNode("div", _hoisted_17$1, [
+            createVNode($setup["NcCheckboxRadioSwitch"], {
+              modelValue: $setup.newStatus.isFinal,
+              "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newStatus.isFinal = $event),
+              type: "switch"
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Final Status")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }, 8, ["modelValue"]),
+            createBaseVNode(
+              "p",
+              _hoisted_18,
+              toDisplayString($setup.t("agora", "Final statuses cannot be changed once set")),
+              1
+              /* TEXT */
+            )
+          ]),
+          createVNode($setup["NcButton"], {
+            type: "primary",
+            disabled: !$setup.newStatus.statusKey || !$setup.newStatus.label,
+            onClick: $setup.addStatus
+          }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Add Status")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }, 8, ["disabled"])
+        ])
+      ]),
+      createCommentVNode(" Edit status modal "),
+      $setup.editingStatus ? (openBlock(), createElementBlock("div", _hoisted_19, [
+        createBaseVNode("div", _hoisted_20, [
+          createBaseVNode(
+            "h3",
+            null,
+            toDisplayString($setup.t("agora", "Edit Status")),
+            1
+            /* TEXT */
+          ),
+          createBaseVNode("div", _hoisted_21, [
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingStatus.statusKey,
+              "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.editingStatus.statusKey = $event),
+              label: $setup.t("agora", "Status Key"),
+              placeholder: $setup.t("agora", "Enter unique status key"),
+              required: ""
+            }, null, 8, ["modelValue", "label", "placeholder"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingStatus.label,
+              "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.editingStatus.label = $event),
+              label: $setup.t("agora", "Label"),
+              placeholder: $setup.t("agora", "Enter display label"),
+              required: ""
+            }, null, 8, ["modelValue", "label", "placeholder"]),
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.editingStatus.description,
+              "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.editingStatus.description = $event),
+              label: $setup.t("agora", "Description"),
+              placeholder: $setup.t("agora", "Enter description (optional)"),
+              type: "textarea"
+            }, null, 8, ["modelValue", "label", "placeholder"]),
+            createVNode($setup["NcSelect"], {
+              modelValue: $setup.editingStatus.icon,
+              "onUpdate:modelValue": _cache[8] || (_cache[8] = ($event) => $setup.editingStatus.icon = $event),
+              options: $setup.availableIcons,
+              label: "label",
+              "input-label": $setup.t("agora", "Select Icon")
+            }, null, 8, ["modelValue", "options", "input-label"]),
+            createBaseVNode("div", _hoisted_22, [
+              createVNode($setup["NcCheckboxRadioSwitch"], {
+                modelValue: $setup.editingStatus.isFinal,
+                "onUpdate:modelValue": _cache[9] || (_cache[9] = ($event) => $setup.editingStatus.isFinal = $event),
+                type: "switch"
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(
+                    toDisplayString($setup.t("agora", "Final Status")),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 1
+                /* STABLE */
+              }, 8, ["modelValue"]),
+              createBaseVNode(
+                "p",
+                _hoisted_23,
+                toDisplayString($setup.t("agora", "Final statuses cannot be changed once set")),
+                1
+                /* TEXT */
+              )
+            ])
+          ]),
+          createBaseVNode("div", _hoisted_24, [
+            createVNode($setup["NcButton"], { onClick: $setup.cancelEdit }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Cancel")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }),
+            createVNode($setup["NcButton"], {
+              type: "primary",
+              disabled: !$setup.editingStatus.statusKey || !$setup.editingStatus.label,
+              onClick: $setup.saveUpdateStatus
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Save Changes")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }, 8, ["disabled"])
+          ])
+        ])
+      ])) : createCommentVNode("v-if", true)
+    ])) : (openBlock(), createElementBlock("div", _hoisted_25, [
+      createBaseVNode(
+        "p",
+        null,
+        toDisplayString($setup.t("agora", "No type selected")),
+        1
+        /* TEXT */
+      )
+    ]))
+  ]);
+}
+const AdminTypeStatus = /* @__PURE__ */ _export_sfc(_sfc_main$f, [["render", _sfc_render$f], ["__scopeId", "data-v-832d89d2"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminTypeStatus.vue"]]);
+const _sfc_main$e = {
+  __name: "TypeSettingsModal",
+  emits: ["close"],
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const activeSettingsTab = ref("user-rights");
+    const getIconComponent = (iconName) => InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default;
+    const settingsTabs = [
+      {
+        id: "user-rights",
+        label: translate("agora", "Inquiry Features"),
+        component: AdminTypeRights
+      },
+      {
+        id: "status",
+        label: translate("agora", "Inquiry Status"),
+        component: AdminTypeStatus
+      }
+    ];
+    const updateTypeRights = (typeKey, rights) => {
+      appSettingsStore.inquiryTypeRights[typeKey] = rights;
+      appSettingsStore.write();
+    };
+    const __returned__ = { appSettingsStore, activeSettingsTab, getIconComponent, settingsTabs, updateTypeRights, ref, get t() {
+      return translate;
+    }, AdminTypeRights, AdminTypeStatus, get InquiryGeneralIcons() {
+      return InquiryGeneralIcons;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$e = { class: "type-settings-modal" };
+const _hoisted_2$a = { class: "modal-header" };
+const _hoisted_3$5 = { class: "type-info" };
+const _hoisted_4$5 = { class: "type-icon" };
+const _hoisted_5$4 = { class: "type-details" };
+const _hoisted_6$4 = { class: "type-key" };
+const _hoisted_7$3 = { class: "simple-menu" };
+const _hoisted_8$3 = ["onClick"];
+const _hoisted_9$3 = { class: "settings-content" };
+function _sfc_render$e(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$e, [
+    createBaseVNode("div", _hoisted_2$a, [
+      createBaseVNode("div", _hoisted_3$5, [
+        createBaseVNode("div", _hoisted_4$5, [
+          (openBlock(), createBlock(resolveDynamicComponent($setup.getIconComponent(_ctx.selectedType.icon)), { size: 20 }))
+        ]),
+        createBaseVNode("div", _hoisted_5$4, [
+          createBaseVNode(
+            "h3",
+            null,
+            toDisplayString(_ctx.selectedType.label),
+            1
+            /* TEXT */
+          ),
+          createBaseVNode(
+            "p",
+            _hoisted_6$4,
+            toDisplayString(_ctx.selectedType.inquiry_type),
+            1
+            /* TEXT */
+          )
+        ])
+      ]),
+      createBaseVNode(
+        "button",
+        {
+          class: "close-button",
+          onClick: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("close"))
+        },
+        toDisplayString($setup.t("agora", "Close")),
+        1
+        /* TEXT */
+      )
+    ]),
+    createBaseVNode("div", _hoisted_7$3, [
+      (openBlock(), createElementBlock(
+        Fragment,
+        null,
+        renderList($setup.settingsTabs, (tab) => {
+          return createBaseVNode("button", {
+            key: tab.id,
+            class: normalizeClass(["menu-item", { active: $setup.activeSettingsTab === tab.id }]),
+            onClick: ($event) => $setup.activeSettingsTab = tab.id
+          }, toDisplayString(tab.label), 11, _hoisted_8$3);
+        }),
+        64
+        /* STABLE_FRAGMENT */
+      ))
+    ]),
+    createBaseVNode("div", _hoisted_9$3, [
+      (openBlock(), createBlock(resolveDynamicComponent($setup.settingsTabs.find((t) => t.id === $setup.activeSettingsTab)?.component), {
+        "selected-type": _ctx.selectedType,
+        onUpdateRights: $setup.updateTypeRights
+      }, null, 40, ["selected-type"]))
+    ])
+  ]);
+}
+const TypeSettingsModal = /* @__PURE__ */ _export_sfc(_sfc_main$e, [["render", _sfc_render$e], ["__scopeId", "data-v-077dce28"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/TypeSettingsModal.vue"]]);
+const _sfc_main$d = {
+  __name: "AdminSettings",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const currentView = ref("families");
+    const selectedFamily = ref(null);
+    const selectedType = ref(null);
+    const settingsModalOpen = ref(false);
+    const breadcrumb = computed(() => {
+      const items = [
+        { label: translate("agora", "Inquiry Families"), view: "families" }
+      ];
+      if (selectedFamily.value) {
+        items.push({
+          label: selectedFamily.value.label,
+          view: "types"
+        });
+      }
+      return items;
+    });
+    const handleFamilySelected = (family) => {
+      selectedFamily.value = family;
+      currentView.value = "types";
+    };
+    const handleTypeSelected = (type) => {
+      selectedType.value = type;
+      settingsModalOpen.value = true;
+    };
+    const handleBreadcrumbClick = (view) => {
+      if (view === "families") {
+        selectedFamily.value = null;
+        selectedType.value = null;
+      }
+      currentView.value = view;
+    };
+    const handleSettingsModalClose = () => {
+      settingsModalOpen.value = false;
+      selectedType.value = null;
+    };
+    const currentComponent = computed(() => {
+      switch (currentView.value) {
+        case "types":
+          return AdminTypesManager;
+        case "families":
+        default:
+          return AdminFamiliesManager;
+      }
+    });
+    const __returned__ = { currentView, selectedFamily, selectedType, settingsModalOpen, breadcrumb, handleFamilySelected, handleTypeSelected, handleBreadcrumbClick, handleSettingsModalClose, currentComponent, ref, computed, get t() {
+      return translate;
+    }, get NcAppSettingsDialog() {
+      return NcAppSettingsDialog;
+    }, AdminFamiliesManager, AdminTypesManager, TypeSettingsModal };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$d = { class: "admin-settings-container" };
+const _hoisted_2$9 = {
+  key: 0,
+  class: "breadcrumb"
+};
+const _hoisted_3$4 = ["onClick"];
+const _hoisted_4$4 = {
+  key: 1,
+  class: "breadcrumb-current"
+};
+const _hoisted_5$3 = {
+  key: 2,
+  class: "breadcrumb-separator"
+};
+const _hoisted_6$3 = { class: "settings-content" };
+function _sfc_render$d(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$d, [
+    createCommentVNode(" Breadcrumb Navigation "),
+    $setup.breadcrumb.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_2$9, [
+      (openBlock(true), createElementBlock(
+        Fragment,
+        null,
+        renderList($setup.breadcrumb, (item, index) => {
+          return openBlock(), createElementBlock("span", {
+            key: item.view,
+            class: "breadcrumb-item"
+          }, [
+            index < $setup.breadcrumb.length - 1 ? (openBlock(), createElementBlock("button", {
+              key: 0,
+              class: "breadcrumb-link",
+              onClick: ($event) => $setup.handleBreadcrumbClick(item.view)
+            }, toDisplayString(item.label), 9, _hoisted_3$4)) : (openBlock(), createElementBlock(
+              "span",
+              _hoisted_4$4,
+              toDisplayString(item.label),
+              1
+              /* TEXT */
+            )),
+            index < $setup.breadcrumb.length - 1 ? (openBlock(), createElementBlock("span", _hoisted_5$3, " / ")) : createCommentVNode("v-if", true)
+          ]);
+        }),
+        128
+        /* KEYED_FRAGMENT */
+      ))
+    ])) : createCommentVNode("v-if", true),
+    createCommentVNode(" Main Content "),
+    createBaseVNode("div", _hoisted_6$3, [
+      (openBlock(), createBlock(resolveDynamicComponent($setup.currentComponent), {
+        "selected-family": $setup.selectedFamily,
+        onFamilySelected: $setup.handleFamilySelected,
+        onTypeSelected: $setup.handleTypeSelected,
+        onBackToFamilies: _cache[0] || (_cache[0] = ($event) => $setup.handleBreadcrumbClick("families"))
+      }, null, 40, ["selected-family"]))
+    ]),
+    createVNode($setup["NcAppSettingsDialog"], {
+      open: $setup.settingsModalOpen,
+      "onUpdate:open": _cache[1] || (_cache[1] = ($event) => $setup.settingsModalOpen = $event),
+      "show-navigation": false,
+      name: $setup.t("agora", "Settings - {type}", { type: $setup.selectedType?.label || "" }),
+      class: "large-modal",
+      onClose: $setup.handleSettingsModalClose
+    }, {
+      default: withCtx(() => [
+        $setup.selectedType ? (openBlock(), createBlock($setup["TypeSettingsModal"], {
+          key: 0,
+          "selected-type": $setup.selectedType,
+          onClose: $setup.handleSettingsModalClose
+        }, null, 8, ["selected-type"])) : createCommentVNode("v-if", true)
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["open", "name"])
+  ]);
+}
+const AdminSettings = /* @__PURE__ */ _export_sfc(_sfc_main$d, [["render", _sfc_render$d], ["__scopeId", "data-v-cd782848"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminSettings.vue"]]);
+const _sfc_main$c = /* @__PURE__ */ defineComponent({
+  __name: "AdminPerformance",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const updateTypeOptions = [
+      {
+        value: "longInquirying",
+        label: translate("agora", 'Enable "long inquirying" for instant updates')
+      },
+      {
+        value: "periodicInquirying",
+        label: translate("agora", "Enable periodic requests of inquiry updates from the client")
+      },
+      {
+        value: "noInquirying",
+        label: translate("agora", "Disable automatic updates (inquiry must be reloaded to get updates)")
+      }
+    ];
+    const __returned__ = { appSettingsStore, updateTypeOptions, get RadioGroupDiv() {
+      return RadioGroupDiv;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1$c = { class: "user_settings" };
+function _sfc_render$c(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$c, [
+    createVNode($setup["RadioGroupDiv"], {
+      modelValue: $setup.appSettingsStore.updateType,
+      "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.updateType = $event),
+      options: $setup.updateTypeOptions,
+      onUpdate: _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+    }, null, 8, ["modelValue"])
+  ]);
+}
+const AdminPerformance = /* @__PURE__ */ _export_sfc(_sfc_main$c, [["render", _sfc_render$c], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminPerformance.vue"]]);
+const _sfc_main$b = /* @__PURE__ */ defineComponent({
+  __name: "TreeItem",
+  props: {
+    item: {
+      type: Object,
+      default: () => ({ id: 0, name: "" })
+    },
+    items: {
+      type: Array,
+      default: () => []
+    },
+    level: {
+      type: Number,
+      default: 0
+    },
+    type: {
+      type: String,
+      default: "default"
     }
-  }, d = () => {
-    if (b.value.name.trim()) {
-      const S = a.value?.value || 0;
-      l.addLocation(b.value.name, S), b.value.name = "", a.value = { value: 0, label: t("agora", "No parent") };
+  },
+  emits: ["edit", "delete"],
+  setup(__props, { expose: __expose, emit: __emit }) {
+    __expose();
+    const props = __props;
+    const emit = __emit;
+    const children = computed(() => props.items.filter((i) => i.parentId === props.item.id));
+    const editItem = () => {
+      emit("edit", props.item, props.type);
+    };
+    const deleteItem = () => {
+      emit("delete", props.item.id, props.type);
+    };
+    const __returned__ = { props, emit, children, editItem, deleteItem, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1$b = { class: "tree-item" };
+const _hoisted_2$8 = { class: "tree-label" };
+const _hoisted_3$3 = { class: "tree-actions" };
+const _hoisted_4$3 = {
+  key: 0,
+  class: "tree-children"
+};
+function _sfc_render$b(_ctx, _cache, $props, $setup, $data, $options) {
+  const _component_TreeItem = resolveComponent("TreeItem", true);
+  return openBlock(), createElementBlock("div", _hoisted_1$b, [
+    createBaseVNode(
+      "div",
+      {
+        class: "tree-node",
+        style: normalizeStyle("margin-left: " + $props.level * 20 + "px")
+      },
+      [
+        createBaseVNode(
+          "span",
+          _hoisted_2$8,
+          toDisplayString($props.item.name),
+          1
+          /* TEXT */
+        ),
+        createBaseVNode("div", _hoisted_3$3, [
+          createVNode($setup["NcButton"], { onClick: $setup.editItem }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Edit")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          }),
+          createVNode($setup["NcButton"], { onClick: $setup.deleteItem }, {
+            default: withCtx(() => [
+              createTextVNode(
+                toDisplayString($setup.t("agora", "Delete")),
+                1
+                /* TEXT */
+              )
+            ]),
+            _: 1
+            /* STABLE */
+          })
+        ])
+      ],
+      4
+      /* STYLE */
+    ),
+    $setup.children.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_4$3, [
+      (openBlock(true), createElementBlock(
+        Fragment,
+        null,
+        renderList($setup.children, (child) => {
+          return openBlock(), createBlock(_component_TreeItem, {
+            key: child.id,
+            item: child,
+            items: $props.items,
+            level: $props.level + 1,
+            type: $props.type,
+            onEdit: _cache[0] || (_cache[0] = ($event) => _ctx.$emit("edit", $event, $props.type)),
+            onDelete: _cache[1] || (_cache[1] = ($event) => _ctx.$emit("delete", $event, $props.type))
+          }, null, 8, ["item", "items", "level", "type"]);
+        }),
+        128
+        /* KEYED_FRAGMENT */
+      ))
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const TreeItem = /* @__PURE__ */ _export_sfc(_sfc_main$b, [["render", _sfc_render$b], ["__scopeId", "data-v-37a5142a"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/TreeItem.vue"]]);
+const _sfc_main$a = /* @__PURE__ */ defineComponent({
+  __name: "AdminCategoryLocation",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const selectedCategory = ref({ value: 0, label: translate("agora", "No parent") });
+    const selectedLocation = ref({ value: 0, label: translate("agora", "No parent") });
+    const categories = computed(() => appSettingsStore.categoryTab || []);
+    const locations = computed(() => appSettingsStore.locationTab || []);
+    const newCategory = ref({ name: "", parentId: 0 });
+    const newLocation = ref({ name: "", parentId: 0 });
+    const editingItem = ref(null);
+    const activeTab = ref("categories");
+    const isLoaded = ref(false);
+    onMounted(() => {
+      isLoaded.value = true;
+    });
+    const hierarchicalCategory = computed(() => {
+      if (!Array.isArray(appSettingsStore.categoryTab)) return [];
+      const categoriesList = buildHierarchy(appSettingsStore.categoryTab).map((item) => ({
+        value: item.id,
+        label: `${"— ".repeat(item.depth ?? 0)}${item.name ?? "[no name]"}`,
+        original: item
+      }));
+      return [{ value: 0, label: translate("agora", "No parent") }, ...categoriesList];
+    });
+    const hierarchicalLocation = computed(() => {
+      if (!Array.isArray(appSettingsStore.locationTab)) return [];
+      const locationsList = buildHierarchy(appSettingsStore.locationTab).map((item) => ({
+        value: item.id,
+        label: `${"— ".repeat(item.depth ?? 0)}${item.name ?? "[no name]"}`,
+        original: item
+      }));
+      return [{ value: 0, label: translate("agora", "No parent") }, ...locationsList];
+    });
+    function buildHierarchy(list, parentId = 0, depth = 0) {
+      if (!Array.isArray(list)) return [];
+      return list.filter((item) => item?.parentId === parentId).map((item) => {
+        const children = buildHierarchy(list, item.id, depth + 1);
+        return {
+          ...item,
+          depth,
+          children
+        };
+      }).flatMap((item) => [item, ...item.children]);
     }
-  }, r = L({ get: () => {
-    if (!f.value) return { value: 0, label: t("agora", "No parent") };
-    const S = f.value.parentId || 0;
-    return f.value.type === "category" ? V.value.find(($) => $.value === S) || { value: 0, label: t("agora", "No parent") } : R.value.find(($) => $.value === S) || { value: 0, label: t("agora", "No parent") };
-  }, set: (S) => {
-    f.value && S && (f.value.parentId = Number(S.value) || 0);
-  } }), u = (S, $) => {
-    f.value = { ...S, type: $, parentId: S.parentId || 0 };
-  }, D = () => {
-    f.value && (f.value.type === "category" ? l.updateCategory(f.value.id, f.value.name, f.value.parentId) : l.updateLocation(f.value.id, f.value.name, f.value.parentId), f.value = null);
-  }, oe = (S, $) => {
-    if (confirm(t("agora", "Are you sure you want to delete this item?"))) try {
-      $ === "category" ? l.deleteCategory(S) : l.deleteLocation(S);
-    } catch (U) {
-      console.error("Error deleting item:", U), alert(t("agora", "Error deleting item"));
-    }
-  }, ue = L(() => o.value.filter((S) => S.parentId === 0)), pe = L(() => v.value.filter((S) => S.parentId === 0));
-  return (S, $) => (p(), y("div", $l, [A.value ? (p(), y("div", Sl, [i("div", ql, [s(e(k), { class: Q({ active: w.value === "categories" }), onClick: $[0] || ($[0] = (U) => w.value = "categories") }, { default: g(() => [_(n(e(t)("agora", "Categories")), 1)]), _: 1 }, 8, ["class"]), s(e(k), { class: Q({ active: w.value === "locations" }), onClick: $[1] || ($[1] = (U) => w.value = "locations") }, { default: g(() => [_(n(e(t)("agora", "Locations")), 1)]), _: 1 }, 8, ["class"])]), w.value === "categories" ? (p(), y("div", kl, [i("div", Cl, [i("h3", null, n(e(t)("agora", "Add New Category")), 1), i("div", Il, [s(e(T), { modelValue: m.value.name, "onUpdate:modelValue": $[2] || ($[2] = (U) => m.value.name = U), label: e(t)("agora", "Category Name"), placeholder: e(t)("agora", "Enter category name") }, null, 8, ["modelValue", "label", "placeholder"]), s(e(N), { modelValue: c.value, "onUpdate:modelValue": $[3] || ($[3] = (U) => c.value = U), options: V.value, clearable: false, placeholder: e(t)("agora", "Select parent category") }, null, 8, ["modelValue", "options", "placeholder"]), s(e(k), { type: "primary", disabled: !m.value.name.trim(), onClick: q }, { default: g(() => [_(n(e(t)("agora", "Add Category")), 1)]), _: 1 }, 8, ["disabled"])])]), i("div", Tl, [i("h3", null, n(e(t)("agora", "Categories Tree")), 1), i("div", Al, [(p(true), y(G, null, z(ue.value, (U) => (p(), M(de, { key: "cat-" + U.id, item: U, items: o.value, level: 0, type: "category", onEdit: u, onDelete: oe }, null, 8, ["item", "items"]))), 128))])])])) : I("", true), w.value === "locations" ? (p(), y("div", Ul, [i("div", xl, [i("h3", null, n(e(t)("agora", "Add New Location")), 1), i("div", Fl, [s(e(T), { modelValue: b.value.name, "onUpdate:modelValue": $[4] || ($[4] = (U) => b.value.name = U), label: e(t)("agora", "Location Name"), placeholder: e(t)("agora", "Enter location name") }, null, 8, ["modelValue", "label", "placeholder"]), s(e(N), { modelValue: a.value, "onUpdate:modelValue": $[5] || ($[5] = (U) => a.value = U), options: R.value, clearable: false, placeholder: e(t)("agora", "Select parent location") }, null, 8, ["modelValue", "options", "placeholder"]), s(e(k), { type: "primary", disabled: !b.value.name.trim(), onClick: d }, { default: g(() => [_(n(e(t)("agora", "Add Location")), 1)]), _: 1 }, 8, ["disabled"])])]), i("div", Ll, [i("h3", null, n(e(t)("agora", "Locations Tree")), 1), i("div", El, [(p(true), y(G, null, z(pe.value, (U) => (p(), M(de, { key: "loc-" + U.id, item: U, items: v.value, level: 0, type: "location", onEdit: u, onDelete: oe }, null, 8, ["item", "items"]))), 128))])])])) : I("", true), f.value ? (p(), y("div", Nl, [i("div", Rl, [i("h3", null, n(e(t)("agora", "Edit")) + " " + n(f.value.type === "category" ? e(t)("agora", "Category") : e(t)("agora", "Location")), 1), s(e(T), { modelValue: f.value.name, "onUpdate:modelValue": $[6] || ($[6] = (U) => f.value.name = U), label: f.value.type === "category" ? e(t)("agora", "Category Name") : e(t)("agora", "Location Name") }, null, 8, ["modelValue", "label"]), s(e(N), { modelValue: r.value, "onUpdate:modelValue": $[7] || ($[7] = (U) => r.value = U), options: P.value, clearable: false, placeholder: e(t)("agora", "Select parent") }, null, 8, ["modelValue", "options", "placeholder"]), i("div", Ml, [s(e(k), { onClick: $[8] || ($[8] = (U) => f.value = null) }, { default: g(() => [_(n(e(t)("agora", "Cancel")), 1)]), _: 1 }), s(e(k), { type: "primary", onClick: D }, { default: g(() => [_(n(e(t)("agora", "Save")), 1)]), _: 1 })])])])) : I("", true)])) : (p(), y("div", wl, n(e(t)("agora", "Loading categories and locations")), 1))]));
-} }), Ol = j(Dl, [["__scopeId", "data-v-f3793a92"]]), jl = { class: "rights-management" }, Pl = { class: "description" }, Jl = { class: "rights-list" }, Kl = { class: "right-item" }, Gl = { class: "right-description" }, zl = { class: "right-item" }, Hl = { class: "right-description" }, Bl = { class: "right-item" }, Zl = { class: "right-description" }, Wl = { __name: "AdminModeratorRights", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", jl, [i("h2", null, n(e(t)("agora", "Moderator Rights")), 1), i("p", Pl, n(e(t)("agora", "Define permissions for users with moderator role")), 1), i("div", Jl, [i("div", Kl, [s(e(C), { modelValue: e(l).moderatorRights.modifyInquiry, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).moderatorRights.modifyInquiry = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Modify inquiries")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", Gl, n(e(t)("agora", "Allow moderators to modify existing inquiries")), 1)]), i("div", zl, [s(e(C), { modelValue: e(l).moderatorRights.deleteInquiry, "onUpdate:modelValue": [a[2] || (a[2] = (o) => e(l).moderatorRights.deleteInquiry = o), a[3] || (a[3] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Delete inquiries")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", Hl, n(e(t)("agora", "Allow moderators to delete inquiries")), 1)]), i("div", Bl, [s(e(C), { modelValue: e(l).moderatorRights.archiveInquiry, "onUpdate:modelValue": [a[4] || (a[4] = (o) => e(l).moderatorRights.archiveInquiry = o), a[5] || (a[5] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Archive inquiries")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", Zl, n(e(t)("agora", "Allow moderators to archive inquiries")), 1)])])]));
-} }, Xl = j(Wl, [["__scopeId", "data-v-0b685007"]]), Yl = { class: "rights-management" }, Ql = { class: "description" }, eo = { class: "rights-list" }, to = { class: "right-item" }, ao = { class: "right-description" }, lo = { class: "right-item" }, oo = { class: "right-description" }, io = { class: "right-item" }, so = { class: "right-description" }, no = { class: "right-item" }, ro = { class: "right-description" }, uo = { __name: "AdminOfficialRights", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", Yl, [i("h2", null, n(e(t)("agora", "Official Rights")), 1), i("p", Ql, n(e(t)("agora", "Define permissions for users with official role")), 1), i("div", eo, [i("div", to, [s(e(C), { modelValue: e(l).officialRights.modifyInquiry, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).officialRights.modifyInquiry = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Modify inquiries")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", ao, n(e(t)("agora", "Allow officials to modify existing inquiries")), 1)]), i("div", lo, [s(e(C), { modelValue: e(l).officialRights.deleteInquiry, "onUpdate:modelValue": [a[2] || (a[2] = (o) => e(l).officialRights.deleteInquiry = o), a[3] || (a[3] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Delete inquiries")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", oo, n(e(t)("agora", "Allow officials to delete inquiries")), 1)]), i("div", io, [s(e(C), { modelValue: e(l).officialRights.archiveInquiry, "onUpdate:modelValue": [a[4] || (a[4] = (o) => e(l).officialRights.archiveInquiry = o), a[5] || (a[5] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Archive inquiries")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", so, n(e(t)("agora", "Allow officials to archive inquiries")), 1)]), i("div", no, [s(e(C), { modelValue: e(l).officialRights.manageModerationStatus, "onUpdate:modelValue": [a[6] || (a[6] = (o) => e(l).officialRights.manageModerationStatus = o), a[7] || (a[7] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Moderation status")), 1)]), _: 1 }, 8, ["modelValue"]), i("p", ro, n(e(t)("agora", "Allow officials to manage Moderation status for all inquiry")), 1)])])]));
-} }, po = j(uo, [["__scopeId", "data-v-32a0099d"]]), co = { class: "user_settings" }, mo = { key: 0, class: "settings_details" }, go = { __name: "AdminInquiryCreation", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", co, [s(e(C), { modelValue: e(l).allowInquiryCreation, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).allowInquiryCreation = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Enable the inquiry creation globally")), 1)]), _: 1 }, 8, ["modelValue"]), e(l).allowInquiryCreation ? I("", true) : (p(), y("div", mo, [s(e(N), { modelValue: e(l).inquiryCreationGroups, "onUpdate:modelValue": [a[2] || (a[2] = (o) => e(l).inquiryCreationGroups = o), a[3] || (a[3] = (o) => e(l).write())], "input-label": e(t)("agora", "Enable only for the following groups"), label: "displayName", options: e(l).groups, "user-select": true, multiple: true, loading: c.isLoading, placeholder: e(t)("agora", "Leave empty to disable globally"), onSearch: e(l).loadGroups }, null, 8, ["modelValue", "input-label", "options", "loading", "placeholder", "onSearch"])]))]));
-} }, yo = { class: "user_settings" }, vo = { __name: "AdminInquiriesInNavigation", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", yo, [s(e(C), { modelValue: e(l).navigationInquiriesInList, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).navigationInquiriesInList = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Load inquiries into the navigation")), 1)]), _: 1 }, 8, ["modelValue"])]));
-} }, fo = { class: "user_settings" }, _o = { key: 0, class: "settings_details" }, bo = { __name: "AdminShareOpenInquiry", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", fo, [s(e(C), { modelValue: e(l).allowAllAccess, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).allowAllAccess = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Enable the shares of inquiries globally, by default admin and moderator have rights")), 1)]), _: 1 }, 8, ["modelValue"]), e(l).allowAllAccess ? I("", true) : (p(), y("div", _o, [s(e(N), { modelValue: e(l).allAccessGroups, "onUpdate:modelValue": [a[2] || (a[2] = (o) => e(l).allAccessGroups = o), a[3] || (a[3] = (o) => e(l).write())], "input-label": e(t)("agora", "Enable only for the following groups"), label: "displayName", options: e(l).groups, "user-select": true, multiple: true, loading: c.isLoading, placeholder: e(t)("agora", "Leave empty to disable globally"), onSearch: e(l).loadGroups }, null, 8, ["modelValue", "input-label", "options", "loading", "placeholder", "onSearch"])]))]));
-} }, ho = { class: "user_settings" }, Vo = { key: 0, class: "settings_details" }, $o = { __name: "AdminSharePublicCreate", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", ho, [s(e(C), { modelValue: e(l).allowPublicShares, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).allowPublicShares = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Enable public shares of inquiries globally")), 1)]), _: 1 }, 8, ["modelValue"]), e(l).allowPublicShares ? I("", true) : (p(), y("div", Vo, [s(e(N), { modelValue: e(l).publicSharesGroups, "onUpdate:modelValue": [a[2] || (a[2] = (o) => e(l).publicSharesGroups = o), a[3] || (a[3] = (o) => e(l).write())], "input-label": e(t)("agora", "Enable only for the following groups"), label: "displayName", options: e(l).groups, "user-select": true, multiple: true, loading: c.isLoading, placeholder: e(t)("agora", "Leave empty to disable globally"), onSearch: e(l).loadGroups }, null, 8, ["modelValue", "input-label", "options", "loading", "placeholder", "onSearch"])]))]));
-} }, wo = { class: "user_settings" }, So = { __name: "AdminSharePublicShowLogin", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", wo, [s(e(C), { modelValue: e(l).showLogin, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).showLogin = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("inquiries", "Enable the login option in the registration dialog of public inquiries")), 1)]), _: 1 }, 8, ["modelValue"])]));
-} }, qo = { class: "user_settings" }, ko = { key: 0, class: "settings_details" }, Co = { __name: "AdminShowMailAddresses", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", qo, [s(e(C), { modelValue: e(l).showMailAddresses, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).showMailAddresses = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Show email addresses of internal accounts")), 1)]), _: 1 }, 8, ["modelValue"]), e(l).showMailAddresses ? I("", true) : (p(), y("div", ko, [s(e(N), { modelValue: e(l).showMailAddressesGroups, "onUpdate:modelValue": [a[2] || (a[2] = (o) => e(l).showMailAddressesGroups = o), a[3] || (a[3] = (o) => e(l).write())], "input-label": e(t)("agora", "Show only to members of the following groups"), label: "displayName", options: e(l).groups, "user-select": true, multiple: true, loading: c.isLoading, placeholder: e(t)("agora", "Leave empty to disable globally"), onSearch: e(l).loadGroups }, null, 8, ["modelValue", "input-label", "options", "loading", "placeholder", "onSearch"])]))]));
-} }, Io = { class: "user_settings" }, To = { key: 0, class: "settings_details" }, Ao = { __name: "AdminUnrescrictedOwners", setup(h) {
-  const l = x();
-  return (c, a) => (p(), y("div", Io, [s(e(C), { modelValue: e(l).unrestrictedOwner, "onUpdate:modelValue": [a[0] || (a[0] = (o) => e(l).unrestrictedOwner = o), a[1] || (a[1] = (o) => e(l).write())], type: "switch" }, { default: g(() => [_(n(e(t)("agora", "Enable unrestricted owners globally")), 1)]), _: 1 }, 8, ["modelValue"]), e(l).unrestrictedOwner ? I("", true) : (p(), y("div", To, [s(e(N), { modelValue: e(l).unrestrictedOwnerGroups, "onUpdate:modelValue": [a[2] || (a[2] = (o) => e(l).unrestrictedOwnerGroups = o), a[3] || (a[3] = (o) => e(l).write())], "input-label": e(t)("agora", "Enable only for the following groups"), label: "displayName", options: e(l).groups, "user-select": true, multiple: true, loading: e(l).status.loadingGroups, placeholder: e(t)("agora", "Leave empty to disable globally"), onSearch: e(l).loadGroups }, null, 8, ["modelValue", "input-label", "options", "loading", "placeholder", "onSearch"])])), s(qe, { type: "info" }, { default: g(() => [i("p", null, n(e(t)("agora", "Effects on restricted owners")), 1), i("ul", null, [i("li", null, n(e(t)("agora", "Anonymizing a inquiry of a restricted owner means that this inquiry is anonymous for everyone, including the owner.")), 1), i("li", null, n(e(t)("agora", "Deleting and changing inquiries of participants is not possible")), 1)])]), _: 1 })]));
-} }, Uo = { key: 0 }, xo = Z({ __name: "AdminSettingsPage", setup(h) {
-  const l = x(), c = F(false), a = { inquiryCategoryLocation: { name: t("agora", "Categories and Locations Management"), description: t("agora", "Change globally location and category (for all accounts)") }, inquirySettings: { name: t("agora", "Inquiry settings"), description: t("agora", "Change inquiry settings globally (for all accounts)") }, shareSettings: { name: t("agora", "Share settings"), description: t("agora", "Change share settings globally (for all accounts)") }, otherSettings: { name: t("agora", "Other settings"), description: t("agora", "Enable or disable individual features") }, performanceSettings: { name: t("agora", "Performance settings"), description: t("agora", "If you are experiencing connection problems, change how auto updates are retrieved.") }, globalSettings: { name: t("agora", "Global inquiry settings"), description: t("agora", "Let you configure, family, type of inquiries and associed rights, like comment, supports, status...") }, publicSettings: { name: t("agora", "Public inquiry registration dialog options"), description: t("agora", "These options regard the appearence of the registration dialog of public inquiries.") }, emailSettings: { name: t("agora", "Email options"), description: t("agora", "Add links to legal terms, if they exist and add an optional disclaimer to emails.") }, inquiryRights: { name: t("agora", "Inquiry rights"), description: t("agora", "Change inquiry rights globally (for all accounts)") }, moderationSettings: { name: t("agora", "Moderation settings"), description: t("agora", "Change moderation settings") }, jobSettings: { name: t("agora", "Job control"), description: t("agora", "Manually start backgropund jobs independent from the cron schedule") } };
-  return ne(async () => {
-    try {
-      await l.load();
-    } catch (o) {
-      console.error("Failed to load data:", o);
-    } finally {
-      c.value = true;
-    }
-  }), (o, v) => c.value ? (p(), y("div", Uo, [s(e(we), null, { default: g(() => [s(e(O), null, { default: g(() => [s(e(O), J(K(a.globalSettings)), { default: g(() => [s(e(gl))]), _: 1 }, 16), s(e(O), J(K(a.inquirySettings)), { default: g(() => [s(e(go)), s(e(Ao)), s(e(Fe)), s(e(Te)), s(e(Ue))]), _: 1 }, 16), s(e(O), J(K(a.shareSettings)), { default: g(() => [s(e(bo)), s(e($o)), s(e(So)), s(e(at))]), _: 1 }, 16), s(e(O), J(K(a.otherSettings)), { default: g(() => [s(e(Ce)), s(e(Co))]), _: 1 }, 16)]), _: 1 }), s(e(O), null, { default: g(() => [s(e(O), J(K(a.inquiryCategoryLocation)), { default: g(() => [s(e(Ol))]), _: 1 }, 16), s(e(O), J(K(a.moderationSettings)), { default: g(() => [s(e(Be))]), _: 1 }, 16), s(e(O), J(K(a.inquiryRights)), { default: g(() => [s(e(Xl)), s(e(po))]), _: 1 }, 16), s(e(O), J(K(a.emailSettings)), { default: g(() => [s(e(Ge))]), _: 1 }, 16), s(e(O), J(K(a.performanceSettings)), { default: g(() => [s(e(vl)), s(e(vo))]), _: 1 }, 16), s(e(O), J(K(a.jobSettings)), { default: g(() => [s(e(Ye))]), _: 1 }, 16)]), _: 1 })]), _: 1 })])) : I("", true);
-} }), Fo = be(xo).use(he);
-Fo.mount("#content_agora");
+    const editingOptions = computed(() => {
+      if (!editingItem.value) return [];
+      if (editingItem.value.type === "category") {
+        return hierarchicalCategory.value.filter((opt) => opt.value !== editingItem.value.id);
+      }
+      return hierarchicalLocation.value.filter((opt) => opt.value !== editingItem.value.id);
+    });
+    const addCategory = () => {
+      if (newCategory.value.name.trim()) {
+        const parentId = selectedCategory.value?.value || 0;
+        appSettingsStore.addCategory(newCategory.value.name, parentId);
+        newCategory.value.name = "";
+        selectedCategory.value = { value: 0, label: translate("agora", "No parent") };
+      }
+    };
+    const addLocation = () => {
+      if (newLocation.value.name.trim()) {
+        const parentId = selectedLocation.value?.value || 0;
+        appSettingsStore.addLocation(newLocation.value.name, parentId);
+        newLocation.value.name = "";
+        selectedLocation.value = { value: 0, label: translate("agora", "No parent") };
+      }
+    };
+    const editingParent = computed({
+      get: () => {
+        if (!editingItem.value) return { value: 0, label: translate("agora", "No parent") };
+        const parentId = editingItem.value.parentId || 0;
+        if (editingItem.value.type === "category") {
+          return hierarchicalCategory.value.find((opt) => opt.value === parentId) || {
+            value: 0,
+            label: translate("agora", "No parent")
+          };
+        }
+        return hierarchicalLocation.value.find((opt) => opt.value === parentId) || {
+          value: 0,
+          label: translate("agora", "No parent")
+        };
+      },
+      set: (selectedOption) => {
+        if (editingItem.value && selectedOption) {
+          editingItem.value.parentId = Number(selectedOption.value) || 0;
+        }
+      }
+    });
+    const editItem = (item, type) => {
+      editingItem.value = {
+        ...item,
+        type,
+        parentId: item.parentId || 0
+      };
+    };
+    const saveEdit = () => {
+      if (editingItem.value) {
+        if (editingItem.value.type === "category") {
+          appSettingsStore.updateCategory(
+            editingItem.value.id,
+            editingItem.value.name,
+            editingItem.value.parentId
+          );
+        } else {
+          appSettingsStore.updateLocation(
+            editingItem.value.id,
+            editingItem.value.name,
+            editingItem.value.parentId
+          );
+        }
+        editingItem.value = null;
+      }
+    };
+    const deleteItem = (id, type) => {
+      if (confirm(translate("agora", "Are you sure you want to delete this item?"))) {
+        try {
+          if (type === "category") {
+            appSettingsStore.deleteCategory(id);
+          } else {
+            appSettingsStore.deleteLocation(id);
+          }
+        } catch (error) {
+          console.error("Error deleting item:", error);
+          alert(translate("agora", "Error deleting item"));
+        }
+      }
+    };
+    const rootCategories = computed(() => categories.value.filter((item) => item.parentId === 0));
+    const rootLocations = computed(() => locations.value.filter((item) => item.parentId === 0));
+    const __returned__ = { appSettingsStore, selectedCategory, selectedLocation, categories, locations, newCategory, newLocation, editingItem, activeTab, isLoaded, hierarchicalCategory, hierarchicalLocation, buildHierarchy, editingOptions, addCategory, addLocation, editingParent, editItem, saveEdit, deleteItem, rootCategories, rootLocations, get t() {
+      return translate;
+    }, get NcButton() {
+      return NcButton;
+    }, get NcInputField() {
+      return NcInputField;
+    }, get NcSelect() {
+      return NcSelect;
+    }, TreeItem };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1$a = { class: "category-location-manager" };
+const _hoisted_2$7 = {
+  key: 0,
+  class: "loading"
+};
+const _hoisted_3$2 = { key: 1 };
+const _hoisted_4$2 = { class: "tabs" };
+const _hoisted_5$2 = {
+  key: 0,
+  class: "tab-content"
+};
+const _hoisted_6$2 = { class: "add-form" };
+const _hoisted_7$2 = { class: "form-fields" };
+const _hoisted_8$2 = { class: "tree-view" };
+const _hoisted_9$2 = { class: "tree-container" };
+const _hoisted_10$1 = {
+  key: 1,
+  class: "tab-content"
+};
+const _hoisted_11$1 = { class: "add-form" };
+const _hoisted_12 = { class: "form-fields" };
+const _hoisted_13 = { class: "tree-view" };
+const _hoisted_14 = { class: "tree-container" };
+const _hoisted_15 = {
+  key: 2,
+  class: "modal"
+};
+const _hoisted_16 = { class: "modal-content" };
+const _hoisted_17 = { class: "modal-actions" };
+function _sfc_render$a(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$a, [
+    !$setup.isLoaded ? (openBlock(), createElementBlock(
+      "div",
+      _hoisted_2$7,
+      toDisplayString($setup.t("agora", "Loading categories and locations")),
+      1
+      /* TEXT */
+    )) : (openBlock(), createElementBlock("div", _hoisted_3$2, [
+      createBaseVNode("div", _hoisted_4$2, [
+        createVNode($setup["NcButton"], {
+          class: normalizeClass({ active: $setup.activeTab === "categories" }),
+          onClick: _cache[0] || (_cache[0] = ($event) => $setup.activeTab = "categories")
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Categories")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["class"]),
+        createVNode($setup["NcButton"], {
+          class: normalizeClass({ active: $setup.activeTab === "locations" }),
+          onClick: _cache[1] || (_cache[1] = ($event) => $setup.activeTab = "locations")
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Locations")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["class"])
+      ]),
+      $setup.activeTab === "categories" ? (openBlock(), createElementBlock("div", _hoisted_5$2, [
+        createBaseVNode("div", _hoisted_6$2, [
+          createBaseVNode(
+            "h3",
+            null,
+            toDisplayString($setup.t("agora", "Add New Category")),
+            1
+            /* TEXT */
+          ),
+          createBaseVNode("div", _hoisted_7$2, [
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.newCategory.name,
+              "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.newCategory.name = $event),
+              label: $setup.t("agora", "Category Name"),
+              placeholder: $setup.t("agora", "Enter category name")
+            }, null, 8, ["modelValue", "label", "placeholder"]),
+            createVNode($setup["NcSelect"], {
+              modelValue: $setup.selectedCategory,
+              "onUpdate:modelValue": _cache[3] || (_cache[3] = ($event) => $setup.selectedCategory = $event),
+              options: $setup.hierarchicalCategory,
+              clearable: false,
+              placeholder: $setup.t("agora", "Select parent category")
+            }, null, 8, ["modelValue", "options", "placeholder"]),
+            createVNode($setup["NcButton"], {
+              type: "primary",
+              disabled: !$setup.newCategory.name.trim(),
+              onClick: $setup.addCategory
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Add Category")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }, 8, ["disabled"])
+          ])
+        ]),
+        createBaseVNode("div", _hoisted_8$2, [
+          createBaseVNode(
+            "h3",
+            null,
+            toDisplayString($setup.t("agora", "Categories Tree")),
+            1
+            /* TEXT */
+          ),
+          createBaseVNode("div", _hoisted_9$2, [
+            (openBlock(true), createElementBlock(
+              Fragment,
+              null,
+              renderList($setup.rootCategories, (item) => {
+                return openBlock(), createBlock($setup["TreeItem"], {
+                  key: "cat-" + item.id,
+                  item,
+                  items: $setup.categories,
+                  level: 0,
+                  type: "category",
+                  onEdit: $setup.editItem,
+                  onDelete: $setup.deleteItem
+                }, null, 8, ["item", "items"]);
+              }),
+              128
+              /* KEYED_FRAGMENT */
+            ))
+          ])
+        ])
+      ])) : createCommentVNode("v-if", true),
+      $setup.activeTab === "locations" ? (openBlock(), createElementBlock("div", _hoisted_10$1, [
+        createBaseVNode("div", _hoisted_11$1, [
+          createBaseVNode(
+            "h3",
+            null,
+            toDisplayString($setup.t("agora", "Add New Location")),
+            1
+            /* TEXT */
+          ),
+          createBaseVNode("div", _hoisted_12, [
+            createVNode($setup["NcInputField"], {
+              modelValue: $setup.newLocation.name,
+              "onUpdate:modelValue": _cache[4] || (_cache[4] = ($event) => $setup.newLocation.name = $event),
+              label: $setup.t("agora", "Location Name"),
+              placeholder: $setup.t("agora", "Enter location name")
+            }, null, 8, ["modelValue", "label", "placeholder"]),
+            createVNode($setup["NcSelect"], {
+              modelValue: $setup.selectedLocation,
+              "onUpdate:modelValue": _cache[5] || (_cache[5] = ($event) => $setup.selectedLocation = $event),
+              options: $setup.hierarchicalLocation,
+              clearable: false,
+              placeholder: $setup.t("agora", "Select parent location")
+            }, null, 8, ["modelValue", "options", "placeholder"]),
+            createVNode($setup["NcButton"], {
+              type: "primary",
+              disabled: !$setup.newLocation.name.trim(),
+              onClick: $setup.addLocation
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Add Location")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }, 8, ["disabled"])
+          ])
+        ]),
+        createBaseVNode("div", _hoisted_13, [
+          createBaseVNode(
+            "h3",
+            null,
+            toDisplayString($setup.t("agora", "Locations Tree")),
+            1
+            /* TEXT */
+          ),
+          createBaseVNode("div", _hoisted_14, [
+            (openBlock(true), createElementBlock(
+              Fragment,
+              null,
+              renderList($setup.rootLocations, (item) => {
+                return openBlock(), createBlock($setup["TreeItem"], {
+                  key: "loc-" + item.id,
+                  item,
+                  items: $setup.locations,
+                  level: 0,
+                  type: "location",
+                  onEdit: $setup.editItem,
+                  onDelete: $setup.deleteItem
+                }, null, 8, ["item", "items"]);
+              }),
+              128
+              /* KEYED_FRAGMENT */
+            ))
+          ])
+        ])
+      ])) : createCommentVNode("v-if", true),
+      createCommentVNode(" Modal d'édition "),
+      $setup.editingItem ? (openBlock(), createElementBlock("div", _hoisted_15, [
+        createBaseVNode("div", _hoisted_16, [
+          createBaseVNode(
+            "h3",
+            null,
+            toDisplayString($setup.t("agora", "Edit")) + " " + toDisplayString($setup.editingItem.type === "category" ? $setup.t("agora", "Category") : $setup.t("agora", "Location")),
+            1
+            /* TEXT */
+          ),
+          createVNode($setup["NcInputField"], {
+            modelValue: $setup.editingItem.name,
+            "onUpdate:modelValue": _cache[6] || (_cache[6] = ($event) => $setup.editingItem.name = $event),
+            label: $setup.editingItem.type === "category" ? $setup.t("agora", "Category Name") : $setup.t("agora", "Location Name")
+          }, null, 8, ["modelValue", "label"]),
+          createVNode($setup["NcSelect"], {
+            modelValue: $setup.editingParent,
+            "onUpdate:modelValue": _cache[7] || (_cache[7] = ($event) => $setup.editingParent = $event),
+            options: $setup.editingOptions,
+            clearable: false,
+            placeholder: $setup.t("agora", "Select parent")
+          }, null, 8, ["modelValue", "options", "placeholder"]),
+          createBaseVNode("div", _hoisted_17, [
+            createVNode($setup["NcButton"], {
+              onClick: _cache[8] || (_cache[8] = ($event) => $setup.editingItem = null)
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Cancel")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            }),
+            createVNode($setup["NcButton"], {
+              type: "primary",
+              onClick: $setup.saveEdit
+            }, {
+              default: withCtx(() => [
+                createTextVNode(
+                  toDisplayString($setup.t("agora", "Save")),
+                  1
+                  /* TEXT */
+                )
+              ]),
+              _: 1
+              /* STABLE */
+            })
+          ])
+        ])
+      ])) : createCommentVNode("v-if", true)
+    ]))
+  ]);
+}
+const AdminCategoryLocation = /* @__PURE__ */ _export_sfc(_sfc_main$a, [["render", _sfc_render$a], ["__scopeId", "data-v-da2e3bfe"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminCategoryLocation.vue"]]);
+const _sfc_main$9 = {
+  __name: "AdminModeratorRights",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$9 = { class: "rights-management" };
+const _hoisted_2$6 = { class: "description" };
+const _hoisted_3$1 = { class: "rights-list" };
+const _hoisted_4$1 = { class: "right-item" };
+const _hoisted_5$1 = { class: "right-description" };
+const _hoisted_6$1 = { class: "right-item" };
+const _hoisted_7$1 = { class: "right-description" };
+const _hoisted_8$1 = { class: "right-item" };
+const _hoisted_9$1 = { class: "right-description" };
+function _sfc_render$9(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$9, [
+    createBaseVNode(
+      "h2",
+      null,
+      toDisplayString($setup.t("agora", "Moderator Rights")),
+      1
+      /* TEXT */
+    ),
+    createBaseVNode(
+      "p",
+      _hoisted_2$6,
+      toDisplayString($setup.t("agora", "Define permissions for users with moderator role")),
+      1
+      /* TEXT */
+    ),
+    createBaseVNode("div", _hoisted_3$1, [
+      createBaseVNode("div", _hoisted_4$1, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.moderatorRights.modifyInquiry,
+          "onUpdate:modelValue": [
+            _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.moderatorRights.modifyInquiry = $event),
+            _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Modify inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_5$1,
+          toDisplayString($setup.t("agora", "Allow moderators to modify existing inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      createBaseVNode("div", _hoisted_6$1, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.moderatorRights.deleteInquiry,
+          "onUpdate:modelValue": [
+            _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.moderatorRights.deleteInquiry = $event),
+            _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Delete inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_7$1,
+          toDisplayString($setup.t("agora", "Allow moderators to delete inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      createBaseVNode("div", _hoisted_8$1, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.moderatorRights.archiveInquiry,
+          "onUpdate:modelValue": [
+            _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.moderatorRights.archiveInquiry = $event),
+            _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Archive inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_9$1,
+          toDisplayString($setup.t("agora", "Allow moderators to archive inquiries")),
+          1
+          /* TEXT */
+        )
+      ])
+    ])
+  ]);
+}
+const AdminModeratorRights = /* @__PURE__ */ _export_sfc(_sfc_main$9, [["render", _sfc_render$9], ["__scopeId", "data-v-fb7cbc5e"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminModeratorRights.vue"]]);
+const _sfc_main$8 = {
+  __name: "AdminOfficialRights",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$8 = { class: "rights-management" };
+const _hoisted_2$5 = { class: "description" };
+const _hoisted_3 = { class: "rights-list" };
+const _hoisted_4 = { class: "right-item" };
+const _hoisted_5 = { class: "right-description" };
+const _hoisted_6 = { class: "right-item" };
+const _hoisted_7 = { class: "right-description" };
+const _hoisted_8 = { class: "right-item" };
+const _hoisted_9 = { class: "right-description" };
+const _hoisted_10 = { class: "right-item" };
+const _hoisted_11 = { class: "right-description" };
+function _sfc_render$8(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$8, [
+    createBaseVNode(
+      "h2",
+      null,
+      toDisplayString($setup.t("agora", "Official Rights")),
+      1
+      /* TEXT */
+    ),
+    createBaseVNode(
+      "p",
+      _hoisted_2$5,
+      toDisplayString($setup.t("agora", "Define permissions for users with official role")),
+      1
+      /* TEXT */
+    ),
+    createBaseVNode("div", _hoisted_3, [
+      createBaseVNode("div", _hoisted_4, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.officialRights.modifyInquiry,
+          "onUpdate:modelValue": [
+            _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.officialRights.modifyInquiry = $event),
+            _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Modify inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_5,
+          toDisplayString($setup.t("agora", "Allow officials to modify existing inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      createBaseVNode("div", _hoisted_6, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.officialRights.deleteInquiry,
+          "onUpdate:modelValue": [
+            _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.officialRights.deleteInquiry = $event),
+            _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Delete inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_7,
+          toDisplayString($setup.t("agora", "Allow officials to delete inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      createBaseVNode("div", _hoisted_8, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.officialRights.archiveInquiry,
+          "onUpdate:modelValue": [
+            _cache[4] || (_cache[4] = ($event) => $setup.appSettingsStore.officialRights.archiveInquiry = $event),
+            _cache[5] || (_cache[5] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Archive inquiries")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_9,
+          toDisplayString($setup.t("agora", "Allow officials to archive inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      createBaseVNode("div", _hoisted_10, [
+        createVNode($setup["NcCheckboxRadioSwitch"], {
+          modelValue: $setup.appSettingsStore.officialRights.manageModerationStatus,
+          "onUpdate:modelValue": [
+            _cache[6] || (_cache[6] = ($event) => $setup.appSettingsStore.officialRights.manageModerationStatus = $event),
+            _cache[7] || (_cache[7] = ($event) => $setup.appSettingsStore.write())
+          ],
+          type: "switch"
+        }, {
+          default: withCtx(() => [
+            createTextVNode(
+              toDisplayString($setup.t("agora", "Moderation status")),
+              1
+              /* TEXT */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }, 8, ["modelValue"]),
+        createBaseVNode(
+          "p",
+          _hoisted_11,
+          toDisplayString($setup.t("agora", "Allow officials to manage Moderation status for all inquiry")),
+          1
+          /* TEXT */
+        )
+      ])
+    ])
+  ]);
+}
+const AdminOfficialRights = /* @__PURE__ */ _export_sfc(_sfc_main$8, [["render", _sfc_render$8], ["__scopeId", "data-v-14c25bb2"], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminOfficialRights.vue"]]);
+const _sfc_main$7 = {
+  __name: "AdminInquiryCreation",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$7 = { class: "user_settings" };
+const _hoisted_2$4 = {
+  key: 0,
+  class: "settings_details"
+};
+function _sfc_render$7(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$7, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.allowInquiryCreation,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.allowInquiryCreation = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Enable the inquiry creation globally")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    !$setup.appSettingsStore.allowInquiryCreation ? (openBlock(), createElementBlock("div", _hoisted_2$4, [
+      createVNode($setup["NcSelect"], {
+        modelValue: $setup.appSettingsStore.inquiryCreationGroups,
+        "onUpdate:modelValue": [
+          _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.inquiryCreationGroups = $event),
+          _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+        ],
+        "input-label": $setup.t("agora", "Enable only for the following groups"),
+        label: "displayName",
+        options: $setup.appSettingsStore.groups,
+        "user-select": true,
+        multiple: true,
+        loading: _ctx.isLoading,
+        placeholder: $setup.t("agora", "Leave empty to disable globally"),
+        onSearch: $setup.appSettingsStore.loadGroups
+      }, null, 8, ["modelValue", "input-label", "options", "loading", "placeholder", "onSearch"])
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminInquiryCreation = /* @__PURE__ */ _export_sfc(_sfc_main$7, [["render", _sfc_render$7], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminInquiryCreation.vue"]]);
+const _sfc_main$6 = {
+  __name: "AdminInquiriesInNavigation",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$6 = { class: "user_settings" };
+function _sfc_render$6(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$6, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.navigationInquiriesInList,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.navigationInquiriesInList = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Load inquiries into the navigation")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"])
+  ]);
+}
+const AdminInquiriesInNavigation = /* @__PURE__ */ _export_sfc(_sfc_main$6, [["render", _sfc_render$6], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminInquiriesInNavigation.vue"]]);
+const _sfc_main$5 = {
+  __name: "AdminShareOpenInquiry",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$5 = { class: "user_settings" };
+const _hoisted_2$3 = {
+  key: 0,
+  class: "settings_details"
+};
+function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$5, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.allowAllAccess,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.allowAllAccess = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Enable the shares of inquiries globally, by default admin and moderator have rights")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    !$setup.appSettingsStore.allowAllAccess ? (openBlock(), createElementBlock("div", _hoisted_2$3, [
+      createVNode($setup["NcSelect"], {
+        modelValue: $setup.appSettingsStore.allAccessGroups,
+        "onUpdate:modelValue": [
+          _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.allAccessGroups = $event),
+          _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+        ],
+        "input-label": $setup.t("agora", "Enable only for the following groups"),
+        label: "displayName",
+        options: $setup.appSettingsStore.groups,
+        "user-select": true,
+        multiple: true,
+        loading: _ctx.isLoading,
+        placeholder: $setup.t("agora", "Leave empty to disable globally"),
+        onSearch: $setup.appSettingsStore.loadGroups
+      }, null, 8, ["modelValue", "input-label", "options", "loading", "placeholder", "onSearch"])
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminShareOpenInquiry = /* @__PURE__ */ _export_sfc(_sfc_main$5, [["render", _sfc_render$5], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminShareOpenInquiry.vue"]]);
+const _sfc_main$4 = {
+  __name: "AdminSharePublicCreate",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$4 = { class: "user_settings" };
+const _hoisted_2$2 = {
+  key: 0,
+  class: "settings_details"
+};
+function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$4, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.allowPublicShares,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.allowPublicShares = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Enable public shares of inquiries globally")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    !$setup.appSettingsStore.allowPublicShares ? (openBlock(), createElementBlock("div", _hoisted_2$2, [
+      createVNode($setup["NcSelect"], {
+        modelValue: $setup.appSettingsStore.publicSharesGroups,
+        "onUpdate:modelValue": [
+          _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.publicSharesGroups = $event),
+          _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+        ],
+        "input-label": $setup.t("agora", "Enable only for the following groups"),
+        label: "displayName",
+        options: $setup.appSettingsStore.groups,
+        "user-select": true,
+        multiple: true,
+        loading: _ctx.isLoading,
+        placeholder: $setup.t("agora", "Leave empty to disable globally"),
+        onSearch: $setup.appSettingsStore.loadGroups
+      }, null, 8, ["modelValue", "input-label", "options", "loading", "placeholder", "onSearch"])
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminSharePublicCreate = /* @__PURE__ */ _export_sfc(_sfc_main$4, [["render", _sfc_render$4], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminSharePublicCreate.vue"]]);
+const _sfc_main$3 = {
+  __name: "AdminSharePublicShowLogin",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$3 = { class: "user_settings" };
+function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$3, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.showLogin,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.showLogin = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("inquiries", "Enable the login option in the registration dialog of public inquiries")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"])
+  ]);
+}
+const AdminSharePublicShowLogin = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminSharePublicShowLogin.vue"]]);
+const _sfc_main$2 = {
+  __name: "AdminShowMailAddresses",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$2 = { class: "user_settings" };
+const _hoisted_2$1 = {
+  key: 0,
+  class: "settings_details"
+};
+function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$2, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.showMailAddresses,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.showMailAddresses = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Show email addresses of internal accounts")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    !$setup.appSettingsStore.showMailAddresses ? (openBlock(), createElementBlock("div", _hoisted_2$1, [
+      createVNode($setup["NcSelect"], {
+        modelValue: $setup.appSettingsStore.showMailAddressesGroups,
+        "onUpdate:modelValue": [
+          _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.showMailAddressesGroups = $event),
+          _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+        ],
+        "input-label": $setup.t("agora", "Show only to members of the following groups"),
+        label: "displayName",
+        options: $setup.appSettingsStore.groups,
+        "user-select": true,
+        multiple: true,
+        loading: _ctx.isLoading,
+        placeholder: $setup.t("agora", "Leave empty to disable globally"),
+        onSearch: $setup.appSettingsStore.loadGroups
+      }, null, 8, ["modelValue", "input-label", "options", "loading", "placeholder", "onSearch"])
+    ])) : createCommentVNode("v-if", true)
+  ]);
+}
+const AdminShowMailAddresses = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminShowMailAddresses.vue"]]);
+const _sfc_main$1 = {
+  __name: "AdminUnrescrictedOwners",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const __returned__ = { appSettingsStore, get t() {
+      return translate;
+    }, get NcCheckboxRadioSwitch() {
+      return NcCheckboxRadioSwitch;
+    }, get NcSelect() {
+      return NcSelect;
+    }, get useAppSettingsStore() {
+      return useAppSettingsStore;
+    }, CardDiv };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+};
+const _hoisted_1$1 = { class: "user_settings" };
+const _hoisted_2 = {
+  key: 0,
+  class: "settings_details"
+};
+function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$1, [
+    createVNode($setup["NcCheckboxRadioSwitch"], {
+      modelValue: $setup.appSettingsStore.unrestrictedOwner,
+      "onUpdate:modelValue": [
+        _cache[0] || (_cache[0] = ($event) => $setup.appSettingsStore.unrestrictedOwner = $event),
+        _cache[1] || (_cache[1] = ($event) => $setup.appSettingsStore.write())
+      ],
+      type: "switch"
+    }, {
+      default: withCtx(() => [
+        createTextVNode(
+          toDisplayString($setup.t("agora", "Enable unrestricted owners globally")),
+          1
+          /* TEXT */
+        )
+      ]),
+      _: 1
+      /* STABLE */
+    }, 8, ["modelValue"]),
+    !$setup.appSettingsStore.unrestrictedOwner ? (openBlock(), createElementBlock("div", _hoisted_2, [
+      createVNode($setup["NcSelect"], {
+        modelValue: $setup.appSettingsStore.unrestrictedOwnerGroups,
+        "onUpdate:modelValue": [
+          _cache[2] || (_cache[2] = ($event) => $setup.appSettingsStore.unrestrictedOwnerGroups = $event),
+          _cache[3] || (_cache[3] = ($event) => $setup.appSettingsStore.write())
+        ],
+        "input-label": $setup.t("agora", "Enable only for the following groups"),
+        label: "displayName",
+        options: $setup.appSettingsStore.groups,
+        "user-select": true,
+        multiple: true,
+        loading: $setup.appSettingsStore.status.loadingGroups,
+        placeholder: $setup.t("agora", "Leave empty to disable globally"),
+        onSearch: $setup.appSettingsStore.loadGroups
+      }, null, 8, ["modelValue", "input-label", "options", "loading", "placeholder", "onSearch"])
+    ])) : createCommentVNode("v-if", true),
+    createVNode($setup["CardDiv"], { type: "info" }, {
+      default: withCtx(() => [
+        createBaseVNode(
+          "p",
+          null,
+          toDisplayString($setup.t("agora", "Effects on restricted owners")),
+          1
+          /* TEXT */
+        ),
+        createBaseVNode("ul", null, [
+          createBaseVNode(
+            "li",
+            null,
+            toDisplayString($setup.t(
+              "agora",
+              "Anonymizing a inquiry of a restricted owner means that this inquiry is anonymous for everyone, including the owner."
+            )),
+            1
+            /* TEXT */
+          ),
+          createBaseVNode(
+            "li",
+            null,
+            toDisplayString($setup.t("agora", "Deleting and changing inquiries of participants is not possible")),
+            1
+            /* TEXT */
+          )
+        ])
+      ]),
+      _: 1
+      /* STABLE */
+    })
+  ]);
+}
+const AdminUnrescrictedOwners = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1], ["__file", "/var/www/nextcloud/apps/agora/src/components/Settings/AdminSettings/AdminUnrescrictedOwners.vue"]]);
+const _sfc_main = /* @__PURE__ */ defineComponent({
+  __name: "AdminSettingsPage",
+  setup(__props, { expose: __expose }) {
+    __expose();
+    const appSettingsStore = useAppSettingsStore();
+    const isLoaded = ref(false);
+    const sections = {
+      inquiryCategoryLocation: {
+        name: translate("agora", "Categories and Locations Management"),
+        description: translate("agora", "Change globally location and category (for all accounts)")
+      },
+      inquirySettings: {
+        name: translate("agora", "Inquiry settings"),
+        description: translate("agora", "Change inquiry settings globally (for all accounts)")
+      },
+      shareSettings: {
+        name: translate("agora", "Share settings"),
+        description: translate("agora", "Change share settings globally (for all accounts)")
+      },
+      otherSettings: {
+        name: translate("agora", "Other settings"),
+        description: translate("agora", "Enable or disable individual features")
+      },
+      performanceSettings: {
+        name: translate("agora", "Performance settings"),
+        description: translate(
+          "agora",
+          "If you are experiencing connection problems, change how auto updates are retrieved."
+        )
+      },
+      globalSettings: {
+        name: translate("agora", "Global inquiry settings"),
+        description: translate(
+          "agora",
+          "Let you configure, family, type of inquiries and associed rights, like comment, supports, status..."
+        )
+      },
+      publicSettings: {
+        name: translate("agora", "Public inquiry registration dialog options"),
+        description: translate(
+          "agora",
+          "These options regard the appearence of the registration dialog of public inquiries."
+        )
+      },
+      emailSettings: {
+        name: translate("agora", "Email options"),
+        description: translate(
+          "agora",
+          "Add links to legal terms, if they exist and add an optional disclaimer to emails."
+        )
+      },
+      inquiryRights: {
+        name: translate("agora", "Inquiry rights"),
+        description: translate("agora", "Change inquiry rights globally (for all accounts)")
+      },
+      moderationSettings: {
+        name: translate("agora", "Moderation settings"),
+        description: translate("agora", "Change moderation settings")
+      },
+      jobSettings: {
+        name: translate("agora", "Job control"),
+        description: translate("agora", "Manually start backgropund jobs independent from the cron schedule")
+      }
+    };
+    onMounted(async () => {
+      try {
+        await appSettingsStore.load();
+      } catch (error) {
+        console.error("Failed to load data:", error);
+      } finally {
+        isLoaded.value = true;
+      }
+    });
+    const __returned__ = { appSettingsStore, isLoaded, sections, get NcSettingsSection() {
+      return NcSettingsSection;
+    }, get FlexSettings() {
+      return FlexSettings;
+    }, get AdminActivities() {
+      return AdminActivities;
+    }, get AdminArchiveInquiries() {
+      return AdminArchiveInquiries;
+    }, get AdminExpireInquiries() {
+      return AdminExpireInquiries;
+    }, get AdminDeleteInquiries() {
+      return AdminDeleteInquiries;
+    }, get AdminEmail() {
+      return AdminEmail;
+    }, get AdminModeration() {
+      return AdminModeration;
+    }, get AdminJobs() {
+      return AdminJobs;
+    }, get AdminLegal() {
+      return AdminLegal;
+    }, get AdminSettings() {
+      return AdminSettings;
+    }, get AdminModeratorRights() {
+      return AdminModeratorRights;
+    }, get AdminOfficialRights() {
+      return AdminOfficialRights;
+    }, get AdminCategoryLocation() {
+      return AdminCategoryLocation;
+    }, get AdminPerformance() {
+      return AdminPerformance;
+    }, get AdminInquiryCreation() {
+      return AdminInquiryCreation;
+    }, get AdminInquiriesInNavigation() {
+      return AdminInquiriesInNavigation;
+    }, get AdminShareOpenInquiry() {
+      return AdminShareOpenInquiry;
+    }, get AdminSharePublicCreate() {
+      return AdminSharePublicCreate;
+    }, get AdminSharePublicShowLogin() {
+      return AdminSharePublicShowLogin;
+    }, get AdminShowMailAddresses() {
+      return AdminShowMailAddresses;
+    }, get AdminUnrescrictedOwners() {
+      return AdminUnrescrictedOwners;
+    } };
+    Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
+    return __returned__;
+  }
+});
+const _hoisted_1 = { key: 0 };
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
+  return $setup.isLoaded ? (openBlock(), createElementBlock("div", _hoisted_1, [
+    createVNode($setup["FlexSettings"], null, {
+      default: withCtx(() => [
+        createVNode($setup["NcSettingsSection"], null, {
+          default: withCtx(() => [
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.globalSettings)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminSettings"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            ),
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.inquirySettings)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminInquiryCreation"]),
+                  createVNode($setup["AdminUnrescrictedOwners"]),
+                  createVNode($setup["AdminExpireInquiries"]),
+                  createVNode($setup["AdminArchiveInquiries"]),
+                  createVNode($setup["AdminDeleteInquiries"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            ),
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.shareSettings)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminShareOpenInquiry"]),
+                  createVNode($setup["AdminSharePublicCreate"]),
+                  createVNode($setup["AdminSharePublicShowLogin"]),
+                  createVNode($setup["AdminLegal"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            ),
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.otherSettings)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminActivities"]),
+                  createVNode($setup["AdminShowMailAddresses"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        }),
+        createVNode($setup["NcSettingsSection"], null, {
+          default: withCtx(() => [
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.inquiryCategoryLocation)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminCategoryLocation"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            ),
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.moderationSettings)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminModeration"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            ),
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.inquiryRights)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminModeratorRights"]),
+                  createVNode($setup["AdminOfficialRights"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            ),
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.emailSettings)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminEmail"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            ),
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.performanceSettings)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminPerformance"]),
+                  createVNode($setup["AdminInquiriesInNavigation"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            ),
+            createVNode(
+              $setup["NcSettingsSection"],
+              normalizeProps(guardReactiveProps($setup.sections.jobSettings)),
+              {
+                default: withCtx(() => [
+                  createVNode($setup["AdminJobs"])
+                ]),
+                _: 1
+                /* STABLE */
+              },
+              16
+              /* FULL_PROPS */
+            )
+          ]),
+          _: 1
+          /* STABLE */
+        })
+      ]),
+      _: 1
+      /* STABLE */
+    })
+  ])) : createCommentVNode("v-if", true);
+}
+const AdminSettingsPage = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render], ["__file", "/var/www/nextcloud/apps/agora/src/views/AdminSettingsPage.vue"]]);
+const Agora = createApp(AdminSettingsPage).use(pinia);
+Agora.mount("#content_agora");
 //# sourceMappingURL=agora-adminSettings.mjs.map

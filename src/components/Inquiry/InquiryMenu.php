@@ -302,7 +302,7 @@ async function submitEmail() {
       emailAddress: sessionStore.share.user.emailAddress,
     })
     showSuccess(
-      t('agora', 'Email address emailAddress saved', {
+      t('agora', 'Email address {emailAddress} saved', {
         emailAddress: sessionStore.share.user.emailAddress,
       })
     )

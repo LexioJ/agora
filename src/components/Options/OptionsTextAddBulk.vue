@@ -43,7 +43,7 @@ async function addOptionsList() {
       newInquiryTexts.value = ''
     } catch {
       showError(
-        t('agora', 'Error adding options', {
+        t('agora', 'Error adding options {optionText}', {
           optionText: newInquiryTexts.value,
         })
       )
@@ -68,7 +68,7 @@ async function addOptionsList() {
         <p>
           {{
             t(
-              'inquiries',
+              'agora',
               'Each line creates a new option. Duplicates will get skipped without warning.'
             )
           }}
@@ -85,7 +85,7 @@ async function addOptionsList() {
 
           <NcButton :variant="'primary'" @click="addOptionsList()">
             <template #default>
-              {{ t('agora', 'OK') }}
+              {{ t('agora', 'Ok') }}
             </template>
           </NcButton>
         </div>

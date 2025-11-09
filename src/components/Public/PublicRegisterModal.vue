@@ -80,7 +80,7 @@ const userNameHint = computed(() => {
     return t('agora', 'A name is required')
   }
   if (checkStatus.value.userName === 'invalid') {
-    return t('agora', 'The name username is invalid or reserved', {
+    return t('agora', 'The name {username} is invalid or reserved', {
       username: userName.value,
     })
   }

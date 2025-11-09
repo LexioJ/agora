@@ -85,7 +85,7 @@ function toggleArchive(inquiryId: number) {
   try {
     inquiriesStore.toggleArchive({ inquiryId })
   } catch {
-    showError(t('agora', 'Error archivingrestoring inquiry'))
+    showError(t('agora', 'Failed to archive or restore the inquiry'))
   }
 }
 

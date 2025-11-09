@@ -193,7 +193,7 @@ const gridDescription = computed(() => {
           <component :is="StatusIcons.Lock" :size="16" />
           <div class="description">
             {{
-              t('agora', 'No access to this inquiry of ownerName', {
+            t('agora', 'No access to this inquiry of {ownerName}', {
                 ownerName: inquiry.owner.displayName,
               })
             }}
