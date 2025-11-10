@@ -85,6 +85,7 @@ OC.L10N.register(
     "Shares" : "שיתופים",
     "Error while adding share" : "שגיאה בהוספת שיתוף",
     "No activity yet" : "אין פעילות עדיין",
+    "Saving..." : "מתבצעת שמירה…",
     "Receive notification email on activity" : "קבלת הודעות בדוא״ל כשיש פעילות",
     "Change name" : "החלפת שם",
     "Public link" : "קישור ציבורי",

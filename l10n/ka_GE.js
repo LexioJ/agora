@@ -44,6 +44,7 @@ OC.L10N.register(
     "Allow comments" : "კომენტარების დაშვება",
     "Label" : "ლეიბლი",
     "No activity yet" : "აქტოვობა ჯერ არაა",
+    "Saving..." : "მიმხინარეობს შენახვა…",
     "Receive notification email on activity" : "აქტივობისას ელ-წერილის მიღება",
     "Settings" : "პარამეტრები",
     "participated" : "მიიღო მონწილეობა",

@@ -160,6 +160,7 @@ OC.L10N.register(
     "No attachments" : "Ei liitteitä",
     "Delete attachment" : "Poista liite",
     "No comments" : "Ei kommentteja",
+    "Saving..." : "Tallennetaan...",
     "Receive notification email on activity to {emailAddress}" : "Lähetä ilmoitussähköpostia tapahtumista osoitteeseen {emailAddress}",
     "Receive notification email on activity" : "Vastaanota sähköposti-ilmoituksia toimista",
     "Change name" : "Vaihda nimi",

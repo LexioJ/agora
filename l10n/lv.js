@@ -70,6 +70,7 @@ OC.L10N.register(
     "Shares" : "Koplietojumi",
     "No activity yet" : "Vēl nav darbību",
     "No attachments" : "Nav pielikumu",
+    "Saving..." : "Saglabā...",
     "Receive notification email on activity" : "Saņemt paziņojuma e-pasta ziņojumu par darbībām",
     "Public link" : "Publiskā saite",
     "Other settings" : "Citi iestatījumi",

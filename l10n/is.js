@@ -103,6 +103,7 @@ OC.L10N.register(
     "No attachments" : "Engin viðhengi",
     "Delete attachment" : "Eyða viðhengi",
     "No comments" : "Engar athugasemdir",
+    "Saving..." : "Vista...",
     "Receive notification email on activity" : "Fá tilkynningu í tölvupósti við virkni",
     "Change name" : "Breyta nafni",
     "Error saving email address {emailAddress}" : "Villa við að vista tölvupóstfang {emailAddress}",

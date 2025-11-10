@@ -49,6 +49,8 @@ OC.L10N.register(
     "Share label" : "Yorliq almashish",
     "No activity yet" : "Afsuski, faollik mavjud emas",
     "No attachments" : "Qo‘shimchalar yo‘q",
+    "Saving..." : "Saqlanmoqda...",
+    "optional" : "ixtiyoriy",
     "Other settings" : "Boshqa sozlamalar",
     "Create" : "Yaratish",
     "Settings" : "Sozlamalar",

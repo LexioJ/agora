@@ -146,6 +146,7 @@ OC.L10N.register(
     "Select files to upload" : "Pasirinkite failus, kuriuos norite įkelti",
     "Delete attachment" : "Ištrinti priedą",
     "No comments" : "Nėra komentarų",
+    "Saving..." : "Įrašoma...",
     "Receive notification email on activity to {emailAddress}" : "Esant veiklai, gauti pranešimą el. paštu, adresu {emailAddress}",
     "Receive notification email on activity" : "Esant veiklai, gauti pranešimą el. paštu",
     "Change name" : "Keisti vardą",

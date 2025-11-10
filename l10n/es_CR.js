@@ -45,6 +45,7 @@ OC.L10N.register(
     "Allow comments" : "Permitir comentarios",
     "Shares" : "Elementos compartido",
     "No activity yet" : "No hay actividad",
+    "Saving..." : "Guardando...",
     "Receive notification email on activity" : "Recibir un correo de notificación en actividad ",
     "Public link" : "Liga pública",
     "Settings" : "Configuraciones ",

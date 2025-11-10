@@ -62,6 +62,7 @@ OC.L10N.register(
     "Shares" : "Kunhavoj",
     "No activity yet" : "Ankoraŭ neniu aktivaĵo",
     "Delete attachment" : "Forigi aldonitan dosieron",
+    "Saving..." : "Konservado...",
     "Receive notification email on activity" : "Ricevi sciigojn retpoŝte okaze de aktivaĵo",
     "Change name" : "Ŝanĝi nomon",
     "Public link" : "Publika ligilo",

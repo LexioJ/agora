@@ -116,6 +116,7 @@ OC.L10N.register(
     "No activity yet" : "Trenutno nema aktivnosti",
     "Delete attachment" : "Izbriši privitak",
     "No comments" : "Nema komentara",
+    "Saving..." : "Spremanje...",
     "Receive notification email on activity to {emailAddress}" : "Primaj obavijesti o aktivnostima e-poštom na {emailAddress}",
     "Receive notification email on activity" : "Primaj obavijesti o aktivnostima e-poštom",
     "Change name" : "Promijeni ime",

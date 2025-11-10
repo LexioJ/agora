@@ -50,6 +50,7 @@ OC.L10N.register(
     "Label" : "Etiqueta",
     "Shares" : "Elementos compartido",
     "No activity yet" : "Aún no tiene actividad",
+    "Saving..." : "Guardando...",
     "Receive notification email on activity" : "Recibir un correo de notificación en actividad ",
     "Settings" : "Configuraciones ",
     "participated" : "participó",

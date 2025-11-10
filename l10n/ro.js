@@ -71,6 +71,7 @@ OC.L10N.register(
     "Shares" : "Partajări",
     "No activity yet" : "Momentan fără activitate",
     "No attachments" : "Fără atașamente",
+    "Saving..." : "Se salvează...",
     "Change name" : "Schimbă numele",
     "Public link" : "Link public",
     "Switch to list view" : "Comuta la organizarea tip listă",

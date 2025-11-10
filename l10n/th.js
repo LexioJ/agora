@@ -43,6 +43,7 @@ OC.L10N.register(
     "Configure" : "กำหนดค่า",
     "Shares" : "การแชร์",
     "No activity yet" : "ยังไม่มีกิจกรรม",
+    "Saving..." : "กำลังบันทึก...",
     "Change name" : "เปลี่ยนชื่อ",
     "Public link" : "ลิงก์สาธารณะ",
     "Email options" : "ตัวเลือกอีเมล",

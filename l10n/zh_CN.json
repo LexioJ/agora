@@ -197,6 +197,8 @@
     "No attachments" : "无附件",
     "Delete attachment" : "删除附件",
     "No comments" : "无评论",
+    "Saving..." : "正在保存……",
+    "optional" : "可选的选项",
     "Receive notification email on activity to {emailAddress}" : "接收 {emailAddress} 活动的通知邮件",
     "Receive notification email on activity" : "有活动时接收邮件提醒",
     "Change name" : "更改名称",

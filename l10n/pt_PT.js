@@ -76,6 +76,7 @@ OC.L10N.register(
     "Link copied to clipboard" : "Ligação copiada para a área de transferência",
     "Shares" : "Partilhas",
     "No activity yet" : "Ainda sem atividade",
+    "Saving..." : "A guardar...",
     "Change name" : "Alterar nome",
     "Public link" : "Hiperligação Pública",
     "Email options" : "Opções de correio eletrónico",

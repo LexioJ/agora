@@ -80,6 +80,7 @@ OC.L10N.register(
     "Shares" : "Elementos compartido",
     "No activity yet" : "Aún no hay actividades",
     "No attachments" : "Sin adjuntos",
+    "Saving..." : "Guardando...",
     "Receive notification email on activity" : "Recibir un correo de notificación en actividad ",
     "Change name" : "Cambiar nombre",
     "Public link" : "Liga pública",

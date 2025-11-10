@@ -77,6 +77,7 @@ OC.L10N.register(
     "Shares" : "Споделувања",
     "No activity yet" : "Сеуште нема активности",
     "No attachments" : "Нема прилози",
+    "Saving..." : "Зачувува ...",
     "Change name" : "Промени име",
     "Public link" : "Јавен линк",
     "Switch to list view" : "Прикажи поглед во листа",

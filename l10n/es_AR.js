@@ -53,6 +53,7 @@ OC.L10N.register(
     "Link copied to clipboard" : "Enlace copiado al portapapeles",
     "Shares" : "Elementos compartido",
     "No activity yet" : "Aún no hay actividades",
+    "Saving..." : "Guardando ...",
     "Change name" : "Cambiar nombre",
     "Email options" : "Opciones de correo electrónico",
     "Settings" : "Configuración",

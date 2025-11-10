@@ -53,6 +53,7 @@ OC.L10N.register(
     "Configure" : "Konfiguro",
     "Shares" : "Shpërndarje",
     "No activity yet" : "Akoma asnjë aktivitet",
+    "Saving..." : "Duke ruajtur...",
     "Create" : "Krijo",
     "Settings" : "Rregullimet",
     "Details" : "Detajet",

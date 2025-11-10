@@ -60,6 +60,7 @@ OC.L10N.register(
     "Shares" : "Partatges",
     "No activity yet" : "Cap d’activitat pel moment",
     "No comments" : "Cap de comentari",
+    "Saving..." : "Enregistrament...",
     "Public link" : "Ligam public",
     "Other settings" : "Autres paramètres",
     "Performance settings" : "Paramètres de performança",

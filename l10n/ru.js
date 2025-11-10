@@ -197,6 +197,8 @@ OC.L10N.register(
     "No attachments" : "Нет ни одного вложения",
     "Delete attachment" : "Удалить вложение",
     "No comments" : "Нет ни одного комментария",
+    "Saving..." : "Сохранение…",
+    "optional" : "необязательно",
     "Receive notification email on activity to {emailAddress}" : "Получать уведомление по электронной почте об активности на {emailAddress}",
     "Receive notification email on activity" : "Получать уведомления при изменении",
     "Change name" : "Изменить имя",
