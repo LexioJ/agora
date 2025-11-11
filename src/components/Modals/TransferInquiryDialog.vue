@@ -36,7 +36,7 @@ async function dialogOK() {
       })
     )
   } catch {
-    showError(t('agora', 'Error transfering inquiry'))
+    showError(t('agora', 'Error transferring inquiry'))
   } finally {
     try {
       // reload the inquiry to refresh the configuration
@@ -54,13 +54,13 @@ const dialogText = computed(() => {
     if (!newUser.value) {
       return t(
         'inquiries',
-        'Transfering a inquiry to another user may result in loss of access to this inquiry.'
+        'Transferring a inquiry to another user may result in loss of access to this inquiry.'
       )
     }
 
     return t(
       'inquiries',
-      'Transfering a inquiry to {user} may result in loss of access to this inquiry.',
+      'Transferring a inquiry to {user} may result in loss of access to this inquiry.',
       {
         user: newUser.value.displayName,
       }
