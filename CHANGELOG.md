@@ -5,6 +5,12 @@
 
 # Changelog
 All notable changes to this project will be documented in this file.
+# [1.5.3] - 2025-11-10
+- First implementation of Resources, with integrating SibeBarAttachment.
+- Features: Address fetch to link with Location
+- Fix: SideBar rights
+
+
 # [1.5.2] - 2025-11-09
 - Fix: Variable name thanks to contributor
 

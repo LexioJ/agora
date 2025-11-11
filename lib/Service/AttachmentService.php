@@ -118,6 +118,11 @@ class AttachmentService
         $content = file_get_contents($uploadedFile['tmp_name']);
         $targetFile = $inquiryFolder->newFile($fileName, $content);
 
+        usleep(500000); // 0.5 second delay
+        $targetNodes = $this->rootFolder->getById($targetFile->getId());
+        if (!empty($targetNodes)) {
+            $targetFile = $targetNodes[0];
+        }
         // Share the file with groups (with error handling)
         try {
             $this->ensureFileSharedWithGroups($targetFile);
@@ -158,9 +163,9 @@ class AttachmentService
     {
         $ownerUid = $this->userSession->getUser()->getUID();
         $groups = [
-        Group::GROUP_USERS => \OCP\Constants::PERMISSION_READ,
-        Group::GROUP_MODERATOR => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE,
-        Group::GROUP_OFFICIAL => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
+            Group::GROUP_USERS => \OCP\Constants::PERMISSION_READ,
+            Group::GROUP_MODERATOR => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE,
+            Group::GROUP_OFFICIAL => \OCP\Constants::PERMISSION_READ | \OCP\Constants::PERMISSION_UPDATE | \OCP\Constants::PERMISSION_SHARE
         ];
 
         // Get all existing shares once
@@ -186,15 +191,15 @@ class AttachmentService
             // Create share if not already exists
             if (!$alreadyShared) {
                 try {
-                       $share = $this->shareManager->newShare();
-                       $share->setNode($file);
-                       $share->setShareType(IShare::TYPE_GROUP);
-                       $share->setSharedWith($groupName);
-                       $share->setSharedBy($ownerUid);
-                       $share->setPermissions($permissions);
+                    $share = $this->shareManager->newShare();
+                    $share->setNode($file);
+                    $share->setShareType(IShare::TYPE_GROUP);
+                    $share->setSharedWith($groupName);
+                    $share->setSharedBy($ownerUid);
+                    $share->setPermissions($permissions);
 
-                       $this->shareManager->createShare($share);
-                       $this->logger->info('File shared with group: ' . $groupName . ' - ' . $file->getPath());
+                    $this->shareManager->createShare($share);
+                    $this->logger->info('File shared with group: ' . $groupName . ' - ' . $file->getPath());
 
                 } catch (\Exception $e) {
                     $this->logger->error('Error sharing file with group ' . $groupName . ': ' . $e->getMessage());
@@ -257,7 +262,7 @@ class AttachmentService
             );
 
             foreach ($shares as $share) {
-                    $this->shareManager->deleteShare($share);
+                $this->shareManager->deleteShare($share);
             }
 
             $file->delete();
@@ -282,21 +287,21 @@ class AttachmentService
 
         foreach ($attachments as $attachment) {
             try {
-                  $fileId = (int)$attachment->getFileId();
+                $fileId = (int)$attachment->getFileId();
 
-                  $nodes = $this->rootFolder->getById((int)$attachment->getFileId());
+                $nodes = $this->rootFolder->getById((int)$attachment->getFileId());
                 if (empty($nodes)) {
                     continue; 
                 }
                 $file = $nodes[0];
                 $result[] = [
-                'id' => $attachment->getId(),
-                'name' => $attachment->getName(),
-                'type' => $attachment->getMimeType(),
-                'size' => $attachment->getSize(),
-                'created' => $attachment->getCreated(),
-                'file_id' => $attachment->getFileId(),
-                'url'  => $this->urlGenerator->linkToRouteAbsolute('files.View.showFile', ['fileid' => $file->getId()])
+                    'id' => $attachment->getId(),
+                    'name' => $attachment->getName(),
+                    'type' => $attachment->getMimeType(),
+                    'size' => $attachment->getSize(),
+                    'created' => $attachment->getCreated(),
+                    'file_id' => $attachment->getFileId(),
+                    'url'  => $this->urlGenerator->linkToRouteAbsolute('files.View.showFile', ['fileid' => $file->getId()])
                 ];
             } catch (NotFoundException $e) {
                 // File missing but DB record exists, skip or handle as needed
@@ -306,10 +311,10 @@ class AttachmentService
 
         $this->logger->debug(
             'Attachment processing', [
-            'inquiryId' => $inquiryId,
-            'totalAttachmentsInDb' => count($attachments),
-            'validAttachmentsWithFiles' => count($result),
-            'invalidAttachments' => count($attachments) - count($result)
+                'inquiryId' => $inquiryId,
+                'totalAttachmentsInDb' => count($attachments),
+                'validAttachmentsWithFiles' => count($result),
+                'invalidAttachments' => count($attachments) - count($result)
             ]
         );
         return $result;

@@ -15,22 +15,20 @@ import { Event } from '../Types/index.ts'
 import { InquiryGeneralIcons } from '../utils/icons.ts'
 import {
   canComment,
+  canUseLink,
   canShare,
-  canEdit,
   createPermissionContextForContent,
   ContentType,
 } from '../utils/permissions.ts'
 import {
   SideBarTabComments,
   SideBarTabShare,
-  SideBarTabAttachments,
+  SideBarTabLinks,
   SideBarTabMisc,
 } from '../components/SideBar/index.js'
 import { useInquiryStore } from '../stores/inquiry.ts'
-import { useSessionStore } from '../stores/session.ts'
 
 const inquiryStore = useInquiryStore()
-const sessionStore = useSessionStore()
 
 // Context for permissions
 const context = computed(() => {
@@ -84,61 +82,60 @@ function closeSideBar() {
 </script>
 
 <template>
-  <aside v-if="shouldDisplay">
-    <NcAppSidebar
-      v-show="showSidebar"
-      v-model="activeTab"
-      :name="t('agora', 'Details')"
-      @close="closeSideBar()"
-    >
-      <NcAppSidebarTab
-        v-if="canComment(context) && sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.commentInquiry"
-        id="comments"
-        :order="1"
-        :name="t('agora', 'Comments')"
-      >
-        <template #icon>
-	   <component :is="InquiryGeneralIcons.Comment" />
-        </template>
-        <SideBarTabComments />
-      </NcAppSidebarTab>
+    <aside v-if="shouldDisplay">
+        <NcAppSidebar
+                v-show="showSidebar"
+                v-model="activeTab"
+                :name="t('agora', 'Details')"
+                @close="closeSideBar()"
+                >
+         <NcAppSidebarTab
+                        v-if="canComment(context)"
+                        id="comments"
+                        :order="1"
+                        :name="t('agora', 'Comments')"
+                        >
+                        <template #icon>
+                            <component :is="InquiryGeneralIcons.Comment" />
+                        </template>
+                <SideBarTabComments />
+        </NcAppSidebarTab>
+        
+        <NcAppSidebarTab
+                        id="misc"
+                        :order="2"
+                        :name="t('agora', 'Settings')"
+                        >
+                        <template #icon>
+                            <component :is="InquiryGeneralIcons.Map" />
+                        </template>
+                <SideBarTabMisc />
+        </NcAppSidebarTab>
 
-      <NcAppSidebarTab
-        v-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.attachFileInquiry"
-        id="attachments"
-        :order="2"
-        :name="t('agora', 'Attachments')"
-      >
-        <template #icon>
-	   <component :is="InquiryGeneralIcons.Attachment" />
-        </template>
-        <SideBarTabAttachments />
-      </NcAppSidebarTab>
-      
-      <NcAppSidebarTab
-        id="misc"
-        :order="3"
-        :name="t('agora', 'Settings')"
-      >
-        <template #icon>
-	   <component :is="InquiryGeneralIcons.Map" />
-        </template>
-      <SideBarTabMisc :is-readonly="!canEdit(context)" />
-      </NcAppSidebarTab>
-
-
-      <NcAppSidebarTab
-        v-if="canShare(context)"
-        id="sharing"
-        :order="4"
-        :name="t('agora', 'Sharing')"
-      >
-        <template #icon>
-	   <component :is="InquiryGeneralIcons.Share" />
-        </template>
+        <NcAppSidebarTab
+                v-if="canUseLink(context)"
+                id="links"
+                :order="4"
+                :name="t('agora', 'Resource')"
+                >
+                <template #icon>
+                    <component :is="InquiryGeneralIcons.LinkIcon" />
+                </template>
+        <SideBarTabLinks />
+        </NcAppSidebarTab>
+        
+        <NcAppSidebarTab
+                v-if="canShare(context)"
+                id="sharing"
+                :order="5"
+                :name="t('agora', 'Sharing')"
+                >
+                <template #icon>
+                    <component :is="InquiryGeneralIcons.Share" />
+                </template>
         <SideBarTabShare />
-      </NcAppSidebarTab>
+        </NcAppSidebarTab>
 
-    </NcAppSidebar>
-  </aside>
+        </NcAppSidebar>
+    </aside>
 </template>

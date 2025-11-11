@@ -16,6 +16,7 @@ use OCA\Agora\Db\AttachmentMapper;
 use OCA\Agora\Db\LogMapper;
 use OCA\Agora\Db\OptionMapper;
 use OCA\Agora\Db\InquiryMapper;
+use OCA\Agora\Db\InquiryLinkMapper;
 use OCA\Agora\Db\SubscriptionMapper;
 use OCA\Agora\Db\UserMapper;
 use OCA\Agora\Event\CommentAddEvent;
@@ -27,6 +28,9 @@ use OCA\Agora\Event\SupportEvent;
 use OCA\Agora\Event\AttachmentAddEvent;
 use OCA\Agora\Event\AttachmentDeleteEvent;
 use OCA\Agora\Event\AttachmentEvent;
+use OCA\Agora\Event\InquiryLinkAddEvent;
+use OCA\Agora\Event\InquiryLinkDeleteEvent;
+use OCA\Agora\Event\InquiryLinkEvent;
 use OCA\Agora\Event\OptionConfirmedEvent;
 use OCA\Agora\Event\OptionCreatedEvent;
 use OCA\Agora\Event\OptionDeletedEvent;
@@ -70,6 +74,7 @@ use OCA\Agora\Service\LocationService;
 use OCA\Agora\Service\InquiryStatusService;
 use OCA\Agora\Service\InquiryTypeService;
 use OCA\Agora\Service\InquiryFamilyService;
+use OCA\Agora\Service\InquiryLinkService;
 use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
@@ -128,6 +133,10 @@ class Application extends App implements IBootstrap
         $context->registerEventListener(AttachmentAddEvent::class, AttachmentListener::class);
         $context->registerEventListener(AttachmentDeleteEvent::class, AttachmentListener::class);
 
+        $context->registerEventListener(InquiryLinkEvent::class, InquiryLinkListener::class);
+        $context->registerEventListener(InquiryLinkAddEvent::class, InquiryLinkListener::class);
+        $context->registerEventListener(InquiryLinkDeleteEvent::class, InquiryLinkListener::class);
+        
         $context->registerEventListener(OptionEvent::class, OptionListener::class);
         $context->registerEventListener(OptionConfirmedEvent::class, OptionListener::class);
         $context->registerEventListener(OptionCreatedEvent::class, OptionListener::class);
@@ -185,6 +194,7 @@ class Application extends App implements IBootstrap
                     $c->get(InquiryStatusService::class),
                     $c->get(InquiryTypeService::class),
                     $c->get(InquiryFamilyService::class),
+                    $c->get(InquiryLinkService::class),
                 );
             }
         );
@@ -215,6 +225,16 @@ class Application extends App implements IBootstrap
                 );
             }
         );
+
+        $context->registerService(
+            InquiryLinkMapper::class, function (ContainerInterface $c): InquiryLinkMapper {
+                return new InquiryLinkMapper(
+                    $c->get(IDBConnection::class),
+                    $c->get(UserSession::class),
+                );
+            }
+        );
+
 
         $context->registerService(
             SupportMapper::class, function (ContainerInterface $c): SupportMapper {

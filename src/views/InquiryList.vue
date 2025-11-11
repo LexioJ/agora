@@ -195,9 +195,6 @@ onMounted(() => {
                 class="mode-switch"
                 @update:model-value="handleMainModeChange"
               >
-                <template #icon>
-                  <component :is="InquiryGeneralIcons.Add" size="16" />
-                </template>
                 {{ t('agora', 'Create') }}
               </NcCheckboxRadioSwitch>
               

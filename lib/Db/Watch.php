@@ -31,6 +31,7 @@ class Watch extends Entity implements JsonSerializable
     public const OBJECT_INQUIRIES = 'inquiries';
     public const OBJECT_SUPPORTS = 'supports';
     public const OBJECT_ATTACHMENTS = 'attachments';
+    public const OBJECT_LINKS = 'links';
     public const OBJECT_OPTIONS = 'options';
     public const OBJECT_COMMENTS = 'comments';
     public const OBJECT_SHARES = 'shares';

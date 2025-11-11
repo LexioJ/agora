@@ -21,6 +21,36 @@ class SystemSettings
         private UserSession $userSession,
     ) {
     }
+
+    /**
+     * Simple check if specific apps are available
+     * 
+     * @return array
+     */
+    public function checkAppsAvailability(): array
+    {
+        $appManager = \OC::$server->get(IAppManager::class);
+
+        $apps = [
+            'poll' => 'polls',
+            'form' => 'forms', 
+            'card' => 'deck',
+            'expense' => 'expenses',
+            'page' => 'collective',
+        ];
+
+        $availability = [];
+
+        foreach ($apps as $key => $appId) {
+            $availability[$key] = $appManager->isInstalled($appId) && 
+                $appManager->isEnabledForUser($appId);
+        }
+
+        return $availability;
+    }
+
+
+
     /**
      * Getters for core settings regarding share creation 
      */
@@ -70,7 +100,7 @@ class SystemSettings
     {
         $excludedMode = $this->appConfig->getValueString('core', 'shareapi_exclude_groups', '');
         return match ($excludedMode) {
-            'yes' => 'denyGroup',
+        'yes' => 'denyGroup',
             'allow' => 'allowGroup',
             default => 'off',
         };
@@ -125,7 +155,7 @@ class SystemSettings
     {
         $excludedMode = $this->appConfig->getValueString('core', 'shareapi_allow_links', '');
         return match ($excludedMode) {
-            'no' => 'off',
+        'no' => 'off',
             'yes' => 'denyGroup',
             default => 'denyGroup',
         };

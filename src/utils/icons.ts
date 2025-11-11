@@ -57,7 +57,6 @@ import Heart from '@iconify-icons/mdi/heart'
 import ThumbUp from '@iconify-icons/mdi/thumb-up'
 import ThumbDown from '@iconify-icons/mdi/thumb-down'
 import AccountMultiple from '@iconify-icons/mdi/account-multiple'
-import LinkIcon from '@iconify-icons/mdi/link-variant'
 import ContactIcon from '@iconify-icons/mdi/card-account-details'
 import EmailIcon from '@iconify-icons/mdi/email'
 import ShareIcon from '@iconify-icons/mdi/share-variant'
@@ -141,6 +140,13 @@ import ChatOutline from '@iconify-icons/mdi/chat-outline'
 import FormTextbox from '@iconify-icons/mdi/form-textbox'
 import Menu from '@iconify-icons/mdi/menu'
 
+
+import Link from '@iconify-icons/mdi/link'
+import LinkVariant from '@iconify-icons/mdi/link-variant'
+import Poll from '@iconify-icons/mdi/poll'
+import CardsPlaying from '@iconify-icons/mdi/cards-playing'
+import Cash from '@iconify-icons/mdi/cash'
+
 // -------------------------------
 // -------------------------------
 export const makeIconComponent = (icon: Component, color = '#000', size = 24) => ({
@@ -213,6 +219,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   HomeCity: makeIconComponent(Home, '#4E342E'),
   CalendarMultiselect: makeIconComponent(CalendarMultiple, '#1B5E20'),
   City: makeIconComponent(OfficeBuilding, '#37474F'),
+  LinkIcon: makeIconComponent(LinkVariant, '#1976D2'),
   AccountTie: makeIconComponent(AccountVoice, '#4527A0'),
   AccountBalance: makeIconComponent(Bank, '#263238'),
   AccountGroup: makeIconComponent(AccountGroup, '#00695C'),
@@ -228,6 +235,14 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   Transform: makeIconComponent(TransformRotate, '#6A1B9A'),
   Save: makeIconComponent(Save, '#2E7D32'),
   WaitingApproval: makeIconComponent(AccountClock, '#1B5E20'),
+  Link: makeIconComponent(Link, '#2196F3'),
+  LinkVariant: makeIconComponent(LinkVariant, '#2196F3'),
+  Poll: makeIconComponent(Poll, '#4CAF50'),
+  Deck: makeIconComponent(CardsPlaying, '#FF9800'),
+  Money: makeIconComponent(Cash, '#4CAF50'),
+  Add: makeIconComponent(Plus, '#4CAF50'),
+  Document: makeIconComponent(FileDocument, '#607D8B'),
+  Settings: makeIconComponent(Cog, '#455A64'),
 }
 
 export const ShareIcons: Record<string, Component> = {
@@ -338,7 +353,7 @@ export const StatusIcons: Record<string, Component> = {
   ThumbDown: makeIconComponent(ThumbDown, '#D32F2F'),
   AccountMultiple: makeIconComponent(AccountMultiple, '#7B1FA2'),
   AdminIcon: makeIconComponent(ShieldCrown, '#F9A825'),
-  LinkIcon: makeIconComponent(LinkIcon, '#1976D2'),
+  LinkIcon: makeIconComponent(LinkVariant, '#1976D2'),
   ContactIcon: makeIconComponent(ContactIcon, '#2E7D32'),
   EmailIcon: makeIconComponent(EmailIcon, '#FF8F00'),
   ShareIcon: makeIconComponent(ShareIcon, '#0288D1'),

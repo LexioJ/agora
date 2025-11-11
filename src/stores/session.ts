@@ -38,7 +38,9 @@ export type UserStatus = {
   isAdmin: boolean
   isOfficial: boolean
   isModerator: boolean
-  isCommission: boolean
+  isAdministrative: boolean
+  isLegislative: boolean
+  isCollective: boolean
 }
 
 export type Watcher = {
@@ -97,6 +99,9 @@ export const useSessionStore = defineStore('session', {
       isAdmin: !!getCurrentUser()?.isAdmin,
       isOfficial: !!getCurrentUser()?.isOfficial,
       isModerator: !!getCurrentUser()?.isModerator,
+      isLegislative: !!getCurrentUser()?.isLegislative,
+      isCollective: !!getCurrentUser()?.isCollective,
+      isAdministrative: !!getCurrentUser()?.isAdministrative,
     },
     watcher: {
       id: '',

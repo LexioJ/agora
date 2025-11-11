@@ -1,0 +1,412 @@
+<!--
+  - SPDX-FileCopyrightText: 2024 Nextcloud contributors
+  - SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<script setup lang="ts">
+import { ref, computed, onMounted } from 'vue'
+import { t } from '@nextcloud/l10n'
+import { 
+  NcButton, 
+  NcListItem,
+  NcActionButton,
+  NcActions
+} from '@nextcloud/vue'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import { useInquiryLinksStore } from '../../stores/inquiryLinks'
+import { useInquiryStore } from '../../stores/inquiry'
+import { useAttachmentsStore } from '../../stores/attachments'
+import { InquiryGeneralIcons } from '../../utils/icons.ts'
+
+// Components
+import AddResourceModal from '../Modals/AddResourceModal.vue'
+
+// Stores
+const inquiryLinksStore = useInquiryLinksStore()
+const inquiryStore = useInquiryStore()
+const attachmentsStore = useAttachmentsStore()
+
+// State
+const isLoading = ref(false)
+const showAddModal = ref(false)
+
+// Computed - Combine links and attachments for display
+const groupedResources = computed(() => {
+  const groups: { [key: string]: any[] } = {}
+  
+  // Add linked resources (forms, polls, deck, cospend)
+  const links = inquiryLinksStore.getByInquiryId(inquiryStore.id)
+    .sort((a, b) => a.sort_order - b.sort_order)
+  
+  links.forEach(link => {
+    if (!groups[link.target_app]) {
+      groups[link.target_app] = []
+    }
+    groups[link.target_app].push({
+      ...link,
+      type: 'link',
+      displayName: getResourceDisplayName(link),
+      icon: getAppIcon(link.target_app)
+    })
+  })
+  
+  // Add file attachments (excluding cover image)
+  const fileAttachments = attachmentsStore.attachments
+    .filter(att => att.fileId !== inquiryStore.coverId)
+  
+  if (fileAttachments.length > 0) {
+    groups.files = fileAttachments.map(attachment => ({
+      id: attachment.id,
+      target_app: 'files',
+      target_type: 'file',
+      target_id: attachment.id?.toString() || '',
+      type: 'attachment',
+      displayName: attachment.name,
+      icon: InquiryGeneralIcons.Document,
+      attachment: attachment,
+      sort_order: 0 // Files don't have sort order, but we need it for consistent structure
+    }))
+  }
+  
+  return groups
+})
+
+const hasResources = computed(() => {
+  return Object.keys(groupedResources.value).length > 0
+})
+
+// Lifecycle
+onMounted(async () => {
+  await loadResources()
+})
+
+// Methods
+const loadResources = async () => {
+  try {
+    isLoading.value = true
+    await Promise.all([
+      inquiryLinksStore.loadByInquiry(inquiryStore.id),
+      // You might want to load attachments here if they're not already loaded
+    ])
+  } catch (error) {
+    console.error('Error loading resources:', error)
+    showError(t('agora', 'Failed to load resources'))
+  } finally {
+    isLoading.value = false
+  }
+}
+
+const openAddModal = () => {
+  showAddModal.value = true
+}
+
+const getResourceDisplayName = (link: any): string => {
+  const typeNames: { [key: string]: string } = {
+    poll: t('agora', 'Poll'),
+    form: t('agora', 'Form'),
+    card: t('agora', 'Card'),
+    expense: t('agora', 'Expense'),
+    file: t('agora', 'File'),
+  }
+  
+  const typeName = typeNames[link.target_type] || link.target_type
+  const resourceId = link.target_id
+  
+  // For files, we might want to show the filename instead of just "File #123"
+  if (link.target_app === 'files') {
+    // Try to find the attachment to get the actual filename
+    const attachment = attachmentsStore.attachments.find(att => 
+      att.id?.toString() === resourceId
+    )
+    if (attachment) {
+      return attachment.name
+    }
+  }
+  
+  return `${typeName} #${resourceId}`
+}
+
+const getAppName = (appId: string): string => {
+  const appNames: { [key: string]: string } = {
+    polls: t('agora', 'Polls'),
+    forms: t('agora', 'Forms'),
+    deck: t('agora', 'Deck'),
+    cospend: t('agora', 'Cospend'),
+    files: t('agora', 'Files'),
+  }
+  return appNames[appId] || appId
+}
+
+const getAppIcon = (appId: string) => {
+  const icons: { [key: string]: any } = {
+    polls: InquiryGeneralIcons.Poll,
+    forms: InquiryGeneralIcons.Form,
+    deck: InquiryGeneralIcons.Deck,
+    cospend: InquiryGeneralIcons.Money,
+    files: InquiryGeneralIcons.Document,
+  }
+  return icons[appId] || InquiryGeneralIcons.Link
+}
+
+const deleteResource = async (resource: any, index: number) => {
+  try {
+    if (resource.type === 'link') {
+      // Delete from inquiry links store
+      await inquiryLinksStore.delete(resource.id)
+      showSuccess(t('agora', 'Link deleted successfully'))
+    } else if (resource.type === 'attachment') {
+      // Use the same approach as the working removeAttachment function
+      const attachment = attachmentsStore.attachments.find(att => att.id === resource.id)
+      if (!attachment) {
+        console.warn('No attachment found with id:', resource.id)
+        return
+      }
+
+      // Only delete from server if it's a positive numeric ID
+      if (attachment.id && attachment.id > 0) {
+        await attachmentsStore.delete(attachment.id)
+      }
+
+      // Use filter for immutable update - same as working function
+      attachmentsStore.attachments = attachmentsStore.attachments.filter(att => att.id !== resource.id)
+
+      showSuccess(t('agora', 'File has been removed!'))
+    }
+    
+    await loadResources()
+  } catch (error) {
+    console.error('Error deleting resource:', error)
+    const errorMsg = resource.type === 'link' 
+      ? t('agora', 'Failed to delete link')
+      : t('agora', 'Failed to remove file')
+    showError(errorMsg)
+  }
+}
+
+
+const openResource = (resource: any) => {
+  if (resource.type === 'link') {
+    // Open linked resources in other apps
+    const baseUrls: { [key: string]: string } = {
+      polls: '/apps/polls/poll/',
+      forms: '/apps/forms/s/',
+      deck: '/apps/deck/#/board/',
+      cospend: '/apps/cospend/',
+      files: '/apps/files/?fileid=',
+    }
+
+    const baseUrl = baseUrls[resource.target_app] || '/'
+    const url = `${baseUrl}${resource.target_id}`
+    window.open(url, '_blank', 'noopener,noreferrer')
+  } else if (resource.type === 'attachment' && resource.attachment?.url) {
+    // Open file attachments
+    window.open(resource.attachment.url, '_blank', 'noopener,noreferrer')
+  } else {
+    console.warn('No URL available for resource:', resource.displayName)
+    showError(t('agora', 'Cannot open resource - no URL available'))
+  }
+}
+
+const getResourceSubtitle = (resource: any): string => {
+  if (resource.type === 'attachment' && resource.attachment?.size) {
+    return `${formatFileSize(resource.attachment.size)} • ${getAppName(resource.target_app)}`
+  }
+  return getAppName(resource.target_app)
+}
+
+/**
+ * Format file size in human readable format
+ * @param bytes
+ */
+const formatFileSize = (bytes: number): string => {
+  if (bytes === 0) return '0 Bytes'
+  const k = 1024
+  const sizes = ['Bytes', 'KB', 'MB', 'GB']
+  const unitIndex = Math.floor(Math.log(bytes) / Math.log(k))
+  return `${parseFloat((bytes / Math.pow(k, unitIndex)).toFixed(2))} ${sizes[unitIndex]}`
+}
+</script>
+
+<template>
+  <div class="sidebar-links">
+    <!-- Header with Add Resource button on the right -->
+    <div class="sidebar-header">
+      <div class="header-content">
+        <div class="header-text">
+          <h2>{{ t('agora', 'Linked Resources') }}</h2>
+          <p class="description">{{ t('agora', 'Manage links to other Nextcloud resources and files') }}</p>
+        </div>
+        <NcButton
+          v-if="inquiryStore.currentUserStatus?.isOwner"
+          type="primary"
+          @click="openAddModal"
+          class="add-resource-btn"
+        >
+          <template #icon>
+            <component :is="InquiryGeneralIcons.Plus" :size="20" />
+          </template>
+          {{ t('agora', 'Add Resource') }}
+        </NcButton>
+      </div>
+    </div>
+
+    <!-- Resources List -->
+    <div class="resources-list">
+      <div v-if="isLoading" class="loading-state">
+        {{ t('agora', 'Loading resources...') }}
+      </div>
+
+      <div v-else-if="!hasResources" class="empty-state">
+        <component :is="InquiryGeneralIcons.Link" :size="48" class="empty-icon" />
+        <p>{{ t('agora', 'No linked resources') }}</p>
+        <p class="empty-description">{{ t('agora', 'Add resources or files to connect with other apps') }}</p>
+      </div>
+
+      <div v-else class="resources-groups">
+        <!-- Loop through all resource groups -->
+        <div v-for="(resources, appId) in groupedResources" :key="appId" class="resource-group">
+          <h3 class="group-title">
+            <component :is="getAppIcon(appId)" :size="20" class="group-icon" />
+            {{ getAppName(appId) }}
+          </h3>
+          <div class="group-items">
+            <NcListItem
+              v-for="resource in resources"
+              :key="resource.id || resource.target_id"
+              :name="resource.displayName"
+              :bold="true"
+              :force-display-actions="true"
+              @click="openResource(resource)"
+            >
+              <template #icon>
+                <component :is="resource.icon" :size="20" />
+              </template>
+              
+              <template #subtitle>
+                {{ getResourceSubtitle(resource) }}
+              </template>
+
+              <template #actions>
+                <NcActionButton @click.stop="deleteResource(resource)">
+                  <template #icon>
+                    <component :is="InquiryGeneralIcons.Delete" :size="16" />
+                  </template>
+                  {{ t('agora', 'Delete') }}
+                </NcActionButton>
+              </template>
+            </NcListItem>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Resource Modal -->
+    <AddResourceModal
+      v-model:open="showAddModal"
+      :inquiry-store="inquiryStore"
+    />
+  </div>
+</template>
+
+<style scoped lang="scss">
+.sidebar-links {
+  padding: var(--default-grid-baseline);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--default-grid-baseline);
+
+  .sidebar-header {
+    margin-bottom: var(--default-grid-baseline);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--default-grid-baseline);
+
+    .header-content {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--default-grid-baseline);
+
+      .header-text {
+        flex-grow: 1;
+
+        h2 {
+          margin: 0;
+          font-size: 1.2em;
+          font-weight: 600;
+          color: var(--color-text);
+        }
+
+        .description {
+          margin: calc(var(--default-grid-baseline) / 2) 0 0 0;
+          font-size: 0.9em;
+          color: var(--color-text-lighter);
+        }
+      }
+
+      .add-resource-btn {
+        flex-shrink: 0;
+      }
+    }
+  }
+
+  .resources-list {
+    flex-grow: 1;
+    overflow-y: auto;
+
+    .loading-state,
+    .empty-state {
+      text-align: center;
+      color: var(--color-text-lighter);
+      padding: calc(var(--default-grid-baseline) * 3);
+      font-style: italic;
+
+      .empty-icon {
+        margin-bottom: var(--default-grid-baseline);
+        color: var(--color-border);
+      }
+
+      .empty-description {
+        font-size: 0.9em;
+        margin-top: calc(var(--default-grid-baseline) / 2);
+        margin-bottom: var(--default-grid-baseline);
+      }
+
+      .empty-action-btn {
+        margin-top: var(--default-grid-baseline);
+      }
+    }
+
+    .resources-groups {
+      display: flex;
+      flex-direction: column;
+      gap: var(--default-grid-baseline);
+    }
+
+    .resource-group {
+      .group-title {
+        display: flex;
+        align-items: center;
+        gap: calc(var(--default-grid-baseline) / 2);
+        margin: 0 0 calc(var(--default-grid-baseline) / 2) 0;
+        font-size: 1em;
+        font-weight: 600;
+        color: var(--color-text);
+
+        .group-icon {
+          color: var(--color-primary-element);
+        }
+      }
+
+      .group-items {
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+        background-color: var(--color-background-dark);
+        border-radius: var(--border-radius);
+        overflow: hidden;
+      }
+    }
+  }
+}
+</style>

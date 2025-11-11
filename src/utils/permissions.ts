@@ -294,7 +294,7 @@ export function canEditResult(moderationStatus: string): boolean {
  * @param moderationStatus
  */
 export function canPerformActions(moderationStatus: string): {
-  canAttachFile: boolean
+  canUseLink: boolean
   canTransfer: boolean
   canDelete: boolean
   canArchive: boolean
@@ -302,7 +302,7 @@ export function canPerformActions(moderationStatus: string): {
   const canPerform = moderationStatus !== 'rejected' && moderationStatus !== 'pending'
   
   return {
-    canAttachFile: canPerform,
+    canUseLink: canPerform,
     canTransfer: canPerform,
     canDelete: canPerform,
     canArchive: canPerform,
@@ -694,7 +694,7 @@ export function canShare(context: PermissionContext): boolean {
 /**
  * @param context
  */
-export function canAttachFile(context: PermissionContext): boolean {
+export function canUseLink(context: PermissionContext): boolean {
   if (context.isArchived || context.isDeleted || context.isLocked) {
     return false
   }
@@ -1017,7 +1017,7 @@ export default {
   canComment,
   canSupport,
   canShare,
-  canAttachFile,
+  canUseLink,
   canDelete,
   canArchive,
   canRestore,

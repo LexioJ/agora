@@ -26,7 +26,9 @@ use OCP\Collaboration\Collaborators\ISearch;
 use OCP\IDateTimeZone;
 use OCP\IGroupManager;
 use OCP\IL10N;
+use OCP\IUserManager;
 use OCP\Share\IShare;
+use OCP\Accounts\IAccountManager;
 
 class UserBase implements JsonSerializable
 {
@@ -109,6 +111,7 @@ class UserBase implements JsonSerializable
         protected string $languageCode = '',
         protected string $localeCode = '',
         protected string $timeZoneName = '',
+        protected string $location = '',
         array $groups = []
     ) {
         $this->groups = $groups;
@@ -117,6 +120,7 @@ class UserBase implements JsonSerializable
         $this->timeZone = Container::queryClass(IDateTimeZone::class);
         $this->userSession = Container::queryClass(UserSession::class);
         $this->appSettings = Container::queryClass(AppSettings::class);
+        $this->loadAccountData();
     }
 
     public function getId(): string
@@ -148,7 +152,22 @@ class UserBase implements JsonSerializable
     public function getHashedUserId(): string
     {
         // TODO: add a session salt
-        return hash('md5', $this->id);
+        return hash('sha256', $this->id);
+    }
+
+    protected function loadAccountData(): void
+    {
+        $userManager = \OC::$server->get(IUserManager::class);
+        $accountManager = \OC::$server->get(IAccountManager::class);
+        $user = $userManager->get($this->id);
+
+        if ($user) {
+            $account = $accountManager->getAccount($user);
+            $addressProperty = $account->getProperty('address');
+            if ($addressProperty !== null) {
+                $this->location = $addressProperty->getValue();
+            }
+        }
     }
 
     /**
@@ -215,6 +234,12 @@ class UserBase implements JsonSerializable
     {
         return $this->languageCode;
     }
+
+    public function getLocation(): string
+    {
+        return $this->location;
+    }
+
 
     public function getLanguageCodeIntl(): string
     {
@@ -296,7 +321,7 @@ class UserBase implements JsonSerializable
 
     public function getHasEmail(): bool
     {
-        return (bool)$this->getEmailAddress();
+        return !empty($this->getEmailAddress());
     }
 
     /**
@@ -306,8 +331,8 @@ class UserBase implements JsonSerializable
     {
         return in_array(
             strtolower($checkName), [
-            strtolower($this->getDisplayName()),
-            strtolower($this->getId()),
+                strtolower($this->getDisplayName()),
+                strtolower($this->getId()),
             ]
         );
     }
@@ -444,6 +469,7 @@ class UserBase implements JsonSerializable
             'type' => $this->getType(),
             'userId' => $this->getId(),
             'groups' => $this->getGroups(),
+            'location' => $this->getLocation(),
         ];
     }
 
@@ -470,7 +496,7 @@ class UserBase implements JsonSerializable
             'isOfficial' => false,
             'isModerator' => false,
             'isLegislative' => false,
-            'isAdminisratif' => false,
+            'isAdministrative' => false,
             'isCollective' => false,
             'isGuest' => $this->getIsGuest(),
             'isUnrestrictedOwner' => false,
