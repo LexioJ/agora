@@ -113,7 +113,7 @@ const selectFamily = (family) => {
   <div class="families-manager">
     <h2>{{ t('agora', 'Inquiry Families Management') }}</h2>
     <p class="description">
-      {{ t('agora', 'Manage inquiry families to organize different types of inquiries Each family can contain multiple inquiry types') }}
+      {{ t('agora', 'Manage inquiry families to organize different types of inquiries. Each family can contain multiple inquiry types.') }}
     </p>
 
     <!-- Families List -->

@@ -279,13 +279,13 @@
     </div>
 
     <!-- AI Modal using NcModal -->
-    <NcModal v-if="showAIModal" :name="t('agora', 'Generate Content with AI')" @close="closeAIModal">
+    <NcModal v-if="showAIModal" :name="t('agora', 'Generate content with AI')" @close="closeAIModal">
       <NcAssistantContent>
         <div class="container">
           <NcAssistantIcon />
           <div class="content">
             <h3 class="heading">
-              {{ t('agora', 'Generate Content with AI') }}
+              {{ t('agora', 'Generate content with AI') }}
             </h3>
             
             <div class="form-group">
@@ -293,7 +293,7 @@
               <NcTextField
                 id="ai-prompt"
                 v-model:value="aiPrompt"
-                :placeholder="t('agora', 'eg Write a professional introduction for a business inquiry about')"
+                :placeholder="t('agora', 'e.g. Write a professional introduction for a business inquiry about')"
                 type="textarea"
                 label="Prompt for AI"
                 :rows="4"
@@ -324,14 +324,14 @@
               <NcAssistantButton 
                 :disabled="!aiPrompt.trim() || aiLoading"
                 @click="generateWithAI">
-                {{ aiLoading ? t('agora', 'Generating...') : t('agora', 'Generate') }}
+                {{ aiLoading ? t('agora', 'Generating…') : t('agora', 'Generate') }}
               </NcAssistantButton>
               <NcButton 
                 v-if="aiGeneratedContent"
                 :disabled="aiLoading"
                 type="primary"
                 @click="insertAIContent">
-                {{ t('agora', 'Insert Content') }}
+                {{ t('agora', 'Insert content') }}
               </NcButton>
             </div>
           </div>
@@ -430,7 +430,7 @@ const handleImageUpload = async (event) => {
         .insertContent(`<img src="${imageUrl}" alt="${response.name}" class="editor-image image-align-center" data-file-id="${response.fileId}" />`)
         .run()
 
-      showSuccess(t('agora', 'Image inserted successfully'))
+      showSuccess(t('agora', 'Image inserted'))
     }
 
   } catch (error) {
@@ -571,7 +571,7 @@ const handlePastedImage = async (file) => {
         .run()
 
       attachmentsStore.attachments = [...attachmentsStore.attachments, attachment]
-      showSuccess(t('agora', 'Image inserted successfully'))
+      showSuccess(t('agora', 'Image inserted'))
     }
 
   } catch (error) {
@@ -679,7 +679,7 @@ const handleWordImport = async (event) => {
     const { value: html } = await mammoth.convertToHtml({ arrayBuffer })
     editor.value.commands.setContent(html)
     inquiryStore.description = html
-    showSuccess(t('agora', 'Word document imported successfully'))
+    showSuccess(t('agora', 'Word document imported'))
   } catch (error) {
     console.error('Error importing Word document:', error)
     showError(t('agora', 'Failed to import Word document'))
@@ -724,10 +724,10 @@ const generateWithAI = async () => {
     // Use the inquiryStore to contact Nextcloud AI
     const generatedContent = await inquiryStore.getEchanceText(aiPrompt.value)
     aiGeneratedContent.value = generatedContent
-    showSuccess(t('agora', 'Content generated successfully'))
+    showSuccess(t('agora', 'Content generated'))
   } catch (error) {
     console.error('AI generation failed:', error)
-    showError(t('agora', 'AI generation failed Please try again'))
+    showError(t('agora', 'AI generation failed. Please try again'))
   } finally {
     aiLoading.value = false
   }
@@ -737,7 +737,7 @@ const insertAIContent = () => {
   if (aiGeneratedContent.value && editor.value) {
     editor.value.commands.setContent(aiGeneratedContent.value)
     inquiryStore.description = aiGeneratedContent.value
-    showSuccess(t('agora', 'Content inserted successfully'))
+    showSuccess(t('agora', 'Content inserted'))
     closeAIModal()
   }
 }

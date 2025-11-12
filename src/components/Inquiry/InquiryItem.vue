@@ -63,9 +63,9 @@ const context = computed(() => {
 const onToggleSupport = async () => {
   supportsStore.toggleSupport(inquiry.id, sessionStore.currentUser.id, inquiryStore, inquiriesStore)
   if (inquiry.currentUserStatus.hasSupported) {
-    showSuccess(t('agora', 'Inquiry supported, thanks for her !'), { timeout: 2000 })
+    showSuccess(t('agora', 'Inquiry supported, thanks for her!'), { timeout: 2000 })
   } else {
-    showSuccess(t('agora', 'Inquiry support removed !'), { timeout: 2000 })
+    showSuccess(t('agora', 'Inquiry support removed!'), { timeout: 2000 })
   }
 }
 

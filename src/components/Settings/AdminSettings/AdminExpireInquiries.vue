@@ -30,7 +30,7 @@ const appSettingsStore = useAppSettingsStore()
       type="number"
       inputmode="numeric"
       use-num-modifiers
-      :label="t('agora', 'Days after which inquiries should expire after openning')"
+      :label="t('agora', 'Days after which inquiries should expire after being opened')"
       @change="appSettingsStore.write()"
     />
   </div>
