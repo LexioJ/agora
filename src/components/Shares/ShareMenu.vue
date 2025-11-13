@@ -125,11 +125,11 @@ const resolveGroups = computed<ButtonProps>(() => ({
 function resolveGroupResolveError(message: string) {
   switch (message) {
     case 'Contacts is not enabled':
-      return t('agora', 'Resolving of {name} is not possible. The contacts app is not enabled', {
+      return t('agora', 'Resolving of {name} is not possible. The contacts app is not enabled.', {
         name: share.user.displayName,
       })
     case 'Circles is not enabled for this user':
-      return t('agora', 'Resolving of {name} is not possible. The circles app is not enabled', {
+      return t('agora', 'Resolving of {name} is not possible. The teams app is not enabled.', {
         name: share.user.displayName,
       })
     default:

@@ -190,7 +190,7 @@ const deleteResource = async (resource: ResourceItem) => {
     } else if (resource.type === 'attachment') {
       const attachment = attachmentsStore.attachments.find(att => att.id === resource.id)
       if (!attachment) {
-        console.warn('No attachment found with id:', resource.id)
+        console.warn('No attachment found with ID:', resource.id)
         return
       }
 
@@ -303,7 +303,7 @@ const handleResourceClick = (resource: ResourceItem, event: Event) => {
 
     <div class="resources-list">
       <div v-if="isLoading" class="loading-state">
-        {{ t('agora', 'Loading resources...') }}
+        {{ t('agora', 'Loading resources …') }}
       </div>
 
       <div v-else-if="!hasResources" class="empty-state">
