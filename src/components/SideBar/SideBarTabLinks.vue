@@ -303,7 +303,7 @@ const handleResourceClick = (resource: ResourceItem, event: Event) => {
 
     <div class="resources-list">
       <div v-if="isLoading" class="loading-state">
-        {{ t('agora', 'Loading resources…') }}
+        {{ t('agora', 'Loading resources …') }}
       </div>
 
       <div v-else-if="!hasResources" class="empty-state">
