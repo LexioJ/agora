@@ -57,6 +57,7 @@ OC.L10N.register(
     "Configure" : "Konfigurasi",
     "Shares" : "Dibagikan",
     "No activity yet" : "Belum ada aktivitas",
+    "Deck" : "Longgok",
     "Saving..." : "Menyimpan...",
     "Public link" : "Tautan publik",
     "Create" : "Buat",

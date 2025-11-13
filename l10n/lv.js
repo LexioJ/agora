@@ -80,6 +80,7 @@ OC.L10N.register(
     "View all" : "Skatīt visu",
     "Settings" : "Iestatījumi",
     "Details" : "Informācija",
+    "Resource" : "Resurss",
     "Sharing" : "Koplietošana",
     "Hour" : "Stunda",
     "Day" : "Diena",

@@ -113,6 +113,7 @@ OC.L10N.register(
     "No activity yet" : "Ancora peruna atividade ",
     "No comments" : "Perunu cummentu",
     "File" : "Archìviu",
+    "Deck" : "Deck",
     "Saving..." : "Sarvende...",
     "Receive notification email on activity to {emailAddress}" : "Retzi notìficas tràmite posta eletrònica subra s'atividade a {emailAddress} ",
     "Receive notification email on activity" : "Retzi notìficas tràmite posta eletrònica subra s'atividade ",

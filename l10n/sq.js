@@ -61,6 +61,7 @@ OC.L10N.register(
     "Create" : "Krijo",
     "Settings" : "Rregullimet",
     "Details" : "Detajet",
+    "Resource" : "Burim",
     "Sharing" : "Ndarje",
     "Hour" : "Orë",
     "Day" : "Ditë",

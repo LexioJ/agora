@@ -219,6 +219,7 @@ OC.L10N.register(
     "View all" : "Poglej vse",
     "Settings" : "Nastavitve",
     "Details" : "Podrobnosti",
+    "Resource" : "Vir",
     "Sharing" : "Souporaba",
     "Configuration" : "Nastavitve",
     "Experimental styles" : "Preizkusni slogi",

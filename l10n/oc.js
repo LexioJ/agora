@@ -72,6 +72,7 @@ OC.L10N.register(
     "Create" : "Crear",
     "Settings" : "Paramètres",
     "Details" : "Per lo Menut",
+    "Resource" : "Ressorsa",
     "Sharing" : "Partiment",
     "Configuration" : "Configuracion",
     "Minute" : "Minuta",
