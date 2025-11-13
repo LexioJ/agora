@@ -446,7 +446,7 @@ const handleTitleInput = () => {
 
           <div v-if="isLoading" class="loading-state">
             <div class="loading-spinner"></div>
-            <span>{{ t('agora', 'Loading your {resource}...', { resource: getResourceNameLower(currentResourceType) }) }}</span>
+            <span>{{ t('agora', 'Loading your {resource} …', { resource: getResourceNameLower(currentResourceType) }) }}</span>
           </div>
 
           <div v-else-if="hasResources" class="select-wrapper">
@@ -455,7 +455,7 @@ const handleTitleInput = () => {
               v-model="selectedResourceId"
               :options="resourceOptions"
               :clearable="true"
-              :placeholder="t('agora', 'Select a {resource}...', { resource: getResourceNameLower(currentResourceType) })"
+              :placeholder="t('agora', 'Select a {resource} …', { resource: getResourceNameLower(currentResourceType) })"
               :disabled="isCreating"
               @update:model-value="handleSelectChange"
             />
@@ -578,7 +578,7 @@ const handleTitleInput = () => {
           <template #icon>
             <component :is="InquiryGeneralIcons.Plus" :size="20" />
           </template>
-          <span v-if="isCreating">{{ t('agora', 'Creating...') }}</span>
+          <span v-if="isCreating">{{ t('agora', 'Creating …') }}</span>
           <span v-else-if="isFileType">{{ t('agora', 'Upload Files') }}</span>
           <span v-else>{{ t('agora', 'Add {resource}', { resource: getResourceName(currentResourceType) }) }}</span>
         </NcButton>
