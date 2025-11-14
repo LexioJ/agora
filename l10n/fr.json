@@ -345,6 +345,7 @@
     "Invitation sent to {displayName} ({emailAddress})" : "Invitation envoyée à {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Erreur lors de l'envoi de l'invitation à {displayName} ({emailAddress})",
     "Resolve group into individual invitations" : "Développer le groupe en invitations individuelles",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "La résolution de {name} n’est pas possible. L’application contacts n’est pas activée.",
     "Copy link to clipboard" : "Copier le lien dans le presse-papier",
     "Link copied to clipboard" : "Lien copié dans le presse-papier",
     "Error while copying link to clipboard" : "Erreur lors de la copie du lien dans le presse-papier",

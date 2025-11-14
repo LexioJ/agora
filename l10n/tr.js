@@ -635,6 +635,7 @@ OC.L10N.register(
     "Invitation sent to {displayName} ({emailAddress})" : "{displayName} ({emailAddress}) için davet gönderildi",
     "Error sending invitation to {displayName} ({emailAddress})" : "{displayName} ({emailAddress}) için davet gönderilirken sorun çıktı",
     "Resolve group into individual invitations" : "Grup bireysel davetlere ayrılsın",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "{name} adı ayrılamadı. Kişiler uygulaması kullanıma alınmamış.",
     "Grant administrative inquiry access" : "Araştırma yönetimi izni ver ",
     "Withdraw administrative inquiry access" : "Araştırma yönetimi iznini kaldır",
     "Copy link to clipboard" : "Bağlantıyı panoya kopyala",

@@ -165,6 +165,7 @@
     "Send invitation mail" : "Pošlji vabilo",
     "Invitation sent to {displayName} ({emailAddress})" : "Vabilo je poslano za {displayName} ({emailAddress}).",
     "Error sending invitation to {displayName} ({emailAddress})" : "Pošiljanje za {displayName} na naslov ({emailAddress}) je spodletelo.",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Ni mogoče razrešiti imena {name}. Program Stiki ni omogočen.",
     "Copy link to clipboard" : "Kopiraj povezavo v odložišče",
     "Link copied to clipboard" : "Povezava je kopirana v odložišče",
     "Error while copying link to clipboard" : "Prišlo je do napake med kopiranjem povezave v odložišče",

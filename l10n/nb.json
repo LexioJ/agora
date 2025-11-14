@@ -259,6 +259,7 @@
     "Send invitation mail" : "Send invitasjons-e-post",
     "Invitation sent to {displayName} ({emailAddress})" : "Invitasjon sendt til {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Feil ved sending av invitasjon til {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Det er ikke mulig å løse {name}. Contacts-appen er ikke aktivert.",
     "Copy link to clipboard" : "Kopier lenke til utklippstavlen",
     "Link copied to clipboard" : "Lenke kopiert til utklippstavlen",
     "Error while copying link to clipboard" : "Feil under kopiering av kobling til utklippstavlen",

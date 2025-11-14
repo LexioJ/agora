@@ -184,6 +184,7 @@ OC.L10N.register(
     "Send invitation mail" : "Enviar correo de invitación",
     "Invitation sent to {displayName} ({emailAddress})" : "Invitación enviada a {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Error al enviar la invitación a {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "No se puede resolver a {name}. La aplicación \"contacts\" no está habilitada.",
     "Copy link to clipboard" : "Copiar enlace al portapapeles",
     "Link copied to clipboard" : "Enlace copiado al portapapeles",
     "Error while copying link to clipboard" : "Error al copiar el enlace al portapapeles",

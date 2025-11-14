@@ -134,6 +134,7 @@ OC.L10N.register(
     "Redo" : "Refés",
     "Preview" : "Previsualitza",
     "Summary" : "Resum",
+    "Generating…" : "Generant…",
     "Accepted" : "Acceptat",
     "Rejected" : "Rebutjat",
     "Save" : "Desar",

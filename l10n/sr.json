@@ -467,6 +467,7 @@
     "Invitation sent to {displayName} ({emailAddress})" : "Позивница је постата кориснику {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Грешка приликом слања позивнице кориснику {displayName} ({emailAddress})",
     "Resolve group into individual invitations" : "Разреши групу у појединачне позивнице",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Није могуће разрешење {name}. Апликација контакти није укључена.",
     "Copy link to clipboard" : "Копирај везу у оставу",
     "Link copied to clipboard" : "Веза копирана у оставу",
     "Error while copying link to clipboard" : "Грешка приликом копирања везе у оставу",

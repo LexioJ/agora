@@ -306,6 +306,7 @@ OC.L10N.register(
     "Invitation sent to {displayName} ({emailAddress})" : "邀請已傳送至 {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "向 {displayName} ({emailAddress}) 傳送邀請時發生錯誤",
     "Resolve group into individual invitations" : "將群組解析為個別邀請",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "無法解析 {name}。通訊錄應用程式未啟用。",
     "Copy link to clipboard" : "複製連結到剪貼簿",
     "Link copied to clipboard" : "已複製連結至剪貼簿",
     "Error while copying link to clipboard" : "複製連結至剪貼簿時發生錯誤 ",

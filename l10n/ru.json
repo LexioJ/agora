@@ -185,6 +185,7 @@
     "Send invitation mail" : "Отправить приглашение по эл. почте",
     "Invitation sent to {displayName} ({emailAddress})" : "Приглашение отправлено пользователю  {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Не удалось отправить приглашение пользователю {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Не удалось получить данные о {name}: приложение «Контакты» не установлено.",
     "Copy link to clipboard" : "Скопировать ссылку в буфер обмена",
     "Link copied to clipboard" : "Ссылка скопирована в буфер обмена",
     "Error while copying link to clipboard" : "Не удалось скопировать ссылку в буфер обмена",

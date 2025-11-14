@@ -297,6 +297,7 @@
     "Invitation sent to {displayName} ({emailAddress})" : "Invito inviato a {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Errore nell'invio dell'invito a {displayName} ({emailAddress})",
     "Resolve group into individual invitations" : "Risolvere il gruppo in inviti individuali",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Impossibile risolvere {name}. L'applicazione dei contatti non è abilitata.",
     "Copy link to clipboard" : "Copia collegamento negli appunti",
     "Link copied to clipboard" : "Collegamento copiato negli appunti",
     "Error while copying link to clipboard" : "Errore durante la copia del collegamento negli appunti",

@@ -254,6 +254,7 @@ OC.L10N.register(
     "Send invitation mail" : "تەكلىپنامە ئەۋەتىڭ",
     "Invitation sent to {displayName} ({emailAddress})" : "{displayName} ({emailAddress}) غا ئەۋەتىلگەن تەكلىپ",
     "Error sending invitation to {displayName} ({emailAddress})" : "{displayName} ({emailAddress}) غا تەكلىپ ئەۋەتىشتە خاتالىق",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "{name} نى ھەل قىلىش مۇمكىن ئەمەس. ئالاقىلىشىش دېتالى قوزغىتىلمىغان.",
     "Copy link to clipboard" : "ئۇلىنىشنى چاپلاش تاختىسىغا كۆچۈرۈڭ",
     "Link copied to clipboard" : "ئۇلىنىش چاپلاش تاختىسىغا كۆچۈرۈلدى",
     "Error while copying link to clipboard" : "چاپلاش تاختىسىغا ئۇلىنىشنى كۆچۈرگەندە خاتالىق",

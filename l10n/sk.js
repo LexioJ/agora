@@ -234,6 +234,7 @@ OC.L10N.register(
     "Send invitation mail" : "Poslať e-mail s pozvánkou",
     "Invitation sent to {displayName} ({emailAddress})" : "Pozvánka odoslaná pre {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Chyba pri odosielaná pozvánky pre {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Nie je možné preložiť {name}. Aplikácia Kontakty nie je zapnutá.",
     "Copy link to clipboard" : "Skopírovať odkaz do schránky",
     "Link copied to clipboard" : "Odkaz bol skopírovaný do schránky",
     "Error while copying link to clipboard" : "Pri kopírovaní odkazu do schránky sa vyskytla chyba",

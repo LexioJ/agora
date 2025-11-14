@@ -629,6 +629,7 @@
     "Invitation sent to {displayName} ({emailAddress})" : "Запрошення надіслано {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Помилка під час надсилання запрошення {displayName} ({emailAddress})",
     "Resolve group into individual invitations" : "Розбийте групу на окремі запрошення",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Вирішити проблему {name} неможливо. Додаток \"Контакти\" не ввімкнено.",
     "Grant administrative inquiry access" : "Надати доступ до адміністративного запиту",
     "Withdraw administrative inquiry access" : "Відкликати доступ до адміністративного запиту",
     "Copy link to clipboard" : "Копіювати посилання",

@@ -210,6 +210,7 @@
     "Send invitation mail" : "Bidali gonbidapen mezu elektronikoa",
     "Invitation sent to {displayName} ({emailAddress})" : "Gonbidapena {displayName} ({emailAddress}) helbidera bidali da ",
     "Error sending invitation to {displayName} ({emailAddress})" : "Errorea {displayName} ({emailAddress}) helbidera gonbidapena bidaltzean",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Ez da posible {name} konpontzea. Kontaktuen aplikazioa ez dago gaituta.",
     "Copy link to clipboard" : "Kopiatu esteka arbelera",
     "Link copied to clipboard" : "Arbelara kopiatutako esteka",
     "Error while copying link to clipboard" : "Errorea esteka arbelera kopiatzean",

@@ -190,6 +190,7 @@
     "Send invitation mail" : "Send invitation mail",
     "Invitation sent to {displayName} ({emailAddress})" : "Invitation sent to {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Error sending invitation to {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Resolving of {name} is not possible. The contacts app is not enabled.",
     "Copy link to clipboard" : "Copy link to clipboard",
     "Link copied to clipboard" : "پیوند در حافظه موقت کپی شده",
     "Error while copying link to clipboard" : "هنگام کپی کردن پیوند به حافظه موقت خطایی رخ داد",

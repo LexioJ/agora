@@ -196,6 +196,7 @@
     "Send invitation mail" : "Wyślij wiadomość z zaproszeniem",
     "Invitation sent to {displayName} ({emailAddress})" : "Zaproszenie wysłane do {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Błąd podczas wysyłania zaproszenia do {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Rozwiązanie problemu {name} jest nie możliwe. Aplikacja do kontaktów jest wyłączona.",
     "Copy link to clipboard" : "Kopiuj link do schowka",
     "Link copied to clipboard" : "Link skopiowany do schowka",
     "Error while copying link to clipboard" : "Błąd podczas kopiowania linku do schowka",

@@ -99,6 +99,7 @@ OC.L10N.register(
     "Send invitation mail" : "Imbia messàgiu de invitu",
     "Invitation sent to {displayName} ({emailAddress})" : "Invitu imbiadu a {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Errore imbiende s'invitu a {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "No faghet a risòlvere {name}. S'aplicatzione de cuntatos no est ativa.",
     "Copy link to clipboard" : "Còpia su ligòngiu in punta de billete",
     "Link copied to clipboard" : "Ligòngiu copiadu in punta de billete",
     "Error while copying link to clipboard" : "Errore in sa copiadura in sa punta de billete",

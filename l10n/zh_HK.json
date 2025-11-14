@@ -747,6 +747,7 @@
     "Invitation sent to {displayName} ({emailAddress})" : "邀請已傳送到 {displayName}（{emailAddress}）",
     "Error sending invitation to {displayName} ({emailAddress})" : "向  {displayName}（{emailAddress}）傳送邀請時發生錯誤",
     "Resolve group into individual invitations" : "將群組解析為個別邀請",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "無法分拆 {name}。通訊錄應用程式未啟用。",
     "Error resolving {name}" : "解析「{name}」時發生錯誤",
     "Grant administrative inquiry access" : "授予管理查詢訪問權限",
     "Withdraw administrative inquiry access" : "撤回管理查詢訪問權限",

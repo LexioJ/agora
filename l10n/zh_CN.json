@@ -186,6 +186,7 @@
     "Send invitation mail" : "发送邀请邮件",
     "Invitation sent to {displayName} ({emailAddress})" : "邀请已发送至 {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "发送邀请至 {displayName} ({emailAddress}) 发生错误",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "不可能解析 {name}。未启用联系人应用。",
     "Copy link to clipboard" : "复制链接到剪贴板",
     "Link copied to clipboard" : "链接已复制到剪贴板",
     "Error while copying link to clipboard" : "拷贝链接到剪贴板时出错",

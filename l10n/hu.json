@@ -216,6 +216,7 @@
     "Send invitation mail" : "Meghívó e-mail küldése",
     "Invitation sent to {displayName} ({emailAddress})" : "Meghívó elküldve {displayName} ({emailAddress}) számára",
     "Error sending invitation to {displayName} ({emailAddress})" : "Hiba a(z) {displayName} ({emailAddress}) számára küldött meghívó elküldése során",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "A(z) {name} feloldása nem lehetséges. A Névjegyek alkalmazás nincs engedélyezve.",
     "Copy link to clipboard" : "Hivatkozás vágólapra másolása",
     "Link copied to clipboard" : "Hivatkozás a vágólapra másolva",
     "Error while copying link to clipboard" : "Hiba a hivatkozás vágólapra másolása során",

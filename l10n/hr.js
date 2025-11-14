@@ -107,6 +107,7 @@ OC.L10N.register(
     "Send invitation mail" : "Pošalji poruku s pozivnicom",
     "Invitation sent to {displayName} ({emailAddress})" : "Poslan je poziv za {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Pogreška pri slanju poziva za {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Nije moguće obraditi {name}. Nije omogućena aplikacija kontakata.",
     "Copy link to clipboard" : "Kopiraj poveznicu u međuspremnik",
     "Link copied to clipboard" : "Poveznica je kopirana u međuspremnik",
     "Error while copying link to clipboard" : "Pogreška pri kopiranju poveznice u međuspremnik",

@@ -178,6 +178,7 @@ OC.L10N.register(
     "Send invitation mail" : "Stuur uitnodigingsmail",
     "Invitation sent to {displayName} ({emailAddress})" : "Uitnodiging verzonden naar {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Fout bij verzenden van uitnodiging naar {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Uitsplitsen van {name} is niet mogelijk. De contactpersonen app is niet ingeschakeld.",
     "Copy link to clipboard" : "Kopieer link naar klembord",
     "Link copied to clipboard" : "Link gekopieerd naar het klembord",
     "Error while copying link to clipboard" : "Fout bij link kopiëren naar klembord",
