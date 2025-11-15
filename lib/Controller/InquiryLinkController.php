@@ -17,16 +17,6 @@ use OCP\IUserSession;
 use OCP\AppFramework\Controller;
 use OCP\AppFramework\Http\DataResponse;
 
-use OCA\Polls\Db\Poll;
-use OCA\Polls\Db\PollMapper;
-use OCA\Forms\Db\Form;
-use OCA\Forms\Db\Question;
-use OCA\Forms\Db\Option;
-use OCA\Deck\Db\Card;
-use OCA\Deck\Db\CardMapper;
-use OCA\Cospend\Db\Expense;
-use OCA\Cospend\Db\ExpenseMapper;
-
 /**
  * @psalm-api
  */
@@ -37,58 +27,9 @@ class InquiryLinkController extends BaseController
         IRequest $request,
         private InquiryLinkService $inquiryLinkService,
         IUserSession $userSession,
-        PollMapper $pollMapper,
-        CardMapper $cardMapper,
-        ExpenseMapper $expenseMapper
     ) {
         parent::__construct($appName, $request);
     }
-
-    public function createPoll(): DataResponse
-    {
-        $user = $this->userSession->getUser();
-        $poll = new Poll();
-        $poll->setTitle($this->request->getParam('title'));
-        $poll->setDescription($this->request->getParam('description'));
-        $poll->setOwner($user->getUID());
-        $this->pollMapper->insert($poll);
-        return new DataResponse(['app' => 'polls', 'id' => $poll->getId()]);
-    }
-
-    public function createForm(): DataResponse
-    {
-        $form = new Form();
-        $form->setTitle($this->request->getParam('title'));
-        $form->setDescription($this->request->getParam('description'));
-        $form->setOwner($this->userSession->getUser()->getUID());
-        $form->save();
-
-        return new DataResponse(['app' => 'forms', 'id' => $form->getId()]);
-    }
-
-    public function createDeckCard(): DataResponse
-    {
-        $card = new Card();
-        $card->setTitle($this->request->getParam('title'));
-        $card->setDescription($this->request->getParam('description'));
-        $card->setStackId((int)$this->request->getParam('stackId', 1)); // ID du stack par défaut
-        $this->cardMapper->insert($card);
-
-        return new DataResponse(['app' => 'deck', 'id' => $card->getId()]);
-    }
-
-    public function createCospendExpense(): DataResponse
-    {
-        $user = $this->userSession->getUser();
-        $expense = new Expense();
-        $expense->setAmount((float)$this->request->getParam('amount'));
-        $expense->setDescription($this->request->getParam('description'));
-        $expense->setUserId($user->getUID());
-        $this->expenseMapper->insert($expense);
-
-        return new DataResponse(['app' => 'cospend', 'id' => $expense->getId()]);
-    }
-
     /**
      * Get all links for an inquiry
      *

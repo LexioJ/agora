@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Agora 1.5.3
+# Agora 1.5.4
 
 [![Dependabot status](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg?longCache=true&style=flat-square&logo=dependabot)](https://dependabot.com)  
 [![Software License](https://img.shields.io/badge/license-AGPL-brightgreen.svg?style=flat-square)](COPYING)  
@@ -14,7 +14,6 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 
 ---
 
-/bin/bash: ligne 1: :x : commande introuvable
 
 - 🧱 **Architecture Database** – New database design for better scalability and structure  
 - 🎨 **New UX Landing Page** – A more modern and user-friendly entry point  
@@ -35,6 +34,7 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 - 🧾 Multiple inquiry types and customization (proposals, debates, petitions, projects,.... )  
 - 📂 Categorization and filtering by location/family  
 - 🔒 Secure and private – all data stays on your Nextcloud server  
+- 🔗 Link with other Nextcloud apps : Forms, Polls, Deck, Cospend and Collectives.  
 
 ---
 

@@ -1,10 +1,10 @@
 <!--
-  - SPDX-FileCopyrightText: 2024 Nextcloud contributors
-  - SPDX-License-Identifier: AGPL-3.0-or-later
+    - SPDX-FileCopyrightText: 2024 Nextcloud contributors
+    - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+    import { ref, computed,onMounted } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { 
   NcButton, 
@@ -55,6 +55,12 @@ interface ResourceItem {
   icon: string
   attachment?: Attachment
   sort_order: number
+  metadata?: {
+    hash?: string      
+    title?: string 
+    url?: string
+  }
+  size?: number
 }
 
 interface GroupedResources {
@@ -86,12 +92,12 @@ const context = computed(() => {
 
 // Computed - Combine links and attachments for display
 const groupedResources = computed((): GroupedResources => {
-  const groups: Record<string, GroupedResources> = {}
-  
+  const groups: GroupedResources = {}
+
   // Add linked resources
   const links = inquiryLinksStore.getByInquiryId(inquiryStore.id)
     .sort((a, b) => a.sort_order - b.sort_order)
-  
+
   links.forEach((link:InquiryLink) => {
     if (!groups[link.target_app]) {
       groups[link.target_app] = []
@@ -103,7 +109,7 @@ const groupedResources = computed((): GroupedResources => {
       icon: getAppIcon(link.target_app)
     })
   })
-  
+
   // Add file attachments (excluding cover image)
  // Add this filter to exclude the cover image
 const fileAttachments = attachmentsStore.attachments
@@ -119,10 +125,11 @@ const fileAttachments = attachmentsStore.attachments
       displayName: attachment.name,
       icon: InquiryGeneralIcons.Document,
       attachment,
-      sort_order: 0
+      sort_order: 0,
+      size: attachment.size
     }))
   }
-  
+
   return groups
 })
 
@@ -141,10 +148,10 @@ const getResourceDisplayName = (link: InquiryLink): string => {
     file: t('agora', 'File'),
     page: t('agora', 'Collective Page'),
   }
-  
+
   const typeName = typeNames[link.target_type] || link.target_type
   const resourceId = link.target_id
-  
+
   // For files, show the filename
   if (link.target_app === 'files') {
     const attachment = attachmentsStore.attachments.find(att => 
@@ -154,7 +161,22 @@ const getResourceDisplayName = (link: InquiryLink): string => {
       return attachment.name
     }
   }
-  
+
+  // For forms, try to get the title from metadata
+  if (link.target_app === 'forms' && link.metadata?.title) {
+    return link.metadata.title
+  }
+
+  // For collectives, try to get the title from metadata
+  if (link.target_app === 'collectives' && link.metadata?.title) {
+    return link.metadata.title
+  }
+
+  if (link.metadata?.title) {
+    return link.metadata.title
+  }
+
+
   return `${typeName} #${resourceId}`
 }
 
@@ -170,8 +192,8 @@ const getAppName = (appId: string): string => {
   return appNames[appId] || appId
 }
 
-const getAppIcon = (appId: string) => {
-  const icons: Record<string> = {
+const getAppIcon = (appId: string): unknown => {
+  const icons: Record<string, unknown> = {
     polls: InquiryGeneralIcons.Poll,
     forms: InquiryGeneralIcons.Form,
     deck: InquiryGeneralIcons.Deck,
@@ -182,35 +204,159 @@ const getAppIcon = (appId: string) => {
   return icons[appId] || InquiryGeneralIcons.Link
 }
 
+
+// Delete
 const deleteResource = async (resource: ResourceItem) => {
   try {
-    if (resource.type === 'link') {
-      await inquiryLinksStore.delete(resource.id)
-      showSuccess(t('agora', 'Link deleted successfully'))
-    } else if (resource.type === 'attachment') {
-      const attachment = attachmentsStore.attachments.find(att => att.id === resource.id)
-      if (!attachment) {
-        console.warn('No attachment found with ID:', resource.id)
-        return
-      }
 
-      if (attachment.id && attachment.id > 0) {
-        await attachmentsStore.delete(attachment.id)
-      }
+    if (resource.type === 'attachment') {
+      const confirmed = await confirmDeletion(
+        t('agora', 'Are you sure you want to delete this file? This action cannot be undone.'),
+        t('agora', 'Confirm file deletion'),
+        t('agora', 'Delete file'),
+        t('agora', 'Cancel')
+      )
 
-      // Update attachments store reactively
-      attachmentsStore.attachments = attachmentsStore.attachments.filter(att => att.id !== resource.id)
-      showSuccess(t('agora', 'File has been removed!'))
+      if (!confirmed) return;
+
+      await handleAttachmentDeletion(resource);
+      return;
     }
+
     
+    const confirmedLinkDeletion = await confirmDeletion(
+      t('agora', 'Are you sure you want to delete this resource link? This will remove the reference from Agora.'),
+      t('agora', 'Confirm link deletion'),
+      t('agora', 'Delete link'),
+      t('agora', 'Cancel')
+    )
+
+    if (!confirmedLinkDeletion) return;
+
+    await inquiryLinksStore.delete(resource.id);
+
+    const confirmedDataDeletion = await confirmDeletion(
+      t('agora', 'Do you also want to permanently delete the associated {app} data? This action cannot be undone.', { app: resource.target_app }),
+      t('agora', 'Delete external data?'),
+      t('agora', 'Delete everything'),
+      t('agora', 'Keep external data')
+    )
+
+    await handleSpecificResourceDeletion(resource, confirmedDataDeletion);
+
   } catch (error) {
-    console.error('Error deleting resource:', error)
-    const errorMsg = resource.type === 'link' 
-      ? t('agora', 'Failed to delete link')
-      : t('agora', 'Failed to remove file')
-    showError(errorMsg)
+    console.error('Error deleting resource:', error);
+    const errorMsg = getErrorMessage(resource.target_app);
+    showError(errorMsg);
   }
 }
+
+// Helper functions
+const confirmDeletion = (
+  message: string,
+  title: string,
+  confirmText: string = t('agora', 'Delete'),
+  cancelText: string = t('agora', 'Cancel')
+): Promise<boolean> => new Promise((resolve) => {
+    window.OC.dialogs.confirm(
+      message,
+      title,
+      (result) => resolve(!!result),
+      {
+        type: 'error',
+        confirm: confirmText,
+        cancel: cancelText,
+      }
+    )
+  })
+
+const handleSpecificResourceDeletion = async (resource: ResourceItem, deleteExternalData: boolean) => {
+  
+  const deletionHandlers = {
+    cospend: async () => {
+      if (deleteExternalData) {
+        await inquiryLinksStore.deleteCospendProjectViaAPI(resource.target_id); 
+        showSuccess(t('agora', 'Cospend project and link deleted successfully'));
+      } else {
+        showSuccess(t('agora', 'Link deleted successfully - Cospend project kept'));
+      }
+    },
+    deck: async () => {
+      if (deleteExternalData) {
+        await inquiryLinksStore.deleteDeckViaAPI(resource.target_id);
+        showSuccess(t('agora', 'Deck board and link deleted successfully'));
+      } else {
+        showSuccess(t('agora', 'Link deleted successfully - Deck board kept'));
+      }
+    },
+    collectives: async () => {
+      if (deleteExternalData) {
+        await inquiryLinksStore.deleteCollectiveViaAPI(resource.target_id);
+        showSuccess(t('agora', 'Collective and link deleted successfully'));
+      } else {
+        showSuccess(t('agora', 'Link deleted successfully - Collective kept'));
+      }
+    },
+    polls: async () => {
+      if (deleteExternalData) {
+        await inquiryLinksStore.deletePollViaAPI(resource.target_id);
+        showSuccess(t('agora', 'Poll and link deleted successfully'));
+      } else {
+        showSuccess(t('agora', 'Link deleted successfully - Poll kept'));
+      }
+    },
+    forms: async () => {
+      if (deleteExternalData) {
+        await inquiryLinksStore.deleteFormViaAPI(resource.target_id);
+        showSuccess(t('agora', 'Form and link deleted successfully'));
+      } else {
+        showSuccess(t('agora', 'Link deleted successfully - Form kept'));
+      }
+    },
+    default: async () => {
+      showSuccess(t('agora', 'Resource link deleted successfully'));
+    }
+  };
+
+  const handler = deletionHandlers[resource.target_app as keyof typeof deletionHandlers] || deletionHandlers.default;
+  await handler();
+}
+
+const handleAttachmentDeletion = async (resource: ResourceItem) => {
+  
+  const attachment = attachmentsStore.attachments.find(att => att.id === resource.id);
+  
+  if (!attachment) {
+    console.warn('No attachment found with id:', resource.id);
+    return;
+  }
+
+  // Only delete from server if it's a positive numeric ID
+  if (attachment.id && attachment.id > 0) {
+    await attachmentsStore.delete(attachment.id);
+  }
+
+  // Use filter for immutable update
+  attachmentsStore.attachments = attachmentsStore.attachments.filter(att => att.id !== resource.id);
+
+  showSuccess(t('agora', 'File has been removed!'));
+}
+
+const getErrorMessage = (resourceType: string): string => {
+  const messages = {
+    cospend: t('agora', 'Failed to delete Cospend resource'),
+    deck: t('agora', 'Failed to delete Deck resource'),
+    collectives: t('agora', 'Failed to delete Collective resource'),
+    polls: t('agora', 'Failed to delete Poll resource'),
+    forms: t('agora', 'Failed to delete Form resource'),
+    attachment: t('agora', 'Failed to delete file'),
+    default: t('agora', 'Failed to delete resource')
+  };
+
+  return messages[resourceType as keyof typeof messages] || messages.default;
+}
+
+// DIVERS
 
 const getResourceSubtitle = (resource: ResourceItem): string => {
   // For attachments, show file size - FIX: Check both resource.attachment and resource directly
@@ -233,12 +379,12 @@ const formatFileSize = (bytes: number): string => {
 }
 
 // Get the target for the link
-const getResourceTarget = (resource: ResourceItem): string => 
+const getResourceTarget = (): string => 
    '_blank' // Always open in new tab
 
 
 // Add this function to check if resource can be edited
-const canEditResource = (resource: ResourceItem): boolean => {
+const canEditResource = (): boolean => {
   // Only owners can delete resources
   if (!inquiryStore.currentUserStatus?.isOwner) {
     return false
@@ -256,111 +402,215 @@ const canEditResource = (resource: ResourceItem): boolean => {
 // Get the href for the link
 const getResourceHref = (resource: ResourceItem): string => {
   if (resource.type === 'link') {
-    const baseUrls: Record<string, string> = {
-      polls: '/apps/polls/poll/',
-      forms: '/apps/forms/s/',
-      deck: '/apps/deck/#/board/',
-      cospend: '/apps/cospend/',
-      files: '/apps/files/?fileid=',
-      collectives: '/apps/collectives/#/collective/',
+    switch (resource.target_app) {
+      case 'forms': {
+        const formHash = resource.metadata?.hash || resource.target_id
+        return `/index.php/apps/forms/${formHash}`
+      }
+
+      case 'collectives': {
+        const collectiveTitle = resource.metadata?.title 
+          ? resource.metadata.title.toLowerCase().replace(/\s+/g, '-')
+          : 'collective'
+        return `/index.php/apps/collectives/${collectiveTitle}-${resource.target_id}`
+      }
+
+      case 'polls':
+        return `/index.php/apps/polls/vote/${resource.target_id}`
+
+      case 'deck':
+        return `/index.php/apps/deck/board/${resource.target_id}`
+
+      case 'cospend':
+        return `/index.php/apps/cospend/p/${resource.target_id}`
+
+      case 'files':
+        return `/apps/files/?fileid=${resource.target_id}`
+
+      default:
+        return '#'
     }
-    const baseUrl = baseUrls[resource.target_app] || '/'
-    return `${baseUrl}${resource.target_id}`
-  } if (resource.type === 'attachment' && resource.attachment?.url) {
+  } 
+
+  if (resource.type === 'attachment' && resource.attachment?.url) {
     return resource.attachment.url
   }
+
   return '#'
 }
 
+
 // Handle click with proper prevention
-const handleResourceClick = (resource: ResourceItem, event: Event) => {
-  // Let the native href/target handle the navigation
+const handleResourceClick = () => {
+  // Empty function since parameters weren't used
 }
+
+// Load resource information to redicted correctly
+const loadResourceDetails = async () => {
+  try {
+    const links = inquiryLinksStore.getByInquiryId(inquiryStore.id)
+
+    for (const link of links) {
+      try {
+        switch (link.target_app) {
+          case 'forms': {
+            const formDetails = await inquiryLinksStore.getFormDetailsWithHash(parseInt(link.target_id))
+            link.metadata = {
+              title: formDetails.ocs?.data?.title,
+              hash: formDetails.ocs?.data?.hash,
+              description: formDetails.ocs?.data?.description
+            }
+            break
+          }
+
+          case 'polls': {
+            const pollDetails = await inquiryLinksStore.getPollDetails(parseInt(link.target_id))
+            link.metadata = {
+              title: pollDetails.configuration.title,
+              description: pollDetails.configuration?.description
+            }
+            break
+          }
+
+          case 'deck': {
+            const deckDetails = await inquiryLinksStore.getDeckBoardDetails(parseInt(link.target_id))
+
+            link.metadata = {
+              title: deckDetails.title,
+              description: deckDetails.description,
+              color: deckDetails.color
+            }
+            break
+          }
+
+          case 'cospend': {
+            const cospendDetails = await inquiryLinksStore.getCospendProjectDetails(link.target_id)
+            link.metadata = {
+              title: cospendDetails.ocs?.data?.name || cospendDetails.name,
+              description: cospendDetails.ocs?.data?.description || cospendDetails.description
+            }
+            break
+          }
+
+          case 'collectives': {
+            const collectiveDetails = await inquiryLinksStore.getCollectiveDetails(link.target_id)
+            link.metadata = {
+              title: collectiveDetails.ocs?.data?.name || collectiveDetails.name,
+              description: collectiveDetails.ocs?.data?.description || collectiveDetails.description
+            }
+            break
+          }
+        }
+      } catch (error) {
+        console.warn(`Could not load details for ${link.target_app} ${link.target_id}:`, error)
+      }
+    }
+  } catch (error) {
+    console.error('Error loading resource details:', error)
+  }
+}
+
+
+const loadLinks = async () => {
+  try {
+    isLoading.value = true
+    await inquiryLinksStore.loadByInquiry(inquiryStore.id)
+  } catch (error) {
+    console.warn('Could not load inquiry links:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
+
+
+onMounted(async () => {
+  await loadLinks()
+  await loadResourceDetails()
+})
 
 </script>
 
 <template>
-  <div class="sidebar-links">
-    <div class="sidebar-header">
-      <div class="header-content">
-        <div class="header-text">
-          <h2>{{ t('agora', 'Linked Resources') }}</h2>
-          <p class="description">{{ t('agora', 'Manage links to other Nextcloud resources and files') }}</p>
+    <div class="sidebar-links">
+        <div class="sidebar-header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h2>{{ t('agora', 'Linked Resources') }}</h2>
+                    <p class="description">{{ t('agora', 'Manage links to other Nextcloud resources and files') }}</p>
+                </div>
+                <NcButton
+                        v-if="inquiryStore.currentUserStatus?.isOwner"
+                        type="primary"
+                        class="add-resource-btn"
+                        @click="openAddModal"
+                        >
+                        <template #icon>
+                            <component :is="InquiryGeneralIcons.Plus" :size="20" />
+                        </template>
+                {{ t('agora', 'Add Resource') }}
+                </NcButton>
+            </div>
         </div>
-        <NcButton
-          v-if="inquiryStore.currentUserStatus?.isOwner"
-          type="primary"
-          class="add-resource-btn"
-          @click="openAddModal"
-        >
-          <template #icon>
-            <component :is="InquiryGeneralIcons.Plus" :size="20" />
-          </template>
-          {{ t('agora', 'Add Resource') }}
-        </NcButton>
-      </div>
+
+        <div class="resources-list">
+            <div v-if="isLoading" class="loading-state">
+                {{ t('agora', 'Loading resources...') }}
+            </div>
+
+            <div v-else-if="!hasResources" class="empty-state">
+                <component :is="InquiryGeneralIcons.Link" :size="48" class="empty-icon" />
+                <p>{{ t('agora', 'No linked resources') }}</p>
+                <p class="empty-description">{{ t('agora', 'Add resources or files to connect with other apps') }}</p>
+            </div>
+
+            <div v-else class="resources-groups">
+                <div v-for="(resources, appId) in groupedResources" :key="appId" class="resource-group">
+                    <h3 class="group-title">
+                        <component :is="getAppIcon(appId)" :size="20" class="group-icon" />
+                        {{ getAppName(appId) }}
+                    </h3>
+                    <div class="group-items">
+                        <NcListItem
+                                v-for="resourceItem in resources"
+                                :key="resourceItem.id || resourceItem.target_id"
+                                :name="resourceItem.displayName"
+                                :bold="true"
+                                :force-display-actions="true"
+                                :target="getResourceTarget()"
+                                :href="getResourceHref(resourceItem)"
+                                :to="null"
+                                @click="handleResourceClick"
+                                >
+                                <template #icon>
+                                    <component :is="resourceItem.icon" :size="20" />
+                                </template>
+
+                        <template #indicator>
+                            {{ getResourceSubtitle(resourceItem) }}
+                        </template>
+
+                        <template #actions >
+                            <NcActionButton
+                                    v-if="canEditResource()"
+                                    @click.stop="deleteResource(resourceItem)"
+                                    >
+                                    <template #icon>
+                                        <component :is="InquiryGeneralIcons.Delete" :size="16" />
+                                    </template>
+                            {{ t('agora', 'Delete') }}
+                            </NcActionButton>
+                        </template>
+                        </NcListItem>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <AddResourceModal
+                v-model:open="showAddModal"
+                :available-apps="props.availableApps"
+                />
     </div>
-
-    <div class="resources-list">
-      <div v-if="isLoading" class="loading-state">
-        {{ t('agora', 'Loading resources …') }}
-      </div>
-
-      <div v-else-if="!hasResources" class="empty-state">
-        <component :is="InquiryGeneralIcons.Link" :size="48" class="empty-icon" />
-        <p>{{ t('agora', 'No linked resources') }}</p>
-        <p class="empty-description">{{ t('agora', 'Add resources or files to connect with other apps') }}</p>
-      </div>
-
-      <div v-else class="resources-groups">
-          <div v-for="(resources, appId) in groupedResources" :key="appId" class="resource-group">
-              <h3 class="group-title">
-                  <component :is="getAppIcon(appId)" :size="20" class="group-icon" />
-                  {{ getAppName(appId) }}
-              </h3>
-              <div class="group-items">
-                  <NcListItem
-                          v-for="resource in resources"
-                          :key="resource.id || resource.target_id"
-                          :name="resource.displayName"
-                          :bold="true"
-                          :force-display-actions="true"
-                          :target="getResourceTarget(resource)"
-                          :href="getResourceHref(resource)"
-                          :to="null"
-                  @click="handleResourceClick(resource, $event)"
-                  >
-                  <template #icon>
-                      <component :is="resource.icon" :size="20" />
-                  </template>
-
-                  <template #indicator>
-                      {{ getResourceSubtitle(resource) }}
-                  </template>
-
-                  <template #actions >
-                      <NcActionButton
-                              v-if="canEditResource(resource)"
-                              @click.stop="deleteResource(resource)"
-                              >
-                              <template #icon>
-                                  <component :is="InquiryGeneralIcons.Delete" :size="16" />
-                              </template>
-                      {{ t('agora', 'Delete') }}
-                      </NcActionButton>
-                  </template>
-                  </NcListItem>
-              </div>
-          </div>
-      </div>
-    </div>
-
-    <AddResourceModal
-            v-model:open="showAddModal"
-            :inquiry-store="inquiryStore"
-            :available-apps="props.availableApps"
-            />
-  </div>
 </template>
 
 <style scoped lang="scss">
