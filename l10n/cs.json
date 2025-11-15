@@ -659,6 +659,7 @@
     "Invitation sent to {displayName} ({emailAddress})" : "Pozvánka odeslána na {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Chyba při odesílání pozvánky pro {displayName} ({emailAddress})",
     "Resolve group into individual invitations" : "Přeložit skupinu na jednotlivé pozvánky",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Překlad {name} není možný. Není zapnutá aplikace Kontakty.",
     "Grant administrative inquiry access" : "Udělit přístup pro správu dotazu",
     "Withdraw administrative inquiry access" : "Zrušit přístup ke správě dotazu",
     "Copy link to clipboard" : "Zkopírovat odkaz do schránky",

@@ -328,7 +328,6 @@ OC.L10N.register(
     "Reopen inquiry" : "Athoscail an fiosrúchán",
     "Close inquiry" : "Dún an fiosrúchán",
     "Inquiry closing date" : "Dáta deiridh an fhiosrúcháin",
-    "Error {action} inquiry" : "Fiosrúchán earráide {action}",
     "Restore inquiry" : "Athchóirigh fiosrúchán",
     "Archive inquiry" : "Fiosrúchán cartlainne",
     "Delete inquiry" : "Scrios fiosrúchán",

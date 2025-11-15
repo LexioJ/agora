@@ -557,6 +557,7 @@
     "Invitation sent to {displayName} ({emailAddress})" : "Πρόσκληση στάλθηκε σε {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Σφάλμα κατά την αποστολή πρόσκλησης σε {displayName} ({emailAddress})",
     "Resolve group into individual invitations" : "Επίλυση ομάδας σε μεμονωμένες προσκλήσεις",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Δεν είναι δυνατή η επίλυση του {name}. Η εφαρμογή επαφών δεν είναι ενεργοποιημένη.",
     "Copy link to clipboard" : "Αντιγραφή συνδέσμου στο πρόχειρο",
     "Link copied to clipboard" : "Ο σύνδεσμος αντιγράφηκε στο πρόχειρο",
     "Error while copying link to clipboard" : "Σφάλμα κατά την αντιγραφή συνδέσμου στο πρόχειρο",

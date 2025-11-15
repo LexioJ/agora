@@ -248,6 +248,7 @@
     "Send invitation mail" : "Enviar correu d'invitació",
     "Invitation sent to {displayName} ({emailAddress})" : "Invitació enviada a {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "S'ha produït un error en enviar la invitació a {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "La resolució de {name} no és possible. L'aplicació de contactes no està habilitada.",
     "Copy link to clipboard" : "Copia l'enllaç al porta-retalls",
     "Link copied to clipboard" : "Enllaç copiat al porta-retalls",
     "Error while copying link to clipboard" : "Error en copiar l'enllaç al porta-retalls",

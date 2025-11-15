@@ -328,7 +328,6 @@ OC.L10N.register(
     "Reopen inquiry" : "Reopen inquiry",
     "Close inquiry" : "Close inquiry",
     "Inquiry closing date" : "Inquiry closing date",
-    "Error {action} inquiry" : "Error {action} inquiry",
     "Restore inquiry" : "Restore inquiry",
     "Archive inquiry" : "Archive inquiry",
     "Delete inquiry" : "Delete inquiry",

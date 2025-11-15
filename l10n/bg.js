@@ -317,6 +317,7 @@ OC.L10N.register(
     "Send invitation mail" : "Изпращане на имейл с покана",
     "Invitation sent to {displayName} ({emailAddress})" : "Изпратена е покана до {display Name} ({email Address})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Грешка при изпращане на покана до {display Name} ({email Address})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "Разрешаването на {name} не е възможно. Приложението за контакти не е активирано.",
     "Copy link to clipboard" : "Копиране на връзката в клипборда",
     "Link copied to clipboard" : "Връзката е копирана в клипборда",
     "Error while copying link to clipboard" : "Грешка при копирането на връзката в клипборда",

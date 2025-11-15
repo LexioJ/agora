@@ -276,6 +276,7 @@ OC.L10N.register(
     "Error sending invitation" : "خطأ في إرسال الدعوة",
     "Invitation sent to {displayName} ({emailAddress})" : "تم إرسال دعوة إلى {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "خطأ في إرسال دعوة إلى {displayName} ({emailAddress})",
+    "Resolving of {name} is not possible. The contacts app is not enabled." : "البت في {name} غير ممكن. لم يتم تمكين تطبيق جهات الاتصال.",
     "Copy link to clipboard" : "انسخ الرابط إلى الحافظة",
     "Link copied to clipboard" : "تمّ نسخ الرابط إلى الحافظة",
     "Error while copying link to clipboard" : "خطأ أثناء نسخ الرابط إلى الحافظة",

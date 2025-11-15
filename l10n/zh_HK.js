@@ -328,7 +328,6 @@ OC.L10N.register(
     "Reopen inquiry" : "重新打開查詢",
     "Close inquiry" : "關閉查詢",
     "Inquiry closing date" : "查詢關閉日期",
-    "Error {action} inquiry" : "{action} 查詢時發生錯誤",
     "Restore inquiry" : "恢復查詢",
     "Archive inquiry" : "存檔查詢",
     "Delete inquiry" : "刪除查詢",
