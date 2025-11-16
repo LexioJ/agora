@@ -40,7 +40,6 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 
 ## 🧭 Roadmap
 
-- 🔗 Link with other Nextcloud apps (Forms, Polls, Deck, Cospend…)  
 - 🗣 Real debate features (structured replies, multi-thread discussions)  
 - 📜 Project law reading with article-level comments and supports  
 - 🏛 Collectives → Submit group of inquiries to Polls application for consultation or referendum  
