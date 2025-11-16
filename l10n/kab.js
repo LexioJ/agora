@@ -53,6 +53,7 @@ OC.L10N.register(
     "Styles" : "Iɣunab",
     "No activity yet" : "Ulac armud yakan",
     "File" : "Afaylu",
+    "Delete file" : "Kkes afaylu",
     "Select users" : "Fren iseqdacen",
     "Create" : "Snulfu-d",
     "View all" : "Wali-ten akk",
