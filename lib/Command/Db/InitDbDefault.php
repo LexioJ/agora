@@ -202,7 +202,7 @@ class InitDbDefault extends Command
             ["key"=>"type_of_vote","label"=>"Type of Vote","type"=>"enum","required"=>false,"default"=>"simple","allowed_values"=>["simple","majority_judgement_beneficial","majority_judgement_number"],"rules"=>[]],
             ["key"=>"voting_start","label"=>"Voting Start","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
             ["key"=>"voting_end","label"=>"Voting End","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-            ["key"=>"facilitator_id","label"=>"Facilitateur","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"facilitator_id","label"=>"Facilitateur","type"=>"users","required"=>false,"default"=>null,"rules"=>[]],
             ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
         ],
         'allowed_response' => ['amendment','objection','response','official'],
@@ -219,7 +219,7 @@ class InitDbDefault extends Command
         'fields' => [
             ["key"=>"parent_law_id","label"=>"Parent Law","type"=>"integer","required"=>true,"default"=>null,"rules"=>[]],
             ["key"=>"article_ref","label"=>"Article Reference","type"=>"integer","required"=>true,"default"=>null,"rules"=>[]],
-            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"users","required"=>false,"default"=>null,"rules"=>[]],
             ["key"=>"topic","label"=>"Topic","type"=>"string","required"=>true,"default"=>null,"rules"=>["maxLength"=>255]],
             ["key"=>"start_date","label"=>"Start Date","type"=>"datetime","required"=>true,"default"=>null,"rules"=>[]],
             ["key"=>"end_date","label"=>"End Date","type"=>"datetime","required"=>true,"default"=>null,"rules"=>[]]
@@ -238,7 +238,7 @@ class InitDbDefault extends Command
         'fields' => [
             ["key"=>"draft_text","label"=>"Draft Text","type"=>"text","required"=>true,"default"=>null,"rules"=>[]],
             ["key"=>"article_map","label"=>"Article Map","type"=>"json","required"=>false,"default"=>null,"rules"=>[]],
-            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"users","required"=>false,"default"=>null,"rules"=>[]],
             ["key"=>"topic","label"=>"Topic","type"=>"string","required"=>true,"default"=>null,"rules"=>["maxLength"=>255]],
             ["key"=>"start_date","label"=>"Start Date","type"=>"datetime","required"=>true,"default"=>null,"rules"=>[]],
             ["key"=>"end_date","label"=>"End Date","type"=>"datetime","required"=>true,"default"=>null,"rules"=>[]]
@@ -275,7 +275,7 @@ class InitDbDefault extends Command
         'label' => 'Debate',
         'description' => 'Public debate with a neutral facilitator and optional quorum.',
         'fields' => [
-            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"users","required"=>false,"default"=>null,"rules"=>[]],
             ["key"=>"quorum","label"=>"Quorum","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
             ["key"=>"topic","label"=>"Topic","type"=>"string","required"=>true,"default"=>null,"rules"=>["maxLength"=>255]],
             ["key"=>"start_date","label"=>"Start Date","type"=>"datetime","required"=>true,"default"=>null,"rules"=>[]],
@@ -407,7 +407,7 @@ class InitDbDefault extends Command
         'label' => 'Deliberation',
         'description' => 'Citizen jury or deliberation assembly with defined participants.',
         'fields' => [
-            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"users","required"=>false,"default"=>null,"rules"=>[]],
             ["key"=>"participants_list","label"=>"Participants List","type"=>"json","required"=>true,"default"=>null,"rules"=>[]]
         ],
         'allowed_response' => ['proposal','suggestion','official'],
@@ -466,7 +466,7 @@ class InitDbDefault extends Command
         'description' => 'Citizen assembly or meeting with agenda and facilitator.',
         'fields' => [
             ["key"=>"agenda","label"=>"Agenda","type"=>"text","required"=>true,"default"=>null,"rules"=>[]],
-            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]]
+            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"users","required"=>false,"default"=>null,"rules"=>[]]
         ],
         'allowed_response' => ['official'],
         'allowed_transformation' => null,
@@ -560,6 +560,7 @@ class InitDbDefault extends Command
             ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
             ["key"=>"processing_deadline","label"=>"Processing Deadline","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
             ["key"=>"resolution_date","label"=>"Resolution Date","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_launch","label"=>"Auto launch","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
             ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
         ],
         'allowed_response' => ['official'],
@@ -579,6 +580,7 @@ class InitDbDefault extends Command
             ["key"=>"student_id","label"=>"Student ID","type"=>"integer","required"=>true,"default"=>null,"rules"=>[]],
             ["key"=>"requested_amount","label"=>"Requested Amount","type"=>"integer","required"=>true,"default"=>null,"rules"=>[]],
             ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_launch","label"=>"Auto launch","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
             ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
         ],
         'allowed_response' => ['official'],
@@ -595,6 +597,7 @@ class InitDbDefault extends Command
         'fields' => [
             ["key"=>"child_id","label"=>"Child ID","type"=>"integer","required"=>true,"default"=>null,"rules"=>[]],
             ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_launch","label"=>"Auto launch","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
             ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
         ],
         'allowed_response' => ['official'],
@@ -612,6 +615,7 @@ class InitDbDefault extends Command
             ["key"=>"applicant_id","label"=>"Applicant ID","type"=>"integer","required"=>true,"default"=>null,"rules"=>[]],
             ["key"=>"priority_status","label"=>"Priority Status","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
             ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_launch","label"=>"Auto launch","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
             ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
         ],
         'allowed_response' => ['official'],

@@ -5,6 +5,11 @@
 
 # Changelog
 All notable changes to this project will be documented in this file.
+# [1.5.5] - 2025-11-15
+- Fix: Administration type management popup fixed.
+- Fix: Misc settings type users not handled properly
+- Fix: run lint.
+
 # [1.5.4] - 2025-11-14
 - All resources implemented.
 - Need to be fixed : upate side bar. Forms creation

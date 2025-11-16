@@ -272,9 +272,9 @@ function isAccessRestrictedForAttachments(context: PermissionContext): boolean {
   }
   
   switch (context.accessLevel) {
-    case AccessLevel.Private:
     case AccessLevel.Moderate:
       return true
+    case AccessLevel.Private:
     case AccessLevel.Open:
     default:
       return false
@@ -294,7 +294,7 @@ export function canEditResult(moderationStatus: string): boolean {
  * @param moderationStatus
  */
 export function canPerformActions(moderationStatus: string): {
-  canUseLink: boolean
+  canUseResource: boolean
   canTransfer: boolean
   canDelete: boolean
   canArchive: boolean
@@ -302,7 +302,7 @@ export function canPerformActions(moderationStatus: string): {
   const canPerform = moderationStatus !== 'rejected' && moderationStatus !== 'pending'
   
   return {
-    canUseLink: canPerform,
+    canUseResource: canPerform,
     canTransfer: canPerform,
     canDelete: canPerform,
     canArchive: canPerform,
@@ -694,11 +694,10 @@ export function canShare(context: PermissionContext): boolean {
 /**
  * @param context
  */
-export function canUseLink(context: PermissionContext): boolean {
+export function canUseResource(context: PermissionContext): boolean {
   if (context.isArchived || context.isDeleted || context.isLocked) {
     return false
   }
-
   // Check moderation status restrictions
   if (context.moderationStatus === 'rejected' || context.moderationStatus === 'pending') {
     return false
@@ -1017,7 +1016,7 @@ export default {
   canComment,
   canSupport,
   canShare,
-  canUseLink,
+  canUseResource,
   canDelete,
   canArchive,
   canRestore,

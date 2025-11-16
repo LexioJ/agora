@@ -14,7 +14,8 @@ import { t } from '@nextcloud/l10n'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
-import NcSelectUsers from '@nextcloud/vue/components/NcSelectUsers'
+import UserSearch from '../User/UserSearch.vue' 
+
 
 // Props
 const props = defineProps<{
@@ -30,6 +31,9 @@ const isLoading = ref(true)
 const error = ref<string | null>(null)
 const isSaving = ref(false)
 const saveTimeouts = ref<Record<string, NodeJS.Timeout>>({})
+const selectedUsers = ref<Record<string, User | undefined>>({})
+
+
 
 // Reactive state for checkbox values
 const localCheckboxes = ref<Record<string, boolean>>({})
@@ -192,9 +196,22 @@ const loadMiscData = () => {
     isLoading.value = true
     error.value = null
 
-    // Initialize miscFields with default values
     initializeMiscFields()
-      initializeLocalCheckboxes()
+    initializeLocalCheckboxes()
+    
+    // Initialize selected users from existing data
+    dynamicFields.value.forEach(field => {
+      if (field.type === 'users' || field.type === 'groups') {
+        const existingValue = getMiscValue(field.key)
+        if (existingValue) {
+          // Create a minimal user object for display
+          selectedUsers.value[field.key] = {
+            id: existingValue,
+            displayName: existingValue
+          } as User
+        }
+      }
+    })
 
   } catch (e) {
     console.error('❌ Error loading misc data:', e)
@@ -203,6 +220,7 @@ const loadMiscData = () => {
     isLoading.value = false
   }
 }
+
 
 // Save individual field to database
 const saveFieldToDatabase = async (fieldKey: string, value: Field) => {
@@ -263,23 +281,37 @@ const initializeLocalCheckboxes = () => {
   })
   }
 	
-// Handle field updates with proper debouncing
-const updateFieldValue = (fieldKey: string, value: Field, fieldType: string) => {
+
+// Update the updateFieldValue method to handle user objects
+const updateFieldValue = (fieldKey: string, value: string, fieldType: string) => {
   // Clear any existing timeout for this field
   if (saveTimeouts.value[fieldKey]) {
     clearTimeout(saveTimeouts.value[fieldKey])
   }
+  // Handle user objects specifically
+  let processedValue = value
+  if ((fieldType === 'users' || fieldType === 'groups') && value && typeof value === 'object') {
+    // Convert user object to the format you want to store
+    // This depends on what your backend expects
+    processedValue = value.id || value.displayName || value
+  }
 
   // Different save strategies based on field type
-  if (fieldType === 'boolean' || fieldType === 'enum' || fieldType === 'datetime') {
-    // Save immediately for checkboxes, selects, and date pickers
-    saveFieldToDatabase(fieldKey, value)
+  if (fieldType === 'boolean' || fieldType === 'enum' || fieldType === 'datetime' || fieldType === 'users' || fieldType === 'groups') {
+    // Save immediately for checkboxes, selects, date pickers, and user selections
+    saveFieldToDatabase(fieldKey, processedValue)
   } else {
     // Debounce input fields (text, number, json, etc.)
     saveTimeouts.value[fieldKey] = setTimeout(() => {
-      saveFieldToDatabase(fieldKey, value)
+      saveFieldToDatabase(fieldKey, processedValue)
     }, 1000) // 1 second debounce
   }
+}
+
+const handleUserSelected = (fieldKey: string, user: User) => {
+  selectedUsers.value[fieldKey] = user
+  // Store the user ID (or whatever identifier you need)
+  updateFieldValue(fieldKey, user?.id || '', 'users')
 }
 
 // Helper function to format date for datetime picker
@@ -420,268 +452,270 @@ onMounted(() => {
 														v-else-if="field.type === 'datetime'"
 														:model-value="getFormattedDate(field.key)"
 														type="date"
-														:label="field.label"
-														:disabled="isSaving"
-														@update:model-value="(val: string) => updateFieldValue(field.key, val, 'datetime')"
-														/>
+                                                        :label="field.label"
+                                                        :disabled="isSaving"
+                                                        @update:model-value="(val: string) => updateFieldValue(field.key, val, 'datetime')"
+                                                        />
 
-														<!-- Users/Groups field -->
-														<NcSelectUsers
-																v-else-if="field.type === 'users' || field.type === 'groups'"
-																v-model="inquiryStore.miscFields[field.key]"
-																:multiple="true"
-																:disabled="isSaving"
-																@update:model-value="(val: string[]) => updateFieldValue(field.key, val, 'users')"
-																/>
+                                                        <!-- Users/Groups field -->
+                                                        <UserSearch
+                                                                v-else-if="field.type === 'users' || field.type === 'groups'"
+                                                                v-model="selectedUsers[field.key]"
+                                                                :search-types="field.type === 'users' ? [99] : [1]"
+                                                                :placeholder="t('Type to search for users')"
+                                                                :aria-label="field.label"
+                                                                :close-on-select="true"
+                                                                @user-selected="(user) => handleUserSelected(field.key, user)"
+                                                                />
 
-																<!-- JSON field -->
-																<div v-else-if="field.type === 'json'" class="json-field">
-																	<NcInputField
-																			v-model="inquiryStore.miscFields[field.key]"
-																			type="textarea"
-																			:rows="5"
-																			:label="field.label"
-																			:disabled="isSaving"
-																			@update:model-value="(val: string) => {
-																					     try {
-																					     const parsed = val ? JSON.parse(val) : null
-																					     updateFieldValue(field.key, parsed, 'json')
-																					     } catch {
-																					     updateFieldValue(field.key, val, 'json')
-																					     }
-																					     }"
-																			/>
-																</div>
+                                                                <!-- JSON field -->
+                                                                <div v-else-if="field.type === 'json'" class="json-field">
+                                                                    <NcInputField
+                                                                            v-model="inquiryStore.miscFields[field.key]"
+                                                                            type="textarea"
+                                                                            :rows="5"
+                                                                            :label="field.label"
+                                                                            :disabled="isSaving"
+                                                                            @update:model-value="(val: string) => {
+                                                                                                 try {
+                                                                                                 const parsed = val ? JSON.parse(val) : null
+                                                                                                 updateFieldValue(field.key, parsed, 'json')
+                                                                                                 } catch {
+                                                                                                 updateFieldValue(field.key, val, 'json')
+                                                                                                 }
+                                                                                                 }"
+                                                                            />
+                                                                </div>
 
-																<!-- Default string field -->
-																<NcInputField
-																		v-else
-																		v-model="inquiryStore.miscFields[field.key]"
-																		type="text"
-																		:label="field.label"
-																		:disabled="isSaving"
-																		@update:model-value="(val: string) => updateFieldValue(field.key, val, 'string')"
-																		/>
-							</div>
-						</div>
+                                                                <!-- Default string field -->
+                                                                <NcInputField
+                                                                        v-else
+                                                                        v-model="inquiryStore.miscFields[field.key]"
+                                                                        type="text"
+                                                                        :label="field.label"
+                                                                        :disabled="isSaving"
+                                                                        @update:model-value="(val: string) => updateFieldValue(field.key, val, 'string')"
+                                                                        />
+                            </div>
+                        </div>
 
-						<div v-if="field.description" class="field-description">
-							{{ field.description }}
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+                        <div v-if="field.description" class="field-description">
+                            {{ field.description }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <style scoped>
 .optional-label {
-	color: var(--color-text-maxcontrast);
-	font-size: 0.75rem;
-	font-weight: normal;
-	font-style: italic;
-	margin-left: 4px;
+    color: var(--color-text-maxcontrast);
+    font-size: 0.75rem;
+    font-weight: normal;
+    font-style: italic;
+    margin-left: 4px;
 }
 
 .checkbox-main-label {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	font-weight: 600;
-	cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    cursor: pointer;
 }
 
 .checkbox-wrapper {
-	display: flex;
-	align-items: center;
-	gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .standard-field {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .sidebar-tab-misc {
-	padding: 12px;
-	height: 100%;
+    padding: 12px;
+    height: 100%;
 }
 
 .tab-content {
-	height: 100%;
-	overflow-y: auto;
+    height: 100%;
+    overflow-y: auto;
 }
 
 .field-row {
-	display: flex;
-	align-items: flex-start;
-	gap: 12px;
-	padding: 8px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 8px 0;
 }
 
 .field-label {
-	font-weight: 600;
-	min-width: 120px;
-	color: var(--color-text-lighter);
+    font-weight: 600;
+    min-width: 120px;
+    color: var(--color-text-lighter);
 }
 
 .field-value {
-	flex: 1;
-	word-break: break-word;
+    flex: 1;
+    word-break: break-word;
 }
 
 .loading-state,
 .error-state,
 .no-data-state {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-	padding: 2rem;
-	text-align: center;
-	color: var(--color-text-maxcontrast);
-	height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+    color: var(--color-text-maxcontrast);
+    height: 100%;
 }
 
 .loading-state .icon-loading,
 .error-state .icon-error {
-	width: 24px;
-	height: 24px;
-	margin-bottom: 1rem;
+    width: 24px;
+    height: 24px;
+    margin-bottom: 1rem;
 }
 
 .loading-state .icon-loading {
-	background-image: var(--icon-loading);
-	animation: rotate 1s linear infinite;
+    background-image: var(--icon-loading);
+    animation: rotate 1s linear infinite;
 }
 
 .error-icon,
 .no-data-icon {
-	width: 48px;
-	height: 48px;
-	margin-bottom: 1rem;
-	opacity: 0.5;
+    width: 48px;
+    height: 48px;
+    margin-bottom: 1rem;
+    opacity: 0.5;
 }
 
 /* Readonly styles */
 .misc-fields-list {
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .misc-field-item {
-	border-bottom: 1px solid var(--color-border);
-	padding-bottom: 16px;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 16px;
 }
 
 .misc-field-item:last-child {
-	border-bottom: none;
-	padding-bottom: 0;
+    border-bottom: none;
+    padding-bottom: 0;
 }
 
 .field-row {
-	display: flex;
-	flex-direction: column;
-	gap: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .field-label {
-	font-weight: 600;
-	font-size: 0.875rem;
-	color: var(--color-text-lighter);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--color-text-lighter);
 }
 
 .field-value {
-	font-size: 0.875rem;
-	word-break: break-word;
-	line-height: 1.4;
+    font-size: 0.875rem;
+    word-break: break-word;
+    line-height: 1.4;
 }
 
 .json-value {
-	background: var(--color-background-dark);
-	padding: 8px;
-	border-radius: 4px;
-	font-size: 0.75rem;
-	white-space: pre-wrap;
-	word-break: break-all;
-	max-height: 150px;
-	overflow-y: auto;
-	margin: 0;
-	font-family: monospace;
+    background: var(--color-background-dark);
+    padding: 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+    max-height: 150px;
+    overflow-y: auto;
+    margin: 0;
+    font-family: monospace;
 }
 
 /* Saving indicator */
 .saving-indicator {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	padding: 8px 12px;
-	background: var(--color-background-dark);
-	border-radius: 4px;
-	margin-bottom: 1rem;
-	font-size: 0.875rem;
-	color: var(--color-text-maxcontrast);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    background: var(--color-background-dark);
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 0.875rem;
+    color: var(--color-text-maxcontrast);
 }
 
 .icon-loading-small {
-	width: 16px;
-	height: 16px;
-	background-image: var(--icon-loading);
-	animation: rotate 1s linear infinite;
+    width: 16px;
+    height: 16px;
+    background-image: var(--icon-loading);
+    animation: rotate 1s linear infinite;
 }
 
 /* Edit mode styles */
 .edit-fields {
-	display: flex;
-	flex-direction: column;
-	gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .edit-field-item {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
-	padding: 1rem;
-	background: var(--color-background-dark);
-	border-radius: 8px;
-	border: 1px solid var(--color-border);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 1rem;
+    background: var(--color-background-dark);
+    border-radius: 8px;
+    border: 1px solid var(--color-border);
 }
 
 .edit-field-label {
-	font-weight: 600;
-	font-size: 0.875rem;
-	color: var(--color-text-lighter);
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--color-text-lighter);
 }
 
 .required-asterisk {
-	color: var(--color-error);
+    color: var(--color-error);
 }
 
 .optional-label {
-	color: var(--color-text-maxcontrast);
-	font-size: 0.75rem;
-	font-weight: normal;
+    color: var(--color-text-maxcontrast);
+    font-size: 0.75rem;
+    font-weight: normal;
 }
 
 .field-description {
-	font-size: 0.75rem;
-	color: var(--color-text-maxcontrast);
-	font-style: italic;
+    font-size: 0.75rem;
+    color: var(--color-text-maxcontrast);
+    font-style: italic;
 }
 
 .json-field {
-	width: 100%;
+    width: 100%;
 }
 
-																						  @keyframes rotate {
-																							  from {
-																								  transform: rotate(0deg);
-																							  }
-																							  to {
-																								  transform: rotate(360deg);
-																							  }
-																						  }
+                                                                                              @keyframes rotate {
+                                                                                                  from {
+                                                                                                      transform: rotate(0deg);
+                                                                                                  }
+                                                                                                  to {
+                                                                                                      transform: rotate(360deg);
+                                                                                                  }
+                                                                                              }
 </style>

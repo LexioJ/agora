@@ -15,7 +15,14 @@ import { useAppSettingsStore } from '../../../stores/appSettings.js'
 const appSettingsStore = useAppSettingsStore()
 
 defineEmits(['close'])
-// const props = defineProps(['selectedType'])
+
+const props = defineProps({
+  selectedType: {
+    type: Object,
+    required: true
+  }
+})
+
 
 const activeSettingsTab = ref('user-rights')
 
@@ -45,11 +52,11 @@ const updateTypeRights = (typeKey, rights) => {
     <div class="modal-header">
       <div class="type-info">
         <div class="type-icon">
-          <component :is="getIconComponent(selectedType.icon)" :size="20" />
+          <component :is="getIconComponent(props.selectedType.icon)" :size="20" />
         </div>
         <div class="type-details">
-          <h3>{{ selectedType.label }}</h3>
-          <p class="type-key">{{ selectedType.inquiry_type }}</p>
+          <h3>{{ props.selectedType.label }}</h3>
+          <p class="type-key">{{ props.selectedType.inquiry_type }}</p>
         </div>
       </div>
       <button class="close-button" @click="$emit('close')">
@@ -72,7 +79,7 @@ const updateTypeRights = (typeKey, rights) => {
     <div class="settings-content">
       <component 
         :is="settingsTabs.find(t => t.id === activeSettingsTab)?.component"
-        :selected-type="selectedType"
+        :selected-type="props.selectedType"
         @update-rights="updateTypeRights"
       />
     </div>

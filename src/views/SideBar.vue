@@ -15,7 +15,7 @@ import { Event } from '../Types/index.ts'
 import { InquiryGeneralIcons } from '../utils/icons.ts'
 import {
   canComment,
-  canUseLink,
+  canUseResource,
   canShare,
   createPermissionContextForContent,
   ContentType,
@@ -23,7 +23,7 @@ import {
 import {
   SideBarTabComments,
   SideBarTabShare,
-  SideBarTabLinks,
+  SideBarTabResources,
   SideBarTabMisc,
 } from '../components/SideBar/index.js'
 import { useInquiryStore } from '../stores/inquiry.ts'
@@ -113,15 +113,15 @@ function closeSideBar() {
         </NcAppSidebarTab>
 
         <NcAppSidebarTab
-                v-if="canUseLink(context)"
+                v-if="canUseResource(context)"
                 id="links"
                 :order="4"
-                :name="t('agora', 'Resource')"
+                :name="t('agora', 'Resources')"
                 >
                 <template #icon>
                     <component :is="InquiryGeneralIcons.LinkIcon" />
                 </template>
-        <SideBarTabLinks />
+        <SideBarTabResources />
         </NcAppSidebarTab>
         
         <NcAppSidebarTab

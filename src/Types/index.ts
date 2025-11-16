@@ -162,7 +162,11 @@ export type User = {
   isAdmin: boolean
   isOfficial: boolean
   isModerator: boolean
+  isLegislative: boolean
+  isAdministrative: boolean
+  isCollective: boolean
   isNoUser: boolean
+  location: string | null
   type: UserType
   subName: string | null
   subtitle: string | null

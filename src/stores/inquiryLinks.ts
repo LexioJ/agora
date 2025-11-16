@@ -8,7 +8,7 @@ import type { AxiosError } from '@nextcloud/axios'
 import { Logger } from '../helpers/index.ts'
 import { generateUrl, generateOcsUrl } from '@nextcloud/router'
 import axios from '@nextcloud/axios'
-import  { useInquiryStore } from './inquiry.ts'
+import { useInquiryStore } from './inquiry.ts'
 
 export interface InquiryLink {
     id: number
@@ -43,6 +43,201 @@ export interface CreateAppResourceData {
     description?: string
     stackId?: number
     amount?: number
+}
+
+// Define interfaces for API responses
+interface OCSResponse<T> {
+    ocs: {
+        data: T
+        meta: {
+            status: string
+            statuscode: number
+            message: string
+        }
+    }
+}
+
+// Forms API interfaces (https://github.com/nextcloud/forms)
+interface FormResponse {
+    id: number
+    hash: string
+    title: string
+    description: string
+    owner: string
+    created: number
+    access: {
+        type: string
+        users: string[]
+        share: string[]
+    }
+    expires: number
+    is_anonymous: boolean
+    submit_multiple: boolean
+    show_expiration: boolean
+    last_updated: number
+}
+
+interface CollectiveResponse {
+    id: number
+    name: string
+    title: string
+    owner: string
+    can_edit: boolean
+    can_leave: boolean
+    page_count: number
+    last_page: number
+    share_token: string | null
+    share_editable: boolean
+    circle_id: string | null
+}
+
+interface CospendMember {
+    id: number
+    name: string
+    weight: number
+    activated: number
+    color: string
+}
+
+interface CospendCategory {
+    id: number
+    name: string
+    icon: string
+    color: string
+}
+
+interface CospendPaymentMode {
+    id: number
+    name: string
+    icon: string
+    color: string
+}
+
+interface CospendProjectResponse {
+    id: string
+    name: string
+    userid: string
+    autoexport: string
+    currencyname: string
+    deletiondisabled: number
+    categorysort: string
+    paymentsort: string
+    members: CospendMember[]
+    categories: CospendCategory[]
+    paymentmodes: CospendPaymentMode[]
+}
+
+
+// Polls API interfaces (https://github.com/nextcloud/polls)
+interface PollOption {
+    id: number
+    poll_id: number
+    poll_option_text: string
+    timestamp: number
+    order: number
+}
+
+interface PollConfiguration {
+    max_votes: number
+    sort: string
+}
+
+interface PollAccess {
+    type: string
+    users: string[]
+    circles: number[]
+}
+
+
+interface PollResponse {
+    id: number
+    created: number
+    title: string
+    description: string
+    owner: string
+    type: string
+    anonymous: number
+    allow_comments: number
+    allow_maybe: number
+    vote_limit: number
+    options: PollOption[]
+    configuration: PollConfiguration
+    expired: boolean
+    access: PollAccess
+}
+
+
+// Deck API interfaces (https://github.com/nextcloud/deck)
+
+interface DeckLabel {
+    id: number
+    title: string
+    color: string
+}
+
+interface DeckAcl {
+    id: number
+    participant: string
+    type: number
+    permission: number
+}
+
+interface DeckPermissions {
+    PERMISSION_READ: boolean
+    PERMISSION_EDIT: boolean
+    PERMISSION_MANAGE: boolean
+    PERMISSION_SHARE: boolean
+}
+
+interface DeckUser {
+    primaryKey: string
+    uid: string
+    displayname: string
+    type: number
+}
+
+
+interface DeckCard {
+    id: number
+    title: string
+    description: string
+    stackId: number
+    type: string
+    lastModified: number
+    lastEditor: string
+    createdAt: number
+    labels: number[]
+    assignedUsers: string[]
+    attachments: number
+    comments: number
+    order: number
+    archived: boolean
+    duedate: string | null
+    deletedAt: number
+    overdue: number
+}
+
+interface DeckStack {
+    id: number
+    title: string
+    boardId: number
+    order: number
+    deletedAt: number
+    cards: DeckCard[]
+}
+
+interface DeckBoardResponse {
+    id: number
+    title: string
+    owner: string
+    color: string
+    archived: boolean
+    deletedAt: number
+    labels: DeckLabel[]
+    acl: DeckAcl[]
+    permissions: DeckPermissions
+    users: DeckUser[]
+    stacks: DeckStack[]
 }
 
 export type InquiryLinkType = {
@@ -209,10 +404,10 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                 const updatedLink = response.data.link
                                                                                                                                 // Update in store
                                                                                                                                 const index = this.links.findIndex((link) => link.id === id)
-                                                                                                                                if (index !== -1) {
-                                                                                                                                    this.links[index] = updatedLink
-                                                                                                                                } else {
+                                                                                                                                if (index === -1) {
                                                                                                                                     this.links.push(updatedLink)
+                                                                                                                                } else {
+                                                                                                                                    this.links[index] = updatedLink
                                                                                                                                 }
                                                                                                                                 return updatedLink
                                                                                                                             } catch (error) {
@@ -248,7 +443,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         /// ////////////////////////////////////////////////////////////////////
                                                                                                                         // Forms API functions
-                                                                                                                        async createFormViaAPI(formData: CreateAppResourceData): Promise<any> {
+                                                                                                                        async createFormViaAPI(formData: CreateAppResourceData): Promise<OCSResponse<FormResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.post(generateOcsUrl('/apps/forms/api/v3/forms'), {
                                                                                                                                     title: formData.title,
@@ -265,7 +460,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async deleteFormViaAPI(formId: number): Promise<any> {
+                                                                                                                        async deleteFormViaAPI(formId: number): Promise<OCSResponse<FormResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.delete(generateOcsUrl(`/apps/forms/api/v3/forms/${formId}`), {
                                                                                                                                     headers: {
@@ -279,7 +474,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async updateFormViaAPI(formId: number, formData: any): Promise<any> {
+                                                                                                                        async updateFormViaAPI(formId: number, formData: CreateAppResourceData): Promise<OCSResponse<FormResponse>> {
                                                                                                                             try {
                                                                                                                                 const url = generateOcsUrl(`/apps/forms/api/v3/forms/${formId}`)
                                                                                                                                 const keyValuePairs = []
@@ -343,11 +538,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                 const formId = formResponse.ocs?.data?.id
 
 
-                                                                                                                                if (!formId) {
-                                                                                                                                    console.error("❌ No form ID found in response. Full response:", formResponse)
-                                                                                                                                    throw new Error('No form ID returned from API')
-                                                                                                                                }
-
+                                                                                                                                if (formId) {
                                                                                                                                 // 2. Update form with expiration date if inquiry has one
                                                                                                                                 if (inquiryStore.configuration.expire) {
                                                                                                                                     try {
@@ -373,7 +564,10 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                                 const result = await this.create(linkData)
                                                                                                                                 return result
-
+                                                                                                                            } 
+                                                                                                                                   console.error("❌ No form ID found in response. Full response:", formResponse)
+                                                                                                                                   throw new Error('No form ID returned from API')
+                                                                                                                                
                                                                                                                             } catch (error) {
                                                                                                                                 console.error("❌ Error in createForm:", error)
                                                                                                                                 Logger.error('Error creating form and link', { error, inquiryId, formData })
@@ -402,7 +596,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         /// //////////////////////////////////////////////////////////////////////////
                                                                                                                         // COSPEND API functions
-                                                                                                                        async createCospendProjectViaAPI(projectData: CreateAppResourceData): Promise<any> {
+                                                                                                                            async createCospendProjectViaAPI(projectData: CreateAppResourceData): Promise<OCSResponse<CospendProjectResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.post(generateOcsUrl('/apps/cospend/api/v1/projects'), {
                                                                                                                                     name: projectData.title,
@@ -419,7 +613,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async deleteCospendProjectViaAPI(projectId: string): Promise<any> {
+                                                                                                                        async deleteCospendProjectViaAPI(projectId: string): Promise<OCSResponse<CospendProjectResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.delete(generateOcsUrl(`/apps/cospend/api/v1/projects/${projectId}`), {
                                                                                                                                     headers: {
@@ -433,7 +627,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async updateCospendProjectViaAPI(projectId: string, projectData: any): Promise<any> {
+                                                                                                                        async updateCospendProjectViaAPI(projectId: string, projectData: CreateAppResourceData): Promise<OCSResponse<CospendProjectResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.put(generateOcsUrl(`/apps/cospend/api/v1/projects/${projectId}`), projectData, {
                                                                                                                                     headers: {
@@ -495,7 +689,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         /// //////////////////////////////////////////////////////////////////////////
                                                                                                                         // COLLECTIVES API functions
-                                                                                                                        async createCollectiveViaAPI(collectiveData: CreateAppResourceData): Promise<any> {
+                                                                                                                        async createCollectiveViaAPI(collectiveData: CreateAppResourceData): Promise<OCSResponse<CollectiveResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.post(generateOcsUrl('/apps/collectives/api/v1.0/collectives'), {
                                                                                                                                     name: collectiveData.title,
@@ -511,7 +705,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async deleteCollectiveViaAPI(collectiveId: string): Promise<any> {
+                                                                                                                        async deleteCollectiveViaAPI(collectiveId: string): Promise<OCSResponse<CollectiveResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.delete(generateOcsUrl(`/apps/collectives/api/v1.0/collectives/${collectiveId}`), {
                                                                                                                                     headers: {
@@ -525,7 +719,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async updateCollectiveViaAPI(collectiveId: string, collectiveData: any): Promise<any> {
+                                                                                                                        async updateCollectiveViaAPI(collectiveId: string, collectiveData: CreateAppResourceData): Promise<OCSResponse<CollectiveResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.put(generateOcsUrl(`/apps/collectives/api/v1.0/collectives/${collectiveId}`), collectiveData, {
                                                                                                                                     headers: {
@@ -585,7 +779,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         /// //////////////////////////////////////////////////////////////////////////
                                                                                                                         // POLLS API functions
-                                                                                                                        async createPollViaAPI(pollData: CreateAppResourceData): Promise<any> {
+                                                                                                                        async createPollViaAPI(pollData: CreateAppResourceData): Promise<OCSResponse<PollResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.post(generateOcsUrl('/apps/polls/api/v1.0/poll'), {
                                                                                                                                     title: pollData.title,
@@ -599,7 +793,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async deletePollViaAPI(pollId: string): Promise<any> {
+                                                                                                                        async deletePollViaAPI(pollId: string): Promise<OCSResponse<PollResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.delete(generateOcsUrl(`/apps/polls/api/v1.0/poll/${pollId}`))
                                                                                                                                 return response.data
@@ -609,7 +803,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async updatePollViaAPI(pollId: string, pollData: any): Promise<any> {
+                                                                                                                        async updatePollViaAPI(pollId: string, pollData: CreateAppResourceData): Promise<OCSResponse<PollResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.put(generateOcsUrl(`/apps/polls/api/v1.0/poll/${pollId}`), pollData)
                                                                                                                                 return response.data
@@ -667,7 +861,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         /// //////////////////////////////////////////////////////////////////////////
                                                                                                                         // DECK API functions
-                                                                                                                        async createDeckBoardViaAPI(boardData: CreateAppResourceData): Promise<any> {
+                                                                                                                        async createDeckBoardViaAPI(boardData: CreateAppResourceData): Promise<OCSResponse<DeckBoardResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.post(generateUrl('/apps/deck/api/v1.0/boards'), {
                                                                                                                                     title: boardData.title,
@@ -680,7 +874,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async deleteDeckViaAPI(boardId: string): Promise<any> {
+                                                                                                                        async deleteDeckViaAPI(boardId: string): Promise<OCSResponse<DeckBoardResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.delete(generateUrl(`/apps/deck/api/v1.0/boards/${boardId}`))
                                                                                                                                 return response.data
@@ -690,7 +884,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async updateDeckCardViaAPI(cardId: string, cardData: any): Promise<any> {
+                                                                                                                        async updateDeckCardViaAPI(cardId: string, cardData: CreateAppResourceData): Promise<OCSResponse<DeckBoardResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.put(generateUrl(`/apps/deck/api/v1.0/cards/${cardId}`), cardData)
                                                                                                                                 return response.data
@@ -748,8 +942,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                         // GET FOR ALL RESOURCES
                                                                                                                         //
                                                                                                                         //
-                                                                                                                        // Forms - Déjà existante
-                                                                                                                        async getFormDetailsWithHash(formId: number): Promise<any> {
+                                                                                                                        async getFormDetailsWithHash(formId: number): Promise<OCSResponse<FormResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.get(generateOcsUrl(`/apps/forms/api/v3/forms/${formId}`), {
                                                                                                                                     headers: {
@@ -764,7 +957,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                         },
 
                                                                                                                         // Polls
-                                                                                                                        async getPollDetails(pollId: number): Promise<any> {
+                                                                                                                        async getPollDetails(pollId: number): Promise<OCSResponse<PollResponse>> {
                                                                                                                             try {
                                                                                                                                 const url = generateOcsUrl(`/apps/polls/api/v1.0/poll/${pollId}`)
 
@@ -777,7 +970,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                         },
 
                                                                                                                         // Deck
-                                                                                                                        async getDeckBoardDetails(boardId: number): Promise<any> {
+                                                                                                                        async getDeckBoardDetails(boardId: number): Promise<OCSResponse<DeckBoardResponse>> {
                                                                                                                             try {
                                                                                                                                 const url = generateUrl(`/apps/deck/api/v1.0/boards/${boardId}`)
 
@@ -790,7 +983,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                         },
 
                                                                                                                         // Cospend
-                                                                                                                        async getCospendProjectDetails(projectId: string): Promise<any> {
+                                                                                                                        async getCospendProjectDetails(projectId: string): Promise<OCSResponse<CospendProjectResponse>> {
                                                                                                                             try {
                                                                                                                                 const url = generateOcsUrl(`/apps/cospend/api/v1/projects/${projectId}`)
 
@@ -808,7 +1001,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         // Collectives
                                                                                                                         // // Get all collectives and find the one with matching ID
-                                                                                                                        async getCollectiveDetails(collectiveId: string): Promise<any> {
+                                                                                                                        async getCollectiveDetails(collectiveId: string): Promise<OCSResponse<CollectiveResponse>> {
                                                                                                                             try {
                                                                                                                                 // First, get all collectives
                                                                                                                                 const url = generateOcsUrl('/apps/collectives/api/v1.0/collectives')
@@ -824,7 +1017,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                 const collectivesArray = response.data.ocs.data.collectives
 
 
-                                                                                                                                const collective = collectivesArray.find((c: any) => 
+                                                                                                                                const collective = collectivesArray.find((c: unknown) => 
                                                                                                                                                                          c.id === parseInt(collectiveId) || c.id.toString() === collectiveId
                                                                                                                                                                         )
 
@@ -881,7 +1074,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                         },
 
                                                                                                                         // Polls methods
-                                                                                                                        async getOwnedPolls(): Promise<any[]> {
+                                                                                                                        async getOwnedPolls(): Promise<PollResponse[]> {
                                                                                                                             try {
                                                                                                                                 const url = generateUrl('/apps/polls/polls')
 
@@ -894,7 +1087,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async getOwnedDeckBoards(): Promise<any[]> {
+                                                                                                                        async getOwnedDeckBoards(): Promise<DeckBoardResponse[]> {
                                                                                                                             try {
                                                                                                                                 const url = generateUrl('/apps/deck/api/v1.0/boards')
 
@@ -909,7 +1102,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
 
                                                                                                                         // Cospend methods
-                                                                                                                        async getOwnedCospendProjects(): Promise<any[]> {
+                                                                                                                        async getOwnedCospendProjects(): Promise<CospendProjectResponse[]> {
                                                                                                                             try {
                                                                                                                                 const url = generateOcsUrl('/apps/cospend/api/v1/projects')
                                                                                                                                 const response = await axios.get(url, {
@@ -925,7 +1118,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                         },
 
                                                                                                                         // Collectives methods
-                                                                                                                        async getOwnedCollectives(): Promise<any[]> {
+                                                                                                                        async getOwnedCollectives(): Promise<CollectiveResponse[]> {
                                                                                                                             try {
                                                                                                                                 const url = generateOcsUrl('/apps/collectives/api/v1.0/collectives')
 
@@ -939,7 +1132,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                 const collectives = response.data.ocs.data?.collectives || []
 
                                                                                                                                 if (collectives.length > 0) {
-                                                                                                                                    console.log("📝 First collective structure:", collectives[0])
+                                                                                                                                    return null
                                                                                                                                 }
 
                                                                                                                                 return collectives

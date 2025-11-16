@@ -113,7 +113,7 @@ const groupedResources = computed((): GroupedResources => {
   // Add file attachments (excluding cover image)
  // Add this filter to exclude the cover image
 const fileAttachments = attachmentsStore.attachments
-  .filter(att => att.fileId !== inquiryStore.coverId && att.id !== inquiryStore.coverId)
+  .filter(att => att.file_id !== inquiryStore.coverId)
 
   if (fileAttachments.length > 0) {
     groups.files = fileAttachments.map(attachment => ({
