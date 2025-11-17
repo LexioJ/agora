@@ -37,6 +37,7 @@ OC.L10N.register(
     "Name" : "Nombre",
     "Files" : "Archivo",
     "Forms" : "Formularios",
+    "Uploading..." : "Cargando...",
     "OK" : "OK",
     "Sort" : "Ordenar",
     "{optionText} already exists" : "{optionText} ya existe",

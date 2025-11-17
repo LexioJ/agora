@@ -45,6 +45,7 @@ OC.L10N.register(
     "Created on {date}" : "Kreita je {date}",
     "Name" : "Nomo",
     "Polls" : "Enketilo",
+    "Uploading..." : "Alŝutante...",
     "OK" : "OK",
     "Sort" : "Ordigi",
     "{optionText} already exists" : "{optionText} jam ekzistas",
