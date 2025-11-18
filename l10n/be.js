@@ -88,6 +88,7 @@ OC.L10N.register(
     "Select an icon" : "Выберыце значок",
     "Save Changes" : "Захаваць змены",
     "WYSIWYG" : "WYSIWYG",
+    "Enabled" : "Уключаны",
     "Option" : "Option",
     "Invitation sent to {displayName} ({emailAddress})" : "Запрашэнне апраўлена {displayName} ({emailAddress})",
     "Error sending invitation to {displayName} ({emailAddress})" : "Памалка пры адпраўцы запрашэння {displayName} ({emailAddress})",
