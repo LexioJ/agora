@@ -174,6 +174,7 @@ OC.L10N.register(
     "Collectives" : "كوللىكتىپ",
     "Title is required" : "ماۋزۇ تەلەپ قىلىنىدۇ",
     "Files uploaded successfully" : "ھۆججەتلەر مۇۋەپپەقىيەتلىك يۈكلەندى",
+    "Failed to create {resource}" : "{resource} نى قۇرۇش مەغلۇپ بولدى",
     "OR" : "OR",
     "Uploading..." : "يۈكلەۋاتىدۇ…",
     "OK" : "OK",
