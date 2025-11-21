@@ -528,7 +528,7 @@
     "Link an existing resource or create a new one for this inquiry" : "Ligar un recurso existente ou crear un novo para esta consulta",
     "Resource Type" : "Tipo de recurso",
     "Link Existing {resource}" : "Ligazón existente a {resource}",
-    "No {resource} found. You can create a new one instead." : "Non foi posíbel atopar {resource}. No canto pode crear un novo.",
+    "No {resource} found. You can create a new one instead." : "Non foi posíbel atopar {resource}. A cambio, pode crear un novo.",
     "Loading your {resource}..." : "Cargando o seu {resource}…",
     "Choose a {resource} to link" : "Escolla un {resource} para ligar",
     "Select a {resource}..." : "Seleccione un {resource}…",
