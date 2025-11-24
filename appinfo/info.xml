@@ -10,18 +10,19 @@
 		### ✨ Key Features
 		- 💬 Comments and discussions
 		- 👍 Supports (likes/upvotes)
+        - 👍 Supports (likes/neutral/against)
 		- 🧩 Custom inquiry families and types
 		- 🧾 Multiple inquiry formats (proposals, debates, petitions, projects…)
 		- 📂 Categorization and filtering by family or location
 		- 🧱 Scalable architecture and modern UX
 		- 🔒 Secure and private — all data stays on your Nextcloud server
-		- 🔗 Integration with Forms, Polls, Deck, and more
+		- 🔗 Integration with Forms, Polls, Deck, Collectives,...
 
 		### 🧭 Coming Next
 		- 🗣 Structured debates and multi-thread replies
 		- 🏛 Collectives and referendums
 		]]></description>
-	<version>1.5.5</version>
+	<version>1.6.0-beta</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author>Vincent TRAPPE</author>
 	<documentation>

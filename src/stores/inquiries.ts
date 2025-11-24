@@ -272,7 +272,7 @@ export const useInquiriesStore = defineStore('inquiries', {
     categories: inquiryCategories,
     currentFilter: 'relevant',
      advancedFilters: {
-      parentId: 0,  
+      parentId: null,  
       familyType: ''  
     },
   }),
@@ -598,7 +598,7 @@ export const useInquiriesStore = defineStore('inquiries', {
 	   */
 	  resetFilters(): void {
 		  this.advancedFilters= {
-			  parentId: 0,
+			  parentId: null,
 			  familyType: this.advancedFilters.familyType
 		  }
 		  this.resetChunks()

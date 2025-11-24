@@ -50,7 +50,7 @@ const typeOptions = props.familyType
   ? [
       ...baseTypeOptions,
       ...(sessionStore.appSettings.inquiryTypeTab
-        ?.filter(type => type.family === props.familyType && type.isOption === 0)
+        ?.filter(type => type.family === props.familyType)
         .map(type => ({
           value: type.inquiry_type,
           label: type.label || type.inquiry_type,
@@ -59,8 +59,7 @@ const typeOptions = props.familyType
   : [
       ...baseTypeOptions,
       ...(sessionStore.appSettings.inquiryTypeTab
-        ?.filter(type => type.isOption === 0)
-        .map(type => ({
+        ?.map(type => ({
           value: type.inquiry_type,
           label: type.label || type.inquiry_type,
         })) || []),
@@ -131,10 +130,10 @@ const applyFilters = () => {
     hasComments: getValue(hasComments.value), 
     hasSupports: getValue(hasSupports.value), 
 
-    parentId: mainInquiriesOnly.value ? 0 : undefined,
+    parentId: mainInquiriesOnly.value ? null : undefined,
 
     search: searchQuery.value.trim() || undefined,
-    familyType: props.familyType, // Send family_type instead of familyType
+    familyType: props.familyType, 
   })
 }
 
@@ -144,7 +143,7 @@ const resetFilters = () => {
   selectedLocation.value = 'all'
   hasComments.value = null
   hasSupports.value = null
-  mainInquiriesOnly.value = true // Reset to checked by default
+  mainInquiriesOnly.value = true
   searchQuery.value = ''
   inquiriesStore.resetFilters()
 }

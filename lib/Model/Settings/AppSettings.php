@@ -19,6 +19,8 @@ use OCA\Agora\Service\CategoryService;
 use OCA\Agora\Service\LocationService;
 use OCA\Agora\Service\InquiryStatusService;
 use OCA\Agora\Service\InquiryTypeService;
+use OCA\Agora\Service\InquiryGroupTypeService;
+use OCA\Agora\Service\InquiryOptionTypeService;
 use OCA\Agora\Service\InquiryFamilyService;
 
 class AppSettings implements JsonSerializable
@@ -99,6 +101,8 @@ class AppSettings implements JsonSerializable
     public const SETTING_CATEGORY_TAB = 'categoryTab';
     public const SETTING_LOCATION_TAB = 'locationTab';
     public const SETTING_INQUIRY_TYPE = 'inquiryTypeTab';
+    public const SETTING_INQUIRY_GROUP_TYPE = 'inquiryGroupTypeTab';
+    public const SETTING_INQUIRY_OPTION_TYPE = 'inquiryOptionTypeTab';
     public const SETTING_INQUIRY_FAMILY = 'inquiryFamilyTab';
     public const SETTING_INQUIRY_STATUS = 'inquiryStatusTab';
     public const SETTING_MODERATOR_RIGHTS = 'moderatorRights';
@@ -115,6 +119,8 @@ class AppSettings implements JsonSerializable
         private ?LocationService $locationService,
         private ?InquiryStatusService $inquiryStatusService,
         private ?InquiryTypeService $inquiryTypeService,
+        private ?InquiryGroupTypeService $inquiryGroupTypeService,
+        private ?InquiryOptionTypeService $inquiryOptionTypeService,
         private ?InquiryFamilyService $inquiryFamilyService,
     ) {
     }
@@ -195,44 +201,51 @@ class AppSettings implements JsonSerializable
             self::SETTING_INQUIRY_TYPE_RIGHTS, [
             'proposal' => [
             'supportInquiry' => true,
+            'supportMode' => 'simple',
             'commentInquiry' => true,
-            'attachFileInquiry' => true,
+            'useResourceInquiry' => true,
             'editorType' => 'wysiwyg',
             ],
             'debate' => [
             'supportInquiry' => true,
+            'supportMode' => 'simple',
             'commentInquiry' => true,
-            'attachFileInquiry' => true,
+            'useResourceInquiry' => true,
             'editorType' => 'textarea',
             ],
             'petition' => [
             'supportInquiry' => true,
+            'supportMode' => 'simple',
             'commentInquiry' => true,
-            'attachFileInquiry' => true,
+            'useResourceInquiry' => true,
             'editorType' => 'wysiwyg',
             ],
             'project' => [
             'supportInquiry' => true,
+            'supportMode' => 'simple',
             'commentInquiry' => true,
-            'attachFileInquiry' => true,
+            'useResourceInquiry' => true,
             'editorType' => 'wysiwyg',
             ],
             'grievance' => [
             'supportInquiry' => true,
+            'supportMode' => 'simple',
             'commentInquiry' => true,
-            'attachFileInquiry' => true,
+            'useResourceInquiry' => true,
             'editorType' => 'wysiwyg',
             ],
             'suggestion' => [
             'supportInquiry' => true,
+            'supportMode' => 'simple',
             'commentInquiry' => false,
-            'attachFileInquiry' => false,
+            'useResourceInquiry' => false,
             'editorType' => 'textarea',
             ],
             'official' => [
             'supportInquiry' => false,
+            'supportMode' => 'simple',
             'commentInquiry' => false,
-            'attachFileInquiry' => false,
+            'useResourceInquiry' => false,
             'editorType' => 'textarea',
             ],
             ]
@@ -287,6 +300,8 @@ class AppSettings implements JsonSerializable
         'categoryTab' =>  $this->categoryService->findAll(),
         'locationTab' =>  $this->locationService->findAll(),
         'inquiryTypeTab' =>  $this->inquiryTypeService->findAll(),
+        'inquiryGroupTypeTab' =>  $this->inquiryGroupTypeService->findAll(),
+        'inquiryOptionTypeTab' =>  $this->inquiryOptionTypeService->findAll(),
         'inquiryFamilyTab' =>  $this->inquiryFamilyService->findAll(),
         'inquiryStatusTab' =>  $this->inquiryStatusService->findAll(),
         'inquiryTypeRights' => $this->getInquiryTypeRights(), 
@@ -742,6 +757,8 @@ class AppSettings implements JsonSerializable
         self::SETTING_LOCATION_TAB => $this->locationService->findAll(),
         self::SETTING_INQUIRY_STATUS => $this->inquiryStatusService->findAll(),
         self::SETTING_INQUIRY_TYPE => $this->inquiryTypeService->findAll(),
+        self::SETTING_INQUIRY_GROUP_TYPE => $this->inquiryGroupTypeService->findAll(),
+        self::SETTING_INQUIRY_OPTION_TYPE => $this->inquiryOptionTypeService->findAll(),
         self::SETTING_INQUIRY_FAMILY => $this->inquiryFamilyService->findAll(),
         self::SETTING_INQUIRY_TYPE_RIGHTS => $this->getInquiryTypeRights(),
         self::SETTING_MODERATOR_RIGHTS => $this->getModeratorRights(),

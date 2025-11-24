@@ -160,7 +160,6 @@ const appSettings = {
 		family: string;
 		label: string;
 		icon?: string;
-		is_option?: boolean;
 		description?: string;
 		fields?: string;
 		allowed_response?: string;
@@ -182,7 +181,6 @@ const appSettings = {
 			family?: string;
 			label?: string;
 			icon?: string;
-			is_option?: boolean;
 			description?: string;
 			fields?: string;
 			allowed_response?: string;

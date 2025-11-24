@@ -16,6 +16,8 @@ use JsonSerializable;
  * @psalm-suppress UnusedProperty
  * @method         int getId()
  * @method         void setId(int $value)
+ * @method         int getValue()
+ * @method         void setValue(int $value)
  * @method         string getSupportHash()
  * @method         void setSupportHash(string $value)
  * @method         int getInquiryId()
@@ -38,6 +40,7 @@ class Support extends Entity implements JsonSerializable
     // Schema columns
     protected int $inquiryId = 0;
     protected int $optionId = 0;
+    protected int $value = 0;
     protected string $supportHash = '';
     protected string $userId = '';
     protected string $created = '';
@@ -49,6 +52,7 @@ class Support extends Entity implements JsonSerializable
     {
         $this->addType('id', 'integer');
         $this->addType('inquiryId', 'integer');
+        $this->addType('value', 'integer');
         $this->addType('optionId', 'integer');
         $this->addType('userId', 'string');
         $this->addType('created', 'integer');
@@ -88,6 +92,7 @@ class Support extends Entity implements JsonSerializable
             'supportHash' => $this->getSupportHash(),
             'userId' => $this->getUserId(),
             'user' => $this->getUser(),
+            'value' => $this->getValue(),
             'created' => $this->getCreated(),
         ];
     }

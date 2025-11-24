@@ -145,7 +145,7 @@ class InquiryController extends BaseController
         $timerMicro['start'] = microtime(true);
 
         $inquiry = $this->inquiryService->get($inquiryId, true);
-	$inquiry->setMiscFields($this->inquiryMiscService->findByInquiryId($inquiryId));
+	    $inquiry->setMiscFields($this->inquiryMiscService->findByInquiryId($inquiryId));
 
         $diffMicro['total'] = microtime(true) - $timerMicro['start'];
         $timerMicro['inquiry'] = microtime(true);

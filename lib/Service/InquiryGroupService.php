@@ -44,20 +44,100 @@ class InquiryGroupService
         return $this->inquiryGroupMapper->list();
     }
 
+    public function getInquiryGroup(int $inquiryGroupId): InquiryGroup
+    {
+        return $this->inquiryGroupMapper->find($inquiryGroupId);
+    }
+
+    public function createInquiryGroup(
+        string $name,
+        string $type = 'default',
+        ?string $description = null,
+        ?string $titleExt = null,
+        ?int $parentId = null,
+        ?int $order = null,
+        ?int $expire = null,
+        ?string $metadata = null,
+        ?int $coverId = null,
+        bool $protected = false,
+        string $groupStatus = 'draft'
+    ): InquiryGroup {
+        if (!$this->appSettings->getInquiryCreationAllowed()) {
+            throw new ForbiddenException('Inquiry group creation is disabled');
+        }
+
+        $inquiryGroup = new InquiryGroup();
+        $inquiryGroup->setName($name);
+        $inquiryGroup->setType($type);
+        $inquiryGroup->setDescription($description);
+        $inquiryGroup->setTitleExt($titleExt);
+        $inquiryGroup->setParentId($parentId);
+        $inquiryGroup->setOrder($order ?? 0);
+        $inquiryGroup->setExpire($expire);
+        $inquiryGroup->setMetadata($metadata);
+        $inquiryGroup->setCoverId($coverId);
+        $inquiryGroup->setProtected($protected);
+        $inquiryGroup->setGroupStatus($groupStatus);
+        $inquiryGroup->setOwner($this->userSession->getCurrentUserId());
+
+        return $this->inquiryGroupMapper->add($inquiryGroup);
+    }
+
     public function updateInquiryGroup(
         int $inquiryGroupId,
         string $name,
-        string $titleExt,
-        ?string $description,
+        ?string $titleExt = null,
+        ?string $description = null,
+        ?string $type = null,
+        ?int $parentId = null,
+        ?int $order = null,
+        ?int $expire = null,
+        ?string $metadata = null,
+        ?int $coverId = null,
+        ?bool $protected = null,
+        ?string $groupStatus = null
     ): InquiryGroup {
         try {
             $inquiryGroup = $this->inquiryGroupMapper->find($inquiryGroupId);
-            if ($inquiryGroup->getOwner() !== $this->userSession->getCurrentUserId()) {
+            
+            // Check permissions
+            if (!$inquiryGroup->getIsAllowed(InquiryGroup::PERMISSION_INQUIRY_GROUP_EDIT)) {
                 throw new ForbiddenException('You do not have permission to edit this inquiry group');
             }
+
+            // Update basic fields
             $inquiryGroup->setName($name);
-            $inquiryGroup->setTitleExt($titleExt);
-            $inquiryGroup->setDescription($description);
+            
+            if ($titleExt !== null) {
+                $inquiryGroup->setTitleExt($titleExt);
+            }
+            if ($description !== null) {
+                $inquiryGroup->setDescription($description);
+            }
+            if ($type !== null) {
+                $inquiryGroup->setType($type);
+            }
+            if ($parentId !== null) {
+                $inquiryGroup->setParentId($parentId);
+            }
+            if ($order !== null) {
+                $inquiryGroup->setOrder($order);
+            }
+            if ($expire !== null) {
+                $inquiryGroup->setExpire($expire);
+            }
+            if ($metadata !== null) {
+                $inquiryGroup->setMetadata($metadata);
+            }
+            if ($coverId !== null) {
+                $inquiryGroup->setCoverId($coverId);
+            }
+            if ($protected !== null) {
+                $inquiryGroup->setProtected($protected);
+            }
+            if ($groupStatus !== null) {
+                $inquiryGroup->setGroupStatus($groupStatus);
+            }
 
             $inquiryGroup = $this->inquiryGroupMapper->update($inquiryGroup);
             return $inquiryGroup;
@@ -65,6 +145,50 @@ class InquiryGroupService
             throw new NotFoundException('Inquiry group not found');
         }
     }
+
+    public function deleteInquiryGroup(int $inquiryGroupId): void
+    {
+        $inquiryGroup = $this->inquiryGroupMapper->find($inquiryGroupId);
+        
+        // Check permissions
+        if (!$inquiryGroup->getIsAllowed(InquiryGroup::PERMISSION_INQUIRY_GROUP_EDIT)) {
+            throw new ForbiddenException('You do not have permission to delete this inquiry group');
+        }
+
+        // Check if group is protected
+        if ($inquiryGroup->getProtected()) {
+            throw new ForbiddenException('Cannot delete a protected inquiry group');
+        }
+
+        $this->inquiryGroupMapper->delete($inquiryGroup);
+    }
+
+    public function softDeleteInquiryGroup(int $inquiryGroupId): InquiryGroup
+    {
+        $inquiryGroup = $this->inquiryGroupMapper->find($inquiryGroupId);
+        
+        // Check permissions
+        if (!$inquiryGroup->getIsAllowed(InquiryGroup::PERMISSION_INQUIRY_GROUP_EDIT)) {
+            throw new ForbiddenException('You do not have permission to delete this inquiry group');
+        }
+
+        $this->inquiryGroupMapper->softDelete($inquiryGroupId);
+        return $this->inquiryGroupMapper->find($inquiryGroupId);
+    }
+
+    public function updateInquiryGroupOrder(int $inquiryGroupId, int $order): InquiryGroup
+    {
+        $inquiryGroup = $this->inquiryGroupMapper->find($inquiryGroupId);
+        
+        // Check permissions
+        if (!$inquiryGroup->getIsAllowed(InquiryGroup::PERMISSION_INQUIRY_GROUP_EDIT)) {
+            throw new ForbiddenException('You do not have permission to edit this inquiry group');
+        }
+
+        $this->inquiryGroupMapper->updateOrder($inquiryGroupId, $order);
+        return $this->inquiryGroupMapper->find($inquiryGroupId);
+    }
+
     public function addInquiryToInquiryGroup(
         int $inquiryId,
         ?int $inquiryGroupId = null,
@@ -83,15 +207,16 @@ class InquiryGroupService
                 throw new ForbiddenException('Inquiry group creation is disabled');
             }
 
-            // Create new inquiry group
-            $inquiryGroup = new InquiryGroup();
-            $inquiryGroup->setName($inquiryGroupName);
-            $inquiryGroup->setOwner($this->userSession->getCurrentUserId());
-            $inquiryGroup->setCreated(time());
-            $inquiryGroup = $this->inquiryGroupMapper->add($inquiryGroup);
+            // Create new inquiry group using the new method
+            $inquiryGroup = $this->createInquiryGroup($inquiryGroupName);
 
         } elseif ($inquiryGroupId !== null) {
             $inquiryGroup = $this->inquiryGroupMapper->find($inquiryGroupId);
+
+            // Check if user has permission to add to this group
+            if (!$inquiryGroup->getIsAllowed(InquiryGroup::PERMISSION_INQUIRY_GROUP_EDIT)) {
+                throw new ForbiddenException('You do not have permission to add inquiries to this group');
+            }
 
         } else {
             throw new InsufficientAttributesException('An existing inquiry group id must be provided or a new inquiry group name must be given.');
@@ -123,6 +248,11 @@ class InquiryGroupService
 
         $inquiryGroup = $this->inquiryGroupMapper->find($inquiryGroupId);
 
+        // Check if user has permission to remove from this group
+        if (!$inquiryGroup->getIsAllowed(InquiryGroup::PERMISSION_INQUIRY_GROUP_EDIT)) {
+            throw new ForbiddenException('You do not have permission to remove inquiries from this group');
+        }
+
         if ($inquiryGroup->hasInquiry($inquiryId)) {
             $this->inquiryGroupMapper->removeInquiryFromGroup($inquiryId, $inquiryGroupId);
             $this->eventDispatcher->dispatchTyped(new InquiryUpdatedEvent($inquiry));
@@ -138,5 +268,47 @@ class InquiryGroupService
             return null;
         }
         return $inquiryGroup;
+    }
+
+    /**
+     * List inquiry groups by type
+     *
+     * @param string $type
+     * @return InquiryGroup[]
+     */
+    public function listInquiryGroupsByType(string $type): array
+    {
+        return $this->inquiryGroupMapper->findByType($type);
+    }
+
+    /**
+     * List inquiry groups by status
+     *
+     * @param string $status
+     * @return InquiryGroup[]
+     */
+    public function listInquiryGroupsByStatus(string $status): array
+    {
+        return $this->inquiryGroupMapper->findByStatus($status);
+    }
+
+    /**
+     * List active (non-deleted) inquiry groups
+     *
+     * @return InquiryGroup[]
+     */
+    public function listActiveInquiryGroups(): array
+    {
+        return $this->inquiryGroupMapper->findActive();
+    }
+
+    /**
+     * List expired inquiry groups
+     *
+     * @return InquiryGroup[]
+     */
+    public function listExpiredInquiryGroups(): array
+    {
+        return $this->inquiryGroupMapper->findExpired();
     }
 }

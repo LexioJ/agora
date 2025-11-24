@@ -222,7 +222,7 @@ class UserSession
         return (array)$this->inquiryStatusMapper->findall();
     }
 
-    public function getInquiryTypeFields(bool $isOption, ?string $specificType = null): array
+    public function getInquiryTypeFields(?string $specificType = null): array
     {
         if ($this->inquiryTypes === null) {
             $this->inquiryTypes = $this->inquiryTypeMapper->findAll();
@@ -231,7 +231,6 @@ class UserSession
         $result = [];
 
         foreach ($this->inquiryTypes as $type) {
-            if ((int)$type->getIsOption() === (int)$isOption) {
                 if ($specificType !== null && $type->getInquiryType() !== $specificType) {
                     continue;
                 }
@@ -243,7 +242,6 @@ class UserSession
                 }
 
                 $result[$type->getInquiryType()] = is_array($fields) ? $fields : [];
-            }
         }
 
         return $result;

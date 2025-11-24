@@ -8,18 +8,20 @@ import { InquiryType } from '../helpers/index.ts'
 export interface InquiryTypeSettings {
   supportInquiry: boolean
   commentInquiry: boolean
-  attachFileInquiry: boolean
+  useResourceInquiry: boolean
   shareInquiry?: boolean
   editorType: string
 }
 
 export interface InquiryTypeRights {
   supportInquiry: boolean
+  supportMode: boolean
   commentInquiry: boolean
-  attachFileInquiry: boolean
+  useResourceInquiry: boolean
   shareInquiry?: boolean
   editorType: string
 }
+
 
 export interface ModeratorRights {
   changeInquiryStatus?: boolean
@@ -45,21 +47,13 @@ export interface InquiryType {
   inquiry_type: string
   allowed_response?: string | string[]
   allowed_transformation?: string | string[]
-  isOption?: number
 }
 
-export interface InquiryRights {
-  supportInquiry: boolean
-  commentInquiry: boolean
-  attachFileInquiry: boolean
-  shareInquiry?: boolean
-  editorType: string
-}
-
-export const DefaultInquiryRights: InquiryRights = {
+export const DefaultInquiryRights: InquiryTypeRights = {
   supportInquiry: true, 
+  supportMode: 'simple', 
   commentInquiry: false,
-  attachFileInquiry: false,
+  useResourceInquiry: false,
   shareInquiry: false,
   editorType: 'wysiwyg',
 }
@@ -703,13 +697,9 @@ export function canUseResource(context: PermissionContext): boolean {
     return false
   }
 
-  if (isAccessRestrictedForAttachments(context)) {
-    return false
-  }
-
   if (
     context.inquiryType &&
-    !canInquiryTypePerformAction(context.inquiryType, 'attachFileInquiry')
+    !canInquiryTypePerformAction(context.inquiryType, 'useResourceInquiry')
   ) {
     return false
   }
@@ -917,7 +907,6 @@ export function getAvailableResponseTypesWithPermissions(
     }
     
     return allowedResponses.includes(type.inquiry_type) && 
-           type.isOption === 0 &&
            canCreateResponseType(type.inquiry_type, context)
   })
   
@@ -951,7 +940,6 @@ export function getAvailableTransformTypesWithPermissions(
     }
     
     return allowedTransforms.includes(type.inquiry_type) && 
-           type.isOption === 0 &&
            canCreateTransformationType(type.inquiry_type, context)
   })
   

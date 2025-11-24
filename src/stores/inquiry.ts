@@ -42,6 +42,7 @@ export type InquiryConfiguration = {
   expire: number
   forceConfidentialComments: boolean
   maxInquiriesPerUser: number
+  supportMode: string
   quorum: number
 }
 
@@ -57,6 +58,9 @@ export type InquiryStatus = {
   countParticipants: number
   countComments: number
   countSupports: number
+  countiNegativeSupports: number
+  countPositiveSupports: number
+  countNeutralSupports: number
   moderationStatus: ModerationWorkflowStatus
   inquiryStatus: inquiryWorkflowStatus
 }
@@ -83,6 +87,7 @@ export type CurrentUserStatus = {
   groupInvitations: string[]
   isInvolved: boolean
   hasSupported: boolean
+  supportValue: int
   isLocked: boolean
   isLoggedIn: boolean
   isOwner: boolean
@@ -140,6 +145,7 @@ export const useInquiryStore = defineStore('inquiry', {
       expire: 0,
       forceConfidentialComments: false,
       suggestionsExpire: 0,
+      supportMode: new Map<number, 'simple' | 'ternary'>(), // standard: 0/1, ternary: -1/0/1
       quorum: 0,
     },
     owner: createDefault<User>(),
@@ -160,6 +166,9 @@ export const useInquiryStore = defineStore('inquiry', {
       countParticipants: 0,
       countComments: 0,
       countSupports: 0,
+      countNegativeSupports: 0,
+      countNeutralSupports: 0,
+      countPostiveSupports: 0,
       moderationStatus: 'draft',
       inquiryStatus: 'draft',
     },
@@ -167,6 +176,7 @@ export const useInquiryStore = defineStore('inquiry', {
       groupInvitations: [],
       isInvolved: false,
       hasSupported: false,
+      supportValue: null,
       isLocked: false,
       isLoggedIn: false,
       isOwner: false,

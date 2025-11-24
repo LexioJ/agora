@@ -49,8 +49,12 @@ class InquiryMapper extends QBMapper
             $this->joinHasSupported($qb, self::TABLE, $currentUserId);
             $this->joinInquiryGroups($qb, self::TABLE, $inquiryGroupsAlias);
             $this->joinInquiryGroupShares($qb, $inquiryGroupsAlias, $currentUserId, $inquiryGroupsAlias);
+            $this->joinSupportValue($qb, self::TABLE, $currentUserId);
             $this->joinParticipantsCount($qb, self::TABLE);
             $this->joinSupportsCount($qb, self::TABLE);
+            $this->joinNegatifSupportsCount($qb, self::TABLE);
+            $this->joinPositifSupportsCount($qb, self::TABLE);
+            $this->joinNeutralSupportsCount($qb, self::TABLE);
             $this->joinCommentsCount($qb, self::TABLE);
             $this->joinMiscs($qb, self::TABLE);
         }
@@ -62,8 +66,8 @@ class InquiryMapper extends QBMapper
         $currentUserId = $this->userSession->getCurrentUserId();
         $qb = $this->db->getQueryBuilder();
         $qb->select(self::TABLE . '.id')
-            ->from($this->getTableName(), self::TABLE)
-            ->where($qb->expr()->eq(self::TABLE . '.parent_id', $qb->createNamedParameter($parentId, IQueryBuilder::PARAM_INT)));
+           ->from($this->getTableName(), self::TABLE)
+           ->where($qb->expr()->eq(self::TABLE . '.parent_id', $qb->createNamedParameter($parentId, IQueryBuilder::PARAM_INT)));
 
         $qb->andWhere($qb->expr()->neq(self::TABLE . '.access', $qb->createNamedParameter('private')));
 
@@ -88,7 +92,7 @@ class InquiryMapper extends QBMapper
         $qb->where($qb->expr()->eq(self::TABLE . '.id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
 
         $inquiry = $this->findEntity($qb);
-        
+
         return $inquiry;
     }
 
@@ -96,16 +100,16 @@ class InquiryMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->select('*')
-            ->from($this->getTableName())
-            ->where($qb->expr()->eq('deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+           ->from($this->getTableName())
+           ->where($qb->expr()->eq('deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
 
         $inquiries = $this->findEntities($qb);
-        
+
         // Load dynamic fields for all inquiries
         foreach ($inquiries as $inquiry) {
             $this->loadDynamicFields($inquiry);
         }
-        
+
         return $inquiries;
     }
 
@@ -113,15 +117,15 @@ class InquiryMapper extends QBMapper
     {
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)))
-            ->orWhere($qb->expr()->eq(self::TABLE . '.owner', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
-        
+           ->orWhere($qb->expr()->eq(self::TABLE . '.owner', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
+
         $inquiries = $this->findEntities($qb);
-        
+
         // Load dynamic fields for all inquiries
         foreach ($inquiries as $inquiry) {
             $this->loadDynamicFields($inquiry);
         }
-        
+
         return $inquiries;
     }
 
@@ -129,14 +133,14 @@ class InquiryMapper extends QBMapper
     {
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.owner', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
-        
+
         $inquiries = $this->findEntities($qb);
-        
+
         // Load dynamic fields for all inquiries
         foreach ($inquiries as $inquiry) {
             $this->loadDynamicFields($inquiry);
         }
-        
+
         return $inquiries;
     }
 
@@ -144,34 +148,34 @@ class InquiryMapper extends QBMapper
     {
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)))
-            ->andWhere(
-                $qb->expr()->orX(
-                    ...array_map(
-                        function (string $token) use ($qb) {
-                            return $qb->expr()->orX(
-                                $qb->expr()->iLike(
-                                    self::TABLE . '.title',
-                                    $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($token) . '%', IQueryBuilder::PARAM_STR),
-                                    IQueryBuilder::PARAM_STR
-                                ),
-                                $qb->expr()->iLike(
-                                    self::TABLE . '.description',
-                                    $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($token) . '%', IQueryBuilder::PARAM_STR),
-                                    IQueryBuilder::PARAM_STR
-                                )
-                            );
-                        }, explode(' ', $query->getTerm())
-                    )
-                )
-            );
-        
+           ->andWhere(
+               $qb->expr()->orX(
+                   ...array_map(
+                       function (string $token) use ($qb) {
+                           return $qb->expr()->orX(
+                               $qb->expr()->iLike(
+                                   self::TABLE . '.title',
+                                   $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($token) . '%', IQueryBuilder::PARAM_STR),
+                                   IQueryBuilder::PARAM_STR
+                               ),
+                               $qb->expr()->iLike(
+                                   self::TABLE . '.description',
+                                   $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($token) . '%', IQueryBuilder::PARAM_STR),
+                                   IQueryBuilder::PARAM_STR
+                               )
+                           );
+                       }, explode(' ', $query->getTerm())
+                   )
+               )
+           );
+
         $inquiries = $this->findEntities($qb);
-        
+
         // Load dynamic fields for all inquiries
         foreach ($inquiries as $inquiry) {
             $this->loadDynamicFields($inquiry);
         }
-        
+
         return $inquiries;
     }
 
@@ -181,12 +185,12 @@ class InquiryMapper extends QBMapper
         $qb->where($qb->expr()->neq(self::TABLE . '.owner', $qb->createNamedParameter($userId, IQueryBuilder::PARAM_STR)));
 
         $inquiries = $this->findEntities($qb);
-        
+
         // Load dynamic fields for all inquiries
         foreach ($inquiries as $inquiry) {
             $this->loadDynamicFields($inquiry);
         }
-        
+
         return $inquiries;
     }
 
@@ -195,10 +199,10 @@ class InquiryMapper extends QBMapper
         $archiveDate = time();
         $qb = $this->db->getQueryBuilder();
         $qb->update($this->getTableName())
-            ->set('archived', $qb->createNamedParameter($archiveDate))
-            ->where($qb->expr()->lt('expire', $qb->createNamedParameter($offset)))
-            ->andWhere($qb->expr()->gt('expire', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)))
-            ->andWhere($qb->expr()->eq('archived', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+           ->set('archived', $qb->createNamedParameter($archiveDate))
+           ->where($qb->expr()->lt('expire', $qb->createNamedParameter($offset)))
+           ->andWhere($qb->expr()->gt('expire', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)))
+           ->andWhere($qb->expr()->eq('archived', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
         return $qb->executeStatement();
     }
 
@@ -206,8 +210,8 @@ class InquiryMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->update($this->getTableName())
-            ->set('inquiry_status', $qb->createNamedParameter($mstatus))
-            ->where($qb->expr()->eq('id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+           ->set('inquiry_status', $qb->createNamedParameter($mstatus))
+           ->where($qb->expr()->eq('id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
         $qb->executeStatement();
     }
 
@@ -215,8 +219,8 @@ class InquiryMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->update($this->getTableName())
-            ->set('moderation_status', $qb->createNamedParameter($mstatus))
-            ->where($qb->expr()->eq('id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+           ->set('moderation_status', $qb->createNamedParameter($mstatus))
+           ->where($qb->expr()->eq('id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
         $qb->executeStatement();
     }
 
@@ -224,8 +228,8 @@ class InquiryMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->delete($this->getTableName())
-            ->where($qb->expr()->lt('archived', $qb->createNamedParameter($offset)))
-            ->andWhere($qb->expr()->gt('archived', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+           ->where($qb->expr()->lt('archived', $qb->createNamedParameter($offset)))
+           ->andWhere($qb->expr()->gt('archived', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
         return $qb->executeStatement();
     }
 
@@ -234,8 +238,8 @@ class InquiryMapper extends QBMapper
         $timestamp = time();
         $qb = $this->db->getQueryBuilder();
         $qb->update($this->getTableName())
-            ->set('last_interaction', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
-            ->where($qb->expr()->eq('id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+           ->set('last_interaction', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
+           ->where($qb->expr()->eq('id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
         $qb->executeStatement();
     }
 
@@ -243,8 +247,8 @@ class InquiryMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->delete($this->getTableName())
-            ->where('owner = :userId')
-            ->setParameter('userId', $userId);
+           ->where('owner = :userId')
+           ->setParameter('userId', $userId);
         $qb->executeStatement();
     }
 
@@ -253,20 +257,24 @@ class InquiryMapper extends QBMapper
         $qb = $this->db->getQueryBuilder();
 
         $qb->select(self::TABLE . '.*')
-            ->from($this->getTableName(), self::TABLE);
+           ->from($this->getTableName(), self::TABLE);
 
         $currentUserId = $this->userSession->getCurrentUserId();
         $inquiryGroupsAlias = 'inquiry_groups';
         $this->joinUserRole($qb, self::TABLE, $currentUserId);
         $this->joinGroupShares($qb, self::TABLE);
         $this->joinHasSupported($qb, self::TABLE, $currentUserId);
+        $this->joinSupportValue($qb, self::TABLE, $currentUserId);
         $this->joinInquiryGroups($qb, self::TABLE, $inquiryGroupsAlias);
         $this->joinInquiryGroupShares($qb, $inquiryGroupsAlias, $currentUserId, $inquiryGroupsAlias);
         $this->joinParticipantsCount($qb, self::TABLE);
         $this->joinSupportsCount($qb, self::TABLE);
+        $this->joinNegatifSupportsCount($qb, self::TABLE);
+        $this->joinPositifSupportsCount($qb, self::TABLE);
+        $this->joinNeutralSupportsCount($qb, self::TABLE);
         $this->joinCommentsCount($qb, self::TABLE);
         $this->joinMiscs($qb, self::TABLE);
-        
+
         return $qb;
     }
 
@@ -296,8 +304,8 @@ class InquiryMapper extends QBMapper
 
         $qb = $this->db->getQueryBuilder();
         $qb->select('*')
-            ->from(InquiryMisc::TABLE)
-            ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+           ->from(InquiryMisc::TABLE)
+           ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
 
         $stmt = $qb->executeQuery();
         $storedData = $stmt->fetchAll();
@@ -362,7 +370,7 @@ class InquiryMapper extends QBMapper
 
         case 'string':
         default:
-            return (string)$value;
+        return (string)$value;
         }
     }
 
@@ -379,22 +387,22 @@ class InquiryMapper extends QBMapper
         $qb = $this->db->getQueryBuilder();
 
         $qb->delete(InquiryMisc::TABLE)
-            ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
-            ->executeStatement();
+           ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
+           ->executeStatement();
 
         foreach ($fieldsDefinition as $fieldDef) {
             $key = $fieldDef['key'];
             $value = $this->castValueByType($fieldDef['default'] ?? null, $fieldDef);
 
             $qb->insert(InquiryMisc::TABLE)
-                ->values(
-                    [
-                    'inquiry_id' => $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT),
-                    'key'        => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
-                    'value'      => $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR),
-                    ]
-                )
-                ->executeStatement();
+               ->values(
+                   [
+                       'inquiry_id' => $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT),
+                       'key'        => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
+                       'value'      => $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR),
+                   ]
+               )
+               ->executeStatement();
 
             $inquiry->setMiscField($key, $value);
         }
@@ -421,27 +429,27 @@ class InquiryMapper extends QBMapper
             $value = $this->castValueByType($value ?? $fieldDef['default'], $fieldDef);
 
             $existing = $qb->select('id')
-                ->from(InquiryMisc::TABLE)
-                ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
-                ->andWhere($qb->expr()->eq('key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
-                ->executeQuery()
-                ->fetchOne();
+                           ->from(InquiryMisc::TABLE)
+                           ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
+                           ->andWhere($qb->expr()->eq('key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
+                           ->executeQuery()
+                           ->fetchOne();
 
             if ($existing) {
                 $qb->update(InquiryMisc::TABLE)
-                    ->set('value', $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR))
-                    ->where($qb->expr()->eq('id', $qb->createNamedParameter($existing, IQueryBuilder::PARAM_INT)))
-                    ->executeStatement();
+                   ->set('value', $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR))
+                   ->where($qb->expr()->eq('id', $qb->createNamedParameter($existing, IQueryBuilder::PARAM_INT)))
+                   ->executeStatement();
             } else {
                 $qb->insert(InquiryMisc::TABLE)
-                    ->values(
-                        [
-                        'inquiry_id' => $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT),
-                        'key'        => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
-                        'value'      => $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR),
-                        ]
-                    )
-                    ->executeStatement();
+                   ->values(
+                       [
+                           'inquiry_id' => $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT),
+                           'key'        => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
+                           'value'      => $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR),
+                       ]
+                   )
+                   ->executeStatement();
             }
 
             $inquiry->setMiscField($key, $value);
@@ -457,10 +465,10 @@ class InquiryMapper extends QBMapper
         $emptyString = $qb->expr()->literal('');
 
         $qb->addSelect($qb->createFunction('coalesce(' . $joinAlias . '.type, ' . $emptyString . ') AS user_role'))
-            ->addGroupBy($joinAlias . '.type');
+           ->addGroupBy($joinAlias . '.type');
 
         $qb->addSelect($qb->createFunction('coalesce(' . $joinAlias . '.token, ' . $emptyString . ') AS share_token'))
-            ->addGroupBy($joinAlias . '.token');
+           ->addGroupBy($joinAlias . '.token');
 
         $qb->leftJoin(
             $fromAlias,
@@ -473,6 +481,7 @@ class InquiryMapper extends QBMapper
             )
         );
     }
+
     protected function joinHasSupported(
         IQueryBuilder &$qb,
         string $fromAlias,
@@ -499,6 +508,31 @@ class InquiryMapper extends QBMapper
         );
     }
 
+    protected function joinSupportValue(
+        IQueryBuilder &$qb,
+        string $fromAlias,
+        ?string $currentUserId,
+        string $joinAlias = 'current_user_support_value'
+    ): void {
+        if ($currentUserId === null) {
+            $qb->addSelect($qb->createFunction('NULL AS support_value'));
+            return;
+        }
+
+        $qb->leftJoin(
+            $fromAlias,
+            Support::TABLE,
+            $joinAlias,
+            $qb->expr()->andX(
+                $qb->expr()->eq($joinAlias . '.inquiry_id', $fromAlias . '.id'),
+                $qb->expr()->eq($joinAlias . '.user_id', $qb->createNamedParameter($currentUserId, IQueryBuilder::PARAM_STR))
+            )
+        );
+
+        $qb->addSelect(
+            $qb->createFunction($joinAlias . '.value AS support_value')
+        );
+    }
 
     protected function joinGroupShares(
         IQueryBuilder &$qb,
@@ -557,6 +591,54 @@ class InquiryMapper extends QBMapper
         );
     }
 
+    protected function joinNegatifSupportsCount(
+        IQueryBuilder &$qb,
+        string $fromAlias,
+        string $joinAlias = 'supports_negative',
+    ): void {
+        $qb->leftJoin(
+            $fromAlias,
+            Support::TABLE,
+            $joinAlias,
+            $qb->expr()->andX(
+                $qb->expr()->eq($joinAlias . '.inquiry_id', $fromAlias . '.id'),
+                $qb->expr()->eq($joinAlias . '.value', $qb->createNamedParameter(-1))
+            )
+        )->addSelect($qb->createFunction('COUNT(DISTINCT(' . $joinAlias . '.user_id)) AS count__negative_supports'));
+    }
+
+    protected function joinNeutralSupportsCount(
+        IQueryBuilder &$qb,
+        string $fromAlias,
+        string $joinAlias = 'supports_neutral',
+    ): void {
+        $qb->leftJoin(
+            $fromAlias,
+            Support::TABLE,
+            $joinAlias,
+            $qb->expr()->andX(
+                $qb->expr()->eq($joinAlias . '.inquiry_id', $fromAlias . '.id'),
+                $qb->expr()->eq($joinAlias . '.value', $qb->createNamedParameter(0))
+            )
+        )->addSelect($qb->createFunction('COUNT(DISTINCT(' . $joinAlias . '.user_id)) AS count_neutral_supports'));
+    }
+
+    protected function joinPositifSupportsCount(
+        IQueryBuilder &$qb,
+        string $fromAlias,
+        string $joinAlias = 'supports_positive',
+    ): void {
+        $qb->leftJoin(
+            $fromAlias,
+            Support::TABLE,
+            $joinAlias,
+            $qb->expr()->andX(
+                $qb->expr()->eq($joinAlias . '.inquiry_id', $fromAlias . '.id'),
+                $qb->expr()->eq($joinAlias . '.value', $qb->createNamedParameter(1))
+            )
+        )->addSelect($qb->createFunction('COUNT(DISTINCT(' . $joinAlias . '.user_id)) AS count_positive_supports'));
+    }
+
     protected function joinSupportsCount(
         IQueryBuilder &$qb,
         string $fromAlias,
@@ -570,6 +652,8 @@ class InquiryMapper extends QBMapper
         )->addSelect($qb->createFunction('COUNT(DISTINCT(' . $joinAlias . '.user_id)) AS count_supports'));
         $qb->groupBy($fromAlias . '.id');
     }
+
+
 
     protected function joinCommentsCount(
         IQueryBuilder &$qb,

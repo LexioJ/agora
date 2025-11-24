@@ -41,7 +41,8 @@ class InquiryGroupMapper extends QBMapper
     public function list(): array
     {
         $qb = $this->buildQuery();
-        $qb->orderBy('title', 'ASC');
+        $qb->orderBy('g.order', 'ASC')
+           ->addOrderBy('g.title', 'ASC');
         return $this->findEntities($qb);
     }
 
@@ -55,9 +56,83 @@ class InquiryGroupMapper extends QBMapper
     {
         $qb = $this->buildQuery();
 
-        $qb->where($qb->expr()->eq(self::TABLE . '.id', $qb->createNamedParameter($id)));
+        $qb->where($qb->expr()->eq('g.id', $qb->createNamedParameter($id)));
 
         return $this->findEntity($qb);
+    }
+
+    /**
+     * Find InquiryGroups by owner
+     *
+     * @param  string $owner
+     * @return InquiryGroup[]
+     */
+    public function findByOwner(string $owner): array
+    {
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->eq('g.owner', $qb->createNamedParameter($owner)))
+           ->orderBy('g.order', 'ASC')
+           ->addOrderBy('g.title', 'ASC');
+        return $this->findEntities($qb);
+    }
+
+    /**
+     * Find InquiryGroups by type
+     *
+     * @param  string $type
+     * @return InquiryGroup[]
+     */
+    public function findByType(string $type): array
+    {
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->eq('g.type', $qb->createNamedParameter($type)))
+           ->orderBy('g.order', 'ASC')
+           ->addOrderBy('g.title', 'ASC');
+        return $this->findEntities($qb);
+    }
+
+    /**
+     * Find InquiryGroups by status
+     *
+     * @param  string $status
+     * @return InquiryGroup[]
+     */
+    public function findByStatus(string $status): array
+    {
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->eq('g.group_status', $qb->createNamedParameter($status)))
+           ->orderBy('g.order', 'ASC')
+           ->addOrderBy('g.title', 'ASC');
+        return $this->findEntities($qb);
+    }
+
+    /**
+     * Find active (non-deleted) InquiryGroups
+     *
+     * @return InquiryGroup[]
+     */
+    public function findActive(): array
+    {
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->eq('g.deleted', $qb->createNamedParameter(0)))
+           ->orderBy('g.order', 'ASC')
+           ->addOrderBy('g.title', 'ASC');
+        return $this->findEntities($qb);
+    }
+
+    /**
+     * Find expired InquiryGroups
+     *
+     * @return InquiryGroup[]
+     */
+    public function findExpired(): array
+    {
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->lt('g.expire', $qb->createNamedParameter(time())))
+           ->andWhere($qb->expr()->isNotNull('g.expire'))
+           ->orderBy('g.order', 'ASC')
+           ->addOrderBy('g.title', 'ASC');
+        return $this->findEntities($qb);
     }
 
     public function addInquiryToGroup(int $inquiryId, int $groupId): void
@@ -94,7 +169,6 @@ class InquiryGroupMapper extends QBMapper
         $inquiryGroup->setCreated(time());
         $inquiryGroup->setOwner($this->userSession->getCurrentUserId());
         return $this->insert($inquiryGroup);
-
     }
 
     public function tidyInquiryGroups(): void
@@ -106,12 +180,39 @@ class InquiryGroupMapper extends QBMapper
 
         $qb->delete(InquiryGroup::TABLE)
             ->where(
-                $qb->expr()->notIn(
-                    'id',
-                    $qb->createFunction($subquery->getSQL()),
-                    IQueryBuilder::PARAM_INT_ARRAY
+                $qb->expr()->andX(
+                    $qb->expr()->notIn(
+                        'id',
+                        $qb->createFunction($subquery->getSQL()),
+                        IQueryBuilder::PARAM_INT_ARRAY
+                    ),
+                    $qb->expr()->eq('protected', $qb->createNamedParameter(false))
                 )
             );
+        $qb->executeStatement();
+    }
+
+    /**
+     * Update the order of an inquiry group
+     */
+    public function updateOrder(int $groupId, int $order): void
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->update(InquiryGroup::TABLE)
+            ->set('order', $qb->createNamedParameter($order))
+            ->where($qb->expr()->eq('id', $qb->createNamedParameter($groupId)));
+        $qb->executeStatement();
+    }
+
+    /**
+     * Soft delete an inquiry group
+     */
+    public function softDelete(int $groupId): void
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->update(InquiryGroup::TABLE)
+            ->set('deleted', $qb->createNamedParameter(time()))
+            ->where($qb->expr()->eq('id', $qb->createNamedParameter($groupId)));
         $qb->executeStatement();
     }
 
@@ -121,9 +222,9 @@ class InquiryGroupMapper extends QBMapper
     protected function buildQuery(): IQueryBuilder
     {
         $qb = $this->db->getQueryBuilder();
-        $qb->select(self::TABLE . '.*')
-            ->from($this->getTableName(), self::TABLE)
-            ->groupBy(self::TABLE . '.id');
+        $qb->select('g.*')
+            ->from($this->getTableName(), 'g')
+            ->groupBy('g.id');
 
         // Join inquiries
         $this->joinInquiryIds($qb);
@@ -143,11 +244,11 @@ class InquiryGroupMapper extends QBMapper
         );
 
         $qb->leftJoin(
-            self::TABLE,
+            'g',
             InquiryGroup::RELATION_TABLE,
             $joinAlias,
             $qb->expr()->andX(
-                $qb->expr()->eq(self::TABLE . '.id', $joinAlias . '.group_id'),
+                $qb->expr()->eq('g.id', $joinAlias . '.group_id'),
             )
         );
     }

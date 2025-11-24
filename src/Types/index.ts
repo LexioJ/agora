@@ -88,7 +88,6 @@ export interface InquiryType {
   family: string
   icon: string
   label: string
-  is_option: boolean
   description?: string
   fields: string[]
   allowed_response: string[]

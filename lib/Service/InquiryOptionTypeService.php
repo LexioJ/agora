@@ -8,15 +8,15 @@ declare(strict_types=1);
 
 namespace OCA\Agora\Service;
 
-use OCA\Agora\Db\InquiryType;
-use OCA\Agora\Db\InquiryTypeMapper;
+use OCA\Agora\Db\InquiryOptionType;
+use OCA\Agora\Db\InquiryOptionTypeMapper;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\AppFramework\Db\MultipleObjectsReturnedException;
 
-class InquiryTypeService
+class InquiryOptionTypeService
 {
     public function __construct(
-        private InquiryTypeMapper $inquiryTypeMapper
+        private InquiryOptionTypeMapper $optionTypeMapper
     ) {
     }
 
@@ -24,90 +24,85 @@ class InquiryTypeService
      * @throws DoesNotExistException
      * @throws MultipleObjectsReturnedException
      */
-    public function find(int $id): InquiryType
+    public function find(int $id): OptionType
     {
-        return $this->inquiryTypeMapper->find($id);
+        return $this->optionTypeMapper->find($id);
     }
 
     /**
      * @throws DoesNotExistException
      * @throws MultipleObjectsReturnedException
      */
-    public function findByType(string $type): InquiryType
+    public function findByType(string $type): OptionType
     {
-        return $this->inquiryTypeMapper->findByType($type);
+        return $this->optionTypeMapper->findByType($type);
     }
 
     public function findAll(): array
     {
-        return $this->inquiryTypeMapper->findAll();
+        return $this->optionTypeMapper->findAll();
     }
 
     public function findByFamily(string $family): array
     {
-        return $this->inquiryTypeMapper->findByFamily($family);
+        return $this->optionTypeMapper->findByFamily($family);
     }
 
-    public function delete(int $id): InquiryType
+    public function delete(int $id): OptionType
     {
-        $inquiryType = $this->find($id);
-        return $this->inquiryTypeMapper->delete($inquiryType);
+        $optionType = $this->find($id);
+        return $this->optionTypeMapper->delete($optionType);
     }
 
-    public function inquiryTypeExists(string $inquiryType): bool
+    public function optionTypeExists(string $optionType): bool
     {
-        return $this->inquiryTypeMapper->inquiryTypeExists($inquiryType);
+        return $this->optionTypeMapper->optionTypeExists($optionType);
     }
 
 
     public function create(
-        string $inquiryType,
-        string $family = 'deliberative',
+        string $optionType,
         string $icon = '',
         string $label = '',
+        string $family = 'collective',
         ?string $description = null,
         ?string $fields = null,
         ?string $allowedResponse = null,
-        ?string $allowedTransformation = null
-    ): InquiryType {
-        if ($this->inquiryTypeExists($inquiryType)) {
+    ): InquiryOptionType {
+        if ($this->optionTypeExists($optionType)) {
             throw new \InvalidArgumentException('Inquiry type already exists');
         }
-        $type = new InquiryType();
-        $type->setInquiryType($inquiryType);
+        $type = new OptionType();
+        $type->setOptionType($optionType);
         $type->setFamily($family);
         $type->setIcon($icon);
         $type->setLabel($label);
         $type->setDescription($description);
         $type->setFields($fields);
         $type->setAllowedResponse($allowedResponse);
-        $type->setAllowedTransformation($allowedTransformation);
         $type->setCreated(time());
 
-        return $this->inquiryTypeMapper->insert($type);
+        return $this->optionTypeMapper->insert($type);
     }
 
     public function update(
         int $id,
-        string $inquiryType,
-        string $family = 'deliberative',
+        string $optionType,
         string $icon = '',
         string $label = '',
+        string $family = 'collective',
         ?string $description = null,
         ?string $fields = null,
         ?string $allowedResponse = null,
-        ?string $allowedTransformation = null
-    ): InquiryType {
+    ): InquiryOptionType {
         $type = $this->find($id);
-        $type->setInquiryType($inquiryType);
-        $type->setFamily($family);
+        $type->setOptionType($optionType);
         $type->setIcon($icon);
         $type->setLabel($label);
         $type->setDescription($description);
         $type->setFields($fields);
         $type->setAllowedResponse($allowedResponse);
-        $type->setAllowedTransformation($allowedTransformation);
 
-        return $this->inquiryTypeMapper->update($type);
+        return $this->optionTypeMapper->update($type);
     }
 }

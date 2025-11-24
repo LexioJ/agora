@@ -39,13 +39,14 @@ const preferencesStore = usePreferencesStore()
 
 
 // Computed for default view mode based on boolean
-const defaultViewMode = computed(() => preferencesStore.user.defaultDisplayMode || 'view')
+// const defaultViewMode = computed(() => preferencesStore.user.defaultDisplayMode || 'view')
 
 // ViewMode state
-const viewMode = ref<string>(
+// const viewMode = ref<string>(
+ // (route.query.viewMode as string) || defaultViewMode.value
+// )
 
-  (route.query.viewMode as string) || defaultViewMode.value
-)
+const viewMode = ref<string>((route.query.viewMode as string) || (preferencesStore.user?.defaultDisplayMode || 'view'))
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -66,7 +67,7 @@ const inquiryFamilies = computed((): InquiryFamily[] => sessionStore.appSettings
 const allInquiryTypes = computed((): InquiryType[] => sessionStore.appSettings.inquiryTypeTab || [])
 
 const inquiryTypesByFamily = computed(() => {
-  const types = allInquiryTypes.value.filter(type => type.isOption === 0)
+  const types = allInquiryTypes.value
   return getInquiryTypesByFamily(types)
 })
 
@@ -77,7 +78,7 @@ const filteredInquiryTypes = computed(() => {
   const family = inquiryFamilies.value.find(f => f.family_type === selectedFamily.value)
   if (!family) return []
   
-  return getInquiryTypesForFamily(family.family_type, inquiryTypesByFamily.value, 0)
+  return getInquiryTypesForFamily(family.family_type, inquiryTypesByFamily.value)
 })
 
 
@@ -295,9 +296,9 @@ function handleCloseDialog() {
             <component :is="getInquiryItemData(family).icon" />
           </div>
           <div class="family-card-large__content">
-            <h3 class="family-card-large__title">{{ getInquiryItemData(family).label }}</h3>
+            <h3 class="family-card-large__title">{{ t('agora', getInquiryItemData(family).label) }}</h3>
             <p v-if="getInquiryItemData(family).description" class="family-card-large__description">
-              {{ getInquiryItemData(family).description }}
+            {{ t('agora', getInquiryItemData(family).description) }}
             </p>
           </div>
         </div>
@@ -317,8 +318,8 @@ function handleCloseDialog() {
     <div v-else class="inquiry-types-container">
       <div class="inquiry-types-header">
         <div class="selected-family-info">
-          <h2>{{ currentFamilyData.label }}</h2>
-          <p v-if="currentFamilyData.description">{{ currentFamilyData.description }}</p>
+           <h2>{{ t('agora', currentFamilyData.label) }}</h2>
+          <p v-if="currentFamilyData.description">{{ t('agora', currentFamilyData.description) }}</p>
         </div>
       </div>
 
@@ -333,11 +334,11 @@ function handleCloseDialog() {
             <component :is="getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).icon" />
           </div>
           <div class="inquiry-type-card__content">
-            <h4 class="inquiry-type-card__title">
-              {{ getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).label }}
-            </h4>
+                <h4 class="inquiry-type-card__title">
+    {{ t('agora', getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).label) }}
+</h4>
             <p v-if="getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description" class="inquiry-type-card__description">
-              {{ getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description }}
+              {{ t('agora', getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description) }}
             </p>
           </div>
         </div>

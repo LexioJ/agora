@@ -10,215 +10,492 @@ import { useSessionStore } from './session.ts'
 import type { AxiosError } from '@nextcloud/axios'
 
 export type Support = {
-  inquiryId: number
-  userId: string
-  created: number
+    id?: number
+    inquiryId: number
+    userId: string
+    value: number
+    created: number
 }
 
 export type Supports = {
-  supports: Support[]
+    supports: Support[]
 }
 
 export interface SupportsGrouped extends Support {
-  supports: Support[]
+    supports: Support[]
 }
 
 export const useSupportsStore = defineStore('supports', {
-  state: () => ({
-    supports: [] as Array<{
-      inquiryId: string
-      userId: string
-      created: number
-    }>,
-  }),
+    state: () => ({
+        supports: [] as Support[],
+    }),
 
-  getters: {
-    count: (state) => state.supports.length,
-    groupedSupports: (state) => groupSupports(state.supports),
-  },
+    getters: {
+        count: (state) => state.supports.length,
+            groupedSupports: (state) => groupSupports(state.supports),
 
-  actions: {
-    async toggleSupport(inquiryId, userId, inquiryStore, inquiriesStore) {
-      const inquiryInList = inquiriesStore.inquiries.find((i) => i.id === inquiryId)
-      const inquiryInChilds = inquiryStore?.childs?.find((i) => i.id === inquiryId)
-      const isCurrentInquiry = inquiryStore?.id === inquiryId
-
-      const sourceInquiry =
-        inquiryInList || inquiryInChilds || (isCurrentInquiry ? inquiryStore : null)
-
-      if (!sourceInquiry) {
-        console.error('Inquiry not found in any store')
-        return
-      }
-
-      const oldState = sourceInquiry.currentUserStatus?.hasSupported ?? false
-      const oldCount = sourceInquiry.status?.countSupports ?? 0
-
-
-      if (inquiryInList) {
-        inquiryInList.currentUserStatus.hasSupported = !oldState
-        inquiryInList.status.countSupports += oldState ? -1 : 1
-      }
-
-      if (inquiryInChilds) {
-        inquiryInChilds.currentUserStatus.hasSupported = !oldState
-        inquiryInChilds.status.countSupports += oldState ? -1 : 1
-      }
-
-      if (isCurrentInquiry) {
-        inquiryStore.currentUserStatus.hasSupported = !oldState
-        inquiryStore.status.countSupports += oldState ? -1 : 1
-      }
-
-      const hasSupported = !oldState
-
-      try {
-        if (hasSupported) {
-          await SupportsAPI.addSupport(inquiryId, userId)
-        } else {
-          await SupportsAPI.removeSupport(inquiryId, userId)
-        }
-
-        return hasSupported
-      } catch (error) {
-        if (inquiryInList) {
-          inquiryInList.currentUserStatus.hasSupported = oldState
-          inquiryInList.status.countSupports = oldCount
-        }
-
-        if (inquiryInChilds) {
-          inquiryInChilds.currentUserStatus.hasSupported = oldState
-          inquiryInChilds.status.countSupports = oldCount
-        }
-
-        if (isCurrentInquiry) {
-          inquiryStore.currentUserStatus.hasSupported = oldState
-          inquiryStore.status.countSupports = oldCount
-        }
-
-        throw error
-      }
+            // Get support by inquiryId and userId
+            getSupport: (state) => (inquiryId: number, userId: string) => state.supports.find(support => 
+                                                                                              support.inquiryId === inquiryId && support.userId === userId
+                                                                                             ),
     },
 
-    async load() {
-      const sessionStore = useSessionStore()
-      try {
-        const response = await (() => {
-          if (sessionStore.route.name === 'publicInquiry') {
-            return PublicAPI.getSupports(sessionStore.route.params.token as string)
-          }
-          if (sessionStore.route.name === 'inquiry') {
-            return SupportsAPI.getInquiryId(sessionStore.currentInquiryId)
-          }
+    actions: {
+        // Set support mode for an inquiry
+        // Set or update a support in the store
+        setItem(payload: { support: Support }) {
+            const index = this.supports.findIndex(s => 
+                                                  s.inquiryId === payload.support.inquiryId && s.userId === payload.support.userId
+                                                 )
 
-          return null
-        })()
+                                                 if (index !== -1) {
+                                                     this.supports[index] = payload.support
+                                                 } else {
+                                                     this.supports.push(payload.support)
+                                                 }
+        },
 
-        if (!response) {
-          this.$reset()
-          return
-        }
+        // Remove a support from the store
+        removeItem(inquiryId: number, userId: string) {
+            const index = this.supports.findIndex(s => 
+                                                  s.inquiryId === inquiryId && s.userId === userId
+                                                 )
 
-        this.supports = response.data.supports
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
-        }
-        this.$reset()
-      }
+                                                 if (index !== -1) {
+                                                     this.supports.splice(index, 1)
+                                                 }
+        },
+
+        // Helper method to get support mode
+        getSupportMode(inquiryId: number, inquiryStore: any, inquiriesStore: any): string {
+            if (inquiryStore.id === inquiryId) {
+                return inquiryStore.configuration?.supportMode;
+            }
+
+            // Otherwise search in inquiriesStore
+            const inquiry = inquiriesStore.inquiries.find((inq: any) => inq.id === inquiryId);
+            return inquiry?.configuration?.supportMode;
+        },
+
+        // Main toggle method that handles both modes
+        async toggleSupport(inquiryId: number, userId: string, inquiryStore: any, inquiriesStore: any) {
+            const supportMode =  this.getSupportMode(inquiryId, inquiryStore, inquiriesStore);
+            console.log(" LOG SUPPORT ",supportMode)
+
+            if (supportMode === 'simple') {
+                return this.toggleStandardSupport(inquiryId, userId, inquiryStore, inquiriesStore)
+            } 
+            return this.toggleTernarySupport(inquiryId, userId, inquiryStore, inquiriesStore)
+
+        },
+
+        // Standard mode: 0/1 toggle (existing behavior)
+        async toggleStandardSupport(inquiryId: number, userId: string, inquiryStore: any, inquiriesStore: any) {
+            const inquiryInList = inquiriesStore.inquiries.find((i) => i.id === inquiryId)
+            const inquiryInChilds = inquiryStore?.childs?.find((i) => i.id === inquiryId)
+            const isCurrentInquiry = inquiryStore?.id === inquiryId
+
+            const sourceInquiry =
+                inquiryInList || inquiryInChilds || (isCurrentInquiry ? inquiryStore : null)
+
+            if (!sourceInquiry) {
+                console.error('Inquiry not found in any store')
+                return
+            }
+
+            const oldState = sourceInquiry.currentUserStatus?.hasSupported ?? false
+            const oldCount = sourceInquiry.status?.countSupports ?? 0
+
+
+            if (inquiryInList) {
+                inquiryInList.currentUserStatus.hasSupported = !oldState
+                inquiryInList.status.countSupports += oldState ? -1 : 1
+            }
+
+            if (inquiryInChilds) {
+                inquiryInChilds.currentUserStatus.hasSupported = !oldState
+                inquiryInChilds.status.countSupports += oldState ? -1 : 1
+            }
+
+            if (isCurrentInquiry) {
+                inquiryStore.currentUserStatus.hasSupported = !oldState
+                inquiryStore.status.countSupports += oldState ? -1 : 1
+            }
+
+            const hasSupported = !oldState
+
+            try {
+                if (hasSupported) {
+                    await SupportsAPI.addSupport(inquiryId, userId)
+                } else {
+                    await SupportsAPI.removeSupport(inquiryId, userId)
+                }
+
+                return hasSupported
+            } catch (error) {
+                if (inquiryInList) {
+                    inquiryInList.currentUserStatus.hasSupported = oldState
+                    inquiryInList.status.countSupports = oldCount
+                }
+
+                if (inquiryInChilds) {
+                    inquiryInChilds.currentUserStatus.hasSupported = oldState
+                    inquiryInChilds.status.countSupports = oldCount
+                }
+
+                if (isCurrentInquiry) {
+                    inquiryStore.currentUserStatus.hasSupported = oldState
+                    inquiryStore.status.countSupports = oldCount
+                }
+
+                throw error
+            }
+        },
+
+        async toggleTernarySupport(inquiryId: number, userId: string, inquiryStore: any, inquiriesStore: any) {
+            // Find all potential instances
+            const inquiryInList = inquiriesStore.inquiries.find((i: any) => i.id === inquiryId)
+            const inquiryInChilds = inquiryStore?.childs?.find((i: any) => i.id === inquiryId)
+            const isCurrentInquiry = inquiryStore?.id === inquiryId
+
+            // Collect all unique instances to update
+            const instancesToUpdate = new Set()
+
+            if (inquiryInList) instancesToUpdate.add(inquiryInList)
+                if (inquiryInChilds) instancesToUpdate.add(inquiryInChilds)
+                    if (isCurrentInquiry && inquiryStore) instancesToUpdate.add(inquiryStore)
+
+                        if (instancesToUpdate.size === 0) {
+                            console.error('Inquiry not found in any store')
+                            return
+                        }
+
+                        // Use the first instance as source for current value
+                        const sourceInquiry = Array.from(instancesToUpdate)[0] as any
+                        const currentValue = sourceInquiry.currentUserStatus?.supportValue ?? null
+
+                        let nextValue: number | null
+                        let shouldRemove = false
+
+                        console.log("CURRENT VALUE ", currentValue)
+
+                        // Cycle: 1 -> 0 -> -1 -> remove (null)
+                        if (currentValue === 1) {
+                            nextValue = 0
+                        } else if (currentValue === 0) {
+                            nextValue = -1
+                        } else if (currentValue === -1) {
+                            shouldRemove = true
+                            nextValue = null // Remove participation
+                        } else {
+                            // currentValue is null (no support) - start cycle at 1
+                            nextValue = 1
+                        }
+
+                        // Save old state for rollback
+                        const oldState = {
+                            value: currentValue,
+                            hasSupported: currentValue !== null && currentValue !== undefined,
+                            counts: {
+                                positive: sourceInquiry.status?.countPositiveSupports ?? 0,
+                                neutral: sourceInquiry.status?.countNeutralSupports ?? 0,
+                                negative: sourceInquiry.status?.countNegativeSupports ?? 0,
+                            },
+                            total: sourceInquiry.status?.countSupports ?? 0
+                        }
+
+                        try {
+                            // Update ALL instances (no duplicates)
+                            instancesToUpdate.forEach((inquiry: any) => {
+                                this.updateTernaryUIState(inquiry, currentValue, nextValue, shouldRemove)
+                            })
+
+                            console.log(`Updated ${instancesToUpdate.size} unique instances`)
+
+                            // Make API call
+                            if (shouldRemove) {
+                                console.log(" REMOVE ")
+                                // Remove from database
+                                await SupportsAPI.removeSupport(inquiryId, userId)
+                                this.removeItem(inquiryId, userId)
+                            } else if (currentValue !== null) {
+                                // Update existing support
+                                console.log(" UPDATE CURRENT VALUE ", nextValue)
+                                const result = await SupportsAPI.updateSupport(inquiryId, userId, nextValue as number)
+                                this.setItem({ support: result.data.support })
+                            } else {
+                                // Add new support
+                                console.log(" IT WAS null we add IT ", nextValue)
+                                const result = await SupportsAPI.addSupport(inquiryId, userId, nextValue as number)
+                                this.setItem({ support: result.data.support })
+                            }
+
+                            return nextValue
+                        } catch (error) {
+                            // Rollback ALL instances on error
+                            instancesToUpdate.forEach((inquiry: any) => {
+                                this.rollbackTernaryUIState(inquiry, oldState)
+                            })
+
+                            console.log(`Rolled back ${instancesToUpdate.size} instances due to error`)
+                            throw error
+                        }
+        },
+
+        // Helper to update UI state for ternary mode
+        updateTernaryUIState(inquiry: any, currentValue: number | null, nextValue: number | null, shouldRemove: boolean) {
+            // Update the current user's support status
+            if (!inquiry.currentUserStatus) {
+                inquiry.currentUserStatus = {}
+            }
+
+            console.log(" IN TERNARY UI STate nulll we add IT ",nextValue)
+            if (shouldRemove) {
+                // Remove support entirely
+                inquiry.currentUserStatus.supportValue = null
+                inquiry.currentUserStatus.hasSupported = false
+            } else {
+                // Update to new value
+                inquiry.currentUserStatus.supportValue = nextValue
+                inquiry.currentUserStatus.hasSupported = true
+            }
+
+            // Update support counts based on the transition
+            if (!inquiry.status) {
+                inquiry.status = {}
+            }
+
+            // Initialize counts if they don't exist
+            if (inquiry.status.countPositiveSupports === undefined) inquiry.status.countPositiveSupports = 0
+                if (inquiry.status.countNeutralSupports === undefined) inquiry.status.countNeutralSupports = 0
+                    if (inquiry.status.countNegativeSupports === undefined) inquiry.status.countNegativeSupports = 0
+                        if (inquiry.status.countSupports === undefined) inquiry.status.countSupports = 0
+
+                            // Remove the old support value from counts
+                            if (currentValue === 1) {
+                                inquiry.status.countPositiveSupports = Math.max(0, inquiry.status.countPositiveSupports - 1)
+                                inquiry.status.countSupports = Math.max(0, inquiry.status.countSupports - 1)
+                            } else if (currentValue === 0) {
+                                inquiry.status.countNeutralSupports = Math.max(0, inquiry.status.countNeutralSupports - 1)
+                                inquiry.status.countSupports = Math.max(0, inquiry.status.countSupports - 1)
+                            } else if (currentValue === -1) {
+                                inquiry.status.countNegativeSupports = Math.max(0, inquiry.status.countNegativeSupports - 1)
+                                inquiry.status.countSupports = Math.max(0, inquiry.status.countSupports - 1)
+                            }
+                            // Note: if currentValue is null, we don't subtract anything (new support)
+
+                            // Add the new support value to counts
+                            if (nextValue === 1) {
+                                inquiry.status.countPositiveSupports += 1
+                                inquiry.status.countSupports += 1
+                            } else if (nextValue === 0) {
+                                inquiry.status.countNeutralSupports += 1
+                                inquiry.status.countSupports += 1
+                            } else if (nextValue === -1) {
+                                inquiry.status.countNegativeSupports += 1
+                                inquiry.status.countSupports += 1
+                            }
+                            // Note: if nextValue is null (removal), we don't add anything
+
+                            console.log('Updated UI state:', {
+                                from: currentValue,
+                                to: nextValue,
+                                removed: shouldRemove,
+                                counts: {
+                                    positive: inquiry.status.countPositiveSupports,
+                                    neutral: inquiry.status.countNeutralSupports,
+                                    negative: inquiry.status.countNegativeSupports,
+                                    total: inquiry.status.countSupports
+                                }
+                            })
+        },
+
+        rollbackTernaryUIState(inquiry: any, oldState: any) {
+            // Restore current user status
+            if (!inquiry.currentUserStatus) {
+                inquiry.currentUserStatus = {}
+            }
+
+            inquiry.currentUserStatus.supportValue = oldState.supportValue
+            inquiry.currentUserStatus.hasSupported = oldState.hasSupported
+
+            // Restore counts
+            if (!inquiry.status) {
+                inquiry.status = {}
+            }
+
+            inquiry.status.countPositiveSupports = oldState.counts.positive
+            inquiry.status.countNeutralSupports = oldState.counts.neutral
+            inquiry.status.countNegativeSupports = oldState.counts.negative
+            inquiry.status.countSupports = oldState.total
+
+            console.log('Rolled back UI state to:', oldState)
+        },
+
+        async load() {
+            const sessionStore = useSessionStore()
+            try {
+                const response = await (() => {
+                    if (sessionStore.route.name === 'publicInquiry') {
+                        return PublicAPI.getSupports(sessionStore.route.params.token as string)
+                    }
+                    if (sessionStore.route.name === 'inquiry') {
+                        return SupportsAPI.getSupportsByInquiryId(sessionStore.currentInquiryId)
+                    }
+                    return null
+                })()
+
+                if (!response) {
+                    this.$reset()
+                    return
+                }
+
+                this.supports = response.data.supports
+
+            } catch (error) {
+                if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                    return
+                }
+                this.$reset()
+            }
+        },
+
+        async add(inquiryId: number, userId: string, value: number) {
+            const sessionStore = useSessionStore()
+            try {
+                const response = await (() => {
+                    if (sessionStore.route.name === 'publicInquiry') {
+                        return PublicAPI.addSupport(
+                            sessionStore.publicToken,
+                            inquiryId,
+                            userId,
+                            value
+                        )
+                    }
+                    if (sessionStore.route.name === 'inquiry') {
+                        return SupportsAPI.addSupport(
+                            inquiryId,
+                            userId,
+                            value
+                        )
+                    }
+                    return null
+                })()
+
+                if (!response) {
+                    this.$reset()
+                    return
+                }
+
+                this.setItem({ support: response.data.support })
+                return response.data.support
+            } catch (error) {
+                if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                    return
+                }
+                Logger.error('Error writing support', {
+                    error,
+                })
+                throw error
+            }
+        },
+
+        async update(inquiryId: number, userId: string, value: number) {
+            const sessionStore = useSessionStore()
+            try {
+                const response = await (() => {
+                    if (sessionStore.route.name === 'publicInquiry') {
+                        return PublicAPI.updateSupport(
+                            sessionStore.publicToken,
+                            inquiryId,
+                            userId,
+                            value
+                        )
+                    }
+                    if (sessionStore.route.name === 'inquiry') {
+                        return SupportsAPI.updateSupport(
+                            inquiryId,
+                            userId,
+                            value
+                        )
+                    }
+                    return null
+                })()
+
+                if (!response) {
+                    return
+                }
+
+                this.setItem({ support: response.data.support })
+                return response.data.support
+            } catch (error) {
+                if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                    return
+                }
+                Logger.error('Error updating support', {
+                    error,
+                })
+                throw error
+            }
+        },
+
+        async remove(inquiryId: number, userId: string) {
+            const sessionStore = useSessionStore()
+
+            try {
+                await (() => {
+                    if (sessionStore.route.name === 'publicInquiry') {
+                        return PublicAPI.removeSupport(
+                            sessionStore.publicToken,
+                            inquiryId,
+                            userId
+                        )
+                    }
+                    return SupportsAPI.removeSupport(
+                        inquiryId,
+                        userId
+                    )
+                })()
+
+                this.removeItem(inquiryId, userId)
+            } catch (error) {
+                if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                    return
+                }
+                Logger.error('Error deleting support', {
+                    error,
+                })
+                throw error
+            }
+        },
+
+        /**
+         * Restore support for an inquiry
+         * @param payload
+         * @param payload.support
+         */
+        async restore(payload: { support: Support }) {
+            const sessionStore = useSessionStore()
+            try {
+                const response = await (() => {
+                    if (sessionStore.route.name === 'publicInquiry') {
+                        return PublicAPI.restoreSupport(sessionStore.publicToken, payload.support.id!)
+                    }
+                    return SupportsAPI.restoreSupport(payload.support.id!)
+                })()
+
+                this.setItem({ support: response.data.support })
+                return response.data.support
+            } catch (error) {
+                if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                    return
+                }
+                Logger.error('Error restoring support', {
+                    error,
+                    payload,
+                })
+                throw error
+            }
+        },
     },
-
-    async add() {
-      const sessionStore = useSessionStore()
-      try {
-        const response = await (() => {
-          if (sessionStore.route.name === 'publicInquiry') {
-            return PublicAPI.addSupport(
-              sessionStore.publicToken,
-              sessionStore.currentInquiryId,
-              sessionStore.currentUser.id
-            )
-          }
-          if (sessionStore.route.name === 'inquiry') {
-            return SupportsAPI.addSupport(
-              sessionStore.currentInquiryId,
-              sessionStore.currentUser.id
-            )
-          }
-          return null
-        })()
-
-        if (!response) {
-          this.$reset()
-          return
-        }
-
-        this.load()
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
-        }
-        Logger.error('Error writing support', {
-          error,
-        })
-        throw error
-      }
-    },
-
-    async remove() {
-      const sessionStore = useSessionStore()
-
-      try {
-        await (() => {
-          if (sessionStore.route.name === 'publicInquiry') {
-            return PublicAPI.removeSupport(
-              sessionStore.publicToken,
-              sessionStore.currentInquiryId,
-              sessionStore.currentUser.id
-            )
-          }
-          return SupportsAPI.removeSupport(
-            sessionStore.currentInquiryId,
-            sessionStore.currentUser.id
-          )
-        })()
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
-        }
-        Logger.error('Error deleting support', {
-          error,
-        })
-        throw error
-      }
-    },
-
-    /**
-     * Restore support for an inquiry
-     * @param inquiryId The inquiry ID to remove support from
-     */
-
-    async restore(payload: { support: Support }) {
-      const sessionStore = useSessionStore()
-      try {
-        const response = await (() => {
-          if (sessionStore.route.name === 'publicInquiry') {
-            return PublicAPI.restoreSupport(sessionStore.publicToken, payload.support.id)
-          }
-          return SupportsAPI.restoreSupport(payload.support.id)
-        })()
-
-        this.setItem({ support: response.data.support })
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
-        }
-        Logger.error('Error restoring support', {
-          error,
-          payload,
-        })
-        throw error
-      }
-    },
-  },
 })

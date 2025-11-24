@@ -35,6 +35,18 @@ use OCA\Agora\UserSession;
  * @method    void setTitle(string $value)
  * @method    ?string getTitleExt()
  * @method    void setTitleExt(?string $value)
+ * @method    ?string getOwnedGroup()
+ * @method    void setOwnedGroup(?string $value)
+ * @method    int getOrder()
+ * @method    void setOrder(int $value)
+ * @method    ?int getExpire()
+ * @method    void setExpire(?int $value)
+ * @method    ?string getMetadata()
+ * @method    void setMetadata(?string $value)
+ * @method    ?int getCoverId()
+ * @method    void setCoverId(?int $value)
+ * @method    bool getProtected()
+ * @method    void setProtected(bool $value)
  */
 
 class InquiryGroup extends EntityWithUser implements JsonSerializable
@@ -53,10 +65,16 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     protected int $deleted = 0;
     protected string $title = '';
     protected string $owner = '';
-    protected string $type = '';
-    protected string $groupStatus = '';
-    protected ?string $description = '';
-    protected ?string $titleExt = '';
+    protected string $type = 'default';
+    protected string $groupStatus = 'draft';
+    protected ?string $description = null;
+    protected ?string $titleExt = null;
+    protected ?string $ownedGroup = null;
+    protected int $order = 0;
+    protected ?int $expire = null;
+    protected ?string $metadata = null;
+    protected ?int $coverId = null;
+    protected bool $protected = false;
     // joined inquiries
     protected ?string $inquiryIds = '';
 
@@ -64,6 +82,10 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     {
         $this->addType('created', 'integer');
         $this->addType('deleted', 'integer');
+        $this->addType('order', 'integer');
+        $this->addType('expire', 'integer');
+        $this->addType('coverId', 'integer');
+        $this->addType('protected', 'boolean');
 
         $this->userSession = Container::queryClass(UserSession::class);
     }
@@ -133,20 +155,26 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-        'id' => $this->getId(),
-        'parentId' => $this->getParentId(),
-        'created' => $this->getCreated(),
-        'deleted' => $this->getDeleted(),
-        'description' => $this->getDescription(),
-        'owner' => $this->getUser(),
-        'type' => $this->geType(),
-        'status' => $this->getStatus(),
-        'name' => $this->getName(),
-        'title' => $this->getTitle(),
-        'titleExt' => $this->getTitleExt(),
-        'inquiryIds' => $this->getInquiryIds(),
-        'slug' => $this->getSlug(),
-        'allowEdit' => $this->getAllowEdit(),
+            'id' => $this->getId(),
+            'parentId' => $this->getParentId(),
+            'created' => $this->getCreated(),
+            'deleted' => $this->getDeleted(),
+            'description' => $this->getDescription(),
+            'owner' => $this->getUser(),
+            'type' => $this->getType(),
+            'groupStatus' => $this->getGroupStatus(),
+            'name' => $this->getName(),
+            'title' => $this->getTitle(),
+            'titleExt' => $this->getTitleExt(),
+            'ownedGroup' => $this->getOwnedGroup(),
+            'order' => $this->getOrder(),
+            'expire' => $this->getExpire(),
+            'metadata' => $this->getMetadata(),
+            'coverId' => $this->getCoverId(),
+            'protected' => $this->getProtected(),
+            'inquiryIds' => $this->getInquiryIds(),
+            'slug' => $this->getSlug(),
+            'allowEdit' => $this->getAllowEdit(),
         ];
     }
 
@@ -162,6 +190,7 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     {
         return match ($permission) {
             self::PERMISSION_INQUIRY_GROUP_EDIT => $this->getAllowEdit(),
+            default => false,
         };
     }
 
@@ -177,5 +206,4 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
         }
         return true;
     }
-
 }

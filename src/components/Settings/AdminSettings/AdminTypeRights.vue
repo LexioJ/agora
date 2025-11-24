@@ -24,7 +24,6 @@ const emit = defineEmits<{
 
 const appSettingsStore = useAppSettingsStore()
 
-
 const editorOptions = [
   { value: 'wysiwyg', label: t('agora', 'Rich Text Editor') },
   { value: 'textarea', label: t('agora', 'Simple Text Area') },
@@ -45,12 +44,12 @@ const typeRights = computed({
 
 const getDefaultRights = () => ({
   supportInquiry: true,
+  supportMode: 'simple',
   commentInquiry: true,
-  attachFileInquiry: true,
+  useResourceInquiry: true,
   editorType: 'wysiwyg'
 })
 
-// Initialiser les droits si le type n'existe pas encore
 watch(() => props.selectedType, (newType) => {
   if (newType && !appSettingsStore.inquiryTypeRights[newType.inquiry_type]) {
     const defaultRights = getDefaultRights()
@@ -58,12 +57,19 @@ watch(() => props.selectedType, (newType) => {
   }
 }, { immediate: true })
 
-// Mettre à jour les droits quand ils changent localement
 const updateRights = () => {
   if (props.selectedType) {
     emit('updateRights', props.selectedType.inquiry_type, typeRights.value)
   }
 }
+
+watch(() => typeRights.value.supportInquiry, (enabled) => {
+  if (!enabled) {
+    typeRights.value.supportMode = 'simple'
+  }
+  updateRights()
+})
+
 </script>
 
 <template>
@@ -73,139 +79,195 @@ const updateRights = () => {
         {{ t('agora', 'Rights for {type}', { type: selectedType?.label }) }}
       </h2>
       <p v-if="selectedType" class="type-id">
-        {{ selectedType.inquiry_type }}
+      {{ selectedType.inquiry_type }}
       </p>
     </div>
 
     <div v-if="selectedType" class="settings-container">
-      <p class="description">
+        <p class="description">
         {{ t('agora', 'Configure default rights and settings for this inquiry type') }}
-      </p>
+        </p>
 
-      <div class="settings-list">
-        <div class="setting-item">
-          <NcCheckboxRadioSwitch
-            v-model="typeRights.supportInquiry"
-            type="switch"
-            @update:model-value="updateRights"
-          >
-            {{ t('agora', 'Allow support') }}
-          </NcCheckboxRadioSwitch>
-          <p class="setting-description">
-            {{ t('agora', 'Allow users to support this inquiry type') }}
-          </p>
+        <div class="settings-list">
+            <div class="setting-item">
+                <NcCheckboxRadioSwitch
+                        v-model="typeRights.supportInquiry"
+                        type="switch"
+                        @update:model-value="updateRights"
+                        >
+                        {{ t('agora', 'Allow support') }}
+                </NcCheckboxRadioSwitch>
+                <p class="setting-description">
+                {{ t('agora', 'Allow users to support this inquiry type') }}
+                </p>
+            </div>
+
+            <!-- Ternary mode setting - only show when support is enabled -->
+            <div v-if="typeRights.supportInquiry" class="setting-item ternary-mode-setting">
+                <div class="setting-label">
+                    {{ t('agora', 'Support mode') }}
+                </div>
+                <div class="mode-options">
+                    <NcCheckboxRadioSwitch
+                            v-model="typeRights.supportMode"
+                            type="radio"
+                            value="simple"
+                            name="supportMode"
+                            @update:model-value="updateRights"
+                            >
+                            {{ t('agora', 'Simple mode') }}
+                    </NcCheckboxRadioSwitch>
+                    <p class="mode-description">
+                    {{ t('agora', 'Users can support or not support') }}
+                    </p>
+                </div>
+
+                <div class="mode-options">
+                    <NcCheckboxRadioSwitch
+                            v-model="typeRights.supportMode"
+                            type="radio"
+                            value="ternary"
+                            name="supportMode"
+                            @update:model-value="updateRights"
+                            >
+                            {{ t('agora', 'Ternary mode') }}
+                    </NcCheckboxRadioSwitch>
+                    <p class="mode-description">
+                    {{ t('agora', 'Users can support, be neutral, or oppose') }}
+                    </p>
+                </div>
+            </div>
         </div>
-
         <div class="setting-item">
-          <NcCheckboxRadioSwitch
-            v-model="typeRights.commentInquiry"
-            type="switch"
-            @update:model-value="updateRights"
-          >
-            {{ t('agora', 'Allow comments') }}
-          </NcCheckboxRadioSwitch>
-          <p class="setting-description">
+            <NcCheckboxRadioSwitch
+                    v-model="typeRights.commentInquiry"
+                    type="switch"
+                    @update:model-value="updateRights"
+                    >
+                    {{ t('agora', 'Allow comments') }}
+            </NcCheckboxRadioSwitch>
+            <p class="setting-description">
             {{ t('agora', 'Allow users to comment on this inquiry type') }}
-          </p>
+            </p>
         </div>
 
         <div class="setting-item">
-          <NcCheckboxRadioSwitch
-            v-model="typeRights.attachFileInquiry"
-            type="switch"
-            @update:model-value="updateRights"
-          >
-            {{ t('agora', 'Allow file attachments') }}
-          </NcCheckboxRadioSwitch>
-          <p class="setting-description">
-            {{ t('agora', 'Allow users to attach files to this inquiry type') }}
-          </p>
+            <NcCheckboxRadioSwitch
+                    v-model="typeRights.useResourceInquiry"
+                    type="switch"
+                    @update:model-value="updateRights"
+                    >
+                    {{ t('agora', 'Allow using resources') }}
+            </NcCheckboxRadioSwitch>
+            <p class="setting-description">
+            {{ t('agora', 'Allow users to use resources for this inquiry type') }}
+            </p>
         </div>
 
         <div class="setting-item">
-          <label for="editor-type-select">{{ t('agora', 'Editor type') }}</label>
-          <NcSelect
-            id="editor-type-select"
-            v-model="typeRights.editorType"
-            :options="editorOptions"
-            option-value="value"
-            option-label="label"
-            class="editor-select"
-            @update:model-value="updateRights"
-          />
-          <p class="setting-description">
+            <label for="editor-type-select">{{ t('agora', 'Editor type') }}</label>
+            <NcSelect
+                    id="editor-type-select"
+                    v-model="typeRights.editorType"
+                    :options="editorOptions"
+                    option-value="value"
+                    option-label="label"
+                    class="editor-select"
+                    @update:model-value="updateRights"
+                    />
+            <p class="setting-description">
             {{ t('agora', 'Select the editor type for this inquiry') }}
-          </p>
+            </p>
         </div>
-      </div>
-    </div>
-
-    <div v-else class="no-selection">
-      <p>{{ t('agora', 'Please select an inquiry type to configure its rights') }}</p>
     </div>
   </div>
 </template>
+
 <style scoped>
 .type-rights {
-  padding: 20px;
+    padding: 20px;
 }
 
 .header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 25px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
 }
 
 .header h2 {
-  margin: 0;
-  color: var(--color-text-light);
+    margin: 0;
+    color: var(--color-text-light);
 }
 
 .description {
-  color: var(--color-text-lighter);
-  margin-bottom: 25px;
+    color: var(--color-text-lighter);
+    margin-bottom: 25px;
 }
 
 .settings-container {
-  padding: 20px;
-  background-color: var(--color-background-dark);
-  border-radius: 8px;
+    padding: 20px;
+    background-color: var(--color-background-dark);
+    border-radius: 8px;
 }
 
 .settings-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
 .setting-item {
-  padding: 15px;
-  background-color: var(--color-background-darker);
-  border-radius: 8px;
+    padding: 15px;
+    background-color: var(--color-background-darker);
+    border-radius: 8px;
 }
 
 .setting-item label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
 }
 
 .editor-select {
-  max-width: 250px;
-  margin-top: 8px;
+    max-width: 250px;
+    margin-top: 8px;
 }
 
 .setting-description {
-  margin: 8px 0 0 0;
-  font-size: 0.9em;
-  color: var(--color-text-lighter);
-  padding-left: 36px;
+    margin: 8px 0 0 0;
+    font-size: 0.9em;
+    color: var(--color-text-lighter);
+    padding-left: 36px;
 }
 
 .no-selection {
-  text-align: center;
-  padding: 40px;
-  color: var(--color-text-lighter);
+    text-align: center;
+    padding: 40px;
+    color: var(--color-text-lighter);
+}
+
+.ternary-mode-setting {
+    margin-left: 24px;
+    border-left: 2px solid var(--color-border);
+    padding-left: 16px;
+}
+
+.setting-label {
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: var(--color-text-lighter);
+}
+
+.mode-options {
+    margin-bottom: 16px;
+    padding: 8px 0;
+}
+
+.mode-description {
+    margin: 4px 0 0 24px;
+    font-size: 0.9em;
+    color: var(--color-text-maxcontrast);
+    line-height: 1.4;
 }
 </style>

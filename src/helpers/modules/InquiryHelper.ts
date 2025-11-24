@@ -5,10 +5,9 @@
 
 import { computed, type Ref } from 'vue'
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
-import { useInquiryStore } from '../../stores/inquiry.ts'
-import { useAppSettingsStore } from '../../stores/appSettings.ts'
-import { InquiryStatus } from '../../Types/index.ts'
-
+import type { useInquiryStore } from '../../stores/inquiry.ts'
+import type { useAppSettingsStore } from '../../stores/appSettings.ts'
+import type { InquiryStatus } from '../../Types/index.ts'
 
 export interface InquiryFamily {
   id: number | string
@@ -25,7 +24,9 @@ export interface InquiryType {
   family: string
   icon?: string
   description?: string
-  isOption?: number
+  allowed_response?: string | string[]
+  allowed_transformation?: string | string[]
+  fields?: string | string[]
 }
 
 export async function confirmAction(message: string): Promise<boolean> {
@@ -80,13 +81,11 @@ export function getInquiryTypeData(inquiryType: string, inquiryTypes: InquiryTyp
  * @param selectedFamily
  * @param inquiryFamilies
  * @param inquiryTypes
- * @param isOptionFilter
  */
 export function getFilteredInquiryTypes(
   selectedFamily: Ref<string | null>,
   inquiryFamilies: InquiryFamily[],
   inquiryTypes: InquiryType[],
-  isOptionFilter: number = 0
 ) {
   return computed(() => {
     if (!selectedFamily.value) return []
@@ -95,7 +94,7 @@ export function getFilteredInquiryTypes(
     if (!family) return []
 
     return inquiryTypes.filter(type =>
-      type.family === family.inquiry_type && type.isOption === isOptionFilter
+      type.family === family.inquiry_type 
     ) || []
   })
 }
@@ -141,18 +140,20 @@ export function getAvailableTransformTypes(inquiryType: string, inquiryTypes: In
 
   // Filter inquiry types that are in allowed_response
   return inquiryTypes.filter(type =>
-    allowedTransforms.includes(type.inquiry_type) && type.isOption === 0
+    allowedTransforms.includes(type.inquiry_type)
   )
 }
+
 /**
  * Get available fields for an inquiry type based on fields
  * @param inquiryType
  * @param inquiryTypes
  */
-export function getAvailableFields(inquiryType: string, inquiryTypes: InquiryType[]): array {
+export function getAvailableFields(inquiryType: string, inquiryTypes: InquiryType[]): string[] {
   const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
   if (!currentType || !currentType.fields) return []
-  // Parse allowed_response if it's a string (JSON)
+  
+  // Parse fields if it's a string (JSON)
   let fields: string[] = []
   if (typeof currentType.fields === 'string') {
     try {
@@ -163,6 +164,7 @@ export function getAvailableFields(inquiryType: string, inquiryTypes: InquiryTyp
   } else if (Array.isArray(currentType.fields)) {
     fields = currentType.fields
   }
+  
   return fields
 }
 
@@ -189,7 +191,7 @@ export function getAvailableResponseTypes(inquiryType: string, inquiryTypes: Inq
 
   // Filter inquiry types that are in allowed_response
   return inquiryTypes.filter(type =>
-    allowedResponses.includes(type.inquiry_type) && type.isOption === 0
+    allowedResponses.includes(type.inquiry_type)
   )
 }
 
@@ -203,13 +205,12 @@ export function getAvailableInquiryTypesForCreation(inquiryTypes: InquiryType[])
   )
 }
 
-
 /**
  * Check if inquiry has final status based on appSettings.inquiryStatusTab
  * @param inquiryStore
  * @param appSettings
  */
-export function isInquiryFinalStatus(inquiryStore: useInquiryStore, appSettings: useAppSettingsStore): boolean {
+export function isInquiryFinalStatus(inquiryStore: ReturnType<typeof useInquiryStore>, appSettings: ReturnType<typeof useAppSettingsStore>): boolean {
   if (!inquiryStore?.type || !inquiryStore?.status?.inquiryStatus || !appSettings?.inquiryStatusTab) {
     return false
   }
@@ -233,33 +234,28 @@ export function isInquiryFinalStatus(inquiryStore: useInquiryStore, appSettings:
  * Get inquiry types for specific family
  * @param familyInquiryType
  * @param inquiryTypesByFamily
- * @param isOptionFilter
  */
 export function getInquiryTypesForFamily(
   familyInquiryType: string,
   inquiryTypesByFamily: Record<string, InquiryType[]>,
-  isOptionFilter: number = 0
 ) {
   const types = inquiryTypesByFamily[familyInquiryType] || []
-  return types.filter(type => type.isOption === isOptionFilter)
+  return types
 }
 
 /**
  * Count inquiry types by family
  * @param familyInquiryType
  * @param inquiryTypes
- * @param isOptionFilter
  */
 export function countInquiryTypesByFamily(
   familyInquiryType: string,
   inquiryTypes: InquiryType[],
-  isOptionFilter: number = 0
 ): number {
   return inquiryTypes.filter(type =>
-    type.family === familyInquiryType && type.isOption === isOptionFilter
+    type.family === familyInquiryType
   ).length
 }
-
 
 /**
  * Get inquiry type options for radio/select components

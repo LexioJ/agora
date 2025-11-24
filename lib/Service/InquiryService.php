@@ -34,6 +34,7 @@ use OCA\Agora\Exceptions\NotFoundException;
 use OCA\Agora\Exceptions\UserNotFoundException;
 use OCA\Agora\Model\Settings\AppSettings;
 use OCA\Agora\Model\UserBase;
+use OCA\Agora\Service\SettingsService;
 use OCA\Agora\UserSession;
 use OCP\AppFramework\Db\DoesNotExistException;
 use OCP\EventDispatcher\IEventDispatcher;
@@ -55,6 +56,7 @@ class InquiryService
         private UserMapper $userMapper,
         private UserSession $userSession,
         private SupportMapper $supportMapper,
+        private SettingsService $settings,
         private LoggerInterface $logger,
     ) {
     }
@@ -67,8 +69,14 @@ class InquiryService
         $inquiryList = $this->inquiryMapper->findForMe($this->userSession->getCurrentUserId());
 
         foreach ($inquiryList as $inquiry) {
-            $family = $this->inquiryTypeMapper->getFamilyFromType($inquiry->getType());
+            $type=$inquiry->getType();
+            $family = $this->inquiryTypeMapper->getFamilyFromType($type);
             $inquiry->setFamily($family);
+      
+            $supportMode = $this->settings->getSupportModeForType($type);
+            $inquiry->setSupportMode($supportMode);
+            $inquiry->setFamily($family);
+            
         }
 
         if ($this->userSession->getCurrentUser()->getIsAdmin()) {
@@ -200,19 +208,29 @@ class InquiryService
     public function get(int $inquiryId, $lightweight = false)
     {
         try {
+
             if ($lightweight) {
                 $this->inquiry = $this->inquiryMapper->get($inquiryId, withRoles: true);
             } else {
                 $this->inquiry = $this->inquiryMapper->find($inquiryId);
             }
+
+            $type=$this->inquiry->getType();
             $this->inquiry->request(Inquiry::PERMISSION_INQUIRY_VIEW);
+            //$owner = $this->inquiry->getOwner();
+            //$support = $this->supportMapper->findSupport($inquiryId , $owner);
+
             $family = $this->inquiryTypeMapper->getFamilyFromType($this->inquiry->getType());
             $this->inquiry->setFamily($family); 
+            $supportMode = $this->settings->getSupportModeForType($type);
+            $this->inquiry->setSupportMode($supportMode);
+            
             return $this->inquiry;
         } catch (DoesNotExistException $e) {
             throw new NotFoundException('Inquiry not found');
         }
     }
+
     public function getChildsInquiryIds(int $inquiryId)
     {
         try {

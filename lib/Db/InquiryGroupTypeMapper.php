@@ -13,26 +13,26 @@ use OCP\IDBConnection;
 use OCP\AppFramework\Db\QBMapper;
 
 /**
- * @template-extends QBMapper<InquiryType>
+ * @template-extends QBMapper<InquiryGroupType>
  */
-class InquiryTypeMapper extends QBMapper
+class InquiryGroupTypeMapper extends QBMapper
 {
-    public const TABLE = InquiryType::TABLE;
+    public const TABLE = InquiryGroupType::TABLE;
 
     /**
      * @psalm-suppress PossiblyUnusedMethod 
      */
     public function __construct(IDBConnection $db)
     {
-        parent::__construct($db, self::TABLE, InquiryType::class);
+        parent::__construct($db, self::TABLE, InquiryGroupType::class);
     }
 
     /**
      * @throws \OCP\AppFramework\Db\DoesNotExistException if not found
      * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException if more than one result
-     * @return InquiryType
+     * @return InquiryGroupType
      */
-    public function find(int $id): InquiryType
+    public function find(int $id): InquiryGroupType
     {
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
@@ -42,28 +42,27 @@ class InquiryTypeMapper extends QBMapper
     /**
      * @throws \OCP\AppFramework\Db\DoesNotExistException if not found
      * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException if more than one result
-     * @return InquiryType
+     * @return InquiryGroupType
      */
-    public function findByType(string $type): InquiryType
+    public function findByType(string $type): InquiryGroupType
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.group_type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)));
         return $this->findEntity($qb);
     }
 
     /**
-     * @return InquiryType[]
+     * @return InquiryGroupType[]
      */
     public function findAll(): array
     {
         $qb = $this->buildQuery();
-
         $qb->orderBy(self::TABLE . '.created', 'DESC');
         return $this->findEntities($qb);
     }
 
     /**
-     * @return InquiryType[]
+     * @return InquiryGroupType[]
      */
     public function findByFamily(string $family): array
     {
@@ -74,22 +73,22 @@ class InquiryTypeMapper extends QBMapper
     }
 
 
-    public function inquiryTypeExists(string $inquiryType): bool
+    public function groupTypeExists(string $groupType): bool
     {
         $qb = $this->db->getQueryBuilder();
         $qb->select($qb->func()->count('*'))
             ->from(self::TABLE)
-            ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType)));
+            ->where($qb->expr()->eq('group_type', $qb->createNamedParameter($groupType)));
 
         return (int)$qb->executeQuery()->fetchOne() > 0;
     }
     /**
-     * @return InquiryType[]
+     * @return InquiryGroupType[]
      */
-    public function findByInquiryType(string $inquiryType): array
+    public function findByInquiryGroupType(string $groupType): array
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_type', $qb->createNamedParameter($inquiryType, IQueryBuilder::PARAM_STR)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.group_type', $qb->createNamedParameter($groupType, IQueryBuilder::PARAM_STR)));
         $qb->orderBy(self::TABLE . '.created', 'DESC');
         return $this->findEntities($qb);
     }
@@ -112,12 +111,12 @@ class InquiryTypeMapper extends QBMapper
      *
      * @return array
      */
-    public function getFields(string $inquiryType): array
+    public function getFields(string $groupType): array
     {
         $qb = $this->db->getQueryBuilder();
         $qb->select('fields')
             ->from($this->getTableName())
-            ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType)));
+            ->where($qb->expr()->eq('group_type', $qb->createNamedParameter($groupType)));
 
         $result = $qb->executeQuery()->fetch();
 
@@ -131,48 +130,19 @@ class InquiryTypeMapper extends QBMapper
         return [];
     }
 
-
-    public function getFamilyFromType(string $type): string
-    {
-        $qb = $this->db->getQueryBuilder();
-        $qb->select('family')
-            ->from($this->getTableName())
-            ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($type)));
-
-        $result = $qb->execute()->fetch();
-
-        return $result['family'];
-    }
-
     /**
-     * Get allowed_response JSON value for specific inquiry type
+     * Get allowed_inquiry_types JSON value for specific inquiry type
      *
      * @return array
      */
-    public function getAllowedResponse(string $inquiryType): array
+    public function getAllowedInquiryGroupTypes(string $groupType): array
     {
         $qb = $this->db->getQueryBuilder();
-        $qb->select('allowed_response')
-            ->from(InquiryType::TABLE)
-            ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType)));
+        $qb->select('allowed_inquiry_types')
+            ->from(InquiryGroupType::TABLE)
+            ->where($qb->expr()->eq('group_type', $qb->createNamedParameter($groupType)));
 
         $result = $qb->execute()->fetch();
-        return $result ? json_decode($result['allowed_response'], true) ?? [] : [];
-    }
-
-    /**
-     * Get allowed_transformation JSON value for specific inquiry type
-     *
-     * @return array
-     */
-    public function getAllowedTransformation(string $inquiryType): array
-    {
-        $qb = $this->db->getQueryBuilder();
-        $qb->select('allowed_transformation')
-            ->from(InquiryType::TABLE)
-            ->where($qb->expr()->eq('inquiry_type', $qb->createNamedParameter($inquiryType)));
-
-        $result = $qb->execute()->fetch();
-        return $result ? json_decode($result['allowed_transformation'], true) ?? [] : [];
+        return $result ? json_decode($result['allowed_inquiry_types'], true) ?? [] : [];
     }
 }

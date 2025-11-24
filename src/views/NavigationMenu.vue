@@ -59,9 +59,9 @@ const recentInquiries = computed(() => inquiriesStore.inquiries.slice(0, 5))
 // Computed for all inquiry types
 const allInquiryTypes = computed((): InquiryType[] => sessionStore.appSettings.inquiryTypeTab || [])
 
-// Computed for inquiry types grouped by family (with filter isOption === 0)
+// Computed for inquiry types grouped by family
 const inquiryTypesByFamily = computed(() => {
-  const types = allInquiryTypes.value.filter(type => type.isOption === 0)
+  const types = allInquiryTypes.value
   return getInquiryTypesByFamily(types)
 })
 
@@ -87,9 +87,9 @@ function isFamilyExpanded(familyType: string) {
   return expandedFamilies.value.has(familyType)
 }
 
-// Get inquiry types for a specific family (with filter isOption === 0)
+// Get inquiry types for a specific family
 function getInquiryTypesForCurrentFamily(familyInquiryType: string) {
-  const types = getInquiryTypesForFamily(familyInquiryType, inquiryTypesByFamily.value, 0)
+  const types = getInquiryTypesForFamily(familyInquiryType, inquiryTypesByFamily.value)
   return types
 }
 
@@ -211,7 +211,7 @@ watch(
 		<NcAppNavigationItem
 				v-for="family in inquiryFamilies"
 				:key="family.id"
-				:name="getFamilyData(family).label"
+                :name="t('agora', getFamilyData(family).label)"
 				:allow-collapse="true"
 				:open="isFamilyExpanded(family.family_type)"
 				class="navigation-item"
@@ -228,13 +228,13 @@ watch(
 			</span>
 		</template>
 
-		<!-- Inquiry Types for this family (only isOption === 0) -->
+        <!-- Inquiry Types for this family --> 
 		<NcAppNavigationItem
 				  v-for="inquiryType in accessFamilyMenu(family.family_type)
         				? getInquiryTypesForCurrentFamily(family.family_type)
         				: []"
 				:key="inquiryType.id"
-				:name="getInquiryTypeDisplayData(inquiryType).label"
+                :name="t('agora', getInquiryTypeDisplayData(inquiryType).label)"
 				class="navigation-item"
 				@click="createInquiry(inquiryType)"
 				>
@@ -243,7 +243,7 @@ watch(
 				</template>
 
 		<template v-if="getInquiryTypeDisplayData(inquiryType).description" #description>
-			{{ getInquiryTypeDisplayData(inquiryType).description }}
+            {{ t('agora', getInquiryTypeDisplayData(inquiryType).description) }}
 		</template>
 		</NcAppNavigationItem>
 

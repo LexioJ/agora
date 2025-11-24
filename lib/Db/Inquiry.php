@@ -64,6 +64,8 @@ use OCP\IURLGenerator;
  * @method    void setParentId(int $value)
  * @method    int getArchived()
  * @method    void setArchived(int $value)
+ * @method    string getSupportMode()
+ * @method    void setSupportMode(string $value)
  *
  * Magic functions for joined columns
  * @method    string getShareToken()
@@ -71,6 +73,9 @@ use OCP\IURLGenerator;
  * @method    int getCountParticipants()
  * @method    int getCountComments()
  * @method    int getCountSupports()
+ * @method    int getCountPositiveSupports()
+ * @method    int getCountNegativeSupports()
+ * @method    int getCountNeutralSupports()
  */
 class Inquiry extends EntityWithUser implements JsonSerializable
 {
@@ -147,12 +152,14 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     protected string $access = '';
     protected string $showResults = '';
     protected int $lastInteraction = 0;
-    protected int $parentId = 0;
+    protected ?int $parentId = 0;
     protected string $moderationStatus = self::DEFAULT_STATUS_DRAFT;
     protected string $inquiryStatus = self::DEFAULT_STATUS_DRAFT;
     protected int $allowComment = 0;
     protected int $allowSupport = 0;
     protected bool $hasSupported = false; 
+    protected ?int $supportValue = null; 
+    protected string $supportMode = 'simple'; 
     protected string $family='';
 
     // joined columns
@@ -162,6 +169,9 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     protected int $countParticipants = 0;
     protected int $countComments = 0;
     protected int $countSupports = 0;
+    protected int $countPositiveSupports = 0;
+    protected int $countNeutralSupports = 0;
+    protected int $countNegativeSupports = 0;
     protected ?int $maxDate = 0;
     protected ?string $groupShares = '';
     protected ?string $inquiryGroups = '';
@@ -191,6 +201,9 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         $this->addType('countParticipants', 'integer');
         $this->addType('countComments', 'integer');
         $this->addType('countSupports', 'integer');
+        $this->addType('countPositiveSupports', 'integer');
+        $this->addType('countNegativeSupports', 'integer');
+        $this->addType('countNeutraveSupports', 'integer');
         $this->addType('miscSettingsConcat', 'string');
         $this->addType('maxDate', 'integer');
 
@@ -257,6 +270,9 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'countParticipants' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountParticipants() : 0,
         'countComments' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountComments() : 0,
         'countSupports' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountSupports() : 0,
+        'countPositiveSupports' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountPositiveSupports() : 0,
+        'countNegativeSupports' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountNegativeSupports() : 0,
+        'countNeutralSupports' => $this->getIsAllowed(self::PERMISSION_INQUIRY_RESULTS_VIEW) ? $this->getCountNeutralSupports() : 0,
         ];
     }
 
@@ -266,6 +282,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'groupInvitations' => $this->getGroupShares(),
         'isInvolved' => $this->getIsInvolved(),
         'hasSupported' => $this->hasSupported(),
+        'supportValue' => $this->supportValue(),
         'isLoggedIn' => $this->userSession->getIsLoggedIn(),
         'isOwner' => $this->getIsInquiryOwner(),
         'shareToken' => $this->getShareToken(),
@@ -284,6 +301,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'forceConfidentialComments' => $this->getForceConfidentialComments(),
         'allowComment' => boolval($this->getAllowComment()),
         'showResults' => $this->getShowResults(),
+        'supportMode' => $this->getSupportMode(),
         ];
     }
 
@@ -343,13 +361,13 @@ class Inquiry extends EntityWithUser implements JsonSerializable
             foreach ($this->getInquiryGroupUserShares() as $shareType) {
                 if ($shareType === self::ROLE_ADMIN) {
                     $evaluatedRole = self::ROLE_ADMIN;
-                    break; // ← Ajouter un break
+                    break; 
                 }
             }
         }
 
         if ($evaluatedRole === self::ROLE_ADMIN) {
-            return self::ROLE_ADMIN; // ← Un admin reste admin
+            return self::ROLE_ADMIN; 
         }
 
         if ($evaluatedRole) {
@@ -386,6 +404,11 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     public function getMiscField(string $key): mixed
     {
         return $this->miscFields[$key] ?? null;
+    }
+
+    public function setSupportModestring(string $mode)
+    {
+        return $this->supportMode=$mode;
     }
 
     public function setMiscField(string $key, mixed $value): void
@@ -544,6 +567,11 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     private function hasSupported(): bool
     {
         return $this->hasSupported;
+    }
+
+    private function supportValue(): ?int
+    {
+        return $this->supportValue;
     }
 
     private function getIsParticipant(): bool

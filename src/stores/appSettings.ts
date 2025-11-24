@@ -10,7 +10,7 @@ import { BaseEntry, InquiryType, InquiryFamily } from '../Types/index.ts'
 import { AxiosError } from '@nextcloud/axios'
 
 import type { InquiryTypeRights, ModeratorRights, OfficialRights } from '../utils/permissions.ts'
-import { DefaultModeratorRights, DefaultOfficialRights } from '../utils/permissions.ts'
+import { DefaultInquiryRights, DefaultModeratorRights, DefaultOfficialRights } from '../utils/permissions.ts'
 
 export type UpdateType = 'noInquirying' | 'periodicInquirying' | 'longInquirying'
 
@@ -152,7 +152,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
 	getters: {
 		 getInquiryTypeRights: (state) => (inquiryType: string) => state.inquiryTypeRights[inquiryType],
 
-		 getMainInquiryTypes: (state) => state.inquiryTypeTab.filter(type => !type.is_option),
+		 getMainInquiryTypes: (state) => state.inquiryTypeTab,
 
 
 	},
@@ -567,7 +567,6 @@ export const useAppSettingsStore = defineStore('appSettings', {
 			family: string;
 			label: string;
 			icon?: string;
-			is_option?: boolean;
 			description?: string;
 			fields?: string;
 			allowed_response?: string;
@@ -597,7 +596,6 @@ export const useAppSettingsStore = defineStore('appSettings', {
 			family?: string;
 			label?: string;
 			icon?: string;
-			is_option?: boolean;
 			description?: string;
 			fields?: string;
 			allowed_response?: string;

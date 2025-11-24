@@ -33,7 +33,6 @@ const newType = ref({
   family: props.selectedFamily?.family_type || '',
   icon: '',
   description: '',
-  is_option: false,
   fields: '[]',
   allowed_response: '[]',
   allowed_transformation: '[]'
@@ -83,7 +82,6 @@ const addType = async () => {
     created: Date.now(),
     icon: extractIconId(newType.value.icon),
     description: newType.value.description || '',
-    is_option: Boolean(newType.value.is_option),
     fields: convertToJsonString(newType.value.fields),
     allowed_response: convertToJsonString(newType.value.allowed_response),
     allowed_transformation: convertToJsonString(newType.value.allowed_transformation)
@@ -96,7 +94,6 @@ const addType = async () => {
     family: props.selectedFamily.family_type,
     icon: '',
     description: '',
-    is_option: false,
     fields: '[]',
     allowed_response: '[]',
     allowed_transformation: '[]'
@@ -165,9 +162,6 @@ const openTypeSettings = (type) => {
               <p v-if="type.description" class="type-description">
                 {{ type.description }}
               </p>
-              <div v-if="type.is_option" class="type-badge option">
-                {{ t('agora', 'Option') }}
-              </div>
             </div>
           </div>
           <div class="type-actions">
@@ -242,17 +236,6 @@ const openTypeSettings = (type) => {
         />
         
         <div class="form-row">
-          <div class="checkbox-field">
-            <NcCheckboxRadioSwitch v-model="newType.is_option" type="switch">
-              {{ t('agora', 'Is Option Type') }}
-            </NcCheckboxRadioSwitch>
-            <p class="field-description">
-              {{ t('agora', 'Option types are used as responses or transformations for other types') }}
-            </p>
-          </div>
-        </div>
-
-        <div class="form-row">
           <NcInputField
             v-model="newType.fields"
             :label="t('agora', 'Fields Configuration (JSON)')"
@@ -322,13 +305,6 @@ const openTypeSettings = (type) => {
             type="textarea"
             class="full-width"
           />
-          <div class="form-row">
-            <div class="checkbox-field">
-              <NcCheckboxRadioSwitch v-model="editingType.is_option" type="switch">
-                {{ t('agora', 'Is Option Type') }}
-              </NcCheckboxRadioSwitch>
-            </div>
-          </div>
           <div class="form-row">
             <NcInputField
               v-model="editingType.fields"

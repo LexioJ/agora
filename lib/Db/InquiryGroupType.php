@@ -16,8 +16,8 @@ use JsonSerializable;
  * @method         void setId(int $value)
  * @method         string getType()
  * @method         void setType(string $value)
- * @method         string getInquiryType()
- * @method         void setInquiryType(string $value)
+ * @method         string getGroupType()
+ * @method         void setGroupType(string $value)
  * @method         string getFamily()
  * @method         void setFamily(string $value)
  * @method         string getLabel()
@@ -26,41 +26,36 @@ use JsonSerializable;
  * @method         void setDescription(?string $value)
  * @method         ?array getFields()
  * @method         void setFields(?array $value)
- * @method         ?array getAllowedResponse()
- * @method         void setAllowedResponse(?array $value)
- * @method         ?array getAllowedTransformation()
- * @method         void setAllowedTransformation(?array $value)
+ * @method         ?array getAllowedInquiryTypes()
+ * @method         void setAllowedInquiryTypes(?array $value)
  * @method         int getCreated()
  * @method         void setCreated(int $value)
  */
 
-class InquiryType extends EntityWithUser implements JsonSerializable
+class InquiryGroupType extends EntityWithUser implements JsonSerializable
 {
-    public const TABLE = 'agora_inq_type';
+    public const TABLE = 'agora_inq_group_type';
 
     // schema columns
     public $id = null;
-    protected string $type = '';
-    protected string $inquiryType = '';
-    protected string $family = 'deliberative';
+    protected string $groupType = '';
     protected string $label = '';
     protected string $icon = '';
+    protected string $family = 'deliberative';
     protected ?string $description = null;
     protected ?array $fields = null;
-    protected ?array $allowedResponse = null;
-    protected ?array $allowedTransformation = null;
+    protected ?array $allowedInquiryTypes = null;
     protected int $created = 0;
 
     public function __construct()
     {
         $this->addType('id', 'integer');
         $this->addType('created', 'integer');
-        $this->addType('icon', 'string');
-        $this->addType('family', 'string');
         $this->addType('description', 'string');
+        $this->addType('groupType', 'string');
         $this->addType('fields', 'json');
-        $this->addType('allowedResponse', 'json');
-        $this->addType('allowedTransformation', 'json');
+        $this->addType('family', 'string');
+        $this->addType('allowedInquiryTypes', 'json');
     }
 
     /**
@@ -72,15 +67,13 @@ class InquiryType extends EntityWithUser implements JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'type' => $this->getType(),
-            'inquiry_type' => $this->getInquiryType(),
-            'family' => $this->getFamily(),
+            'groupType' => $this->getGroupType(),
             'label' => $this->getLabel(),
+            'family' => $this->getFamily(),
             'icon' => $this->getIcon(),
             'description' => $this->getDescription(),
             'fields' => $this->getFields(),
-            'allowed_response' => $this->getAllowedResponse(),
-            'allowed_transformation' => $this->getAllowedTransformation(),
+            'allowedInquiryTypes' => $this->getAllowedInquiryTypes(),
             'created' => $this->getCreated(),
         ];
     }

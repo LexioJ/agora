@@ -365,7 +365,6 @@ onMounted(() => {
 			</div>
 
 			<!-- Readonly mode -->
-			<!-- Readonly mode -->
 			<div v-else-if="props.isReadonly" class="misc-fields-readonly">
 				<div class="misc-fields-list">
 					<div

@@ -276,7 +276,7 @@ const loadResources = async () => {
         // Load Collectives if the method exists
         if (inquiryLinksStore.getOwnedCollectives) {
           const collectives = await inquiryLinksStore.getOwnedCollectives().catch(() => [])
-          resources.value = collectives
+          resources.value = collectives || []
         } 
         break
 
@@ -445,23 +445,28 @@ const linkExistingResource = async () => {
     if (!resourceType) throw new Error('No resource type selected')
 
     // Get the selected resource ID from the selected object
+    const resourceData = selectedResource.value?.data
     const resourceId = selectedResource.value?.id || selectedResource.value
 
+    const title = resourceData.title || resourceData.name
+    
     switch (resourceType.id) {
       case 'forms':
-        await inquiryLinksStore.linkForm(inquiryStore.id, resourceId)
+        const formHash = resourceData.hash || resourceData.configuration?.hash
+        await inquiryLinksStore.linkForm(inquiryStore.id, resourceId,formHash,title)
         break
       case 'polls':
-        await inquiryLinksStore.linkPoll(inquiryStore.id, resourceId)
+        await inquiryLinksStore.linkPoll(inquiryStore.id, resourceId, resourceData.configuration.title)
         break
       case 'deck':
-        await inquiryLinksStore.linkDeckBoard(inquiryStore.id, resourceId)
+        await inquiryLinksStore.linkDeckBoard(inquiryStore.id, resourceId, title)
         break
       case 'cospend':
-        await inquiryLinksStore.linkCospendProject(inquiryStore.id, resourceId)
+        await inquiryLinksStore.linkCospendProject(inquiryStore.id, resourceId,title)
         break
       case 'collectives':
-        await inquiryLinksStore.linkCollective(inquiryStore.id, resourceId)
+        const collectiveTitle = resourceData.title || resourceData.name
+        await inquiryLinksStore.linkCollective(inquiryStore.id, resourceId, collectiveTitle)
         break
       default:
         // Fallback for other types
@@ -470,6 +475,7 @@ const linkExistingResource = async () => {
           targetApp: resourceType.id,
           targetType: resourceType.id === 'forms' ? 'form' : resourceType.id,
           targetId: resourceId,
+          url: '',
           sortOrder: 0
         })
     }

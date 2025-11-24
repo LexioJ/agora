@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import { t } from '@nextcloud/l10n'
 import { IconProps } from './types'
+import { computed } from 'vue'
 
 const {
   title = t('agora', 'Support status'),
@@ -13,39 +14,69 @@ const {
   size = 24,
   supported = false,
 } = defineProps<IconProps & { supported?: boolean }>()
+
+const emojiSymbol = computed(() => '👍')
+
+const iconColor = computed(() => 
+  supported ? '#facc15' : '#9ca3af'
+)
+
+const dynamicTitle = computed(() =>
+  supported 
+    ? t('agora', 'Supported - Click to remove support')
+    : t('agora', 'Not supported - Click to support')
+)
 </script>
 
 <template>
   <span
-    :aria-hidden="!title"
-    :aria-label="title"
-    class="material-design-icon agora-thumb-icon"
+    :aria-label="dynamicTitle"
+    class="emoji-thumb-icon"
+    :class="{ 
+      'supported': supported,
+      'not-supported': !supported
+    }"
     role="img"
+    :title="dynamicTitle"
+    :style="{
+      color: iconColor,
+      fontSize: `${size}px`,
+      lineHeight: `${size}px`,
+    }"
   >
-    <svg
-      :fill="supported ? '#facc15' : fillColor"
-      :stroke="supported ? '#facc15' : fillColor"
-      class="material-design-icon__svg"
-      :width="size"
-      :height="size"
-      viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <path
-        d="M2 21h4V9H2v12zM22 10c0-1.1-.9-2-2-2h-5.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h7c.74 0 1.38-.4 1.73-1.03l3.58-6.49c.11-.19.18-.41.18-.65v-3.5l-.01-.01L22 10z"
-      />
-    </svg>
+    {{ emojiSymbol }}
   </span>
 </template>
 
 <style scoped>
-.agora-thumb-icon {
+.emoji-thumb-icon {
   display: inline-block;
   vertical-align: middle;
-  transition: fill 0.3s ease;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
-.material-design-icon__svg {
-  pointer-events: none;
+.emoji-thumb-icon.supported {
+  filter: drop-shadow(0 0 2px rgba(250, 204, 21, 0.3));
+}
+
+.emoji-thumb-icon.not-supported {
+  opacity: 0.6;
+  filter: grayscale(0.8);
+}
+
+/* Hover effects */
+.emoji-thumb-icon:hover {
+  transform: scale(1.1);
+}
+
+.emoji-thumb-icon.supported:hover {
+  filter: drop-shadow(0 0 4px rgba(250, 204, 21, 0.5));
+}
+
+.emoji-thumb-icon.not-supported:hover {
+  opacity: 0.8;
+  filter: grayscale(0.5);
 }
 </style>

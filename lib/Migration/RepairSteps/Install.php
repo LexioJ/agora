@@ -21,7 +21,7 @@ class Install implements IRepairStep {
 		private IndexManager $indexManager,
 		private IDBConnection $connection,
 		private Schema $schema,
-                private InitDbDefault $initDbDefault
+        private InitDbDefault $initDbDefault
 	) {
 	}
 
@@ -46,6 +46,6 @@ class Install implements IRepairStep {
 		$output->info('Agora - Foreign key contraints created.');
 		$output->info('Agora - Indices created.');
 		$output->info('Agora - Initialization begin.');
-                $this->initDbDefault->runCommands($output);
+        $this->initDbDefault->runCommands($output);
 	}
 }

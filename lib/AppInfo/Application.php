@@ -73,6 +73,8 @@ use OCA\Agora\Service\CategoryService;
 use OCA\Agora\Service\LocationService;
 use OCA\Agora\Service\InquiryStatusService;
 use OCA\Agora\Service\InquiryTypeService;
+use OCA\Agora\Service\InquiryGroupTypeService;
+use OCA\Agora\Service\InquiryOptionTypeService;
 use OCA\Agora\Service\InquiryFamilyService;
 use OCA\Agora\Service\InquiryLinkService;
 use OCP\AppFramework\App;
@@ -193,6 +195,8 @@ class Application extends App implements IBootstrap
                     $c->get(LocationService::class),
                     $c->get(InquiryStatusService::class),
                     $c->get(InquiryTypeService::class),
+                    $c->get(InquiryGroupTypeService::class),
+                    $c->get(InquiryOptionTypeService::class),
                     $c->get(InquiryFamilyService::class),
                     $c->get(InquiryLinkService::class),
                 );

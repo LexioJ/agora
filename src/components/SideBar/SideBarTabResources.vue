@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-    import { ref, computed,onMounted } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { 
   NcButton, 
@@ -55,10 +55,11 @@ interface ResourceItem {
   icon: string
   attachment?: Attachment
   sort_order: number
-  metadata?: {
+  metadata?: string | {
     hash?: string      
     title?: string 
     url?: string
+    description?: string
   }
   size?: number
 }
@@ -66,7 +67,6 @@ interface ResourceItem {
 interface GroupedResources {
   [key: string]: ResourceItem[]
 }
-
 
 // Context for permissions
 const context = computed(() => {
@@ -89,6 +89,18 @@ const context = computed(() => {
   return ctx
 })
 
+// Helper function to parse metadata
+const parseMetadata = (metadata: any) => {
+  if (typeof metadata === 'string') {
+    try {
+      return JSON.parse(metadata)
+    } catch (e) {
+      console.warn('Failed to parse metadata:', e)
+      return {}
+    }
+  }
+  return metadata || {}
+}
 
 // Computed - Combine links and attachments for display
 const groupedResources = computed((): GroupedResources => {
@@ -98,22 +110,25 @@ const groupedResources = computed((): GroupedResources => {
   const links = inquiryLinksStore.getByInquiryId(inquiryStore.id)
     .sort((a, b) => a.sort_order - b.sort_order)
 
-  links.forEach((link:InquiryLink) => {
+  links.forEach((link: InquiryLink) => {
     if (!groups[link.target_app]) {
       groups[link.target_app] = []
     }
+    
+    const metadata = parseMetadata(link.metadata)
+    
     groups[link.target_app].push({
       ...link,
       type: 'link',
       displayName: getResourceDisplayName(link),
-      icon: getAppIcon(link.target_app)
+      icon: getAppIcon(link.target_app),
+      metadata // Ensure metadata is parsed object
     })
   })
 
   // Add file attachments (excluding cover image)
- // Add this filter to exclude the cover image
-const fileAttachments = attachmentsStore.attachments
-  .filter(att => att.file_id !== inquiryStore.coverId)
+  const fileAttachments = attachmentsStore.attachments
+    .filter(att => att.file_id !== inquiryStore.coverId)
 
   if (fileAttachments.length > 0) {
     groups.files = fileAttachments.map(attachment => ({
@@ -162,20 +177,11 @@ const getResourceDisplayName = (link: InquiryLink): string => {
     }
   }
 
-  // For forms, try to get the title from metadata
-  if (link.target_app === 'forms' && link.metadata?.title) {
-    return link.metadata.title
+  // Use title from metadata if available
+  const metadata = parseMetadata(link.metadata)
+  if (metadata?.title) {
+    return metadata.title
   }
-
-  // For collectives, try to get the title from metadata
-  if (link.target_app === 'collectives' && link.metadata?.title) {
-    return link.metadata.title
-  }
-
-  if (link.metadata?.title) {
-    return link.metadata.title
-  }
-
 
   return `${typeName} #${resourceId}`
 }
@@ -204,11 +210,9 @@ const getAppIcon = (appId: string): unknown => {
   return icons[appId] || InquiryGeneralIcons.Link
 }
 
-
 // Delete
 const deleteResource = async (resource: ResourceItem) => {
   try {
-
     if (resource.type === 'attachment') {
       const confirmed = await confirmDeletion(
         t('agora', 'Are you sure you want to delete this file? This action cannot be undone.'),
@@ -223,7 +227,6 @@ const deleteResource = async (resource: ResourceItem) => {
       return;
     }
 
-    
     const confirmedLinkDeletion = await confirmDeletion(
       t('agora', 'Are you sure you want to delete this resource link? This will remove the reference from Agora.'),
       t('agora', 'Confirm link deletion'),
@@ -271,7 +274,6 @@ const confirmDeletion = (
   })
 
 const handleSpecificResourceDeletion = async (resource: ResourceItem, deleteExternalData: boolean) => {
-  
   const deletionHandlers = {
     cospend: async () => {
       if (deleteExternalData) {
@@ -323,7 +325,6 @@ const handleSpecificResourceDeletion = async (resource: ResourceItem, deleteExte
 }
 
 const handleAttachmentDeletion = async (resource: ResourceItem) => {
-  
   const attachment = attachmentsStore.attachments.find(att => att.id === resource.id);
   
   if (!attachment) {
@@ -356,10 +357,9 @@ const getErrorMessage = (resourceType: string): string => {
   return messages[resourceType as keyof typeof messages] || messages.default;
 }
 
-// DIVERS
-
+// Resource display helpers
 const getResourceSubtitle = (resource: ResourceItem): string => {
-  // For attachments, show file size - FIX: Check both resource.attachment and resource directly
+  // For attachments, show file size
   if (resource.type === 'attachment') {
     const size = resource.attachment?.size ?? resource.size
     if (size !== undefined && size !== null) {
@@ -379,9 +379,7 @@ const formatFileSize = (bytes: number): string => {
 }
 
 // Get the target for the link
-const getResourceTarget = (): string => 
-   '_blank' // Always open in new tab
-
+const getResourceTarget = (): string => '_blank'
 
 // Add this function to check if resource can be edited
 const canEditResource = (): boolean => {
@@ -401,115 +399,31 @@ const canEditResource = (): boolean => {
 
 // Get the href for the link
 const getResourceHref = (resource: ResourceItem): string => {
-  if (resource.type === 'link') {
-    switch (resource.target_app) {
-      case 'forms': {
-        const formHash = resource.metadata?.hash || resource.target_id
-        return `/index.php/apps/forms/${formHash}`
-      }
-
-      case 'collectives': {
-        const collectiveTitle = resource.metadata?.title 
-          ? resource.metadata.title.toLowerCase().replace(/\s+/g, '-')
-          : 'collective'
-        return `/index.php/apps/collectives/${collectiveTitle}-${resource.target_id}`
-      }
-
-      case 'polls':
-        return `/index.php/apps/polls/vote/${resource.target_id}`
-
-      case 'deck':
-        return `/index.php/apps/deck/board/${resource.target_id}`
-
-      case 'cospend':
-        return `/index.php/apps/cospend/p/${resource.target_id}`
-
-      case 'files':
-        return `/apps/files/?fileid=${resource.target_id}`
-
-      default:
-        return '#'
-    }
-  } 
-
   if (resource.type === 'attachment' && resource.attachment?.url) {
     return resource.attachment.url
+  }
+
+  if (resource.type === 'link') {
+    const metadata = parseMetadata(resource.metadata)
+    
+    // Use URL from metadata if available
+    if (metadata?.url) {
+      return metadata.url
+    }
+
+    // Fallback to the resource.url if no metadata URL
+    if (resource.url) {
+      return resource.url
+    }
   }
 
   return '#'
 }
 
-
 // Handle click with proper prevention
 const handleResourceClick = () => {
   // Empty function since parameters weren't used
 }
-
-// Load resource information to redicted correctly
-const loadResourceDetails = async () => {
-  try {
-    const links = inquiryLinksStore.getByInquiryId(inquiryStore.id)
-
-    for (const link of links) {
-      try {
-        switch (link.target_app) {
-          case 'forms': {
-            const formDetails = await inquiryLinksStore.getFormDetailsWithHash(parseInt(link.target_id))
-            link.metadata = {
-              title: formDetails.ocs?.data?.title,
-              hash: formDetails.ocs?.data?.hash,
-              description: formDetails.ocs?.data?.description
-            }
-            break
-          }
-
-          case 'polls': {
-            const pollDetails = await inquiryLinksStore.getPollDetails(parseInt(link.target_id))
-            link.metadata = {
-              title: pollDetails.configuration.title,
-              description: pollDetails.configuration?.description
-            }
-            break
-          }
-
-          case 'deck': {
-            const deckDetails = await inquiryLinksStore.getDeckBoardDetails(parseInt(link.target_id))
-
-            link.metadata = {
-              title: deckDetails.title,
-              description: deckDetails.description,
-              color: deckDetails.color
-            }
-            break
-          }
-
-          case 'cospend': {
-            const cospendDetails = await inquiryLinksStore.getCospendProjectDetails(link.target_id)
-            link.metadata = {
-              title: cospendDetails.ocs?.data?.name || cospendDetails.name,
-              description: cospendDetails.ocs?.data?.description || cospendDetails.description
-            }
-            break
-          }
-
-          case 'collectives': {
-            const collectiveDetails = await inquiryLinksStore.getCollectiveDetails(link.target_id)
-            link.metadata = {
-              title: collectiveDetails.ocs?.data?.name || collectiveDetails.name,
-              description: collectiveDetails.ocs?.data?.description || collectiveDetails.description
-            }
-            break
-          }
-        }
-      } catch (error) {
-        console.warn(`Could not load details for ${link.target_app} ${link.target_id}:`, error)
-      }
-    }
-  } catch (error) {
-    console.error('Error loading resource details:', error)
-  }
-}
-
 
 const loadLinks = async () => {
   try {
@@ -522,12 +436,47 @@ const loadLinks = async () => {
   }
 }
 
+// Create a refresh method
+const refreshResources = async () => {
+  try {
+    isLoading.value = true
+    await loadLinks()
+  } catch (error) {
+    console.error('Error refreshing resources:', error)
+  } finally {
+    isLoading.value = false
+  }
+}
 
-onMounted(async () => {
-  await loadLinks()
-  await loadResourceDetails()
+// Watch for modal close to refresh resources
+watch(showAddModal, async (newValue, oldValue) => {
+  // When modal changes from open to closed, refresh the data
+  if (oldValue === true && newValue === false) {
+    await refreshResources()
+  }
 })
 
+// Watch for store changes to auto-update
+watch(
+  () => inquiryLinksStore.links,
+  () => {
+    // This will trigger recomputation of groupedResources
+  },
+  { deep: true }
+)
+
+// Watch for attachments changes
+watch(
+  () => attachmentsStore.attachments,
+  () => {
+    // This will trigger recomputation of groupedResources
+  },
+  { deep: true }
+)
+
+onMounted(async () => {
+  await refreshResources()
+})
 </script>
 
 <template>

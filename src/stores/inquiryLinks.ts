@@ -18,8 +18,12 @@ export interface InquiryLink {
     target_id: string
     sort_order: number
     created_by: number
-    created_at?: string
-    updated_at?: string
+    metadata?: {
+        title?: string
+        url?: string
+        hash?: string
+        description?: string
+    }
 }
 
 export interface CreateLinkData {
@@ -246,6 +250,12 @@ export type InquiryLinkType = {
     target_app: string
     target_type: string
     target_id: string
+    metadata?: {
+        title?: string
+        url?: string
+        hash?: string
+        description?: string
+    }
     sort_order: number
     created_by: number
 }
@@ -310,6 +320,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
     },
 
                                                                                                                     actions: {
+
                                                                                                                         async loadByInquiry(inquiryId: number) {
                                                                                                                             try {
                                                                                                                                 const response = await InquiryLinksAPI.getLinksByInquiry(inquiryId)
@@ -477,40 +488,28 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                         async updateFormViaAPI(formId: number, formData: CreateAppResourceData): Promise<OCSResponse<FormResponse>> {
                                                                                                                             try {
                                                                                                                                 const url = generateOcsUrl(`/apps/forms/api/v3/forms/${formId}`)
-                                                                                                                                const keyValuePairs = []
+
+                                                                                                                                const keyValuePairs: Record<string, any> = {}
 
                                                                                                                                 if (formData.title) {
-                                                                                                                                    keyValuePairs.push({
-                                                                                                                                        key: 'title',
-                                                                                                                                        value: formData.title
-                                                                                                                                    })
+                                                                                                                                    keyValuePairs.title = formData.title
                                                                                                                                 }
 
                                                                                                                                 if (formData.description !== undefined) {
-                                                                                                                                    keyValuePairs.push({
-                                                                                                                                        key: 'description',
-                                                                                                                                        value: formData.description
-                                                                                                                                    })
+                                                                                                                                    keyValuePairs.description = formData.description
                                                                                                                                 }
 
                                                                                                                                 if (formData.expires) {
-                                                                                                                                    keyValuePairs.push({
-                                                                                                                                        key: 'expires',
-                                                                                                                                        value: formData.expires
-                                                                                                                                    })
+                                                                                                                                    keyValuePairs.expires = formData.expires
                                                                                                                                 }
 
                                                                                                                                 if (formData.showExpiration !== undefined) {
-                                                                                                                                    keyValuePairs.push({
-                                                                                                                                        key: 'showExpiration', 
-                                                                                                                                        value: formData.showExpiration
-                                                                                                                                    })
+                                                                                                                                    keyValuePairs.showExpiration = formData.showExpiration
                                                                                                                                 }
 
                                                                                                                                 const requestData = {
                                                                                                                                     keyValuePairs
                                                                                                                                 }
-
 
                                                                                                                                 const response = await axios.patch(url, requestData, {
                                                                                                                                     headers: {
@@ -518,7 +517,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                         'Content-Type': 'application/json'
                                                                                                                                     }
                                                                                                                                 })
-                                                                                                                                
+
                                                                                                                                 return response.data
                                                                                                                             } catch (error) {
                                                                                                                                 console.error(error)
@@ -526,6 +525,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                 throw error
                                                                                                                             }
                                                                                                                         },
+
                                                                                                                         // Forms operations
                                                                                                                         async createForm(inquiryId: number, formData: CreateAppResourceData): Promise<InquiryLinkType> {
                                                                                                                             const inquiryStore=useInquiryStore()
@@ -536,38 +536,40 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                                 // Extract form ID from the correct location in OCS response
                                                                                                                                 const formId = formResponse.ocs?.data?.id
-
+                                                                                                                                                        
 
                                                                                                                                 if (formId) {
-                                                                                                                                // 2. Update form with expiration date if inquiry has one
-                                                                                                                                if (inquiryStore.configuration.expire) {
-                                                                                                                                    try {
-                                                                                                                                        await this.updateFormViaAPI(formId, {
+
+                                                                                                                                    const url = `/index.php/apps/forms/${formResponse.ocs.data.hash}`
+
+                                                                                                                                    // 2. Update form with expiration date if inquiry has one
+                                                                                                                                    await this.updateFormViaAPI(formId, {
+                                                                                                                                        title: inquiryStore.title,
+                                                                                                                                        description: inquiryStore.description,
+                                                                                                                                        expires: inquiryStore.configuration.expire,
+                                                                                                                                        showExpiration: true,
+                                                                                                                                    })
+
+                                                                                                                                    // 3. Create link in InquiryLink table
+                                                                                                                                    const linkData: CreateLinkData = {
+                                                                                                                                        inquiryId,
+                                                                                                                                        targetApp: 'forms',
+                                                                                                                                        targetType: 'form',
+                                                                                                                                        targetId: formId.toString(),
+                                                                                                                                        metadata: JSON.stringify({ 
+                                                                                                                                            url: url,
                                                                                                                                             title: inquiryStore.title,
-                                                                                                                                            expires: inquiryStore.configuration.expire,
-                                                                                                                                            showExpiration: true,
-                                                                                                                                        })
-                                                                                                                                    } catch (updateError) {
-                                                                                                                                        console.warn("⚠️ Could not set form expiration, continuing...", updateError)
-                                                                                                                                        // Continue even if expiration update fails
+                                                                                                                                            hash: formResponse.ocs.data.hash,
+                                                                                                                                        }),
+                                                                                                                                        sortOrder: 0
                                                                                                                                     }
-                                                                                                                                }
 
-                                                                                                                                // 3. Create link in InquiryLink table
-                                                                                                                                const linkData: CreateLinkData = {
-                                                                                                                                    inquiryId,
-                                                                                                                                    targetApp: 'forms',
-                                                                                                                                    targetType: 'form',
-                                                                                                                                    targetId: formId.toString(),
-                                                                                                                                    sortOrder: 0
-                                                                                                                                }
+                                                                                                                                    const result = await this.create(linkData)
+                                                                                                                                    return result
+                                                                                                                                } 
+                                                                                                                                console.error("❌ No form ID found in response. Full response:", formResponse)
+                                                                                                                                throw new Error('No form ID returned from API')
 
-                                                                                                                                const result = await this.create(linkData)
-                                                                                                                                return result
-                                                                                                                            } 
-                                                                                                                                   console.error("❌ No form ID found in response. Full response:", formResponse)
-                                                                                                                                   throw new Error('No form ID returned from API')
-                                                                                                                                
                                                                                                                             } catch (error) {
                                                                                                                                 console.error("❌ Error in createForm:", error)
                                                                                                                                 Logger.error('Error creating form and link', { error, inquiryId, formData })
@@ -576,14 +578,20 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                         },
 
                                                                                                                         // Link Form
-                                                                                                                        async linkForm(inquiryId: number, formId: string): Promise<InquiryLinkType> {
+                                                                                                                        async linkForm(inquiryId: number, formId: string, formHash: string, title: string): Promise<InquiryLinkType> {
                                                                                                                             try {
                                                                                                                                 // 2. Just create link in InquiryLink table
+                                                                                                                                const url = `/index.php/apps/forms/${formHash}`
                                                                                                                                 const linkData: CreateLinkData = {
                                                                                                                                     inquiryId,
                                                                                                                                     targetApp: 'forms',
                                                                                                                                     targetType: 'form',
                                                                                                                                     targetId: formId,
+                                                                                                                                    metadata: JSON.stringify({ 
+                                                                                                                                        url: url,
+                                                                                                                                        title: title,
+                                                                                                                                        hash: formHash,
+                                                                                                                                    }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }
 
@@ -596,7 +604,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         /// //////////////////////////////////////////////////////////////////////////
                                                                                                                         // COSPEND API functions
-                                                                                                                            async createCospendProjectViaAPI(projectData: CreateAppResourceData): Promise<OCSResponse<CospendProjectResponse>> {
+                                                                                                                        async createCospendProjectViaAPI(projectData: CreateAppResourceData): Promise<OCSResponse<CospendProjectResponse>> {
                                                                                                                             try {
                                                                                                                                 const response = await axios.post(generateOcsUrl('/apps/cospend/api/v1/projects'), {
                                                                                                                                     name: projectData.title,
@@ -643,6 +651,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         // Cospend operations
                                                                                                                         async createCospendProject(inquiryId: number, projectData: CreateAppResourceData): Promise<InquiryLinkType> {
+                                                                                                                            const inquiryStore=useInquiryStore()
                                                                                                                             try {
                                                                                                                                 // 1. Create the project via API
                                                                                                                                 const projectResponse = await this.createCospendProjectViaAPI(projectData)
@@ -652,12 +661,18 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     throw new Error('No project ID returned from API')
                                                                                                                                 }
 
+                                                                                                                                const url = `/index.php/apps/cospend/p/${projectId}`
+
                                                                                                                                 // 2. Create link in InquiryLink table
                                                                                                                                 const linkData: CreateLinkData = {
                                                                                                                                     inquiryId,
                                                                                                                                     targetApp: 'cospend',
                                                                                                                                     targetType: 'project',
                                                                                                                                     targetId: projectId.toString(),
+                                                                                                                                    metadata: JSON.stringify({ 
+                                                                                                                                        url: url,
+                                                                                                                                        title: inquiryStore.title,
+                                                                                                                                    }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }
 
@@ -668,14 +683,19 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async linkCospendProject(inquiryId: number, projectId: string): Promise<InquiryLinkType> {
+                                                                                                                        async linkCospendProject(inquiryId: number, projectId: string, title: string): Promise<InquiryLinkType> {
                                                                                                                             try {
+                                                                                                                                const url = `/index.php/apps/cospend/p/${projectId}`
                                                                                                                                 // 2. Just create link in InquiryLink table
                                                                                                                                 const linkData: CreateLinkData = {
                                                                                                                                     inquiryId,
                                                                                                                                     targetApp: 'cospend',
                                                                                                                                     targetType: 'project',
                                                                                                                                     targetId: projectId,
+                                                                                                                                    metadata: JSON.stringify({ 
+                                                                                                                                        url: url,
+                                                                                                                                        title: title,
+                                                                                                                                    }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }
 
@@ -735,37 +755,50 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         // Collectives operations
                                                                                                                         async createCollective(inquiryId: number, collectiveData: CreateAppResourceData): Promise<InquiryLinkType> {
+                                                                                                                            const inquiryStore=useInquiryStore()
                                                                                                                             try {
                                                                                                                                 const collectiveResponse = await this.createCollectiveViaAPI(collectiveData)
                                                                                                                                 const collectiveId = collectiveResponse.ocs?.data?.collective.id || collectiveResponse.ocs?.data?.name
 
-                                                                                                                               if (!collectiveId) {
+                                                                                                                                if (!collectiveId) {
                                                                                                                                     throw new Error('No collective ID returned from API')
                                                                                                                                 }
+                                                                                                                                const collectiveTitle = collectiveResponse.ocs?.data?.collective.title
+                                                                                                                                    ? collectiveResponse.ocs?.data?.collective.title.toLowerCase().replace(/\s+/g, '-')
+                                                                                                                                    : 'collective'
+                                                                                                                                    const url = `/index.php/apps/collectives/${collectiveTitle}-${collectiveId}`
+                                                                                                                                    const linkData: CreateLinkData = {
+                                                                                                                                        inquiryId,
+                                                                                                                                        targetApp: 'collectives',
+                                                                                                                                        targetType: 'collective',
+                                                                                                                                        targetId: collectiveId.toString(),
+                                                                                                                                        metadata: JSON.stringify({ 
+                                                                                                                                            url: url,
+                                                                                                                                            title: inquiryStore.title,
+                                                                                                                                        }),
+                                                                                                                                        sortOrder: 0
+                                                                                                                                    }
 
-                                                                                                                                const linkData: CreateLinkData = {
-                                                                                                                                    inquiryId,
-                                                                                                                                    targetApp: 'collectives',
-                                                                                                                                    targetType: 'collective',
-                                                                                                                                    targetId: collectiveId.toString(),
-                                                                                                                                    sortOrder: 0
-                                                                                                                                }
-
-                                                                                                                                return await this.create(linkData)
+                                                                                                                                    return await this.create(linkData)
                                                                                                                             } catch (error) {
                                                                                                                                 Logger.error('Error creating collective and link', { error, inquiryId, collectiveData })
                                                                                                                                 throw error
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async linkCollective(inquiryId: number, collectiveId: string): Promise<InquiryLinkType> {
+                                                                                                                        async linkCollective(inquiryId: number, collectiveId: string, collectiveTitle: string): Promise<InquiryLinkType> {
                                                                                                                             try {
+                                                                                                                                const url = `/index.php/apps/collectives/${collectiveTitle}-${collectiveId}`
                                                                                                                                 // 2. Just create link in InquiryLink table
                                                                                                                                 const linkData: CreateLinkData = {
                                                                                                                                     inquiryId,
                                                                                                                                     targetApp: 'collectives',
                                                                                                                                     targetType: 'collective',
                                                                                                                                     targetId: collectiveId,
+                                                                                                                                    metadata: JSON.stringify({ 
+                                                                                                                                        url: url,
+                                                                                                                                        title: collectiveTitle,
+                                                                                                                                    }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }
 
@@ -815,6 +848,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         // Polls operations
                                                                                                                         async createPoll(inquiryId: number, pollData: CreateAppResourceData): Promise<InquiryLinkType> {
+                                                                                                                            const inquiryStore=useInquiryStore()
                                                                                                                             try {
                                                                                                                                 // 1. Create the poll via API
                                                                                                                                 const pollResponse = await this.createPollViaAPI(pollData)
@@ -824,12 +858,17 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     throw new Error('No poll ID returned from API')
                                                                                                                                 }
 
+                                                                                                                                const url = `/index.php/apps/polls/vote/${pollId}` 
                                                                                                                                 // 2. Create link in InquiryLink table
                                                                                                                                 const linkData: CreateLinkData = {
                                                                                                                                     inquiryId,
                                                                                                                                     targetApp: 'polls',
                                                                                                                                     targetType: 'poll',
                                                                                                                                     targetId: pollId.toString(),
+                                                                                                                                    metadata: JSON.stringify({ 
+                                                                                                                                        url: url,
+                                                                                                                                        title: inquiryStore.title,
+                                                                                                                                    }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }
 
@@ -840,14 +879,19 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async linkPoll(inquiryId: number, pollId: string): Promise<InquiryLinkType> {
+                                                                                                                        async linkPoll(inquiryId: number, pollId: string, title: string): Promise<InquiryLinkType> {
                                                                                                                             try {
+                                                                                                                                const url = `/index.php/apps/polls/vote/${pollId}` 
                                                                                                                                 // 2. Just create link in InquiryLink table
                                                                                                                                 const linkData: CreateLinkData = {
                                                                                                                                     inquiryId,
                                                                                                                                     targetApp: 'polls',
                                                                                                                                     targetType: 'poll',
                                                                                                                                     targetId: pollId,
+                                                                                                                                    metadata: JSON.stringify({ 
+                                                                                                                                        url: url,
+                                                                                                                                        title: title,
+                                                                                                                                    }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }
 
@@ -896,6 +940,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
                                                                                                                         // Deck operations
                                                                                                                         async createDeckBoard(inquiryId: number, boardData: CreateAppResourceData): Promise<InquiryLinkType> {
+                                                                                                                            const inquiryStore=useInquiryStore()
                                                                                                                             try {
                                                                                                                                 // 1. Create the board via API
                                                                                                                                 const boardResponse = await this.createDeckBoardViaAPI(boardData)
@@ -904,6 +949,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                 if (!boardId) {
                                                                                                                                     throw new Error('No board ID returned from API')
                                                                                                                                 }
+                                                                                                                                const url = `/index.php/apps/deck/board/${boardId}`
 
                                                                                                                                 // 2. Create link in InquiryLink table
                                                                                                                                 const linkData: CreateLinkData = {
@@ -911,6 +957,10 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     targetApp: 'deck',
                                                                                                                                     targetType: 'board',
                                                                                                                                     targetId: boardId.toString(),
+                                                                                                                                    metadata: JSON.stringify({ 
+                                                                                                                                        url: url,
+                                                                                                                                        title: inquiryStore.title,
+                                                                                                                                    }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }
 
@@ -921,14 +971,19 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             }
                                                                                                                         },
 
-                                                                                                                        async linkDeckBoard(inquiryId: number, boardId: string): Promise<InquiryLinkType> {
+                                                                                                                        async linkDeckBoard(inquiryId: number, boardId: string, title: string): Promise<InquiryLinkType> {
                                                                                                                             try {
+                                                                                                                                const url = `/index.php/apps/deck/board/${boardId}`
                                                                                                                                 // 2. Just create link in InquiryLink table
                                                                                                                                 const linkData: CreateLinkData = {
                                                                                                                                     inquiryId,
                                                                                                                                     targetApp: 'deck',
                                                                                                                                     targetType: 'board',
                                                                                                                                     targetId: boardId,
+                                                                                                                                    metadata: JSON.stringify({ 
+                                                                                                                                        url: url,
+                                                                                                                                        title: title,
+                                                                                                                                    }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }
 
@@ -1130,10 +1185,6 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
 
 
                                                                                                                                 const collectives = response.data.ocs.data?.collectives || []
-
-                                                                                                                                if (collectives.length > 0) {
-                                                                                                                                    return null
-                                                                                                                                }
 
                                                                                                                                 return collectives
                                                                                                                             } catch (error) {

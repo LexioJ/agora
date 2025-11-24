@@ -37,32 +37,63 @@ class SupportController extends BaseController
      * @psalm-return JSONResponse<array{status: string, support: Support}>
      */
     #[NoAdminRequired]
-    #[FrontpageRoute(verb: 'POST', url: '/inquiry/support/{inquiryId}/{userId}')]
-    public function add(int $inquiryId,string $userId): JSONResponse
+    #[FrontpageRoute(verb: 'POST', url: '/inquiry/support/{inquiryId}/{userId}/{value}')]
+    public function add(int $inquiryId, string $userId, int $value): JSONResponse
     {
         return $this->response(
-            fn () => [
-                'support' => $this->supportService->addSupport($inquiryId, $userId)
-                ]
+            function () use ($inquiryId, $userId, $value) {
+                if (!in_array($value, [-1, 0, 1], true)) {
+                    throw new \InvalidArgumentException("Invalid support value");
+                }
+
+                return [
+                    'support' => $this->supportService->addSupport($inquiryId, $userId, $value),
+                ];
+            }
         );
     }
 
-     /**
-       * Remove support from an user of an inquiry
-       *
-       * @param int $inquiryId ID and userId f the inquiry to remove support from
-       *
-       * @psalm-return JSONResponse<array{status: string}>
-S>
-*/
-      #[NoAdminRequired]
-      #[FrontpageRoute(verb: 'DELETE', url: '/inquiry/support/{inquiryId}/{userId}')]
+    /**
+     * Update support for an inquiry
+     *
+     * @param int $inquiryId ID of the inquiry to support
+     *
+     * @psalm-return JSONResponse<array{status: string, support: Support}>
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'PUT', url: '/inquiry/support/{inquiryId}/{userId}/{value}')]
+    public function update(int $inquiryId, string $userId, int $value): JSONResponse
+    {
+        return $this->response(
+            function () use ($inquiryId, $userId, $value) {
+                if (!in_array($value, [-1, 0, 1], true)) {
+                    throw new \InvalidArgumentException("Invalid support value");
+                }
+
+                return [
+                    'support' => $this->supportService->updateSupport($inquiryId, $userId, $value),
+                ];
+            }
+        );
+    }
+
+
+    /**
+     * Remove support from an user of an inquiry
+     *
+     * @param int $inquiryId ID and userId f the inquiry to remove support from
+     *
+     * @psalm-return JSONResponse<array{status: string}>
+     S>
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'DELETE', url: '/inquiry/support/{inquiryId}/{userId}')]
     public function remove(int $inquiryId, string $userId): JSONResponse
     {
         return $this->response(
             fn () => [
                 'support' => $this->supportService->removeSupport($inquiryId, $userId)
-                ]
+            ]
         );
     }
     /**
@@ -85,12 +116,12 @@ S>
 
     /**
      * Get support for an inquiry
-    /**
-     * Get supports by user
-     *
-     * @param string $userId User ID
-     *
-     * @psalm-return JSONResponse<array{supports: array<Support>}>
+     /**
+      * Get supports by user
+      *
+      * @param string $userId User ID
+      *
+      * @psalm-return JSONResponse<array{supports: array<Support>}>
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'GET', url: '/inquiry/support/user/{userId}')]

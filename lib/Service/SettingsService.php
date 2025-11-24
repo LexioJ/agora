@@ -12,8 +12,11 @@ use OCA\Agora\Model\Settings\AppSettings;
 use OCA\Agora\Service\LocationService;
 use OCA\Agora\Service\CategoryService;
 use OCA\Agora\Service\InquiryTypeService;
+use OCA\Agora\Service\InquiryGroupTypeService;
+use OCA\Agora\Service\InquiryOptionTypeService;
 use OCA\Agora\Service\InquiryStatusService;
 use OCA\Agora\Service\InquiryFamilyService;
+use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
 class SettingsService
@@ -23,7 +26,10 @@ class SettingsService
     private InquiryStatusService $inquiryStatusService;
     private InquiryFamilyService $inquiryFamilyService;
     private InquiryTypeService $inquiryTypeService;
+    private InquiryGroupTypeService $inquiryGroupTypeService;
+    private InquiryOptionTypeService $inquiryOptionTypeService;
     private AppSettings $appSettings;
+    private IConfig $iConfig;
 
     /**
      * @psalm-suppress PossiblyUnusedMethod 
@@ -35,6 +41,9 @@ class SettingsService
         InquiryStatusService $inquiryStatusService,
         InquiryFamilyService $inquiryFamilyService,
         InquiryTypeService $inquiryTypeService,
+        InquiryGroupTypeService $inquiryGroupTypeService,
+        InquiryOptionTypeService $inquiryOptionTypeService,
+        IConfig $iConfig,
         LoggerInterface $logger
     ) {
         $this->appSettings = $appSettings;
@@ -43,6 +52,9 @@ class SettingsService
         $this->inquiryStatusService = $inquiryStatusService;
         $this->inquiryFamilyService = $inquiryFamilyService;
         $this->inquiryTypeService = $inquiryTypeService;
+        $this->inquiryGroupTypeService = $inquiryGroupTypeService;
+        $this->inquiryOptionTypeService = $inquiryOptionTypeService;
+        $this->iConfig = $iConfig;
         $this->logger = $logger;
     }
 
@@ -193,7 +205,6 @@ class SettingsService
             $typeData['family'] ?? 'deliberative',
             $typeData['icon'] ?? '',
             $typeData['label'] ?? '',
-            $typeData['is_option'] ?? false,
             $typeData['description'] ?? null,
             $typeData['fields'] ?? null,
             $typeData['allowed_response'] ?? null,
@@ -213,7 +224,6 @@ class SettingsService
             $typeData['family'] ?? 'deliberative',
             $typeData['icon'] ?? '',
             $typeData['label'] ?? '',
-            $typeData['is_option'] ?? false,
             $typeData['description'] ?? null,
             $typeData['fields'] ?? null,
             $typeData['allowed_response'] ?? null,
@@ -334,5 +344,33 @@ class SettingsService
     public function deleteCategory(string $categoryId): void
     {
         $this->categoryService->delete((int)$categoryId);
+    }
+
+    // GET support mode for inquiry
+    //
+    public function getInquirySettings(): array {
+        $json = $this->iConfig->getAppValue('agora', 'inquiryTypeRights', '{}');
+        $data = json_decode($json, true);
+
+        if (!is_array($data)) {
+            return [];
+        }
+        return $data;
+    }
+
+    public function getSupportModeForType(string $type): string {
+        $settings = $this->getInquirySettings();
+
+        if (isset($settings[$type]['supportMode'])) {
+            return $settings[$type]['supportMode'];
+        }
+
+        return 'simple'; 
+    }
+
+    public function isSupportEnabled(string $type): bool {
+        $settings = $this->getInquirySettings();
+
+        return $settings[$type]['supportInquiry'] ?? false;
     }
 }

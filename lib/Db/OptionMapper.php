@@ -107,15 +107,14 @@ class OptionMapper extends QBMapper
         return $options;
     }
 
+    public function findByInquiry(int $inquiryId): array 
+    { 
+        $qb = $this->db->getQueryBuilder(); 
+        $qb->select('*') 
+           ->from($this->getTableName()) 
+           ->where($qb->expr()->eq('parent_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT))); 
 
-    public function findByInquiry(int $inquiryId): array
-    {
-        $qb = $this->db->getQueryBuilder();
-        $qb->select('*')
-            ->from($this->getTableName())
-            ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
-
-        return $this->findEntities($qb);
+        return $this->findEntities($qb); 
     }
 
     public function listByOwner(string $userId): array
@@ -137,21 +136,21 @@ class OptionMapper extends QBMapper
     {
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)))
-            ->andWhere(
-                $qb->expr()->orX(
-                    ...array_map(
-                        function (string $token) use ($qb) {
-                                return $qb->expr()->orX(
-                                    $qb->expr()->iLike(
-                                        self::TABLE . '.option_text',
-                                        $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($token) . '%', IQueryBuilder::PARAM_STR),
-                                        IQueryBuilder::PARAM_STR
-                                    )
-                                );
-                        }, explode(' ', $query->getTerm())
-                    )
-                )
-            );
+           ->andWhere(
+               $qb->expr()->orX(
+                   ...array_map(
+                       function (string $token) use ($qb) {
+                           return $qb->expr()->orX(
+                               $qb->expr()->iLike(
+                                   self::TABLE . '.option_text',
+                                   $qb->createNamedParameter('%' . $this->db->escapeLikeParameter($token) . '%', IQueryBuilder::PARAM_STR),
+                                   IQueryBuilder::PARAM_STR
+                               )
+                           );
+                       }, explode(' ', $query->getTerm())
+                   )
+               )
+           );
 
         $options = $this->findEntities($qb);
 
@@ -183,8 +182,8 @@ class OptionMapper extends QBMapper
         $archiveDate = time();
         $qb = $this->db->getQueryBuilder();
         $qb->update($this->getTableName())
-            ->set('archived', $qb->createNamedParameter($archiveDate))
-            ->where($qb->expr()->eq('archived', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+           ->set('archived', $qb->createNamedParameter($archiveDate))
+           ->where($qb->expr()->eq('archived', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
         return $qb->executeStatement();
     }
 
@@ -192,8 +191,8 @@ class OptionMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->update($this->getTableName())
-            ->set('status', $qb->createNamedParameter($mstatus))
-            ->where($qb->expr()->eq('id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
+           ->set('status', $qb->createNamedParameter($mstatus))
+           ->where($qb->expr()->eq('id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
         $qb->executeStatement();
     }
 
@@ -201,8 +200,8 @@ class OptionMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->delete($this->getTableName())
-            ->where($qb->expr()->lt('archived', $qb->createNamedParameter($offset)))
-            ->andWhere($qb->expr()->gt('archived', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+           ->where($qb->expr()->lt('archived', $qb->createNamedParameter($offset)))
+           ->andWhere($qb->expr()->gt('archived', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
         return $qb->executeStatement();
     }
 
@@ -211,8 +210,8 @@ class OptionMapper extends QBMapper
         $timestamp = time();
         $qb = $this->db->getQueryBuilder();
         $qb->update($this->getTableName())
-            ->set('updated', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
-            ->where($qb->expr()->eq('id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
+           ->set('updated', $qb->createNamedParameter($timestamp, IQueryBuilder::PARAM_INT))
+           ->where($qb->expr()->eq('id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)));
         $qb->executeStatement();
     }
 
@@ -220,8 +219,8 @@ class OptionMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->delete($this->getTableName())
-            ->where('owner = :userId')
-            ->setParameter('userId', $userId);
+           ->where('owner = :userId')
+           ->setParameter('userId', $userId);
         $qb->executeStatement();
     }
 
@@ -230,7 +229,7 @@ class OptionMapper extends QBMapper
         $qb = $this->db->getQueryBuilder();
 
         $qb->select(self::TABLE . '.*')
-            ->from($this->getTableName(), self::TABLE);
+           ->from($this->getTableName(), self::TABLE);
 
         $currentUserId = $this->userSession->getCurrentUserId();
         $optionGroupsAlias = 'option_groups';
@@ -274,9 +273,9 @@ class OptionMapper extends QBMapper
     {
         $qb = $this->db->getQueryBuilder();
         $qb->select('*')
-            ->from(OptionMisc::TABLE)
-            ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($option->getId(), IQueryBuilder::PARAM_INT)))
-            ->andWhere($qb->expr()->eq('deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+           ->from(OptionMisc::TABLE)
+           ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($option->getId(), IQueryBuilder::PARAM_INT)))
+           ->andWhere($qb->expr()->eq('deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
 
         $stmt = $qb->executeQuery();
         $miscSettings = $stmt->fetchAll();
@@ -313,25 +312,25 @@ class OptionMapper extends QBMapper
         // First, mark existing settings as deleted
         $qb = $this->db->getQueryBuilder();
         $qb->update(OptionMisc::TABLE)
-            ->set('deleted', $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
-            ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)))
-            ->andWhere($qb->expr()->eq('deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+           ->set('deleted', $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT))
+           ->where($qb->expr()->eq('option_id', $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT)))
+           ->andWhere($qb->expr()->eq('deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
         $qb->executeStatement();
 
         // Then insert new settings
         foreach ($dynamicFields as $key => $value) {
             $qb = $this->db->getQueryBuilder();
             $qb->insert(OptionMisc::TABLE)
-                ->values(
-                    [
-                    'option_id' => $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT),
-                    'key' => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
-                    'value' => $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR),
-                    'created' => $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT),
-                    'deleted' => $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT),
-                    ]
-                )
-                ->executeStatement();
+               ->values(
+                   [
+                       'option_id' => $qb->createNamedParameter($optionId, IQueryBuilder::PARAM_INT),
+                       'key' => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
+                       'value' => $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR),
+                       'created' => $qb->createNamedParameter(time(), IQueryBuilder::PARAM_INT),
+                       'deleted' => $qb->createNamedParameter(0, IQueryBuilder::PARAM_INT),
+                   ]
+               )
+               ->executeStatement();
         }
     }
 
@@ -344,10 +343,10 @@ class OptionMapper extends QBMapper
         $emptyString = $qb->expr()->literal('');
 
         $qb->addSelect($qb->createFunction('coalesce(' . $joinAlias . '.type, ' . $emptyString . ') AS user_role'))
-            ->addGroupBy($joinAlias . '.type');
+           ->addGroupBy($joinAlias . '.type');
 
         $qb->addSelect($qb->createFunction('coalesce(' . $joinAlias . '.token, ' . $emptyString . ') AS share_token'))
-            ->addGroupBy($joinAlias . '.token');
+           ->addGroupBy($joinAlias . '.token');
 
         $qb->leftJoin(
             $fromAlias,

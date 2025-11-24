@@ -170,7 +170,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
   Delete: makeIconComponent(Delete, '#F44336'),
   Back: makeIconComponent(ArrowLeft, '#2196F3'),
   Minus: makeIconComponent(Minus, '#9E9E9E'),
-  Offer: makeIconComponent(Offer, '#4CAF50'),
+  Offer: makeIconComponent(Offer, '#03A9F4'),
   Restore: makeIconComponent(Recycle, '#009688'),
   Transfer: makeIconComponent(Transfer, '#3F51B5'),
   Home: makeIconComponent(Home, '#795548'),
