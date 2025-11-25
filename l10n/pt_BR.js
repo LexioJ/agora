@@ -846,7 +846,7 @@ OC.L10N.register(
     "Delete file" : "Excluir arquivo",
     "Are you sure you want to delete this resource link? This will remove the reference from Agora." : "Tem certeza de que deseja excluir este vinculação de recurso? Isso removerá a referência do Ágora.",
     "Confirm link deletion" : "Confirmar exclusão da vinculação",
-    "Delete link" : "Excluir link",
+    "Delete link" : "Excluir vinculação",
     "Do you also want to permanently delete the associated {app} data? This action cannot be undone." : "Você também deseja excluir permanentemente os dados {app} associados? Esta ação não pode ser desfeita.",
     "Delete external data?" : "Excluir dados externos?",
     "Delete everything" : "Excluir tudo",
