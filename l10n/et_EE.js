@@ -438,6 +438,7 @@ OC.L10N.register(
     "Enable the tracking of activities with the Activities app" : "Lülita sisse tegevuste logimine Tegevuste rakenduses",
     "Categories" : "Kategooriad",
     "Locations" : "Asukohad",
+    "Enter category name" : "Sisesta kategooria nimi",
     "Edit" : "Muuda",
     "Enable only for the following groups" : "Lülita sisse järgmiste gruppide jaoks",
     "Leave empty to disable globally" : "Kui soovid kõikide jaoks välja lülitada, siis jäta tühjaks",
