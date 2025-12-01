@@ -28,6 +28,12 @@ use JsonSerializable;
  * @method         void setFields(?array $value)
  * @method         ?array getAllowedInquiryTypes()
  * @method         void setAllowedInquiryTypes(?array $value)
+ * @method         ?array getAllowedResponse()
+ * @method         void setAllowedResponse(?array $value)
+ * @method         bool getIsRoot()
+ * @method         void setIsRoot(bool $value)
+ * @method         int getSortOrder()
+ * @method         void setSortOrder(int $value)
  * @method         int getCreated()
  * @method         void setCreated(int $value)
  */
@@ -45,17 +51,24 @@ class InquiryGroupType extends EntityWithUser implements JsonSerializable
     protected ?string $description = null;
     protected ?array $fields = null;
     protected ?array $allowedInquiryTypes = null;
+    protected ?array $allowedResponse = null;
+    protected bool $isRoot = false;
     protected int $created = 0;
+    protected int $sortOrder= 0;
 
     public function __construct()
     {
         $this->addType('id', 'integer');
-        $this->addType('created', 'integer');
         $this->addType('description', 'string');
-        $this->addType('groupType', 'string');
+        $this->addType('label', 'string');
+        $this->addType('group_type', 'string');
         $this->addType('fields', 'json');
         $this->addType('family', 'string');
+        $this->addType('isRoot', 'boolean');
         $this->addType('allowedInquiryTypes', 'json');
+        $this->addType('allowedResponse', 'json');
+        $this->addType('sortOrder', 'integer');
+        $this->addType('created', 'integer');
     }
 
     /**
@@ -67,13 +80,16 @@ class InquiryGroupType extends EntityWithUser implements JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'groupType' => $this->getGroupType(),
+            'group_type' => $this->getGroupType(),
             'label' => $this->getLabel(),
             'family' => $this->getFamily(),
             'icon' => $this->getIcon(),
             'description' => $this->getDescription(),
             'fields' => $this->getFields(),
             'allowedInquiryTypes' => $this->getAllowedInquiryTypes(),
+            'allowed_response' => $this->getAllowedResponse(),
+            'sort_order' => $this->getSortOrder(),
+            'is_root' => $this->getIsRoot(),
             'created' => $this->getCreated(),
         ];
     }

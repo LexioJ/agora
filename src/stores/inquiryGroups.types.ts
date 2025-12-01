@@ -4,15 +4,36 @@
  */
 import { User } from '../Types/index.ts'
 
+export type InquiryGroupType = {
+  id: number | string
+  type: string 
+  label: string
+  family: string
+  icon?: string
+  description?: string
+  allowed_inquiry_types?: string | string[]
+  allowed_response?: string | string[]
+  is_root: boolean
+  sort_order: number
+  fields?: string | string[]
+}
+
 export type InquiryGroup = {
   id: number
+  cover_id: number | null
+  type: string // 
+  parent_id: number | null
   created: number
   deleted: number
-  description: string
+  description: string | null
+  owned_group: string | null
+  metadata: string | null
+  group_status: string
+  protected: number | boolean
   owner: User
-  name: string
-  titleExt: string
+  title: string 
+  titleExt: string | null 
   inquiryIds: number[]
-  slug: string
   allowEdit: boolean
+  expire: number | null 
 }

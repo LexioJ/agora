@@ -57,7 +57,8 @@ class InquiryGroupTypeMapper extends QBMapper
     public function findAll(): array
     {
         $qb = $this->buildQuery();
-        $qb->orderBy(self::TABLE . '.created', 'DESC');
+        $qb->orderBy(self::TABLE . '.sort_order', 'ASC')
+            ->addOrderBy(self::TABLE . '.created', 'DESC');
         return $this->findEntities($qb);
     }
 
@@ -68,7 +69,9 @@ class InquiryGroupTypeMapper extends QBMapper
     {
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.family', $qb->createNamedParameter($family, IQueryBuilder::PARAM_STR)));
-        $qb->orderBy(self::TABLE . '.created', 'DESC');
+        $qb->orderBy(self::TABLE . '.sort_order', 'ASC')
+            ->addOrderBy(self::TABLE . '.created', 'DESC');
+
         return $this->findEntities($qb);
     }
 
@@ -89,7 +92,8 @@ class InquiryGroupTypeMapper extends QBMapper
     {
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.group_type', $qb->createNamedParameter($groupType, IQueryBuilder::PARAM_STR)));
-        $qb->orderBy(self::TABLE . '.created', 'DESC');
+        $qb->orderBy(self::TABLE . '.sort_order', 'ASC')
+            ->addOrderBy(self::TABLE . '.created', 'DESC');
         return $this->findEntities($qb);
     }
 

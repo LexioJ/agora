@@ -123,7 +123,7 @@ onMounted(() => {
           allow-collapse
           :to="{
             name: 'group',
-            params: { slug: inquiryGroup.slug },
+            params: { id: inquiryGroup.id },
           }"
           class="navigation-item"
           :open="false"
@@ -158,7 +158,7 @@ onMounted(() => {
               class="force-not-active"
               :to="{
                 name: 'group',
-                params: { slug: inquiryGroup.slug },
+                params: { id : inquiryGroup.id },
               }"
               :name="t('agora', 'View all')"
             >

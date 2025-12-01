@@ -314,7 +314,7 @@ watch(
   { immediate: true }
 )
 
-//Toggle Support
+// Toggle Support
 
 const onToggleSupport = async () => {
   // Store the current state before toggling

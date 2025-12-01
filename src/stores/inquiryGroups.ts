@@ -26,7 +26,7 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
   const currentInquiryGroup = computed((): InquiryGroup | undefined => {
     const sessionStore = useSessionStore()
     if (sessionStore.route.name === 'group') {
-      return inquiryGroups.value.find((group) => group.slug === sessionStore.route.params.slug)
+      return inquiryGroups.value.find((group) => group.id === sessionStore.route.params.id)
     }
     return undefined
   })
@@ -43,7 +43,7 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
     )
   )
 
-  const inquiriesInCurrendInquiryGroup = computed((): Inquiry[] => {
+  const inquiriesInCurrentInquiryGroup = computed((): Inquiry[] => {
     const inquiriesStore = useInquiriesStore()
     if (!currentInquiryGroup.value) {
       return []
@@ -108,7 +108,39 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
       }
       return group
     })
+   }
+
+async function addGroup(payload: {
+  title?: string
+  type?: string
+  parentId?: number
+  protected?: true
+  ownedGroup?: string
+}): Promise<InquiryGroup | void> {  
+  
+    try {
+     const response = await InquiryGroupsAPI.addGroup({  
+        title: payload.title,
+        type: payload.type,
+        parentId: payload.parentId,
+        protected: payload.protected,
+        ownedGroup: payload.ownedGroup,
+    })
+
+    return response.data.inquiryGroup
+  } catch (error) {
+    if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+      return
+    }
+    Logger.error('Error adding inquiry group:', {  
+      error,
+      payload,
+    })
+
+    throw error
+  } finally {
   }
+}
 
   async function writeCurrentInquiryGroup(): Promise<InquiryGroup | undefined> {
     if (!currentInquiryGroup.value) {
@@ -230,7 +262,7 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
     inquiryGroupsSorted,
     countInquiriesInInquiryGroups,
     currentInquiryGroup,
-    inquiriesInCurrendInquiryGroup,
+    inquiriesInCurrentInquiryGroup,
     addableInquiryGroups,
     setCurrentInquiryGroup,
     setInquiryGroupElement: addOrUpdateInquiryGroupInList,
@@ -238,5 +270,6 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
     addInquiryToInquiryGroup,
     removeInquiryFromGroup,
     getInquiryGroupName,
+    addGroup,
   }
 })

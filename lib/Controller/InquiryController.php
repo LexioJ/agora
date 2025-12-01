@@ -246,11 +246,11 @@ class InquiryController extends BaseController
                 ]
 	    );
 
+	  }
 	    return new JSONResponse(
 		    ['error' => 'SERVER_ERROR', 'message' => 'An unexpected error occurred'],
 		    Http::STATUS_INTERNAL_SERVER_ERROR
 	    );
-	}
     }
 
     #[NoAdminRequired]

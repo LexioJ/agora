@@ -24,9 +24,6 @@ use OCP\EventDispatcher\IEventDispatcher;
 
 class InquiryGroupService
 {
-    public const GROUP_MODERATOR = 'agora_moderator';
-    public const GROUP_OFFICIAL  = 'agora_official';
-
     /**
      * @psalm-suppress PossiblyUnusedMethod 
      */
@@ -49,36 +46,25 @@ class InquiryGroupService
         return $this->inquiryGroupMapper->find($inquiryGroupId);
     }
 
-    public function createInquiryGroup(
-        string $name,
-        string $type = 'default',
-        ?string $description = null,
-        ?string $titleExt = null,
+    public function createGroup(
+        string $title,
+        string $type = 'collective',
         ?int $parentId = null,
-        ?int $order = null,
-        ?int $expire = null,
-        ?string $metadata = null,
-        ?int $coverId = null,
-        bool $protected = false,
-        string $groupStatus = 'draft'
+        ?bool $protected = false,
+        ?string $ownedGroup
     ): InquiryGroup {
         if (!$this->appSettings->getInquiryCreationAllowed()) {
             throw new ForbiddenException('Inquiry group creation is disabled');
         }
 
         $inquiryGroup = new InquiryGroup();
-        $inquiryGroup->setName($name);
+        $inquiryGroup->setName($title);
+        $inquiryGroup->setTitleExt($title);
         $inquiryGroup->setType($type);
-        $inquiryGroup->setDescription($description);
-        $inquiryGroup->setTitleExt($titleExt);
         $inquiryGroup->setParentId($parentId);
-        $inquiryGroup->setOrder($order ?? 0);
-        $inquiryGroup->setExpire($expire);
-        $inquiryGroup->setMetadata($metadata);
-        $inquiryGroup->setCoverId($coverId);
         $inquiryGroup->setProtected($protected);
-        $inquiryGroup->setGroupStatus($groupStatus);
-        $inquiryGroup->setOwner($this->userSession->getCurrentUserId());
+        $inquiryGroup->setGroupStatus('draft');
+        $inquiryGroup->setOwnedGroup($ownedGroup);
 
         return $this->inquiryGroupMapper->add($inquiryGroup);
     }

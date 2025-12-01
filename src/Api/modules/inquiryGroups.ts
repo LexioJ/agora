@@ -8,6 +8,39 @@ import { Inquiry } from '../../stores/inquiry.ts'
 import { InquiryGroup } from '../../stores/inquiryGroups.types.ts'
 
 const inquiryGroups = {
+  addGroup(dataInquiryGroup: {
+    title: string
+    type: string
+    parentId?: number
+    protected?: boolean
+    ownedGroup: string
+  }): Promise<AxiosResponse<{ inquiryGroup: InquiryGroup }>> {
+    return httpInstance.request({
+      method: 'POST',
+      url: 'inquirygroup/new',
+      data: dataInquiryGroup,
+      cancelToken: cancelTokenHandlerObject[this.addGroup.name].handleRequestCancellation().token,
+    })
+  },
+
+  updateGroup(
+    inquiryGroupId: number,
+    updateData: {
+      title?: string
+      type?: string
+      description?: string
+      parentId?: number | 0
+    }
+  ): Promise<AxiosResponse<{ inquiryGroup: InquiryGroup }>> {
+    return httpInstance.request({
+      method: 'PUT',
+      url: `inquirygroup/update/${inquiryGroupId}`,
+      data: updateData,
+      cancelToken:
+        cancelTokenHandlerObject[this.updateGroup.name].handleRequestCancellation().token,
+    })
+  },
+
   getInquiryGroups(): Promise<AxiosResponse<{ inquiryGroups: InquiryGroup[] }>> {
     return httpInstance.request({
       method: 'GET',

@@ -12,12 +12,14 @@ import { AxiosError } from 'axios'
 
 import Navigation from './views/Navigation.vue'
 import NavigationMenu from './views/NavigationMenu.vue'
+import NavigationGroup from './views/NavigationGroup.vue'
 
 import Forbidden from './views/Forbidden.vue'
 import List from './views/InquiryList.vue'
 import Menu from './views/InquiryMenu.vue'
 import NotFound from './views/NotFound.vue'
 import InquiryView from './views/InquiryView.vue'
+import Group from './views/InquiryGroup.vue'
 
 import SideBar from './views/SideBar.vue'
 import SideBarInquiryGroup from './views/SideBarInquiryGroup.vue'
@@ -112,19 +114,17 @@ const routes: RouteRecordRaw[] = [
 	    listPage: true,
     },
   },
-  {
-	  name: 'group',
-	  path: '/group/:slug',
-	  components: {
-		  default: List,
-		  navigation: Navigation,
-		  sidebar: SideBarInquiryGroup,
-	  },
-	  props: true,
-	  meta: {
-		  groupPage: true,
-		  listPage: true,
-	  },
+   {
+    name: 'group-list',
+    path: '/groups/:slug',
+    components: {
+      default: Group,  
+      navigation: NavigationGroup,
+    },
+    props: true,
+    meta: {
+      groupPage: true,
+    },
   },
   {
 	  name: 'notfound',
@@ -146,6 +146,20 @@ const routes: RouteRecordRaw[] = [
 	  },
 	  meta: {
 		  errorPage: true,
+	  },
+  },
+  {
+	  name: 'group',
+	  path: '/group/:id',
+	  components: {
+		  default: Group,
+		  navigation: NavigationGroup,
+		  sidebar: SideBarInquiryGroup,
+	  },
+	  props: true,
+	  meta: {
+		  groupPage: true,
+		  listPage: true,
 	  },
   },
   {
@@ -203,7 +217,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
 	if (to.name === 'login') {
 		forceReload = true
 	}
-
+     
 	// first load app context -> session and preferences
 	try {
 		await loadContext(to, cheapLoading, forceReload)

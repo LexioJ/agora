@@ -14,8 +14,6 @@ use JsonSerializable;
  * @psalm-suppress UnusedProperty
  * @method         int getId()
  * @method         void setId(int $value)
- * @method         string getType()
- * @method         void setType(string $value)
  * @method         string getInquiryType()
  * @method         void setInquiryType(string $value)
  * @method         string getFamily()
@@ -30,6 +28,8 @@ use JsonSerializable;
  * @method         void setAllowedResponse(?array $value)
  * @method         ?array getAllowedTransformation()
  * @method         void setAllowedTransformation(?array $value)
+ * @method         bool getIsRoot()
+ * @method         void setIsRoot(bool $value)
  * @method         int getCreated()
  * @method         void setCreated(int $value)
  */
@@ -40,7 +40,6 @@ class InquiryType extends EntityWithUser implements JsonSerializable
 
     // schema columns
     public $id = null;
-    protected string $type = '';
     protected string $inquiryType = '';
     protected string $family = 'deliberative';
     protected string $label = '';
@@ -49,6 +48,7 @@ class InquiryType extends EntityWithUser implements JsonSerializable
     protected ?array $fields = null;
     protected ?array $allowedResponse = null;
     protected ?array $allowedTransformation = null;
+    protected bool $isRoot = false;
     protected int $created = 0;
 
     public function __construct()
@@ -58,8 +58,10 @@ class InquiryType extends EntityWithUser implements JsonSerializable
         $this->addType('icon', 'string');
         $this->addType('family', 'string');
         $this->addType('description', 'string');
+        $this->addType('inquiryType', 'string');
         $this->addType('fields', 'json');
         $this->addType('allowedResponse', 'json');
+        $this->addType('isRoot', 'boolean');
         $this->addType('allowedTransformation', 'json');
     }
 
@@ -72,7 +74,6 @@ class InquiryType extends EntityWithUser implements JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'type' => $this->getType(),
             'inquiry_type' => $this->getInquiryType(),
             'family' => $this->getFamily(),
             'label' => $this->getLabel(),
@@ -81,6 +82,7 @@ class InquiryType extends EntityWithUser implements JsonSerializable
             'fields' => $this->getFields(),
             'allowed_response' => $this->getAllowedResponse(),
             'allowed_transformation' => $this->getAllowedTransformation(),
+            'is_root' => $this->getIsRoot(),
             'created' => $this->getCreated(),
         ];
     }

@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import InquiryGroupEditDlg from '../InquiryGroup/InquiryGroupEditDlg.vue'
+import InquiryGroupEditDlg from '../Create/InquiryGroupCreateDlg.vue'
 </script>
 
 <template>

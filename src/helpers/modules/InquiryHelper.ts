@@ -8,6 +8,7 @@ import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
 import type { useInquiryStore } from '../../stores/inquiry.ts'
 import type { useAppSettingsStore } from '../../stores/appSettings.ts'
 import type { InquiryStatus } from '../../Types/index.ts'
+import type { InquiryGroupType } from '../stores/inquiryGroups.types.ts'
 
 export interface InquiryFamily {
   id: number | string
@@ -26,6 +27,7 @@ export interface InquiryType {
   description?: string
   allowed_response?: string | string[]
   allowed_transformation?: string | string[]
+  is_root: boolean| true
   fields?: string | string[]
 }
 
@@ -36,6 +38,30 @@ export async function confirmAction(message: string): Promise<boolean> {
 // ============================================================================
 // FONCTIONS FOR GENERIC FAMILY AND TYPES
 // ============================================================================
+
+/**
+ * Get inquiry item data (works for both families and types)
+ * @param item
+ * @param fallbackLabel
+ */
+export function getInquiryGroupItemData(item: InquiryFamily | InquiryGroupType | null, fallbackLabel: string = '') {
+  if (!item) {
+    return {
+      icon: InquiryGeneralIcons.Activity,
+      label: fallbackLabel,
+      description: ''
+    }
+  }
+
+  const iconName = item?.icon || 
+    ('group_type' in item ? 'AccountGroup' : 'FileDocumentEdit')
+
+  return {
+    icon: InquiryGeneralIcons[iconName] || StatusIcons[iconName] || InquiryGeneralIcons.Activity,
+    label: item.label || fallbackLabel,
+    description: item.description || ''
+  }
+}
 
 /**
  * Get inquiry item data (works for both families and types)
@@ -72,6 +98,11 @@ export function getInquiryTypeData(inquiryType: string, inquiryTypes: InquiryTyp
   return getInquiryItemData(typeInfo, fallbackLabel || inquiryType)
 }
 
+export function getInquiryGroupTypeData(inquiryGroupType: string, inquiryGroupTypes: InquiryGroupType[], fallbackLabel: string = '') {
+  const typeInfo = inquiryGroupTypes.find(t => t.group_type === inquiryGroupType)
+  return getInquiryGroupItemData(typeInfo, fallbackLabel || inquiryGroupType)
+}
+
 // ============================================================================
 // FONCTIONS FOR INQUIRY TYPES
 // ============================================================================
@@ -98,6 +129,24 @@ export function getFilteredInquiryTypes(
     ) || []
   })
 }
+/**
+ * Group inquiry group types by family
+ * @param inquiryGroupTypes
+ */
+export function getInquiryGroupTypesByFamily(inquiryGroupTypes: InquiryGroupType[]) {
+  const grouped: Record<string, InquiryGroupType[]> = {}
+
+  inquiryGroupTypes.forEach(type => {
+    const familyKey = type.family
+    if (!grouped[familyKey]) {
+      grouped[familyKey] = []
+    }
+    grouped[familyKey].push(type)
+  })
+
+  return grouped
+}
+
 
 /**
  * Group inquiry types by family
@@ -196,6 +245,17 @@ export function getAvailableResponseTypes(inquiryType: string, inquiryTypes: Inq
 }
 
 /**
+ * Get available inquiry group types for creation (filter out official and suggestion)
+ * @param inquiryTypes
+ */
+export function getAvailableInquiryGroupTypesForCreation(inquiryGroupTypes: InquiryGroupType[]): InquiryGroupType[] {
+  return inquiryGroupTypes.filter(type =>
+    !['official', 'suggestion'].includes(type.group_type)
+  )
+}
+
+
+/**
  * Get available inquiry types for creation (filter out official and suggestion)
  * @param inquiryTypes
  */
@@ -229,6 +289,18 @@ export function isInquiryFinalStatus(inquiryStore: ReturnType<typeof useInquiryS
 
   return statusConfig.isFinal === true
 }
+/**
+ * Get inquiry group types for specific family
+ * @param familyInquiryType
+ * @param inquiryGroupTypesByFamily
+ */
+export function getInquiryGroupTypesForFamily(
+  familyInquiryType: string,
+  inquiryGroupTypesByFamily: Record<string, InquiryType[]>,
+) {
+  const types = inquiryGroupTypesByFamily[familyInquiryType] || []
+  return types
+}
 
 /**
  * Get inquiry types for specific family
@@ -255,6 +327,18 @@ export function countInquiryTypesByFamily(
   return inquiryTypes.filter(type =>
     type.family === familyInquiryType
   ).length
+}
+
+/**
+ * Get inquiry group type options for radio/select components
+ * @param inquiryTypes
+ */
+export function getInquiryGroupTypeOptions(inquiryGroupTypes: InquiryGroupType[]) {
+  return inquiryGroupTypes.map(type => ({
+    value: type.group_type,
+    label: type.label,
+    description: type.description,
+  }))
 }
 
 /**

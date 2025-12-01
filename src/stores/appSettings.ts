@@ -8,6 +8,7 @@ import { AppSettingsAPI } from '../Api/index.ts'
 import { Logger } from '../helpers/index.ts'
 import { BaseEntry, InquiryType, InquiryFamily } from '../Types/index.ts'
 import { AxiosError } from '@nextcloud/axios'
+import type { InquiryGroupType } from './inquiryGroups.types'
 
 import type { InquiryTypeRights, ModeratorRights, OfficialRights } from '../utils/permissions.ts'
 import { DefaultInquiryRights, DefaultModeratorRights, DefaultOfficialRights } from '../utils/permissions.ts'
@@ -87,6 +88,7 @@ export type AppSettings = {
 	locationTab: Location[]
 	inquiryStatusTab: InquiryStatus[]
 	inquiryTypeTab: InquiryType[]
+	inquiryGroupTypeTab: InquiryGroupType[]
 	inquiryFamilyTab: InquiryFamily[]
 	groups: Group[]
 	inquiryTypeRights: Record<string, InquiryTypeRights>
@@ -137,6 +139,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
 		unrestrictedOwnerGroups: [],
 		categoryTab: [],
 		inquiryTypeTab: [],
+		inquiryGroupTypeTab: [],
 		inquiryFamilyTab: [],
 		locationTab: [],
 		inquiryStatusTab: [],
@@ -153,6 +156,8 @@ export const useAppSettingsStore = defineStore('appSettings', {
 		 getInquiryTypeRights: (state) => (inquiryType: string) => state.inquiryTypeRights[inquiryType],
 
 		 getMainInquiryTypes: (state) => state.inquiryTypeTab,
+		 
+         getMainInquiryGroupTypes: (state) => state.inquiryGroupTypeTab,
 
 
 	},

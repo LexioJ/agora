@@ -171,9 +171,6 @@ const inquiries = {
       parentId?: number | 0
       locationId?: number | 0
       categoryId?: number | 0
-      formId?: number | 0
-      pollId?: number | 0
-      talkId?: number | 0
     }
   ): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
     return httpInstance.request({

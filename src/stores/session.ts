@@ -201,6 +201,7 @@ export const useSessionStore = defineStore('session', {
 	 appSettingsStore.$patch({
       		inquiryStatusTab: this.appSettings.inquiryStatusTab,
       		inquiryTypeTab: this.appSettings.inquiryTypeTab,
+      		inquiryGroupTypeTab: this.appSettings.inquiryGroupTypeTab,
       		inquiryFamilyTab: this.appSettings.inquiryFamilyTab,
       		categoryTab: this.appSettings.categoryTab,
       		locationTab: this.appSettings.locationTab,

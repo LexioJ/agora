@@ -557,7 +557,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                         targetType: 'form',
                                                                                                                                         targetId: formId.toString(),
                                                                                                                                         metadata: JSON.stringify({ 
-                                                                                                                                            url: url,
+                                                                                                                                            url,
                                                                                                                                             title: inquiryStore.title,
                                                                                                                                             hash: formResponse.ocs.data.hash,
                                                                                                                                         }),
@@ -588,8 +588,8 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     targetType: 'form',
                                                                                                                                     targetId: formId,
                                                                                                                                     metadata: JSON.stringify({ 
-                                                                                                                                        url: url,
-                                                                                                                                        title: title,
+                                                                                                                                        url,
+                                                                                                                                        title,
                                                                                                                                         hash: formHash,
                                                                                                                                     }),
                                                                                                                                     sortOrder: 0
@@ -670,7 +670,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     targetType: 'project',
                                                                                                                                     targetId: projectId.toString(),
                                                                                                                                     metadata: JSON.stringify({ 
-                                                                                                                                        url: url,
+                                                                                                                                        url,
                                                                                                                                         title: inquiryStore.title,
                                                                                                                                     }),
                                                                                                                                     sortOrder: 0
@@ -693,8 +693,8 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     targetType: 'project',
                                                                                                                                     targetId: projectId,
                                                                                                                                     metadata: JSON.stringify({ 
-                                                                                                                                        url: url,
-                                                                                                                                        title: title,
+                                                                                                                                        url,
+                                                                                                                                        title,
                                                                                                                                     }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }
@@ -773,7 +773,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                         targetType: 'collective',
                                                                                                                                         targetId: collectiveId.toString(),
                                                                                                                                         metadata: JSON.stringify({ 
-                                                                                                                                            url: url,
+                                                                                                                                            url,
                                                                                                                                             title: inquiryStore.title,
                                                                                                                                         }),
                                                                                                                                         sortOrder: 0
@@ -796,7 +796,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     targetType: 'collective',
                                                                                                                                     targetId: collectiveId,
                                                                                                                                     metadata: JSON.stringify({ 
-                                                                                                                                        url: url,
+                                                                                                                                        url,
                                                                                                                                         title: collectiveTitle,
                                                                                                                                     }),
                                                                                                                                     sortOrder: 0
@@ -866,7 +866,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     targetType: 'poll',
                                                                                                                                     targetId: pollId.toString(),
                                                                                                                                     metadata: JSON.stringify({ 
-                                                                                                                                        url: url,
+                                                                                                                                        url,
                                                                                                                                         title: inquiryStore.title,
                                                                                                                                     }),
                                                                                                                                     sortOrder: 0
@@ -889,8 +889,8 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     targetType: 'poll',
                                                                                                                                     targetId: pollId,
                                                                                                                                     metadata: JSON.stringify({ 
-                                                                                                                                        url: url,
-                                                                                                                                        title: title,
+                                                                                                                                        url,
+                                                                                                                                        title,
                                                                                                                                     }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }
@@ -958,7 +958,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     targetType: 'board',
                                                                                                                                     targetId: boardId.toString(),
                                                                                                                                     metadata: JSON.stringify({ 
-                                                                                                                                        url: url,
+                                                                                                                                        url,
                                                                                                                                         title: inquiryStore.title,
                                                                                                                                     }),
                                                                                                                                     sortOrder: 0
@@ -981,8 +981,8 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                                     targetType: 'board',
                                                                                                                                     targetId: boardId,
                                                                                                                                     metadata: JSON.stringify({ 
-                                                                                                                                        url: url,
-                                                                                                                                        title: title,
+                                                                                                                                        url,
+                                                                                                                                        title,
                                                                                                                                     }),
                                                                                                                                     sortOrder: 0
                                                                                                                                 }

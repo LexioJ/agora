@@ -74,7 +74,7 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     protected ?int $expire = null;
     protected ?string $metadata = null;
     protected ?int $coverId = null;
-    protected bool $protected = false;
+    protected ?bool $protected = false;
     // joined inquiries
     protected ?string $inquiryIds = '';
 

@@ -13,6 +13,7 @@ use OCA\Agora\Service\InquiryService;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
+use Psr\Log\LoggerInterface;
 use OCP\IRequest;
 
 /**
@@ -25,6 +26,7 @@ class InquiryGroupController extends BaseController
         IRequest $request,
         private InquiryService $inquiryService,
         private InquiryGroupService $inquiryGroupService,
+        private LoggerInterface $logger,
     ) {
         parent::__construct($appName, $request);
     }
@@ -50,6 +52,53 @@ class InquiryGroupController extends BaseController
     /**
      * Create a new inquirygroup with its title and add a inquiry to it
      *
+     * @param string    $type        Inquiry group type to add to the new inquirygrou
+     * @param string $inquiryGroupName Name of the new inquirygroup
+     *
+     *                                 psalm-return JSONResponse<array{inquiryGroup: InquiryGroup}>
+    */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'POST', url: '/inquirygroup/new/')]
+    public function addGroup(): JSONResponse
+    {
+        try {
+            $rawData = $this->request->getParams('data');
+            $data =$rawData;
+            
+            $this->logger->error('Missing or empty key in misc field update', ['data' => $data]);
+
+            if (empty($data['title'])) {
+                throw new \InvalidArgumentException('Title is required');
+            }
+
+            return $this->response(
+                fn () => [
+                    'inquiryGroup' => $this->inquiryGroupService->createGroup($data['title'],$data['type'],$data['parentId'],$data['protected'],$data['ownedGroup']),
+                ]
+            );
+        } catch (\InvalidArgumentException $e) {
+            return new JSONResponse(
+                ['error' => 'VALIDATION_ERROR', 'message' => $e->getMessage()],
+                Http::STATUS_BAD_REQUEST
+            );
+        } catch (\Exception $e) {
+            $this->logger->critical(
+                'Server error', [
+                    'exception' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]
+            );
+
+        }
+        return new JSONResponse(
+            ['error' => 'SERVER_ERROR', 'message' => 'An unexpected error occurred'],
+        );
+    }
+
+
+    /**
+     * Create a new inquirygroup with its title and add a inquiry to it
+     *
      * @param int    $inquiryId        Inquiry id to add to the new inquirygroup
      * @param string $inquiryGroupName Name of the new inquirygroup
      *
@@ -69,7 +118,7 @@ class InquiryGroupController extends BaseController
 
     /**
      * Add inquiry to inquirygroup
-  *
+     *
      * @param int $inquiryId      Inquiry id
      * @param int $inquiryGroupId Inquiry group id
      *
@@ -107,7 +156,7 @@ class InquiryGroupController extends BaseController
 
     /**
      * Remove inquiry from inquirygroup
-  *
+     *
      * @param int $inquiryId      Inquiry id
      * @param int $inquiryGroupId Inquiry group id
      *

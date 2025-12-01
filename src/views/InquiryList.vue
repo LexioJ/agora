@@ -56,6 +56,17 @@ function handleMainModeChange(mode: string) {
         viewMode: 'create',
       }
     })
+  }else if (mode === 'group') {
+  router.push({
+    name: 'group-list',
+    params: {
+        slug: 'none' 
+    },
+    query: {
+      ...route.query,
+      viewMode: 'group',
+    }
+  })
   } else {
     // Stay in view mode, just update the query
     router.push({
@@ -151,15 +162,18 @@ async function loadMore() {
 
 onMounted(() => {
   inquiriesStore.load(false)
- 
+
 
   // Initialize modes from route query
   if (route.query.viewMode === 'create') {
-    mainMode.value = 'create'
+    mainMode.value = 'create' 
+  }
+  else if (route.query.viewMode === 'create') {
+    mainMode.value = 'group'
   } else {
     mainMode.value = 'view'
   }
-  
+
   // Initialize subMode from app settings
   if (preferencesStore.user.defaultViewInquiry) {
     subMode.value = preferencesStore.user.defaultViewInquiry
@@ -171,414 +185,431 @@ onMounted(() => {
 </script>
 
 <template>
-  <NcAppContent class="inquiry-list">
+    <NcAppContent class="inquiry-list">
     <HeaderBar>
-      <template #title>
+    <template #title>
         {{ title }}
-      </template>
-      {{ description }}
-      
-      <template #right>
+    </template>
+    {{ description }}
+
+    <template #right>
         <!-- All controls in one line -->
         <div class="header-controls">
-          <!-- Mode Switchers -->
-          <div class="mode-switchers">
-            <!-- Main Mode (Create/View) -->
-            <div class="main-mode-switcher">
-              <NcCheckboxRadioSwitch
-                :button-variant="true"
-                :model-value="mainMode"
-                value="create"
-                name="main_mode_radio"
-                type="radio"
-                button-variant-grouped="horizontal"
-                class="mode-switch"
-                @update:model-value="handleMainModeChange"
-              >
-                {{ t('agora', 'Create') }}
-              </NcCheckboxRadioSwitch>
-              
-              <NcCheckboxRadioSwitch
-                :button-variant="true"
-                :model-value="subMode"
-                value="table-view"
-                name="sub_mode_radio"
-                type="radio"
-                button-variant-grouped="horizontal"
-                class="mode-switch sub-mode"
-                @update:model-value="handleSubModeChange"
-              >
-                <template #icon>
-                  <component :is="InquiryGeneralIcons.Table" size="16" />
-                </template>
-              </NcCheckboxRadioSwitch>
-              
-              <NcCheckboxRadioSwitch
-                :button-variant="true"
-                :model-value="subMode"
-                value="list-view"
-                name="sub_mode_radio"
-                type="radio"
-                button-variant-grouped="horizontal"
-                class="mode-switch sub-mode"
-                @update:model-value="handleSubModeChange"
-              >
-                <template #icon>
-                  <component :is="InquiryGeneralIcons.ViewListOutline" size="16" />
-                </template>
-              </NcCheckboxRadioSwitch>
-            </div>
-          </div>
+            <!-- Mode Switchers -->
+            <div class="mode-switchers">
+                <!-- Main Mode (Create/View) -->
+                <div class="main-mode-switcher">
+                    <NcCheckboxRadioSwitch
+                            :button-variant="true"
+                            :model-value="mainMode"
+                            value="create"
+                            name="main_mode_radio"
+                            type="radio"
+                            button-variant-grouped="horizontal"
+                            class="mode-switch"
+                            @update:model-value="handleMainModeChange"
+                            >
+                            <template #icon>
+                                <component :is="InquiryGeneralIcons.Plus" size="32" />
+                            </template>
+                    </NcCheckboxRadioSwitch>
 
-          <!-- Sort and other controls -->
-          <div class="right-controls">
-            <InquiryListSort />
-            <ActionToggleSidebar
-              v-if="inquiryGroupsStore.currentInquiryGroup?.owner.id === sessionStore.currentUser.id"
-            />
-          </div>
+                    <NcCheckboxRadioSwitch
+                            :button-variant="true"
+                            :model-value="mainMode"
+                            value="group"
+                            name="main_mode_radio"
+                            type="radio"
+                            button-variant-grouped="horizontal"
+                            class="mode-switch"
+                            @update:model-value="handleMainModeChange"
+                            >
+                            <template #icon>
+                                <component :is="InquiryGeneralIcons.Bank" size="32" />
+                            </template>
+                    </NcCheckboxRadioSwitch>
+
+                    <NcCheckboxRadioSwitch
+                            :button-variant="true"
+                            :model-value="subMode"
+                            value="table-view"
+                            name="sub_mode_radio"
+                            type="radio"
+                            button-variant-grouped="horizontal"
+                            class="mode-switch sub-mode"
+                            @update:model-value="handleSubModeChange"
+                            >
+                            <template #icon>
+                                <component :is="InquiryGeneralIcons.Table" size="16" />
+                            </template>
+                    </NcCheckboxRadioSwitch>
+
+                    <NcCheckboxRadioSwitch
+                            :button-variant="true"
+                            :model-value="subMode"
+                            value="list-view"
+                            name="sub_mode_radio"
+                            type="radio"
+                            button-variant-grouped="horizontal"
+                            class="mode-switch sub-mode"
+                            @update:model-value="handleSubModeChange"
+                            >
+                            <template #icon>
+                                <component :is="InquiryGeneralIcons.ViewListOutline" size="16" />
+                            </template>
+                    </NcCheckboxRadioSwitch>
+                </div>
+            </div>
+
+            <!-- Sort and other controls -->
+            <div class="right-controls">
+                <InquiryListSort />
+                <ActionToggleSidebar
+                        v-if="inquiryGroupsStore.currentInquiryGroup?.owner.id === sessionStore.currentUser.id"
+                        />
+            </div>
         </div>
-      </template>
+    </template>
     </HeaderBar>
 
     <InquiryFilter :family-type="selectedFamily" />
 
     <div class="area__main">
-      <TransitionGroup
-        v-if="!emptyInquiryListnoInquiries"
-        tag="div"
-        name="list"
-        :class="[
-          'inquiry-list__container',
-          isGridView ? 'inquiry-list__grid' : 'inquiry-list__list',
-        ]"
-      >
-        <InquiryItem
-          v-for="inquiry in inquiriesStore.chunkedList"
-          :key="inquiry.id"
-          :inquiry="inquiry"
-          :grid-view="isGridView"
-        >
-          <template #actions>
-            <InquiryItemActions
-              v-if="inquiry.permissions.edit || sessionStore.appPermissions.inquiryCreation"
-              :key="`actions-${inquiry.id}`"
-              :inquiry="inquiry"
-            />
-          </template>
-        </InquiryItem>
-      </TransitionGroup>
+        <TransitionGroup
+                v-if="!emptyInquiryListnoInquiries"
+                tag="div"
+                name="list"
+                :class="[
+                         'inquiry-list__container',
+                         isGridView ? 'inquiry-list__grid' : 'inquiry-list__list',
+                         ]"
+                >
+                <InquiryItem
+                        v-for="inquiry in inquiriesStore.chunkedList"
+                        :key="inquiry.id"
+                        :inquiry="inquiry"
+                        :grid-view="isGridView"
+                        >
+                        <template #actions>
+                            <InquiryItemActions
+                                    v-if="inquiry.permissions.edit || sessionStore.appPermissions.inquiryCreation"
+                                    :key="`actions-${inquiry.id}`"
+                                    :inquiry="inquiry"
+                                    />
+                        </template>
+                </InquiryItem>
+        </TransitionGroup>
 
-      <IntersectionObserver
-        v-if="showMore"
-        key="observer"
-        class="observer_section"
-        @visible="loadMore"
-      >
-        <div class="clickable_load_more" @click="loadMore">
-          {{ infoLoaded }}
-          {{ t('agora', 'Click here to load more') }}
-        </div>
-      </IntersectionObserver>
+        <IntersectionObserver
+                v-if="showMore"
+                key="observer"
+                class="observer_section"
+                @visible="loadMore"
+                >
+                <div class="clickable_load_more" @click="loadMore">
+                    {{ infoLoaded }}
+                    {{ t('agora', 'Click here to load more') }}
+                </div>
+        </IntersectionObserver>
 
-      <NcEmptyContent v-if="emptyInquiryListnoInquiries" v-bind="emptyContentProps">
+        <NcEmptyContent v-if="emptyInquiryListnoInquiries" v-bind="emptyContentProps">
         <template #icon>
-          <AgoraAppIcon />
+            <AgoraAppIcon />
         </template>
-      </NcEmptyContent>
+        </NcEmptyContent>
     </div>
 
     <LoadingOverlay :show="inquiriesStore.meta.status === 'loading'" v-bind="loadingOverlayProps" />
-  </NcAppContent>
+    </NcAppContent>
 </template>
 <style lang="scss" scoped>
 .inquiry-list {
-  .area__main {
-    width: 100%;
-  }
+    .area__main {
+        width: 100%;
+    }
 }
 
 // Header controls container - all elements aligned to the right
-.header-controls {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  width: 100%;
-  justify-content: flex-end; // Align everything to the right
+    .header-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    justify-content: flex-end; // Align everything to the right
 }
 
 // Mode switchers container - on the right side
-.mode-switchers {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
+    .mode-switchers {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
 }
 
 // Right controls container - on the right side after mode switchers
-.right-controls {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
-}
-
-// Main mode switcher - contains Create, Grid, List buttons
-.main-mode-switcher {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  background: var(--color-background-dark);
-  border-radius: 10px;
-  padding: 4px;
-  border: 1px solid var(--color-border);
-  
-  .mode-switch {
-    margin: 0;
-    
-    :deep(.checkbox-radio-switch__label) {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 12px;
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: 13px;
-      transition: all 0.2s ease;
-      
-      &:hover {
-        background: var(--color-background-hover);
-      }
-    }
-    
-    :deep(input:checked + .checkbox-radio-switch__label) {
-      background: var(--color-primary-element);
-      color: var(--color-primary-text);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    
-    :deep(.material-design-icon) {
-      width: 16px;
-      height: 16px;
-    }
-  }
-}
-
-// Header right area alignment
-:deep(.header-bar__right) {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-}
-
-.inquiry-list__container {
-  width: 100%;
-  padding-bottom: 14px;
-  box-sizing: border-box;
-}
-
-.inquiry-list__list {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.inquiry-list__grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-  padding: 16px;
-  width: 100%;
-  box-sizing: border-box;
-  align-items: stretch;
-
-  .inquiry-item {
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 10px;
-    background-color: var(--color-main-background);
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-    transition: all 0.2s ease;
-    height: 100%;
-    min-height: 80px;
+    .right-controls {
     display: flex;
-    flex-direction: column;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
-    }
-
-    .inquiry-item__header {
-      margin-bottom: 16px;
-      flex-grow: 1;
-
-      .inquiry-item__title {
-        font-size: 16px;
-        font-weight: 600;
-        line-height: 1.4;
-        margin-bottom: 12px;
-        color: var(--color-main-text);
-        word-break: break-word;
-      }
-    }
-
-    .inquiry-item__meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 16px;
-      font-size: 13px;
-      color: var(--color-text-lighter);
-
-      .meta-item {
-        display: flex;
-        align-items: center;
-        gap: 6px;
-
-        .material-design-icon {
-          width: 16px;
-          height: 16px;
-          flex-shrink: 0;
-        }
-      }
-    }
-
-    .inquiry-item__actions {
-      margin-top: auto;
-      padding-top: 16px;
-      border-top: 1px solid var(--color-border-light);
-      display: flex;
-      justify-content: flex-end;
-      gap: 10px;
-    }
-  }
-
-  @media (max-width: 1400px) {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-    padding: 12px;
-  }
-
-  @media (max-width: 768px) {
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 8px;
-
-    .inquiry-item {
-      padding: 16px;
-      min-height: 160px;
-    }
-  }
-}
-
-.observer_section {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px 0;
-  grid-column: 1 / -1;
-  width: 100%;
-}
-
-.clickable_load_more {
-  cursor: pointer;
-  font-weight: 600;
-  text-align: center;
-  padding: 20px;
-  background-color: var(--color-background-dark);
-  border-radius: 12px;
-  margin: 0 16px;
-  color: var(--color-text-lighter);
-  transition: background-color 0.2s ease;
-
-  &:hover {
-    background-color: var(--color-background-darker);
-    color: var(--color-main-text);
-  }
-}
-
-.app-content {
-  width: 100%;
-
-  .app-content-wrapper {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-@media (min-width: 1600px) {
-  .inquiry-list__grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-// Responsive adjustments
-@media (max-width: 1024px) {
-  .header-controls {
-    flex-direction: row; // Keep horizontal on tablet
-    gap: 12px;
     align-items: center;
-    justify-content: flex-end;
-  }
+    gap: 8px;
+    flex-shrink: 0;
 }
 
-@media (max-width: 768px) {
-  :deep(.header-bar__right) {
-    flex-wrap: wrap;
-    justify-content: flex-end;
-    gap: 8px;
-  }
+                  // Main mode switcher - contains Create, Grid, List buttons
+                      .main-mode-switcher {
+                      display: flex;
+                      align-items: center;
+                      gap: 0;
+                      background: var(--color-background-dark);
+                      border-radius: 10px;
+                      padding: 4px;
+                      border: 1px solid var(--color-border);
 
-  .header-controls {
-    flex-direction: column;
-    gap: 8px;
-    align-items: stretch;
-  }
+                      .mode-switch {
+                          margin: 0;
 
-  .mode-switchers {
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-  }
+                          :deep(.checkbox-radio-switch__label) {
+                              display: flex;
+                              align-items: center;
+                              gap: 6px;
+                              padding: 8px 12px;
+                              border-radius: 8px;
+                              font-weight: 500;
+                              font-size: 13px;
+                              transition: all 0.2s ease;
 
-  .main-mode-switcher {
-    width: 100%;
-    justify-content: center;
-  }
+                              &:hover {
+                                  background: var(--color-background-hover);
+                              }
+                          }
 
-  .mode-switch {
-    :deep(.checkbox-radio-switch__label) {
-      flex: 1;
-      justify-content: center;
-    }
-  }
+                          :deep(input:checked + .checkbox-radio-switch__label) {
+                              background: var(--color-primary-element);
+                              color: var(--color-primary-text);
+                              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                          }
 
-  .right-controls {
-    justify-content: center;
-  }
-}
+                          :deep(.material-design-icon) {
+                              width: 16px;
+                              height: 16px;
+                          }
+                      }
+                  }
 
-@media (max-width: 480px) {
-  .main-mode-switcher .mode-switch :deep(.checkbox-radio-switch__label) {
-    padding: 8px 10px;
-    font-size: 12px;
-    
-    .material-design-icon {
-      width: 14px;
-      height: 14px;
-    }
-  }
+                  // Header right area alignment
+                      :deep(.header-bar__right) {
+                      display: flex;
+                      align-items: center;
+                      gap: 12px;
+                      width: 100%;
+                  }
 
-  .right-controls {
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 6px;
-  }
-}
+                  .inquiry-list__container {
+                      width: 100%;
+                      padding-bottom: 14px;
+                      box-sizing: border-box;
+                  }
+
+                  .inquiry-list__list {
+                      display: flex;
+                      flex-direction: column;
+                      gap: 12px;
+                  }
+
+                  .inquiry-list__grid {
+                      display: grid;
+                      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                      gap: 20px;
+                      padding: 16px;
+                      width: 100%;
+                      box-sizing: border-box;
+                      align-items: stretch;
+
+                      .inquiry-item {
+                          border: 1px solid var(--color-border);
+                          border-radius: 12px;
+                          padding: 10px;
+                          background-color: var(--color-main-background);
+                          box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+                          transition: all 0.2s ease;
+                          height: 100%;
+                          min-height: 80px;
+                          display: flex;
+                          flex-direction: column;
+
+                          &:hover {
+                              transform: translateY(-2px);
+                              box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+                          }
+
+                          .inquiry-item__header {
+                              margin-bottom: 16px;
+                              flex-grow: 1;
+
+                              .inquiry-item__title {
+                                  font-size: 16px;
+                                  font-weight: 600;
+                                  line-height: 1.4;
+                                  margin-bottom: 12px;
+                                  color: var(--color-main-text);
+                                  word-break: break-word;
+                              }
+                          }
+
+                          .inquiry-item__meta {
+                              display: flex;
+                              flex-wrap: wrap;
+                              gap: 10px;
+                              margin-bottom: 16px;
+                              font-size: 13px;
+                              color: var(--color-text-lighter);
+
+                              .meta-item {
+                                  display: flex;
+                                  align-items: center;
+                                  gap: 6px;
+
+                                  .material-design-icon {
+                                      width: 16px;
+                                      height: 16px;
+                                      flex-shrink: 0;
+                                  }
+                              }
+                          }
+
+                          .inquiry-item__actions {
+                              margin-top: auto;
+                              padding-top: 16px;
+                              border-top: 1px solid var(--color-border-light);
+                              display: flex;
+                              justify-content: flex-end;
+                              gap: 10px;
+                          }
+                      }
+
+                      @media (max-width: 1400px) {
+                          grid-template-columns: repeat(3, 1fr);
+                      }
+
+                      @media (max-width: 1024px) {
+                          grid-template-columns: repeat(2, 1fr);
+                          gap: 16px;
+                          padding: 12px;
+                      }
+
+                      @media (max-width: 768px) {
+                          grid-template-columns: 1fr;
+                          gap: 12px;
+                          padding: 8px;
+
+                          .inquiry-item {
+                              padding: 16px;
+                              min-height: 160px;
+                          }
+                      }
+                  }
+
+                  .observer_section {
+                      display: flex;
+                      justify-content: center;
+                      align-items: center;
+                      padding: 20px 0;
+                      grid-column: 1 / -1;
+                      width: 100%;
+                  }
+
+                  .clickable_load_more {
+                      cursor: pointer;
+                      font-weight: 600;
+                      text-align: center;
+                      padding: 20px;
+                      background-color: var(--color-background-dark);
+                      border-radius: 12px;
+                      margin: 0 16px;
+                      color: var(--color-text-lighter);
+                      transition: background-color 0.2s ease;
+
+                      &:hover {
+                          background-color: var(--color-background-darker);
+                          color: var(--color-main-text);
+                      }
+                  }
+
+                  .app-content {
+                      width: 100%;
+
+                      .app-content-wrapper {
+                          width: 100%;
+                          max-width: none;
+                      }
+                  }
+
+                  @media (min-width: 1600px) {
+                      .inquiry-list__grid {
+                          grid-template-columns: repeat(4, 1fr);
+                      }
+                  }
+
+                  // Responsive adjustments
+              @media (max-width: 1024px) {
+                      .header-controls {
+                          flex-direction: row; // Keep horizontal on tablet
+                              gap: 12px;
+                          align-items: center;
+                          justify-content: flex-end;
+                      }
+                  }
+
+                  @media (max-width: 768px) {
+                      :deep(.header-bar__right) {
+                          flex-wrap: wrap;
+                          justify-content: flex-end;
+                          gap: 8px;
+                      }
+
+                      .header-controls {
+                          flex-direction: column;
+                          gap: 8px;
+                          align-items: stretch;
+                      }
+
+                      .mode-switchers {
+                          flex-direction: column;
+                          gap: 8px;
+                          width: 100%;
+                      }
+
+                      .main-mode-switcher {
+                          width: 100%;
+                          justify-content: center;
+                      }
+
+                      .mode-switch {
+                          :deep(.checkbox-radio-switch__label) {
+                              flex: 1;
+                              justify-content: center;
+                          }
+                      }
+
+                      .right-controls {
+                          justify-content: center;
+                      }
+                  }
+
+                  @media (max-width: 480px) {
+                      .main-mode-switcher .mode-switch :deep(.checkbox-radio-switch__label) {
+                          padding: 8px 10px;
+                          font-size: 12px;
+
+                          .material-design-icon {
+                              width: 14px;
+                              height: 14px;
+                          }
+                      }
+
+                      .right-controls {
+                          flex-wrap: wrap;
+                          justify-content: center;
+                          gap: 6px;
+                      }
+                  }
 </style>

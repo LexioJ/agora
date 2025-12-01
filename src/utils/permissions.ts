@@ -595,12 +595,10 @@ export function canEdit(context: PermissionContext): boolean {
  */
 export function canComment(context: PermissionContext): boolean {
   const appSettings = useAppSettingsStore()
-
   if (isContentBlocked(context)) {
     return false
   }
 
-  // Vérification des restrictions d'accès et de statut final
   if (isAccessRestrictedForComments(context)) {
     return false
   }

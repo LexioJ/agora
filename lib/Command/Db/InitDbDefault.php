@@ -73,6 +73,7 @@ class InitDbDefault extends Command
             'description' => 'Social request by citizan to help them in their daily life',
             'icon' => 'Heart',
             'sort_order' => 6,
+            'created' => '',
         ],
         [
             'family_type' => 'official',
@@ -216,8 +217,9 @@ class InitDbDefault extends Command
                 ["key"=>"facilitator_id","label"=>"Facilitateur","type"=>"users","required"=>false,"default"=>null,"rules"=>[]],
                 ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
             ],
-            'allowed_response' => ['amendment','objection','response','official'],
-            'allowed_transformation' => ['decree','policy'],
+            'allowed_response' => ['amendment','objection','official'],
+            'allowed_transformation' => [],
+            'is_root' => true,
             'created' => '',
         ],
         [
@@ -234,6 +236,7 @@ class InitDbDefault extends Command
             ],
             'allowed_response' => null,
             'allowed_transformation' => null,
+            'is_root' => false,
             'created' => '',
         ],
         [
@@ -250,6 +253,7 @@ class InitDbDefault extends Command
             ],
             'allowed_response' => ['law_proposal'],
             'allowed_transformation' => null,
+            'is_root' => true,
             'created' => '',
         ],
         [
@@ -265,43 +269,24 @@ class InitDbDefault extends Command
             ],
             'allowed_response' => ['law_proposal','response'],
             'allowed_transformation' => null,
+            'is_root' => true,
             'created' => '',
         ],
 
         // --- Deliberative ---
-        [
-            'inquiry_type' => 'debate',
-            'family' => 'deliberative',
-            'icon' => 'Forum',
-            'label' => 'Debate',
-            'description' => 'Public debate with a neutral facilitator and optional quorum.',
-            'fields' => [
-                ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"users","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"quorum","label"=>"Quorum","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"topic","label"=>"Topic","type"=>"string","required"=>true,"default"=>null,"rules"=>["maxLength"=>255]],
-                ["key"=>"form_schema","label"=>"Form Schema","type"=>"json","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"type_of_vote","label"=>"Type of Vote","type"=>"enum","required"=>false,"default"=>"simple","allowed_values"=>["simple","majority_judgement_beneficial","majority_judgement_number"],"rules"=>[]],
-                ["key"=>"support_start","label"=>"Supporting Start","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"support_end","label"=>"Supporting End","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
-            ],
-            'allowed_response' => ['suggestion','proposal','petition','official'],
-            'allowed_transformation' => ['law_proposal','policy_consultation'],
-            'created' => '',
-        ],
         [
             'inquiry_type' => 'objection',
             'family' => 'deliberative',
             'icon' => 'AlertCircle',
             'label' => 'Objection',
             'description' => 'Objection linked to another inquiry, can be resolved via suggestions.',
-            'fields' => [
-                ["key"=>"parent_inquiry_id","label"=>"Parent Inquiry","type"=>"integer","required"=>true,"default"=>null,"rules"=>[]]
-            ],
+            'fields' => [],
             'allowed_response' => ['suggestion'],
             'allowed_transformation' => null,
+            'is_root' => false,
             'created' => '',
         ],
+
         [
             'inquiry_type' => 'suggestion',
             'family' => 'deliberative',
@@ -313,6 +298,7 @@ class InitDbDefault extends Command
             ],
             'allowed_response' => null,
             'allowed_transformation' => ['proposal','law_proposal'],
+            'is_root' => false,
             'created' => '',
         ],
         [
@@ -332,7 +318,8 @@ class InitDbDefault extends Command
                 ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
             ],
             'allowed_response' => ['objection','suggestion','official'],
-            'allowed_transformation' => ['law_proposal','initiative'],
+            'allowed_transformation' => ['law_proposal'],
+            'is_root' => true,
             'created' => '',
         ],
         [
@@ -350,7 +337,8 @@ class InitDbDefault extends Command
                 ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
             ],
             'allowed_response' => ['official'],
-            'allowed_transformation' => ['law_proposal','initiative'],
+            'allowed_transformation' => ['initiative'],
+            'is_root' => true,
             'created' => '',
         ],
         [
@@ -362,8 +350,9 @@ class InitDbDefault extends Command
             'fields' => [
                 ["key"=>"horizon_year","label"=>"Horizon Year","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]]
             ],
-            'allowed_response' => null,
-            'allowed_transformation' => null,
+            'allowed_response' => ['suggestion'],
+            'allowed_transformation' => ['roadmap'],
+            'is_root' => true,
             'created' => '',
         ],
         [
@@ -382,8 +371,9 @@ class InitDbDefault extends Command
                 ["key"=>"support_end","label"=>"Supporting End","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
                 ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
             ],
-            'allowed_response' => ['proposal','petition','official'],
+            'allowed_response' => ['proposal','objection','suggestion','official'],
             'allowed_transformation' => ['law_proposal'],
+            'is_root' => true,
             'created' => '',
         ],
         [
@@ -398,6 +388,7 @@ class InitDbDefault extends Command
             ],
             'allowed_response' => ['proposal','suggestion','official'],
             'allowed_transformation' => null,
+            'is_root' => true,
             'created' => '',
         ],
 
@@ -419,440 +410,699 @@ class InitDbDefault extends Command
                 ["key"=>"support_end","label"=>"Supporting End","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
                 ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
             ],
-            'allowed_response' => ['project_review','suggestion','official'],
-            'allowed_transformation' => ['law_proposal','initiative'],
+            'allowed_response' => ['project_review','suggestion','objection','official'],
+            'allowed_transformation' => [],
+            'is_root' => true,
             'created' => '',
         ],
+
+        // PROJECT REVIEW
         [
             'inquiry_type' => 'project_review',
             'family' => 'deliberative',
-            'icon' => 'ChartBar',
-            'label' => 'Project Review',
-            'description' => 'Citizen evaluation of an ongoing or completed project.',
-            'fields' => [
-                ["key"=>"evaluation_score","label"=>"Evaluation Score","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"progress_status","label"=>"Progress Status","type"=>"string","required"=>false,"default"=>null,"rules"=>[]]
-            ],
-            'allowed_response' => ['official'],
-            'allowed_transformation' => null,
-            'created' => '',
-        ],
-
-        // --- Collective ---
-        [
-            'inquiry_type' => 'assembly',
-            'family' => 'collective',
-            'icon' => 'AccountGroup',
-            'label' => 'Assembly',
-            'description' => 'Citizen assembly or meeting with agenda and facilitator.',
-            'fields' => [
-                [ "key"=> "quorum", "type"=> "integer", "required"=> false ],
-                [ "key"=> "meeting_frequency", "type"=> "string", "required"=> false ],
-                [ "key"=> "voting_rules", "type"=> "text", "required"=> false ],
-                [ "key"=> "agenda", "label"=>"Agenda", "type"=> "text", "required"=> true, "default"=> null, "rules"=>[]],
-                [ "key"=> "facilitator_id","label"=> "Facilitator","type"=> "users","required"=> false,"default"=> null,"rules"=>[]]
-
-            ],
-            'allowed_response' => ['official'],
-            'allowed_transformation' => null,
-            'created' => '',
-        ],
-        [
-            'inquiry_type' => 'consultation',
-            'family' => 'collective',
-            'icon' => 'CalendarMultiselect',
-            'label' => 'Consultation',
-            'description' => 'Grouped inquiries or consultations on a specific theme.',
-            'fields' => [
-                ["key"=>"topic","label"=>"Topic","type"=>"string","required"=>true,"default"=>null,"rules"=>["maxLength"=>255]],
-                ["key"=>"form_schema","label"=>"Form Schema","type"=>"json","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"type_of_vote","label"=>"Type of Vote","type"=>"enum","required"=>false,"default"=>"simple","allowed_values"=>["simple","majority_judgement_beneficial","majority_judgement_number"],"rules"=>[]],
-                ["key"=>"support_start","label"=>"Supporting Start","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"support_end","label"=>"Supporting End","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
-                ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
-            ],
-            'allowed_response' => ['law_proposal','official'],
-            'allowed_transformation' => null,
-            'created' => '',
-        ],
-
-        // --- Working Group Proposal ---
-        [
-            'inquiry_type' => 'working_group_proposal',
-            'family' => 'collective',
-            'icon' => 'UsersCog',
-            'label' => 'Working Group Proposal',
-            'description' => 'Proposal submitted by a working group within an assembly.',
-            'fields' => [
-                ["key"=>"title","type"=>"string","required"=>true],
-                ["key"=>"description","type"=>"text","required"=>true],
-                ["key"=>"parent_group_id","type"=>"integer","required"=>true],
-            ],
-            'allowed_response' => ['law_proposal','official'],
-            'allowed_transformation' => null,
-            'created' => '',
-        ],
-
-        // --- Citizen Jury Recommendation ---
-        [
-            'inquiry_type' => 'citizen_jury_recommendation',
-            'family' => 'collective',
-            'icon' => 'Gavel',
-            'label' => 'Citizen Jury Recommendation',
-            'description' => 'Recommendation issued by a randomly selected citizen jury.',
-            'fields' => [
-                ["key"=>"title","type"=>"string","required"=>true],
-                ["key"=>"mandate","type"=>"text","required"=>false],
-                ["key"=>"jury_id","type"=>"integer","required"=>true],
-            ],
-            'allowed_response' => ['proposal','law_proposal','official'],
-            'allowed_transformation' => null,
-            'created' => '',
-        ],
-
-        // --- Official (single type) ---
-        [
-            'inquiry_type' => 'official',
-            'family' => 'official',
             'icon' => 'ClipboardCheck',
-            'label' => 'Official Response',
-            'description' => 'Official answer to an inquiry (accepted, rejected, under review).',
+            'label' => 'Project Review',
+            'description' => 'Evaluation of an ongoing or completed project.',
             'fields' => [
-                ["key"=>"responder_id","label"=>"Responder","type"=>"users","required"=>true,"default"=>null,"rules"=>[]],
-                ["key"=>"resolution_status","label"=>"Resolution Status","type"=>"enum","required"=>true,"default"=>"pending","allowed_values"=>["pending","accepted","rejected"],"rules"=>[]]
+                ["key"=>"project_id","type"=>"integer","required"=>true],
+                ["key"=>"evaluation","type"=>"text","required"=>false],
             ],
-            'allowed_response' => null,
+            'allowed_response' => ['suggestion'],
             'allowed_transformation' => null,
+            'is_root' => false,
             'created' => '',
         ],
 
-        // --- Administrative / Service / Social ---
+        // DELIBERATION
         [
-            'inquiry_type' => 'admin_request',
-            'family' => 'administrative',
-            'icon' => 'FileDocument',
-            'label' => 'Administrative Request',
-            'description' => 'General citizen administrative requests.',
+            'inquiry_type' => 'deliberation',
+            'family' => 'deliberative',
+            'icon' => 'Users',
+            'label' => 'Deliberation',
+            'description' => 'Collective citizen deliberation or assembly.',
             'fields' => [
-                ["key"=>"request_type","label"=>"Request Type","type"=>"string","required"=>true,"default"=>null,"rules"=>[]],
-                ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"processing_deadline","label"=>"Processing Deadline","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"resolution_date","label"=>"Resolution Date","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
-                ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
+                ["key"=>"title","type"=>"string","required"=>true],
+                ["key"=>"form_schema","type"=>"json","required"=>false],
             ],
-            'allowed_response' => ['official'],
-            'allowed_transformation' => null,
-            'created' => '',
-        ],
-        [
-            'inquiry_type' => 'grievance',
-            'family' => 'administrative',
-            'icon' => 'AlertOctagon',
-            'label' => 'Grievance',
-            'description' => 'Complaint or report regarding an administrative issue.',
-            'fields' => [
-                ["key"=>"severity","label"=>"Severity","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"resolution_date","label"=>"Resolution Date","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
-                ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
-            ],
-            'allowed_response' => ['official'],
-            'allowed_transformation' => null,
-            'created' => '',
-        ],
-        [
-            'inquiry_type' => 'service_request',
-            'family' => 'service',
-            'icon' => 'Offer',
-            'label' => 'Service / Social Request',
-            'description' => 'General service request or social support demand.',
-            'fields' => [
-                ["key"=>"support_type","label"=>"Support Type","type"=>"string","required"=>true,"default"=>null,"rules"=>[]],
-                ["key"=>"eligibility","label"=>"Eligibility","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"processing_deadline","label"=>"Processing Deadline","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"resolution_date","label"=>"Resolution Date","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
-                ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
-            ],
-            'allowed_response' => ['official'],
-            'allowed_transformation' => null,
+            'allowed_response' => ['proposal','recommendation'],
+            'allowed_transformation' => ['policy_consultation'],
+            'is_root' => true,
             'created' => '',
         ],
 
-        // --- Social / Childcare / Housing / Scholarship (examples) ---
+        // HEARING
         [
-            'inquiry_type' => 'scholarship_request',
-            'family' => 'social',
-            'icon' => 'School',
-            'label' => 'Scholarship Request',
-            'description' => 'Request for scholarship or educational aid.',
+            'inquiry_type' => 'hearing',
+            'family' => 'deliberative',
+            'icon' => 'Mic',
+            'label' => 'Hearing',
+            'description' => 'Public hearing collecting feedback.',
             'fields' => [
-                ["key"=>"student_id","label"=>"Student ID","type"=>"users","required"=>true,"default"=>null,"rules"=>[]],
-                ["key"=>"requested_amount","label"=>"Requested Amount","type"=>"integer","required"=>true,"default"=>null,"rules"=>[]],
-                ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
-                ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
+                ["key"=>"topic","type"=>"string","required"=>true],
             ],
-            'allowed_response' => ['official'],
+            'allowed_response' => ['suggestion','objection'],
             'allowed_transformation' => null,
+            'is_root' => true,
             'created' => '',
         ],
-        [
-            'inquiry_type' => 'childcare_request',
-            'family' => 'social',
-            'icon' => 'BabyCarriage',
-            'label' => 'Childcare Request',
-            'description' => 'Request for childcare support or enrollment.',
-            'fields' => [
-                ["key"=>"child_id","label"=>"Child ID","type"=>"users","required"=>true,"default"=>null,"rules"=>[]],
-                ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
-                ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
-            ],
-            'allowed_response' => ['official'],
-            'allowed_transformation' => null,
-            'created' => '',
-        ],
-        [
-            'inquiry_type' => 'housing_request',
-            'family' => 'social',
-            'icon' => 'Home',
-            'label' => 'Housing Request',
-            'description' => 'Request for housing support or allocation.',
-            'fields' => [
-                ["key"=>"applicant_id","label"=>"Applicant ID","type"=>"users","required"=>true,"default"=>null,"rules"=>[]],
-                ["key"=>"priority_status","label"=>"Priority Status","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
-                ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
-            ],
-            'allowed_response' => ['official'],
-            'allowed_transformation' => null,
-            'created' => '',
-        ]
-    ];
-
-private array $inquiryGroupTypes = [
-    // --- Citizens Initiative ---
+    // --- COLLECTIVE ---
+    // NEWS
     [
+        'inquiry_type' => 'news',
         'family' => 'collective',
-        'group_type' => 'initiative_group',
-        'icon' => 'Flag',
-        'label' => 'Citizens Initiative',
-        'description' => 'Group managing a citizen-driven initiative with signatures and deliberation.',
+        'icon' => 'Newspaper',
+        'label' => 'News',
+        'description' => 'Public informational notice.',
         'fields' => [
-            ["key"=>"required_signatures","type"=>"integer","required"=>false],
-            ["key"=>"collection_deadline","type"=>"datetime","required"=>false],
-            ["key"=>"initiative_scope","type"=>"string","required"=>false],
+            ["key"=>"title","type"=>"string","required"=>true],
+            ["key"=>"content","type"=>"text","required"=>true],
         ],
-        'allowed_inquiry_types' => ['consultation','deliberation','proposal','law_proposal'],
+        'allowed_response' => [],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
 
-    // --- Referendum Group ---
+    // ANNOUNCEMENT
     [
+        'inquiry_type' => 'announcement',
         'family' => 'collective',
-        'group_type' => 'referendum_group',
-        'icon' => 'CheckCircle',
-        'label' => 'Referendum Group',
-        'description' => 'Organizes all inquiries related to a referendum process.',
+        'icon' => 'Megaphone',
+        'label' => 'Announcement',
+        'description' => 'Administrative or public announcement.',
         'fields' => [
-            ["key"=>"binding","type"=>"boolean","required"=>false,"default"=>true],
-            ["key"=>"required_turnout","type"=>"integer","required"=>false],
-            ["key"=>"referendum_type","type"=>"enum","required"=>false,"allowed_values"=>["mandatory","optional","consultative"]],
+            ["key"=>"title","type"=>"string","required"=>true],
+            ["key"=>"content","type"=>"text","required"=>true],
         ],
-        'allowed_inquiry_types' => ['consultation','deliberation','proposal','law_proposal'], 
+        'allowed_response' => [],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
 
-    // --- Constitution Revision ---
+    // BULLETIN
     [
+        'inquiry_type' => 'bulletin',
         'family' => 'collective',
-        'group_type' => 'constitution_revision',
-        'icon' => 'Scale',
-        'label' => 'Constitutional Revision',
-        'description' => 'Organizes a full constitutional revision process including citizen proposals and commissions.',
+        'icon' => 'ClipboardList',
+        'label' => 'Bulletin',
+        'description' => 'Periodic update or report.',
         'fields' => [
-            ["key"=>"version","type"=>"string","required"=>false],
-            ["key"=>"scope","type"=>"text","required"=>false],
+            ["key"=>"title","type"=>"string","required"=>true],
+            ["key"=>"content","type"=>"text","required"=>true],
         ],
-        'allowed_inquiry_types' => ['consultation','deliberation','proposal','law_proposal','amendment'],
+        'allowed_response' => [],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
 
-    // --- Bundle (generic container) ---
+    // MEETING
     [
+        'inquiry_type' => 'meeting',
         'family' => 'collective',
-        'group_type' => 'bundle',
-        'icon' => 'Layers',
-        'label' => 'Bundle',
-        'description' => 'Generic container for multiple inquiries.',
+        'icon' => 'Calendar',
+        'label' => 'Meeting',
+        'description' => 'Scheduled in-person or online meeting.',
         'fields' => [
-            ["key"=> "version", "type"=> "string", "required"=> false],
-            ["key"=> "tags", "type"=> "list", "required"=> false]
+            ["key"=>"location","type"=>"string","required"=>false],
+            ["key"=>"meeting_date","type"=>"datetime","required"=>true],
         ],
-        'allowed_inquiry_types' => ['assembly','consultation','deliberation','proposal','law_proposal','amendment'],
+        'allowed_response' => ['suggestion'],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
 
-    // --- Assembly --
+    // GATHERING
     [
+        'inquiry_type' => 'gathering',
         'family' => 'collective',
-        'group_type' => 'assembly',
         'icon' => 'Users',
-        'label' => 'Assembly',
-        'description' => 'Citizen assembly or general assembly.',
+        'label' => 'Gathering',
+        'description' => 'Public citizen gathering or workshop.',
         'fields' => [
-            ["key"=> "quorum", "type"=> "integer", "required"=> false],
-            ["key"=> "meeting_frequency", "type"=> "string", "required"=> false],
-            ["key"=> "voting_rules", "type"=> "text", "required"=> false],
+            ["key"=>"location","type"=>"string","required"=>false],
+            ["key"=>"start","type"=>"datetime","required"=>true],
         ],
-        'allowed_inquiry_types' => ['deliberation','consultation','proposal','law_proposal'],
+        'allowed_response' => ['suggestion'],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
 
-    // --- Working Group ---
+    // CONFERENCE
     [
+        'inquiry_type' => 'conference',
         'family' => 'collective',
-        'group_type' => 'working_group',
-        'icon' => 'UsersCog',
-        'label' => 'Working Group',
-        'description' => 'Small collaborative group within an assembly.',
+        'icon' => 'Presentation',
+        'label' => 'Conference',
+        'description' => 'Public event presenting information or expert insights.',
         'fields' => [
-            ["key"=> "parent_assembly_id", "type"=> "integer", "required"=> false],
-            ["key"=> "scope", "type"=> "text", "required"=> false],
-            ["key"=> "public", "type"=> "boolean", "required"=> false, "default"=> true],
+            ["key"=>"topic","type"=>"string","required"=>true],
+            ["key"=>"speakers","type"=>"json","required"=>false],
         ],
-        'allowed_inquiry_types' => ['deliberation','proposal','consultation'],
+        'allowed_response' => ['suggestion'],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
 
-    // --- Commission ---
+    // --- Debate ---
+    //
     [
+        'inquiry_type' => 'debate',
         'family' => 'collective',
-        'group_type' => 'commission',
-        'icon' => 'GitBranch',
-        'label' => 'Commission',
-        'description' => 'Specialized commission working on a topic.',
+        'icon' => 'Forum',
+        'label' => 'Debate',
+        'description' => 'Public debate with a neutral facilitator and optional quorum.',
         'fields' => [
-            ["key"=> "mandate", "type"=> "text", "required"=> false],
-            ["key"=> "jury_size", "type"=> "integer", "required"=> false],
-            ["key"=> "selection_method", "type"=> "string", "required"=> false],
-            ["key"=>"scope","type"=>"string","required"=>false],
+            ["key"=>"facilitator_id","label"=>"Facilitator","type"=>"users","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"quorum","label"=>"Quorum","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"topic","label"=>"Topic","type"=>"string","required"=>true,"default"=>null,"rules"=>["maxLength"=>255]],
+            ["key"=>"form_schema","label"=>"Form Schema","type"=>"json","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"type_of_vote","label"=>"Type of Vote","type"=>"enum","required"=>false,"default"=>"simple","allowed_values"=>["simple","majority_judgement_beneficial","majority_judgement_number"],"rules"=>[]],
+            ["key"=>"support_start","label"=>"Supporting Start","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"support_end","label"=>"Supporting End","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
         ],
-        'allowed_inquiry_types' => ['deliberation','proposal','official'],
+        'allowed_response' => ['suggestion','proposal','petition','official'],
+        'allowed_transformation' => ['law_proposal','policy_consultation'],
+        'is_root' => true,
+        'created' => '',
+    ],
+    // --- Poll ---
+    [
+        'inquiry_type' => 'poll',
+        'family' => 'collective',
+        'icon' => 'BarChart',
+        'label' => 'Poll',
+        'description' => 'A specific voting process with multiple methods.',
+        'fields' => [
+            ["key"=>"topic","label"=>"Topic","type"=>"string","required"=>true,"default"=>null,"rules"=>["maxLength"=>255]],
+            ["key"=>"voting_start","label"=>"Voting Start","type"=>"datetime","required"=>true,"default"=>null,"rules"=>[]],
+            ["key"=>"voting_end","label"=>"Voting End","type"=>"datetime","required"=>true,"default"=>null,"rules"=>[]],
+            ["key"=>"poll_method","label"=>"Poll Method","type"=>"enum","required"=>true,"default"=>"simple","allowed_values"=>[
+                "simple",
+                "majority_judgement_beneficial",
+                "majority_judgement_number",
+                "condorcet",
+                "approval",
+                "nauru"
+            ],"rules"=>[]],
+            ["key"=>"allow_multiple_choices","label"=>"Allow Multiple Choices","type"=>"boolean","required"=>true,"default"=>false,"rules"=>[]],
+            ["key"=>"tie_break_rule","label"=>"Tie Break Rule","type"=>"enum","required"=>true,"default"=>"random","allowed_values"=>["random","condorcet_priority","highest_median"],"rules"=>[]],
+            ["key"=>"result_visibility","label"=>"Result Visibility","type"=>"enum","required"=>true,"default"=>"after_close","allowed_values"=>["always","after_close","partial"],"rules"=>[]],
+            ["key"=>"vote_secret","label"=>"Secret Vote","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
+        ],
+        'allowed_response' => ['official'],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
 
-    // --- Citizen Jury ---
+    // --- Citizen Jury Recommendation ---
     [
+        'inquiry_type' => 'citizen_jury_recommendation',
         'family' => 'collective',
-        'group_type' => 'citizen_jury',
         'icon' => 'Gavel',
-        'label' => 'Citizen Jury',
-        'description' => 'Randomly selected group issuing recommendations.',
+        'label' => 'Citizen Jury Recommendation',
+        'description' => 'Recommendation issued by a randomly selected citizen jury.',
         'fields' => [
             ["key"=>"title","type"=>"string","required"=>true],
             ["key"=>"mandate","type"=>"text","required"=>false],
+            ["key"=>"jury_id","type"=>"integer","required"=>true],
         ],
-        'allowed_inquiry_types' => ['deliberation','proposal'],
+        'allowed_response' => ['proposal','law_proposal','official'],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
 
-    // --- Community Council ---
+    // --- Official (single type) ---
     [
-        'family' => 'collective',
-        'group_type' => 'community_council',
-        'icon' => 'HomeGroup',
-        'label' => 'Community Council',
-        'description' => 'Neighborhood or community council.',
+        'inquiry_type' => 'official',
+        'family' => 'official',
+        'icon' => 'ClipboardCheck',
+        'label' => 'Official Response',
+        'description' => 'Official answer to an inquiry (accepted, rejected, under review).',
         'fields' => [
-            ["key"=>"title","type"=>"string","required"=>true],
-            ["key"=>"territory","type"=>"string","required"=>false],
+            ["key"=>"responder_id","label"=>"Responder","type"=>"users","required"=>true,"default"=>null,"rules"=>[]],
+            ["key"=>"resolution_status","label"=>"Resolution Status","type"=>"enum","required"=>true,"default"=>"pending","allowed_values"=>["pending","accepted","rejected"],"rules"=>[]]
         ],
-        'allowed_inquiry_types' => ['consultation','deliberation','proposal','law_proposal'],
+        'allowed_response' => null,
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
 
-    // --- Chapter ---
+    // --- Administrative / Service / Social ---
     [
-        'family' => 'collective',
-        'group_type' => 'chapter',
-        'icon' => 'BookOpen',
-        'label' => 'Chapter',
-        'description' => 'Sub-folder.',
+        'inquiry_type' => 'admin_request',
+        'family' => 'administrative',
+        'icon' => 'FileDocument',
+        'label' => 'Administrative Request',
+        'description' => 'General citizen administrative requests.',
         'fields' => [
-            ["key"=> "order", "type"=> "integer", "required"=> false],
-            ["key"=> "subtitle", "type"=> "string", "required"=> false]
+            ["key"=>"request_type","label"=>"Request Type","type"=>"string","required"=>true,"default"=>null,"rules"=>[]],
+            ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"processing_deadline","label"=>"Processing Deadline","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"resolution_date","label"=>"Resolution Date","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
+            ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
         ],
-        'allowed_inquiry_types' => ['assembly','consultation','deliberation','proposal','law_proposal','amendment'],
+        'allowed_response' => ['official'],
+        'allowed_transformation' => null,
+        'is_root' => true,
+        'created' => '',
+    ],
+    [
+        'inquiry_type' => 'grievance',
+        'family' => 'administrative',
+        'icon' => 'AlertOctagon',
+        'label' => 'Grievance',
+        'description' => 'Complaint or report regarding an administrative issue.',
+        'fields' => [
+            ["key"=>"severity","label"=>"Severity","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"resolution_date","label"=>"Resolution Date","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
+            ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
+        ],
+        'allowed_response' => ['official'],
+        'allowed_transformation' => null,
+        'is_root' => true,
+        'created' => '',
+    ],
+    [
+        'inquiry_type' => 'service_request',
+        'family' => 'service',
+        'icon' => 'Offer',
+        'label' => 'Service / Social Request',
+        'description' => 'General service request or social support demand.',
+        'fields' => [
+            ["key"=>"support_type","label"=>"Support Type","type"=>"string","required"=>true,"default"=>null,"rules"=>[]],
+            ["key"=>"eligibility","label"=>"Eligibility","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"processing_deadline","label"=>"Processing Deadline","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"resolution_date","label"=>"Resolution Date","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
+            ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
+        ],
+        'allowed_response' => ['official'],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
 
-    // --- Program ---
+    // --- Social / Childcare / Housing / Scholarship (examples) ---
     [
-        'family' => 'collective',
-        'group_type' => 'program',
-        'icon' => 'Calendar',
-        'label' => 'Program',
-        'description' => 'Time-structured group.',
+        'inquiry_type' => 'scholarship_request',
+        'family' => 'social',
+        'icon' => 'School',
+        'label' => 'Scholarship Request',
+        'description' => 'Request for scholarship or educational aid.',
         'fields' => [
-            ["key"=> "start_date", "type"=> "datetime", "required"=> false],
-            ["key"=> "end_date", "type"=> "datetime", "required"=> false],
-            ["key"=> "color_calendar", "type"=> "string", "required"=> false]
+            ["key"=>"student_id","label"=>"Student ID","type"=>"users","required"=>true,"default"=>null,"rules"=>[]],
+            ["key"=>"requested_amount","label"=>"Requested Amount","type"=>"integer","required"=>true,"default"=>null,"rules"=>[]],
+            ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
+            ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
         ],
-        'allowed_inquiry_types' => ['assembly','consultation','deliberation','proposal','law_proposal','amendment'],
+        'allowed_response' => ['official'],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
-
-    // --- Deliberation Block ---
     [
-        'family' => 'collective',
-        'group_type' => 'delib_block',
-        'icon' => 'MessageSquare',
-        'label' => 'Deliberation Block',
-        'description' => 'Group of deliberations.',
+        'inquiry_type' => 'childcare_request',
+        'family' => 'social',
+        'icon' => 'BabyCarriage',
+        'label' => 'Childcare Request',
+        'description' => 'Request for childcare support or enrollment.',
         'fields' => [
-            ["key"=> "deadline", "type"=> "datetime", "required"=> false],
-            ["key"=> "quorum", "type"=> "integer", "required"=> false],
-            ["key"=> "max_items", "type"=> "integer", "required"=> false]
+            ["key"=>"child_id","label"=>"Child ID","type"=>"users","required"=>true,"default"=>null,"rules"=>[]],
+            ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
+            ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
         ],
-        'allowed_inquiry_types' => ['deliberation'],
+        'allowed_response' => ['official'],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ],
-
-    // --- Consultation Set ---
     [
-        'family' => 'collective',
-        'group_type' => 'consultation_set',
-        'icon' => 'CalendarMultiselect',
-        'label' => 'Consultation Set',
+        'inquiry_type' => 'housing_request',
+        'family' => 'social',
+        'icon' => 'Home',
+        'label' => 'Housing Request',
+        'description' => 'Request for housing support or allocation.',
         'fields' => [
-            ["key"=> "theme", "type"=> "string", "required"=> false],
-            ["key"=> "target_audience", "type"=> "string", "required"=> false]
+            ["key"=>"applicant_id","label"=>"Applicant ID","type"=>"users","required"=>true,"default"=>null,"rules"=>[]],
+            ["key"=>"priority_status","label"=>"Priority Status","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"assigned_unit","label"=>"Assigned Unit","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
+            ["key"=>"auto_load","label"=>"Auto load forms","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
+            ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
         ],
-        'allowed_inquiry_types' => ['consultation'],
-        'created' => '',
-    ],
-
-    // --- Archive ---
-    [
-        'family' => 'collective',
-        'group_type' => 'archive',
-        'icon' => 'Archive',
-        'label' => 'Archive',
-        'fields' => [
-            ["key"=> "retention_policy", "type"=> "string", "required"=> false],
-            ["key"=> "auto_archive_after_days", "type"=> "integer", "required"=> false]
-        ],
-        'allowed_inquiry_types' => ['assembly','consultation','deliberation','proposal','law_proposal','amendment'],
+        'allowed_response' => ['official'],
+        'allowed_transformation' => null,
+        'is_root' => true,
         'created' => '',
     ]
-];
+    ];
+
+    private array $inquiryGroupTypes = [
+
+        // ==========================================================
+        // ROOT COLLECTIVE TYPES (TOP LEVEL)
+        // ==========================================================
+
+        // Citizens Initiative
+        [
+            'family' => 'collective',
+            'group_type' => 'initiative_group',
+            'icon' => 'Flag',
+            'label' => 'Citizens Initiative',
+            'description' => 'A citizen-driven initiative handling signatures, validation and deliberation.',
+            'fields' => [
+                ["key"=>"required_signatures","type"=>"integer"],
+                ["key"=>"collection_deadline","type"=>"datetime"],
+                ["key"=>"initiative_scope","type"=>"string"],
+                ["key"=>"sponsor_ids","type"=>"users"],
+            ],
+            'allowed_inquiry_types' => ['consultation','deliberation','proposal','law_proposal'],
+            'allowed_response' => ['chapter','delib_block'],
+            'is_root' => true,
+            'sort_order' => 3,
+            'created' => '',
+        ],
+
+        // Referendum Group
+        [
+            'family' => 'collective',
+            'group_type' => 'referendum_group',
+            'icon' => 'CheckCircle',
+            'label' => 'Referendum',
+            'description' => 'Organizes all processes related to referendums.',
+            'fields' => [
+                ["key"=>"binding","type"=>"boolean","default"=>true],
+                ["key"=>"required_turnout","type"=>"integer"],
+                ["key"=>"referendum_type","type"=>"enum","allowed_values"=>["mandatory","optional","consultative"]],
+                ["key"=>"topic","type"=>"string","required"=>true],
+                ["key"=>"form_schema","type"=>"json"],
+                ["key"=>"type_of_vote","type"=>"enum","default"=>"simple","allowed_values"=>["simple","majority_judgement_beneficial","majority_judgement_number"]],
+                ["key"=>"support_start","type"=>"datetime"],
+                ["key"=>"support_end","type"=>"datetime"],
+                ["key"=>"auto_load","type"=>"boolean","default"=>true],
+                ["key"=>"auto_reminder","type"=>"boolean","default"=>true],
+            ],
+            'allowed_inquiry_types' => ['consultation','deliberation','proposal','law_proposal'],
+            'allowed_response' => ['chapter','delib_block'],
+            'is_root' => true,
+            'sort_order' => 2,
+            'created' => '',
+        ],
+
+        // Program
+        [
+            'family' => 'collective',
+            'group_type' => 'program',
+            'icon' => 'Calendar',
+            'label' => 'Program',
+            'description' => 'A multi-phase governance or thematic program.',
+            'fields' => [
+                ["key"=> "start_date", "type"=> "datetime"],
+                ["key"=> "end_date", "type"=> "datetime"],
+                ["key"=> "color_calendar", "type"=> "string"],
+                ["key"=> "visibility", "type"=> "enum", "allowed_values"=>["public","restricted","private"]],
+            ],
+            'allowed_inquiry_types' => ['assembly','consultation','deliberation','proposal','law_proposal','amendment'],
+            'allowed_response' => ['canton','district','commune','working_group','commission','citizen_jury','chapter','delib_block'],
+            'is_root' => true,
+            'sort_order' => 5,
+            'created' => '',
+        ],
+
+        // Assembly (top-level citizen assembly)
+        [
+            'family' => 'collective',
+            'group_type' => 'assembly',
+            'icon' => 'Bank',
+            'label' => 'Assembly',
+            'description' => 'A general citizen assembly.',
+            'fields' => [
+                ["key"=> "quorum", "type"=> "integer"],
+                ["key"=> "meeting_frequency", "type"=> "string"],
+                ["key"=> "voting_rules", "type"=> "text"],
+                ["key"=> "agenda", "type"=> "text","required"=>true],
+                ["key"=> "facilitator_id","type"=> "users"],
+                ["key"=> "location","type"=> "locations"],
+            ],
+            'allowed_inquiry_types' => ['deliberation','consultation','proposal','law_proposal'],
+            'allowed_response' => ['canton','district','commune','working_group','chapter','delib_block'],
+            'is_root' => true,
+            'sort_order' => 1,
+            'created' => '',
+        ],
+
+        // Bundle
+        [
+            'family' => 'collective',
+            'group_type' => 'bundle',
+            'icon' => 'Layers',
+            'label' => 'Bundle',
+            'description' => 'A generic container for multiple grouped inquiries.',
+            'fields' => [
+                ["key"=> "version", "type"=> "string"],
+                ["key"=> "tags", "type"=> "list"],
+            ],
+            'allowed_inquiry_types' => ['assembly','consultation','deliberation','proposal','law_proposal','amendment'],
+            'allowed_response' => ['assembly','canton','district','commune','working_group','chapter','delib_block','consultation_set','citizen_jury'],
+            'is_root' => true,
+            'sort_order' => 6,
+            'created' => '',
+        ],
+
+        // Poll Group
+        [
+            'family' => 'collective',
+            'group_type' => 'poll_group',
+            'icon' => 'ChartBar',
+            'label' => 'Poll Group',
+            'description' => 'A group that organizes official or public polls.',
+            'fields' => [
+                ["key"=>"type_of_vote","type"=>"enum","default"=>"simple","allowed_values"=>["simple","majority_judgement_beneficial","majority_judgement_number"]],
+                ["key"=> "mandate", "type"=> "text"],
+                ["key"=> "jury_size", "type"=> "integer"],
+                ["key"=> "selection_method", "type"=> "string"],
+                ["key"=> "scope", "type"=>"string"],
+            ],
+            'allowed_inquiry_types' => ['poll','official'],
+            'allowed_response' => ['official'],
+            'is_root' => true,
+            'sort_order' => 4,
+            'created' => '',
+        ],
+
+
+        // ==========================================================
+        // TERRITORIAL HIERARCHY (SWISS MODEL)
+        // ==========================================================
+
+        // Canton
+        [
+            'family' => 'collective',
+            'group_type' => 'canton',
+            'icon' => 'Map',
+            'label' => 'Canton',
+            'description' => 'A Swiss canton level of governance.',
+            'fields' => [
+                ["key"=>"name","type"=>"string","required"=>true],
+                ["key"=>"code","type"=>"string"],
+                ["key"=>"population","type"=>"integer"],
+                ["key"=> "location","type"=> "locations"],
+            ],
+            'allowed_inquiry_types' => ['consultation','deliberation','proposal'],
+            'allowed_response' => ['district','commune','chapter','working_group','commission','referendum_group'],
+            'is_root' => false,
+            'sort_order' => 1,
+            'created' => '',
+        ],
+
+        // District
+        [
+            'family' => 'collective',
+            'group_type' => 'district',
+            'icon' => 'Map',
+            'label' => 'District',
+            'description' => 'A district or regional administrative level.',
+            'fields' => [
+                ["key"=>"name","type"=>"string","required"=>true],
+                ["key"=>"population","type"=>"integer"],
+                ["key"=> "location","type"=> "locations"],
+            ],
+            'allowed_inquiry_types' => ['consultation','deliberation','proposal','news','announcement'],
+            'allowed_response' => ['commune','chapter','refenrendum_group'],
+            'is_root' => false,
+            'sort_order' => 2,
+            'created' => '',
+        ],
+
+        // Commune
+        [
+            'family' => 'collective',
+            'group_type' => 'commune',
+            'icon' => 'HomeGroup',
+            'label' => 'Commune',
+            'description' => 'The lowest administrative level.',
+            'fields' => [
+                ["key"=>"name","type"=>"string","required"=>true],
+                ["key"=>"population","type"=>"integer"],
+                ["key"=> "location","type"=> "locations"],
+            ],
+            'allowed_inquiry_types' => ['consultation','proposal','news','meeting','announcement','gathering'],
+            'allowed_response' => ['chapter','initiative_group','referendum_group'],
+            'is_root' => false,
+            'sort_order' => 3,
+            'created' => '',
+        ],
+
+
+        // ==========================================================
+        // SUBGROUPS
+        // ==========================================================
+
+        // Working Group
+        [
+            'family' => 'collective',
+            'group_type' => 'working_group',
+            'icon' => 'UsersCog',
+            'label' => 'Working Group',
+            'description' => 'A collaborative subgroup inside any collective.',
+            'fields' => [
+                ["key"=> "parent_id", "type"=> "integer"],
+                ["key"=> "scope", "type"=> "text"],
+                ["key"=> "public", "type"=> "boolean","default"=>true],
+            ],
+            'allowed_inquiry_types' => ['deliberation','proposal','consultation'],
+            'allowed_response' => ['chapter','delib_block'],
+            'is_root' => false,
+            'sort_order' => 1,
+            'created' => '',
+        ],
+
+        // Commission
+        [
+            'family' => 'collective',
+            'group_type' => 'commission',
+            'icon' => 'GitBranch',
+            'label' => 'Commission',
+            'description' => 'A specialized expert or political commission.',
+            'fields' => [
+                ["key"=> "mandate", "type"=> "text"],
+                ["key"=> "jury_size", "type"=> "integer"],
+                ["key"=> "selection_method", "type"=> "string"],
+                ["key"=>"scope","type"=>"string"],
+            ],
+            'allowed_inquiry_types' => ['deliberation','proposal','official'],
+            'allowed_response' => ['chapter','delib_block'],
+            'is_root' => false,
+            'sort_order' => 1,
+            'created' => '',
+        ],
+
+        // Citizen Jury
+        [
+            'family' => 'collective',
+            'group_type' => 'citizen_jury',
+            'icon' => 'Gavel',
+            'label' => 'Citizen Jury',
+            'description' => 'A randomly selected citizen jury.',
+            'fields' => [
+                ["key"=>"title","type"=>"string","required"=>true],
+                ["key"=>"mandate","type"=>"text"],
+            ],
+            'allowed_inquiry_types' => ['deliberation','proposal'],
+            'allowed_response' => ['chapter','delib_block'],
+            'is_root' => false,
+            'sort_order' => 1,
+            'created' => '',
+        ],
+
+        // Chapter
+        [
+            'family' => 'collective',
+            'group_type' => 'chapter',
+            'icon' => 'BookOpen',
+            'label' => 'Chapter',
+            'description' => 'A structural content container.',
+            'fields' => [
+                ["key"=> "order", "type"=> "integer"],
+                ["key"=> "subtitle", "type"=> "string"],
+            ],
+            'allowed_inquiry_types' => ['assembly','consultation','deliberation','proposal','law_proposal','amendment'],
+            'allowed_response' => ['bundle'],
+            'is_root' => false,
+            'sort_order' => 1,
+            'created' => '',
+        ],
+
+        // Deliberation Block
+        [
+            'family' => 'collective',
+            'group_type' => 'delib_block',
+            'icon' => 'MessageSquare',
+            'label' => 'Deliberation Block',
+            'description' => 'A block grouping multiple deliberations.',
+            'fields' => [
+                ["key"=> "deadline", "type"=> "datetime"],
+                ["key"=> "quorum", "type"=> "integer"],
+                ["key"=> "max_items", "type"=> "integer"],
+            ],
+            'allowed_inquiry_types' => ['deliberation'],
+            'allowed_response' => [],
+            'is_root' => false,
+            'sort_order' => 1,
+            'created' => '',
+        ],
+
+        // Consultation Set
+        [
+            'family' => 'collective',
+            'group_type' => 'consultation_set',
+            'icon' => 'CalendarMultiselect',
+            'label' => 'Consultation Set',
+            'description' => 'A set of thematic consultations.',
+            'fields' => [
+                ["key"=> "theme", "type"=> "string"],
+                ["key"=> "target_audience", "type"=> "string"],
+            ],
+            'allowed_inquiry_types' => ['consultation'],
+            'allowed_response' => [],
+            'is_root' => false,
+            'sort_order' => 1,
+            'created' => '',
+        ],
+
+        // Archive
+        [
+            'family' => 'collective',
+            'group_type' => 'archive',
+            'icon' => 'Archive',
+            'label' => 'Archive',
+            'description' => 'Archival container.',
+            'fields' => [
+                ["key"=> "retention_policy", "type"=> "string"],
+                ["key"=> "auto_archive_after_days", "type"=> "integer"],
+            ],
+            'allowed_inquiry_types' => ['assembly','consultation','deliberation','proposal','law_proposal','amendment'],
+            'allowed_response' => [],
+            'is_root' => false,
+            'sort_order' => 1,
+            'created' => '',
+        ],
+    ];
+
 
     private array $inquiryStatuses = [
 
@@ -1216,12 +1466,13 @@ private array $inquiryGroupTypes = [
 
             $insert = $this->connection->prepare(
                 'INSERT INTO `' . $tableName . '`
-                (`inquiry_type`, `family`, `icon`, `label`, `description`, `fields`, `allowed_response`, `allowed_transformation`,`created`)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+                (`inquiry_type`, `family`, `icon`, `label`, `description`, `fields`, `allowed_response`, `allowed_transformation`,`is_root`,`created`)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)'
             );
 
             $created = !empty($inquiryType['created']) ? (int)$inquiryType['created'] : time();
             $icon = !empty($inquiryType['icon']) ? $inquiryType['icon'] : '';
+            $isRoot = $inquiryType['is_root'] ? 1 : 0;
             $description = !empty($inquiryType['description']) ? $inquiryType['description'] : '';
             $fields = !empty($inquiryType['fields']) ? json_encode($inquiryType['fields']) : '';
             $allowedResponse = !empty($inquiryType['allowed_response']) ? json_encode($inquiryType['allowed_response']) : '';
@@ -1238,6 +1489,7 @@ private array $inquiryGroupTypes = [
                             $fields,
                             $allowedResponse,
                             $allowedTransformation,
+                            $isRoot,
                             $created,
                             ]
                         );
@@ -1326,74 +1578,76 @@ private array $inquiryGroupTypes = [
 
     //Inquiry Group Types
     private function insertDefaultInquiryGroupTypes(?IOutput $output = null): void
-    {
-        $this->log($output, 'Inserting default inquiry group types...');
+{
+    $this->log($output, 'Inserting default inquiry group types...');
 
-        $inserted = [];
+    $inserted = [];
 
-        foreach ($this->inquiryGroupTypes as $inquiryGroupType) {
-            $uniqueKey = $inquiryGroupType['group_type'];
+    foreach ($this->inquiryGroupTypes as $inquiryGroupType) {
+        $uniqueKey = $inquiryGroupType['group_type'];
 
-            if (isset($inserted[$uniqueKey])) {
-                $this->log($output, 'Inquiry group type already processed: ' . $inquiryGroupType['group_type']);
-                continue;
-            }
+        if (isset($inserted[$uniqueKey])) {
+            $this->log($output, 'Inquiry group type already processed: ' . $inquiryGroupType['group_type']);
+            continue;
+        }
 
-            $tableName = '*PREFIX*' . InquiryGroupType::TABLE;
+        $tableName = '*PREFIX*' . InquiryGroupType::TABLE;
 
-            $query = $this->connection->prepare(
-                'SELECT `id` FROM `' . $tableName . '`
-                WHERE `group_type` = ?'
-            );
+        $query = $this->connection->prepare(
+            'SELECT `id` FROM `' . $tableName . '`
+            WHERE `group_type` = ?'
+        );
 
-            $cursor = $query->execute(
-                [
+        $cursor = $query->execute([$inquiryGroupType['group_type']]);
+        $row = $cursor->fetch();
+
+        if ($row !== false) {
+            $this->log($output, 'Inquiry group type already exists in DB: ' . $inquiryGroupType['group_type']);
+            $inserted[$uniqueKey] = (int) $row['id'];
+            continue;
+        }
+
+        $insert = $this->connection->prepare(
+            'INSERT INTO `' . $tableName . '`
+            (`group_type`, `family`, `icon`, `label`, `description`, `fields`, `allowed_inquiry_types`, `allowed_response`, `is_root`, `sort_order`, `created`)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)' 
+        );
+
+        $icon = !empty($inquiryGroupType['icon']) ? $inquiryGroupType['icon'] : '';
+        $family = !empty($inquiryGroupType['family']) ? $inquiryGroupType['family'] : '';
+        $description = !empty($inquiryGroupType['description']) ? $inquiryGroupType['description'] : '';
+        $fields = !empty($inquiryGroupType['fields']) ? json_encode($inquiryGroupType['fields']) : '';
+        $allowedInquiryTypes = !empty($inquiryGroupType['allowed_inquiry_types']) ? json_encode($inquiryGroupType['allowed_inquiry_types']) : '';
+        $allowedResponse = !empty($inquiryGroupType['allowed_response']) ? json_encode($inquiryGroupType['allowed_response']) : '';
+        $isRoot = !empty($inquiryGroupType['is_root']) ? 1 : 0;
+        $sortOrder = isset($inquiryGroupType['sort_order']) ? $inquiryGroupType['sort_order'] : 0;
+
+        $created = !empty($inquiryGroupType['created']) ? (int)$inquiryGroupType['created'] : time();
+
+        try {
+            $insert->execute([
                 $inquiryGroupType['group_type'],
-                ]
-            );
-            $row = $cursor->fetch();
+                $family, 
+                $icon,
+                $inquiryGroupType['label'],
+                $description,
+                $fields,
+                $allowedInquiryTypes,
+                $allowedResponse,
+                $isRoot,
+                $sortOrder,
+                $created,
+            ]);
 
-            if ($row !== false) {
-                   $this->log($output, 'Inquiry group type already exists in DB: ' . $inquiryGroupType['group_type']);
-                   $inserted[$uniqueKey] = (int) $row['id'];
-                   continue;
-            }
+            $id = (int) $this->connection->lastInsertId($tableName);
+            $inserted[$uniqueKey] = $id;
 
-            $insert = $this->connection->prepare(
-                'INSERT INTO `' . $tableName . '`
-                (`group_type`, `icon`, `label`, `description`, `fields`, `allowed_inquiry_types`,`created`)
-                VALUES (?, ?, ?, ?, ?, ?, ?)'
-            );
-
-            $icon = !empty($inquiryGroupType['icon']) ? $inquiryGroupType['icon'] : '';
-            $description = !empty($inquiryGroupType['description']) ? $inquiryGroupType['description'] : '';
-            $fields = !empty($inquiryGroupType['fields']) ? json_encode($inquiryGroupType['fields']) : '';
-            $allowedInquiryTypes = !empty($inquiryGroupType['allowed_inquiry_types']) ? json_encode($inquiryGroupType['allowed_inquiry_types']) : '';
-            $created = !empty($inquiryGroupType['created']) ? (int)$inquiryGroupType['created'] : time();
-
-            try {
-                        $insert->execute(
-                            [
-                            $inquiryGroupType['group_type'],
-                            $icon,
-                            $inquiryGroupType['label'],
-                            $description,
-                            $fields,
-                            $allowedInquiryTypes,
-                            $created,
-                            ]
-                        );
-
-                        $id = (int) $this->connection->lastInsertId($tableName);
-                        $inserted[$uniqueKey] = $id;
-
-                        $this->log($output, 'Inserted inquiry group type: ' . $inquiryGroupType['group_type']);
-            } catch (\Exception $e) {
-                  $this->log($output, 'ERROR inserting inquiry group type ' . $inquiryGroupType['group_type'] . ': ' . $e->getMessage());
-            }
+            $this->log($output, 'Inserted inquiry group type: ' . $inquiryGroupType['group_type']);
+        } catch (\Exception $e) {
+            $this->log($output, 'ERROR inserting inquiry group type ' . $inquiryGroupType['group_type'] . ': ' . $e->getMessage());
         }
     }
-
+}
 
     //Families
     private function insertDefaultInquiryFamilies(?IOutput $output = null): void

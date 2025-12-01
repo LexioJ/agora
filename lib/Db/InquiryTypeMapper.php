@@ -47,7 +47,7 @@ class InquiryTypeMapper extends QBMapper
     public function findByType(string $type): InquiryType
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_type', $qb->createNamedParameter($type, IQueryBuilder::PARAM_STR)));
         return $this->findEntity($qb);
     }
 
