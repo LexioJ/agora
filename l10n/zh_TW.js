@@ -263,6 +263,7 @@ OC.L10N.register(
     "Enable the tracking of activities with the Activities app" : "使用「活動」應用程式追蹤活動",
     "Categories" : "分類",
     "Locations" : "地點",
+    "Enter category name" : "輸入分類名稱",
     "Edit" : "編輯",
     "Enable the usage of the combo view globally" : "痊癒啟用組合檢視的使用",
     "Enable only for the following groups" : "僅對以下群組啟用",
