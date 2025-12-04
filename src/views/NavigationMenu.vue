@@ -210,6 +210,7 @@ function inquiryGroupAdded(payload: { id: number; slug: string }) {
   createGroupDlgToggle.value = false
   selectedInquiryGroupTypeForCreation.value = null
   selectedGroups.value = []
+  console.log(" REDIRCTEEEEEEEE to GROUP ID :",payload.id)
   router.push({
     name: 'group',
     params: { id: payload.id },

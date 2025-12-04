@@ -77,15 +77,29 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     protected ?bool $protected = false;
     // joined inquiries
     protected ?string $inquiryIds = '';
-
+    protected array $miscFields = [];
+    protected array $childs = [];
+    protected ?string $miscGroupSettingsConcat = '';
+    
     public function __construct()
     {
+        $this->addType('title', 'string');
+        $this->addType('titleExt', 'string');
+        $this->addType('description', 'string');
+        $this->addType('owner', 'string');
+        $this->addType('type', 'string');
+        $this->addType('parentId', 'integer');
+        $this->addType('protected', 'integer');
+        $this->addType('groupStatus', 'string');
+        $this->addType('ownedGroup', 'string');
         $this->addType('created', 'integer');
         $this->addType('deleted', 'integer');
-        $this->addType('order', 'integer');
         $this->addType('expire', 'integer');
-        $this->addType('coverId', 'integer');
-        $this->addType('protected', 'boolean');
+        $this->addType('inquiryIds', 'string');
+        $this->addType('miscFields', 'json');
+        $this->addType('childs', 'json');
+        $this->addType('miscGroupSettingsConcat', 'string');
+
 
         $this->userSession = Container::queryClass(UserSession::class);
     }
@@ -141,11 +155,41 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
         return $this->getOwner();
     }
 
+    public function getMiscArray(): array
+    {
+        $prefixedMiscFields = [];
+        foreach ($this->miscFields as $key => $value) {
+            $prefixedMiscFields["$key"] = $value;
+        }
+        return $prefixedMiscFields;
+    }
+
     // alias of setOwner($value)
     public function setUserId(string $userId): void
     {
         $this->setOwner($userId);
     }
+
+    public function setMiscFields(array $misc): void
+    {
+        foreach ($misc as $field) {
+            $key = $field->getKey();
+	    $this->miscFields[$key] = $field->getValue() ?? null;
+	}
+    }
+
+    public function initializeMiscFields(array $fieldsDefinition): void
+    {
+        foreach ($fieldsDefinition as $field) {
+            $key = $field['key'];
+            $this->miscFields[$key] = $field['default'] ?? null;
+        }
+    }
+    public function getMiscField(string $key): mixed
+    {
+        return $this->miscFields[$key] ?? null;
+    }
+
 
     /**
      * @return array
@@ -163,7 +207,6 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
             'owner' => $this->getUser(),
             'type' => $this->getType(),
             'groupStatus' => $this->getGroupStatus(),
-            'name' => $this->getName(),
             'title' => $this->getTitle(),
             'titleExt' => $this->getTitleExt(),
             'ownedGroup' => $this->getOwnedGroup(),
@@ -173,8 +216,10 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
             'coverId' => $this->getCoverId(),
             'protected' => $this->getProtected(),
             'inquiryIds' => $this->getInquiryIds(),
+            'childs' => $this->getChilds(),
+            'ins' => $this->getInquiryIds(),
             'slug' => $this->getSlug(),
-            'allowEdit' => $this->getAllowEdit(),
+            'miscFields' => $this->getMiscArray(),
         ];
     }
 

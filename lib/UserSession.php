@@ -102,6 +102,11 @@ class UserSession
         return $this->currentUser;
     }
 
+    public function isAdmin()
+    {
+        return $this->currentUser->isAdmin();
+    }
+
     public function getCurrentUserId(): string
     {
         if (defined('OC_CONSOLE')) {

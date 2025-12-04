@@ -34,27 +34,19 @@ const dragItem = ref<Inquiry | null>(null)
 const dragOverDropZone = ref(false)
 
 const groupTypeData = computed(() => {
-  if (!inquiryGroupStore.type || !sessionStore.appSettings.inquiryGroupTypeTab) {
-    return { 
-      icon: InquiryGeneralIcons.Question, 
-      label: inquiryGroupStore.type || t('agora', 'Unknown'), 
-      description: '' 
-    }
+  if (!inquiryGroupStore.type || !sessionStore.appSettings.inquiryGroupTab) {
+     return { icon: InquiryGeneralIcons.Question, label: inquiryGroupStore.type || t('agora', 'Unknown'), description: '' }
   }
   
   return getInquiryGroupTypeData(
     inquiryGroupStore.type, 
-    sessionStore.appSettings.inquiryGroupTypeTab
+    sessionStore.appSettings.inquiryGroupTab
   )
 })
 
 const getInquiryTypeInfo = (inquiryType: string) => {
   if (!inquiryType || !sessionStore.appSettings.inquiryTypeTab) {
-    return { 
-      icon: InquiryGeneralIcons.Question, 
-      label: inquiryType || t('agora', 'Unknown'), 
-      description: '' 
-    }
+  return { icon: InquiryGeneralIcons.Question, label: inquiryType || t('agora', 'Unknown'), description: '' }
   }
   return getInquiryTypeData(inquiryType, sessionStore.appSettings.inquiryTypeTab)
 }
@@ -82,7 +74,6 @@ const allInquiries = computed(() => {
 const allowedInquiryTypes = computed(() => {
   if (!inquiryGroupStore.type || !sessionStore.appSettings.inquiryGroupTab) return []
   
-  // Fixed: Changed from sessionStore.appSettings.inquiryGroupTab[inquiryGroupStore.type]
   const groupTypeConfig = sessionStore.appSettings.inquiryGroupTab[inquiryGroupStore.type]
   return groupTypeConfig?.allowed_inquiry_types || []
 })
@@ -98,20 +89,15 @@ const filteredAvailableInquiries = computed(() => {
 })
 
 const displayedGroupInquiries = computed(() => {
+  if (viewMode.value === 'list') return groupInquiries.value
+  // For grid mode, you might want to transform the data
   return groupInquiries.value
 })
 
 const displayedAvailableInquiries = computed(() => {
+  if (viewMode.value === 'list') return filteredAvailableInquiries.value
+  // For grid mode, you might want to transform the data
   return filteredAvailableInquiries.value
-})
-
-// Improved inquiry count formatting
-const formattedInquiryCount = computed(() => {
-  const count = groupInquiries.value.length
-  if (count === 0) return '0'
-  if (count < 1000) return count.toString()
-  if (count < 1000000) return `${(count / 1000).toFixed(1)}K`
-  return `${(count / 1000000).toFixed(1)}M`
 })
 
 // Drag and Drop handlers
@@ -203,7 +189,7 @@ onMounted(() => {
 
 <template>
   <div class="inquiry-group-edit-view">
-    <!-- Group Info Section with improved icon and design -->
+    <!-- Group Info Section avec icône et design amélioré -->
     <div class="group-info-summary">
       <div class="group-header">
         <div class="group-icon-container">
@@ -223,7 +209,8 @@ onMounted(() => {
       
       <div class="info-grid">
         <div class="info-item">
-          <div class="info-icon"><component :is="InquiryGeneralIcons.ClipboardList" /></div>
+            <div class="info-icon"><component :is="InquiryGeneralIcons.ClipboardList" /></div>
+
           <div class="info-content">
             <span class="info-label">{{ t('agora', 'Title') }}</span>
             <span class="info-value">{{ inquiryGroupStore.title }}</span>
@@ -231,15 +218,15 @@ onMounted(() => {
         </div>
         
         <div class="info-item">
-          <div class="info-icon"><component :is="InquiryGeneralIcons.IdCard" /></div>
+            <div class="info-icon"><component :is="InquiryGeneralIcons.IdCard" /></div>
           <div class="info-content">
-            <span class="info-label">{{ t('agora', 'Second title') }}</span>
-            <span class="info-value">{{ inquiryGroupStore.titleExt }}</span>
+            <span class="info-label">{{ t('agora', 'ID') }}</span>
+            <span class="info-value">#{{ inquiryGroupStore.id }}</span>
           </div>
         </div>
         
         <div class="info-item">
-          <div class="info-icon"><component :is="InquiryGeneralIcons.Calendar" /></div>
+            <div class="info-icon"><component :is="InquiryGeneralIcons.Calendar" /></div>
           <div class="info-content">
             <span class="info-label">{{ t('agora', 'Created') }}</span>
             <span class="info-value">{{ formatDate(inquiryGroupStore.created) }}</span>
@@ -247,15 +234,10 @@ onMounted(() => {
         </div>
         
         <div class="info-item highlight">
-          <div class="info-icon"><component :is="InquiryGeneralIcons.Link" /></div>
+            <div class="info-icon"><component :is="InquiryGeneralIcons.Link" /></div>
           <div class="info-content">
             <span class="info-label">{{ t('agora', 'Inquiries') }}</span>
-            <span class="info-value">
-              {{ formattedInquiryCount }}
-              <span class="count-label" v-if="groupInquiries.length > 0">
-                ({{ groupInquiries.length }} total)
-              </span>
-            </span>
+            <span class="info-value count-badge">{{ groupInquiries.length }}</span>
           </div>
         </div>
       </div>
@@ -265,8 +247,8 @@ onMounted(() => {
     <div class="inquiries-management-section">
       <div class="section-header">
         <div class="section-title-container">
-          <h2>{{ t('agora', 'Inquiry Management') }}</h2>
-          <p class="section-subtitle">{{ t('agora', 'LIST OF INQUIRIES IN THE GROUP') }}</p>
+          <h2>{{ t('agora', 'Gestion des Inquiries') }}</h2>
+          <p class="section-subtitle">{{ t('agora', 'LISTE DES INQUIRIES DANS LE GROUPE') }}</p>
         </div>
       </div>
 
@@ -274,15 +256,18 @@ onMounted(() => {
       <div class="attached-inquiries-section card-section">
         <div class="section-header-with-icon">
           <div class="section-icon success">
-            <component :is="InquiryGeneralIcons.CheckCircle" />
+              <div class="section-icon success"><component :is="InquiryGeneralIcons.CheckCircle" /></div>
           </div>
           <div>
-            <h3 class="section-subtitle">{{ t('agora', 'ATTACHED INQUIRIES') }}</h3>
-            <p class="section-description">{{ t('agora', 'Drag to remove or click "Remove"') }}</p>
+            <h3 class="section-subtitle">{{ t('agora', 'I') }}</h3>
+            <p class="section-description">{{ t('agora', 'Glissez pour retirer ou cliquez sur "Retirer"') }}</p>
           </div>
         </div>
         
-        <div class="inquiries-list">
+        <div 
+          v-if="viewMode === 'list'" 
+          class="inquiries-list"
+        >
           <div
             v-for="inquiry in displayedGroupInquiries"
             :key="inquiry.id"
@@ -309,22 +294,22 @@ onMounted(() => {
                   {{ t('agora', getInquiryTypeInfo(inquiry.type).label) }}
                 </span>
                 <span class="inquiry-date">
-                  <component :is="InquiryGeneralIcons.Calendar" :size="12" />
-                  {{ formatDate(inquiry.status.created) }}
+                    <div class="info-icon"><component :is="InquiryGeneralIcons.Calendar" /></div>
+                   {{ formatDate(inquiry.created) }}
                 </span>
               </div>
             </div>
             <div class="inquiry-actions">
-              <component :is="InquiryGeneralIcons.Drag" class="drag-handle" :title="t('agora', 'Drag to remove')" />
+                <component :is="InquiryGeneralIcons.Drag" class="drag-handle" :title="t('agora', 'Drag to remove')" />
               <NcButton
                 type="error"
                 class="remove-btn"
                 @click="removeInquiryFromGroup(inquiry)"
               >
                 <template #icon>
-                  <component :is="InquiryGeneralIcons.Delete" />
+                    <component :is="InquiryGeneralIcons.Delete" />
                 </template>
-                {{ t('agora', 'Remove') }}
+                {{ t('agora', 'Retirer') }}
               </NcButton>
             </div>
           </div>
@@ -333,10 +318,24 @@ onMounted(() => {
             v-if="displayedGroupInquiries.length === 0"
             class="empty-state"
           >
-            <div class="empty-icon"><component :is="InquiryGeneralIcons.Empty" /></div>
+          <div class="empty-icon"><component :is="InquiryGeneralIcons.Empty" /></div>
             <div class="empty-text">
-              <h4>{{ t('agora', 'No inquiries in this group') }}</h4>
-              <p>{{ t('agora', 'Add inquiries by dragging them from the list below') }}</p>
+              <h4>{{ t('agora', 'Aucune inquiry dans ce groupe') }}</h4>
+              <p>{{ t('agora', 'Ajoutez des inquiries en les glissant depuis la liste ci-dessous') }}</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Grid view -->
+        <div 
+          v-if="viewMode === 'grid'" 
+          class="inquiries-grid"
+        >
+          <div class="grid-placeholder">
+              <component :is="InquiryGeneralIcons.FolderMultiple" class="view-mode-icon" />
+            <div class="placeholder-text">
+              <h4>{{ t('agora', 'Vue en grille') }}</h4>
+              <p>{{ t('agora', 'La vue en grille sera disponible prochainement') }}</p>
             </div>
           </div>
         </div>
@@ -351,10 +350,11 @@ onMounted(() => {
         :class="{ 'drag-over': dragOverDropZone }"
       >
         <div class="drop-zone-content">
-          <div class="drop-icon"><component :is="InquiryGeneralIcons.ArrowDown" /></div>
-          <div class="drop-main-text">{{ t('agora', 'DROP INQUIRIES HERE') }}</div>
-          <div class="drop-subtitle">{{ t('agora', 'Drop zone to add to group') }}</div>
-          <div class="drop-hint">{{ t('agora', 'Drag an inquiry from the list below') }}</div>
+            <div class="drop-icon"><component :is="InquiryGeneralIcons.ArrowDown" /></div>
+
+          <div class="drop-main-text">{{ t('agora', 'DÉPOSEZ LES INQUIRIES ICI') }}</div>
+          <div class="drop-subtitle">{{ t('agora', 'Zone de dépôt pour ajouter au groupe') }}</div>
+          <div class="drop-hint">{{ t('agora', 'Glissez une inquiry depuis la liste ci-dessous') }}</div>
         </div>
       </div>
 
@@ -362,15 +362,19 @@ onMounted(() => {
       <div class="available-inquiries-section card-section">
         <div class="section-header-with-icon">
           <div class="section-icon warning">
-            <component :is="InquiryGeneralIcons.ClipboardList" />
+              <div class="section-icon warning"><component :is="InquiryGeneralIcons.ClipboardList" /></div>
+
           </div>
           <div>
-            <h3 class="section-subtitle">{{ t('agora', 'AVAILABLE INQUIRIES') }}</h3>
-            <p class="section-description">{{ t('agora', '(draggable items)') }}</p>
+            <h3 class="section-subtitle">{{ t('agora', 'INQUIRIES DISPONIBLES') }}</h3>
+            <p class="section-description">{{ t('agora', '(éléments glissables, liste ou vignettes)') }}</p>
           </div>
         </div>
         
-        <div class="inquiries-list available">
+        <div 
+          v-if="viewMode === 'list'" 
+          class="inquiries-list available"
+        >
           <div
             v-for="inquiry in displayedAvailableInquiries"
             :key="inquiry.id"
@@ -395,20 +399,20 @@ onMounted(() => {
                   {{ t('agora', getInquiryTypeInfo(inquiry.type).label) }}
                 </span>
                 <span class="inquiry-date">
-                  <component :is="InquiryGeneralIcons.Calendar" :size="12" />
-                  {{ formatDate(inquiry.status.created) }}
+                    <div class="section-icon warning"><component :is="InquiryGeneralIcons.ClipboardList" /></div>
+                 {{ formatDate(inquiry.created) }}
                 </span>
               </div>
             </div>
             <div class="inquiry-actions">
-              <component :is="InquiryGeneralIcons.Drag" class="drag-handle" :title="t('agora', 'Drag to add')" />
+                <component :is="InquiryGeneralIcons.Drag" class="drag-handle" :title="t('agora', 'Drag to add')" />
+
               <NcButton
                 type="primary"
                 class="add-btn"
                 @click="addInquiryToGroup(inquiry)"
               >
                 <component :is="InquiryGeneralIcons.Plus" :title="t('agora', 'Add')" />
-                {{ t('agora', 'Add') }}
               </NcButton>
             </div>
           </div>
@@ -417,10 +421,10 @@ onMounted(() => {
             v-if="filteredAvailableInquiries.length === 0"
             class="empty-state"
           >
-            <div class="empty-icon"><component :is="InquiryGeneralIcons.File" /></div>
+          <div class="empty-icon"><component :is="InquiryGeneralIcons.File" /></div>
             <div class="empty-text">
-              <h4>{{ t('agora', 'No inquiries available') }}</h4>
-              <p>{{ t('agora', 'All inquiries are already in this group or no types allowed') }}</p>
+              <h4>{{ t('agora', 'Aucune inquiry disponible') }}</h4>
+              <p>{{ t('agora', 'Toutes les inquiries sont déjà dans ce groupe ou aucun type autorisé') }}</p>
             </div>
           </div>
           
@@ -430,7 +434,7 @@ onMounted(() => {
           >
             <div class="filter-icon">🔍</div>
             <div class="filter-content">
-              <strong>{{ t('agora', 'Filtered by allowed types:') }}</strong>
+              <strong>{{ t('agora', 'Filtré par types autorisés :') }}</strong>
               <div class="allowed-types">
                 <span 
                   v-for="type in allowedInquiryTypes" 
@@ -445,6 +449,20 @@ onMounted(() => {
                   {{ t('agora', getInquiryTypeInfo(type).label) }}
                 </span>
               </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Grid view -->
+        <div 
+          v-if="viewMode === 'grid'" 
+          class="inquiries-grid"
+        >
+          <div class="grid-placeholder">
+              <div class="placeholder-icon"><component :is="InquiryGeneralIcons.FolderMultiple" /></div>
+            <div class="placeholder-text">
+              <h4>{{ t('agora', 'Vue en grille') }}</h4>
+              <p>{{ t('agora', 'La vue en grille sera disponible prochainement') }}</p>
             </div>
           </div>
         </div>
@@ -581,15 +599,11 @@ onMounted(() => {
           font-weight: 600;
           
           &.count-badge {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            
-            .count-label {
-              font-size: 12px;
-              font-weight: 400;
-              color: var(--color-text-lighter);
-            }
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 16px;
+            margin-top: 4px;
           }
         }
       }
@@ -621,6 +635,28 @@ onMounted(() => {
         text-transform: uppercase;
         letter-spacing: 1px;
         margin: 0;
+      }
+    }
+    
+    .view-mode-switcher {
+      display: flex;
+      gap: 0;
+      background: var(--color-background-dark);
+      border-radius: 12px;
+      padding: 6px;
+      border: 2px solid var(--color-border);
+      
+      :deep(.checkbox-radio-switch__label) {
+        padding: 12px 20px;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        
+        .view-mode-icon {
+          font-size: 16px;
+        }
       }
     }
   }
@@ -676,7 +712,7 @@ onMounted(() => {
   }
 }
 
-/* Inquiries List improved */
+/* Inquiries List améliorée */
 .inquiries-list {
   display: flex;
   flex-direction: column;
@@ -853,7 +889,7 @@ onMounted(() => {
   }
 }
 
-/* Drop Zone improved */
+/* Drop Zone améliorée */
 .drop-zone-section {
   margin: 32px 0;
   padding: 60px 40px;
@@ -947,7 +983,7 @@ onMounted(() => {
   }
 }
 
-/* Empty States improved */
+/* Empty States améliorés */
 .empty-state {
   text-align: center;
   padding: 60px 40px;
@@ -1039,6 +1075,42 @@ onMounted(() => {
   }
 }
 
+/* Grid Placeholder */
+.grid-placeholder {
+  text-align: center;
+  padding: 80px 40px;
+  background: var(--color-background-dark);
+  border: 2px dashed var(--color-border);
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  
+  .placeholder-icon {
+    font-size: 56px;
+    color: var(--color-text-lighter);
+    opacity: 0.6;
+  }
+  
+  .placeholder-text {
+    h4 {
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-main-text);
+      margin-bottom: 8px;
+    }
+    
+    p {
+      font-size: 14px;
+      color: var(--color-text-lighter);
+      margin: 0;
+      max-width: 300px;
+      line-height: 1.5;
+    }
+  }
+}
+
 /* Animation */
 @keyframes bounce {
   0%, 100% {
@@ -1049,7 +1121,7 @@ onMounted(() => {
   }
 }
 
-/* Responsive Design improved */
+/* Responsive Design amélioré */
 @media (max-width: 1024px) {
   .inquiry-group-edit-view {
     padding: 16px;
@@ -1067,6 +1139,10 @@ onMounted(() => {
     flex-direction: column;
     gap: 20px;
     align-items: stretch;
+    
+    .view-mode-switcher {
+      justify-content: center;
+    }
   }
 }
 
@@ -1128,6 +1204,14 @@ onMounted(() => {
   
   .card-section {
     padding: 20px;
+  }
+  
+  .view-mode-switcher {
+    flex-direction: column;
+    
+    :deep(.checkbox-radio-switch__label) {
+      justify-content: center;
+    }
   }
 }
 </style>

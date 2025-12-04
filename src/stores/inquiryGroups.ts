@@ -110,37 +110,6 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
     })
    }
 
-async function addGroup(payload: {
-  title?: string
-  type?: string
-  parentId?: number
-  protected?: true
-  ownedGroup?: string
-}): Promise<InquiryGroup | void> {  
-  
-    try {
-     const response = await InquiryGroupsAPI.addGroup({  
-        title: payload.title,
-        type: payload.type,
-        parentId: payload.parentId,
-        protected: payload.protected,
-        ownedGroup: payload.ownedGroup,
-    })
-
-    return response.data.inquiryGroup
-  } catch (error) {
-    if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-      return
-    }
-    Logger.error('Error adding inquiry group:', {  
-      error,
-      payload,
-    })
-
-    throw error
-  } finally {
-  }
-}
 
   async function writeCurrentInquiryGroup(): Promise<InquiryGroup | undefined> {
     if (!currentInquiryGroup.value) {
@@ -269,7 +238,5 @@ async function addGroup(payload: {
     writeCurrentInquiryGroup,
     addInquiryToInquiryGroup,
     removeInquiryFromGroup,
-    getInquiryGroupName,
-    addGroup,
   }
 })

@@ -19,6 +19,7 @@ import List from './views/InquiryList.vue'
 import Menu from './views/InquiryMenu.vue'
 import NotFound from './views/NotFound.vue'
 import InquiryView from './views/InquiryView.vue'
+import GroupView from './views/InquiryGroupView.vue'
 import Group from './views/InquiryGroup.vue'
 
 import SideBar from './views/SideBar.vue'
@@ -152,7 +153,7 @@ const routes: RouteRecordRaw[] = [
 	  name: 'group',
 	  path: '/group/:id',
 	  components: {
-		  default: Group,
+		  default: GroupView,
 		  navigation: NavigationGroup,
 		  sidebar: SideBarInquiryGroup,
 	  },
@@ -206,6 +207,8 @@ const router = createRouter({
 router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalized) => {
 	const sessionStore = useSessionStore()
 	let forceReload = false
+
+    console.log("NAVIGATING TO:", to.name)
 
 	// if the previous and the requested routes have the same name and
 	// the watcher is active, we can do a cheap loading

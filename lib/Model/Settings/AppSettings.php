@@ -309,7 +309,7 @@ class AppSettings implements JsonSerializable
         'officialRights' => $this->getOfficialRights(),
         ];
     }
-
+/*
     private function checkSettingType(string $key, int $expectedType, string $app = AppConstants::APP_ID): bool
     {
         try {
@@ -331,7 +331,40 @@ class AppSettings implements JsonSerializable
             );
         }
         return false;
+    } */
+
+    private function checkSettingType(string $key, $value) {
+        $expectedType = $this->settingsSchema[$key]['type'] ?? null;
+        if ($expectedType === null) {
+            return; // or throw your own exception
+        }
+
+        switch ($expectedType) {
+        case 'boolean':
+            if (!is_bool($value)) {
+                throw new \InvalidArgumentException("Invalid boolean value for $key");
+            }
+            break;
+
+        case 'integer':
+            if (!is_int($value)) {
+                throw new \InvalidArgumentException("Invalid integer value for $key");
+            }
+            break;
+
+        case 'string':
+            if (!is_string($value)) {
+                throw new \InvalidArgumentException("Invalid string value for $key");
+            }
+            break;
+
+            // ... etc
+
+        default:
+            throw new \Exception("Unknown type for setting $key");
+        }
     }
+
 
     // Getters
     // generic Setters
@@ -702,67 +735,67 @@ class AppSettings implements JsonSerializable
     public function jsonSerialize(): array
     {
         return [
-        // Existing settings
-        self::SETTING_ALLOW_PUBLIC_SHARES => $this->getBooleanSetting(self::SETTING_ALLOW_PUBLIC_SHARES),
-        self::SETTING_ALLOW_PUBLIC_SHARES_GROUPS => $this->getGroupObjects(self::SETTING_ALLOW_PUBLIC_SHARES_GROUPS),
+            // Existing settings
+            self::SETTING_ALLOW_PUBLIC_SHARES => $this->getBooleanSetting(self::SETTING_ALLOW_PUBLIC_SHARES),
+            self::SETTING_ALLOW_PUBLIC_SHARES_GROUPS => $this->getGroupObjects(self::SETTING_ALLOW_PUBLIC_SHARES_GROUPS),
 
-        self::SETTING_ALLOW_COMBO => $this->getBooleanSetting(self::SETTING_ALLOW_COMBO),
-        self::SETTING_ALLOW_COMBO_GROUPS => $this->getGroupObjects(self::SETTING_ALLOW_COMBO_GROUPS),
+            self::SETTING_ALLOW_COMBO => $this->getBooleanSetting(self::SETTING_ALLOW_COMBO),
+            self::SETTING_ALLOW_COMBO_GROUPS => $this->getGroupObjects(self::SETTING_ALLOW_COMBO_GROUPS),
 
-        self::SETTING_ALLOW_ALL_ACCESS => $this->getBooleanSetting(self::SETTING_ALLOW_ALL_ACCESS),
-        self::SETTING_ALLOW_ALL_ACCESS_GROUPS => $this->getGroupObjects(self::SETTING_ALLOW_ALL_ACCESS_GROUPS),
+            self::SETTING_ALLOW_ALL_ACCESS => $this->getBooleanSetting(self::SETTING_ALLOW_ALL_ACCESS),
+            self::SETTING_ALLOW_ALL_ACCESS_GROUPS => $this->getGroupObjects(self::SETTING_ALLOW_ALL_ACCESS_GROUPS),
 
-        self::SETTING_ALLOW_INQUIRY_CREATION => $this->getBooleanSetting(self::SETTING_ALLOW_INQUIRY_CREATION),
-        self::SETTING_ALLOW_INQUIRY_CREATION_GROUPS => $this->getGroupObjects(self::SETTING_ALLOW_INQUIRY_CREATION_GROUPS),
+            self::SETTING_ALLOW_INQUIRY_CREATION => $this->getBooleanSetting(self::SETTING_ALLOW_INQUIRY_CREATION),
+            self::SETTING_ALLOW_INQUIRY_CREATION_GROUPS => $this->getGroupObjects(self::SETTING_ALLOW_INQUIRY_CREATION_GROUPS),
 
-        self::SETTING_ALLOW_INQUIRY_DOWNLOAD => $this->getBooleanSetting(self::SETTING_ALLOW_INQUIRY_DOWNLOAD),
-        self::SETTING_ALLOW_INQUIRY_DOWNLOAD_GROUPS => $this->getGroupObjects(self::SETTING_ALLOW_INQUIRY_DOWNLOAD_GROUPS),
+            self::SETTING_ALLOW_INQUIRY_DOWNLOAD => $this->getBooleanSetting(self::SETTING_ALLOW_INQUIRY_DOWNLOAD),
+            self::SETTING_ALLOW_INQUIRY_DOWNLOAD_GROUPS => $this->getGroupObjects(self::SETTING_ALLOW_INQUIRY_DOWNLOAD_GROUPS),
 
-        self::SETTING_UNRESTRICTED_INQUIRY_OWNER => $this->getBooleanSetting(self::SETTING_UNRESTRICTED_INQUIRY_OWNER),
-        self::SETTING_UNRESTRICTED_INQUIRY_OWNER_GROUPS => $this->getGroupObjects(self::SETTING_UNRESTRICTED_INQUIRY_OWNER_GROUPS),
+            self::SETTING_UNRESTRICTED_INQUIRY_OWNER => $this->getBooleanSetting(self::SETTING_UNRESTRICTED_INQUIRY_OWNER),
+            self::SETTING_UNRESTRICTED_INQUIRY_OWNER_GROUPS => $this->getGroupObjects(self::SETTING_UNRESTRICTED_INQUIRY_OWNER_GROUPS),
 
-        self::SETTING_SHOW_MAIL_ADDRESSES => $this->getBooleanSetting(self::SETTING_SHOW_MAIL_ADDRESSES),
-        self::SETTING_SHOW_MAIL_ADDRESSES_GROUPS => $this->getGroupObjects(self::SETTING_SHOW_MAIL_ADDRESSES_GROUPS),
+            self::SETTING_SHOW_MAIL_ADDRESSES => $this->getBooleanSetting(self::SETTING_SHOW_MAIL_ADDRESSES),
+            self::SETTING_SHOW_MAIL_ADDRESSES_GROUPS => $this->getGroupObjects(self::SETTING_SHOW_MAIL_ADDRESSES_GROUPS),
 
-        self::SETTING_AUTO_ARCHIVE => $this->getBooleanSetting(self::SETTING_AUTO_ARCHIVE, default: self::SETTING_AUTO_ARCHIVE_DEFAULT),
-        self::SETTING_AUTO_ARCHIVE_OFFSET_DAYS => $this->getAutoArchiveOffsetDays(),
-    
-        self::SETTING_AUTO_EXPIRE => $this->getBooleanSetting(self::SETTING_AUTO_EXPIRE, default: self::SETTING_AUTO_EXPIRE_DEFAULT),
-        self::SETTING_AUTO_EXPIRE_OFFSET_DAYS => $this->getAutoExpireOffsetDays(),
+            self::SETTING_AUTO_ARCHIVE => $this->getBooleanSetting(self::SETTING_AUTO_ARCHIVE, default: self::SETTING_AUTO_ARCHIVE_DEFAULT),
+            self::SETTING_AUTO_ARCHIVE_OFFSET_DAYS => $this->getAutoArchiveOffsetDays(),
 
-        self::SETTING_AUTO_DELETE => $this->getBooleanSetting(self::SETTING_AUTO_DELETE, default: self::SETTING_AUTO_DELETE_DEFAULT),
-        self::SETTING_AUTO_DELETE_OFFSET_DAYS => $this->getAutoDeleteOffsetDays(),
+            self::SETTING_AUTO_EXPIRE => $this->getBooleanSetting(self::SETTING_AUTO_EXPIRE, default: self::SETTING_AUTO_EXPIRE_DEFAULT),
+            self::SETTING_AUTO_EXPIRE_OFFSET_DAYS => $this->getAutoExpireOffsetDays(),
 
-        self::SETTING_USE_SITE_LEGAL => $this->getBooleanSetting(self::SETTING_USE_SITE_LEGAL),
-        self::SETTING_LEGAL_TERMS_IN_EMAIL => $this->getBooleanSetting(self::SETTING_LEGAL_TERMS_IN_EMAIL),
-        self::SETTING_DISCLAIMER => $this->appConfig->getValueString(AppConstants::APP_ID, self::SETTING_DISCLAIMER),
-        self::SETTING_IMPRINT_URL => $this->appConfig->getValueString(AppConstants::APP_ID, self::SETTING_IMPRINT_URL),
-        self::SETTING_PRIVACY_URL => $this->appConfig->getValueString(AppConstants::APP_ID, self::SETTING_PRIVACY_URL),
-        self::SETTING_UPDATE_TYPE => $this->getUpdateType(),
+            self::SETTING_AUTO_DELETE => $this->getBooleanSetting(self::SETTING_AUTO_DELETE, default: self::SETTING_AUTO_DELETE_DEFAULT),
+            self::SETTING_AUTO_DELETE_OFFSET_DAYS => $this->getAutoDeleteOffsetDays(),
 
-        self::SETTING_USE_ACTIVITY => $this->getBooleanSetting(self::SETTING_USE_ACTIVITY),
-        self::SETTING_LOAD_INQUIRIES_IN_NAVIGATION => $this->getBooleanSetting(self::SETTING_LOAD_INQUIRIES_IN_NAVIGATION),
-        self::SETTING_SHOW_LOGIN => $this->getBooleanSetting(self::SETTING_SHOW_LOGIN),
+            self::SETTING_USE_SITE_LEGAL => $this->getBooleanSetting(self::SETTING_USE_SITE_LEGAL),
+            self::SETTING_LEGAL_TERMS_IN_EMAIL => $this->getBooleanSetting(self::SETTING_LEGAL_TERMS_IN_EMAIL),
+            self::SETTING_DISCLAIMER => $this->appConfig->getValueString(AppConstants::APP_ID, self::SETTING_DISCLAIMER),
+            self::SETTING_IMPRINT_URL => $this->appConfig->getValueString(AppConstants::APP_ID, self::SETTING_IMPRINT_URL),
+            self::SETTING_PRIVACY_URL => $this->appConfig->getValueString(AppConstants::APP_ID, self::SETTING_PRIVACY_URL),
+            self::SETTING_UPDATE_TYPE => $this->getUpdateType(),
 
-        // New settings
-        self::SETTING_USE_COLLABORATION => $this->getBooleanSetting(self::SETTING_USE_COLLABORATION, default: self::SETTING_USE_COLLABORATION_DEFAULT),
+            self::SETTING_USE_ACTIVITY => $this->getBooleanSetting(self::SETTING_USE_ACTIVITY),
+            self::SETTING_LOAD_INQUIRIES_IN_NAVIGATION => $this->getBooleanSetting(self::SETTING_LOAD_INQUIRIES_IN_NAVIGATION),
+            self::SETTING_SHOW_LOGIN => $this->getBooleanSetting(self::SETTING_SHOW_LOGIN),
 
-        'finalPrivacyUrl' => $this->getFinalPrivacyUrl(),
-        'finalImprintUrl' => $this->getFinalImprintUrl(),
-        'defaultPrivacyUrl' => $this->getDefaultPrivacyUrl(),
-        'defaultImprintUrl' => $this->getDefaultImprintUrl(),
+            // New settings
+            self::SETTING_USE_COLLABORATION => $this->getBooleanSetting(self::SETTING_USE_COLLABORATION, default: self::SETTING_USE_COLLABORATION_DEFAULT),
 
-        // Array settings (only for internal users)
-        self::SETTING_CATEGORY_TAB => $this->categoryService->findAll(),
-        self::SETTING_LOCATION_TAB => $this->locationService->findAll(),
-        self::SETTING_INQUIRY_STATUS => $this->inquiryStatusService->findAll(),
-        self::SETTING_INQUIRY_TYPE => $this->inquiryTypeService->findAll(),
-        self::SETTING_INQUIRY_GROUP_TYPE => $this->inquiryGroupTypeService->findAll(),
-        self::SETTING_INQUIRY_OPTION_TYPE => $this->inquiryOptionTypeService->findAll(),
-        self::SETTING_INQUIRY_FAMILY => $this->inquiryFamilyService->findAll(),
-        self::SETTING_INQUIRY_TYPE_RIGHTS => $this->getInquiryTypeRights(),
-        self::SETTING_MODERATOR_RIGHTS => $this->getModeratorRights(),
-        self::SETTING_OFFICIAL_RIGHTS => $this->getOfficialRights(),
+            'finalPrivacyUrl' => $this->getFinalPrivacyUrl(),
+            'finalImprintUrl' => $this->getFinalImprintUrl(),
+            'defaultPrivacyUrl' => $this->getDefaultPrivacyUrl(),
+            'defaultImprintUrl' => $this->getDefaultImprintUrl(),
+
+            // Array settings (only for internal users)
+            self::SETTING_CATEGORY_TAB => $this->categoryService->findAll(),
+            self::SETTING_LOCATION_TAB => $this->locationService->findAll(),
+            self::SETTING_INQUIRY_STATUS => $this->inquiryStatusService->findAll(),
+            self::SETTING_INQUIRY_TYPE => $this->inquiryTypeService->findAll(),
+            self::SETTING_INQUIRY_GROUP_TYPE => $this->inquiryGroupTypeService->findAll(),
+            self::SETTING_INQUIRY_OPTION_TYPE => $this->inquiryOptionTypeService->findAll(),
+            self::SETTING_INQUIRY_FAMILY => $this->inquiryFamilyService->findAll(),
+            self::SETTING_INQUIRY_TYPE_RIGHTS => $this->getInquiryTypeRights(),
+            self::SETTING_MODERATOR_RIGHTS => $this->getModeratorRights(),
+            self::SETTING_OFFICIAL_RIGHTS => $this->getOfficialRights(),
         ];
     }
 

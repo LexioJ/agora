@@ -8,8 +8,9 @@ import { Icon } from '@iconify/vue'
 import type { Component } from 'vue'
 
 // -------------------------------
-import LightbulbOn from '@iconify-icons/mdi/flash'
+import FolderMultiple from '@iconify-icons/mdi/folder-multiple'
 import Forum from '@iconify-icons/mdi/forum'
+import GestureTap from '@iconify-icons/mdi/gesture-tap'
 import HandHeart from '@iconify-icons/mdi/hand-heart'
 import FileTree from '@iconify-icons/mdi/file-tree'
 import AlertCircle from '@iconify-icons/mdi/alert-circle'
@@ -20,7 +21,6 @@ import OfficeBuilding from '@iconify-icons/mdi/office-building'
 import Seal from '@iconify-icons/mdi/seal'
 import ClipboardText from '@iconify-icons/mdi/clipboard-text'
 import BriefcaseCheck from '@iconify-icons/mdi/briefcase-check'
-import InteractiveSpace from '@iconify-icons/mdi/interactive-space'
 import ChartBar from '@iconify-icons/mdi/chart-bar'
 import Map from '@iconify-icons/mdi/map'
 import RocketLaunch from '@iconify-icons/mdi/rocket-launch'
@@ -36,7 +36,6 @@ import AnonymousIcon from '@iconify-icons/mdi/incognito'
 import TownHall from '@iconify-icons/mdi/town-hall'
 import ViewListOutline from '@iconify-icons/mdi/view-list-outline'
 import CommentQuote from '@iconify-icons/mdi/comment-quote'
-import Map from '@iconify-icons/mdi/map'
 import HomeGroup from '@iconify-icons/mdi/home-group'
 import AccountCog from '@iconify-icons/mdi/account-cog'         
 import MessageSquare from '@iconify-icons/mdi/chat-outline'
@@ -45,6 +44,8 @@ import LightbulbOn from '@iconify-icons/mdi/lightbulb-on'
 import Newspaper from '@iconify-icons/mdi/newspaper'
 import Megaphone from '@iconify-icons/mdi/megaphone'
 import ClipboardList from '@iconify-icons/mdi/clipboard-list'
+import HelpCircle from '@iconify-icons/mdi/help-circle'
+import Wrench from '@iconify-icons/mdi/wrench'
 
 
 import Update from '@iconify-icons/mdi/update'
@@ -82,7 +83,6 @@ import BarChart from '@iconify-icons/mdi/bar-chart'
 
 import CommentIcon from '@iconify-icons/mdi/comment'
 import CommentProcessing from '@iconify-icons/mdi/comment-processing'
-import AccountMultipleCheck from '@iconify-icons/mdi/account-multiple-check'
 import AccountCheck from '@iconify-icons/mdi/account-check'
 import ShieldCrown from '@iconify-icons/mdi/shield-crown'
 import Key from '@iconify-icons/mdi/key'
@@ -95,6 +95,7 @@ import Gesture from '@iconify-icons/mdi/gesture-double-tap'
 import AccountCircle from '@iconify-icons/mdi/account-circle-outline'
 import SortDescending from '@iconify-icons/mdi/sort-descending'
 import SortAscending from '@iconify-icons/mdi/sort-ascending'
+import WrenchOutline from '@iconify-icons/mdi/wrench-outline'
 
 
 // Navigation Icons (Iconify MDI)
@@ -103,8 +104,8 @@ import AccountStar from '@iconify-icons/mdi/account-star'
 import FormatListBulleted from '@iconify-icons/mdi/format-list-bulleted'
 import LockCheck from '@iconify-icons/mdi/lock-check'
 import ArrowRight from '@iconify-icons/mdi/arrow-right'
+import ArrowDown from '@iconify-icons/mdi/arrow-down'
 import AccountGroup from '@iconify-icons/mdi/account-group'
-import CommentQuote from '@iconify-icons/mdi/comment-quote'
 import Delete from '@iconify-icons/mdi/delete'
 import ArrowLeft from '@iconify-icons/mdi/arrow-left'
 import Minus from '@iconify-icons/mdi/minus'
@@ -121,7 +122,6 @@ import CheckCircle from '@iconify-icons/mdi/check-circle'
 import Scale from '@iconify-icons/mdi/scale-balance'
 import Layers from '@iconify-icons/mdi/layers'
 import Users from '@iconify-icons/mdi/account-group'
-import HomeGroup from '@iconify-icons/mdi/home-group'
 import BookOpen from '@iconify-icons/mdi/book-open-page-variant'
 import CalendarMultiselect from '@iconify-icons/mdi/calendar-multiselect'
 import UsersCog from '@iconify-icons/mdi/account-cog'
@@ -174,12 +174,17 @@ import ChatOutline from '@iconify-icons/mdi/chat-outline'
 import FormTextbox from '@iconify-icons/mdi/form-textbox'
 import Menu from '@iconify-icons/mdi/menu'
 
+import School from '@iconify-icons/mdi/school'
+import BabyFace from '@iconify-icons/mdi/baby-face'
 
 import Link from '@iconify-icons/mdi/link'
 import LinkVariant from '@iconify-icons/mdi/link-variant'
 import Poll from '@iconify-icons/mdi/poll'
 import CardsPlaying from '@iconify-icons/mdi/cards-playing'
 import Cash from '@iconify-icons/mdi/cash'
+import IdCard from '@iconify-icons/mdi/id-card'
+import DragHorizontal from '@iconify-icons/mdi/drag-horizontal'
+import InboxRemove from '@iconify-icons/mdi/inbox-remove'
 
 // -------------------------------
 // -------------------------------
@@ -195,9 +200,15 @@ export const makeIconComponent = (icon: Component, color = '#000', size = 24) =>
   },
 })
 export const InquiryGeneralIcons: Record<string, Component> = {
+    Wrench: makeIconComponent(Wrench, '#607D8B'),
+    Empty: makeIconComponent(InboxRemove, '#999'),
+    Drag: makeIconComponent(DragHorizontal, '#999'),
+    FolderMultiple: makeIconComponent(FolderMultiple, '#546E7A'),
+    IdCard: makeIconComponent(IdCard, '#546E7A'),
     Newspaper:              makeIconComponent(Newspaper, '#546E7A'),
     Megaphone:              makeIconComponent(Megaphone, '#C62828'),
     ClipboardList:          makeIconComponent(ClipboardList, '#283593'),
+    Question: makeIconComponent(HelpCircle, '#999'),
     CheckCircle: makeIconComponent(CheckCircle, '#4CAF50'),
     Scale: makeIconComponent(Scale, '#795548'),
     Layers: makeIconComponent(Layers, '#5D4037'),
@@ -206,7 +217,6 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     BookOpen: makeIconComponent(BookOpen, '#3949AB'),
     MessageSquare: makeIconComponent(MessageSquare, '#1565C0'),
     UsersCog: makeIconComponent(UsersCog, '#607D8B'),
-    Flash: makeIconComponent(LightbulbOn, '#FF9800'),
     CommentProcessing: makeIconComponent(CommentProcessing, '#FF5722'),
     Plus: makeIconComponent(Plus, '#4CAF50'),
     Share: makeIconComponent(ShareIcon, '#03A9F4'),
@@ -252,6 +262,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     Suggestion: makeIconComponent(Offer, '#388E3C'),
     Expiration: makeIconComponent(CalendarEnd, '#C2185B'),
     Attachment: makeIconComponent(FileDocument, '#37474F'),
+    FileDocument: makeIconComponent(FileDocument, '#37474F'),
     BookOpenVariant: makeIconComponent(BookOpenVariant, '#3949AB'),
     Library: makeIconComponent(Library, '#5D4037'),
     AccountVoice: makeIconComponent(AccountVoice, '#5E35B1'),
@@ -261,9 +272,10 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     Forum: makeIconComponent(Forum, '#1565C0'),
     FileDocumentEdit: makeIconComponent(FileDocumentEdit, '#283593'),
     Flag: makeIconComponent(FileDocumentEdit, '#283593'),
-    School: makeIconComponent(Seal, '#2E7D32'),
-    InteractiveSpace: makeIconComponent(Seal, '#2E7D32'),
-    BabyFace: makeIconComponent(HandHeart, '#AD1457'),
+    Flash: makeIconComponent(LightbulbOn, '#283593'),
+    InteractiveSpace: makeIconComponent(AccountGroup, '#2E7D32'),
+    BabyFace: makeIconComponent(BabyFace, '#AD1457'),
+    School: makeIconComponent(School, '#2E7D32'),
     HomeCity: makeIconComponent(Home, '#4E342E'),
     CalendarMultiselect: makeIconComponent(CalendarMultiselect, '#1B5E20'),
     City: makeIconComponent(OfficeBuilding, '#37474F'),
@@ -286,6 +298,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     WaitingApproval: makeIconComponent(AccountClock, '#1B5E20'),
     Link: makeIconComponent(Link, '#2196F3'),
     LinkVariant: makeIconComponent(LinkVariant, '#2196F3'),
+    ArrowDown: makeIconComponent(ArrowDown, '#546E7A'),
     Poll: makeIconComponent(Poll, '#4CAF50'),
     Deck: makeIconComponent(CardsPlaying, '#FF9800'),
     Money: makeIconComponent(Cash, '#4CAF50'),
@@ -305,6 +318,8 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     Export: makeIconComponent(Export, '#388E3C'),
     Import: makeIconComponent(Import, '#7B1FA2'),
     Group: makeIconComponent(AccountGroup, '#0097A7'),
+    Paste: makeIconComponent(ClipboardTextMultiple, '#5D4037'),
+    Calendar: makeIconComponent(Calendar, '#3949AB'),
 }
 
 export const ShareIcons: Record<string, Component> = {
@@ -423,7 +438,7 @@ export const StatusIcons: Record<string, Component> = {
     CircleIcon: makeIconComponent(CircleIcon, '#00ACC1'),
     DeletedUserIcon: makeIconComponent(DeletedUserIcon, '#D32F2F'),
     AnonymousIcon: makeIconComponent(AnonymousIcon, '#757575'),
-    InquiryGroupIcon: makeIconComponent(InquiryGroupIcon, '#5E35B1'),
+    InquiryGroupIcon: makeIconComponent(AccountGroup, '#5E35B1'),
     Draft: makeIconComponent(FileDocumentEdit, '#6A1B9A'),
     Default: makeIconComponent(FileDocumentEdit, '#757575'),
 }

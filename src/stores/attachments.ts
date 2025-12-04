@@ -15,6 +15,7 @@ export type Attachment = {
   mimetype: string
   size: number
   inquiryId: number
+  groupId: number
 }
 
 export type AttachmentsState = {

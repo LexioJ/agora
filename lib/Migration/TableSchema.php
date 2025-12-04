@@ -473,6 +473,7 @@ abstract class TableSchema
         Attachment::TABLE => [
             'id' => ['type' => Types::BIGINT, 'options' => ['autoincrement' => true, 'notnull' => true, 'length' => 20]],
             'inquiry_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
+            'group_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
             'file_id' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 255]],
             'size' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => '0', 'length' => 255]],
             'name' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => '', 'length' => 255]],

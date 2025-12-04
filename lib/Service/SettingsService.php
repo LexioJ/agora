@@ -29,7 +29,6 @@ class SettingsService
     private InquiryGroupTypeService $inquiryGroupTypeService;
     private InquiryOptionTypeService $inquiryOptionTypeService;
     private AppSettings $appSettings;
-    private IConfig $iConfig;
 
     /**
      * @psalm-suppress PossiblyUnusedMethod 
@@ -44,7 +43,6 @@ class SettingsService
         InquiryGroupTypeService $inquiryGroupTypeService,
         InquiryOptionTypeService $inquiryOptionTypeService,
         IConfig $iConfig,
-        LoggerInterface $logger
     ) {
         $this->appSettings = $appSettings;
         $this->locationService = $locationService;
@@ -55,7 +53,6 @@ class SettingsService
         $this->inquiryGroupTypeService = $inquiryGroupTypeService;
         $this->inquiryOptionTypeService = $inquiryOptionTypeService;
         $this->iConfig = $iConfig;
-        $this->logger = $logger;
     }
 
     /**

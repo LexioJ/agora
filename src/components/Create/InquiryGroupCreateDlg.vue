@@ -148,7 +148,7 @@ async function addGroupInquiry() {
     // Add the inquiry
     const inquiry = await inquiryGroupStore.add(inquiryData)
     
-    console.log(" AFTER ADD ")
+    console.log(" AFTER ADD ",inquiry)
 
     if (inquiry) {
       inquiryId.value = inquiry.id

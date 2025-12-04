@@ -4,7 +4,7 @@
 -->
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { useInquiryStore } from '../../stores/inquiry.ts'
+import { useInquiryGroupStore } from '../../stores/inquiryGroup.ts'
 import { useSessionStore } from '../../stores/session.ts'
 import { getAvailableFields } from '../../helpers/modules/InquiryHelper.ts'
 import { StatusIcons } from '../../utils/icons.ts'
@@ -23,7 +23,7 @@ const props = defineProps<{
 }>()
 
 // Stores
-const inquiryStore = useInquiryStore()
+const inquiryGroupStore = useInquiryGroupStore()
 const sessionStore = useSessionStore()
 
 // Reactive state
@@ -54,14 +54,14 @@ interface Field {
 // Get fields using your working helper function
 const dynamicFields = computed(() => {
   try {
-    if (!inquiryStore.type) {
+    if (!inquiryGroupStore.type) {
       return []
     }
 
     const fields = getAvailableFields(
-      inquiryStore.type, 
+      inquiryGroupStore.type, 
       sessionStore.appSettings.inquiryGroupTypeTab || [],
-      inquiryStore.type
+      inquiryGroupStore.type
     )
 
     return Array.isArray(fields) ? fields : []
@@ -73,15 +73,15 @@ const dynamicFields = computed(() => {
 
 const getMiscValue = (key: string) => {
   try {
-    if (!inquiryStore.miscFields || typeof inquiryStore.miscFields !== 'object' || !key) {
+    if (!inquiryGroupStore.miscFields || typeof inquiryStore.miscFields !== 'object' || !key) {
       return null
     }
     
-    if (!inquiryStore.miscFields[key]) {
+    if (!inquiryGroupStore.miscFields[key]) {
       return null
     }
 
-    const value = inquiryStore.miscFields[key]
+    const value = inquiryGroupStore.miscFields[key]
     
     // Handle string values that might be JSON strings with quotes
     if (typeof value === 'string') {
@@ -240,7 +240,7 @@ const saveFieldToDatabase = async (fieldKey: string, value: Field) => {
     }
 
     // Save to database using the API method with object parameter
-    await inquiryStore.updateMiscField(fieldKey,stringValue)
+    await inquiryGroupStore.updateMiscField(fieldKey,stringValue)
 
   } catch (e) {
     console.error(`❌ Error saving field ${fieldKey}:`, e)
@@ -252,7 +252,7 @@ const saveFieldToDatabase = async (fieldKey: string, value: Field) => {
 // Ensure miscFields has all dynamic fields with proper defaults - UPDATED
 const initializeMiscFields = () => {
   dynamicFields.value.forEach(field => {
-    if (inquiryStore.miscFields[field.key] === undefined) {
+    if (inquiryGroupStore.miscFields[field.key] === undefined) {
       // Set default value if field doesn't exist in miscFields
       let defaultValue = field.default
       
@@ -267,7 +267,7 @@ const initializeMiscFields = () => {
         defaultValue = String(defaultValue)
       }
       
-      inquiryStore.miscFields[field.key] = defaultValue
+      inquiryGroupStore.miscFields[field.key] = defaultValue
     }
   })
 }
@@ -439,7 +439,7 @@ onMounted(() => {
 										<!-- Integer field -->
 										<NcInputField
 												v-else-if="field.type === 'integer'"
-												v-model="inquiryStore.miscFields[field.key]"
+												v-model="inquiryGroupStore.miscFields[field.key]"
 												type="number"
 												:label="field.label"
 												:disabled="isSaving"
@@ -470,7 +470,7 @@ onMounted(() => {
                                                                 <!-- JSON field -->
                                                                 <div v-else-if="field.type === 'json'" class="json-field">
                                                                     <NcInputField
-                                                                            v-model="inquiryStore.miscFields[field.key]"
+                                                                            v-model="inquiryGroupStore.miscFields[field.key]"
                                                                             type="textarea"
                                                                             :rows="5"
                                                                             :label="field.label"
@@ -489,7 +489,7 @@ onMounted(() => {
                                                                 <!-- Default string field -->
                                                                 <NcInputField
                                                                         v-else
-                                                                        v-model="inquiryStore.miscFields[field.key]"
+                                                                        v-model="inquiryGroupStore.miscFields[field.key]"
                                                                         type="text"
                                                                         :label="field.label"
                                                                         :disabled="isSaving"

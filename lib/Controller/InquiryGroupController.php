@@ -10,6 +10,7 @@ namespace OCA\Agora\Controller;
 
 use OCA\Agora\Service\InquiryGroupService;
 use OCA\Agora\Service\InquiryService;
+use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
@@ -43,29 +44,44 @@ class InquiryGroupController extends BaseController
         return $this->response(
             function () {
                 return [
-                'inquiryGroups' => $this->inquiryGroupService->listInquiryGroups(),
+                    'inquiryGroups' => $this->inquiryGroupService->listInquiryGroups(),
                 ];
             }
         );
     }
 
     /**
-     * Create a new inquirygroup with its title and add a inquiry to it
+     * Get a single inquirygroup by ID
      *
-     * @param string    $type        Inquiry group type to add to the new inquirygrou
-     * @param string $inquiryGroupName Name of the new inquirygroup
+     * @param int $inquiryGroupId Inquiry group id
      *
-     *                                 psalm-return JSONResponse<array{inquiryGroup: InquiryGroup}>
-    */
+     * psalm-return JSONResponse<array{inquiryGroup: InquiryGroup}>
+     */
     #[NoAdminRequired]
-    #[FrontpageRoute(verb: 'POST', url: '/inquirygroup/new/')]
+    #[FrontpageRoute(verb: 'GET', url: '/inquirygroup/{inquiryGroupId}')]
+    public function get(int $inquiryGroupId): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'inquiryGroup' => $this->inquiryGroupService->get($inquiryGroupId),
+            ]
+        );
+    }
+
+    /**
+     * Create a new inquirygroup
+     *
+     * psalm-return JSONResponse<array{inquiryGroup: InquiryGroup}>
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'POST', url: '/inquirygroup/new')]
     public function addGroup(): JSONResponse
     {
         try {
             $rawData = $this->request->getParams('data');
-            $data =$rawData;
+            $data = $rawData;
             
-            $this->logger->error('Missing or empty key in misc field update', ['data' => $data]);
+            $this->logger->debug('Creating new inquiry group', ['data' => $data]);
 
             if (empty($data['title'])) {
                 throw new \InvalidArgumentException('Title is required');
@@ -73,7 +89,16 @@ class InquiryGroupController extends BaseController
 
             return $this->response(
                 fn () => [
-                    'inquiryGroup' => $this->inquiryGroupService->createGroup($data['title'],$data['type'],$data['parentId'],$data['protected'],$data['ownedGroup']),
+                    'inquiryGroup' => $this->inquiryGroupService->createGroup(
+                        $data['title'],
+                        $data['type'] ?? 'default',
+                        $data['parentId'] ?? 0,
+                        $data['protected'] ?? false,
+                        $data['ownedGroup'] ?? '',
+                        $data['groupStatus'] ?? 'draft',
+                        $data['titleExt'] ?? '',
+                        $data['description'] ?? ''
+                    ),
                 ]
             );
         } catch (\InvalidArgumentException $e) {
@@ -88,13 +113,82 @@ class InquiryGroupController extends BaseController
                     'trace' => $e->getTraceAsString()
                 ]
             );
-
+            return new JSONResponse(
+                ['error' => 'SERVER_ERROR', 'message' => 'An unexpected error occurred'],
+                Http::STATUS_INTERNAL_SERVER_ERROR
+            );
         }
-        return new JSONResponse(
-            ['error' => 'SERVER_ERROR', 'message' => 'An unexpected error occurred'],
-        );
     }
 
+    /**
+     * Update an inquirygroup
+     *
+     * @param int $inquiryGroupId Inquiry group id
+     *
+     * psalm-return JSONResponse<array{inquiryGroup: InquiryGroup}>
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'PUT', url: '/inquirygroup/update/{inquiryGroupId}')]
+    public function updateGroup(int $inquiryGroupId): JSONResponse
+    {
+        try {
+            $rawData = $this->request->getParams('updateData');
+            $data = $rawData;
+
+            $this->logger->debug('Updating inquiry group', ['id' => $inquiryGroupId, 'data' => $data]);
+
+            return $this->response(
+                fn () => [
+                    'inquiryGroup' => $this->inquiryGroupService->updateGroup(
+                        $inquiryGroupId,
+                        $data['title'] ?? null,
+                        $data['titleExt'] ?? null,
+                        $data['description'] ?? null,
+                        $data['type'] ?? null,
+                        $data['parentId'] ?? null,
+                        $data['protected'] ?? null,
+                        $data['ownedGroup'] ?? null,
+                        $data['groupStatus'] ?? null,
+                        $data['expire'] ?? null
+                    ),
+                ]
+            );
+        } catch (\InvalidArgumentException $e) {
+            return new JSONResponse(
+                ['error' => 'VALIDATION_ERROR', 'message' => $e->getMessage()],
+                Http::STATUS_BAD_REQUEST
+            );
+        } catch (\Exception $e) {
+            $this->logger->critical(
+                'Server error updating inquiry group', [
+                    'exception' => $e->getMessage(),
+                    'trace' => $e->getTraceAsString()
+                ]
+            );
+            return new JSONResponse(
+                ['error' => 'SERVER_ERROR', 'message' => 'An unexpected error occurred'],
+                Http::STATUS_INTERNAL_SERVER_ERROR
+            );
+        }
+    }
+
+    /**
+     * Delete an inquirygroup
+     *
+     * @param int $inquiryGroupId Inquiry group id
+     *
+     * psalm-return JSONResponse<array{success: bool}>
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'DELETE', url: '/inquirygroup/delete/{inquiryGroupId}')]
+    public function deleteGroup(int $inquiryGroupId): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'success' => $this->inquiryGroupService->deleteGroup($inquiryGroupId),
+            ]
+        );
+    }
 
     /**
      * Create a new inquirygroup with its title and add a inquiry to it
@@ -102,7 +196,7 @@ class InquiryGroupController extends BaseController
      * @param int    $inquiryId        Inquiry id to add to the new inquirygroup
      * @param string $inquiryGroupName Name of the new inquirygroup
      *
-     *                                 psalm-return JSONResponse<array{inquiryGroup: InquiryGroup, inquiry: Inquiry}>
+     * psalm-return JSONResponse<array{inquiryGroup: InquiryGroup, inquiry: Inquiry}>
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'POST', url: '/inquirygroup/new/inquiry/{inquiryId}')]
@@ -122,7 +216,7 @@ class InquiryGroupController extends BaseController
      * @param int $inquiryId      Inquiry id
      * @param int $inquiryGroupId Inquiry group id
      *
-     *                            psalm-return JSONResponse<array{inquiryGroup: InquiryGroup, inquiry: Inquiry}>
+     * psalm-return JSONResponse<array{inquiryGroup: InquiryGroup, inquiry: Inquiry}>
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/inquirygroup/{inquiryGroupId}/inquiry/{inquiryId}')]
@@ -137,7 +231,14 @@ class InquiryGroupController extends BaseController
     }
 
     /**
-     * Update Inquirygroup
+     * Update Inquirygroup details
+     *
+     * @param int    $inquiryGroupId Inquiry group id
+     * @param string $name           Group name
+     * @param string $titleExt       Extended title
+     * @param string $description    Description
+     *
+     * psalm-return JSONResponse<array{inquiryGroup: InquiryGroup}>
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'PUT', url: '/inquirygroup/{inquiryGroupId}/update')]
@@ -160,7 +261,7 @@ class InquiryGroupController extends BaseController
      * @param int $inquiryId      Inquiry id
      * @param int $inquiryGroupId Inquiry group id
      *
-     *                            psalm-return JSONResponse<array{inquiryGroup: InquiryGroup | null, inquiry: Inquiry}>
+     * psalm-return JSONResponse<array{inquiryGroup: InquiryGroup | null, inquiry: Inquiry}>
      */
     #[NoAdminRequired]
     #[FrontpageRoute(verb: 'DELETE', url: '/inquirygroup/{inquiryGroupId}/inquiry/{inquiryId}')]
@@ -170,6 +271,90 @@ class InquiryGroupController extends BaseController
             fn () => [
                 'inquiryGroup' => $this->inquiryGroupService->removeInquiryFromInquiryGroup($inquiryId, $inquiryGroupId),
                 'inquiry' => $this->inquiryService->get($inquiryId),
+            ]
+        );
+    }
+
+    /**
+     * Reorder inquiries in a group
+     *
+     * @param int   $inquiryGroupId Inquiry group id
+     * @param array $inquiryIds     Ordered list of inquiry ids
+     *
+     * psalm-return JSONResponse<array{inquiryGroup: InquiryGroup}>
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'PUT', url: '/inquirygroup/{inquiryGroupId}/reorder')]
+    public function reorderInquiries(int $inquiryGroupId): JSONResponse
+    {
+        try {
+            $rawData = $this->request->getParams('data');
+            $data = $rawData;
+
+            if (!isset($data['inquiryIds']) || !is_array($data['inquiryIds'])) {
+                throw new \InvalidArgumentException('inquiryIds array is required');
+            }
+
+            return $this->response(
+                fn () => [
+                    'inquiryGroup' => $this->inquiryGroupService->reorderInquiries($inquiryGroupId, $data['inquiryIds']),
+                ]
+            );
+        } catch (\InvalidArgumentException $e) {
+            return new JSONResponse(
+                ['error' => 'VALIDATION_ERROR', 'message' => $e->getMessage()],
+                Http::STATUS_BAD_REQUEST
+            );
+        }
+    }
+
+    /**
+     * Change owner of an inquiry group
+     *
+     * @param int    $inquiryGroupId Inquiry group id
+     * @param string $newOwnerId     New owner user id
+     *
+     * psalm-return JSONResponse<array{inquiryGroup: InquiryGroup}>
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'PUT', url: '/inquirygroup/{inquiryGroupId}/change-owner')]
+    public function changeOwner(int $inquiryGroupId): JSONResponse
+    {
+        try {
+            $rawData = $this->request->getParams('data');
+            $data = $rawData;
+
+            if (empty($data['newOwnerId'])) {
+                throw new \InvalidArgumentException('newOwnerId is required');
+            }
+
+            return $this->response(
+                fn () => [
+                    'inquiryGroup' => $this->inquiryGroupService->changeOwner($inquiryGroupId, $data['newOwnerId']),
+                ]
+            );
+        } catch (\InvalidArgumentException $e) {
+            return new JSONResponse(
+                ['error' => 'VALIDATION_ERROR', 'message' => $e->getMessage()],
+                Http::STATUS_BAD_REQUEST
+            );
+        }
+    }
+
+    /**
+     * Clone an inquiry group
+     *
+     * @param int $inquiryGroupId Inquiry group id
+     *
+     * psalm-return JSONResponse<array{inquiryGroup: InquiryGroup}>
+     */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'POST', url: '/inquirygroup/{inquiryGroupId}/clone')]
+    public function cloneGroup(int $inquiryGroupId): JSONResponse
+    {
+        return $this->response(
+            fn () => [
+                'inquiryGroup' => $this->inquiryGroupService->cloneGroup($inquiryGroupId),
             ]
         );
     }

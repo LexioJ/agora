@@ -49,6 +49,22 @@ class AttachmentMapper extends QBMapperWithUser
         $qb->where($qb->expr()->eq(self::TABLE . '.id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
         return $this->findEntity($qb);
     }
+    /**
+     * Find attachment by file ID and inquiry ID
+     *
+     * @param  int    $inquiryId The inquiry ID
+     * @param  string $fileId    The file ID to search for
+     * @return Attachment
+     * @throws \OCP\AppFramework\Db\DoesNotExistException
+     * @throws \OCP\AppFramework\Db\MultipleObjectsReturnedException
+     */
+    public function findByFileGroupId(int $inquiryId, int $fileId): Attachment
+    {
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->eq(self::TABLE . '.file_id', $qb->createNamedParameter($fileId, IQueryBuilder::PARAM_STR)))
+            ->andWhere($qb->expr()->eq(self::TABLE . '.group_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+        return $this->findEntity($qb);
+    }
 
     /**
      * Find attachment by file ID and inquiry ID
@@ -114,6 +130,15 @@ class AttachmentMapper extends QBMapperWithUser
 
         return $this->findEntity($qb);
     }
+    /**
+     * @return Attachment[]
+     */
+    public function findByGroupId(int $inquiryId): array
+    {
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->eq(self::TABLE . '.group_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+        return $this->findEntities($qb);
+    }
 
     /**
      * @return Attachment[]
@@ -123,6 +148,14 @@ class AttachmentMapper extends QBMapperWithUser
         $qb = $this->buildQuery();
         $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
         return $this->findEntities($qb);
+    }
+
+    public function deleteByGroupId(int $inquiryId): int
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->delete($this->getTableName())
+            ->where($qb->expr()->eq('group_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+        return $qb->executeStatement();
     }
 
 

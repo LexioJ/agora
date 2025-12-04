@@ -13,9 +13,9 @@
 const appName = "agora";
 const appVersion = "1.6.0-beta";
 import { d as defineComponent, t as translate, l as computed, b as onMounted, m as purify, q as _, _ as _export_sfc, c as createElementBlock, o as openBlock, f as createVNode, w as withCtx, a as createBaseVNode, e as createBlock, s as resolveDynamicComponent, k as toDisplayString, h as createApp, p as pinia } from "./TernarySupportIcon.vue_vue_type_style_index_0_scoped_ef057a6f_lang--nb4-Kfv.chunk.mjs";
-import { a as useSessionStore, b as useInquiriesStore, L as Logger, s as showError, I as InquiryGeneralIcons, N as NcDashboardWidget } from "./NcDashboardWidget-Bu7bWoUK-BaAXdP6s.chunk.mjs";
+import { a as useSessionStore, b as useInquiriesStore, L as Logger, s as showError, I as InquiryGeneralIcons, N as NcDashboardWidget } from "./NcDashboardWidget-Bu7bWoUK-CBvWsbAl.chunk.mjs";
 import { A as AgoraAppIcon } from "./AgoraAppIcon-Ba1fTsJs.chunk.mjs";
-import { g as getInquiryTypeData } from "./InquiryHelper-D-XW-iSA.chunk.mjs";
+import { g as getInquiryTypeData } from "./InquiryHelper-DfFthGJX.chunk.mjs";
 
 const _sfc_main = /* @__PURE__ */ defineComponent({
   __name: "Dashboard",

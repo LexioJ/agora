@@ -433,7 +433,9 @@ class UserBase implements JsonSerializable
         }
         return $this->getSimpleUserArray();
     }
-
+    public function isAdmin() {
+         return $this->getIsAdmin();
+    }
     /**
      * Full user array for inquiry owners, delegated inquiry admins and the current user himself
      * without obfuscating/anonymizing
