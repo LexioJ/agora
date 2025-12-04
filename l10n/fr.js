@@ -190,7 +190,7 @@ OC.L10N.register(
     "Created" : "Créée",
     "Category" : "Catégorie",
     "Last interaction" : "Dernière interaction",
-    "Status" : "État",
+    "Status" : "Statut",
     "Expires" : "Expire",
     "Description" : "Description",
     "All types" : "Tous les types",
