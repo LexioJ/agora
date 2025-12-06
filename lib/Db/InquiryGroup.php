@@ -170,12 +170,19 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
         $this->setOwner($userId);
     }
 
+    public function setMiscField(string $key, mixed $value): void
+    {
+        $this->miscFields[$key] = $value;
+    }
+
+
+
     public function setMiscFields(array $misc): void
     {
         foreach ($misc as $field) {
             $key = $field->getKey();
-	    $this->miscFields[$key] = $field->getValue() ?? null;
-	}
+            $this->miscFields[$key] = $field->getValue() ?? null;
+        }
     }
 
     public function initializeMiscFields(array $fieldsDefinition): void
@@ -185,9 +192,15 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
             $this->miscFields[$key] = $field['default'] ?? null;
         }
     }
+    
     public function getMiscField(string $key): mixed
     {
         return $this->miscFields[$key] ?? null;
+    }
+
+    public function getMiscFields(): mixed
+    {
+        return $this->miscFields ?? null;
     }
 
 
@@ -234,9 +247,9 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     public function getIsAllowed(string $permission): bool
     {
         return match ($permission) {
-            self::PERMISSION_INQUIRY_GROUP_EDIT => $this->getAllowEdit(),
+        self::PERMISSION_INQUIRY_GROUP_EDIT => $this->getAllowEdit(),
             default => false,
-        };
+    };
     }
 
     /**

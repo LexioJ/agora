@@ -64,7 +64,7 @@ class AttachmentController extends BaseController
     {
         return $this->response(
             fn () => [
-                    'attachments' => $this->attachmentService->getAll($inquiryId)
+                    'attachments' => $this->attachmentService->getAll($inquiryId,0)
                 ]
         );
     }

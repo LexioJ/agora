@@ -46,7 +46,7 @@ class InquiryGroupMisc extends EntityWithUser implements JsonSerializable
     {
         return [
             'id' => $this->getId(),
-            'inquiry_id' => $this->getInquiryGroupId(),
+            'inquiry_group_id' => $this->getInquiryGroupId(),
             'key' => $this->getKey(),
             'value' => $this->getValue(),
         ];

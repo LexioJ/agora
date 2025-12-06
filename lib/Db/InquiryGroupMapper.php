@@ -42,7 +42,14 @@ class InquiryGroupMapper extends QBMapper
     {
         $qb = $this->buildQuery();
         $qb->orderBy('title', 'ASC');
-        return $this->findEntities($qb);
+        $inquiryGroups = $this->findEntities($qb);
+        
+        // Load dynamic fields for all inquiry groups
+        foreach ($inquiryGroups as $inquiryGroup) {
+            $this->loadDynamicFields($inquiryGroup);
+        }
+        
+        return $inquiryGroups;
     }
 
     /**
@@ -57,7 +64,97 @@ class InquiryGroupMapper extends QBMapper
 
         $qb->where($qb->expr()->eq(self::TABLE . '.id', $qb->createNamedParameter($id)));
 
-        return $this->findEntity($qb);
+        $inquiryGroup = $this->findEntity($qb);
+        $this->loadDynamicFields($inquiryGroup);
+        
+        return $inquiryGroup;
+    }
+
+    /**
+     * Load misc fields for an InquiryGroup (similar to InquiryMapper)
+     *
+     * @param InquiryGroup $inquiryGroup
+     */
+    public function loadFieldsMisc(InquiryGroup $inquiryGroup): void
+    {
+        $this->loadDynamicFields($inquiryGroup);
+    }
+
+    /**
+     * Get InquiryGroup with misc fields loaded
+     *
+     * @param int $id
+     * @param bool $getDeleted
+     * @param bool $withMiscFields
+     * @return InquiryGroup
+     */
+    public function get(int $id, bool $getDeleted = false, bool $withMiscFields = true): InquiryGroup
+    {
+        $qb = $this->db->getQueryBuilder();
+        $qb->select(self::TABLE . '.*')
+            ->from($this->getTableName(), self::TABLE)
+            ->where($qb->expr()->eq(self::TABLE . '.id', $qb->createNamedParameter($id, IQueryBuilder::PARAM_INT)));
+
+        if (!$getDeleted) {
+            $qb->andWhere($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0, IQueryBuilder::PARAM_INT)));
+        }
+
+        if ($withMiscFields) {
+            $this->joinMiscs($qb, self::TABLE);
+        }
+        
+        $inquiryGroup = $this->findEntity($qb);
+        
+        if ($withMiscFields) {
+            $this->loadDynamicFields($inquiryGroup);
+        }
+        
+        return $inquiryGroup;
+    }
+
+    /**
+     * Find active (non-deleted) InquiryGroups with misc fields
+     *
+     * @return InquiryGroup[]
+     */
+    public function findActive(): array
+    {
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0)))
+           ->orderBy('created', 'ASC')
+           ->addOrderBy('title', 'ASC');
+           
+        $inquiryGroups = $this->findEntities($qb);
+        
+        // Load dynamic fields for all inquiry groups
+        foreach ($inquiryGroups as $inquiryGroup) {
+            $this->loadDynamicFields($inquiryGroup);
+        }
+        
+        return $inquiryGroups;
+    }
+
+    /**
+     * Find expired InquiryGroups with misc fields
+     *
+     * @return InquiryGroup[]
+     */
+    public function findExpired(): array
+    {
+        $qb = $this->buildQuery();
+        $qb->where($qb->expr()->lt(self::TABLE . '.expire', $qb->createNamedParameter(time())))
+           ->andWhere($qb->expr()->isNotNull(self::TABLE . '.expire'))
+           ->orderBy('created', 'ASC')
+           ->addOrderBy('title', 'ASC');
+           
+        $inquiryGroups = $this->findEntities($qb);
+        
+        // Load dynamic fields for all inquiry groups
+        foreach ($inquiryGroups as $inquiryGroup) {
+            $this->loadDynamicFields($inquiryGroup);
+        }
+        
+        return $inquiryGroups;
     }
 
     public function addInquiryToGroup(int $inquiryId, int $groupId): void
@@ -94,7 +191,6 @@ class InquiryGroupMapper extends QBMapper
         $inquiryGroup->setCreated(time());
         $inquiryGroup->setOwner($this->userSession->getCurrentUserId());
         return $this->insert($inquiryGroup);
-
     }
 
     public function tidyInquiryGroups(): void
@@ -114,6 +210,7 @@ class InquiryGroupMapper extends QBMapper
            );
         $qb->executeStatement();
     }
+
     /**
      * Get inquiry IDs for a group
      */
@@ -163,7 +260,15 @@ class InquiryGroupMapper extends QBMapper
         $qb->where($qb->expr()->eq(self::TABLE . '.parent_id', $qb->createNamedParameter($parentId)))
            ->orderBy('created', 'ASC')
            ->addOrderBy('title', 'ASC');
-        return $this->findEntities($qb);
+           
+        $inquiryGroups = $this->findEntities($qb);
+        
+        // Load dynamic fields for all inquiry groups
+        foreach ($inquiryGroups as $inquiryGroup) {
+            $this->loadDynamicFields($inquiryGroup);
+        }
+        
+        return $inquiryGroups;
     }
 
     /**
@@ -178,7 +283,15 @@ class InquiryGroupMapper extends QBMapper
         $qb->where($qb->expr()->eq(self::TABLE . '.type', $qb->createNamedParameter($type)))
            ->orderBy('created', 'ASC')
            ->addOrderBy('title', 'ASC');
-        return $this->findEntities($qb);
+           
+        $inquiryGroups = $this->findEntities($qb);
+        
+        // Load dynamic fields for all inquiry groups
+        foreach ($inquiryGroups as $inquiryGroup) {
+            $this->loadDynamicFields($inquiryGroup);
+        }
+        
+        return $inquiryGroups;
     }
 
     /**
@@ -193,44 +306,23 @@ class InquiryGroupMapper extends QBMapper
         $qb->where($qb->expr()->eq(self::TABLE . '.group_status', $qb->createNamedParameter($status)))
            ->orderBy('created', 'ASC')
            ->addOrderBy('title', 'ASC');
-        return $this->findEntities($qb);
+           
+        $inquiryGroups = $this->findEntities($qb);
+        
+        // Load dynamic fields for all inquiry groups
+        foreach ($inquiryGroups as $inquiryGroup) {
+            $this->loadDynamicFields($inquiryGroup);
+        }
+        
+        return $inquiryGroups;
     }
 
     /**
-     * Find active (non-deleted) InquiryGroups
-     *
-     * @return InquiryGroup[]
+     * Save dynamic fields to InquiryGroupMisc and update miscFields in InquiryGroup
      */
-    public function findActive(): array
+    public function saveDynamicFields(InquiryGroup $inquiryGroup, array $fieldsDefinition): void
     {
-        $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.deleted', $qb->expr()->literal(0)))
-           ->orderBy('created', 'ASC')
-           ->addOrderBy('title', 'ASC');
-        return $this->findEntities($qb);
-    }
-
-    /**
-     * Find expired InquiryGroups
-     *
-     * @return InquiryGroup[]
-     */
-    public function findExpired(): array
-    {
-        $qb = $this->buildQuery();
-        $qb->where($qb->expr()->lt(self::TABLE . '.expire', $qb->createNamedParameter(time())))
-           ->andWhere($qb->expr()->isNotNull(self::TABLE . '.expire'))
-           ->orderBy('created', 'ASC')
-           ->addOrderBy('title', 'ASC');
-        return $this->findEntities($qb);
-    }
-
-     /**
-     * Save dynamic fields to InquiryMisc and update miscFields in Inquiry
-     */
-    public function saveDynamicFields(InquiryGroup $inquiry, array $fieldsDefinition): void
-    {
-        $inquiryId = $inquiry->getId();
+        $inquiryGroupId = $inquiryGroup->getId();
         if (empty($fieldsDefinition)) {
             return;
         }
@@ -238,7 +330,7 @@ class InquiryGroupMapper extends QBMapper
         $qb = $this->db->getQueryBuilder();
 
         $qb->delete(InquiryGroupMisc::TABLE)
-           ->where($qb->expr()->eq('inquiry_group_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
+           ->where($qb->expr()->eq('inquiry_group_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)))
            ->executeStatement();
 
         foreach ($fieldsDefinition as $fieldDef) {
@@ -248,23 +340,23 @@ class InquiryGroupMapper extends QBMapper
             $qb->insert(InquiryGroupMisc::TABLE)
                ->values(
                    [
-                       'inquiry_group_id' => $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT),
+                       'inquiry_group_id' => $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT),
                        'key'        => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
                        'value'      => $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR),
                    ]
                )
                ->executeStatement();
 
-            $inquiry->setMiscField($key, $value);
+            $inquiryGroup->setMiscField($key, $value);
         }
     }
 
     /**
-     * Update only specified dynamic fields in InquiryMisc and miscFields
+     * Update only specified dynamic fields in InquiryGroupMisc and miscFields
      */
-    public function updateDynamicFields(InquiryGroup $inquiry, array $fieldsToUpdate, array $fieldsDefinition): void
+    public function updateDynamicFields(InquiryGroup $inquiryGroup, array $fieldsToUpdate, array $fieldsDefinition): void
     {
-        $inquiryId = $inquiry->getId();
+        $inquiryGroupId = $inquiryGroup->getId();
         if (empty($fieldsToUpdate)) {
             return;
         }
@@ -281,7 +373,7 @@ class InquiryGroupMapper extends QBMapper
 
             $existing = $qb->select('id')
                            ->from(InquiryGroupMisc::TABLE)
-                           ->where($qb->expr()->eq('inquiry_group_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)))
+                           ->where($qb->expr()->eq('inquiry_group_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)))
                            ->andWhere($qb->expr()->eq('key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)))
                            ->executeQuery()
                            ->fetchOne();
@@ -295,7 +387,7 @@ class InquiryGroupMapper extends QBMapper
                 $qb->insert(InquiryGroupMisc::TABLE)
                    ->values(
                        [
-                           'inquiry_group_id' => $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT),
+                           'inquiry_group_id' => $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT),
                            'key'        => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
                            'value'      => $qb->createNamedParameter((string)$value, IQueryBuilder::PARAM_STR),
                        ]
@@ -303,12 +395,60 @@ class InquiryGroupMapper extends QBMapper
                    ->executeStatement();
             }
 
-            $inquiry->setMiscField($key, $value);
+            $inquiryGroup->setMiscField($key, $value);
         }
     }
 
-       /**
-     * Join misc settings from InquiryMisc table
+    /**
+     * Convert a value to the type defined in fields (similar to InquiryMapper)
+     */
+    private function castValueByType($value, array $fieldDef)
+    {
+        $type = $fieldDef['type'] ?? 'string';
+
+        // If value is null, return null
+        if ($value === null) {
+            return null;
+        }
+
+        switch ($type) {
+            case 'integer':
+            case 'int':
+                return (int)$value;
+
+            case 'boolean':
+            case 'bool':
+                return (bool)$value;
+
+            case 'float':
+            case 'double':
+                return (float)$value;
+
+            case 'datetime':
+                return is_numeric($value) ? (int)$value : $value;
+
+            case 'json':
+                if (is_array($value) || is_object($value)) {
+                    return json_encode($value);
+                }
+                // If it's already JSON, keep it as is
+                return $value;
+
+            case 'enum':
+                $allowed = $fieldDef['allowed_values'] ?? [];
+                if (in_array($value, $allowed, true)) {
+                    return $value;
+                }
+                return $fieldDef['default'] ?? null;
+
+            case 'string':
+            default:
+                return (string)$value;
+        }
+    }
+
+    /**
+     * Join misc settings from InquiryGroupMisc table
      */
     protected function joinMiscs(
         IQueryBuilder &$qb,
@@ -327,29 +467,25 @@ class InquiryGroupMapper extends QBMapper
         );
     }
 
-    private function loadDynamicFields(InquiryGroup $inquiry): void
+    private function loadDynamicFields(InquiryGroup $inquiryGroup): void
     {
-        $inquiryId = $inquiry->getId();
+        $inquiryGroupId = $inquiryGroup->getId();
 
         $qb = $this->db->getQueryBuilder();
         $qb->select('*')
            ->from(InquiryGroupMisc::TABLE)
-           ->where($qb->expr()->eq('inquiry_group_id', $qb->createNamedParameter($inquiryId, IQueryBuilder::PARAM_INT)));
+           ->where($qb->expr()->eq('inquiry_group_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
 
         $stmt = $qb->executeQuery();
         $storedData = $stmt->fetchAll();
         $stmt->closeCursor();
-
-        $miscFields = [];
 
         foreach ($storedData as $data) {
             if (is_array($data) && isset($data['key'], $data['value'])) {
                 $key = (string) $data['key'];
                 $value = $data['value'];
 
-                $miscFields[$key] = $value;
-
-                $inquiry->setMiscField($key, $value);
+                $inquiryGroup->setMiscField($key, $value);
             }
         }
     }

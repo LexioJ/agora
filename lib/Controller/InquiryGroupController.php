@@ -13,6 +13,7 @@ use OCA\Agora\Service\InquiryService;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\FrontpageRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
+use OCA\Agora\Service\InquiryGroupMiscService;
 use OCP\AppFramework\Http\JSONResponse;
 use Psr\Log\LoggerInterface;
 use OCP\IRequest;
@@ -27,6 +28,7 @@ class InquiryGroupController extends BaseController
         IRequest $request,
         private InquiryService $inquiryService,
         private InquiryGroupService $inquiryGroupService,
+        private InquiryGroupMiscService $inquiryGroupMiscService,
         private LoggerInterface $logger,
     ) {
         parent::__construct($appName, $request);
@@ -49,6 +51,41 @@ class InquiryGroupController extends BaseController
             }
         );
     }
+   
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'PUT', url: '/inquirygroup/{inquiryId}/updatemiscfield')]
+    public function updateMiscField(int $inquiryId): JSONResponse
+    {
+        $data = $this->request->getParams();
+
+        if (!isset($data['key']) || empty(trim($data['key']))) {
+            $this->logger->error('Missing or empty key in misc field update', ['data' => $data]);
+            return new JSONResponse([
+                'error' => 'Key cannot be null or empty for misc field update'
+            ], Http::STATUS_BAD_REQUEST);
+        }
+
+        try {
+            $result = $this->inquiryGroupMiscService->setValue($inquiryId, $data['key'], $data['value'] ?? null);
+
+            return new JSONResponse([
+                'success' => true,
+                'misc' => $result
+            ]);
+
+        } catch (\Exception $e) {
+            $this->logger->error('Error updating misc field: ' . $e->getMessage(), [
+                'inquiryId' => $inquiryId,
+                'key' => $data['key'],
+                'value' => $data['value'] ?? null
+            ]);
+
+            return new JSONResponse([
+                'error' => $e->getMessage()
+            ], Http::STATUS_BAD_REQUEST);
+        }
+    }
+
 
     /**
      * Get a single inquirygroup by ID
@@ -61,9 +98,11 @@ class InquiryGroupController extends BaseController
     #[FrontpageRoute(verb: 'GET', url: '/inquirygroup/{inquiryGroupId}')]
     public function get(int $inquiryGroupId): JSONResponse
     {
+        $inquiryGroup = $this->inquiryGroupService->get($inquiryGroupId);
+        $this->logger->debug('Creating new inquiry group', ['inquiryGroup' => $inquiryGroup->getMiscFields()]);
         return $this->response(
             fn () => [
-                'inquiryGroup' => $this->inquiryGroupService->get($inquiryGroupId),
+                'inquiryGroup' => $inquiryGroup,
             ]
         );
     }
@@ -80,8 +119,7 @@ class InquiryGroupController extends BaseController
         try {
             $rawData = $this->request->getParams('data');
             $data = $rawData;
-            
-            $this->logger->debug('Creating new inquiry group', ['data' => $data]);
+
 
             if (empty($data['title'])) {
                 throw new \InvalidArgumentException('Title is required');

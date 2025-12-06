@@ -8,7 +8,7 @@ import { ref, computed, onMounted } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcInputField from '@nextcloud/vue/components/NcInputField'
+import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
 import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
@@ -17,11 +17,6 @@ import { useSessionStore } from '../../stores/session'
 
 // Import icons from InquiryGeneralIcons
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
-
-// Props
-const props = defineProps<{
-  groupId: number
-}>()
 
 // Emits
 const emit = defineEmits<{
@@ -76,11 +71,11 @@ const hasChanges = computed(() => {
 
 // Methods
 const loadGroup = async () => {
-  if (!props.groupId) return
+  if (!inquiryGroupStore.id) return
   
   loading.value = true
   try {
-    await inquiryGroupStore.load(props.groupId)
+    await inquiryGroupStore.load(inquiryGroupStore.id)
     
     // Load cover image
     if (inquiryGroupStore.coverId) {
@@ -319,7 +314,7 @@ onMounted(() => {
       
       <div class="form-fields">
         <!-- Title Field - Full width -->
-        <NcInputField
+        <NcTextArea
           v-model="inquiryGroupStore.title"
           :label="t('agora', 'Title') + ' *'"
           :placeholder="t('agora', 'Enter group title')"
@@ -334,10 +329,10 @@ onMounted(() => {
           <template #icon>
             <component :is="InquiryGeneralIcons.Text" />
           </template>
-        </NcInputField>
+        </NcTextArea>
         
         <!-- Extended Title Field - Full width -->
-        <NcInputField
+        <NcTextArea
           v-model="inquiryGroupStore.titleExt"
           :label="t('agora', 'Extended Title')"
           :placeholder="t('agora', 'Optional extended title')"
@@ -352,7 +347,7 @@ onMounted(() => {
           <template #icon>
             <component :is="InquiryGeneralIcons.Text" />
           </template>
-        </NcInputField>
+        </NcTextArea>
       </div>
     </div>
 
@@ -364,11 +359,10 @@ onMounted(() => {
       </h3>
       
       <div class="form-group">
-        <NcTextField
+        <NcTextArea
           v-model="inquiryGroupStore.description"
           :placeholder="t('agora', 'Enter group description...')"
-          :maxlength="2000"
-          :rows="100"
+          :rows="10"
           :disabled="!canEditGroup || saving"
           class="form-textarea large"
         />

@@ -101,7 +101,7 @@ function closeSideBar() {
                         <template #icon>
                             <component :is="InquiryGeneralIcons.Map" />
                         </template>
-                <SideBarTabGroupMisc />
+                 <SideBarTabGroupMisc /> 
                 </NcAppSidebarTab>
 
                 <NcAppSidebarTab

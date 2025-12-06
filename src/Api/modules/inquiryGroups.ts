@@ -157,6 +157,20 @@ const inquiryGroups = {
         })
     },
 
+
+    updateMiscField(inquiryId: number, updateData: { key: string, value: string }): Promise<AxiosResponse<{ miscField: string }>> {
+        if (!updateData.key || updateData.key.trim() === '') {
+            throw new Error('Key cannot be null or empty for misc field update');
+        }
+
+        return httpInstance.request({
+            method: 'PUT',
+            data: updateData,
+            url: `inquirygroup/${inquiryId}/updatemiscfield`,
+            cancelToken: cancelTokenHandlerObject[this.updateMiscField.name].handleRequestCancellation().token,
+        })
+    },
+
     cloneGroup(inquiryGroupId: number): Promise<AxiosResponse<{ inquiryGroup: InquiryGroup }>> {
         return httpInstance.request({
             method: 'POST',

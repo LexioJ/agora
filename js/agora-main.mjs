@@ -3357,969 +3357,475 @@ to { transform: rotate(360deg);
 }
 #expiring.open {
   color: var(--color-text-lighter);
-}.inquiry-groups .area__main[data-v-4f232cad] {
+}.inquiry-group-page[data-v-4f232cad] {
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
 }
-.page-title[data-v-4f232cad] {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 24px;
-  font-weight: 700;
-}
-.page-title .title-icon[data-v-4f232cad] {
-  font-size: 28px;
-}
-.header-actions[data-v-4f232cad] {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+
+/* Enhanced Breadcrumb */
+.breadcrumb-bar[data-v-4f232cad] {
+  background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
   padding: 20px 0;
-  margin-bottom: 20px;
-  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  border-bottom: 3px solid var(--color-primary, #2196f3);
 }
-.header-actions .back-button[data-v-4f232cad] {
+.breadcrumb-bar .breadcrumb-container[data-v-4f232cad] {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-home[data-v-4f232cad] {
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-home[data-v-4f232cad]:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-home .breadcrumb-label[data-v-4f232cad] {
+  margin-left: 8px;
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-separator[data-v-4f232cad] {
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 5px;
+  font-weight: 300;
+  font-size: 20px;
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-item[data-v-4f232cad] {
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 500;
+  font-size: 16px;
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-item[data-v-4f232cad]:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-item .breadcrumb-item-content[data-v-4f232cad] {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--color-background-dark);
-  border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 10px 18px;
-  color: var(--color-text-lighter);
-  transition: all 0.2s ease;
 }
-.header-actions .back-button[data-v-4f232cad]:hover {
-  background: var(--color-background-hover);
-  border-color: var(--color-primary-element);
-}
-.header-actions .back-button__icon[data-v-4f232cad] {
-  font-size: 18px;
-  font-weight: 600;
-}
-.header-actions .action-buttons[data-v-4f232cad] {
-  display: flex;
-  gap: 12px;
-}
-.main-inquiry-group-section[data-v-4f232cad] {
-  display: flex;
-  flex-direction: column;
-  gap: 40px;
-}
-.type-hero-section[data-v-4f232cad] {
-  background: linear-gradient(135deg, var(--color-primary-element) 0%, var(--color-primary-element-hover) 100%);
-  border-radius: 24px;
-  padding: 60px 40px;
+.breadcrumb-bar .breadcrumb-container .breadcrumb-current[data-v-4f232cad] {
   color: white;
-  text-align: center;
-}
-.type-hero-section .type-hero-content[data-v-4f232cad] {
-  max-width: 800px;
-  margin: 0 auto;
-}
-.type-hero-section .type-icon-large[data-v-4f232cad] {
-  font-size: 80px;
-  margin-bottom: 24px;
-}
-.type-hero-section .type-hero-title[data-v-4f232cad] {
-  font-size: 48px;
-  font-weight: 800;
-  margin-bottom: 16px;
-}
-.type-hero-section .type-hero-description[data-v-4f232cad] {
-  font-size: 20px;
-  opacity: 0.9;
-  line-height: 1.5;
-}
-.root-groups-section .section-title[data-v-4f232cad] {
-  font-size: 32px;
   font-weight: 700;
-  margin-bottom: 8px;
-  color: var(--color-main-text);
-}
-.root-groups-section .section-description[data-v-4f232cad] {
   font-size: 18px;
-  color: var(--color-text-lighter);
-  margin-bottom: 32px;
+  margin-left: 5px;
 }
-.root-groups-grid[data-v-4f232cad] {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 24px;
-}
-.root-group-card[data-v-4f232cad] {
-  background: var(--color-main-background);
-  border: 2px solid var(--color-border);
-  border-radius: 20px;
-  padding: 24px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  position: relative;
-  overflow: hidden;
-}
-.root-group-card[data-v-4f232cad]:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-  border-color: var(--color-primary-element);
-}
-.root-group-card--blue[data-v-4f232cad] {
-  border-left: 6px solid #3b82f6;
-}
-.root-group-card--green[data-v-4f232cad] {
-  border-left: 6px solid #10b981;
-}
-.root-group-card--purple[data-v-4f232cad] {
-  border-left: 6px solid #8b5cf6;
-}
-.root-group-card--orange[data-v-4f232cad] {
-  border-left: 6px solid #f59e0b;
-}
-.root-group-card--red[data-v-4f232cad] {
-  border-left: 6px solid #ef4444;
-}
-.root-group-card .card-header[data-v-4f232cad] {
+.breadcrumb-bar .breadcrumb-container .breadcrumb-current .breadcrumb-current-content[data-v-4f232cad] {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-.root-group-card .card-header .card-icon[data-v-4f232cad] {
-  width: 50px;
-  height: 50px;
-  background: var(--color-background-dark);
+  gap: 12px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 12px;
+  border-left: 4px solid var(--color-primary, #2196f3);
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-current .inquiry-count[data-v-4f232cad] {
+  font-weight: 400;
+  font-size: 14px;
+  opacity: 0.9;
+  margin-left: 10px;
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-icon[data-v-4f232cad] {
+  width: 20px;
+  height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
 }
-.root-group-card .card-header .card-title[data-v-4f232cad] {
+
+/* Enhanced White Separation Line */
+.separation-line[data-v-4f232cad] {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+  margin: 0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced Group Header */
+.group-header[data-v-4f232cad] {
+  padding: 40px 30px 25px;
+  background: white;
+  border-radius: 0 0 30px 30px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  margin-bottom: 30px;
+}
+.group-header .header-left[data-v-4f232cad] {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.group-header .group-icon-badge[data-v-4f232cad] {
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+.group-header .group-icon-badge .group-icon[data-v-4f232cad] {
+  width: 40px;
+  height: 40px;
+  color: white;
+}
+.group-header .group-title-section[data-v-4f232cad] {
+  flex: 1;
+}
+.group-header .group-title-section .group-title[data-v-4f232cad] {
+  font-size: 42px;
+  font-weight: 800;
+  margin: 0;
+  color: #2c3e50;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+.group-header .group-title-section .group-subtitle[data-v-4f232cad] {
+  margin-top: 15px;
+}
+.group-header .group-title-section .group-subtitle p[data-v-4f232cad] {
+  color: #5d6d7e;
+  font-size: 18px;
+  line-height: 1.5;
+  max-width: 800px;
+  margin: 0 0 15px 0;
+}
+.group-header .group-title-section .group-subtitle .inquiry-count-badge[data-v-4f232cad] {
+  background: linear-gradient(135deg, #00b09b, #96c93d);
+  color: white;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 4px 15px rgba(0, 176, 155, 0.3);
+}
+.group-header .group-title-section .group-subtitle .groups-count-badge[data-v-4f232cad] {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 15px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+/* Enhanced Type Overview */
+.type-overview[data-v-4f232cad] {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 0 30px 40px;
+}
+.type-overview .type-info-card[data-v-4f232cad] {
+  background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+  border-radius: 30px;
+  padding: 50px;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  margin-bottom: 50px;
+  box-shadow: 0 15px 50px rgba(106, 17, 203, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+.type-overview .type-info-card[data-v-4f232cad]::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.2;
+}
+.type-overview .type-info-card .type-icon-large[data-v-4f232cad] {
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50px;
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  flex-shrink: 0;
+}
+.type-overview .type-info-card .type-content[data-v-4f232cad] {
+  flex: 1;
+}
+.type-overview .type-info-card .type-content h2[data-v-4f232cad] {
+  font-size: 48px;
+  margin: 0 0 15px 0;
+  font-weight: 800;
+}
+.type-overview .type-info-card .type-content .type-description[data-v-4f232cad] {
+  font-size: 20px;
+  opacity: 0.95;
+  line-height: 1.6;
+  margin: 0 0 25px 0;
+}
+.type-overview .type-info-card .type-content .type-meta[data-v-4f232cad] {
+  display: flex;
+  gap: 30px;
+}
+.type-overview .type-info-card .type-content .type-meta .type-groups-count[data-v-4f232cad],
+.type-overview .type-info-card .type-content .type-meta .type-total-inquiries[data-v-4f232cad] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.15);
+  padding: 10px 20px;
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+}
+.type-overview .type-info-card .type-content .type-meta .type-groups-count .count[data-v-4f232cad],
+.type-overview .type-info-card .type-content .type-meta .type-total-inquiries .count[data-v-4f232cad] {
+  font-weight: 700;
+  font-size: 22px;
+}
+
+/* Enhanced Groups Grid */
+.groups-section .section-header[data-v-4f232cad] {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+.groups-section .section-header h3[data-v-4f232cad] {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2c3e50;
+  margin: 0;
+}
+.groups-section .section-header .section-actions .create-button[data-v-4f232cad] {
+  background: linear-gradient(135deg, #00b09b, #96c93d);
+  color: white;
+  font-weight: 600;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 176, 155, 0.3);
+}
+.groups-section .section-header .section-actions .create-button[data-v-4f232cad]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 176, 155, 0.4);
+}
+.groups-grid[data-v-4f232cad] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+}
+.group-vignette[data-v-4f232cad] {
+  background: white;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.group-vignette[data-v-4f232cad]:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border-color: var(--color-primary, #2196f3);
+}
+.group-vignette:hover .vignette-cover img[data-v-4f232cad] {
+  transform: scale(1.05);
+}
+.group-vignette .vignette-cover[data-v-4f232cad] {
+  height: 180px;
+  overflow: hidden;
+  position: relative;
+}
+.group-vignette .vignette-cover img[data-v-4f232cad] {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.group-vignette .vignette-cover .vignette-cover-overlay[data-v-4f232cad] {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.3), transparent);
+}
+.group-vignette .vignette-content[data-v-4f232cad] {
+  padding: 25px;
+  position: relative;
+}
+.group-vignette .vignette-content .vignette-icon-badge[data-v-4f232cad] {
+  position: absolute;
+  top: -25px;
+  left: 25px;
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 24px;
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+  border: 3px solid white;
+}
+.group-vignette .vignette-content h4[data-v-4f232cad] {
   font-size: 20px;
   font-weight: 700;
-  margin: 0;
-  color: var(--color-main-text);
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  margin: 15px 0 15px 0;
+  color: #2c3e50;
+  line-height: 1.3;
 }
-.root-group-card .card-description[data-v-4f232cad] {
-  color: var(--color-text-lighter);
+.group-vignette .vignette-content .vignette-description[data-v-4f232cad] {
+  color: #7f8c8d;
+  font-size: 15px;
   line-height: 1.5;
   margin-bottom: 20px;
-  font-size: 14px;
   display: -webkit-box;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-.root-group-card .card-stats[data-v-4f232cad] {
+.group-vignette .vignette-content .vignette-stats[data-v-4f232cad] {
   display: flex;
   gap: 20px;
   margin-bottom: 20px;
 }
-.root-group-card .card-stats .stat[data-v-4f232cad] {
+.group-vignette .vignette-content .vignette-stats .stat-item[data-v-4f232cad] {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 13px;
-}
-.root-group-card .card-stats .stat .stat-icon[data-v-4f232cad] {
   font-size: 14px;
 }
-.root-group-card .card-stats .stat .stat-label[data-v-4f232cad] {
-  color: var(--color-text-lighter);
+.group-vignette .vignette-content .vignette-stats .stat-item .stat-icon[data-v-4f232cad] {
+  opacity: 0.8;
 }
-.root-group-card .card-stats .stat .stat-value[data-v-4f232cad] {
-  font-weight: 600;
-  color: var(--color-main-text);
+.group-vignette .vignette-content .vignette-stats .stat-item .stat-value[data-v-4f232cad] {
+  font-weight: 700;
+  color: #2c3e50;
 }
-.root-group-card .card-actions[data-v-4f232cad] {
-  text-align: right;
+.group-vignette .vignette-content .vignette-stats .stat-item .stat-label[data-v-4f232cad] {
+  color: #95a5a6;
 }
-.root-group-card .view-button[data-v-4f232cad] {
-  background: var(--color-primary-element);
+.group-vignette .vignette-content .vignette-footer .view-group-button[data-v-4f232cad] {
+  width: 100%;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 8px 16px;
+  padding: 12px;
+  border-radius: 10px;
   font-weight: 600;
-  font-size: 14px;
-}
-.root-group-card .view-button[data-v-4f232cad]:hover {
-  background: var(--color-primary-element-hover);
-}
-.child-groups-by-type-section[data-v-4f232cad] {
-  margin-top: 40px;
-}
-.child-groups-by-type-section .type-section-header[data-v-4f232cad] {
-  margin-bottom: 24px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--color-border);
-}
-.child-groups-by-type-section .type-section-header .type-section-title[data-v-4f232cad] {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 8px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.child-groups-by-type-section .type-section-header .type-section-icon[data-v-4f232cad] {
-  font-size: 32px;
-}
-.child-groups-by-type-section .type-section-header .type-section-description[data-v-4f232cad] {
-  font-size: 16px;
-  color: var(--color-text-lighter);
-  margin-left: 44px;
-}
-.type-groups-grid[data-v-4f232cad] {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-}
-.type-group-card[data-v-4f232cad] {
-  background: var(--color-background-dark);
-  border-radius: 16px;
-  padding: 20px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;
-  border: 2px solid transparent;
-}
-.type-group-card[data-v-4f232cad]:hover {
-  background: var(--color-background-hover);
-  transform: translateY(-4px);
-  border-color: var(--color-primary-element);
-}
-.type-group-card .type-group-icon[data-v-4f232cad] {
-  font-size: 32px;
-  margin-bottom: 16px;
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.type-group-card .type-group-title[data-v-4f232cad] {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--color-main-text);
-}
-.type-group-card .type-group-description[data-v-4f232cad] {
-  font-size: 13px;
-  color: var(--color-text-lighter);
-  margin-bottom: 16px;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.type-group-card .type-group-count[data-v-4f232cad] {
-  font-size: 12px;
-  color: var(--color-text-lighter);
-  background: var(--color-main-background);
-  padding: 4px 12px;
-  border-radius: 20px;
-  display: inline-block;
-}
-.add-new-card[data-v-4f232cad] {
-  background: var(--color-main-background);
-  border: 2px dashed var(--color-border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.add-new-card[data-v-4f232cad]:hover {
-  border-color: var(--color-primary-element);
-  background: var(--color-background-hover);
-}
-.add-new-card .add-new-icon[data-v-4f232cad] {
-  font-size: 32px;
-  color: var(--color-primary-element);
-  margin-bottom: 16px;
-  width: 60px;
-  height: 60px;
-  border: 2px solid var(--color-primary-element);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.add-new-card .add-new-title[data-v-4f232cad] {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--color-primary-element);
-}
-.add-new-card .add-new-description[data-v-4f232cad] {
-  font-size: 13px;
-  color: var(--color-text-lighter);
-}
-.empty-state[data-v-4f232cad] {
-  text-align: center;
-  padding: 60px 20px;
-  background: var(--color-background-dark);
-  border-radius: 20px;
-  border: 2px dashed var(--color-border);
-}
-.empty-state .create-first-actions[data-v-4f232cad] {
-  margin-top: 32px;
-}
-.inquiry-group-detail-view[data-v-4f232cad] {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-.inquiry-group-detail-view .content-area[data-v-4f232cad] {
-  display: grid;
-  grid-template-columns: 1fr 300px;
-  gap: 32px;
-  align-items: start;
-}
-.inquiry-group-hero[data-v-4f232cad] {
-  background: linear-gradient(135deg, var(--color-background-dark) 0%, var(--color-main-background) 100%);
-  border-radius: 24px;
-  padding: 32px;
-  border: 1px solid var(--color-border);
-  position: relative;
-}
-.inquiry-group-hero:hover .inquiry-group-admin-actions[data-v-4f232cad] {
-  opacity: 1;
-  transform: translateY(0);
-}
-.inquiry-group-hero .inquiry-group-hero-content .inquiry-group-title[data-v-4f232cad] {
-  font-size: 32px;
-  font-weight: 800;
-  margin-bottom: 12px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.inquiry-group-hero .inquiry-group-hero-content .inquiry-group-icon[data-v-4f232cad] {
-  font-size: 36px;
-}
-.inquiry-group-hero .inquiry-group-hero-content .inquiry-group-description[data-v-4f232cad] {
-  font-size: 18px;
-  color: var(--color-text-lighter);
-  margin-bottom: 20px;
-  line-height: 1.6;
-}
-.inquiry-group-hero .inquiry-group-hero-content .inquiry-group-meta[data-v-4f232cad] {
-  margin-bottom: 20px;
-}
-.inquiry-group-hero .inquiry-group-hero-content .inquiry-group-meta .meta-item[data-v-4f232cad] {
-  background: var(--color-background-hover);
-  padding: 6px 12px;
-  border-radius: 8px;
-  font-size: 14px;
-  color: var(--color-text-lighter);
-}
-.inquiry-group-hero .inquiry-group-hero-content .inquiry-group-admin-actions[data-v-4f232cad] {
-  display: flex;
-  gap: 12px;
-  opacity: 0;
-  transform: translateY(10px);
   transition: all 0.3s ease;
 }
-.inquiry-group-hero .inquiry-group-hero-content .inquiry-group-admin-actions button[data-v-4f232cad] {
-  padding: 8px 16px;
-  font-size: 14px;
-}
-.navigation-tabs[data-v-4f232cad] {
-  background: var(--color-main-background);
-  border-radius: 16px;
-  padding: 8px;
-  border: 1px solid var(--color-border);
-}
-.navigation-tabs .tabs-container[data-v-4f232cad] {
-  display: flex;
-  overflow-x: auto;
-  gap: 4px;
-}
-.navigation-tabs .tab-item[data-v-4f232cad] {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  cursor: pointer;
-  border-radius: 12px;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  flex-shrink: 0;
-  font-weight: 500;
-}
-.navigation-tabs .tab-item[data-v-4f232cad]:hover {
-  background: var(--color-background-hover);
-}
-.navigation-tabs .tab-item--active[data-v-4f232cad] {
-  background: var(--color-primary-element);
-  color: white;
-}
-.navigation-tabs .tab-item .tab-icon[data-v-4f232cad] {
-  font-size: 16px;
-}
-.content-area .content-section[data-v-4f232cad] {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-.stats-grid[data-v-4f232cad] {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
-}
-.stats-grid .stat-card[data-v-4f232cad] {
-  background: var(--color-background-dark);
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-}
-.stats-grid .stat-card .stat-value[data-v-4f232cad] {
-  font-size: 36px;
-  font-weight: 800;
-  color: var(--color-primary-element);
-  margin-bottom: 8px;
-  line-height: 1;
-}
-.stats-grid .stat-card .stat-label[data-v-4f232cad] {
-  font-size: 14px;
-  color: var(--color-text-lighter);
-  font-weight: 500;
-}
-.child-groups-by-type-preview .preview-title[data-v-4f232cad] {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 24px;
-  color: var(--color-main-text);
-}
-.child-type-section[data-v-4f232cad] {
-  margin-bottom: 32px;
-}
-.child-type-section .child-type-title[data-v-4f232cad] {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--color-main-text);
-}
-.child-type-section .child-type-title .child-type-icon[data-v-4f232cad] {
-  font-size: 20px;
-}
-.child-type-grid[data-v-4f232cad] {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 16px;
-}
-.child-group-preview-card[data-v-4f232cad] {
-  background: var(--color-background-dark);
-  border-radius: 12px;
-  padding: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  text-align: center;
-}
-.child-group-preview-card[data-v-4f232cad]:hover {
-  background: var(--color-background-hover);
-  transform: translateY(-4px);
-}
-.child-group-preview-card .child-group-preview-icon[data-v-4f232cad] {
-  font-size: 24px;
-  margin-bottom: 12px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.child-group-preview-card .child-group-preview-title[data-v-4f232cad] {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--color-main-text);
-}
-.child-group-preview-card .child-group-preview-description[data-v-4f232cad] {
-  font-size: 12px;
-  color: var(--color-text-lighter);
-  margin-bottom: 12px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.child-group-preview-card .child-group-preview-count[data-v-4f232cad] {
-  font-size: 11px;
-  color: var(--color-text-lighter);
-  background: var(--color-main-background);
-  padding: 4px 8px;
-  border-radius: 6px;
-  display: inline-block;
-}
-.add-new-preview-card[data-v-4f232cad] {
-  background: var(--color-main-background);
-  border: 2px dashed var(--color-border);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-.add-new-preview-card[data-v-4f232cad]:hover {
-  border-color: var(--color-primary-element);
-  background: var(--color-background-hover);
-}
-.add-new-preview-card .add-new-preview-icon[data-v-4f232cad] {
-  font-size: 24px;
-  color: var(--color-primary-element);
-  margin-bottom: 12px;
-  width: 40px;
-  height: 40px;
-  border: 2px solid var(--color-primary-element);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.add-new-preview-card .add-new-preview-title[data-v-4f232cad] {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--color-primary-element);
-}
-.add-new-preview-card .add-new-preview-description[data-v-4f232cad] {
-  font-size: 12px;
-  color: var(--color-text-lighter);
-}
-.section-header-with-action[data-v-4f232cad] {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-}
-.section-header-with-action .section-title[data-v-4f232cad] {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--color-main-text);
-}
-.section-header-with-action .child-group-actions[data-v-4f232cad] {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.section-header-with-action .child-group-actions .quick-create-buttons[data-v-4f232cad] {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.section-header-with-action .child-group-actions .quick-create-buttons .quick-create-label[data-v-4f232cad] {
-  font-size: 14px;
-  color: var(--color-text-lighter);
-}
-.child-groups-type-section[data-v-4f232cad] {
-  margin-bottom: 32px;
-}
-.child-groups-type-section .child-type-header[data-v-4f232cad] {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--color-main-text);
-}
-.child-groups-type-section .child-type-header .child-type-header-icon[data-v-4f232cad] {
-  font-size: 20px;
-}
-.child-groups-list[data-v-4f232cad] {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.child-group-item[data-v-4f232cad] {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  background: var(--color-background-dark);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.child-group-item[data-v-4f232cad]:hover {
-  background: var(--color-background-hover);
-  transform: translateX(4px);
-}
-.child-group-item .child-group-item-icon[data-v-4f232cad] {
-  font-size: 20px;
-  width: 40px;
-  height: 40px;
-  background: var(--color-main-background);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.child-group-item .child-group-item-content[data-v-4f232cad] {
-  flex: 1;
-}
-.child-group-item .child-group-item-content .child-group-item-title[data-v-4f232cad] {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: var(--color-main-text);
-}
-.child-group-item .child-group-item-content .child-group-item-description[data-v-4f232cad] {
-  color: var(--color-text-lighter);
-  font-size: 13px;
-  margin-bottom: 8px;
-}
-.child-group-item .child-group-item-content .child-group-item-meta[data-v-4f232cad] {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-}
-.child-group-item .child-group-item-content .child-group-item-meta .meta-item[data-v-4f232cad] {
-  color: var(--color-text-lighter);
-}
-.child-group-item .child-group-item-arrow[data-v-4f232cad] {
-  font-size: 18px;
-  color: var(--color-text-lighter);
-  font-weight: 600;
-}
-.no-child-groups[data-v-4f232cad] {
-  text-align: center;
-  padding: 32px;
-  background: var(--color-background-dark);
-  border-radius: 12px;
-  border: 1px dashed var(--color-border);
-  color: var(--color-text-lighter);
-}
-.no-child-groups-section[data-v-4f232cad] {
-  text-align: center;
-  padding: 40px 20px;
-  background: var(--color-background-dark);
-  border-radius: 16px;
-  border: 2px dashed var(--color-border);
-}
-.no-child-groups-section .create-child-group-options[data-v-4f232cad] {
-  margin-top: 32px;
-}
-.no-child-groups-section .create-child-group-options h4[data-v-4f232cad] {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--color-main-text);
-}
-.no-child-groups-section .create-child-group-options .child-type-options[data-v-4f232cad] {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  justify-content: center;
-}
-.no-child-groups-section .create-child-group-options .child-type-options .option-icon[data-v-4f232cad] {
-  margin-right: 6px;
-}
-.inquiry-type-section[data-v-4f232cad] {
-  margin-bottom: 32px;
-}
-.inquiry-type-section .inquiry-type-title[data-v-4f232cad] {
-  font-size: 18px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--color-main-text);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.inquiries-grid[data-v-4f232cad] {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
-}
-.inquiry-card[data-v-4f232cad] {
-  background: var(--color-main-background);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  padding: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.inquiry-card[data-v-4f232cad]:hover {
-  border-color: var(--color-primary-element);
+.group-vignette .vignette-content .vignette-footer .view-group-button[data-v-4f232cad]:hover {
+  background: linear-gradient(135deg, #764ba2, #667eea);
   transform: translateY(-2px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
-.inquiry-card .inquiry-card-header[data-v-4f232cad] {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.empty-groups-state[data-v-4f232cad] {
+  text-align: center;
+  padding: 60px 30px;
+  background: white;
+  border-radius: 20px;
+  border: 2px dashed #e0e6ed;
 }
-.inquiry-card .inquiry-card-header .inquiry-icon[data-v-4f232cad] {
-  font-size: 20px;
-  width: 40px;
-  height: 40px;
-  background: var(--color-background-dark);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.inquiry-card .inquiry-card-header .inquiry-title[data-v-4f232cad] {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--color-main-text);
-  flex: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.inquiry-card .inquiry-description[data-v-4f232cad] {
-  color: var(--color-text-lighter);
-  font-size: 13px;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-.inquiry-card .inquiry-status .status-badge[data-v-4f232cad] {
-  display: inline-block;
-  padding: 4px 8px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.inquiry-card .inquiry-status .status-badge.status-draft[data-v-4f232cad] {
-  background: #e5e7eb;
-  color: #6b7280;
-}
-.inquiry-card .inquiry-status .status-badge.status-open[data-v-4f232cad] {
-  background: #dbeafe;
-  color: #1d4ed8;
-}
-.inquiry-card .inquiry-status .status-badge.status-closed[data-v-4f232cad] {
-  background: #f3f4f6;
-  color: #374151;
-}
-.inquiry-card .inquiry-status .status-badge.status-accepted[data-v-4f232cad] {
-  background: #dcfce7;
-  color: #16a34a;
-}
-.inquiry-card .inquiry-status .status-badge.status-pending[data-v-4f232cad] {
-  background: #fef3c7;
-  color: #d97706;
-}
-.creation-section[data-v-4f232cad] {
-  margin-top: 32px;
-  padding-top: 32px;
-  border-top: 1px solid var(--color-border);
-}
-.creation-section .creation-title[data-v-4f232cad] {
-  font-size: 18px;
-  font-weight: 600;
+.empty-groups-state .empty-state-icon[data-v-4f232cad] {
+  font-size: 60px;
   margin-bottom: 20px;
-  color: var(--color-main-text);
+  opacity: 0.3;
 }
-.creation-section .creation-cards[data-v-4f232cad] {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 16px;
+.empty-groups-state h3[data-v-4f232cad] {
+  font-size: 24px;
+  color: #2c3e50;
+  margin: 0 0 10px 0;
 }
-.creation-section .creation-card[data-v-4f232cad] {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px;
-  background: var(--color-background-dark);
-  border-radius: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: 2px solid transparent;
+.empty-groups-state p[data-v-4f232cad] {
+  color: #7f8c8d;
+  margin-bottom: 25px;
 }
-.creation-section .creation-card[data-v-4f232cad]:hover {
-  border-color: var(--color-primary-element);
-  transform: translateY(-2px);
-}
-.creation-section .creation-card .creation-icon[data-v-4f232cad] {
-  font-size: 20px;
-  width: 40px;
-  height: 40px;
-  background: var(--color-main-background);
-  border-radius: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.creation-section .creation-card .creation-content h5[data-v-4f232cad] {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 4px;
-  color: var(--color-main-text);
-}
-.creation-section .creation-card .creation-content p[data-v-4f232cad] {
-  color: var(--color-text-lighter);
-  font-size: 12px;
-  margin: 0;
-}
-.right-sidebar[data-v-4f232cad] {
-  position: sticky;
-  top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-.sidebar-section[data-v-4f232cad] {
-  background: var(--color-background-dark);
-  border-radius: 12px;
-  padding: 20px;
-  border: 1px solid var(--color-border);
-}
-.sidebar-section .sidebar-title[data-v-4f232cad] {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: 16px;
-  color: var(--color-main-text);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-.sidebar-section .sidebar-list[data-v-4f232cad] {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.sidebar-section .sidebar-item[data-v-4f232cad] {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--color-border);
-}
-.sidebar-section .sidebar-item[data-v-4f232cad]:last-child {
-  border-bottom: none;
-}
-.sidebar-section .sidebar-item .sidebar-icon[data-v-4f232cad] {
-  font-size: 16px;
-  width: 32px;
-  height: 32px;
-  background: var(--color-main-background);
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-.sidebar-section .sidebar-item .sidebar-label[data-v-4f232cad] {
-  flex: 1;
-  font-size: 14px;
-  color: var(--color-main-text);
-}
-.sidebar-section .sidebar-item .sidebar-count[data-v-4f232cad] {
-  font-size: 12px;
-  color: var(--color-text-lighter);
-  font-weight: 600;
-}
-.sidebar-section .sidebar-info[data-v-4f232cad] {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.sidebar-section .sidebar-info .info-item[data-v-4f232cad] {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--color-border);
-}
-.sidebar-section .sidebar-info .info-item[data-v-4f232cad]:last-child {
-  border-bottom: none;
-}
-.sidebar-section .sidebar-info .info-item .info-label[data-v-4f232cad] {
-  font-size: 13px;
-  color: var(--color-text-lighter);
-}
-.sidebar-section .sidebar-info .info-item .info-value[data-v-4f232cad] {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-main-text);
-  text-align: right;
-}
-@media (max-width: 1024px) {
-.inquiry-group-detail-view .content-area[data-v-4f232cad] {
-    grid-template-columns: 1fr;
-}
-.right-sidebar[data-v-4f232cad] {
-    position: static;
-    grid-column: 1/-1;
-}
-}
+
+/* Rest of the styles remain similar but with enhanced spacing */
+/* ... (other styles remain similar but with increased padding/margins) ... */
+/* Responsive Design */
 @media (max-width: 768px) {
-.type-hero-section[data-v-4f232cad] {
-    padding: 40px 20px;
+.breadcrumb-bar[data-v-4f232cad] {
+    padding: 15px 0;
 }
-.type-hero-section .type-icon-large[data-v-4f232cad] {
-    font-size: 60px;
-}
-.type-hero-section .type-hero-title[data-v-4f232cad] {
-    font-size: 36px;
-}
-.root-groups-grid[data-v-4f232cad],
-  .type-groups-grid[data-v-4f232cad],
-  .inquiries-grid[data-v-4f232cad],
-  .creation-cards[data-v-4f232cad] {
-    grid-template-columns: 1fr;
-}
-.inquiry-group-hero[data-v-4f232cad] {
-    padding: 24px;
-}
-.inquiry-group-hero .inquiry-group-admin-actions[data-v-4f232cad] {
-    flex-direction: column;
-    opacity: 1;
-    transform: translateY(0);
-}
-.navigation-tabs .tabs-container[data-v-4f232cad] {
+.breadcrumb-bar .breadcrumb-container[data-v-4f232cad] {
+    padding: 0 15px;
+    gap: 8px;
     flex-wrap: wrap;
 }
-.stats-grid[data-v-4f232cad] {
+.breadcrumb-bar .breadcrumb-container .breadcrumb-home[data-v-4f232cad],
+  .breadcrumb-bar .breadcrumb-container .breadcrumb-item[data-v-4f232cad] {
+    font-size: 14px;
+    padding: 8px 12px;
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-current[data-v-4f232cad] {
+    font-size: 16px;
+}
+.breadcrumb-bar .breadcrumb-container .breadcrumb-current .breadcrumb-current-content[data-v-4f232cad] {
+    padding: 10px 15px;
+}
+.group-header[data-v-4f232cad] {
+    padding: 30px 15px 20px;
+}
+.group-header .group-icon-badge[data-v-4f232cad] {
+    width: 60px;
+    height: 60px;
+    border-radius: 15px;
+}
+.group-header .group-icon-badge .group-icon[data-v-4f232cad] {
+    width: 30px;
+    height: 30px;
+}
+.group-header .group-title[data-v-4f232cad] {
+    font-size: 28px;
+}
+.type-overview[data-v-4f232cad] {
+    padding: 0 15px 30px;
+}
+.type-overview .type-info-card[data-v-4f232cad] {
+    flex-direction: column;
+    text-align: center;
+    padding: 30px 20px;
+    gap: 25px;
+}
+.type-overview .type-info-card .type-icon-large[data-v-4f232cad] {
+    width: 80px;
+    height: 80px;
+    font-size: 40px;
+}
+.type-overview .type-info-card h2[data-v-4f232cad] {
+    font-size: 32px;
+}
+.type-overview .type-info-card .type-meta[data-v-4f232cad] {
+    flex-direction: column;
+    gap: 15px;
+}
+.groups-grid[data-v-4f232cad] {
     grid-template-columns: 1fr;
-}
-.child-type-grid[data-v-4f232cad] {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-}
-.header-actions[data-v-4f232cad] {
-    flex-direction: column;
-    gap: 16px;
-    align-items: flex-start;
-}
-.header-actions .action-buttons[data-v-4f232cad] {
-    flex-wrap: wrap;
-    width: 100%;
-}
-.section-header-with-action[data-v-4f232cad] {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-}
-.child-group-actions[data-v-4f232cad] {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
+    gap: 20px;
 }
 }.activity-item {
   display: flex;
@@ -6116,14 +5622,14 @@ tr.file-picker__row td.row-name[data-v-1f96131b] {
 })();
 const appName = "agora";
 const appVersion = "1.6.0-beta";
-import { at as h$1, i as defineStore, bc as Settings, u as _export_sfc, d as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, e as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, a as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, V as withDirectives, bg as vModelRadio, bh as withKeys, Z as withModifiers, F as useModel, bi as useSlots, J as watch, aw as logger, b as onMounted, aK as onBeforeUnmount, r as renderSlot, af as useCssVars, bj as useIsDarkTheme, B as unref, bk as mdiCreation, f as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, Y as NcButton, ba as NcActions, $ as resolveComponent, K as mergeProps, W as vShow, n as normalizeProps, g as guardReactiveProps, bl as userStatus, L as NcAvatar, M as normalizeStyle, E as mergeModels, U as ref, bm as provide, I as warn, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, a2 as mdiCheck, a3 as mdiAlertCircle, G as Fragment$1, H as renderList, ae as NcLoadingIcon, bn as Teleport, bo as useRouter, bp as useRoute, b6 as emit, P as DateTime, R as RouterLink, b8 as onUnmounted, bq as translatePlural, br as TransitionGroup, aL as nextTick, q as _$2, bs as NcModal, b7 as shallowRef, bt as markRaw, bu as watchEffect, bv as getCurrentInstance, bw as customRef, bx as global, by as getAugmentedNamespace, aN as process$1, a_ as commonjsGlobal, bz as Buffer, S as getDefaultExportFromCjs, bA as vModelSelect, bB as toRaw, bC as subscribe, bD as unsubscribe, as as Transition, bE as onBeforeRouteUpdate, aR as getCurrentUser, aT as v, aS as cancelableClient, bF as createRouter, bG as createWebHistory, bH as axios, h as createApp, p as pinia } from "./TernarySupportIcon.vue_vue_type_style_index_0_scoped_ef057a6f_lang--nb4-Kfv.chunk.mjs";
-import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, o as options, b as useInquiriesStore, i as useInquiryStore, j as orderBy, k as createPermissionContextForContent, C as ContentType, l as canTransfer, m as canDelete, n as canArchive, I as InquiryGeneralIcons, q as useInquiryGroupsStore, r as NavigationIcons, s as showError$1, t as showSuccess, v as useInquiryGroupStore, E as Event$1, w as accessFamilyMenu, x as NcEmptyContent, S as StatusIcons, B as BadgeIcons, y as canSupport, z as canComment, A as sortTitlesMapping, D as lodashExports, F as appSettings, G as showInfo, H as canEdit, J as canRestore, K as getAvailableResponseTypesWithPermissions, M as getAvailableTransformTypesWithPermissions, O as canViewToggle, P as validators, Q as inquiries, R as commonjsRequire, T as useAttachmentsStore, U as useCommentsStore, V as useSharesStore, W as moment, X as ShareIcons, Y as inquiryLinks, Z as canShare, _ as canUseResource } from "./NcDashboardWidget-Bu7bWoUK-CBvWsbAl.chunk.mjs";
-import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-DxB58Nhr.chunk.mjs";
-import { b as NcAppNavigationItem, u as useAppSettingsDialog, _ as _sfc_main$1E, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcDateTimePickerNative, l as NcAppSidebar, a as NcAppSettingsDialog, m as NcContent } from "./index-C0GWGyzC.chunk.mjs";
-import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getAvailableInquiryGroupTypesForCreation, d as getInquiryGroupTypeOptions, e as getInquiryGroupTypeData, f as getInquiryTypesByFamily, h as getInquiryTypesForFamily, i as getInquiryItemData, j as getInquiryGroupTypesByFamily, k as getInquiryGroupTypesForFamily, l as isInquiryFinalStatus, m as getAvailableFields } from "./InquiryHelper-DfFthGJX.chunk.mjs";
-import { _ as _sfc_main$1F, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1G, e as NcRichText, b as NcInputField } from "./NcRichText-CETsOVBU-DLiH6ihQ.chunk.mjs";
-import { R as RadioGroupDiv, C as CardDiv, N as NcNoteCard } from "./markdown-D7o9zrCB.chunk.mjs";
-import { A as AgoraAppIcon } from "./AgoraAppIcon-Ba1fTsJs.chunk.mjs";
+import { at as h$1, i as defineStore, bc as Settings, u as _export_sfc, d as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, e as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, a as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, V as withDirectives, bg as vModelRadio, bh as withKeys, Z as withModifiers, F as useModel, bi as useSlots, J as watch, aw as logger, b as onMounted, aK as onBeforeUnmount, r as renderSlot, af as useCssVars, bj as useIsDarkTheme, B as unref, bk as mdiCreation, f as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, Y as NcButton, ba as NcActions, $ as resolveComponent, K as mergeProps, W as vShow, n as normalizeProps, g as guardReactiveProps, bl as userStatus, L as NcAvatar, M as normalizeStyle, E as mergeModels, U as ref, bm as provide, I as warn, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, a2 as mdiCheck, a3 as mdiAlertCircle, G as Fragment$1, H as renderList, ae as NcLoadingIcon, bn as Teleport, bo as useRouter, bp as useRoute, b6 as emit, P as DateTime, R as RouterLink, b8 as onUnmounted, bq as translatePlural, br as TransitionGroup, aL as nextTick, q as _$2, bs as NcModal, b7 as shallowRef, bt as markRaw, bu as watchEffect, bv as getCurrentInstance, bw as customRef, bx as global, by as getAugmentedNamespace, aN as process$1, b5 as commonjsGlobal, bz as Buffer, S as getDefaultExportFromCjs, bA as vModelSelect, bB as toRaw, bC as subscribe, bD as unsubscribe, as as Transition, bE as onBeforeRouteUpdate, aR as getCurrentUser, aT as v, aS as cancelableClient, bF as createRouter, bG as createWebHistory, bH as axios, h as createApp, p as pinia } from "./TernarySupportIcon.vue_vue_type_style_index_0_scoped_ef057a6f_lang-DP0cV9SN.chunk.mjs";
+import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, o as options, b as useInquiriesStore, i as useInquiryStore, j as orderBy, k as createPermissionContextForContent, C as ContentType, l as canTransfer, m as canDelete, n as canArchive, I as InquiryGeneralIcons, q as useInquiryGroupsStore, r as NavigationIcons, s as showError$1, t as showSuccess, v as useInquiryGroupStore, E as Event$1, w as accessFamilyMenu, x as NcEmptyContent, S as StatusIcons, B as BadgeIcons, y as canSupport, z as canComment, A as sortTitlesMapping, D as lodashExports, F as appSettings, G as showInfo, H as canEdit, J as canRestore, K as getAvailableResponseTypesWithPermissions, M as getAvailableTransformTypesWithPermissions, O as canViewToggle, P as validators, Q as inquiries, R as commonjsRequire, T as useAttachmentsStore, U as useCommentsStore, V as useSharesStore, W as moment, X as ShareIcons, Y as inquiryLinks, Z as canShare, _ as canUseResource } from "./NcDashboardWidget-Bu7bWoUK-QeR3RR22.chunk.mjs";
+import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-CT2ZIeqK.chunk.mjs";
+import { b as NcAppNavigationItem, u as useAppSettingsDialog, _ as _sfc_main$1E, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, O as Options, P as PlusIcon, k as NcDateTimePickerNative, l as NcAppSidebar, a as NcAppSettingsDialog, m as NcContent } from "./index-RSpRWyd-.chunk.mjs";
+import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getAvailableInquiryGroupTypesForCreation, d as getInquiryGroupTypeOptions, e as getInquiryGroupTypeData, f as getInquiryTypesByFamily, h as getInquiryTypesForFamily, i as getInquiryItemData, j as getInquiryGroupTypesByFamily, k as getInquiryGroupTypesForFamily, l as isInquiryFinalStatus, m as getAvailableFields, n as getAvailableGroupFields } from "./InquiryHelper-BowoyRRp.chunk.mjs";
+import { _ as _sfc_main$1F, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1G, e as NcRichText, b as NcInputField } from "./NcRichText-CETsOVBU-DEd7DX2A.chunk.mjs";
+import { R as RadioGroupDiv, C as CardDiv, N as NcNoteCard } from "./markdown-m2uuzopt.chunk.mjs";
+import { A as AgoraAppIcon } from "./AgoraAppIcon-CUV4jUNy.chunk.mjs";
 const setCookie = (cookieName, cookieValue = "", cookieExpiration = 360) => {
   const expirationTime = /* @__PURE__ */ new Date();
   expirationTime.setTime(expirationTime.getTime() + cookieExpiration);
@@ -6244,28 +5750,28 @@ const useSupportsStore = defineStore("supports", {
       }
     },
     // Helper method to get support mode
-    getSupportMode(inquiryId, inquiryStore2, inquiriesStore) {
-      if (inquiryStore2.id === inquiryId) {
-        return inquiryStore2.configuration?.supportMode;
+    getSupportMode(inquiryId, inquiryStore, inquiriesStore) {
+      if (inquiryStore.id === inquiryId) {
+        return inquiryStore.configuration?.supportMode;
       }
       const inquiry = inquiriesStore.inquiries.find((inq) => inq.id === inquiryId);
       return inquiry?.configuration?.supportMode;
     },
     // Main toggle method that handles both modes
-    async toggleSupport(inquiryId, userId, inquiryStore2, inquiriesStore) {
-      const supportMode = this.getSupportMode(inquiryId, inquiryStore2, inquiriesStore);
+    async toggleSupport(inquiryId, userId, inquiryStore, inquiriesStore) {
+      const supportMode = this.getSupportMode(inquiryId, inquiryStore, inquiriesStore);
       console.log(" LOG SUPPORT ", supportMode);
       if (supportMode === "simple") {
-        return this.toggleStandardSupport(inquiryId, userId, inquiryStore2, inquiriesStore);
+        return this.toggleStandardSupport(inquiryId, userId, inquiryStore, inquiriesStore);
       }
-      return this.toggleTernarySupport(inquiryId, userId, inquiryStore2, inquiriesStore);
+      return this.toggleTernarySupport(inquiryId, userId, inquiryStore, inquiriesStore);
     },
     // Standard mode: 0/1 toggle (existing behavior)
-    async toggleStandardSupport(inquiryId, userId, inquiryStore2, inquiriesStore) {
+    async toggleStandardSupport(inquiryId, userId, inquiryStore, inquiriesStore) {
       const inquiryInList = inquiriesStore.inquiries.find((i) => i.id === inquiryId);
-      const inquiryInChilds = inquiryStore2?.childs?.find((i) => i.id === inquiryId);
-      const isCurrentInquiry = inquiryStore2?.id === inquiryId;
-      const sourceInquiry = inquiryInList || inquiryInChilds || (isCurrentInquiry ? inquiryStore2 : null);
+      const inquiryInChilds = inquiryStore?.childs?.find((i) => i.id === inquiryId);
+      const isCurrentInquiry = inquiryStore?.id === inquiryId;
+      const sourceInquiry = inquiryInList || inquiryInChilds || (isCurrentInquiry ? inquiryStore : null);
       if (!sourceInquiry) {
         console.error("Inquiry not found in any store");
         return;
@@ -6281,8 +5787,8 @@ const useSupportsStore = defineStore("supports", {
         inquiryInChilds.status.countSupports += oldState ? -1 : 1;
       }
       if (isCurrentInquiry) {
-        inquiryStore2.currentUserStatus.hasSupported = !oldState;
-        inquiryStore2.status.countSupports += oldState ? -1 : 1;
+        inquiryStore.currentUserStatus.hasSupported = !oldState;
+        inquiryStore.status.countSupports += oldState ? -1 : 1;
       }
       const hasSupported = !oldState;
       try {
@@ -6302,20 +5808,20 @@ const useSupportsStore = defineStore("supports", {
           inquiryInChilds.status.countSupports = oldCount;
         }
         if (isCurrentInquiry) {
-          inquiryStore2.currentUserStatus.hasSupported = oldState;
-          inquiryStore2.status.countSupports = oldCount;
+          inquiryStore.currentUserStatus.hasSupported = oldState;
+          inquiryStore.status.countSupports = oldCount;
         }
         throw error;
       }
     },
-    async toggleTernarySupport(inquiryId, userId, inquiryStore2, inquiriesStore) {
+    async toggleTernarySupport(inquiryId, userId, inquiryStore, inquiriesStore) {
       const inquiryInList = inquiriesStore.inquiries.find((i) => i.id === inquiryId);
-      const inquiryInChilds = inquiryStore2?.childs?.find((i) => i.id === inquiryId);
-      const isCurrentInquiry = inquiryStore2?.id === inquiryId;
+      const inquiryInChilds = inquiryStore?.childs?.find((i) => i.id === inquiryId);
+      const isCurrentInquiry = inquiryStore?.id === inquiryId;
       const instancesToUpdate = /* @__PURE__ */ new Set();
       if (inquiryInList) instancesToUpdate.add(inquiryInList);
       if (inquiryInChilds) instancesToUpdate.add(inquiryInChilds);
-      if (isCurrentInquiry && inquiryStore2) instancesToUpdate.add(inquiryStore2);
+      if (isCurrentInquiry && inquiryStore) instancesToUpdate.add(inquiryStore);
       if (instancesToUpdate.size === 0) {
         console.error("Inquiry not found in any store");
         return;
@@ -6611,8 +6117,8 @@ const useOptionsStore = defineStore("options", {
       return orderBy(state.options, ["inquiries.yes", "inquiries.maybe"], ["desc", "desc"]);
     },
     sortedOptions(state) {
-      const inquiryStore2 = useInquiryStore();
-      return inquiryStore2.type === "proposal" ? orderBy(state.options, ["timestamp", "duration"], ["asc", "asc"]) : state.options;
+      const inquiryStore = useInquiryStore();
+      return inquiryStore.type === "proposal" ? orderBy(state.options, ["timestamp", "duration"], ["asc", "asc"]) : state.options;
     },
     orderedOptions(state) {
       return state.ranked === "yes" ? this.rankedOptions : this.sortedOptions;
@@ -9269,7 +8775,7 @@ const _sfc_main$1d = /* @__PURE__ */ defineComponent({
     __expose();
     const props2 = __props;
     const emit2 = __emit;
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const sessionStore = useSessionStore();
     const inquiryTitle = ref("");
     const inquiryId = ref(null);
@@ -9320,19 +8826,19 @@ const _sfc_main$1d = /* @__PURE__ */ defineComponent({
         if (props2.parentInquiryId) {
           inquiryData.parentId = props2.parentInquiryId;
         }
-        if (inquiryStore2.locationId) {
-          inquiryData.locationId = inquiryStore2.locationId;
+        if (inquiryStore.locationId) {
+          inquiryData.locationId = inquiryStore.locationId;
         }
-        if (inquiryStore2.categoryId) {
-          inquiryData.categoryId = inquiryStore2.categoryId;
+        if (inquiryStore.categoryId) {
+          inquiryData.categoryId = inquiryStore.categoryId;
         }
         if (accessType.value === "groups" && selectedGroup.value) {
           inquiryData.ownedGroup = selectedGroup.value;
         }
         if (props2.selectedMode === "transform") {
-          inquiryData.description = inquiryStore2.description;
+          inquiryData.description = inquiryStore.description;
         }
-        const inquiry = await inquiryStore2.add(inquiryData);
+        const inquiry = await inquiryStore.add(inquiryData);
         if (inquiry) {
           inquiryId.value = inquiry.id;
           showSuccess(
@@ -9363,7 +8869,7 @@ const _sfc_main$1d = /* @__PURE__ */ defineComponent({
       selectedGroup.value = null;
       emit2("update:selected-groups", []);
     }
-    const __returned__ = { props: props2, emit: emit2, inquiryStore: inquiryStore2, sessionStore, inquiryTitle, inquiryId, adding, accessType, selectedGroup, inquiryTypes, availableInquiryTypes, inquiryTypeOptions, localInquiryType, selectedType, currentInquiryTypeData, hasPredefinedType, selectGroup, updateLocalInquiryType, titleIsEmpty, disableAddButton, addInquiry, resetInquiry, get t() {
+    const __returned__ = { props: props2, emit: emit2, inquiryStore, sessionStore, inquiryTitle, inquiryId, adding, accessType, selectedGroup, inquiryTypes, availableInquiryTypes, inquiryTypeOptions, localInquiryType, selectedType, currentInquiryTypeData, hasPredefinedType, selectGroup, updateLocalInquiryType, titleIsEmpty, disableAddButton, addInquiry, resetInquiry, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -10815,7 +10321,7 @@ const _sfc_main$17 = /* @__PURE__ */ defineComponent({
   },
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const inquiriesStore = useInquiriesStore();
     const sessionStore = useSessionStore();
     const supportsStore = useSupportsStore();
@@ -10842,16 +10348,16 @@ const _sfc_main$17 = /* @__PURE__ */ defineComponent({
       const hadSupportedBefore = __props.inquiry.currentUserStatus.hasSupported;
       __props.inquiry.currentUserStatus.supportValue;
       try {
-        await supportsStore.toggleSupport(__props.inquiry.id, sessionStore.currentUser.id, inquiryStore2, inquiriesStore);
+        await supportsStore.toggleSupport(__props.inquiry.id, sessionStore.currentUser.id, inquiryStore, inquiriesStore);
         const hasSupportedAfter = __props.inquiry.currentUserStatus.hasSupported;
         const supportValueAfter = __props.inquiry.currentUserStatus.supportValue;
-        if (inquiryStore2.configuration.supportMode === "simple") {
+        if (inquiryStore.configuration.supportMode === "simple") {
           if (hasSupportedAfter && !hadSupportedBefore) {
             showSuccess(translate("agora", "Inquiry supported, thanks for your support!"), { timeout: 2e3 });
           } else if (!hasSupportedAfter && hadSupportedBefore) {
             showSuccess(translate("agora", "Inquiry support removed!"), { timeout: 2e3 });
           }
-        } else if (inquiryStore2.configuration.supportMode === "ternary") {
+        } else if (inquiryStore.configuration.supportMode === "ternary") {
           if (supportValueAfter === 1) {
             showSuccess(translate("agora", "Inquiry supported, thanks for your support!"), { timeout: 2e3 });
           } else if (supportValueAfter === 0) {
@@ -10903,7 +10409,7 @@ const _sfc_main$17 = /* @__PURE__ */ defineComponent({
       return date.toLocaleDateString(locale);
     };
     const inquiryStatus = computed(
-      () => __props.inquiry.status.inquiryStatus || inquiryStore2.getInquiryStatus?.(__props.inquiry.id)
+      () => __props.inquiry.status.inquiryStatus || inquiryStore.getInquiryStatus?.(__props.inquiry.id)
     );
     const inquiryStatusIcon = computed(() => {
       const statusItem = sessionStore.appSettings.inquiryStatusTab.find(
@@ -10951,7 +10457,7 @@ const _sfc_main$17 = /* @__PURE__ */ defineComponent({
     const hasQuorum = computed(() => __props.inquiry.miscFields?.quorum);
     const quorumValue = computed(() => __props.inquiry.miscFields?.quorum || 0);
     const hasVotePeriod = computed(() => __props.inquiry.miscFields?.support_start && __props.inquiry.miscFields?.support_end);
-    const __returned__ = { inquiryStore: inquiryStore2, inquiriesStore, sessionStore, supportsStore, context: context2, onToggleSupport, htmlToFirstLine, timeExpirationRelative, timeCreatedRelative, safeDescription, formatDate, formatVoteDate, inquiryStatus, inquiryStatusIcon, inquiryStatusLabel, inquiryStatusInfo, inquiryTypeData, getNextcloudPreviewUrl, currentCoverUrl, gridDescription, hasQuorum, quorumValue, hasVotePeriod, get RouterLink() {
+    const __returned__ = { inquiryStore, inquiriesStore, sessionStore, supportsStore, context: context2, onToggleSupport, htmlToFirstLine, timeExpirationRelative, timeCreatedRelative, safeDescription, formatDate, formatVoteDate, inquiryStatus, inquiryStatusIcon, inquiryStatusLabel, inquiryStatusInfo, inquiryTypeData, getNextcloudPreviewUrl, currentCoverUrl, gridDescription, hasQuorum, quorumValue, hasVotePeriod, get RouterLink() {
       return RouterLink;
     }, get t() {
       return translate;
@@ -12486,7 +11992,7 @@ const _sfc_main$12 = /* @__PURE__ */ defineComponent({
     const emit2 = __emit;
     const model = useModel(__props, "modelValue");
     const inquiriesStore = useInquiriesStore();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const newUser = ref(void 0);
     async function dialogOK() {
       try {
@@ -12503,7 +12009,7 @@ const _sfc_main$12 = /* @__PURE__ */ defineComponent({
         showError$1(translate("agora", "Error transferring inquiry"));
       } finally {
         try {
-          await inquiryStore2.load();
+          await inquiryStore.load();
         } catch {
           emit2("accessDenied");
         }
@@ -12559,7 +12065,7 @@ const _sfc_main$12 = /* @__PURE__ */ defineComponent({
         }
       ]
     }));
-    const __returned__ = { emit: emit2, model, inquiriesStore, inquiryStore: inquiryStore2, newUser, dialogOK, dialogText, dialogProps, get t() {
+    const __returned__ = { emit: emit2, model, inquiriesStore, inquiryStore, newUser, dialogOK, dialogText, dialogProps, get t() {
       return translate;
     }, get NcDialog() {
       return NcDialog;
@@ -14717,7 +14223,7 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
     const router2 = useRouter();
     const emit2 = __emit;
     const sessionStore = useSessionStore();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const checkStatus = ref({
       email: "empty",
       userName: "empty"
@@ -14789,7 +14295,7 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
     });
     function routeToPersonalShare(token) {
       if (route.params.token === token) {
-        inquiryStore2.load();
+        inquiryStore.load();
         closeModal();
       } else {
         router2.push({
@@ -14882,7 +14388,7 @@ const _sfc_main$O = /* @__PURE__ */ defineComponent({
         sendRegistration.value = false;
       }
     }
-    const __returned__ = { route, router: router2, emit: emit2, sessionStore, inquiryStore: inquiryStore2, COOKIE_LIFETIME, checkStatus, sendRegistration, userName, emailAddress, saveCookie, registrationIsValid, disableSubmit, emailGeneratedStatus, offerCookies, loginLink, userNameHint, emailAddressHint, routeToPersonalShare, updateCookie, closeModal, login, validatePublicUsername, validateEmailAddress, submitRegistration, get t() {
+    const __returned__ = { route, router: router2, emit: emit2, sessionStore, inquiryStore, COOKIE_LIFETIME, checkStatus, sendRegistration, userName, emailAddress, saveCookie, registrationIsValid, disableSubmit, emailGeneratedStatus, offerCookies, loginLink, userNameHint, emailAddressHint, routeToPersonalShare, updateCookie, closeModal, login, validatePublicUsername, validateEmailAddress, submitRegistration, get t() {
       return translate;
     }, get NcCheckboxRadioSwitch() {
       return NcCheckboxRadioSwitch;
@@ -15317,12 +14823,12 @@ const _sfc_main$K = /* @__PURE__ */ defineComponent({
   __name: "InquiryHeaderButtons",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const sessionStore = useSessionStore();
     onBeforeUnmount(() => {
-      inquiryStore2.$reset();
+      inquiryStore.$reset();
     });
-    const __returned__ = { inquiryStore: inquiryStore2, sessionStore, get ActionToggleSidebar() {
+    const __returned__ = { inquiryStore, sessionStore, get ActionToggleSidebar() {
       return ActionToggleSidebar;
     } };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
@@ -59759,7 +59265,7 @@ const _sfc_main$J = {
   setup(__props, { expose: __expose }) {
     __expose();
     const attachmentsStore = useAttachmentsStore();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const props2 = __props;
     const imageFileInput = ref(null);
     const wordFileInput = ref(null);
@@ -59785,7 +59291,7 @@ const _sfc_main$J = {
       const file = event.target.files[0];
       if (!file) return;
       try {
-        const response = await attachmentsStore.upload(inquiryStore2.id, file);
+        const response = await attachmentsStore.upload(inquiryStore.id, file);
         const imageUrl = getNextcloudPreviewUrl(response.fileId, 1920, 1080, true);
         if (editor.value) {
           editor.value.chain().focus().insertContent(`<img src="${imageUrl}" alt="${response.name}" class="editor-image image-align-center" data-file-id="${response.fileId}" />`).run();
@@ -59815,7 +59321,7 @@ const _sfc_main$J = {
     });
     const editor = useEditor({
       editable: !props2.readonly,
-      content: inquiryStore2.description || "<p></p>",
+      content: inquiryStore.description || "<p></p>",
       extensions: [
         index_default$6.configure({
           heading: {
@@ -59893,14 +59399,14 @@ const _sfc_main$J = {
       },
       onUpdate: ({ editor: editor2 }) => {
         const currentHtml = editor2.getHTML();
-        if (currentHtml !== inquiryStore2.description) {
-          inquiryStore2.description = currentHtml;
+        if (currentHtml !== inquiryStore.description) {
+          inquiryStore.description = currentHtml;
         }
       }
     });
     const handlePastedImage = async (file) => {
       try {
-        const response = await attachmentsStore.upload(inquiryStore2.id, file, false);
+        const response = await attachmentsStore.upload(inquiryStore.id, file, false);
         const imageUrl = getNextcloudPreviewUrl(response.fileId, 1920, 1080, true);
         const attachment = {
           id: response.id,
@@ -59937,7 +59443,7 @@ const _sfc_main$J = {
       editor.value.chain().focus().updateAttributes("image", { align: alignment }).run();
     };
     watch(
-      () => inquiryStore2.description,
+      () => inquiryStore.description,
       (newVal) => {
         if (editor.value && newVal !== editor.value.getHTML()) {
           nextTick(() => {
@@ -59987,7 +59493,7 @@ const _sfc_main$J = {
         const arrayBuffer = await file.arrayBuffer();
         const { value: html2 } = await mammoth.convertToHtml({ arrayBuffer });
         editor.value.commands.setContent(html2);
-        inquiryStore2.description = html2;
+        inquiryStore.description = html2;
         showSuccess(translate("agora", "Word document imported"));
       } catch (error) {
         console.error("Error importing Word document:", error);
@@ -60021,7 +59527,7 @@ const _sfc_main$J = {
       aiLoading.value = true;
       aiGeneratedContent.value = "";
       try {
-        const generatedContent = await inquiryStore2.getEchanceText(aiPrompt.value);
+        const generatedContent = await inquiryStore.getEchanceText(aiPrompt.value);
         aiGeneratedContent.value = generatedContent;
         showSuccess(translate("agora", "Content generated"));
       } catch (error) {
@@ -60034,15 +59540,15 @@ const _sfc_main$J = {
     const insertAIContent = () => {
       if (aiGeneratedContent.value && editor.value) {
         editor.value.commands.setContent(aiGeneratedContent.value);
-        inquiryStore2.description = aiGeneratedContent.value;
+        inquiryStore.description = aiGeneratedContent.value;
         showSuccess(translate("agora", "Content inserted"));
         closeAIModal();
       }
     };
     onMounted(() => {
       nextTick(() => {
-        if (editor.value && inquiryStore2.description) {
-          editor.value.commands.setContent(inquiryStore2.description);
+        if (editor.value && inquiryStore.description) {
+          editor.value.commands.setContent(inquiryStore.description);
         }
       });
     });
@@ -60051,7 +59557,7 @@ const _sfc_main$J = {
         editor.value.destroy();
       }
     });
-    const __returned__ = { attachmentsStore, inquiryStore: inquiryStore2, props: props2, imageFileInput, wordFileInput, editorContainer, showAIModal, aiLoading, aiPrompt, aiGeneratedContent, getNextcloudPreviewUrl, triggerImageUpload, getContentSummary, handleImageUpload, CustomImage, editor, handlePastedImage, isImageSelected, getSelectedImageAlign, alignImage, selectedHeading, setHeading, setLink, importWord, handleWordImport, openAIModal, closeAIModal, onPromptUpdate, generateWithAI, insertAIContent, ref, onMounted, onUnmounted, watch, nextTick, computed, get useEditor() {
+    const __returned__ = { attachmentsStore, inquiryStore, props: props2, imageFileInput, wordFileInput, editorContainer, showAIModal, aiLoading, aiPrompt, aiGeneratedContent, getNextcloudPreviewUrl, triggerImageUpload, getContentSummary, handleImageUpload, CustomImage, editor, handlePastedImage, isImageSelected, getSelectedImageAlign, alignImage, selectedHeading, setHeading, setLink, importWord, handleWordImport, openAIModal, closeAIModal, onPromptUpdate, generateWithAI, insertAIContent, ref, onMounted, onUnmounted, watch, nextTick, computed, get useEditor() {
       return useEditor;
     }, get EditorContent() {
       return EditorContent;
@@ -60788,7 +60294,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
     const sessionStore = useSessionStore();
     const commentsStore = useCommentsStore();
     const supportsStore = useSupportsStore();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const inquiriesStore = useInquiriesStore();
     const attachmentsStore = useAttachmentsStore();
     const imageFileInput = ref(null);
@@ -60799,49 +60305,49 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
     const context2 = computed(() => {
       const ctx = createPermissionContextForContent(
         ContentType.Inquiry,
-        inquiryStore2.owner.id,
-        inquiryStore2.configuration.access === "public",
-        inquiryStore2.status.isLocked,
-        inquiryStore2.status.isExpired,
-        inquiryStore2.status.deletionDate > 0,
-        inquiryStore2.status.isArchived,
-        inquiryStore2.inquiryGroups.length > 0,
-        inquiryStore2.inquiryGroups,
-        inquiryStore2.type,
-        inquiryStore2.family,
-        inquiryStore2.configuration.access,
-        isInquiryFinalStatus(inquiryStore2, sessionStore.appSettings),
-        inquiryStore2.status.moderationStatus
+        inquiryStore.owner.id,
+        inquiryStore.configuration.access === "public",
+        inquiryStore.status.isLocked,
+        inquiryStore.status.isExpired,
+        inquiryStore.status.deletionDate > 0,
+        inquiryStore.status.isArchived,
+        inquiryStore.inquiryGroups.length > 0,
+        inquiryStore.inquiryGroups,
+        inquiryStore.type,
+        inquiryStore.family,
+        inquiryStore.configuration.access,
+        isInquiryFinalStatus(inquiryStore, sessionStore.appSettings),
+        inquiryStore.status.moderationStatus
       );
       return ctx;
     });
-    const selectedCategory = ref(inquiryStore2.categoryId || 0);
-    const selectedLocation = ref(inquiryStore2.locationId || 0);
-    const hasQuorum = computed(() => inquiryStore2.miscFields?.quorum);
-    const quorumValue = computed(() => inquiryStore2.miscFields?.quorum || 0);
+    const selectedCategory = ref(inquiryStore.categoryId || 0);
+    const selectedLocation = ref(inquiryStore.locationId || 0);
+    const hasQuorum = computed(() => inquiryStore.miscFields?.quorum);
+    const quorumValue = computed(() => inquiryStore.miscFields?.quorum || 0);
     const isLoaded = ref(false);
-    const hasSupported = computed(() => inquiryStore2.currentUserStatus.hasSupported);
+    const hasSupported = computed(() => inquiryStore.currentUserStatus.hasSupported);
     const inquiryTypeData = computed(() => {
-      const data = getInquiryTypeData(inquiryStore2.type, sessionStore.appSettings.inquiryTypeTab || []);
+      const data = getInquiryTypeData(inquiryStore.type, sessionStore.appSettings.inquiryTypeTab || []);
       return data;
     });
     const availableInquiryStatuses = computed(() => {
-      const statusesFromSettings = sessionStore.appSettings.inquiryStatusTab?.filter((status) => status.inquiryType === inquiryStore2.type)?.sort((a, b) => a.order - b.order) || [];
-      if (inquiryStore2.status.inquiryStatus === "draft") {
+      const statusesFromSettings = sessionStore.appSettings.inquiryStatusTab?.filter((status) => status.inquiryType === inquiryStore.type)?.sort((a, b) => a.order - b.order) || [];
+      if (inquiryStore.status.inquiryStatus === "draft") {
         statusesFromSettings.unshift({
           statusKey: "draft",
           label: "Draft",
           icon: "draft",
-          inquiryType: inquiryStore2.type,
+          inquiryType: inquiryStore.type,
           order: 0
         });
       }
-      if (inquiryStore2.status.inquiryStatus === "waiting_approval") {
+      if (inquiryStore.status.inquiryStatus === "waiting_approval") {
         statusesFromSettings.unshift({
           statusKey: "waiting_approval",
           label: "Waiting Approval",
           icon: "waitingapproval",
-          inquiryType: inquiryStore2.type,
+          inquiryType: inquiryStore.type,
           order: 1
         });
       }
@@ -60854,18 +60360,18 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
             statusKey: "draft",
             label: "Draft",
             icon: "draft",
-            inquiryType: inquiryStore2.type,
+            inquiryType: inquiryStore.type,
             order: 0
           },
           "waiting_approval": {
             statusKey: "waiting_approval",
             label: "Waiting Approval",
             icon: "waitingapproval",
-            inquiryType: inquiryStore2.type,
+            inquiryType: inquiryStore.type,
             order: 1
           }
         };
-        const currentStatus = inquiryStore2.status.inquiryStatus;
+        const currentStatus = inquiryStore.status.inquiryStatus;
         if (specialStatuses[currentStatus]) {
           return specialStatuses[currentStatus];
         }
@@ -60891,7 +60397,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
     const onStatusChange = async (newStatus) => {
       try {
         const statusId = newStatus?.id || newStatus;
-        await inquiryStore2.setInquiryStatus(statusId);
+        await inquiryStore.setInquiryStatus(statusId);
         showSuccess(translate("agora", "Inquiry status of this inquiry has been updated"));
       } catch {
         selectedInquiryStatusKey.value = currentInquiryStatus.value.statusKey;
@@ -60923,7 +60429,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
       }
       return buildPath(itemMap[targetId]);
     }
-    watch(() => inquiryStore2.coverId, (newCoverId) => {
+    watch(() => inquiryStore.coverId, (newCoverId) => {
       if (newCoverId) {
         currentCoverUrl.value = getNextcloudPreviewUrl(newCoverId);
       } else {
@@ -60935,7 +60441,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
       (newVal) => {
         const rawValue = toRaw(newVal);
         if (rawValue) {
-          inquiryStore2.locationId = rawValue.value;
+          inquiryStore.locationId = rawValue.value;
         }
       },
       { deep: true }
@@ -60945,7 +60451,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
       (newVal) => {
         const rawValue = toRaw(newVal);
         if (rawValue) {
-          inquiryStore2.categoryId = rawValue.value;
+          inquiryStore.categoryId = rawValue.value;
         }
       },
       { deep: true }
@@ -60981,13 +60487,13 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
       hierarchicalLocation,
       (locations) => {
         if (!locations.length) return;
-        if (inquiryStore2.locationId === 0) {
+        if (inquiryStore.locationId === 0) {
           selectedLocation.value = locations[0];
-          inquiryStore2.locationId = locations[0].value;
+          inquiryStore.locationId = locations[0].value;
         } else {
-          const selected = locations.find((loc) => loc.value === inquiryStore2.locationId);
+          const selected = locations.find((loc) => loc.value === inquiryStore.locationId);
           selectedLocation.value = selected || locations[0];
-          inquiryStore2.locationId = selected?.value || locations[0].value;
+          inquiryStore.locationId = selected?.value || locations[0].value;
         }
       },
       { immediate: true }
@@ -60996,31 +60502,31 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
       hierarchicalCategory,
       (categories) => {
         if (!categories.length) return;
-        if (inquiryStore2.categoryId === 0) {
+        if (inquiryStore.categoryId === 0) {
           selectedCategory.value = categories[0];
-          inquiryStore2.categoryId = categories[0].value;
+          inquiryStore.categoryId = categories[0].value;
         } else {
-          const selected = categories.find((loc) => loc.value === inquiryStore2.categoryId);
+          const selected = categories.find((loc) => loc.value === inquiryStore.categoryId);
           selectedCategory.value = selected || categories[0];
-          inquiryStore2.categoryId = selected?.value || categories[0].value;
+          inquiryStore.categoryId = selected?.value || categories[0].value;
         }
       },
       { immediate: true }
     );
     const onToggleSupport = async () => {
-      const hadSupportedBefore = inquiryStore2.currentUserStatus.hasSupported;
-      inquiryStore2.currentUserStatus.supportValue;
+      const hadSupportedBefore = inquiryStore.currentUserStatus.hasSupported;
+      inquiryStore.currentUserStatus.supportValue;
       try {
-        await supportsStore.toggleSupport(inquiryStore2.id, sessionStore.currentUser.id, inquiryStore2, inquiriesStore);
-        const hasSupportedAfter = inquiryStore2.currentUserStatus.hasSupported;
-        const supportValueAfter = inquiryStore2.currentUserStatus.supportValue;
-        if (inquiryStore2.configuration.supportMode === "simple") {
+        await supportsStore.toggleSupport(inquiryStore.id, sessionStore.currentUser.id, inquiryStore, inquiriesStore);
+        const hasSupportedAfter = inquiryStore.currentUserStatus.hasSupported;
+        const supportValueAfter = inquiryStore.currentUserStatus.supportValue;
+        if (inquiryStore.configuration.supportMode === "simple") {
           if (hasSupportedAfter && !hadSupportedBefore) {
             showSuccess(translate("agora", "Inquiry supported, thanks for your support!"), { timeout: 2e3 });
           } else if (!hasSupportedAfter && hadSupportedBefore) {
             showSuccess(translate("agora", "Inquiry support removed!"), { timeout: 2e3 });
           }
-        } else if (inquiryStore2.configuration.supportMode === "ternary") {
+        } else if (inquiryStore.configuration.supportMode === "ternary") {
           if (supportValueAfter === 1) {
             showSuccess(translate("agora", "Inquiry supported, thanks for your support!"), { timeout: 2e3 });
           } else if (supportValueAfter === 0) {
@@ -61037,8 +60543,8 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
       }
     };
     onMounted(() => {
-      if (inquiryStore2.coverId) {
-        currentCoverUrl.value = getNextcloudPreviewUrl(inquiryStore2.coverId);
+      if (inquiryStore.coverId) {
+        currentCoverUrl.value = getNextcloudPreviewUrl(inquiryStore.coverId);
       }
       subscribe(Event$1.UpdateComments, () => commentsStore.load());
       isLoaded.value = true;
@@ -61048,11 +60554,11 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
       unsubscribe(Event$1.UpdateComments, () => commentsStore.load());
     });
     const showCategoryAsLabel = computed(() => {
-      const result2 = inquiryStore2.parentId !== 0 || props2.isReadonly;
+      const result2 = inquiryStore.parentId !== 0 || props2.isReadonly;
       return result2;
     });
     const showLocationAsLabel = computed(() => {
-      const result2 = inquiryStore2.parentId !== 0 || props2.isReadonly;
+      const result2 = inquiryStore.parentId !== 0 || props2.isReadonly;
       return result2;
     });
     function getNextcloudPreviewUrl(fileId, x = 1920, y = 1080, autoScale = true) {
@@ -61072,7 +60578,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
         return;
       }
       try {
-        const response = await attachmentsStore.upload(inquiryStore2.id, file, true);
+        const response = await attachmentsStore.upload(inquiryStore.id, file, true);
         const attachment = {
           id: response.id ?? `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           name: response.name ?? file.name,
@@ -61082,7 +60588,7 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
         };
         attachmentsStore.attachments = [...attachmentsStore.attachments, attachment];
         currentCoverUrl.value = getNextcloudPreviewUrl(attachment.fileId);
-        inquiryStore2.coverId = attachment.fileId;
+        inquiryStore.coverId = attachment.fileId;
         showSuccess(translate("agora", "{file} uploaded", { file: response.name ?? file.name }));
       } catch (error) {
         showError$1(translate("agora", "Failed to upload {file}", { file: file.name }));
@@ -61090,13 +60596,13 @@ const _sfc_main$I = /* @__PURE__ */ defineComponent({
       }
     };
     const timeExpirationRelative = computed(() => {
-      if (inquiryStore2.configuration.expire) {
-        return DateTime.fromMillis(inquiryStore2.configuration.expire * 1e3).toRelative();
+      if (inquiryStore.configuration.expire) {
+        return DateTime.fromMillis(inquiryStore.configuration.expire * 1e3).toRelative();
       }
       return translate("agora", "never");
     });
     const formatDate = (timestamp) => new Date(timestamp * 1e3).toLocaleDateString();
-    const __returned__ = { props: props2, sessionStore, commentsStore, supportsStore, inquiryStore: inquiryStore2, inquiriesStore, attachmentsStore, imageFileInput, currentCoverUrl, triggerImageUpload, context: context2, selectedCategory, selectedLocation, hasQuorum, quorumValue, isLoaded, hasSupported, inquiryTypeData, availableInquiryStatuses, currentInquiryStatus, selectedInquiryStatusKey, currentInquiryStatusLabel, currentInquiryStatusIcon, selectedInquiryStatus, onStatusChange, statusInquiryOptions, getHierarchyPath, buildHierarchy, hierarchicalLocation, hierarchicalCategory, onToggleSupport, showCategoryAsLabel, showLocationAsLabel, getNextcloudPreviewUrl, handleImageUpload, timeExpirationRelative, formatDate, get t() {
+    const __returned__ = { props: props2, sessionStore, commentsStore, supportsStore, inquiryStore, inquiriesStore, attachmentsStore, imageFileInput, currentCoverUrl, triggerImageUpload, context: context2, selectedCategory, selectedLocation, hasQuorum, quorumValue, isLoaded, hasSupported, inquiryTypeData, availableInquiryStatuses, currentInquiryStatus, selectedInquiryStatusKey, currentInquiryStatusLabel, currentInquiryStatusIcon, selectedInquiryStatus, onStatusChange, statusInquiryOptions, getHierarchyPath, buildHierarchy, hierarchicalLocation, hierarchicalCategory, onToggleSupport, showCategoryAsLabel, showLocationAsLabel, getNextcloudPreviewUrl, handleImageUpload, timeExpirationRelative, formatDate, get t() {
       return translate;
     }, get NcSelect() {
       return NcSelect;
@@ -61696,7 +61202,7 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
       coverId: null,
       inquiryStatus: "active"
     });
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const commentsStore = useCommentsStore();
     const preferencesStore = usePreferencesStore();
     const sessionStore = useSessionStore();
@@ -61719,7 +61225,7 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
       orderedTypes.forEach((typeLabel) => {
         grouped[typeLabel] = [];
       });
-      inquiryStore2.childs.forEach((child) => {
+      inquiryStore.childs.forEach((child) => {
         const typeLabel = getInquiryTypeData(
           child.type,
           sessionStore.appSettings.inquiryTypeTab || [],
@@ -61759,20 +61265,20 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
         } catch (error) {
           showError$1("Failed to load inquiry:", error);
         } finally {
-          inquiryParent.value.id = inquiryStore2.id;
-          inquiryParent.value.parentId = inquiryStore2.parentId;
-          inquiryParent.value.title = inquiryStore2.title;
-          inquiryParent.value.type = inquiryStore2.type;
-          inquiryParent.value.owner = inquiryStore2.owner;
-          inquiryParent.value.moderationStatus = inquiryStore2.moderationStatus;
-          inquiryParent.value.status = inquiryStore2.status;
-          inquiryParent.value.configuration = inquiryStore2.configuration;
-          inquiryParent.value.currentUserStatus = inquiryStore2.currentUserStatus;
+          inquiryParent.value.id = inquiryStore.id;
+          inquiryParent.value.parentId = inquiryStore.parentId;
+          inquiryParent.value.title = inquiryStore.title;
+          inquiryParent.value.type = inquiryStore.type;
+          inquiryParent.value.owner = inquiryStore.owner;
+          inquiryParent.value.moderationStatus = inquiryStore.moderationStatus;
+          inquiryParent.value.status = inquiryStore.status;
+          inquiryParent.value.configuration = inquiryStore.configuration;
+          inquiryParent.value.currentUserStatus = inquiryStore.currentUserStatus;
           inquiryParent.value.commentCount = commentsStore.comments.length;
-          inquiryParent.value.supportCount = inquiryStore2.status.countSupports;
-          inquiryParent.value.inquiryGroups = inquiryStore2.inquiryGroups;
-          inquiryParent.value.coverId = inquiryStore2.coverId;
-          inquiryParent.value.inquiryStatus = inquiryStore2.inquiryStatus;
+          inquiryParent.value.supportCount = inquiryStore.status.countSupports;
+          inquiryParent.value.inquiryGroups = inquiryStore.inquiryGroups;
+          inquiryParent.value.coverId = inquiryStore.coverId;
+          inquiryParent.value.inquiryStatus = inquiryStore.inquiryStatus;
           isLoadedLocal.value = true;
         }
       }
@@ -61805,10 +61311,10 @@ const _sfc_main$H = /* @__PURE__ */ defineComponent({
       return obj;
     }
     const loadInquiryData = async () => {
-      inquiryStore2.childs = inquiryStore2.childs.map(transformOwner);
+      inquiryStore.childs = inquiryStore.childs.map(transformOwner);
       return true;
     };
-    const __returned__ = { props: props2, inquiryParent, inquiryStore: inquiryStore2, commentsStore, preferencesStore, sessionStore, isLoadedLocal, isMobile, subMode, handleSubModeChange, isGridView, inquiryTypes, childrenByType, childTypes, emit: emit2, editParent, routeChild, handleResize, transformOwner, loadInquiryData, get t() {
+    const __returned__ = { props: props2, inquiryParent, inquiryStore, commentsStore, preferencesStore, sessionStore, isLoadedLocal, isMobile, subMode, handleSubModeChange, isGridView, inquiryTypes, childrenByType, childTypes, emit: emit2, editParent, routeChild, handleResize, transformOwner, loadInquiryData, get t() {
       return translate;
     }, InquiryItem, get NcCheckboxRadioSwitch() {
       return NcCheckboxRadioSwitch;
@@ -62169,13 +61675,13 @@ const _sfc_main$D = /* @__PURE__ */ defineComponent({
   __name: "CardAddSuggestions",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const optionAddDatesModalProps = {
       caption: translate("agora", "Add"),
       showCaption: true,
       primary: true
     };
-    const __returned__ = { inquiryStore: inquiryStore2, cardType: cardType$4, optionAddDatesModalProps, get CardDiv() {
+    const __returned__ = { inquiryStore, cardType: cardType$4, optionAddDatesModalProps, get CardDiv() {
       return CardDiv;
     }, get t() {
       return translate;
@@ -62237,8 +61743,8 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
   __name: "CardClosedInquiry",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
-    const __returned__ = { inquiryStore: inquiryStore2, cardType: cardType$3, get CardDiv() {
+    const inquiryStore = useInquiryStore();
+    const __returned__ = { inquiryStore, cardType: cardType$3, get CardDiv() {
       return CardDiv;
     }, get t() {
       return translate;
@@ -62273,18 +61779,18 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
   __name: "CardLimitedInquiries",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const optionsStore = useOptionsStore();
     const orphanedInquiriesText = computed(
       () => translatePlural(
         "inquiries",
         "%n orphaned inquiry reduces your inquiry quota.",
         "%n orphaned inquiries reduce your inquiry quota.",
-        inquiryStore2.currentUserStatus.orphanedInquiries
+        inquiryStore.currentUserStatus.orphanedInquiries
       )
     );
     const inquiriesLeft = computed(
-      () => inquiryStore2.configuration.maxInquiriesPerUser - inquiryStore2.currentUserStatus.yesInquiries > 0 ? inquiryStore2.configuration.maxInquiriesPerUser - inquiryStore2.currentUserStatus.yesInquiries : 0
+      () => inquiryStore.configuration.maxInquiriesPerUser - inquiryStore.currentUserStatus.yesInquiries > 0 ? inquiryStore.configuration.maxInquiriesPerUser - inquiryStore.currentUserStatus.yesInquiries : 0
     );
     const optionsAvailableText = computed(() => {
       if (optionsStore.countOptionsLeft === 0) {
@@ -62307,14 +61813,14 @@ const _sfc_main$B = /* @__PURE__ */ defineComponent({
         "You have %n inquiries left out of {maxInquiries}.",
         inquiriesLeft.value,
         {
-          maxInquiries: inquiryStore2.configuration.maxInquiriesPerUser
+          maxInquiries: inquiryStore.configuration.maxInquiriesPerUser
         }
       );
     });
     const cardType2 = computed(
-      () => inquiryStore2.configuration.maxInquiriesPerUser && inquiriesLeft.value < 1 ? "error" : "info"
+      () => inquiryStore.configuration.maxInquiriesPerUser && inquiriesLeft.value < 1 ? "error" : "info"
     );
-    const __returned__ = { inquiryStore: inquiryStore2, optionsStore, orphanedInquiriesText, inquiriesLeft, optionsAvailableText, inquiriesLeftText, cardType: cardType2, get CardDiv() {
+    const __returned__ = { inquiryStore, optionsStore, orphanedInquiriesText, inquiriesLeft, optionsAvailableText, inquiriesLeftText, cardType: cardType2, get CardDiv() {
       return CardDiv;
     }, ActionDeleteOrphanedInquiries, get t() {
       return translate;
@@ -62537,27 +62043,27 @@ const _sfc_main$w = /* @__PURE__ */ defineComponent({
   __name: "InquiryInfoCards",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const optionsStore = useOptionsStore();
     const sharesStore = useSharesStore();
     const sessionStore = useSessionStore();
     const showUnpublishedInquiryCard = computed(
-      () => inquiryStore2.configuration.access === "private" && !sharesStore.hasShares && inquiryStore2.permissions.edit && optionsStore.options.length
+      () => inquiryStore.configuration.access === "private" && !sharesStore.hasShares && inquiryStore.permissions.edit && optionsStore.options.length
     );
     const showAddSuggestionsCard = computed(
-      () => inquiryStore2.permissions.addOptions && inquiryStore2.isSuggestionOpen && !inquiryStore2.isClosed
+      () => inquiryStore.permissions.addOptions && inquiryStore.isSuggestionOpen && !inquiryStore.isClosed
     );
-    const showClosedCard = computed(() => inquiryStore2.isClosed && !showSendConfirmationsCard.value);
+    const showClosedCard = computed(() => inquiryStore.isClosed && !showSendConfirmationsCard.value);
     const showSendConfirmationsCard = computed(
-      () => inquiryStore2.permissions.edit && inquiryStore2.isClosed && optionsStore.confirmed.length > 0
+      () => inquiryStore.permissions.edit && inquiryStore.isClosed && optionsStore.confirmed.length > 0
     );
     const showLimitCard = computed(
-      () => inquiryStore2.permissions.inquiry && !inquiryStore2.isClosed && (inquiryStore2.configuration.maxInquiriesPerOption || inquiryStore2.configuration.maxInquiriesPerUser)
+      () => inquiryStore.permissions.inquiry && !inquiryStore.isClosed && (inquiryStore.configuration.maxInquiriesPerOption || inquiryStore.configuration.maxInquiriesPerUser)
     );
     const showRegisterCard = computed(
-      () => sessionStore.route.name === "publicInquiry" && ["public", "email", "contact"].includes(inquiryStore2.currentUserStatus.userRole) && !inquiryStore2.isClosed && !inquiryStore2.currentUserStatus.isLocked && !!inquiryStore2.id
+      () => sessionStore.route.name === "publicInquiry" && ["public", "email", "contact"].includes(inquiryStore.currentUserStatus.userRole) && !inquiryStore.isClosed && !inquiryStore.currentUserStatus.isLocked && !!inquiryStore.id
     );
-    const __returned__ = { inquiryStore: inquiryStore2, optionsStore, sharesStore, sessionStore, showUnpublishedInquiryCard, showAddSuggestionsCard, showClosedCard, showSendConfirmationsCard, showLimitCard, showRegisterCard, get CardAddSuggestions() {
+    const __returned__ = { inquiryStore, optionsStore, sharesStore, sessionStore, showUnpublishedInquiryCard, showAddSuggestionsCard, showClosedCard, showSendConfirmationsCard, showLimitCard, showRegisterCard, get CardAddSuggestions() {
       return CardAddSuggestions;
     }, get CardClosedInquiry() {
       return CardClosedInquiry;
@@ -62603,7 +62109,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     const selectedMode = ref("response");
     const route = useRoute();
     const router2 = useRouter();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const inquiriesStore = useInquiriesStore();
     const sessionStore = useSessionStore();
     const editMode = ref(false);
@@ -62615,19 +62121,19 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     const context2 = computed(() => {
       const ctx = createPermissionContextForContent(
         ContentType.Inquiry,
-        inquiryStore2.owner.id,
-        inquiryStore2.configuration.access === "public",
-        inquiryStore2.status.isLocked,
-        inquiryStore2.status.isExpired,
-        inquiryStore2.status.deletionDate > 0,
-        inquiryStore2.status.isArchived,
-        inquiryStore2.inquiryGroups.length > 0,
-        inquiryStore2.inquiryGroups,
-        inquiryStore2.type,
-        inquiryStore2.family,
-        inquiryStore2.configuration.access,
-        inquiryStore2.status.isFinalStatus,
-        inquiryStore2.status.moderationStatus
+        inquiryStore.owner.id,
+        inquiryStore.configuration.access === "public",
+        inquiryStore.status.isLocked,
+        inquiryStore.status.isExpired,
+        inquiryStore.status.deletionDate > 0,
+        inquiryStore.status.isArchived,
+        inquiryStore.inquiryGroups.length > 0,
+        inquiryStore.inquiryGroups,
+        inquiryStore.type,
+        inquiryStore.family,
+        inquiryStore.configuration.access,
+        inquiryStore.status.isFinalStatus,
+        inquiryStore.status.moderationStatus
       );
       return ctx;
     });
@@ -62643,16 +62149,16 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     }
     async function loadInquiry(id) {
       try {
-        await inquiryStore2.load(id);
+        await inquiryStore.load(id);
         const result2 = inquiriesStore.inquiries.filter(
           (i) => i.parentId === Number(id) && i.configuration.access !== "private"
         );
-        inquiryStore2.childs = result2;
-        if (inquiryStore2.childs.length === 0) {
-          inquiryStore2.status.forceEditMode = true;
+        inquiryStore.childs = result2;
+        if (inquiryStore.childs.length === 0) {
+          inquiryStore.status.forceEditMode = true;
           editMode.value = true;
         } else {
-          inquiryStore2.status.forceEditMode = false;
+          inquiryStore.status.forceEditMode = false;
           editMode.value = false;
         }
         await nextTick();
@@ -62673,7 +62179,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     );
     const isReadonly = computed(() => {
       const user = sessionStore.currentUser;
-      if (inquiryStore2.status.moderationStatus === "rejected" || inquiryStore2.status.moderationStatus === "pending") return true;
+      if (inquiryStore.status.moderationStatus === "rejected" || inquiryStore.status.moderationStatus === "pending") return true;
       if (!user) {
         return true;
       }
@@ -62681,51 +62187,51 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
       return !canEditResult;
     });
     const isReadonlyDescription = computed(() => {
-      if (inquiryStore2.type === "debate") {
+      if (inquiryStore.type === "debate") {
         return false;
       }
       return isReadonly.value;
     });
     const enableEditMode = () => {
       editMode.value = true;
-      inquiryStore2.status.forceEditMode = true;
+      inquiryStore.status.forceEditMode = true;
     };
     onBeforeRouteUpdate(async (to, from2, next) => {
       if (to.params.id) {
-        inquiryStore2.reset();
+        inquiryStore.reset();
       }
       next();
       emit("transitions-off", 500);
     });
     onUnmounted(() => {
-      inquiryStore2.reset();
+      inquiryStore.reset();
       unsubscribe("load-inquiry", () => {
       });
     });
     const isShortDescription2 = computed(() => {
-      if (!inquiryStore2.description) return true;
-      return inquiryStore2.description.split(" ").length < 20 && inquiryStore2.description.split(/\r\n|\r|\n/).length < 5;
+      if (!inquiryStore.description) return true;
+      return inquiryStore.description.split(" ").length < 20 && inquiryStore.description.split(/\r\n|\r|\n/).length < 5;
     });
     const collapsibleProps = computed(() => ({
-      noCollapse: !inquiryStore2.configuration.collapseDescription || isShortDescription2.value,
-      initialState: inquiryStore2.currentUserStatus.countInquiries === 0 ? "max" : "min"
+      noCollapse: !inquiryStore.configuration.collapseDescription || isShortDescription2.value,
+      initialState: inquiryStore.currentUserStatus.countInquiries === 0 ? "max" : "min"
     }));
     const handleSave = async () => {
       if (isSaving.value) return;
-      if (!inquiryStore2.title || inquiryStore2.title.trim() === "") {
+      if (!inquiryStore.title || inquiryStore.title.trim() === "") {
         showError$1(translate("agora", "Title is mandatory"), { timeout: 2e3 });
         return;
       }
       isSaving.value = true;
       try {
-        await inquiryStore2.update({
-          id: inquiryStore2.id,
-          type: inquiryStore2.type,
-          title: inquiryStore2.title,
-          description: inquiryStore2.description,
-          categoryId: inquiryStore2.categoryId,
-          locationId: inquiryStore2.locationId,
-          parentId: inquiryStore2.parentId
+        await inquiryStore.update({
+          id: inquiryStore.id,
+          type: inquiryStore.type,
+          title: inquiryStore.title,
+          description: inquiryStore.description,
+          categoryId: inquiryStore.categoryId,
+          locationId: inquiryStore.locationId,
+          parentId: inquiryStore.parentId
         });
         showSuccess(translate("agora", "The inquiry has been saved"), { timeout: 2e3 });
       } catch {
@@ -62760,7 +62266,7 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     const handleGroupUpdate = (groups) => {
       selectedGroups.value = groups;
     };
-    const __returned__ = { forceRenderKey, selectedMode, route, router: router2, inquiryStore: inquiryStore2, inquiriesStore, sessionStore, editMode, isAppLoaded, createDlgToggle, selectedInquiryTypeForCreation, selectedGroups, isSaving, context: context2, availableGroups, routeChild, loadInquiry, isReadonly, isReadonlyDescription, enableEditMode, isShortDescription: isShortDescription2, collapsibleProps, handleSave, handleAllowedResponse, handleAllowedTransformation, handleCloseDialog, inquiryAdded, handleGroupUpdate, get t() {
+    const __returned__ = { forceRenderKey, selectedMode, route, router: router2, inquiryStore, inquiriesStore, sessionStore, editMode, isAppLoaded, createDlgToggle, selectedInquiryTypeForCreation, selectedGroups, isSaving, context: context2, availableGroups, routeChild, loadInquiry, isReadonly, isReadonlyDescription, enableEditMode, isShortDescription: isShortDescription2, collapsibleProps, handleSave, handleAllowedResponse, handleAllowedTransformation, handleCloseDialog, inquiryAdded, handleGroupUpdate, get t() {
       return translate;
     }, get NcAppContent() {
       return NcAppContent;
@@ -63733,676 +63239,947 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
 const GroupView = /* @__PURE__ */ _export_sfc$1(_sfc_main$t, [["render", _sfc_render$t], ["__file", "/var/www/nextcloud/apps/agora/src/views/InquiryGroupView.vue"]]);
 const _sfc_main$s = /* @__PURE__ */ defineComponent({
   __name: "InquiryGroup",
+  props: {
+    slug: { type: String, required: false }
+  },
   setup(__props, { expose: __expose }) {
     __expose();
+    const props2 = __props;
+    const currentSlug = computed(() => props2.slug || route.params.slug);
     const route = useRoute();
     const router2 = useRouter();
     const sessionStore = useSessionStore();
     const inquiriesStore = useInquiriesStore();
     const inquiryGroupsStore = useInquiryGroupsStore();
-    const inquiryGroupStore = useInquiryGroupStore();
-    const selectedInquiryGroup = ref(null);
-    const createInquiryDlgToggle = ref(false);
-    const createGroupDlgToggle = ref(false);
-    const editGroupDlgToggle = ref(false);
-    const selectedInquiryType = ref(null);
-    const selectedInquiryGroupTypeForCreation = ref(null);
-    const selectedGroups = ref([]);
-    const availableGroups = ref([]);
-    const inquiryGroups = computed(() => inquiryGroupsStore.inquiryGroups);
-    const currentInquiryGroup = computed(() => inquiryGroupStore.inquiryGroup);
-    const inquiryGroupTypes = computed(() => sessionStore.appSettings.inquiryGroupTypeTab || []);
-    const inquiryTypes = computed(() => sessionStore.appSettings.inquiryTypeTab || []);
-    const defaultInquiryGroupType = computed(() => {
-      return inquiryGroupTypes.value.find((type) => type.sort_order === 1) || inquiryGroupTypes.value[0];
+    const isLoading = ref(true);
+    const hasSlug = computed(() => {
+      const slug = route.params.slug;
+      return slug && slug !== "none" && slug !== "undefined" && slug !== "";
     });
-    const inquiryGroupTypesByFamily = computed(() => {
-      const families = {};
-      inquiryGroupTypes.value.forEach((type) => {
-        if (!families[type.family]) {
-          families[type.family] = [];
-        }
-        families[type.family].push(type);
-      });
-      return families;
+    const currentGroupType = computed(() => {
+      if (hasSlug.value && currentInquiryGroup.value) {
+        return currentInquiryGroup.value.type;
+      }
+      if (route.query.type) {
+        return route.query.type;
+      }
+      return "assembly";
     });
-    const rootInquiryGroups = computed(() => {
-      if (!defaultInquiryGroupType.value) return [];
-      return inquiryGroups.value.filter(
-        (group2) => group2.parent_id === null && group2.type === defaultInquiryGroupType.value.type
+    const selectedTypeData = computed(() => {
+      const typeTab = sessionStore.appSettings?.inquiryGroupTypeTab || [];
+      const type = typeTab.find((t2) => t2.group_type === currentGroupType.value);
+      if (!type) {
+        const assemblyType = typeTab.find((t2) => t2.group_type === "assembly");
+        return assemblyType || typeTab[0] || {
+          group_type: "assembly",
+          label: translate("agora", "Assembly"),
+          description: translate("agora", "General assembly groups"),
+          icon: "🏛️"
+        };
+      }
+      return type;
+    });
+    const selectedTypeIcon = computed(() => selectedTypeData.value?.icon || "🏛️");
+    const selectedTypeLabel = computed(
+      () => selectedTypeData.value?.label ? translate("agora", selectedTypeData.value.label) : translate("agora", "Assembly")
+    );
+    const selectedTypeDescription = computed(
+      () => selectedTypeData.value?.description ? translate("agora", selectedTypeData.value.description) : translate("agora", "Browse available groups")
+    );
+    const currentInquiryGroup = computed(() => {
+      if (!hasSlug.value) return null;
+      const slug = route.params.slug;
+      return inquiryGroupsStore.bySlug(slug);
+    });
+    const currentTitle = computed(() => {
+      if (hasSlug.value && currentInquiryGroup.value) {
+        return currentInquiryGroup.value.title || currentInquiryGroup.value.name;
+      }
+      return selectedTypeLabel.value;
+    });
+    const currentDescription = computed(() => {
+      if (hasSlug.value && currentInquiryGroup.value) {
+        return currentInquiryGroup.value.description || selectedTypeDescription.value;
+      }
+      return selectedTypeDescription.value;
+    });
+    const currentBreadcrumbTitle = computed(() => {
+      return currentTitle.value;
+    });
+    const currentIcon = computed(() => {
+      if (hasSlug.value && currentInquiryGroup.value) {
+        return getGroupTypeIcon(currentInquiryGroup.value.type);
+      }
+      return selectedTypeIcon.value;
+    });
+    const filteredGroups = computed(() => {
+      if (hasSlug.value) return [];
+      const allGroups = inquiryGroupsStore.inquiryGroups || [];
+      return allGroups.filter((group2) => group2.type === currentGroupType.value);
+    });
+    const groupsCount = computed(() => filteredGroups.value.length);
+    const totalInquiriesInType = computed(() => {
+      return filteredGroups.value.reduce((total, group2) => {
+        return total + (group2.inquiryIds?.length || 0);
+      }, 0);
+    });
+    const groupInquiries = computed(() => {
+      if (!currentInquiryGroup.value?.inquiryIds) return [];
+      const inquiries2 = inquiriesStore.inquiries || [];
+      return inquiries2.filter(
+        (i) => currentInquiryGroup.value.inquiryIds.includes(i.id)
       );
     });
-    const childGroupsByType = computed(() => {
-      const groupsByType = {};
-      const childGroups2 = inquiryGroups.value.filter(
-        (group2) => group2.parent_id === null && group2.type !== defaultInquiryGroupType.value?.type
-      );
-      childGroups2.forEach((group2) => {
-        getGroupTypeData(group2.type);
-        if (!groupsByType[group2.type]) {
-          groupsByType[group2.type] = [];
-        }
-        groupsByType[group2.type].push(group2);
-      });
-      return groupsByType;
-    });
-    const isInquiryGroupView = computed(() => {
-      return route.name === "group" && route.params.id;
-    });
-    const currentInquiryGroupId = computed(() => {
-      if (!isInquiryGroupView.value) return null;
-      return parseInt(route.params.id);
-    });
-    const childGroups = computed(() => {
-      if (!currentInquiryGroup.value.id) return [];
-      return inquiryGroups.value.filter(
-        (group2) => group2.parent_id === currentInquiryGroup.value.id
-      );
-    });
-    const childGroupsByTypeForCurrent = computed(() => {
-      const groupsByType = {};
-      childGroups.value.forEach((group2) => {
-        if (!groupsByType[group2.type]) {
-          groupsByType[group2.type] = [];
-        }
-        groupsByType[group2.type].push(group2);
-      });
-      return groupsByType;
-    });
-    const inquiriesInGroup = computed(() => {
-      if (!currentInquiryGroup.value.id) return [];
-      const inquiryIds = currentInquiryGroup.value.inquiryIds || [];
-      return inquiriesStore.inquiries.filter(
-        (inquiry) => inquiryIds.includes(inquiry.id)
-      );
-    });
-    const inquiriesByType = computed(() => {
+    const totalInquiries = computed(() => groupInquiries.value.length);
+    const groupedInquiries = computed(() => {
       const grouped = {};
-      inquiriesInGroup.value.forEach((inquiry) => {
-        const type = inquiry.type;
+      groupInquiries.value.forEach((inquiry) => {
+        const type = inquiry.inquiry_type || "default";
         if (!grouped[type]) grouped[type] = [];
         grouped[type].push(inquiry);
       });
       return grouped;
     });
-    const currentInquiryGroupTypeData = computed(() => {
-      if (!currentInquiryGroupId.value) return defaultInquiryGroupType.value;
-      return inquiryGroupTypes.value.find(
-        (type) => type.type === currentInquiryGroup.value.type
-      );
+    const inquiryTypeCounts = computed(() => {
+      const counts = {};
+      Object.entries(groupedInquiries.value).forEach(([type, inquiries2]) => {
+        counts[type] = inquiries2.length;
+      });
+      return counts;
+    });
+    const childGroups = computed(() => {
+      if (!currentInquiryGroup.value) return [];
+      const allGroups = inquiryGroupsStore.inquiryGroups || [];
+      return allGroups.filter((g) => g.parentId === currentInquiryGroup.value.id);
+    });
+    const parentGroups = computed(() => {
+      if (!currentInquiryGroup.value) return [];
+      const parents = [];
+      let group2 = currentInquiryGroup.value;
+      const allGroups = inquiryGroupsStore.inquiryGroups || [];
+      while (group2.parentId) {
+        const parent = allGroups.find((g) => g.id === group2.parentId);
+        if (parent) {
+          parents.unshift(parent);
+          group2 = parent;
+        } else {
+          break;
+        }
+      }
+      return parents;
     });
     const allowedResponseTypes = computed(() => {
-      if (!currentInquiryGroupTypeData.value?.allowed_response) return [];
-      const allowed = currentInquiryGroupTypeData.value.allowed_response;
-      const responseTypes = Array.isArray(allowed) ? allowed : [allowed];
-      return inquiryGroupTypes.value.filter(
-        (type) => responseTypes.includes(type.type)
+      if (!selectedTypeData.value?.family) return [];
+      const typeTab = sessionStore.appSettings?.inquiryGroupTypeTab || [];
+      return typeTab.filter(
+        (type) => type.group_type !== currentGroupType.value && type.family === selectedTypeData.value.family
       );
     });
-    const allowedInquiryTypes = computed(() => {
-      if (!currentInquiryGroupTypeData.value?.allowed_inquiry_types) return [];
-      const allowed = currentInquiryGroupTypeData.value.allowed_inquiry_types;
-      const inquiryTypeList = Array.isArray(allowed) ? allowed : [allowed];
-      return inquiryTypes.value.filter((type) => inquiryTypeList.includes(type.inquiry_type));
-    });
-    const sections = ref([
-      { id: "overview", title: "Overview", icon: "📌" },
-      { id: "child-groups", title: "Child Groups", icon: "🧩" },
-      { id: "inquiries", title: "Inquiries", icon: "📄" },
-      { id: "settings", title: "Settings", icon: "⚙️" }
-    ]);
-    const activeSection = ref("overview");
-    onMounted(() => {
-      loadData();
-    });
-    watch(() => route.params.id, () => {
-      loadData();
-    });
-    async function loadData() {
-      if (currentInquiryGroupId.value) {
-        await inquiryGroupStore.load(currentInquiryGroupId.value);
-        selectedInquiryGroup.value = currentInquiryGroup.value;
-      } else {
-        inquiryGroupStore.reset();
-        selectedInquiryGroup.value = null;
+    function getNextcloudPreviewUrl(fileId, x = 1920, y = 1080, autoScale = true) {
+      const baseUrl = window.location.origin;
+      return `${baseUrl}/index.php/core/preview?fileId=${fileId}&x=${x}&y=${y}&a=${autoScale ? 1 : 0}`;
+    }
+    function getCoverUrl(coverId) {
+      if (!coverId) return null;
+      const fileId = typeof coverId === "string" ? parseInt(coverId) : coverId;
+      return getNextcloudPreviewUrl(fileId, 1200, 400);
+    }
+    function getGroupTypeIcon(type) {
+      const typeTab = sessionStore.appSettings?.inquiryGroupTypeTab || [];
+      const typeData = typeTab.find((t2) => t2.group_type === type);
+      return typeData?.icon || "🏛️";
+    }
+    function getInquiryTypeIcon(typeKey) {
+      const typeTab = sessionStore.appSettings?.inquiryTypeTab || [];
+      const typeData = typeTab.find((t2) => t2.inquiry_type === typeKey);
+      return typeData?.icon || "📝";
+    }
+    function getInquiryTypeLabel(typeKey) {
+      const typeTab = sessionStore.appSettings?.inquiryTypeTab || [];
+      const typeData = typeTab.find((t2) => t2.inquiry_type === typeKey);
+      return typeData?.label ? translate("agora", typeData.label) : typeKey;
+    }
+    function getTypeLabel(type) {
+      const typeTab = sessionStore.appSettings?.inquiryGroupTypeTab || [];
+      const typeData = typeTab.find((t2) => t2.group_type === type);
+      return typeData?.label ? translate("agora", typeData.label) : type;
+    }
+    function getDisplayModeForType(inquiries2) {
+      const firstInquiry = inquiries2[0];
+      return firstInquiry?.miscFields?.display || "block";
+    }
+    function truncateText(text, length) {
+      if (!text) return "";
+      return text.length > length ? text.substring(0, length) + "..." : text;
+    }
+    function stripHtml(html2) {
+      return html2?.replace(/<[^>]*>/g, "") || "";
+    }
+    function getStatusText(status) {
+      switch (status) {
+        case "open":
+          return translate("agora", "Open");
+        case "closed":
+          return translate("agora", "Closed");
+        default:
+          return status;
       }
-      availableGroups.value = inquiryGroups.value;
     }
-    function viewInquiryGroup(groupId) {
-      router2.push({
-        name: "group",
-        params: { id: groupId }
-      });
+    function formatDate(dateString) {
+      if (!dateString) return "";
+      try {
+        return new Date(dateString).toLocaleDateString();
+      } catch {
+        return dateString;
+      }
     }
-    function viewInquiry(inquiryId) {
-      router2.push({
-        name: "inquiry",
-        params: { id: inquiryId }
-      });
+    const isOwnerOrAdmin = computed(() => false);
+    const groupTypeIcon = computed(() => {
+      return getGroupTypeIcon(currentGroupType.value);
+    });
+    function navigateToHome() {
+      router2.push({ name: "group-list", params: { slug: "none" }, query: {} });
     }
-    function backToGroups() {
+    function selectGroup(group2) {
+      if (group2.slug) {
+        router2.push({ name: "group-list", params: { slug: group2.slug } });
+      }
+    }
+    function navigateToInquiry(inquiryId) {
+      router2.push({ name: "inquiry", params: { id: inquiryId } });
+    }
+    function navigateToCreateInquiry() {
       router2.push({
         name: "menu",
-        query: { view: "inquiry-groups" }
+        query: {
+          viewMode: "create",
+          familyType: selectedTypeData.value?.family,
+          groupType: currentGroupType.value
+        }
       });
     }
-    function createInquiry(inquiryType) {
-      selectedInquiryType.value = inquiryType;
-      createInquiryDlgToggle.value = true;
-    }
-    function createChildGroup(groupType) {
-      selectedInquiryGroupTypeForCreation.value = groupType || null;
-      createGroupDlgToggle.value = true;
-    }
-    function editInquiryGroup() {
-      editGroupDlgToggle.value = true;
-    }
-    async function deleteInquiryGroup() {
-      if (confirm(translate("inquiries", "Are you sure you want to delete this inquiry group?"))) {
-        await inquiryGroupStore.deleteGroup();
-        backToGroups();
-      }
-    }
-    function addAllowedResponse() {
-      selectedInquiryGroupTypeForCreation.value = "allowed_response";
-      createGroupDlgToggle.value = true;
-    }
-    function inquiryAdded(payload) {
-      createInquiryDlgToggle.value = false;
-      selectedInquiryType.value = null;
-      inquiriesStore.load(false);
+    function createInquiry(type) {
       router2.push({
-        name: "inquiry",
-        params: { id: payload.id }
+        name: "menu",
+        query: {
+          viewMode: "create",
+          groupType: type
+        }
       });
     }
-    async function inquiryGroupAdded(payload) {
-      createGroupDlgToggle.value = false;
-      selectedInquiryGroupTypeForCreation.value = null;
-      if (currentInquiryGroup.value.id) {
-        await inquiryGroupStore.load(currentInquiryGroup.value.id);
+    function createNewGroup() {
+      router2.push({
+        name: "menu",
+        query: {
+          viewMode: "create-group",
+          groupType: currentGroupType.value
+        }
+      });
+    }
+    function handleModify() {
+      console.log("Modify group");
+    }
+    function handleDelete2() {
+      console.log("Delete group");
+    }
+    function handleAddResponse() {
+      console.log("Add allowed response");
+    }
+    onMounted(async () => {
+      try {
+        if (inquiryGroupsStore.inquiryGroups.length === 0) {
+        }
+        if (inquiriesStore.inquiries.length === 0) {
+        }
+      } catch (error) {
+        console.error("Error loading data:", error);
+      } finally {
+        isLoading.value = false;
       }
-      if (!currentInquiryGroup.value.id) {
-        router2.push({
-          name: "group",
-          params: { id: payload.id }
-        });
-      }
-    }
-    function handleGroupUpdate(groups) {
-      selectedGroups.value = groups;
-    }
-    function handleCloseGroupDialog() {
-      createGroupDlgToggle.value = false;
-      selectedInquiryGroupTypeForCreation.value = null;
-    }
-    function getGroupTypeData(groupType) {
-      return inquiryGroupTypes.value.find((type) => type.type === groupType) || {};
-    }
-    function getInquiryTypeData2(inquiryType) {
-      return inquiryTypes.value.find((type) => type.inquiry_type === inquiryType) || {};
-    }
-    function getGroupColor(index) {
-      const colors = ["blue", "green", "purple", "orange", "red"];
-      return colors[index % colors.length];
-    }
-    function getGroupIcon(groupType) {
-      const typeData = getGroupTypeData(groupType);
-      return typeData.icon || "🏛️";
-    }
-    function getGroupLabel(groupType) {
-      const typeData = getGroupTypeData(groupType);
-      return typeData.label || groupType;
-    }
-    function getGroupDescription(groupType) {
-      const typeData = getGroupTypeData(groupType);
-      return typeData.description || "";
-    }
-    function getFamilyLabel(family) {
-      const familyLabels = {
-        "assembly": "Assemblies",
-        "working_group": "Working Groups",
-        "commission": "Commissions",
-        "chapter": "Chapters",
-        "deliberation": "Deliberations",
-        "default": "Inquiry Groups"
-      };
-      return familyLabels[family] || family;
-    }
-    const __returned__ = { route, router: router2, sessionStore, inquiriesStore, inquiryGroupsStore, inquiryGroupStore, selectedInquiryGroup, createInquiryDlgToggle, createGroupDlgToggle, editGroupDlgToggle, selectedInquiryType, selectedInquiryGroupTypeForCreation, selectedGroups, availableGroups, inquiryGroups, currentInquiryGroup, inquiryGroupTypes, inquiryTypes, defaultInquiryGroupType, inquiryGroupTypesByFamily, rootInquiryGroups, childGroupsByType, isInquiryGroupView, currentInquiryGroupId, childGroups, childGroupsByTypeForCurrent, inquiriesInGroup, inquiriesByType, currentInquiryGroupTypeData, allowedResponseTypes, allowedInquiryTypes, sections, activeSection, loadData, viewInquiryGroup, viewInquiry, backToGroups, createInquiry, createChildGroup, editInquiryGroup, deleteInquiryGroup, addAllowedResponse, inquiryAdded, inquiryGroupAdded, handleGroupUpdate, handleCloseGroupDialog, getGroupTypeData, getInquiryTypeData: getInquiryTypeData2, getGroupColor, getGroupIcon, getGroupLabel, getGroupDescription, getFamilyLabel, get t() {
+    });
+    watch(() => route.params.slug, async () => {
+      isLoading.value = false;
+    });
+    const __returned__ = { props: props2, currentSlug, route, router: router2, sessionStore, inquiriesStore, inquiryGroupsStore, isLoading, hasSlug, currentGroupType, selectedTypeData, selectedTypeIcon, selectedTypeLabel, selectedTypeDescription, currentInquiryGroup, currentTitle, currentDescription, currentBreadcrumbTitle, currentIcon, filteredGroups, groupsCount, totalInquiriesInType, groupInquiries, totalInquiries, groupedInquiries, inquiryTypeCounts, childGroups, parentGroups, allowedResponseTypes, getNextcloudPreviewUrl, getCoverUrl, getGroupTypeIcon, getInquiryTypeIcon, getInquiryTypeLabel, getTypeLabel, getDisplayModeForType, truncateText, stripHtml, getStatusText, formatDate, isOwnerOrAdmin, groupTypeIcon, navigateToHome, selectGroup, navigateToInquiry, navigateToCreateInquiry, createInquiry, createNewGroup, handleModify, handleDelete: handleDelete2, handleAddResponse, get t() {
       return translate;
     }, get NcAppContent() {
       return NcAppContent;
     }, get NcButton() {
       return NcButton;
-    }, get NcEmptyContent() {
-      return NcEmptyContent;
-    }, InquiryCreateDlg, InquiryGroupCreateDlg, InquiryGroupEditViewForm, get AgoraAppIcon() {
-      return AgoraAppIcon;
-    }, get getInquiryItemData() {
-      return getInquiryItemData;
+    }, get NcActions() {
+      return NcActions;
+    }, get NcActionButton() {
+      return NcActionButton;
+    }, get InquiryGeneralIcons() {
+      return InquiryGeneralIcons;
+    }, get getInquiryGroupTypeData() {
+      return getInquiryGroupTypeData;
+    }, get getInquiryTypeData() {
+      return getInquiryTypeData;
     } };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
 });
-const _hoisted_1$k = { class: "page-title" };
-const _hoisted_2$d = { class: "title-icon" };
-const _hoisted_3$d = { class: "page-title" };
-const _hoisted_4$b = { class: "title-icon" };
-const _hoisted_5$7 = { class: "header-actions" };
-const _hoisted_6$5 = { class: "action-buttons" };
-const _hoisted_7$5 = {
+const _hoisted_1$k = { class: "inquiry-group-page" };
+const _hoisted_2$d = { class: "breadcrumb-bar theme-dark" };
+const _hoisted_3$d = { class: "breadcrumb-container" };
+const _hoisted_4$b = { class: "breadcrumb-label" };
+const _hoisted_5$7 = { class: "breadcrumb-item-content" };
+const _hoisted_6$5 = { class: "breadcrumb-label" };
+const _hoisted_7$5 = { class: "breadcrumb-current" };
+const _hoisted_8$5 = { class: "breadcrumb-current-content" };
+const _hoisted_9$5 = { class: "breadcrumb-label" };
+const _hoisted_10$5 = {
   key: 0,
-  class: "inquiry-groups-list-view"
+  class: "inquiry-count"
 };
-const _hoisted_8$5 = { class: "main-inquiry-group-section" };
-const _hoisted_9$5 = { class: "type-hero-section" };
-const _hoisted_10$5 = { class: "type-hero-content" };
-const _hoisted_11$5 = { class: "type-icon-large" };
-const _hoisted_12$5 = { class: "type-hero-title" };
-const _hoisted_13$4 = { class: "type-hero-description" };
-const _hoisted_14$4 = {
+const _hoisted_11$5 = { class: "group-header" };
+const _hoisted_12$5 = { class: "header-left" };
+const _hoisted_13$4 = { class: "group-icon-badge" };
+const _hoisted_14$4 = { class: "group-title-section" };
+const _hoisted_15$4 = { class: "group-title" };
+const _hoisted_16$4 = { class: "group-subtitle" };
+const _hoisted_17$4 = {
   key: 0,
-  class: "root-groups-section"
+  class: "inquiry-count-badge"
 };
-const _hoisted_15$4 = { class: "section-title" };
-const _hoisted_16$4 = { class: "section-description" };
-const _hoisted_17$4 = { class: "root-groups-grid" };
-const _hoisted_18$4 = ["onClick"];
-const _hoisted_19$4 = { class: "card-header" };
-const _hoisted_20$4 = { class: "card-icon" };
-const _hoisted_21$4 = { class: "card-title" };
-const _hoisted_22$4 = { class: "card-description" };
-const _hoisted_23$4 = { class: "card-stats" };
-const _hoisted_24$4 = { class: "stat" };
-const _hoisted_25$4 = { class: "stat-label" };
-const _hoisted_26$4 = { class: "stat-value" };
-const _hoisted_27$4 = { class: "stat" };
-const _hoisted_28$2 = { class: "stat-label" };
-const _hoisted_29$2 = { class: "stat-value" };
-const _hoisted_30$2 = { class: "card-actions" };
-const _hoisted_31$2 = { class: "type-section-header" };
-const _hoisted_32$2 = { class: "type-section-title" };
-const _hoisted_33$2 = { class: "type-section-icon" };
-const _hoisted_34$1 = { class: "type-section-description" };
-const _hoisted_35$1 = { class: "type-groups-grid" };
-const _hoisted_36$1 = ["onClick"];
-const _hoisted_37$1 = { class: "type-group-icon" };
-const _hoisted_38$1 = { class: "type-group-title" };
-const _hoisted_39$1 = { class: "type-group-description" };
-const _hoisted_40$1 = { class: "type-group-count" };
-const _hoisted_41$1 = ["onClick"];
-const _hoisted_42 = { class: "add-new-title" };
-const _hoisted_43 = { class: "add-new-description" };
+const _hoisted_18$4 = {
+  key: 1,
+  class: "groups-count-badge"
+};
+const _hoisted_19$4 = {
+  key: 0,
+  class: "loading-state"
+};
+const _hoisted_20$4 = { class: "type-overview" };
+const _hoisted_21$4 = { class: "type-info-card" };
+const _hoisted_22$4 = { class: "type-icon-large" };
+const _hoisted_23$4 = { class: "type-content" };
+const _hoisted_24$4 = { class: "type-description" };
+const _hoisted_25$4 = { class: "type-meta" };
+const _hoisted_26$4 = { class: "type-groups-count" };
+const _hoisted_27$4 = { class: "count" };
+const _hoisted_28$2 = { class: "type-total-inquiries" };
+const _hoisted_29$2 = { class: "count" };
+const _hoisted_30$2 = { class: "groups-section" };
+const _hoisted_31$2 = { class: "section-header" };
+const _hoisted_32$2 = { class: "section-actions" };
+const _hoisted_33$2 = {
+  key: 0,
+  class: "groups-grid"
+};
+const _hoisted_34$1 = ["onClick"];
+const _hoisted_35$1 = {
+  key: 0,
+  class: "vignette-cover"
+};
+const _hoisted_36$1 = ["src", "alt"];
+const _hoisted_37$1 = { class: "vignette-content" };
+const _hoisted_38$1 = { class: "vignette-icon-badge" };
+const _hoisted_39$1 = {
+  key: 0,
+  class: "vignette-description"
+};
+const _hoisted_40$1 = { class: "vignette-stats" };
+const _hoisted_41$1 = { class: "stat-item" };
+const _hoisted_42 = { class: "stat-value" };
+const _hoisted_43 = { class: "stat-label" };
 const _hoisted_44 = {
+  key: 0,
+  class: "stat-item"
+};
+const _hoisted_45 = { class: "stat-value" };
+const _hoisted_46 = { class: "stat-label" };
+const _hoisted_47 = {
   key: 1,
-  class: "empty-state"
+  class: "stat-item"
 };
-const _hoisted_45 = { class: "create-first-actions" };
-const _hoisted_46 = { class: "inquiry-group-detail-view" };
-const _hoisted_47 = { class: "inquiry-group-hero" };
-const _hoisted_48 = { class: "inquiry-group-hero-content" };
-const _hoisted_49 = { class: "inquiry-group-title" };
-const _hoisted_50 = { class: "inquiry-group-icon" };
-const _hoisted_51 = { class: "inquiry-group-description" };
-const _hoisted_52 = { class: "inquiry-group-meta" };
-const _hoisted_53 = { class: "meta-item" };
-const _hoisted_54 = {
-  key: 0,
-  class: "inquiry-group-admin-actions"
-};
-const _hoisted_55 = { class: "navigation-tabs" };
-const _hoisted_56 = { class: "tabs-container" };
-const _hoisted_57 = ["onClick"];
-const _hoisted_58 = { class: "tab-icon" };
-const _hoisted_59 = { class: "tab-label" };
-const _hoisted_60 = { class: "content-area" };
-const _hoisted_61 = {
-  key: 0,
-  class: "content-section"
-};
-const _hoisted_62 = { class: "stats-grid" };
-const _hoisted_63 = { class: "stat-card" };
-const _hoisted_64 = { class: "stat-value" };
-const _hoisted_65 = { class: "stat-label" };
-const _hoisted_66 = { class: "stat-card" };
-const _hoisted_67 = { class: "stat-value" };
-const _hoisted_68 = { class: "stat-label" };
-const _hoisted_69 = { class: "stat-card" };
-const _hoisted_70 = { class: "stat-value" };
-const _hoisted_71 = { class: "stat-label" };
-const _hoisted_72 = {
-  key: 0,
-  class: "child-groups-by-type-preview"
-};
-const _hoisted_73 = { class: "preview-title" };
-const _hoisted_74 = { class: "child-type-title" };
-const _hoisted_75 = { class: "child-type-icon" };
-const _hoisted_76 = { class: "child-type-grid" };
-const _hoisted_77 = ["onClick"];
-const _hoisted_78 = { class: "child-group-preview-icon" };
-const _hoisted_79 = { class: "child-group-preview-title" };
-const _hoisted_80 = { class: "child-group-preview-description" };
-const _hoisted_81 = { class: "child-group-preview-count" };
-const _hoisted_82 = ["onClick"];
-const _hoisted_83 = { class: "add-new-preview-title" };
-const _hoisted_84 = { class: "add-new-preview-description" };
-const _hoisted_85 = {
+const _hoisted_48 = { class: "stat-value" };
+const _hoisted_49 = { class: "stat-label" };
+const _hoisted_50 = { class: "vignette-footer" };
+const _hoisted_51 = {
   key: 1,
-  class: "content-section"
+  class: "empty-groups-state"
 };
-const _hoisted_86 = { class: "section-header-with-action" };
-const _hoisted_87 = { class: "section-title" };
-const _hoisted_88 = { class: "child-group-actions" };
+const _hoisted_52 = { class: "group-detail-view" };
+const _hoisted_53 = {
+  key: 0,
+  class: "group-banner"
+};
+const _hoisted_54 = ["src", "alt"];
+const _hoisted_55 = { class: "banner-overlay" };
+const _hoisted_56 = { class: "banner-description" };
+const _hoisted_57 = {
+  key: 0,
+  class: "banner-actions"
+};
+const _hoisted_58 = { class: "layout-container" };
+const _hoisted_59 = { class: "main-content" };
+const _hoisted_60 = {
+  key: 0,
+  class: "section-child-groups"
+};
+const _hoisted_61 = { class: "section-title" };
+const _hoisted_62 = { class: "children-grid" };
+const _hoisted_63 = ["onClick"];
+const _hoisted_64 = { class: "child-icon" };
+const _hoisted_65 = { class: "child-info" };
+const _hoisted_66 = { key: 0 };
+const _hoisted_67 = {
+  key: 1,
+  class: "section-response-types"
+};
+const _hoisted_68 = { class: "section-title" };
+const _hoisted_69 = { class: "response-grid" };
+const _hoisted_70 = ["onClick"];
+const _hoisted_71 = { class: "inquiries-display" };
+const _hoisted_72 = { class: "section-title" };
+const _hoisted_73 = {
+  key: 0,
+  class: "inquiries-main"
+};
+const _hoisted_74 = ["onClick"];
+const _hoisted_75 = ["innerHTML"];
+const _hoisted_76 = { class: "inquiries-cards" };
+const _hoisted_77 = { class: "cards-grid" };
+const _hoisted_78 = ["onClick"];
+const _hoisted_79 = { class: "card-header" };
+const _hoisted_80 = {
+  key: 0,
+  class: "card-description"
+};
+const _hoisted_81 = { class: "card-footer" };
+const _hoisted_82 = { class: "inquiries-block" };
+const _hoisted_83 = { class: "block-list" };
+const _hoisted_84 = ["onClick"];
+const _hoisted_85 = { class: "block-content" };
+const _hoisted_86 = { class: "block-meta" };
+const _hoisted_87 = {
+  key: 0,
+  class: "date"
+};
+const _hoisted_88 = { class: "block-action" };
 const _hoisted_89 = {
-  key: 1,
-  class: "quick-create-buttons"
-};
-const _hoisted_90 = { class: "quick-create-label" };
-const _hoisted_91 = { class: "child-type-header" };
-const _hoisted_92 = { class: "child-type-header-icon" };
-const _hoisted_93 = {
   key: 0,
-  class: "child-groups-list"
+  class: "empty-inquiries-state"
 };
-const _hoisted_94 = ["onClick"];
-const _hoisted_95 = { class: "child-group-item-icon" };
-const _hoisted_96 = { class: "child-group-item-content" };
-const _hoisted_97 = { class: "child-group-item-title" };
-const _hoisted_98 = { class: "child-group-item-description" };
-const _hoisted_99 = { class: "child-group-item-meta" };
-const _hoisted_100 = { class: "meta-item" };
-const _hoisted_101 = { class: "meta-item" };
-const _hoisted_102 = {
-  key: 1,
-  class: "no-child-groups"
-};
-const _hoisted_103 = {
-  key: 0,
-  class: "no-child-groups-section"
-};
-const _hoisted_104 = {
-  key: 0,
-  class: "create-child-group-options"
-};
-const _hoisted_105 = { class: "child-type-options" };
-const _hoisted_106 = { class: "option-icon" };
-const _hoisted_107 = {
-  key: 2,
-  class: "content-section"
-};
-const _hoisted_108 = { class: "section-header-with-action" };
-const _hoisted_109 = { class: "section-title" };
-const _hoisted_110 = { class: "inquiry-type-title" };
-const _hoisted_111 = { class: "inquiries-grid" };
-const _hoisted_112 = ["onClick"];
-const _hoisted_113 = { class: "inquiry-card-header" };
-const _hoisted_114 = { class: "inquiry-icon" };
-const _hoisted_115 = { class: "inquiry-title" };
-const _hoisted_116 = { class: "inquiry-description" };
-const _hoisted_117 = { class: "inquiry-status" };
-const _hoisted_118 = {
-  key: 0,
-  class: "creation-section"
-};
-const _hoisted_119 = { class: "creation-title" };
-const _hoisted_120 = { class: "creation-cards" };
-const _hoisted_121 = ["onClick"];
-const _hoisted_122 = { class: "creation-icon" };
-const _hoisted_123 = { class: "creation-content" };
-const _hoisted_124 = { class: "right-sidebar" };
-const _hoisted_125 = { class: "sidebar-section" };
-const _hoisted_126 = { class: "sidebar-title" };
-const _hoisted_127 = { class: "sidebar-list" };
-const _hoisted_128 = { class: "sidebar-icon" };
-const _hoisted_129 = { class: "sidebar-label" };
-const _hoisted_130 = { class: "sidebar-count" };
-const _hoisted_131 = {
+const _hoisted_90 = { class: "sidebar" };
+const _hoisted_91 = {
   key: 0,
   class: "sidebar-section"
 };
-const _hoisted_132 = { class: "sidebar-title" };
-const _hoisted_133 = { class: "sidebar-list" };
-const _hoisted_134 = { class: "sidebar-icon" };
-const _hoisted_135 = { class: "sidebar-label" };
-const _hoisted_136 = { class: "sidebar-section" };
-const _hoisted_137 = { class: "sidebar-title" };
-const _hoisted_138 = { class: "sidebar-info" };
-const _hoisted_139 = { class: "info-item" };
-const _hoisted_140 = { class: "info-label" };
-const _hoisted_141 = { class: "info-value" };
-const _hoisted_142 = { class: "info-item" };
-const _hoisted_143 = { class: "info-label" };
-const _hoisted_144 = { class: "info-value" };
-const _hoisted_145 = { class: "info-item" };
-const _hoisted_146 = { class: "info-label" };
-const _hoisted_147 = { class: "info-value" };
+const _hoisted_92 = { class: "description-text" };
+const _hoisted_93 = { class: "sidebar-section types-summary" };
+const _hoisted_94 = { class: "types-list" };
+const _hoisted_95 = { class: "type-label" };
+const _hoisted_96 = { class: "type-count" };
+const _hoisted_97 = {
+  key: 0,
+  class: "type-item"
+};
+const _hoisted_98 = { class: "type-label" };
+const _hoisted_99 = { class: "not-found-state" };
 function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createBlock(
-    $setup["NcAppContent"],
-    { class: "inquiry-groups" },
-    createSlots({
-      default: withCtx(() => [
-        createBaseVNode("div", _hoisted_5$7, [
-          $setup.currentInquiryGroupId ? (openBlock(), createBlock($setup["NcButton"], {
-            key: 0,
-            class: "back-button",
-            onClick: $setup.backToGroups
-          }, {
-            default: withCtx(() => [
-              _cache[7] || (_cache[7] = createBaseVNode(
-                "span",
-                { class: "back-button__icon" },
-                "←",
-                -1
-                /* CACHED */
-              )),
-              createTextVNode(
-                " " + toDisplayString($setup.t("inquiries", "Back to")) + " " + toDisplayString($setup.getGroupLabel($setup.defaultInquiryGroupType?.type || "default")),
-                1
-                /* TEXT */
-              )
-            ]),
-            _: 1
-            /* STABLE */
-          })) : createCommentVNode("v-if", true),
-          createBaseVNode("div", _hoisted_6$5, [
-            $setup.currentInquiryGroupId && $setup.inquiryGroupStore.permissions.edit ? (openBlock(), createBlock($setup["NcButton"], {
-              key: 0,
-              type: "primary",
-              onClick: $setup.editInquiryGroup
+  return openBlock(), createBlock($setup["NcAppContent"], { class: "inquiry-group-page" }, {
+    default: withCtx(() => [
+      createBaseVNode("div", _hoisted_1$k, [
+        createCommentVNode(" Enhanced Breadcrumb with better spacing "),
+        createBaseVNode("div", _hoisted_2$d, [
+          createBaseVNode("div", _hoisted_3$d, [
+            createCommentVNode(" Home Button with bigger icon "),
+            createVNode($setup["NcButton"], {
+              type: "tertiary",
+              class: "breadcrumb-home",
+              onClick: $setup.navigateToHome
             }, {
-              default: withCtx(() => [
-                createTextVNode(
-                  toDisplayString($setup.t("inquiries", "Modify")),
-                  1
-                  /* TEXT */
-                )
+              icon: withCtx(() => [
+                (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Home), { size: 24 }))
               ]),
-              _: 1
-              /* STABLE */
-            })) : createCommentVNode("v-if", true),
-            $setup.currentInquiryGroupId && $setup.inquiryGroupStore.permissions.delete ? (openBlock(), createBlock($setup["NcButton"], {
-              key: 1,
-              type: "error",
-              onClick: $setup.deleteInquiryGroup
-            }, {
               default: withCtx(() => [
-                createTextVNode(
-                  toDisplayString($setup.t("inquiries", "Delete")),
-                  1
-                  /* TEXT */
-                )
-              ]),
-              _: 1
-              /* STABLE */
-            })) : createCommentVNode("v-if", true),
-            $setup.currentInquiryGroupId && $setup.inquiryGroupStore.permissions.addInquiries && $setup.allowedInquiryTypes.length > 0 ? (openBlock(), createBlock($setup["NcButton"], {
-              key: 2,
-              type: "primary",
-              onClick: _cache[0] || (_cache[0] = ($event) => $setup.createInquiry($setup.allowedInquiryTypes[0].inquiry_type))
-            }, {
-              default: withCtx(() => [
-                createTextVNode(
-                  toDisplayString($setup.t("inquiries", "Create Inquiry")),
-                  1
-                  /* TEXT */
-                )
-              ]),
-              _: 1
-              /* STABLE */
-            })) : createCommentVNode("v-if", true),
-            $setup.currentInquiryGroupId && $setup.inquiryGroupStore.permissions.addInquiries && $setup.allowedResponseTypes.length > 0 ? (openBlock(), createBlock($setup["NcButton"], {
-              key: 3,
-              type: "secondary",
-              onClick: $setup.addAllowedResponse
-            }, {
-              default: withCtx(() => [
-                createTextVNode(
-                  toDisplayString($setup.t("inquiries", "Add Allowed Response")),
-                  1
-                  /* TEXT */
-                )
-              ]),
-              _: 1
-              /* STABLE */
-            })) : createCommentVNode("v-if", true)
-          ])
-        ]),
-        !$setup.currentInquiryGroupId ? (openBlock(), createElementBlock("div", _hoisted_7$5, [
-          createCommentVNode(" Main Inquiry Group Type Section "),
-          createBaseVNode("div", _hoisted_8$5, [
-            createBaseVNode("div", _hoisted_9$5, [
-              createBaseVNode("div", _hoisted_10$5, [
                 createBaseVNode(
-                  "div",
-                  _hoisted_11$5,
-                  toDisplayString($setup.defaultInquiryGroupType?.icon || "🏛️"),
-                  1
-                  /* TEXT */
-                ),
-                createBaseVNode(
-                  "h1",
-                  _hoisted_12$5,
-                  toDisplayString($setup.defaultInquiryGroupType?.label || $setup.t("inquiries", "Inquiry Groups")),
-                  1
-                  /* TEXT */
-                ),
-                createBaseVNode(
-                  "p",
-                  _hoisted_13$4,
-                  toDisplayString($setup.defaultInquiryGroupType?.description || $setup.t("inquiries", "Organize and manage your inquiries in groups")),
+                  "span",
+                  _hoisted_4$b,
+                  toDisplayString($setup.t("agora", "Home")),
                   1
                   /* TEXT */
                 )
-              ])
-            ]),
-            createCommentVNode(" Root Groups of Default Type "),
-            $setup.rootInquiryGroups.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_14$4, [
-              createBaseVNode(
-                "h2",
-                _hoisted_15$4,
-                toDisplayString($setup.getGroupLabel($setup.defaultInquiryGroupType?.type || "default")),
-                1
-                /* TEXT */
-              ),
-              createBaseVNode(
-                "p",
-                _hoisted_16$4,
-                toDisplayString($setup.t("inquiries", "Main groups for organizing inquiries and processes")),
-                1
-                /* TEXT */
-              ),
-              createBaseVNode("div", _hoisted_17$4, [
-                (openBlock(true), createElementBlock(
+              ]),
+              _: 1
+              /* STABLE */
+            }),
+            createCommentVNode(" Parent groups with better spacing "),
+            (openBlock(true), createElementBlock(
+              Fragment$1,
+              null,
+              renderList($setup.parentGroups, (parent, index) => {
+                return openBlock(), createElementBlock(
                   Fragment$1,
-                  null,
-                  renderList($setup.rootInquiryGroups, (group2, index) => {
-                    return openBlock(), createElementBlock("div", {
-                      key: group2.id,
-                      class: normalizeClass(["root-group-card", `root-group-card--${$setup.getGroupColor(index)}`]),
-                      onClick: ($event) => $setup.viewInquiryGroup(group2.id)
-                    }, [
-                      createBaseVNode("div", _hoisted_19$4, [
-                        createBaseVNode(
-                          "div",
-                          _hoisted_20$4,
-                          toDisplayString($setup.getGroupIcon(group2.type)),
-                          1
-                          /* TEXT */
-                        ),
-                        createBaseVNode(
-                          "h3",
-                          _hoisted_21$4,
-                          toDisplayString(group2.name || group2.title),
-                          1
-                          /* TEXT */
-                        )
-                      ]),
-                      createBaseVNode(
-                        "p",
-                        _hoisted_22$4,
-                        toDisplayString(group2.description),
-                        1
-                        /* TEXT */
-                      ),
-                      createBaseVNode("div", _hoisted_23$4, [
-                        createBaseVNode("div", _hoisted_24$4, [
-                          _cache[8] || (_cache[8] = createBaseVNode(
-                            "span",
-                            { class: "stat-icon" },
-                            "🧩",
-                            -1
-                            /* CACHED */
-                          )),
+                  {
+                    key: parent.id
+                  },
+                  [
+                    _cache[0] || (_cache[0] = createBaseVNode(
+                      "div",
+                      { class: "breadcrumb-separator" },
+                      "❯",
+                      -1
+                      /* CACHED */
+                    )),
+                    createVNode($setup["NcButton"], {
+                      type: "tertiary",
+                      class: "breadcrumb-item",
+                      onClick: ($event) => $setup.selectGroup(parent)
+                    }, {
+                      default: withCtx(() => [
+                        createBaseVNode("div", _hoisted_5$7, [
+                          (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryGroupTypeData(parent.type, $setup.sessionStore.appSettings.inquiryGroupTypeTab).icon), { class: "breadcrumb-icon" })),
                           createBaseVNode(
                             "span",
-                            _hoisted_25$4,
-                            toDisplayString($setup.t("inquiries", "Child Groups:")),
-                            1
-                            /* TEXT */
-                          ),
-                          createBaseVNode(
-                            "span",
-                            _hoisted_26$4,
-                            toDisplayString($setup.inquiryGroups.filter((g) => g.parent_id === group2.id).length),
-                            1
-                            /* TEXT */
-                          )
-                        ]),
-                        createBaseVNode("div", _hoisted_27$4, [
-                          _cache[9] || (_cache[9] = createBaseVNode(
-                            "span",
-                            { class: "stat-icon" },
-                            "📄",
-                            -1
-                            /* CACHED */
-                          )),
-                          createBaseVNode(
-                            "span",
-                            _hoisted_28$2,
-                            toDisplayString($setup.t("inquiries", "Inquiries:")),
-                            1
-                            /* TEXT */
-                          ),
-                          createBaseVNode(
-                            "span",
-                            _hoisted_29$2,
-                            toDisplayString(group2.inquiryIds?.length || 0),
+                            _hoisted_6$5,
+                            toDisplayString(parent.title),
                             1
                             /* TEXT */
                           )
                         ])
                       ]),
-                      createBaseVNode("div", _hoisted_30$2, [
-                        createVNode($setup["NcButton"], {
-                          type: "primary",
-                          class: "view-button"
+                      _: 2
+                      /* DYNAMIC */
+                    }, 1032, ["onClick"])
+                  ],
+                  64
+                  /* STABLE_FRAGMENT */
+                );
+              }),
+              128
+              /* KEYED_FRAGMENT */
+            )),
+            createCommentVNode(" Current group or type "),
+            _cache[1] || (_cache[1] = createBaseVNode(
+              "div",
+              { class: "breadcrumb-separator" },
+              "❯",
+              -1
+              /* CACHED */
+            )),
+            createBaseVNode("div", _hoisted_7$5, [
+              createBaseVNode("div", _hoisted_8$5, [
+                (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryGroupTypeData($setup.currentGroupType, $setup.sessionStore.appSettings.inquiryGroupTypeTab).icon), { class: "breadcrumb-icon" })),
+                createBaseVNode(
+                  "span",
+                  _hoisted_9$5,
+                  toDisplayString($setup.currentBreadcrumbTitle),
+                  1
+                  /* TEXT */
+                ),
+                $setup.totalInquiries > 0 ? (openBlock(), createElementBlock(
+                  "span",
+                  _hoisted_10$5,
+                  " (" + toDisplayString($setup.totalInquiries) + " " + toDisplayString($setup.t("agora", "inquiries")) + ") ",
+                  1
+                  /* TEXT */
+                )) : createCommentVNode("v-if", true)
+              ])
+            ])
+          ])
+        ]),
+        createCommentVNode(" White Separation Line "),
+        _cache[12] || (_cache[12] = createBaseVNode(
+          "div",
+          { class: "separation-line" },
+          null,
+          -1
+          /* CACHED */
+        )),
+        createCommentVNode(" Main Content "),
+        createCommentVNode(" Header Section "),
+        createBaseVNode("div", _hoisted_11$5, [
+          createBaseVNode("div", _hoisted_12$5, [
+            createBaseVNode("div", _hoisted_13$4, [
+              (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryGroupTypeData($setup.currentGroupType, $setup.sessionStore.appSettings.inquiryGroupTypeTab).icon), { class: "group-icon" }))
+            ]),
+            createBaseVNode("div", _hoisted_14$4, [
+              createCommentVNode(" TITLE: When no slug, use type label. When slug exists, use group title "),
+              createBaseVNode(
+                "h1",
+                _hoisted_15$4,
+                toDisplayString($setup.currentTitle),
+                1
+                /* TEXT */
+              ),
+              createCommentVNode(" SUBTITLE: When no slug, use type description. When slug exists, use group subtitle "),
+              createBaseVNode("div", _hoisted_16$4, [
+                createBaseVNode(
+                  "p",
+                  null,
+                  toDisplayString($setup.currentDescription),
+                  1
+                  /* TEXT */
+                ),
+                $setup.totalInquiries > 0 && $setup.hasSlug ? (openBlock(), createElementBlock(
+                  "span",
+                  _hoisted_17$4,
+                  toDisplayString($setup.totalInquiries) + " " + toDisplayString($setup.t("agora", "inquiries")),
+                  1
+                  /* TEXT */
+                )) : createCommentVNode("v-if", true),
+                $setup.groupsCount > 0 && !$setup.hasSlug ? (openBlock(), createElementBlock(
+                  "span",
+                  _hoisted_18$4,
+                  toDisplayString($setup.groupsCount) + " " + toDisplayString($setup.t("agora", "groups")),
+                  1
+                  /* TEXT */
+                )) : createCommentVNode("v-if", true)
+              ])
+            ])
+          ])
+        ]),
+        createCommentVNode(" Loading State "),
+        $setup.isLoading ? (openBlock(), createElementBlock("div", _hoisted_19$4, [
+          _cache[2] || (_cache[2] = createBaseVNode(
+            "div",
+            { class: "spinner" },
+            null,
+            -1
+            /* CACHED */
+          )),
+          createBaseVNode(
+            "p",
+            null,
+            toDisplayString($setup.t("agora", "Loading...")),
+            1
+            /* TEXT */
+          )
+        ])) : !$setup.hasSlug ? (openBlock(), createElementBlock(
+          Fragment$1,
+          { key: 1 },
+          [
+            createCommentVNode(" SCENARIO 1: No slug selected - Show group type overview "),
+            createBaseVNode("div", _hoisted_20$4, [
+              createCommentVNode(" Type Information Card "),
+              createBaseVNode("div", _hoisted_21$4, [
+                createBaseVNode("div", _hoisted_22$4, [
+                  (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryGroupTypeData($setup.currentGroupType, $setup.sessionStore.appSettings.inquiryGroupTypeTab).icon), { class: "type-icon-large" }))
+                ]),
+                createBaseVNode("div", _hoisted_23$4, [
+                  createBaseVNode(
+                    "h2",
+                    null,
+                    toDisplayString($setup.selectedTypeLabel),
+                    1
+                    /* TEXT */
+                  ),
+                  createBaseVNode(
+                    "p",
+                    _hoisted_24$4,
+                    toDisplayString($setup.selectedTypeDescription),
+                    1
+                    /* TEXT */
+                  ),
+                  createBaseVNode("div", _hoisted_25$4, [
+                    createBaseVNode("span", _hoisted_26$4, [
+                      createBaseVNode(
+                        "span",
+                        _hoisted_27$4,
+                        toDisplayString($setup.filteredGroups.length),
+                        1
+                        /* TEXT */
+                      ),
+                      createTextVNode(
+                        " " + toDisplayString($setup.t("agora", "groups available")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    createBaseVNode("span", _hoisted_28$2, [
+                      createBaseVNode(
+                        "span",
+                        _hoisted_29$2,
+                        toDisplayString($setup.totalInquiriesInType),
+                        1
+                        /* TEXT */
+                      ),
+                      createTextVNode(
+                        " " + toDisplayString($setup.t("agora", "total inquiries")),
+                        1
+                        /* TEXT */
+                      )
+                    ])
+                  ])
+                ])
+              ]),
+              createCommentVNode(" Groups Grid for this type "),
+              createBaseVNode("div", _hoisted_30$2, [
+                createBaseVNode("div", _hoisted_31$2, [
+                  createBaseVNode(
+                    "h3",
+                    null,
+                    toDisplayString($setup.t("agora", "Available Groups")),
+                    1
+                    /* TEXT */
+                  ),
+                  createBaseVNode("div", _hoisted_32$2, [
+                    $setup.filteredGroups.length === 0 ? (openBlock(), createBlock($setup["NcButton"], {
+                      key: 0,
+                      onClick: $setup.createNewGroup,
+                      type: "primary"
+                    }, {
+                      default: withCtx(() => [
+                        createTextVNode(
+                          " ➕ " + toDisplayString($setup.t("agora", "Create First Group")),
+                          1
+                          /* TEXT */
+                        )
+                      ]),
+                      _: 1
+                      /* STABLE */
+                    })) : createCommentVNode("v-if", true)
+                  ])
+                ]),
+                $setup.filteredGroups.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_33$2, [
+                  (openBlock(true), createElementBlock(
+                    Fragment$1,
+                    null,
+                    renderList($setup.filteredGroups, (group2) => {
+                      return openBlock(), createElementBlock("div", {
+                        key: group2.id,
+                        class: "group-vignette",
+                        onClick: ($event) => $setup.selectGroup(group2)
+                      }, [
+                        group2.coverId ? (openBlock(), createElementBlock("div", _hoisted_35$1, [
+                          createBaseVNode("img", {
+                            src: $setup.getCoverUrl(group2.coverId),
+                            alt: group2.title
+                          }, null, 8, _hoisted_36$1),
+                          _cache[3] || (_cache[3] = createBaseVNode(
+                            "div",
+                            { class: "vignette-cover-overlay" },
+                            null,
+                            -1
+                            /* CACHED */
+                          ))
+                        ])) : createCommentVNode("v-if", true),
+                        createBaseVNode("div", _hoisted_37$1, [
+                          createBaseVNode("div", _hoisted_38$1, [
+                            (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryGroupTypeData(group2.type, $setup.sessionStore.appSettings.inquiryGroupTypeTab).icon), { class: "vignette-icon-badge" }))
+                          ]),
+                          createBaseVNode(
+                            "h4",
+                            null,
+                            toDisplayString(group2.title),
+                            1
+                            /* TEXT */
+                          ),
+                          group2.description ? (openBlock(), createElementBlock(
+                            "p",
+                            _hoisted_39$1,
+                            toDisplayString($setup.truncateText(group2.description, 120)),
+                            1
+                            /* TEXT */
+                          )) : createCommentVNode("v-if", true),
+                          createBaseVNode("div", _hoisted_40$1, [
+                            createBaseVNode("div", _hoisted_41$1, [
+                              _cache[4] || (_cache[4] = createBaseVNode(
+                                "span",
+                                { class: "stat-icon" },
+                                "📝",
+                                -1
+                                /* CACHED */
+                              )),
+                              createBaseVNode(
+                                "span",
+                                _hoisted_42,
+                                toDisplayString(group2.inquiryIds?.length || 0),
+                                1
+                                /* TEXT */
+                              ),
+                              createBaseVNode(
+                                "span",
+                                _hoisted_43,
+                                toDisplayString($setup.t("agora", "inquiries")),
+                                1
+                                /* TEXT */
+                              )
+                            ]),
+                            group2.children?.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_44, [
+                              _cache[5] || (_cache[5] = createBaseVNode(
+                                "span",
+                                { class: "stat-icon" },
+                                "👥",
+                                -1
+                                /* CACHED */
+                              )),
+                              createBaseVNode(
+                                "span",
+                                _hoisted_45,
+                                toDisplayString(group2.children.length),
+                                1
+                                /* TEXT */
+                              ),
+                              createBaseVNode(
+                                "span",
+                                _hoisted_46,
+                                toDisplayString($setup.t("agora", "subgroups")),
+                                1
+                                /* TEXT */
+                              )
+                            ])) : createCommentVNode("v-if", true),
+                            group2.members?.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_47, [
+                              _cache[6] || (_cache[6] = createBaseVNode(
+                                "span",
+                                { class: "stat-icon" },
+                                "👤",
+                                -1
+                                /* CACHED */
+                              )),
+                              createBaseVNode(
+                                "span",
+                                _hoisted_48,
+                                toDisplayString(group2.members.length),
+                                1
+                                /* TEXT */
+                              ),
+                              createBaseVNode(
+                                "span",
+                                _hoisted_49,
+                                toDisplayString($setup.t("agora", "members")),
+                                1
+                                /* TEXT */
+                              )
+                            ])) : createCommentVNode("v-if", true)
+                          ]),
+                          createBaseVNode("div", _hoisted_50, [
+                            createVNode($setup["NcButton"], {
+                              class: "view-group-button",
+                              onClick: withModifiers(($event) => $setup.selectGroup(group2), ["stop"])
+                            }, {
+                              icon: withCtx(() => [..._cache[7] || (_cache[7] = [
+                                createBaseVNode(
+                                  "svg",
+                                  {
+                                    width: "16",
+                                    height: "16",
+                                    viewBox: "0 0 24 24"
+                                  },
+                                  [
+                                    createBaseVNode("path", { d: "M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" })
+                                  ],
+                                  -1
+                                  /* CACHED */
+                                )
+                              ])]),
+                              default: withCtx(() => [
+                                createTextVNode(
+                                  toDisplayString($setup.t("agora", "View Group")) + " ",
+                                  1
+                                  /* TEXT */
+                                )
+                              ]),
+                              _: 2
+                              /* DYNAMIC */
+                            }, 1032, ["onClick"])
+                          ])
+                        ])
+                      ], 8, _hoisted_34$1);
+                    }),
+                    128
+                    /* KEYED_FRAGMENT */
+                  ))
+                ])) : (openBlock(), createElementBlock("div", _hoisted_51, [
+                  _cache[8] || (_cache[8] = createBaseVNode(
+                    "div",
+                    { class: "empty-state-icon" },
+                    "🏛️",
+                    -1
+                    /* CACHED */
+                  )),
+                  createBaseVNode(
+                    "h3",
+                    null,
+                    toDisplayString($setup.t("agora", "No groups yet")),
+                    1
+                    /* TEXT */
+                  ),
+                  createBaseVNode(
+                    "p",
+                    null,
+                    toDisplayString($setup.t("agora", "Be the first to create a group for this type")),
+                    1
+                    /* TEXT */
+                  ),
+                  createVNode($setup["NcButton"], {
+                    onClick: $setup.createNewGroup,
+                    type: "primary"
+                  }, {
+                    default: withCtx(() => [
+                      createTextVNode(
+                        " ➕ " + toDisplayString($setup.t("agora", "Create New Group")),
+                        1
+                        /* TEXT */
+                      )
+                    ]),
+                    _: 1
+                    /* STABLE */
+                  })
+                ]))
+              ])
+            ])
+          ],
+          2112
+          /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+        )) : $setup.currentInquiryGroup ? (openBlock(), createElementBlock(
+          Fragment$1,
+          { key: 2 },
+          [
+            createCommentVNode(" SCENARIO 2: Specific group selected - Show group details "),
+            createBaseVNode("div", _hoisted_52, [
+              createCommentVNode(" Banner Section "),
+              $setup.currentInquiryGroup.coverId ? (openBlock(), createElementBlock("div", _hoisted_53, [
+                createBaseVNode("img", {
+                  src: $setup.getCoverUrl($setup.currentInquiryGroup.coverId),
+                  alt: $setup.currentInquiryGroup.title,
+                  class: "banner-image"
+                }, null, 8, _hoisted_54),
+                createBaseVNode("div", _hoisted_55, [
+                  createBaseVNode(
+                    "div",
+                    _hoisted_56,
+                    toDisplayString($setup.currentInquiryGroup.description || $setup.t("agora", "No description available")),
+                    1
+                    /* TEXT */
+                  ),
+                  $setup.isOwnerOrAdmin ? (openBlock(), createElementBlock("div", _hoisted_57, [
+                    createVNode($setup["NcActions"], { class: "actions-hover" }, {
+                      default: withCtx(() => [
+                        createVNode($setup["NcActionButton"], { onClick: $setup.handleModify }, {
+                          default: withCtx(() => [
+                            createTextVNode(
+                              " ✏️ " + toDisplayString($setup.t("agora", "Modify")),
+                              1
+                              /* TEXT */
+                            )
+                          ]),
+                          _: 1
+                          /* STABLE */
+                        }),
+                        createVNode($setup["NcActionButton"], {
+                          class: "danger",
+                          onClick: $setup.handleDelete
                         }, {
                           default: withCtx(() => [
                             createTextVNode(
-                              toDisplayString($setup.t("inquiries", "View >")),
+                              " 🗑️ " + toDisplayString($setup.t("agora", "Delete")),
+                              1
+                              /* TEXT */
+                            )
+                          ]),
+                          _: 1
+                          /* STABLE */
+                        }),
+                        createVNode($setup["NcActionButton"], { onClick: $setup.handleAddResponse }, {
+                          default: withCtx(() => [
+                            createTextVNode(
+                              " ➕ " + toDisplayString($setup.t("agora", "Add Allowed Response")),
                               1
                               /* TEXT */
                             )
@@ -64410,965 +64187,439 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
                           _: 1
                           /* STABLE */
                         })
-                      ])
-                    ], 10, _hoisted_18$4);
-                  }),
-                  128
-                  /* KEYED_FRAGMENT */
-                ))
-              ])
-            ])) : createCommentVNode("v-if", true),
-            createCommentVNode(" Child Groups by Type "),
-            (openBlock(true), createElementBlock(
-              Fragment$1,
-              null,
-              renderList($setup.childGroupsByType, (typeGroups, typeKey) => {
-                return openBlock(), createElementBlock("div", {
-                  key: typeKey,
-                  class: "child-groups-by-type-section"
-                }, [
-                  createBaseVNode("div", _hoisted_31$2, [
-                    createBaseVNode("h2", _hoisted_32$2, [
-                      createBaseVNode(
-                        "span",
-                        _hoisted_33$2,
-                        toDisplayString($setup.getGroupIcon(typeKey)),
-                        1
-                        /* TEXT */
-                      ),
-                      createTextVNode(
-                        " " + toDisplayString($setup.getGroupLabel(typeKey)),
-                        1
-                        /* TEXT */
-                      )
-                    ]),
+                      ]),
+                      _: 1
+                      /* STABLE */
+                    })
+                  ])) : createCommentVNode("v-if", true)
+                ])
+              ])) : createCommentVNode("v-if", true),
+              createCommentVNode(" Two Column Layout "),
+              createBaseVNode("div", _hoisted_58, [
+                createCommentVNode(" Main Content Column "),
+                createBaseVNode("div", _hoisted_59, [
+                  createCommentVNode(" Child Groups Section "),
+                  $setup.childGroups.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_60, [
                     createBaseVNode(
-                      "p",
-                      _hoisted_34$1,
-                      toDisplayString($setup.getGroupDescription(typeKey)),
-                      1
-                      /* TEXT */
-                    )
-                  ]),
-                  createBaseVNode("div", _hoisted_35$1, [
-                    (openBlock(true), createElementBlock(
-                      Fragment$1,
-                      null,
-                      renderList(typeGroups, (group2) => {
-                        return openBlock(), createElementBlock("div", {
-                          key: group2.id,
-                          class: "type-group-card",
-                          onClick: ($event) => $setup.viewInquiryGroup(group2.id)
-                        }, [
-                          createBaseVNode(
-                            "div",
-                            _hoisted_37$1,
-                            toDisplayString($setup.getGroupIcon(group2.type)),
-                            1
-                            /* TEXT */
-                          ),
-                          createBaseVNode(
-                            "h3",
-                            _hoisted_38$1,
-                            toDisplayString(group2.name || group2.title),
-                            1
-                            /* TEXT */
-                          ),
-                          createBaseVNode(
-                            "p",
-                            _hoisted_39$1,
-                            toDisplayString(group2.description),
-                            1
-                            /* TEXT */
-                          ),
-                          createBaseVNode(
-                            "div",
-                            _hoisted_40$1,
-                            toDisplayString(group2.inquiryIds?.length || 0) + " " + toDisplayString($setup.t("inquiries", "inquiries")),
-                            1
-                            /* TEXT */
-                          )
-                        ], 8, _hoisted_36$1);
-                      }),
-                      128
-                      /* KEYED_FRAGMENT */
-                    )),
-                    createCommentVNode(" Add new group card "),
-                    createBaseVNode("div", {
-                      class: "type-group-card add-new-card",
-                      onClick: ($event) => $setup.createChildGroup(typeKey)
-                    }, [
-                      _cache[10] || (_cache[10] = createBaseVNode(
-                        "div",
-                        { class: "add-new-icon" },
-                        "+",
-                        -1
-                        /* CACHED */
-                      )),
-                      createBaseVNode(
-                        "h3",
-                        _hoisted_42,
-                        toDisplayString($setup.t("inquiries", "Create New")),
-                        1
-                        /* TEXT */
-                      ),
-                      createBaseVNode(
-                        "p",
-                        _hoisted_43,
-                        toDisplayString($setup.t("inquiries", "Add a new")) + " " + toDisplayString($setup.getGroupLabel(typeKey).toLowerCase()),
-                        1
-                        /* TEXT */
-                      )
-                    ], 8, _hoisted_41$1)
-                  ])
-                ]);
-              }),
-              128
-              /* KEYED_FRAGMENT */
-            )),
-            createCommentVNode(" Empty state for root groups "),
-            $setup.rootInquiryGroups.length === 0 && Object.keys($setup.childGroupsByType).length === 0 ? (openBlock(), createElementBlock("div", _hoisted_44, [
-              createVNode($setup["NcEmptyContent"], {
-                name: $setup.t("inquiries", "No inquiry groups created"),
-                description: $setup.t("inquiries", "Create your first inquiry group to start organizing inquiries")
-              }, {
-                icon: withCtx(() => [
-                  createVNode($setup["AgoraAppIcon"])
-                ]),
-                _: 1
-                /* STABLE */
-              }, 8, ["name", "description"]),
-              createBaseVNode("div", _hoisted_45, [
-                createVNode($setup["NcButton"], {
-                  type: "primary",
-                  onClick: _cache[1] || (_cache[1] = ($event) => $setup.createChildGroup($setup.defaultInquiryGroupType?.type))
-                }, {
-                  default: withCtx(() => [
-                    createTextVNode(
-                      toDisplayString($setup.t("inquiries", "Create First")) + " " + toDisplayString($setup.getGroupLabel($setup.defaultInquiryGroupType?.type || "default")),
-                      1
-                      /* TEXT */
-                    )
-                  ]),
-                  _: 1
-                  /* STABLE */
-                })
-              ])
-            ])) : createCommentVNode("v-if", true)
-          ])
-        ])) : (openBlock(), createElementBlock(
-          Fragment$1,
-          { key: 1 },
-          [
-            createCommentVNode(" Inquiry Group Detail View "),
-            createBaseVNode("div", _hoisted_46, [
-              createCommentVNode(" Group Header "),
-              createBaseVNode("div", _hoisted_47, [
-                createBaseVNode("div", _hoisted_48, [
-                  createBaseVNode("h1", _hoisted_49, [
-                    createBaseVNode(
-                      "span",
-                      _hoisted_50,
-                      toDisplayString($setup.getGroupIcon($setup.currentInquiryGroup.type)),
+                      "h3",
+                      _hoisted_61,
+                      toDisplayString($setup.t("agora", "Subgroups")) + " (" + toDisplayString($setup.childGroups.length) + ") ",
                       1
                       /* TEXT */
                     ),
-                    createTextVNode(
-                      " " + toDisplayString($setup.currentInquiryGroup.name || $setup.currentInquiryGroup.title),
-                      1
-                      /* TEXT */
-                    )
-                  ]),
-                  createBaseVNode(
-                    "p",
-                    _hoisted_51,
-                    toDisplayString($setup.currentInquiryGroup.description),
-                    1
-                    /* TEXT */
-                  ),
-                  createBaseVNode("div", _hoisted_52, [
-                    createBaseVNode("span", _hoisted_53, [
-                      createBaseVNode(
-                        "strong",
+                    createBaseVNode("div", _hoisted_62, [
+                      (openBlock(true), createElementBlock(
+                        Fragment$1,
                         null,
-                        toDisplayString($setup.getGroupLabel($setup.currentInquiryGroup.type)),
-                        1
-                        /* TEXT */
-                      ),
-                      createTextVNode(
-                        " (" + toDisplayString($setup.inquiriesInGroup.length) + " " + toDisplayString($setup.t("inquiries", "inquiries")) + ") ",
-                        1
-                        /* TEXT */
-                      )
-                    ])
-                  ]),
-                  createCommentVNode(" Owner/Admin actions (visible on hover) "),
-                  $setup.inquiryGroupStore.permissions.edit ? (openBlock(), createElementBlock("div", _hoisted_54, [
-                    createVNode($setup["NcButton"], {
-                      type: "primary",
-                      onClick: $setup.editInquiryGroup
-                    }, {
-                      default: withCtx(() => [
-                        createTextVNode(
-                          toDisplayString($setup.t("inquiries", "Modify")),
-                          1
-                          /* TEXT */
-                        )
-                      ]),
-                      _: 1
-                      /* STABLE */
-                    }),
-                    createVNode($setup["NcButton"], {
-                      type: "error",
-                      onClick: $setup.deleteInquiryGroup
-                    }, {
-                      default: withCtx(() => [
-                        createTextVNode(
-                          toDisplayString($setup.t("inquiries", "Delete")),
-                          1
-                          /* TEXT */
-                        )
-                      ]),
-                      _: 1
-                      /* STABLE */
-                    }),
-                    $setup.allowedResponseTypes.length > 0 ? (openBlock(), createBlock($setup["NcButton"], {
-                      key: 0,
-                      type: "secondary",
-                      onClick: $setup.addAllowedResponse
-                    }, {
-                      default: withCtx(() => [
-                        createTextVNode(
-                          toDisplayString($setup.t("inquiries", "Add Allowed Response")),
-                          1
-                          /* TEXT */
-                        )
-                      ]),
-                      _: 1
-                      /* STABLE */
-                    })) : createCommentVNode("v-if", true)
-                  ])) : createCommentVNode("v-if", true)
-                ])
-              ]),
-              createCommentVNode(" Navigation Tabs "),
-              createBaseVNode("div", _hoisted_55, [
-                createBaseVNode("div", _hoisted_56, [
-                  (openBlock(true), createElementBlock(
-                    Fragment$1,
-                    null,
-                    renderList($setup.sections, (section) => {
-                      return openBlock(), createElementBlock("div", {
-                        key: section.id,
-                        class: normalizeClass(["tab-item", { "tab-item--active": $setup.activeSection === section.id }]),
-                        onClick: ($event) => $setup.activeSection = section.id
-                      }, [
-                        createBaseVNode(
-                          "span",
-                          _hoisted_58,
-                          toDisplayString(section.icon),
-                          1
-                          /* TEXT */
-                        ),
-                        createBaseVNode(
-                          "span",
-                          _hoisted_59,
-                          toDisplayString(section.title),
-                          1
-                          /* TEXT */
-                        )
-                      ], 10, _hoisted_57);
-                    }),
-                    128
-                    /* KEYED_FRAGMENT */
-                  ))
-                ])
-              ]),
-              createCommentVNode(" Content Area "),
-              createBaseVNode("div", _hoisted_60, [
-                createCommentVNode(" Overview Section "),
-                $setup.activeSection === "overview" ? (openBlock(), createElementBlock("div", _hoisted_61, [
-                  createBaseVNode("div", _hoisted_62, [
-                    createBaseVNode("div", _hoisted_63, [
-                      createBaseVNode(
-                        "div",
-                        _hoisted_64,
-                        toDisplayString($setup.childGroups.length),
-                        1
-                        /* TEXT */
-                      ),
-                      createBaseVNode(
-                        "div",
-                        _hoisted_65,
-                        toDisplayString($setup.t("inquiries", "Child Groups")),
-                        1
-                        /* TEXT */
-                      )
-                    ]),
-                    createBaseVNode("div", _hoisted_66, [
-                      createBaseVNode(
-                        "div",
-                        _hoisted_67,
-                        toDisplayString($setup.inquiriesInGroup.length),
-                        1
-                        /* TEXT */
-                      ),
-                      createBaseVNode(
-                        "div",
-                        _hoisted_68,
-                        toDisplayString($setup.t("inquiries", "Inquiries")),
-                        1
-                        /* TEXT */
-                      )
-                    ]),
-                    createBaseVNode("div", _hoisted_69, [
-                      createBaseVNode(
-                        "div",
-                        _hoisted_70,
-                        toDisplayString($setup.getGroupLabel($setup.currentInquiryGroup.type)),
-                        1
-                        /* TEXT */
-                      ),
-                      createBaseVNode(
-                        "div",
-                        _hoisted_71,
-                        toDisplayString($setup.t("inquiries", "Group Type")),
-                        1
-                        /* TEXT */
-                      )
-                    ])
-                  ]),
-                  createCommentVNode(" Child Groups by Type Preview "),
-                  Object.keys($setup.childGroupsByTypeForCurrent).length > 0 ? (openBlock(), createElementBlock("div", _hoisted_72, [
-                    createBaseVNode(
-                      "h3",
-                      _hoisted_73,
-                      toDisplayString($setup.t("inquiries", "Child Groups by Type")),
-                      1
-                      /* TEXT */
-                    ),
-                    (openBlock(true), createElementBlock(
-                      Fragment$1,
-                      null,
-                      renderList($setup.childGroupsByTypeForCurrent, (groups, typeKey) => {
-                        return openBlock(), createElementBlock("div", {
-                          key: typeKey,
-                          class: "child-type-section"
-                        }, [
-                          createBaseVNode("h4", _hoisted_74, [
-                            createBaseVNode(
-                              "span",
-                              _hoisted_75,
-                              toDisplayString($setup.getGroupIcon(typeKey)),
-                              1
-                              /* TEXT */
-                            ),
-                            createTextVNode(
-                              " " + toDisplayString($setup.getGroupLabel(typeKey)) + " (" + toDisplayString(groups.length) + ") ",
-                              1
-                              /* TEXT */
-                            )
-                          ]),
-                          createBaseVNode("div", _hoisted_76, [
-                            (openBlock(true), createElementBlock(
-                              Fragment$1,
-                              null,
-                              renderList(groups, (child) => {
-                                return openBlock(), createElementBlock("div", {
-                                  key: child.id,
-                                  class: "child-group-preview-card",
-                                  onClick: ($event) => $setup.viewInquiryGroup(child.id)
-                                }, [
-                                  createBaseVNode(
-                                    "div",
-                                    _hoisted_78,
-                                    toDisplayString($setup.getGroupIcon(child.type)),
-                                    1
-                                    /* TEXT */
-                                  ),
-                                  createBaseVNode(
-                                    "h5",
-                                    _hoisted_79,
-                                    toDisplayString(child.name || child.title),
-                                    1
-                                    /* TEXT */
-                                  ),
-                                  createBaseVNode(
-                                    "p",
-                                    _hoisted_80,
-                                    toDisplayString(child.description),
-                                    1
-                                    /* TEXT */
-                                  ),
-                                  createBaseVNode(
-                                    "div",
-                                    _hoisted_81,
-                                    toDisplayString(child.inquiryIds?.length || 0) + " " + toDisplayString($setup.t("inquiries", "inquiries")),
-                                    1
-                                    /* TEXT */
-                                  )
-                                ], 8, _hoisted_77);
-                              }),
-                              128
-                              /* KEYED_FRAGMENT */
-                            )),
-                            createCommentVNode(" Add new child group "),
-                            createBaseVNode("div", {
-                              class: "child-group-preview-card add-new-preview-card",
-                              onClick: ($event) => $setup.createChildGroup(typeKey)
-                            }, [
-                              _cache[11] || (_cache[11] = createBaseVNode(
-                                "div",
-                                { class: "add-new-preview-icon" },
-                                "+",
-                                -1
-                                /* CACHED */
-                              )),
-                              createBaseVNode(
-                                "h5",
-                                _hoisted_83,
-                                toDisplayString($setup.t("inquiries", "Add New")),
-                                1
-                                /* TEXT */
-                              ),
-                              createBaseVNode(
-                                "p",
-                                _hoisted_84,
-                                toDisplayString($setup.t("inquiries", "Create new")) + " " + toDisplayString($setup.getGroupLabel(typeKey).toLowerCase()),
-                                1
-                                /* TEXT */
-                              )
-                            ], 8, _hoisted_82)
-                          ])
-                        ]);
-                      }),
-                      128
-                      /* KEYED_FRAGMENT */
-                    ))
-                  ])) : createCommentVNode("v-if", true)
-                ])) : createCommentVNode("v-if", true),
-                createCommentVNode(" Child Groups Section "),
-                $setup.activeSection === "child-groups" ? (openBlock(), createElementBlock("div", _hoisted_85, [
-                  createBaseVNode("div", _hoisted_86, [
-                    createBaseVNode(
-                      "h3",
-                      _hoisted_87,
-                      toDisplayString($setup.t("inquiries", "Child Groups")),
-                      1
-                      /* TEXT */
-                    ),
-                    createBaseVNode("div", _hoisted_88, [
-                      $setup.allowedResponseTypes.length > 0 ? (openBlock(), createBlock($setup["NcButton"], {
-                        key: 0,
-                        type: "secondary",
-                        onClick: _cache[2] || (_cache[2] = ($event) => $setup.createChildGroup())
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(
-                            toDisplayString($setup.t("inquiries", "Create Child Group")),
-                            1
-                            /* TEXT */
-                          )
-                        ]),
-                        _: 1
-                        /* STABLE */
-                      })) : createCommentVNode("v-if", true),
-                      createCommentVNode(" Quick create buttons for allowed response types "),
-                      $setup.allowedResponseTypes.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_89, [
-                        createBaseVNode(
-                          "span",
-                          _hoisted_90,
-                          toDisplayString($setup.t("inquiries", "Quick create:")),
-                          1
-                          /* TEXT */
-                        ),
-                        (openBlock(true), createElementBlock(
-                          Fragment$1,
-                          null,
-                          renderList($setup.allowedResponseTypes, (responseType) => {
-                            return openBlock(), createBlock($setup["NcButton"], {
-                              key: responseType.type,
-                              type: "tertiary",
-                              size: "small",
-                              onClick: ($event) => $setup.createChildGroup(responseType.type)
-                            }, {
-                              default: withCtx(() => [
-                                createTextVNode(
-                                  toDisplayString(responseType.icon || "🧩") + " " + toDisplayString(responseType.label),
-                                  1
-                                  /* TEXT */
-                                )
-                              ]),
-                              _: 2
-                              /* DYNAMIC */
-                            }, 1032, ["onClick"]);
-                          }),
-                          128
-                          /* KEYED_FRAGMENT */
-                        ))
-                      ])) : createCommentVNode("v-if", true)
-                    ])
-                  ]),
-                  createCommentVNode(" Child Groups by Type "),
-                  (openBlock(true), createElementBlock(
-                    Fragment$1,
-                    null,
-                    renderList($setup.childGroupsByTypeForCurrent, (groups, typeKey) => {
-                      return openBlock(), createElementBlock("div", {
-                        key: typeKey,
-                        class: "child-groups-type-section"
-                      }, [
-                        createBaseVNode("h4", _hoisted_91, [
-                          createBaseVNode(
-                            "span",
-                            _hoisted_92,
-                            toDisplayString($setup.getGroupIcon(typeKey)),
-                            1
-                            /* TEXT */
-                          ),
-                          createTextVNode(
-                            " " + toDisplayString($setup.getGroupLabel(typeKey)) + " (" + toDisplayString(groups.length) + ") ",
-                            1
-                            /* TEXT */
-                          )
-                        ]),
-                        groups.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_93, [
-                          (openBlock(true), createElementBlock(
-                            Fragment$1,
-                            null,
-                            renderList(groups, (child) => {
-                              return openBlock(), createElementBlock("div", {
-                                key: child.id,
-                                class: "child-group-item",
-                                onClick: ($event) => $setup.viewInquiryGroup(child.id)
-                              }, [
-                                createBaseVNode(
-                                  "div",
-                                  _hoisted_95,
-                                  toDisplayString($setup.getGroupIcon(child.type)),
-                                  1
-                                  /* TEXT */
-                                ),
-                                createBaseVNode("div", _hoisted_96, [
-                                  createBaseVNode(
-                                    "h4",
-                                    _hoisted_97,
-                                    toDisplayString(child.name || child.title),
-                                    1
-                                    /* TEXT */
-                                  ),
-                                  createBaseVNode(
-                                    "p",
-                                    _hoisted_98,
-                                    toDisplayString(child.description),
-                                    1
-                                    /* TEXT */
-                                  ),
-                                  createBaseVNode("div", _hoisted_99, [
-                                    createBaseVNode(
-                                      "span",
-                                      _hoisted_100,
-                                      toDisplayString($setup.getGroupLabel(child.type)),
-                                      1
-                                      /* TEXT */
-                                    ),
-                                    _cache[12] || (_cache[12] = createBaseVNode(
-                                      "span",
-                                      { class: "meta-item" },
-                                      "•",
-                                      -1
-                                      /* CACHED */
-                                    )),
-                                    createBaseVNode(
-                                      "span",
-                                      _hoisted_101,
-                                      toDisplayString(child.inquiryIds?.length || 0) + " inquiries",
-                                      1
-                                      /* TEXT */
-                                    )
-                                  ])
-                                ]),
-                                _cache[13] || (_cache[13] = createBaseVNode(
-                                  "div",
-                                  { class: "child-group-item-arrow" },
-                                  "→",
-                                  -1
-                                  /* CACHED */
-                                ))
-                              ], 8, _hoisted_94);
-                            }),
-                            128
-                            /* KEYED_FRAGMENT */
-                          ))
-                        ])) : (openBlock(), createElementBlock("div", _hoisted_102, [
-                          createBaseVNode(
-                            "p",
-                            null,
-                            toDisplayString($setup.t("inquiries", "No child groups of this type yet")),
-                            1
-                            /* TEXT */
-                          ),
-                          createVNode($setup["NcButton"], {
-                            type: "tertiary",
-                            size: "small",
-                            onClick: ($event) => $setup.createChildGroup(typeKey)
-                          }, {
-                            default: withCtx(() => [
-                              createTextVNode(
-                                toDisplayString($setup.t("inquiries", "Create first")) + " " + toDisplayString($setup.getGroupLabel(typeKey).toLowerCase()),
-                                1
-                                /* TEXT */
-                              )
+                        renderList($setup.childGroups, (child) => {
+                          return openBlock(), createElementBlock("div", {
+                            key: child.id,
+                            class: "child-card",
+                            onClick: ($event) => $setup.selectGroup(child)
+                          }, [
+                            createBaseVNode("div", _hoisted_64, [
+                              (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryGroupTypeData(child.type, $setup.sessionStore.appSettings.inquiryGroupTypeTab).icon), { class: "child-icon" }))
                             ]),
-                            _: 2
-                            /* DYNAMIC */
-                          }, 1032, ["onClick"])
-                        ]))
-                      ]);
-                    }),
-                    128
-                    /* KEYED_FRAGMENT */
-                  )),
-                  createCommentVNode(" No child groups at all "),
-                  Object.keys($setup.childGroupsByTypeForCurrent).length === 0 ? (openBlock(), createElementBlock("div", _hoisted_103, [
-                    createVNode($setup["NcEmptyContent"], {
-                      name: $setup.t("inquiries", "No child groups"),
-                      description: $setup.t("inquiries", "Create child groups to organize inquiries")
-                    }, null, 8, ["name", "description"]),
-                    $setup.allowedResponseTypes.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_104, [
-                      createBaseVNode(
-                        "h4",
-                        null,
-                        toDisplayString($setup.t("inquiries", "Create your first child group:")),
-                        1
-                        /* TEXT */
-                      ),
-                      createBaseVNode("div", _hoisted_105, [
-                        (openBlock(true), createElementBlock(
-                          Fragment$1,
-                          null,
-                          renderList($setup.allowedResponseTypes, (responseType) => {
-                            return openBlock(), createBlock($setup["NcButton"], {
-                              key: responseType.type,
-                              type: "secondary",
-                              onClick: ($event) => $setup.createChildGroup(responseType.type)
-                            }, {
-                              default: withCtx(() => [
-                                createBaseVNode(
-                                  "span",
-                                  _hoisted_106,
-                                  toDisplayString(responseType.icon || "🧩"),
-                                  1
-                                  /* TEXT */
-                                ),
-                                createTextVNode(
-                                  " " + toDisplayString(responseType.label),
-                                  1
-                                  /* TEXT */
-                                )
-                              ]),
-                              _: 2
-                              /* DYNAMIC */
-                            }, 1032, ["onClick"]);
-                          }),
-                          128
-                          /* KEYED_FRAGMENT */
-                        ))
-                      ])
-                    ])) : createCommentVNode("v-if", true)
-                  ])) : createCommentVNode("v-if", true)
-                ])) : createCommentVNode("v-if", true),
-                createCommentVNode(" Inquiries Section "),
-                $setup.activeSection === "inquiries" ? (openBlock(), createElementBlock("div", _hoisted_107, [
-                  createBaseVNode("div", _hoisted_108, [
-                    createBaseVNode(
-                      "h3",
-                      _hoisted_109,
-                      toDisplayString($setup.t("inquiries", "Inquiries in this Group")),
-                      1
-                      /* TEXT */
-                    ),
-                    $setup.inquiryGroupStore.permissions.addInquiries && $setup.allowedInquiryTypes.length > 0 ? (openBlock(), createBlock($setup["NcButton"], {
-                      key: 0,
-                      type: "primary",
-                      onClick: _cache[3] || (_cache[3] = ($event) => $setup.createInquiry($setup.allowedInquiryTypes[0].inquiry_type))
-                    }, {
-                      default: withCtx(() => [
-                        createTextVNode(
-                          toDisplayString($setup.t("inquiries", "Create Inquiry")),
-                          1
-                          /* TEXT */
-                        )
-                      ]),
-                      _: 1
-                      /* STABLE */
-                    })) : createCommentVNode("v-if", true)
-                  ]),
-                  createCommentVNode(" Inquiries by Type "),
-                  (openBlock(true), createElementBlock(
-                    Fragment$1,
-                    null,
-                    renderList($setup.inquiriesByType, (inquiries2, type) => {
-                      return openBlock(), createElementBlock("div", {
-                        key: type,
-                        class: "inquiry-type-section"
-                      }, [
-                        createBaseVNode(
-                          "h4",
-                          _hoisted_110,
-                          toDisplayString($setup.getInquiryTypeData(type)?.label || type) + " (" + toDisplayString(inquiries2.length) + ") ",
-                          1
-                          /* TEXT */
-                        ),
-                        createBaseVNode("div", _hoisted_111, [
-                          (openBlock(true), createElementBlock(
-                            Fragment$1,
-                            null,
-                            renderList(inquiries2, (inquiry) => {
-                              return openBlock(), createElementBlock("div", {
-                                key: inquiry.id,
-                                class: "inquiry-card",
-                                onClick: ($event) => $setup.viewInquiry(inquiry.id)
-                              }, [
-                                createBaseVNode("div", _hoisted_113, [
-                                  createBaseVNode(
-                                    "div",
-                                    _hoisted_114,
-                                    toDisplayString($setup.getInquiryTypeData(inquiry.type)?.icon || "📄"),
-                                    1
-                                    /* TEXT */
-                                  ),
-                                  createBaseVNode(
-                                    "h5",
-                                    _hoisted_115,
-                                    toDisplayString(inquiry.title),
-                                    1
-                                    /* TEXT */
-                                  )
-                                ]),
-                                createBaseVNode(
-                                  "p",
-                                  _hoisted_116,
-                                  toDisplayString(inquiry.description),
-                                  1
-                                  /* TEXT */
-                                ),
-                                createBaseVNode("div", _hoisted_117, [
-                                  createBaseVNode(
-                                    "span",
-                                    {
-                                      class: normalizeClass(`status-badge status-${inquiry.status?.inquiryStatus || "draft"}`)
-                                    },
-                                    toDisplayString(inquiry.status?.inquiryStatus || "Draft"),
-                                    3
-                                    /* TEXT, CLASS */
-                                  )
-                                ])
-                              ], 8, _hoisted_112);
-                            }),
-                            128
-                            /* KEYED_FRAGMENT */
-                          ))
-                        ])
-                      ]);
-                    }),
-                    128
-                    /* KEYED_FRAGMENT */
-                  )),
-                  createCommentVNode(" Create Inquiry Cards "),
-                  $setup.allowedInquiryTypes.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_118, [
-                    createBaseVNode(
-                      "h4",
-                      _hoisted_119,
-                      toDisplayString($setup.t("inquiries", "Create New Inquiry")),
-                      1
-                      /* TEXT */
-                    ),
-                    createBaseVNode("div", _hoisted_120, [
-                      (openBlock(true), createElementBlock(
-                        Fragment$1,
-                        null,
-                        renderList($setup.allowedInquiryTypes, (inquiryType) => {
-                          return openBlock(), createElementBlock("div", {
-                            key: inquiryType.inquiry_type,
-                            class: "creation-card",
-                            onClick: ($event) => $setup.createInquiry(inquiryType.inquiry_type)
-                          }, [
-                            createBaseVNode(
-                              "div",
-                              _hoisted_122,
-                              toDisplayString($setup.getInquiryItemData(inquiryType).icon),
-                              1
-                              /* TEXT */
-                            ),
-                            createBaseVNode("div", _hoisted_123, [
+                            createBaseVNode("div", _hoisted_65, [
                               createBaseVNode(
-                                "h5",
+                                "h4",
                                 null,
-                                toDisplayString($setup.getInquiryItemData(inquiryType).label),
+                                toDisplayString(child.title),
                                 1
                                 /* TEXT */
                               ),
-                              createBaseVNode(
+                              child.description ? (openBlock(), createElementBlock(
                                 "p",
-                                null,
-                                toDisplayString($setup.getInquiryItemData(inquiryType).description),
+                                _hoisted_66,
+                                toDisplayString($setup.truncateText(child.description, 80)),
                                 1
                                 /* TEXT */
-                              )
+                              )) : createCommentVNode("v-if", true)
                             ])
-                          ], 8, _hoisted_121);
-                        }),
-                        128
-                        /* KEYED_FRAGMENT */
-                      ))
-                    ])
-                  ])) : createCommentVNode("v-if", true)
-                ])) : createCommentVNode("v-if", true),
-                createCommentVNode(" Right Sidebar - Inquiry Types "),
-                createBaseVNode("div", _hoisted_124, [
-                  createBaseVNode("div", _hoisted_125, [
-                    createBaseVNode(
-                      "h4",
-                      _hoisted_126,
-                      toDisplayString($setup.t("inquiries", "Inquiry Types in this Group")),
-                      1
-                      /* TEXT */
-                    ),
-                    createBaseVNode("div", _hoisted_127, [
-                      (openBlock(true), createElementBlock(
-                        Fragment$1,
-                        null,
-                        renderList($setup.allowedInquiryTypes, (inquiryType) => {
-                          return openBlock(), createElementBlock("div", {
-                            key: inquiryType.inquiry_type,
-                            class: "sidebar-item"
-                          }, [
-                            createBaseVNode(
-                              "span",
-                              _hoisted_128,
-                              toDisplayString($setup.getInquiryItemData(inquiryType).icon),
-                              1
-                              /* TEXT */
-                            ),
-                            createBaseVNode(
-                              "span",
-                              _hoisted_129,
-                              toDisplayString($setup.getInquiryItemData(inquiryType).label),
-                              1
-                              /* TEXT */
-                            ),
-                            createBaseVNode(
-                              "span",
-                              _hoisted_130,
-                              " (" + toDisplayString($setup.inquiriesByType[inquiryType.inquiry_type]?.length || 0) + ") ",
-                              1
-                              /* TEXT */
-                            )
-                          ]);
-                        }),
-                        128
-                        /* KEYED_FRAGMENT */
-                      ))
-                    ])
-                  ]),
-                  createCommentVNode(" Allowed Response Types "),
-                  $setup.allowedResponseTypes.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_131, [
-                    createBaseVNode(
-                      "h4",
-                      _hoisted_132,
-                      toDisplayString($setup.t("inquiries", "Allowed Response Types")),
-                      1
-                      /* TEXT */
-                    ),
-                    createBaseVNode("div", _hoisted_133, [
-                      (openBlock(true), createElementBlock(
-                        Fragment$1,
-                        null,
-                        renderList($setup.allowedResponseTypes, (responseType) => {
-                          return openBlock(), createElementBlock("div", {
-                            key: responseType.type,
-                            class: "sidebar-item"
-                          }, [
-                            createBaseVNode(
-                              "span",
-                              _hoisted_134,
-                              toDisplayString(responseType.icon || "🧩"),
-                              1
-                              /* TEXT */
-                            ),
-                            createBaseVNode(
-                              "span",
-                              _hoisted_135,
-                              toDisplayString(responseType.label),
-                              1
-                              /* TEXT */
-                            )
-                          ]);
+                          ], 8, _hoisted_63);
                         }),
                         128
                         /* KEYED_FRAGMENT */
                       ))
                     ])
                   ])) : createCommentVNode("v-if", true),
-                  createCommentVNode(" Group Info "),
-                  createBaseVNode("div", _hoisted_136, [
+                  createCommentVNode(" Allowed Response Types "),
+                  $setup.allowedResponseTypes.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_67, [
                     createBaseVNode(
-                      "h4",
-                      _hoisted_137,
-                      toDisplayString($setup.t("inquiries", "Group Information")),
+                      "h3",
+                      _hoisted_68,
+                      toDisplayString($setup.t("agora", "Allowed Response Types")),
                       1
                       /* TEXT */
                     ),
-                    createBaseVNode("div", _hoisted_138, [
-                      createBaseVNode("div", _hoisted_139, [
-                        createBaseVNode(
-                          "span",
-                          _hoisted_140,
-                          toDisplayString($setup.t("inquiries", "Type:")),
-                          1
-                          /* TEXT */
-                        ),
-                        createBaseVNode(
-                          "span",
-                          _hoisted_141,
-                          toDisplayString($setup.getGroupLabel($setup.currentInquiryGroup.type)),
-                          1
-                          /* TEXT */
-                        )
-                      ]),
-                      createBaseVNode("div", _hoisted_142, [
-                        createBaseVNode(
-                          "span",
-                          _hoisted_143,
-                          toDisplayString($setup.t("inquiries", "Created:")),
-                          1
-                          /* TEXT */
-                        ),
-                        createBaseVNode(
-                          "span",
-                          _hoisted_144,
-                          toDisplayString(new Date($setup.currentInquiryGroup.created * 1e3).toLocaleDateString()),
-                          1
-                          /* TEXT */
-                        )
-                      ]),
-                      createBaseVNode("div", _hoisted_145, [
-                        createBaseVNode(
-                          "span",
-                          _hoisted_146,
-                          toDisplayString($setup.t("inquiries", "Owner:")),
-                          1
-                          /* TEXT */
-                        ),
-                        createBaseVNode(
-                          "span",
-                          _hoisted_147,
-                          toDisplayString($setup.currentInquiryGroup.owner?.displayName),
-                          1
-                          /* TEXT */
-                        )
-                      ])
+                    createBaseVNode("div", _hoisted_69, [
+                      (openBlock(true), createElementBlock(
+                        Fragment$1,
+                        null,
+                        renderList($setup.allowedResponseTypes, (type) => {
+                          return openBlock(), createElementBlock("div", {
+                            key: type.group_type,
+                            class: "response-card",
+                            onClick: ($event) => $setup.createInquiry(type.group_type)
+                          }, [
+                            (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryGroupTypeData(type.group_type, $setup.sessionStore.appSettings.inquiryGroupTypeTab).icon), { class: "response-icon" })),
+                            createBaseVNode(
+                              "span",
+                              null,
+                              toDisplayString($setup.getTypeLabel(type.group_type)),
+                              1
+                              /* TEXT */
+                            )
+                          ], 8, _hoisted_70);
+                        }),
+                        128
+                        /* KEYED_FRAGMENT */
+                      ))
                     ])
+                  ])) : createCommentVNode("v-if", true),
+                  createCommentVNode(" Inquiries Display "),
+                  createBaseVNode("div", _hoisted_71, [
+                    (openBlock(true), createElementBlock(
+                      Fragment$1,
+                      null,
+                      renderList($setup.groupedInquiries, (inquiries2, typeKey) => {
+                        return openBlock(), createElementBlock("div", {
+                          key: typeKey,
+                          class: "inquiry-section"
+                        }, [
+                          createBaseVNode(
+                            "h3",
+                            _hoisted_72,
+                            toDisplayString($setup.getInquiryTypeLabel(typeKey)) + " (" + toDisplayString(inquiries2.length) + ") ",
+                            1
+                            /* TEXT */
+                          ),
+                          createCommentVNode(" Main Display (full page) "),
+                          $setup.getDisplayModeForType(inquiries2) === "main" ? (openBlock(), createElementBlock("div", _hoisted_73, [
+                            (openBlock(true), createElementBlock(
+                              Fragment$1,
+                              null,
+                              renderList(inquiries2, (inquiry) => {
+                                return openBlock(), createElementBlock("div", {
+                                  key: inquiry.id,
+                                  class: "inquiry-main-item",
+                                  onClick: ($event) => $setup.navigateToInquiry(inquiry.id)
+                                }, [
+                                  createBaseVNode(
+                                    "h4",
+                                    null,
+                                    toDisplayString(inquiry.title),
+                                    1
+                                    /* TEXT */
+                                  ),
+                                  createBaseVNode("div", {
+                                    innerHTML: inquiry.description
+                                  }, null, 8, _hoisted_75)
+                                ], 8, _hoisted_74);
+                              }),
+                              128
+                              /* KEYED_FRAGMENT */
+                            ))
+                          ])) : $setup.getDisplayModeForType(inquiries2) === "cards" ? (openBlock(), createElementBlock(
+                            Fragment$1,
+                            { key: 1 },
+                            [
+                              createCommentVNode(" Card Display "),
+                              createBaseVNode("div", _hoisted_76, [
+                                createBaseVNode("div", _hoisted_77, [
+                                  (openBlock(true), createElementBlock(
+                                    Fragment$1,
+                                    null,
+                                    renderList(inquiries2, (inquiry) => {
+                                      return openBlock(), createElementBlock("div", {
+                                        key: inquiry.id,
+                                        class: "inquiry-card",
+                                        onClick: ($event) => $setup.navigateToInquiry(inquiry.id)
+                                      }, [
+                                        createBaseVNode("div", _hoisted_79, [
+                                          (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryTypeData(inquiry.inquiry_type, $setup.sessionStore.appSettings.inquiryTypeTab).icon), { class: "card-icon" })),
+                                          createBaseVNode(
+                                            "span",
+                                            {
+                                              class: normalizeClass(["card-status", `status-${inquiry.status}`])
+                                            },
+                                            toDisplayString($setup.getStatusText(inquiry.status)),
+                                            3
+                                            /* TEXT, CLASS */
+                                          )
+                                        ]),
+                                        createBaseVNode(
+                                          "h4",
+                                          null,
+                                          toDisplayString(inquiry.title),
+                                          1
+                                          /* TEXT */
+                                        ),
+                                        inquiry.description ? (openBlock(), createElementBlock(
+                                          "p",
+                                          _hoisted_80,
+                                          toDisplayString($setup.truncateText($setup.stripHtml(inquiry.description), 120)),
+                                          1
+                                          /* TEXT */
+                                        )) : createCommentVNode("v-if", true),
+                                        createBaseVNode("div", _hoisted_81, [
+                                          inquiry.status === "open" ? (openBlock(), createBlock($setup["NcButton"], {
+                                            key: 0,
+                                            class: "action-button open"
+                                          }, {
+                                            default: withCtx(() => [
+                                              createTextVNode(
+                                                toDisplayString($setup.t("agora", "Open")),
+                                                1
+                                                /* TEXT */
+                                              )
+                                            ]),
+                                            _: 1
+                                            /* STABLE */
+                                          })) : inquiry.status === "closed" ? (openBlock(), createBlock($setup["NcButton"], {
+                                            key: 1,
+                                            class: "action-button closed",
+                                            disabled: ""
+                                          }, {
+                                            default: withCtx(() => [
+                                              createTextVNode(
+                                                toDisplayString($setup.t("agora", "Closed")),
+                                                1
+                                                /* TEXT */
+                                              )
+                                            ]),
+                                            _: 1
+                                            /* STABLE */
+                                          })) : (openBlock(), createBlock($setup["NcButton"], {
+                                            key: 2,
+                                            class: "action-button"
+                                          }, {
+                                            default: withCtx(() => [
+                                              createTextVNode(
+                                                toDisplayString($setup.t("agora", "Read")),
+                                                1
+                                                /* TEXT */
+                                              )
+                                            ]),
+                                            _: 1
+                                            /* STABLE */
+                                          }))
+                                        ])
+                                      ], 8, _hoisted_78);
+                                    }),
+                                    128
+                                    /* KEYED_FRAGMENT */
+                                  ))
+                                ])
+                              ])
+                            ],
+                            2112
+                            /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+                          )) : (openBlock(), createElementBlock(
+                            Fragment$1,
+                            { key: 2 },
+                            [
+                              createCommentVNode(" Block Display "),
+                              createBaseVNode("div", _hoisted_82, [
+                                createBaseVNode("div", _hoisted_83, [
+                                  (openBlock(true), createElementBlock(
+                                    Fragment$1,
+                                    null,
+                                    renderList(inquiries2, (inquiry) => {
+                                      return openBlock(), createElementBlock("div", {
+                                        key: inquiry.id,
+                                        class: "block-item",
+                                        onClick: ($event) => $setup.navigateToInquiry(inquiry.id)
+                                      }, [
+                                        (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryTypeData(inquiry.inquiry_type, $setup.sessionStore.appSettings.inquiryTypeTab).icon), { class: "block-icon" })),
+                                        createBaseVNode("div", _hoisted_85, [
+                                          createBaseVNode(
+                                            "h4",
+                                            null,
+                                            toDisplayString(inquiry.title),
+                                            1
+                                            /* TEXT */
+                                          ),
+                                          createBaseVNode("div", _hoisted_86, [
+                                            createBaseVNode(
+                                              "span",
+                                              {
+                                                class: normalizeClass(["status", `status-${inquiry.status}`])
+                                              },
+                                              toDisplayString($setup.getStatusText(inquiry.status)),
+                                              3
+                                              /* TEXT, CLASS */
+                                            ),
+                                            inquiry.date ? (openBlock(), createElementBlock(
+                                              "span",
+                                              _hoisted_87,
+                                              toDisplayString($setup.formatDate(inquiry.date)),
+                                              1
+                                              /* TEXT */
+                                            )) : createCommentVNode("v-if", true)
+                                          ])
+                                        ]),
+                                        createBaseVNode("div", _hoisted_88, [
+                                          inquiry.status === "open" ? (openBlock(), createBlock($setup["NcButton"], {
+                                            key: 0,
+                                            size: "small"
+                                          }, {
+                                            default: withCtx(() => [
+                                              createTextVNode(
+                                                toDisplayString($setup.t("agora", "Open")),
+                                                1
+                                                /* TEXT */
+                                              )
+                                            ]),
+                                            _: 1
+                                            /* STABLE */
+                                          })) : createCommentVNode("v-if", true)
+                                        ])
+                                      ], 8, _hoisted_84);
+                                    }),
+                                    128
+                                    /* KEYED_FRAGMENT */
+                                  ))
+                                ])
+                              ])
+                            ],
+                            2112
+                            /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+                          ))
+                        ]);
+                      }),
+                      128
+                      /* KEYED_FRAGMENT */
+                    )),
+                    createCommentVNode(" Empty state for inquiries "),
+                    $setup.groupInquiries.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_89, [
+                      _cache[9] || (_cache[9] = createBaseVNode(
+                        "div",
+                        { class: "empty-icon" },
+                        "📝",
+                        -1
+                        /* CACHED */
+                      )),
+                      createBaseVNode(
+                        "h3",
+                        null,
+                        toDisplayString($setup.t("agora", "No inquiries yet")),
+                        1
+                        /* TEXT */
+                      ),
+                      createBaseVNode(
+                        "p",
+                        null,
+                        toDisplayString($setup.t("agora", "Start by creating the first inquiry in this group")),
+                        1
+                        /* TEXT */
+                      ),
+                      createVNode($setup["NcButton"], {
+                        onClick: $setup.navigateToCreateInquiry,
+                        type: "primary"
+                      }, {
+                        default: withCtx(() => [
+                          createTextVNode(
+                            " ➕ " + toDisplayString($setup.t("agora", "Create First Inquiry")),
+                            1
+                            /* TEXT */
+                          )
+                        ]),
+                        _: 1
+                        /* STABLE */
+                      })
+                    ])) : createCommentVNode("v-if", true)
+                  ])
+                ]),
+                createCommentVNode(" Right Sidebar "),
+                createBaseVNode("div", _hoisted_90, [
+                  createCommentVNode(" Group Description "),
+                  $setup.currentInquiryGroup.description ? (openBlock(), createElementBlock("div", _hoisted_91, [
+                    createBaseVNode(
+                      "h3",
+                      null,
+                      toDisplayString($setup.t("agora", "Description")),
+                      1
+                      /* TEXT */
+                    ),
+                    createBaseVNode(
+                      "p",
+                      _hoisted_92,
+                      toDisplayString($setup.currentInquiryGroup.description),
+                      1
+                      /* TEXT */
+                    )
+                  ])) : createCommentVNode("v-if", true),
+                  createCommentVNode(" Inquiry Types Summary "),
+                  createBaseVNode("div", _hoisted_93, [
+                    createBaseVNode(
+                      "h3",
+                      null,
+                      toDisplayString($setup.t("agora", "Inquiry types in this group")),
+                      1
+                      /* TEXT */
+                    ),
+                    createBaseVNode("div", _hoisted_94, [
+                      (openBlock(true), createElementBlock(
+                        Fragment$1,
+                        null,
+                        renderList($setup.inquiryTypeCounts, (count, typeKey) => {
+                          return openBlock(), createElementBlock("div", {
+                            key: typeKey,
+                            class: "type-item"
+                          }, [
+                            (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryTypeData(typeKey, $setup.sessionStore.appSettings.inquiryTypeTab).icon), { class: "type-icon" })),
+                            createBaseVNode(
+                              "span",
+                              _hoisted_95,
+                              toDisplayString($setup.getInquiryTypeLabel(typeKey)),
+                              1
+                              /* TEXT */
+                            ),
+                            createBaseVNode(
+                              "span",
+                              _hoisted_96,
+                              "(" + toDisplayString(count) + ")",
+                              1
+                              /* TEXT */
+                            )
+                          ]);
+                        }),
+                        128
+                        /* KEYED_FRAGMENT */
+                      )),
+                      $setup.groupInquiries.length === 0 ? (openBlock(), createElementBlock("div", _hoisted_97, [
+                        _cache[10] || (_cache[10] = createBaseVNode(
+                          "div",
+                          { class: "type-icon" },
+                          "📝",
+                          -1
+                          /* CACHED */
+                        )),
+                        createBaseVNode(
+                          "span",
+                          _hoisted_98,
+                          toDisplayString($setup.t("agora", "No inquiries yet")),
+                          1
+                          /* TEXT */
+                        )
+                      ])) : createCommentVNode("v-if", true)
+                    ]),
+                    $setup.isOwnerOrAdmin ? (openBlock(), createBlock($setup["NcButton"], {
+                      key: 0,
+                      class: "add-inquiry-btn",
+                      onClick: $setup.navigateToCreateInquiry
+                    }, {
+                      default: withCtx(() => [
+                        createTextVNode(
+                          " ➕ " + toDisplayString($setup.t("agora", "Add Inquiry to this Group")),
+                          1
+                          /* TEXT */
+                        )
+                      ]),
+                      _: 1
+                      /* STABLE */
+                    })) : createCommentVNode("v-if", true)
                   ])
                 ])
               ])
@@ -65376,77 +64627,57 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
           ],
           2112
           /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
-        )),
-        $setup.createInquiryDlgToggle ? (openBlock(), createBlock($setup["InquiryCreateDlg"], {
-          key: 2,
-          "inquiry-type": $setup.selectedInquiryType,
-          "inquiry-group-id": $setup.currentInquiryGroup.id,
-          onAdded: $setup.inquiryAdded,
-          onClose: _cache[4] || (_cache[4] = ($event) => $setup.createInquiryDlgToggle = false)
-        }, null, 8, ["inquiry-type", "inquiry-group-id"])) : createCommentVNode("v-if", true),
-        $setup.createGroupDlgToggle ? (openBlock(), createBlock($setup["InquiryGroupCreateDlg"], {
-          key: 3,
-          "inquiry-group-type": $setup.selectedInquiryGroupTypeForCreation,
-          "selected-groups": $setup.selectedGroups,
-          "available-groups": $setup.availableGroups,
-          "parent-group-id": $setup.currentInquiryGroup.id,
-          onClose: $setup.handleCloseGroupDialog,
-          onAdded: $setup.inquiryGroupAdded,
-          "onUpdate:selectedGroups": $setup.handleGroupUpdate
-        }, null, 8, ["inquiry-group-type", "selected-groups", "available-groups", "parent-group-id"])) : createCommentVNode("v-if", true),
-        $setup.editGroupDlgToggle && $setup.currentInquiryGroup.id ? (openBlock(), createBlock($setup["InquiryGroupEditViewForm"], {
-          key: 4,
-          "inquiry-group": $setup.currentInquiryGroup,
-          onClose: _cache[5] || (_cache[5] = ($event) => $setup.editGroupDlgToggle = false),
-          onUpdated: _cache[6] || (_cache[6] = ($event) => $setup.inquiryGroupStore.load($setup.currentInquiryGroup.id))
-        }, null, 8, ["inquiry-group"])) : createCommentVNode("v-if", true)
-      ]),
-      _: 2
-      /* DYNAMIC */
-    }, [
-      !$setup.currentInquiryGroupId ? {
-        name: "title",
-        fn: withCtx(() => [
-          createBaseVNode("div", _hoisted_1$k, [
-            createBaseVNode(
-              "span",
-              _hoisted_2$d,
-              toDisplayString($setup.defaultInquiryGroupType?.icon || "🏛️"),
-              1
-              /* TEXT */
-            ),
-            createTextVNode(
-              " " + toDisplayString($setup.defaultInquiryGroupType?.label || $setup.t("inquiries", "Inquiry Groups")),
-              1
-              /* TEXT */
-            )
-          ])
-        ]),
-        key: "0"
-      } : {
-        name: "title",
-        fn: withCtx(() => [
-          createBaseVNode("div", _hoisted_3$d, [
-            createBaseVNode(
-              "span",
-              _hoisted_4$b,
-              toDisplayString($setup.getGroupIcon($setup.currentInquiryGroup.type)),
-              1
-              /* TEXT */
-            ),
-            createTextVNode(
-              " " + toDisplayString($setup.getGroupLabel($setup.currentInquiryGroup.type)) + ": " + toDisplayString($setup.currentInquiryGroup.name || $setup.currentInquiryGroup.title),
-              1
-              /* TEXT */
-            )
-          ])
-        ]),
-        key: "1"
-      }
+        )) : (openBlock(), createElementBlock(
+          Fragment$1,
+          { key: 3 },
+          [
+            createCommentVNode(" Group not found "),
+            createBaseVNode("div", _hoisted_99, [
+              _cache[11] || (_cache[11] = createBaseVNode(
+                "div",
+                { class: "not-found-icon" },
+                "🔍",
+                -1
+                /* CACHED */
+              )),
+              createBaseVNode(
+                "h2",
+                null,
+                toDisplayString($setup.t("agora", "Group not found")),
+                1
+                /* TEXT */
+              ),
+              createBaseVNode(
+                "p",
+                null,
+                toDisplayString($setup.t("agora", "The group you are looking for does not exist or you do not have permission to access it.")),
+                1
+                /* TEXT */
+              ),
+              createVNode($setup["NcButton"], {
+                onClick: $setup.navigateToHome,
+                type: "primary"
+              }, {
+                default: withCtx(() => [
+                  createTextVNode(
+                    toDisplayString($setup.t("agora", "Back to home")),
+                    1
+                    /* TEXT */
+                  )
+                ]),
+                _: 1
+                /* STABLE */
+              })
+            ])
+          ],
+          2112
+          /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
+        ))
+      ])
     ]),
-    1024
-    /* DYNAMIC_SLOTS */
-  );
+    _: 1
+    /* STABLE */
+  });
 }
 const Group = /* @__PURE__ */ _export_sfc$1(_sfc_main$s, [["render", _sfc_render$s], ["__scopeId", "data-v-4f232cad"], ["__file", "/var/www/nextcloud/apps/agora/src/views/InquiryGroup.vue"]]);
 const _sfc_main$r = /* @__PURE__ */ defineComponent({
@@ -65734,11 +64965,11 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
     __expose();
     const commentsStore = useCommentsStore();
     const sessionStore = useSessionStore();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const comment = ref("");
     const confidantial = ref(false);
-    const confidentialText = inquiryStore2.owner.id === sessionStore.currentUser.id ? translate("agora", "Only visible to me") : translate("agora", "Only visible to {displayName}", {
-      displayName: inquiryStore2.owner.displayName
+    const confidentialText = inquiryStore.owner.id === sessionStore.currentUser.id ? translate("agora", "Only visible to me") : translate("agora", "Only visible to {displayName}", {
+      displayName: inquiryStore.owner.displayName
     });
     async function writeComment() {
       if (comment.value) {
@@ -65753,7 +64984,7 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
         }
       }
     }
-    const __returned__ = { commentsStore, sessionStore, inquiryStore: inquiryStore2, comment, confidantial, confidentialText, writeComment, get InputDiv() {
+    const __returned__ = { commentsStore, sessionStore, inquiryStore, comment, confidantial, confidentialText, writeComment, get InputDiv() {
       return InputDiv;
     }, get t() {
       return translate;
@@ -65861,7 +65092,7 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
   setup(__props, { expose: __expose }) {
     __expose();
     const sessionStore = useSessionStore();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const commentsStore = useCommentsStore();
     const dateCommentedRelative = computed(() => moment.unix(__props.comment.timestamp).fromNow());
     const isCurrentUser = computed(() => sessionStore.currentUser?.id === __props.comment.user.id);
@@ -65894,7 +65125,7 @@ const _sfc_main$p = /* @__PURE__ */ defineComponent({
         showError$1(translate("agora", "Error while restoring the comment"));
       }
     }
-    const __returned__ = { sessionStore, inquiryStore: inquiryStore2, commentsStore, dateCommentedRelative, isCurrentUser, isConfidential, confidentialRecipient, linkify, deleteComment, restoreComment, get ActionDelete() {
+    const __returned__ = { sessionStore, inquiryStore, commentsStore, dateCommentedRelative, isCurrentUser, isConfidential, confidentialRecipient, linkify, deleteComment, restoreComment, get ActionDelete() {
       return ActionDelete;
     }, get t() {
       return translate;
@@ -66078,7 +65309,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
   __name: "SideBarTabComments",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const commentsStore = useCommentsStore();
     const sessionStore = useSessionStore();
     const emptyContentProps = {
@@ -66092,7 +65323,7 @@ const _sfc_main$m = /* @__PURE__ */ defineComponent({
     onUnmounted(() => {
       unsubscribe(Event$1.UpdateComments, () => commentsStore.load());
     });
-    const __returned__ = { inquiryStore: inquiryStore2, commentsStore, sessionStore, emptyContentProps, showEmptyContent, get NcEmptyContent() {
+    const __returned__ = { inquiryStore, commentsStore, sessionStore, emptyContentProps, showEmptyContent, get NcEmptyContent() {
       return NcEmptyContent;
     }, CommentAdd, Comments, CommentsIcon };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
@@ -66179,9 +65410,9 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
     const emit2 = __emit;
     const sharesStore = useSharesStore();
     const inquiryGroupsStore = useInquiryGroupsStore();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const isDirectShare = computed(
-      () => __props.share.groupId === inquiryGroupsStore.currentInquiryGroup?.id || __props.share.inquiryId === inquiryStore2.id
+      () => __props.share.groupId === inquiryGroupsStore.currentInquiryGroup?.id || __props.share.inquiryId === inquiryStore.id
     );
     const resolving = ref(false);
     const label = ref({
@@ -66339,7 +65570,7 @@ const _sfc_main$k = /* @__PURE__ */ defineComponent({
         label: label.value.inputValue
       });
     }
-    const __returned__ = { emit: emit2, sharesStore, inquiryGroupsStore, inquiryStore: inquiryStore2, isDirectShare, resolving, label, isActivePublicShare, resendInvitation, handleInvitationResults, resolveGroups, resolveGroupResolveError, switchAdmin, copyLinkButton, showQrCodeButton, lockShareButton, deleteShareButton, submitLabel, get t() {
+    const __returned__ = { emit: emit2, sharesStore, inquiryGroupsStore, inquiryStore, isDirectShare, resolving, label, isActivePublicShare, resendInvitation, handleInvitationResults, resolveGroups, resolveGroupResolveError, switchAdmin, copyLinkButton, showQrCodeButton, lockShareButton, deleteShareButton, submitLabel, get t() {
       return translate;
     }, get NcActionCaption() {
       return NcActionCaption;
@@ -66824,8 +66055,8 @@ const _sfc_main$f = /* @__PURE__ */ defineComponent({
   __name: "MarkDownDescription",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
-    const __returned__ = { inquiryStore: inquiryStore2 };
+    const inquiryStore = useInquiryStore();
+    const __returned__ = { inquiryStore };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
@@ -66853,7 +66084,7 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
   __name: "SharesList",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const sharesStore = useSharesStore();
     const sessionStore = useSessionStore();
     const qrModal = ref(false);
@@ -66874,7 +66105,7 @@ const _sfc_main$e = /* @__PURE__ */ defineComponent({
         showError$1(translate("agora", "Error while adding share"));
       }
     }
-    const __returned__ = { inquiryStore: inquiryStore2, sharesStore, sessionStore, qrModal, qrText, configBoxProps, openQrModal, addShare, get t() {
+    const __returned__ = { inquiryStore, sharesStore, sessionStore, qrModal, qrText, configBoxProps, openQrModal, addShare, get t() {
       return translate;
     }, get NcModal() {
       return NcModal;
@@ -67065,10 +66296,10 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
   __name: "SharesListUnsent",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const sharesStore = useSharesStore();
     async function sendAllInvitations() {
-      const response = await sharesStore.inviteAll({ inquiryId: inquiryStore2.id });
+      const response = await sharesStore.inviteAll({ inquiryId: inquiryStore.id });
       if (response.data.sentResult?.sentMails) {
         response.data.sentResult.sentMails.forEach((item) => {
           showSuccess(
@@ -67091,7 +66322,7 @@ const _sfc_main$b = /* @__PURE__ */ defineComponent({
         });
       }
     }
-    const __returned__ = { inquiryStore: inquiryStore2, sharesStore, sendAllInvitations, get t() {
+    const __returned__ = { inquiryStore, sharesStore, sendAllInvitations, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -67245,7 +66476,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
   setup(__props, { expose: __expose }) {
     __expose();
     const props2 = __props;
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const sessionStore = useSessionStore();
     const isLoading = ref(true);
     const error = ref(null);
@@ -67255,13 +66486,13 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     const localCheckboxes = ref({});
     const dynamicFields = computed(() => {
       try {
-        if (!inquiryStore2.type) {
+        if (!inquiryStore.type) {
           return [];
         }
         const fields = getAvailableFields(
-          inquiryStore2.type,
-          sessionStore.appSettings.inquiryGroupTypeTab || [],
-          inquiryStore2.type
+          inquiryStore.type,
+          sessionStore.appSettings.inquiryTypeTab || [],
+          inquiryStore.type
         );
         return Array.isArray(fields) ? fields : [];
       } catch (e) {
@@ -67271,13 +66502,13 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     });
     const getMiscValue = (key) => {
       try {
-        if (!inquiryStore2.miscFields || typeof inquiryStore2.miscFields !== "object" || !key) {
+        if (!inquiryStore.miscFields || typeof inquiryStore.miscFields !== "object" || !key) {
           return null;
         }
-        if (!inquiryStore2.miscFields[key]) {
+        if (!inquiryStore.miscFields[key]) {
           return null;
         }
-        const value = inquiryStore2.miscFields[key];
+        const value = inquiryStore.miscFields[key];
         if (typeof value === "string") {
           let cleanedValue = value;
           if (value.startsWith('"') && value.endsWith('"')) {
@@ -67396,7 +66627,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
         } else {
           stringValue = String(value);
         }
-        await inquiryStore2.updateMiscField(fieldKey, stringValue);
+        await inquiryStore.updateMiscField(fieldKey, stringValue);
       } catch (e) {
         console.error(`❌ Error saving field ${fieldKey}:`, e);
       } finally {
@@ -67405,7 +66636,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     };
     const initializeMiscFields = () => {
       dynamicFields.value.forEach((field) => {
-        if (inquiryStore2.miscFields[field.key] === void 0) {
+        if (inquiryStore.miscFields[field.key] === void 0) {
           let defaultValue = field.default;
           if (defaultValue === null || defaultValue === void 0) {
             defaultValue = "";
@@ -67416,7 +66647,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
           } else {
             defaultValue = String(defaultValue);
           }
-          inquiryStore2.miscFields[field.key] = defaultValue;
+          inquiryStore.miscFields[field.key] = defaultValue;
         }
       });
     };
@@ -67468,7 +66699,7 @@ const _sfc_main$8 = /* @__PURE__ */ defineComponent({
     onMounted(() => {
       loadMiscData();
     });
-    const __returned__ = { props: props2, inquiryStore: inquiryStore2, sessionStore, isLoading, error, isSaving, saveTimeouts, selectedUsers, localCheckboxes, dynamicFields, getMiscValue, parseMiscValue, getDisplayValue, shouldDisplayField, displayFields, loadMiscData, saveFieldToDatabase, initializeMiscFields, initializeLocalCheckboxes, updateFieldValue, handleUserSelected, getFormattedDate, getCheckboxValue, get StatusIcons() {
+    const __returned__ = { props: props2, inquiryStore, sessionStore, isLoading, error, isSaving, saveTimeouts, selectedUsers, localCheckboxes, dynamicFields, getMiscValue, parseMiscValue, getDisplayValue, shouldDisplayField, displayFields, loadMiscData, saveFieldToDatabase, initializeMiscFields, initializeLocalCheckboxes, updateFieldValue, handleUserSelected, getFormattedDate, getCheckboxValue, get StatusIcons() {
       return StatusIcons;
     }, get t() {
       return translate;
@@ -67868,7 +67099,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
         if (!inquiryGroupStore.type) {
           return [];
         }
-        const fields = getAvailableFields(
+        const fields = getAvailableGroupFields(
           inquiryGroupStore.type,
           sessionStore.appSettings.inquiryGroupTypeTab || [],
           inquiryGroupStore.type
@@ -67881,7 +67112,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     });
     const getMiscValue = (key) => {
       try {
-        if (!inquiryGroupStore.miscFields || typeof inquiryStore.miscFields !== "object" || !key) {
+        if (!inquiryGroupStore.miscFields || typeof inquiryGroupStore.miscFields !== "object" || !key) {
           return null;
         }
         if (!inquiryGroupStore.miscFields[key]) {
@@ -68076,6 +67307,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     };
     const getCheckboxValue = (key) => localCheckboxes.value[key] || false;
     onMounted(() => {
+      console.log(" READONLY ", props2.isReadonly);
       loadMiscData();
     });
     const __returned__ = { props: props2, inquiryGroupStore, sessionStore, isLoading, error, isSaving, saveTimeouts, selectedUsers, localCheckboxes, dynamicFields, getMiscValue, parseMiscValue, getDisplayValue, shouldDisplayField, displayFields, loadMiscData, saveFieldToDatabase, initializeMiscFields, initializeLocalCheckboxes, updateFieldValue, handleUserSelected, getFormattedDate, getCheckboxValue, get StatusIcons() {
@@ -68658,16 +67890,16 @@ const useInquiryLinksStore = defineStore("inquiryLinks", {
     },
     // Forms operations
     async createForm(inquiryId, formData) {
-      const inquiryStore2 = useInquiryStore();
+      const inquiryStore = useInquiryStore();
       try {
         const formResponse = await this.createFormViaAPI(formData);
         const formId = formResponse.ocs?.data?.id;
         if (formId) {
           const url = `/index.php/apps/forms/${formResponse.ocs.data.hash}`;
           await this.updateFormViaAPI(formId, {
-            title: inquiryStore2.title,
-            description: inquiryStore2.description,
-            expires: inquiryStore2.configuration.expire,
+            title: inquiryStore.title,
+            description: inquiryStore.description,
+            expires: inquiryStore.configuration.expire,
             showExpiration: true
           });
           const linkData = {
@@ -68677,7 +67909,7 @@ const useInquiryLinksStore = defineStore("inquiryLinks", {
             targetId: formId.toString(),
             metadata: JSON.stringify({
               url,
-              title: inquiryStore2.title,
+              title: inquiryStore.title,
               hash: formResponse.ocs.data.hash
             }),
             sortOrder: 0
@@ -68761,7 +67993,7 @@ const useInquiryLinksStore = defineStore("inquiryLinks", {
     },
     // Cospend operations
     async createCospendProject(inquiryId, projectData) {
-      const inquiryStore2 = useInquiryStore();
+      const inquiryStore = useInquiryStore();
       try {
         const projectResponse = await this.createCospendProjectViaAPI(projectData);
         const projectId = projectResponse.ocs?.data?.id || projectResponse.ocs?.data?.name;
@@ -68776,7 +68008,7 @@ const useInquiryLinksStore = defineStore("inquiryLinks", {
           targetId: projectId.toString(),
           metadata: JSON.stringify({
             url,
-            title: inquiryStore2.title
+            title: inquiryStore.title
           }),
           sortOrder: 0
         };
@@ -68851,7 +68083,7 @@ const useInquiryLinksStore = defineStore("inquiryLinks", {
     },
     // Collectives operations
     async createCollective(inquiryId, collectiveData) {
-      const inquiryStore2 = useInquiryStore();
+      const inquiryStore = useInquiryStore();
       try {
         const collectiveResponse = await this.createCollectiveViaAPI(collectiveData);
         const collectiveId = collectiveResponse.ocs?.data?.collective.id || collectiveResponse.ocs?.data?.name;
@@ -68867,7 +68099,7 @@ const useInquiryLinksStore = defineStore("inquiryLinks", {
           targetId: collectiveId.toString(),
           metadata: JSON.stringify({
             url,
-            title: inquiryStore2.title
+            title: inquiryStore.title
           }),
           sortOrder: 0
         };
@@ -68932,7 +68164,7 @@ const useInquiryLinksStore = defineStore("inquiryLinks", {
     },
     // Polls operations
     async createPoll(inquiryId, pollData) {
-      const inquiryStore2 = useInquiryStore();
+      const inquiryStore = useInquiryStore();
       try {
         const pollResponse = await this.createPollViaAPI(pollData);
         const pollId = pollResponse.ocs.data.poll.id || pollResponse.ocs.data?.id;
@@ -68947,7 +68179,7 @@ const useInquiryLinksStore = defineStore("inquiryLinks", {
           targetId: pollId.toString(),
           metadata: JSON.stringify({
             url,
-            title: inquiryStore2.title
+            title: inquiryStore.title
           }),
           sortOrder: 0
         };
@@ -69011,7 +68243,7 @@ const useInquiryLinksStore = defineStore("inquiryLinks", {
     },
     // Deck operations
     async createDeckBoard(inquiryId, boardData) {
-      const inquiryStore2 = useInquiryStore();
+      const inquiryStore = useInquiryStore();
       try {
         const boardResponse = await this.createDeckBoardViaAPI(boardData);
         const boardId = boardResponse.id || boardResponse.data?.id;
@@ -69026,7 +68258,7 @@ const useInquiryLinksStore = defineStore("inquiryLinks", {
           targetId: boardId.toString(),
           metadata: JSON.stringify({
             url,
-            title: inquiryStore2.title
+            title: inquiryStore.title
           }),
           sortOrder: 0
         };
@@ -69245,7 +68477,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
     const emit2 = __emit;
     const inquiryLinksStore = useInquiryLinksStore();
     const attachmentsStore = useAttachmentsStore();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const isCreating = ref(false);
     const selectedResource = ref(null);
     const selectedResourceType = ref("files");
@@ -69253,8 +68485,8 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
     const isLoading = ref(false);
     const fileInput = ref(null);
     const selectedFiles = ref([]);
-    const resourceTitle = ref(inquiryStore2.title ? `${inquiryStore2.title}` : "");
-    const resourceDescription = ref(inquiryStore2.description || "");
+    const resourceTitle = ref(inquiryStore.title ? `${inquiryStore.title}` : "");
+    const resourceDescription = ref(inquiryStore.description || "");
     const resourceTypes = [
       {
         id: "files",
@@ -69367,8 +68599,8 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
         await loadResources();
         selectedResource.value = null;
         selectedFiles.value = [];
-        resourceTitle.value = inquiryStore2.title ? `${inquiryStore2.title}` : "";
-        resourceDescription.value = inquiryStore2.description || "";
+        resourceTitle.value = inquiryStore.title ? `${inquiryStore.title}` : "";
+        resourceDescription.value = inquiryStore.description || "";
       }
     });
     watch(selectedResourceType, async () => {
@@ -69393,7 +68625,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
             }
             break;
           case "files":
-            resources.value = attachmentsStore.attachments.filter((att) => att.fileId !== inquiryStore2.coverId).map((att) => ({
+            resources.value = attachmentsStore.attachments.filter((att) => att.fileId !== inquiryStore.coverId).map((att) => ({
               id: att.id,
               filename: att.name,
               name: att.name,
@@ -69473,7 +68705,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
         switch (resourceType.id) {
           case "forms":
             await inquiryLinksStore.createForm(
-              inquiryStore2.id,
+              inquiryStore.id,
               {
                 title: resourceTitle.value,
                 description: resourceDescription.value
@@ -69485,7 +68717,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
               throw new Error("No files selected");
             }
             for (const file of selectedFiles.value) {
-              const response = await attachmentsStore.upload(inquiryStore2.id, file, false);
+              const response = await attachmentsStore.upload(inquiryStore.id, file, false);
               attachmentsStore.attachments.push({
                 id: response.id,
                 name: response.name,
@@ -69497,7 +68729,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
             break;
           case "polls":
             await inquiryLinksStore.createPoll(
-              inquiryStore2.id,
+              inquiryStore.id,
               {
                 title: resourceTitle.value,
                 description: resourceDescription.value
@@ -69506,7 +68738,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
             break;
           case "deck":
             await inquiryLinksStore.createDeckBoard(
-              inquiryStore2.id,
+              inquiryStore.id,
               {
                 title: resourceTitle.value,
                 description: resourceDescription.value
@@ -69515,7 +68747,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
             break;
           case "cospend":
             await inquiryLinksStore.createCospendProject(
-              inquiryStore2.id,
+              inquiryStore.id,
               {
                 title: resourceTitle.value,
                 description: resourceDescription.value
@@ -69524,7 +68756,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
             break;
           case "collectives":
             await inquiryLinksStore.createCollective(
-              inquiryStore2.id,
+              inquiryStore.id,
               {
                 title: resourceTitle.value,
                 description: resourceDescription.value
@@ -69565,24 +68797,24 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
         switch (resourceType.id) {
           case "forms":
             const formHash = resourceData.hash || resourceData.configuration?.hash;
-            await inquiryLinksStore.linkForm(inquiryStore2.id, resourceId, formHash, title);
+            await inquiryLinksStore.linkForm(inquiryStore.id, resourceId, formHash, title);
             break;
           case "polls":
-            await inquiryLinksStore.linkPoll(inquiryStore2.id, resourceId, resourceData.configuration.title);
+            await inquiryLinksStore.linkPoll(inquiryStore.id, resourceId, resourceData.configuration.title);
             break;
           case "deck":
-            await inquiryLinksStore.linkDeckBoard(inquiryStore2.id, resourceId, title);
+            await inquiryLinksStore.linkDeckBoard(inquiryStore.id, resourceId, title);
             break;
           case "cospend":
-            await inquiryLinksStore.linkCospendProject(inquiryStore2.id, resourceId, title);
+            await inquiryLinksStore.linkCospendProject(inquiryStore.id, resourceId, title);
             break;
           case "collectives":
             const collectiveTitle = resourceData.title || resourceData.name;
-            await inquiryLinksStore.linkCollective(inquiryStore2.id, resourceId, collectiveTitle);
+            await inquiryLinksStore.linkCollective(inquiryStore.id, resourceId, collectiveTitle);
             break;
           default:
             await inquiryLinksStore.create({
-              inquiryId: inquiryStore2.id,
+              inquiryId: inquiryStore.id,
               targetApp: resourceType.id,
               targetType: resourceType.id === "forms" ? "form" : resourceType.id,
               targetId: resourceId,
@@ -69640,7 +68872,7 @@ const _sfc_main$6 = /* @__PURE__ */ defineComponent({
         selectedResource.value = null;
       }
     };
-    const __returned__ = { props: props2, emit: emit2, inquiryLinksStore, attachmentsStore, inquiryStore: inquiryStore2, isCreating, selectedResource, selectedResourceType, resources, isLoading, fileInput, selectedFiles, resourceTitle, resourceDescription, resourceTypes, availableResourceTypes, resourceOptions, currentResourceType, hasResources, canCreateResource, canLinkResource, canSubmit, isFileType, getResourceName, getResourceNameLower, loadResources, triggerFileInput, handleFileSelect, removeSelectedFile, formatFileSize, createNewResource, linkExistingResource, closeModal, handleSubmit, handleSelectChange, handleTitleInput, get t() {
+    const __returned__ = { props: props2, emit: emit2, inquiryLinksStore, attachmentsStore, inquiryStore, isCreating, selectedResource, selectedResourceType, resources, isLoading, fileInput, selectedFiles, resourceTitle, resourceDescription, resourceTypes, availableResourceTypes, resourceOptions, currentResourceType, hasResources, canCreateResource, canLinkResource, canSubmit, isFileType, getResourceName, getResourceNameLower, loadResources, triggerFileInput, handleFileSelect, removeSelectedFile, formatFileSize, createNewResource, linkExistingResource, closeModal, handleSubmit, handleSelectChange, handleTitleInput, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -70147,7 +69379,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     __expose();
     const props2 = __props;
     const inquiryLinksStore = useInquiryLinksStore();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const sessionStore = useSessionStore();
     const attachmentsStore = useAttachmentsStore();
     const isLoading = ref(false);
@@ -70155,19 +69387,19 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     const context2 = computed(() => {
       const ctx = createPermissionContextForContent(
         ContentType.Inquiry,
-        inquiryStore2.owner.id,
-        inquiryStore2.configuration.access === "public",
-        inquiryStore2.status.isLocked,
-        inquiryStore2.status.isExpired,
-        inquiryStore2.status.deletionDate > 0,
-        inquiryStore2.status.isArchived,
-        inquiryStore2.inquiryGroups.length > 0,
-        inquiryStore2.inquiryGroups,
-        inquiryStore2.type,
-        inquiryStore2.family,
-        inquiryStore2.configuration.access,
-        isInquiryFinalStatus(inquiryStore2, sessionStore.appSettings),
-        inquiryStore2.status.moderationStatus
+        inquiryStore.owner.id,
+        inquiryStore.configuration.access === "public",
+        inquiryStore.status.isLocked,
+        inquiryStore.status.isExpired,
+        inquiryStore.status.deletionDate > 0,
+        inquiryStore.status.isArchived,
+        inquiryStore.inquiryGroups.length > 0,
+        inquiryStore.inquiryGroups,
+        inquiryStore.type,
+        inquiryStore.family,
+        inquiryStore.configuration.access,
+        isInquiryFinalStatus(inquiryStore, sessionStore.appSettings),
+        inquiryStore.status.moderationStatus
       );
       return ctx;
     });
@@ -70184,7 +69416,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     };
     const groupedResources = computed(() => {
       const groups = {};
-      const links = inquiryLinksStore.getByInquiryId(inquiryStore2.id).sort((a, b) => a.sort_order - b.sort_order);
+      const links = inquiryLinksStore.getByInquiryId(inquiryStore.id).sort((a, b) => a.sort_order - b.sort_order);
       links.forEach((link) => {
         if (!groups[link.target_app]) {
           groups[link.target_app] = [];
@@ -70199,7 +69431,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
           // Ensure metadata is parsed object
         });
       });
-      const fileAttachments = attachmentsStore.attachments.filter((att) => att.file_id !== inquiryStore2.coverId);
+      const fileAttachments = attachmentsStore.attachments.filter((att) => att.file_id !== inquiryStore.coverId);
       if (fileAttachments.length > 0) {
         groups.files = fileAttachments.map((attachment) => ({
           id: attachment.id,
@@ -70404,14 +69636,14 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     };
     const getResourceTarget = () => "_blank";
     const canEditResource = () => {
-      if (!inquiryStore2.currentUserStatus?.isOwner) {
+      if (!inquiryStore.currentUserStatus?.isOwner) {
         return false;
       }
       try {
-        return canEdit?.(context2.value) ?? inquiryStore2.currentUserStatus?.isOwner;
+        return canEdit?.(context2.value) ?? inquiryStore.currentUserStatus?.isOwner;
       } catch (error) {
         console.error("Error checking edit permissions:", error);
-        return inquiryStore2.currentUserStatus?.isOwner;
+        return inquiryStore.currentUserStatus?.isOwner;
       }
     };
     const getResourceHref = (resource) => {
@@ -70434,7 +69666,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     const loadLinks = async () => {
       try {
         isLoading.value = true;
-        await inquiryLinksStore.loadByInquiry(inquiryStore2.id);
+        await inquiryLinksStore.loadByInquiry(inquiryStore.id);
       } catch (error) {
         console.warn("Could not load inquiry links:", error);
       } finally {
@@ -70471,7 +69703,7 @@ const _sfc_main$5 = /* @__PURE__ */ defineComponent({
     onMounted(async () => {
       await refreshResources();
     });
-    const __returned__ = { props: props2, inquiryLinksStore, inquiryStore: inquiryStore2, sessionStore, attachmentsStore, isLoading, showAddModal, context: context2, parseMetadata, groupedResources, hasResources, openAddModal, getResourceDisplayName, getAppName, getAppIcon, deleteResource, confirmDeletion, handleSpecificResourceDeletion, handleAttachmentDeletion, getErrorMessage, getResourceSubtitle, formatFileSize, getResourceTarget, canEditResource, getResourceHref, handleResourceClick, loadLinks, refreshResources, get t() {
+    const __returned__ = { props: props2, inquiryLinksStore, inquiryStore, sessionStore, attachmentsStore, isLoading, showAddModal, context: context2, parseMetadata, groupedResources, hasResources, openAddModal, getResourceDisplayName, getAppName, getAppIcon, deleteResource, confirmDeletion, handleSpecificResourceDeletion, handleAttachmentDeletion, getErrorMessage, getResourceSubtitle, formatFileSize, getResourceTarget, canEditResource, getResourceHref, handleResourceClick, loadLinks, refreshResources, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -70663,13 +69895,9 @@ function _sfc_render$5(_ctx, _cache, $props, $setup, $data, $options) {
 const SideBarTabResources = /* @__PURE__ */ _export_sfc$1(_sfc_main$5, [["render", _sfc_render$5], ["__scopeId", "data-v-7ddb7c73"], ["__file", "/var/www/nextcloud/apps/agora/src/components/SideBar/SideBarTabResources.vue"]]);
 const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   __name: "SideBarTabConfigurationInquiryGroup",
-  props: {
-    groupId: { type: Number, required: true }
-  },
   emits: ["saved"],
   setup(__props, { expose: __expose, emit: __emit }) {
     __expose();
-    const props2 = __props;
     const emit2 = __emit;
     const inquiryGroupStore = useInquiryGroupStore();
     const sessionStore = useSessionStore();
@@ -70702,10 +69930,10 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
       return inquiryGroupStore.title !== "" || inquiryGroupStore.titleExt !== "" || inquiryGroupStore.description !== "";
     });
     const loadGroup = async () => {
-      if (!props2.groupId) return;
+      if (!inquiryGroupStore.id) return;
       loading.value = true;
       try {
-        await inquiryGroupStore.load(props2.groupId);
+        await inquiryGroupStore.load(inquiryGroupStore.id);
         if (inquiryGroupStore.coverId) {
           currentCoverUrl.value = getNextcloudPreviewUrl(inquiryGroupStore.coverId);
         }
@@ -70826,16 +70054,14 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     onMounted(() => {
       loadGroup();
     });
-    const __returned__ = { props: props2, emit: emit2, inquiryGroupStore, sessionStore, loading, saving, imageFileInput, currentCoverUrl, formErrors, availableGroupStatuses, statusOptions, canEditGroup, hasChanges, loadGroup, getNextcloudPreviewUrl, triggerImageUpload, handleImageUpload, validateForm, saveGroup, removeCoverImage, formatDate, getFormFieldState, get t() {
+    const __returned__ = { emit: emit2, inquiryGroupStore, sessionStore, loading, saving, imageFileInput, currentCoverUrl, formErrors, availableGroupStatuses, statusOptions, canEditGroup, hasChanges, loadGroup, getNextcloudPreviewUrl, triggerImageUpload, handleImageUpload, validateForm, saveGroup, removeCoverImage, formatDate, getFormFieldState, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
-    }, get NcInputField() {
-      return NcInputField;
+    }, get NcTextArea() {
+      return NcTextArea;
     }, get NcSelect() {
       return NcSelect;
-    }, get NcTextField() {
-      return _sfc_main$1G;
     }, get InquiryGeneralIcons() {
       return InquiryGeneralIcons;
     } };
@@ -71049,7 +70275,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
       ]),
       createBaseVNode("div", _hoisted_16, [
         createCommentVNode(" Title Field - Full width "),
-        createVNode($setup["NcInputField"], {
+        createVNode($setup["NcTextArea"], {
           modelValue: $setup.inquiryGroupStore.title,
           "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.inquiryGroupStore.title = $event),
           label: $setup.t("agora", "Title") + " *",
@@ -71069,7 +70295,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
           /* STABLE */
         }, 8, ["modelValue", "label", "placeholder", "disabled", "error", "success", "helper-text"]),
         createCommentVNode(" Extended Title Field - Full width "),
-        createVNode($setup["NcInputField"], {
+        createVNode($setup["NcTextArea"], {
           modelValue: $setup.inquiryGroupStore.titleExt,
           "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.inquiryGroupStore.titleExt = $event),
           label: $setup.t("agora", "Extended Title"),
@@ -71101,12 +70327,11 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
         )
       ]),
       createBaseVNode("div", _hoisted_19, [
-        createVNode($setup["NcTextField"], {
+        createVNode($setup["NcTextArea"], {
           modelValue: $setup.inquiryGroupStore.description,
           "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.inquiryGroupStore.description = $event),
           placeholder: $setup.t("agora", "Enter group description..."),
-          maxlength: 2e3,
-          rows: 100,
+          rows: 10,
           disabled: !$setup.canEditGroup || $setup.saving,
           class: "form-textarea large"
         }, null, 8, ["modelValue", "placeholder", "disabled"]),
@@ -71247,29 +70472,29 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
   __name: "SideBar",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const context2 = computed(() => {
       const ctx = createPermissionContextForContent(
         ContentType.Inquiry,
-        inquiryStore2.owner.id,
-        inquiryStore2.configuration.access === "public",
-        inquiryStore2.status.isLocked,
-        inquiryStore2.status.isExpired,
-        inquiryStore2.status.deletionDate > 0,
-        inquiryStore2.status.isArchived,
-        inquiryStore2.inquiryGroups.length > 0,
-        inquiryStore2.inquiryGroups,
-        inquiryStore2.type,
-        inquiryStore2.family,
-        inquiryStore2.configuration.access,
-        inquiryStore2.status.isFinalStatus,
-        inquiryStore2.status.moderationStatus
+        inquiryStore.owner.id,
+        inquiryStore.configuration.access === "public",
+        inquiryStore.status.isLocked,
+        inquiryStore.status.isExpired,
+        inquiryStore.status.deletionDate > 0,
+        inquiryStore.status.isArchived,
+        inquiryStore.inquiryGroups.length > 0,
+        inquiryStore.inquiryGroups,
+        inquiryStore.type,
+        inquiryStore.family,
+        inquiryStore.configuration.access,
+        inquiryStore.status.isFinalStatus,
+        inquiryStore.status.moderationStatus
       );
       return ctx;
     });
     const showSidebar = ref(window.innerWidth > 920);
     const activeTab = ref(translate("agora", "Comments").toLowerCase());
-    const shouldDisplay = computed(() => inquiryStore2.status.forceEditMode);
+    const shouldDisplay = computed(() => inquiryStore.status.forceEditMode);
     onMounted(() => {
       subscribe(Event$1.SidebarToggle, (payload) => {
         showSidebar.value = payload?.open ?? !showSidebar.value;
@@ -71290,7 +70515,7 @@ const _sfc_main$3 = /* @__PURE__ */ defineComponent({
     function closeSideBar() {
       emit(Event$1.SidebarToggle, { open: false });
     }
-    const __returned__ = { inquiryStore: inquiryStore2, context: context2, showSidebar, activeTab, shouldDisplay, closeSideBar, get t() {
+    const __returned__ = { inquiryStore, context: context2, showSidebar, activeTab, shouldDisplay, closeSideBar, get t() {
       return translate;
     }, get NcAppSidebar() {
       return NcAppSidebar;
@@ -71538,8 +70763,8 @@ async function validateToken(to, from2) {
       };
     }
   }
-  const inquiryStore2 = useInquiryStore();
-  inquiryStore2.load();
+  const inquiryStore = useInquiryStore();
+  inquiryStore.load();
 }
 const routes = [
   {
@@ -71656,7 +70881,6 @@ const router = createRouter({
 router.beforeEach(async (to, from2) => {
   const sessionStore = useSessionStore();
   let forceReload = false;
-  console.log("NAVIGATING TO:", to.name);
   const cheapLoading = to.name === from2.name && sessionStore.watcher.mode !== "noInquirying" && sessionStore.watcher.status !== "stopped";
   if (to.name === "login") {
     forceReload = true;
@@ -71752,7 +70976,7 @@ function WorkerWrapper(options2) {
 }
 const useInquiryWatcher = (interval = 3e4) => {
   const sessionStore = useSessionStore();
-  const inquiryStore2 = useInquiryStore();
+  const inquiryStore = useInquiryStore();
   const inquiriesStore = useInquiriesStore();
   const supportsStore = useSupportsStore();
   const optionsStore = useOptionsStore();
@@ -71853,7 +71077,7 @@ const useInquiryWatcher = (interval = 3e4) => {
           sharesStore.load();
           break;
         case "inquiries":
-          inquiryStore2.load();
+          inquiryStore.load();
           inquiriesStore.load();
           break;
         case "supports":
@@ -71869,14 +71093,14 @@ const useInquiryWatcher = (interval = 3e4) => {
     });
   };
   const handleWatcherUpdates = (updates) => {
-    const tasks = getTasksFromUpdates(updates, inquiryStore2.id);
+    const tasks = getTasksFromUpdates(updates, inquiryStore.id);
     Logger.info("[InquiryWatcher] Updates received:", { updates });
     handleWatcherTasks(tasks);
   };
   const handleVisibilityChange = () => {
     if (document.visibilityState === "visible") {
       Logger.info("[InquiryWatcher] Window visible → restarting worker");
-      startWorker(inquiryStore2.id, sessionStore.appSettings.updateType);
+      startWorker(inquiryStore.id, sessionStore.appSettings.updateType);
     } else {
       Logger.info("[InquiryWatcher] Window hidden → stopping worker");
       stopWorker();
@@ -71890,7 +71114,7 @@ const useInquiryWatcher = (interval = 3e4) => {
     stopWorker();
   });
   watch(
-    [() => inquiryStore2.id, () => sessionStore.appSettings.updateType],
+    [() => inquiryStore.id, () => sessionStore.appSettings.updateType],
     ([inquiryIdNew, modeNew], [inquiryIdOld, modeOld]) => {
       Logger.debug("[InquiryWatcher] InquiryWatcher worker restarted:", {
         inquiryId: `${inquiryIdOld} → ${inquiryIdNew}`,
@@ -71909,18 +71133,18 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     __expose();
     useInquiryWatcher();
     const sessionStore = useSessionStore();
-    const inquiryStore2 = useInquiryStore();
+    const inquiryStore = useInquiryStore();
     const inquiryGroupStore = useInquiryGroupStore();
     const transitionClass = ref("transitions-active");
     const appClass = computed(() => [
       transitionClass.value,
       {
-        edit: inquiryStore2.permissions.edit
+        edit: inquiryStore.permissions.edit
       }
     ]);
     const useNavigation = computed(() => sessionStore.userStatus.isLoggedin);
     const useSidebar = computed(
-      () => inquiryStore2.permissions.edit || sessionStore.route.name === "group" && inquiryGroupStore.owner.id === sessionStore.currentUser.id
+      () => inquiryStore.permissions.edit || sessionStore.route.name === "group" && inquiryGroupStore.owner.id === sessionStore.currentUser.id
     );
     function transitionsOn() {
       transitionClass.value = "transitions-active";
@@ -71963,7 +71187,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       unsubscribe(Event$1.UpdateInquiry, () => {
       });
     });
-    const __returned__ = { sessionStore, inquiryStore: inquiryStore2, inquiryGroupStore, transitionClass, appClass, useNavigation, useSidebar, transitionsOn, transitionsOff, notify, get NcContent() {
+    const __returned__ = { sessionStore, inquiryStore, inquiryGroupStore, transitionClass, appClass, useNavigation, useSidebar, transitionsOn, transitionsOff, notify, get NcContent() {
       return NcContent;
     }, UserSettingsDlg };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });

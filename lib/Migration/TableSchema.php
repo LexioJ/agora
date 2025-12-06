@@ -384,6 +384,7 @@ abstract class TableSchema
             'cover_id' => ['type' => Types::BIGINT, 'options' => ['notnull' => false, 'default' => null]],
             'protected' => ['type' => Types::BOOLEAN, 'options' => ['notnull' => false, 'default' => false]],
             'group_status' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 32]],
+            'allow_edit' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
         ],
 
         InquiryGroup::RELATION_TABLE => [

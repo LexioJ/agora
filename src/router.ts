@@ -31,7 +31,6 @@ import { useSessionStore } from './stores/session.ts'
 async function validateToken(to: RouteLocationNormalized, from: RouteLocationNormalized) {
   const sessionStore = useSessionStore()
   
-  // Vérifier si c'est la même route pour éviter le rechargement
   if (to.name === from.name && sessionStore.isLoaded) {
     return true
   }
@@ -208,7 +207,6 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
 	const sessionStore = useSessionStore()
 	let forceReload = false
 
-    console.log("NAVIGATING TO:", to.name)
 
 	// if the previous and the requested routes have the same name and
 	// the watcher is active, we can do a cheap loading

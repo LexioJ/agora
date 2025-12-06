@@ -45,7 +45,7 @@ class InquiryGroupMiscMapper extends QBMapper
     public function findByInquiryGroupId(int $inquiryGroupId): array
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_group_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
         return $this->findEntities($qb);
     }
 
@@ -57,7 +57,7 @@ class InquiryGroupMiscMapper extends QBMapper
     public function findByInquiryGroupIdAndKey(int $inquiryGroupId, string $key): InquiryGroupMisc
     {
         $qb = $this->buildQuery();
-        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
+        $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_group_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
         $qb->andWhere($qb->expr()->eq(self::TABLE . '.key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
         return $this->findEntity($qb);
     }
@@ -99,7 +99,7 @@ class InquiryGroupMiscMapper extends QBMapper
 	// Delete existing records for this inquiry
 	$qb = $this->db->getQueryBuilder();
 	$qb->delete(InquiryGroupMisc::TABLE)
-    ->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
+    ->where($qb->expr()->eq('inquiry_group_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
 	$qb->executeStatement();
 
 	// Then insert new settings
@@ -108,7 +108,7 @@ class InquiryGroupMiscMapper extends QBMapper
 		$qb->insert(InquiryGroupMisc::TABLE)
      ->values(
 	     [
-		     'inquiry_id' => $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT),
+		     'inquiry_group_id' => $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT),
 		     'key' => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
 		     'value' => $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR),
 	     ]
@@ -128,7 +128,7 @@ class InquiryGroupMiscMapper extends QBMapper
 	    // First delete existing value
 	    $qb = $this->db->getQueryBuilder();
 	    $qb->delete(InquiryGroupMisc::TABLE)
-	->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)))
+	->where($qb->expr()->eq('inquiry_group_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)))
 	->andWhere($qb->expr()->eq('key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
 	    $qb->executeStatement();
 
@@ -138,7 +138,7 @@ class InquiryGroupMiscMapper extends QBMapper
 		    $qb->insert(InquiryGroupMisc::TABLE)
 	 ->values(
 		 [
-			 'inquiry_id' => $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT),
+			 'inquiry_group_id' => $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT),
 			 'key' => $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR),
 			 'value' => $qb->createNamedParameter($value, IQueryBuilder::PARAM_STR),
 		 ]
@@ -157,7 +157,7 @@ class InquiryGroupMiscMapper extends QBMapper
     {
 	    $qb = $this->db->getQueryBuilder();
 	    $qb->delete($this->getTableName())
-	->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
+	->where($qb->expr()->eq('inquiry_group_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
 
 	    return $qb->executeStatement();
     }
@@ -169,7 +169,7 @@ class InquiryGroupMiscMapper extends QBMapper
     {
 	    $qb = $this->db->getQueryBuilder();
 	    $qb->delete($this->getTableName())
-	->where($qb->expr()->eq('inquiry_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)))
+	->where($qb->expr()->eq('inquiry_group_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)))
 	->andWhere($qb->expr()->eq('key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
 
 	    return $qb->executeStatement();
@@ -183,7 +183,7 @@ class InquiryGroupMiscMapper extends QBMapper
     private function findByInquiryGroupIdAndKeyMultiple(int $inquiryGroupId, string $key): array
     {
 	    $qb = $this->buildQuery();
-	    $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
+	    $qb->where($qb->expr()->eq(self::TABLE . '.inquiry_group_id', $qb->createNamedParameter($inquiryGroupId, IQueryBuilder::PARAM_INT)));
 	    $qb->andWhere($qb->expr()->eq(self::TABLE . '.key', $qb->createNamedParameter($key, IQueryBuilder::PARAM_STR)));
 	    return $this->findEntities($qb);
     }

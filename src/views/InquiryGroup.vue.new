@@ -1,0 +1,1666 @@
+<!--
+- SPDX-FileCopyrightText: 2024 Nextcloud contributors
+- SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<template>
+  <div class="inquiry-group-container">
+    <!-- Fixed Breadcrumb at top -->
+    <div class="breadcrumb-fixed">
+      <div class="breadcrumb-fixed__container">
+        <div class="breadcrumb-fixed__content">
+          <!-- Home link -->
+          <NcButton 
+            type="tertiary" 
+            class="breadcrumb-fixed__home"
+            @click="navigateToHome"
+          >
+            <template #icon>
+              <HomeIcon />
+            </template>
+            {{ t('agora', 'Home') }}
+          </NcButton>
+          
+          <!-- Parent groups -->
+          <template v-for="(parent, index) in parentGroups" :key="parent.id">
+            <span class="breadcrumb-fixed__separator">/</span>
+            <NcButton 
+              type="tertiary"
+              class="breadcrumb-fixed__item"
+              @click="selectAssemblyGroup(parent)"
+            >
+              {{ parent.title }}
+            </NcButton>
+          </template>
+          
+          <!-- Current group (if exists) -->
+          <span v-if="currentInquiryGroup" class="breadcrumb-fixed__separator">/</span>
+          <span v-if="currentInquiryGroup" class="breadcrumb-fixed__current">
+            {{ currentInquiryGroup.title }}
+          </span>
+          
+          <!-- No group selected (show type) -->
+          <span v-else class="breadcrumb-fixed__current">
+            {{ assemblyTypeLabel }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <NcAppContent class="inquiry-group-content">
+      <template #title>
+        <!-- Group Header Section -->
+        <div class="group-header-section">
+          <div class="group-header-container">
+            <!-- Left: Icon -->
+            <div class="group-header-icon">
+              <component :is="groupTypeData.icon" v-if="groupTypeData?.icon" />
+            </div>
+            
+            <!-- Middle: Title and Subtitle -->
+            <div class="group-header-content">
+              <h1 class="group-header-title">
+                {{ currentInquiryGroup?.title || assemblyTypeLabel }}
+              </h1>
+              <div class="group-header-subtitle">
+                {{ currentInquiryGroup?.titleExt || '' }}
+                <span v-if="groupInquiries.length > 0" class="inquiry-count">
+                  ({{ groupInquiries.length }} {{ t('agora', 'inquiries') }})
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <!-- Loading State -->
+      <div v-if="showLoading" class="loading-container">
+        <div class="loading-spinner"></div>
+        <p>{{ t('agora', 'Loading inquiry groups...') }}</p>
+      </div>
+
+      <!-- Debug: Show what's loaded -->
+      <div v-if="!isLoading" class="debug-info">
+        <h3>Debug Info:</h3>
+        <p>Current Group Slug: {{ currentGroupSlug }}</p>
+        <p>Current Group: {{ currentInquiryGroup ? 'Exists' : 'Not found' }}</p>
+        <p>All Groups Count: {{ allInquiryGroups.length }}</p>
+        <p>Assembly Groups Count: {{ assemblyGroups.length }}</p>
+        <p>Assembly Type: {{ assemblyGroupType?.group_type }}</p>
+      </div>
+
+      <!-- When slug is null/empty - show assembly type overview -->
+      <template v-else-if="!currentInquiryGroup && !isLoading && (!currentGroupSlug || currentGroupSlug === 'none')">
+        <div class="assembly-type-overview">
+          <!-- Assembly Type Information -->
+          <div class="assembly-type-header">
+            <div class="assembly-type-icon">
+              <component :is="assemblyTypeData.icon" v-if="assemblyTypeData?.icon" />
+            </div>
+            <div class="assembly-type-content">
+              <h2>{{ assemblyTypeLabel }}</h2>
+              <p v-if="assemblyTypeDescription" class="assembly-type-description">
+                {{ assemblyTypeDescription }}
+              </p>
+            </div>
+          </div>
+
+          <!-- All Assembly Groups -->
+          <div class="assembly-groups-section">
+            <div class="section-header">
+              <h3>{{ t('agora', 'Assembly Groups') }}</h3>
+              <span class="section-count">({{ assemblyGroups.length }})</span>
+            </div>
+            
+            <div v-if="assemblyGroups.length > 0" class="assembly-groups-grid">
+              <div 
+                v-for="group in assemblyGroups" 
+                :key="group.id"
+                class="assembly-group-card"
+                @click="selectAssemblyGroup(group)"
+              >
+                <div class="assembly-group-card__cover" v-if="group.coverId">
+                  <img :src="getCoverUrl(group.coverId)" :alt="group.title" />
+                </div>
+                <div class="assembly-group-card__content">
+                  <h4>{{ group.title }}</h4>
+                  <p v-if="group.description" class="assembly-group-card__description">
+                    {{ truncateDescription(group.description, 120) }}
+                  </p>
+                  <div class="assembly-group-card__meta">
+                    <span class="inquiry-count">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                      </svg>
+                      {{ group.inquiryIds?.length || 0 }} {{ t('agora', 'inquiries') }}
+                    </span>
+                    <span class="child-count" v-if="group.children?.length > 0">
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                      </svg>
+                      {{ group.children.length }} {{ t('agora', 'subgroups') }}
+                    </span>
+                  </div>
+                  <div class="assembly-group-card__footer">
+                    <NcButton class="view-group-button">
+                      {{ t('agora', 'View Group') }}
+                    </NcButton>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <NcEmptyContent 
+              v-else
+              :name="t('agora', 'No assembly groups found')"
+            >
+            </NcEmptyContent>
+          </div>
+        </div>
+      </template>
+
+      <!-- Main Content (only show when not loading and group exists) -->
+      <template v-else-if="currentInquiryGroup && !isLoading">
+        <!-- Main Content Layout -->
+        <div class="inquiry-group-layout">
+          <!-- Left Column: Main Content -->
+          <div class="inquiry-group-main">
+            <!-- Group Cover/Banner -->
+            <div v-if="currentInquiryGroup?.coverId" class="group-cover">
+              <img 
+                :src="getCoverUrl(currentInquiryGroup.coverId)" 
+                :alt="currentInquiryGroup.title"
+                class="group-cover__image"
+              />
+              <div v-if="currentInquiryGroup?.description" class="group-cover__description">
+                {{ currentInquiryGroup.description }}
+              </div>
+              
+              <!-- Owner/Admin Actions (hover only) -->
+              <div v-if="isOwnerOrAdmin" class="group-cover__actions">
+                <NcActions>
+                  <NcActionButton @click="handleModifyGroup">
+                    {{ t('agora', 'Modify') }}
+                  </NcActionButton>
+                  <NcActionSeparator />
+                  <NcActionButton @click="handleDeleteGroup" class="danger">
+                    {{ t('agora', 'Delete') }}
+                  </NcActionButton>
+                  <NcActionSeparator />
+                  <NcActionButton @click="handleAddAllowedResponse">
+                    {{ t('agora', 'Add Allowed Response') }}
+                  </NcActionButton>
+                </NcActions>
+              </div>
+            </div>
+
+            <!-- Child Groups Section (if any) -->
+            <div v-if="childGroups.length > 0" class="child-groups-section">
+              <h2 class="section-title">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="section-title__icon">
+                  <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+                </svg>
+                {{ t('agora', 'Subgroups') }} ({{ childGroups.length }})
+              </h2>
+              <div class="child-groups-grid">
+                <div 
+                  v-for="child in childGroups" 
+                  :key="child.id"
+                  class="child-group-card"
+                  @click="selectAssemblyGroup(child)"
+                >
+                  <div class="child-group-card__icon">
+                    <component :is="getInquiryGroupTypeData(child.group_type, sessionStore.appSettings.inquiryGroupTypeTab).icon" />
+                  </div>
+                  <div class="child-group-card__content">
+                    <h4>{{ child.title }}</h4>
+                    <p v-if="child.description" class="child-group-card__description">
+                      {{ truncateDescription(child.description, 80) }}
+                    </p>
+                    <div class="child-group-card__meta">
+                      <span class="inquiry-count">
+                        {{ child.inquiryIds?.length || 0 }} {{ t('agora', 'inquiries') }}
+                      </span>
+                    </div>
+                  </div>
+                  <div class="child-group-card__arrow">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Allowed Response Types Vignettes -->
+            <div v-if="currentInquiryGroupType && sessionStore.appSettings.inquiryGroupTypeTab" 
+                 class="allowed-response-types">
+              <h2 class="section-title">
+                {{ t('agora', 'Allowed Response Types') }}
+              </h2>
+              <div class="response-types-grid">
+                <div 
+                  v-for="groupType in allowedResponseTypes" 
+                  :key="groupType.id"
+                  class="response-type-vignette"
+                  @click="createInquiryFromType(groupType.group_type)"
+                >
+                  <div class="response-type-vignette__icon">
+                    <component :is="getInquiryGroupTypeData(groupType.group_type, sessionStore.appSettings.inquiryGroupTypeTab).icon" />
+                  </div>
+                  <div class="response-type-vignette__title">
+                    {{ t('agora', getInquiryGroupTypeData(groupType.group_type, sessionStore.appSettings.inquiryGroupTypeTab).label) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- INQUIRIES DISPLAY -->
+            
+            <!-- Main Display Inquiries (full page) -->
+            <div v-if="inquiriesForMainDisplay.length > 0" class="inquiries-main-display">
+              <h2 class="section-title">
+                {{ t('agora', 'Featured Inquiries') }}
+              </h2>
+              <div class="inquiries-main-list">
+                <div 
+                  v-for="inquiry in inquiriesForMainDisplay" 
+                  :key="inquiry.id"
+                  class="inquiry-main"
+                  @click="navigateToInquiry(inquiry.id)"
+                >
+                  <h3>{{ inquiry.title }}</h3>
+                  <div v-html="inquiry.description"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Grouped Inquiries by Type -->
+            <template v-for="(inquiries, typeKey) in inquiriesByType" :key="typeKey">
+              <!-- Card/Vignette Display -->
+              <div v-if="inquiries.some(i => getInquiryDisplayMode(i) === 'cards')" class="inquiry-type-section">
+                <h2 class="section-title">
+                  <component :is="getTypeData(typeKey)?.icon" class="section-title__icon" />
+                  {{ t('agora', getTypeData(typeKey)?.label || typeKey) }} ({{ inquiries.length }})
+                </h2>
+                <div class="inquiries-vignettes-grid">
+                  <InquiryVignette
+                    v-for="inquiry in inquiries.filter(i => getInquiryDisplayMode(i) === 'cards')"
+                    :key="inquiry.id"
+                    :inquiry="inquiry"
+                    @click="navigateToInquiry(inquiry.id)"
+                  />
+                </div>
+              </div>
+
+              <!-- Block Display -->
+              <div v-if="inquiries.some(i => getInquiryDisplayMode(i) === 'block')" class="inquiry-type-section">
+                <h2 class="section-title">
+                  <component :is="getTypeData(typeKey)?.icon" class="section-title__icon" />
+                  {{ t('agora', getTypeData(typeKey)?.label || typeKey) }} ({{ inquiries.length }})
+                </h2>
+                <div class="inquiries-block-list">
+                  <div 
+                    v-for="inquiry in inquiries.filter(i => getInquiryDisplayMode(i) === 'block')"
+                    :key="inquiry.id"
+                    class="inquiry-block-item"
+                    @click="navigateToInquiry(inquiry.id)"
+                  >
+                    <div class="inquiry-block-item__icon">
+                      <component :is="getTypeData(typeKey)?.icon" />
+                    </div>
+                    <div class="inquiry-block-item__content">
+                      <h4>{{ inquiry.title }}</h4>
+                      <div v-if="inquiry.description" class="inquiry-block-item__description">
+                        {{ truncateDescription(inquiry.description, 60) }}
+                      </div>
+                      <div class="inquiry-block-item__meta">
+                        <span class="inquiry-status" :class="`status-${inquiry.status}`">
+                          {{ getStatusText(inquiry.status) }}
+                        </span>
+                        <span v-if="inquiry.date" class="inquiry-date">
+                          {{ formatDate(inquiry.date) }}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="inquiry-block-item__action">
+                      <NcButton v-if="inquiry.status === 'open'" class="action-open">
+                        {{ t('agora', 'Open') }}
+                      </NcButton>
+                      <NcButton v-else-if="inquiry.status === 'closed'" class="action-closed" :disabled="true">
+                        {{ t('agora', 'Closed') }}
+                      </NcButton>
+                      <NcButton v-else-if="inquiry.status === 'vote'" class="action-vote">
+                        {{ t('agora', 'Vote') }}
+                      </NcButton>
+                      <NcButton v-else class="action-read">
+                        {{ t('agora', 'Read') }}
+                      </NcButton>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <!-- Empty State -->
+            <NcEmptyContent 
+              v-if="isEmptyGroup"
+              :name="t('agora', 'No inquiries in this group')"
+              :description="t('agora', 'Add inquiries to start engaging with participants')"
+            >
+              <template #icon>
+                <AgoraAppIcon />
+              </template>
+              <template #action>
+                <NcButton @click="navigateToCreateInquiry">
+                  {{ t('agora', 'Add First Inquiry') }}
+                </NcButton>
+              </template>
+            </NcEmptyContent>
+          </div>
+
+          <!-- Right Column: Sidebar -->
+          <div v-if="currentInquiryGroup" class="inquiry-group-sidebar">
+            <!-- Group Description -->
+            <div v-if="currentInquiryGroup?.description" class="group-description-sidebar">
+              <h3>{{ t('agora', 'Description') }}</h3>
+              <div class="group-description-content">
+                {{ currentInquiryGroup.description }}
+              </div>
+            </div>
+
+            <!-- Inquiry Types Sidebar -->
+            <InquiryGroupSidebar
+              :inquiry-group="currentInquiryGroup"
+              :inquiries-by-type="inquiriesByType"
+              :inquiry-types="inquiryTypes"
+              @add-inquiry="navigateToCreateInquiry"
+            />
+          </div>
+        </div>
+      </template>
+
+      <!-- Group not found -->
+      <NcEmptyContent 
+        v-else-if="!isLoading && currentGroupSlug && currentGroupSlug !== 'none'"
+        :name="t('agora', 'Group not found')"
+        :description="t('agora', 'The inquiry group you are looking for does not exist or you do not have permission to access it.')"
+      >
+        <template #icon>
+          <AgoraAppIcon />
+        </template>
+        <template #action>
+          <NcButton @click="navigateToHome">
+            {{ t('agora', 'Back to home') }}
+          </NcButton>
+        </template>
+      </NcEmptyContent>
+    </NcAppContent>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed, ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { t } from '@nextcloud/l10n'
+import NcAppContent from '@nextcloud/vue/components/NcAppContent'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
+import NcActions from '@nextcloud/vue/components/NcActions'
+import NcActionButton from '@nextcloud/vue/components/NcActionButton'
+import NcActionSeparator from '@nextcloud/vue/components/NcActionSeparator'
+import HomeIcon from 'vue-material-design-icons/Home.vue'
+import { AgoraAppIcon } from '../components/AppIcons/index.ts'
+import { useSessionStore } from '../stores/session.ts'
+import { useInquiriesStore } from '../stores/inquiries.ts'
+import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
+import { 
+  getInquiryTypeData,
+  getInquiryGroupTypeData,
+  getInquiryGroupTypesForFamily,
+  getInquiryTypesForFamily,
+  type InquiryType,
+  type InquiryGroupType
+} from '../helpers/modules/InquiryHelper.ts'
+import InquiryVignette from '../components/Inquiry/InquiryVignette.vue'
+import InquiryGroupSidebar from '../components/InquiryGroup/InquiryGroupSidebar.vue'
+
+const route = useRoute()
+const router = useRouter()
+const sessionStore = useSessionStore()
+const inquiriesStore = useInquiriesStore()
+const inquiryGroupsStore = useInquiryGroupsStore()
+
+// Current inquiry group from route
+const currentGroupSlug = computed(() => route.params.slug as string)
+
+// Loading state
+const isLoading = ref(true)
+
+// Image URL function for Nextcloud preview
+function getNextcloudPreviewUrl(fileId: number, x = 1920, y = 1080, autoScale = true) {
+  const baseUrl = window.location.origin
+  return `${baseUrl}/index.php/core/preview?fileId=${fileId}&x=${x}&y=${y}&a=${autoScale ? 1 : 0}`
+}
+
+function getCoverUrl(coverId: string | number) {
+  if (!coverId) return null
+  const fileId = typeof coverId === 'string' ? parseInt(coverId) : coverId
+  return getNextcloudPreviewUrl(fileId, 1200, 400)
+}
+
+// Get all inquiry groups - FIXED: Use the same property as NavigationGroup.vue
+const allInquiryGroups = computed(() => {
+  console.log('DEBUG: All groups from store:', inquiryGroupsStore.inquiryGroups)
+  return inquiryGroupsStore.inquiryGroups || []
+})
+
+// Find assembly group type from appSettings
+const assemblyGroupType = computed(() => {
+  const groupTypes = sessionStore.appSettings.inquiryGroupTypeTab || []
+  console.log('DEBUG: All group types:', groupTypes)
+  
+  // Look for group types with "assembly" in the name or type
+  const assemblyType = groupTypes.find(type => 
+    type.group_type === 'assembly' ||
+    type.group_type?.toLowerCase().includes('assembly') ||
+    type.label?.toLowerCase().includes('assembly')
+  )
+  
+  console.log('DEBUG: Found assembly type:', assemblyType)
+  return assemblyType || groupTypes[0] // Fallback to first group type
+})
+
+// Get assembly type data (icon, label, description)
+const assemblyTypeData = computed(() => {
+  if (!assemblyGroupType.value) {
+    return {
+      icon: null,
+      label: t('agora', 'Assembly Groups'),
+      description: t('agora', 'Groups for organizing inquiries')
+    }
+  }
+  return getInquiryGroupTypeData(
+    assemblyGroupType.value.group_type,
+    sessionStore.appSettings.inquiryGroupTypeTab || []
+  )
+})
+
+const assemblyTypeLabel = computed(() => {
+  return t('agora', assemblyTypeData.value.label)
+})
+
+const assemblyTypeDescription = computed(() => {
+  return assemblyTypeData.value.description ? t('agora', assemblyTypeData.value.description) : ''
+})
+
+// Filter for assembly groups - FIXED: Better filtering
+const assemblyGroups = computed(() => {
+  console.log('DEBUG: Starting assembly groups filter')
+  console.log('DEBUG: Assembly group type:', assemblyGroupType.value?.group_type)
+  console.log('DEBUG: All groups count:', allInquiryGroups.value.length)
+  
+  if (!assemblyGroupType.value) {
+    console.log('DEBUG: No assembly group type found')
+    return []
+  }
+  
+  // Filter groups by assembly group type
+  const filtered = allInquiryGroups.value.filter(group => {
+    const matchesType = group.type === assemblyGroupType.value.group_type
+    console.log(`DEBUG: Group "${group.title}" (${group.type}) matches ${assemblyGroupType.value.group_type}: ${matchesType}`)
+    return matchesType
+  })
+  
+  console.log('DEBUG: Filtered assembly groups:', filtered)
+  return filtered
+})
+
+// Current inquiry group data
+const currentInquiryGroup = computed(() => {
+  if (currentGroupSlug.value && currentGroupSlug.value !== 'none') {
+    return inquiryGroupsStore.bySlug(currentGroupSlug.value)
+  }
+  return null
+})
+
+// Get parent groups hierarchy
+const parentGroups = computed(() => {
+  if (!currentInquiryGroup.value) return []
+  
+  const parents = []
+  let currentGroup = currentInquiryGroup.value
+  
+  // Traverse up the parent chain
+  while (currentGroup.parentId) {
+    const parent = allInquiryGroups.value.find(g => g.id === currentGroup.parentId)
+    if (parent) {
+      parents.unshift(parent) // Add to beginning to maintain order
+      currentGroup = parent
+    } else {
+      break
+    }
+  }
+  
+  return parents
+})
+
+// Get child groups
+const childGroups = computed(() => {
+  if (!currentInquiryGroup.value?.children) return []
+  
+  // Get full child group objects
+  return allInquiryGroups.value.filter(group => 
+    currentInquiryGroup.value.children.includes(group.id)
+  )
+})
+
+// Get allowed response types
+const allowedResponseTypes = computed(() => {
+  if (!currentInquiryGroupType.value?.family) return []
+  
+  const allGroupTypes = sessionStore.appSettings.inquiryGroupTypeTab || []
+  const groupTypesByFamily = getInquiryGroupTypesForFamily(
+    currentInquiryGroupType.value.family,
+    allGroupTypes
+  )
+  
+  return groupTypesByFamily.filter(groupType => 
+    groupType.group_type !== currentInquiryGroup.value?.group_type
+  )
+})
+
+// Current inquiry group type
+const currentInquiryGroupType = computed(() => {
+  if (!currentInquiryGroup.value?.group_type) return null
+  const groupTypes = sessionStore.appSettings.inquiryGroupTypeTab || []
+  return groupTypes.find(type => type.group_type === currentInquiryGroup.value.group_type)
+})
+
+// Group type icon and data for current group
+const groupTypeData = computed(() => {
+  if (currentInquiryGroupType.value) {
+    return getInquiryGroupTypeData(
+      currentInquiryGroupType.value.group_type, 
+      sessionStore.appSettings.inquiryGroupTypeTab || []
+    )
+  }
+  return assemblyTypeData.value
+})
+
+// Get inquiries for this group
+const groupInquiries = computed(() => {
+  if (!currentInquiryGroup.value?.inquiryIds) return []
+  return inquiriesStore.byIds(currentInquiryGroup.value.inquiryIds) || []
+})
+
+// Group inquiries by type
+const inquiriesByType = computed(() => {
+  if (!groupInquiries.value || groupInquiries.value.length === 0) {
+    return {}
+  }
+  
+  const grouped: Record<string, any[]> = {}
+  
+  groupInquiries.value.forEach(inquiry => {
+    if (!inquiry) return
+    
+    const type = inquiry.inquiry_type || 'unknown'
+    if (!grouped[type]) {
+      grouped[type] = []
+    }
+    grouped[type].push(inquiry)
+  })
+  
+  return grouped
+})
+
+// Get inquiry types for display
+const inquiryTypes = computed((): InquiryType[] => {
+  return sessionStore.appSettings.inquiryTypeTab || []
+})
+
+// Get inquiry type data
+const getTypeData = (typeKey: string) => {
+  return getInquiryTypeData(typeKey, inquiryTypes.value)
+}
+
+// Check display mode for inquiry
+const getInquiryDisplayMode = (inquiry: any) => {
+  return inquiry?.miscFields?.display || 'block' // 'main', 'cards', or 'block'
+}
+
+// Filter inquiries by display mode
+const inquiriesForMainDisplay = computed(() => {
+  return groupInquiries.value.filter(inquiry => 
+    inquiry && getInquiryDisplayMode(inquiry) === 'main'
+  )
+})
+
+// Check if user is owner/admin
+const isOwnerOrAdmin = computed(() => {
+  // Implement your ownership/admin check logic here
+  return false
+})
+
+// Helper functions
+function truncateDescription(text: string, length: number = 100) {
+  if (!text) return ''
+  return text.length > length ? text.substring(0, length) + '...' : text
+}
+
+function getStatusText(status: string) {
+  switch (status) {
+    case 'open': return t('agora', 'Open')
+    case 'closed': return t('agora', 'Closed')
+    case 'draft': return t('agora', 'Draft')
+    case 'pending': return t('agora', 'Pending')
+    case 'archived': return t('agora', 'Archived')
+    default: return status
+  }
+}
+
+function formatDate(dateString: string) {
+  if (!dateString) return ''
+  try {
+    const date = new Date(dateString)
+    return date.toLocaleDateString()
+  } catch (e) {
+    return dateString
+  }
+}
+
+// Load data
+onMounted(async () => {
+  try {
+    isLoading.value = true
+    
+    // Load all inquiry groups first - FIXED: Use correct method
+    
+    if (currentGroupSlug.value && currentGroupSlug.value !== 'none') {
+      console.log('DEBUG: Loading specific group:', currentGroupSlug.value)
+      await inquiryGroupsStore.loadGroup(currentGroupSlug.value)
+    }
+  } catch (error) {
+    console.error('Error loading inquiry group:', error)
+  } finally {
+    isLoading.value = false
+  }
+})
+
+// Watch for slug changes
+watch(
+  () => route.params.slug,
+  async (newSlug) => {
+    if (newSlug && newSlug !== 'none') {
+      isLoading.value = true
+      try {
+        await inquiryGroupsStore.loadGroup(newSlug as string)
+      } catch (error) {
+        console.error('Error loading group:', error)
+      } finally {
+        isLoading.value = false
+      }
+    }
+  }
+)
+
+// Navigation functions
+function navigateToInquiry(inquiryId: number) {
+  router.push({
+    name: 'inquiry',
+    params: { id: inquiryId }
+  })
+}
+
+function navigateToCreateInquiry() {
+  if (!currentInquiryGroup.value?.family_type) return
+  
+  router.push({
+    name: 'menu',
+    query: { 
+      viewMode: 'create',
+      familyType: currentInquiryGroup.value.family_type
+    }
+  })
+}
+
+function createInquiryFromType(groupType: string) {
+  if (!currentInquiryGroup.value?.family_type) return
+  
+  router.push({
+    name: 'menu',
+    query: { 
+      viewMode: 'create',
+      familyType: currentInquiryGroup.value.family_type,
+      groupType: groupType
+    }
+  })
+}
+
+function selectAssemblyGroup(group: any) {
+  if (group.slug) {
+    router.push({
+      name: 'group-list',
+      params: { slug: group.slug },
+      query: route.query
+    })
+  }
+}
+
+function navigateToHome() {
+  router.push({
+    name: 'group-list',
+    params: { slug: 'none' }
+  })
+}
+
+// Handle empty group case
+const isEmptyGroup = computed(() => {
+  return !isLoading.value && currentInquiryGroup.value && groupInquiries.value.length === 0
+})
+
+// Handle loading state
+const showLoading = computed(() => {
+  return isLoading.value && !currentInquiryGroup.value && currentGroupSlug.value !== 'none'
+})
+
+// Action handlers
+function handleModifyGroup() {
+  // Implement modify group logic
+  console.log('Modify group clicked')
+}
+
+function handleDeleteGroup() {
+  // Implement delete group logic
+  console.log('Delete group clicked')
+}
+
+function handleAddAllowedResponse() {
+  // Implement add allowed response logic
+  console.log('Add allowed response clicked')
+}
+</script>
+
+<style lang="scss" scoped>
+.inquiry-group-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.breadcrumb-fixed {
+  width: 100%;
+  background: var(--color-main-background);
+  border-bottom: 1px solid var(--color-border);
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  
+  &__container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  &__content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+  }
+  
+  &__home {
+    font-weight: 500;
+    
+    :deep(.button-vue__icon) {
+      margin-right: 4px;
+    }
+  }
+  
+  &__item {
+    font-weight: 400;
+  }
+  
+  &__separator {
+    color: var(--color-text-maxcontrast);
+  }
+  
+  &__current {
+    color: var(--color-main-text);
+    font-weight: 500;
+    margin-left: 4px;
+  }
+}
+
+.inquiry-group-view {
+  .area__main {
+    width: 100%;
+  }
+}
+
+.group-header-section {
+  padding: 0 20px;
+  margin-bottom: 20px;
+}
+
+.group-header-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.group-header-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-background-dark);
+  border-radius: 12px;
+  flex-shrink: 0;
+  
+  :deep(svg) {
+    width: 28px;
+    height: 28px;
+    color: var(--color-primary-element);
+  }
+}
+
+.group-header-content {
+  flex: 1;
+}
+
+.group-header-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-main-text);
+  line-height: 1.2;
+}
+
+.group-header-subtitle {
+  color: var(--color-text-lighter);
+  font-size: 16px;
+  margin-top: 4px;
+  
+  .inquiry-count {
+    color: var(--color-primary-element);
+    font-weight: 500;
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+  
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-primary-element);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+  
+  p {
+    color: var(--color-text-lighter);
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.assembly-type-overview {
+  padding: 0 20px 20px 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.assembly-type-header {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+  padding: 32px;
+  background: var(--color-main-background);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  
+  .assembly-type-icon {
+    width: 80px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-primary-element), var(--color-primary-element-hover));
+    border-radius: 16px;
+    
+    :deep(svg) {
+      width: 40px;
+      height: 40px;
+      color: white;
+    }
+  }
+  
+  .assembly-type-content {
+    flex: 1;
+    
+    h2 {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 0 0 12px 0;
+      color: var(--color-main-text);
+    }
+    
+    .assembly-type-description {
+      font-size: 18px;
+      color: var(--color-text-lighter);
+      line-height: 1.6;
+      margin: 0;
+      max-width: 800px;
+    }
+  }
+}
+
+.assembly-groups-section {
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--color-border);
+    
+    h3 {
+      font-size: 22px;
+      font-weight: 600;
+      margin: 0;
+      color: var(--color-main-text);
+    }
+    
+    .section-count {
+      font-size: 16px;
+      color: var(--color-text-lighter);
+    }
+  }
+}
+
+.assembly-groups-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.assembly-group-card {
+  background: var(--color-main-background);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    border-color: var(--color-primary-element);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  &__cover {
+    height: 150px;
+    overflow: hidden;
+    background: var(--color-background-dark);
+    
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+  
+  &__content {
+    padding: 20px;
+    
+    h4 {
+      font-size: 18px;
+      font-weight: 600;
+      margin: 0 0 12px 0;
+      color: var(--color-main-text);
+    }
+  }
+  
+  &__description {
+    font-size: 14px;
+    color: var(--color-text-lighter);
+    line-height: 1.4;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    font-size: 13px;
+    
+    .inquiry-count, .child-count {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--color-text-lighter);
+      
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+    
+    .inquiry-count {
+      color: var(--color-primary-element);
+      font-weight: 500;
+    }
+  }
+  
+  &__footer {
+    .view-group-button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+}
+
+.inquiry-group-layout {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+  padding: 0 20px 20px 20px;
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.inquiry-group-main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.group-cover {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--color-background-dark);
+  
+  &__image {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+  }
+  
+  &__description {
+    padding: 24px;
+    color: var(--color-main-text);
+    font-size: 16px;
+    line-height: 1.6;
+    border-top: 1px solid var(--color-border);
+  }
+  
+  &__actions {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    
+    .group-cover:hover & {
+      opacity: 1;
+    }
+    
+    .danger {
+      color: var(--color-error) !important;
+    }
+  }
+}
+
+.child-groups-section {
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--color-main-text);
+    
+    &__icon {
+      width: 24px;
+      height: 24px;
+      color: var(--color-text-lighter);
+    }
+  }
+}
+
+.child-groups-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.child-group-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--color-main-background);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: var(--color-background-hover);
+    border-color: var(--color-primary-element);
+    
+    .child-group-card__arrow {
+      transform: translateX(4px);
+    }
+  }
+  
+  &__icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-background-dark);
+    border-radius: 12px;
+    flex-shrink: 0;
+    
+    :deep(svg) {
+      width: 24px;
+      height: 24px;
+      color: var(--color-primary-element);
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    
+    h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+      color: var(--color-main-text);
+    }
+  }
+  
+  &__description {
+    font-size: 14px;
+    color: var(--color-text-lighter);
+    line-height: 1.4;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  &__meta {
+    font-size: 13px;
+    
+    .inquiry-count {
+      color: var(--color-primary-element);
+      font-weight: 500;
+    }
+  }
+  
+  &__arrow {
+    color: var(--color-text-lighter);
+    transition: transform 0.2s ease;
+    
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.allowed-response-types {
+  background: var(--color-main-background);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 24px;
+  
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--color-main-text);
+  }
+}
+
+.response-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.response-type-vignette {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 20px;
+  background: var(--color-background-dark);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: var(--color-background-hover);
+    transform: translateY(-2px);
+  }
+  
+  &__icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-element);
+    border-radius: 50%;
+    color: white;
+    
+    :deep(svg) {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  &__title {
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    color: var(--color-main-text);
+  }
+}
+
+.inquiries-main-display {
+  background: var(--color-main-background);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 24px;
+  
+  .section-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--color-main-text);
+  }
+}
+
+.inquiries-main-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.inquiry-main {
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    h3 {
+      color: var(--color-primary-element);
+    }
+  }
+  
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--color-main-text);
+    transition: color 0.2s ease;
+  }
+  
+  :deep(p) {
+    color: var(--color-text-lighter);
+    line-height: 1.6;
+    margin: 0;
+  }
+}
+
+.inquiry-type-section {
+  background: var(--color-main-background);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 24px;
+  
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    color: var(--color-main-text);
+    
+    &__icon {
+      width: 24px;
+      height: 24px;
+      
+      :deep(svg) {
+        width: 20px;
+        height: 20px;
+        color: var(--color-text-lighter);
+      }
+    }
+  }
+}
+
+.inquiries-vignettes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.inquiries-block-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.inquiry-block-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--color-background-dark);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: var(--color-background-hover);
+  }
+  
+  &__icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--color-primary-element);
+    border-radius: 50%;
+    color: white;
+    flex-shrink: 0;
+    
+    :deep(svg) {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  &__content {
+    flex: 1;
+    
+    h4 {
+      font-size: 16px;
+      font-weight: 600;
+      margin: 0 0 8px 0;
+      color: var(--color-main-text);
+    }
+  }
+  
+  &__description {
+    font-size: 14px;
+    color: var(--color-text-lighter);
+    line-height: 1.4;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    
+    .inquiry-status {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-weight: 500;
+      
+      &.status-open {
+        background: var(--color-success);
+        color: white;
+      }
+      
+      &.status-closed {
+        background: var(--color-error);
+        color: white;
+      }
+      
+      &.status-draft {
+        background: var(--color-warning);
+        color: white;
+      }
+      
+      &.status-pending {
+        background: var(--color-info);
+        color: white;
+      }
+      
+      &.status-archived {
+        background: var(--color-text-maxcontrast);
+        color: white;
+      }
+    }
+    
+    .inquiry-date {
+      color: var(--color-text-lighter);
+    }
+  }
+  
+  &__action {
+    flex-shrink: 0;
+    
+    .action-open,
+    .action-vote,
+    .action-read {
+      background: var(--color-primary-element);
+      color: white;
+      border-color: var(--color-primary-element);
+      min-width: 80px;
+      
+      &:hover {
+        background: var(--color-primary-element-hover);
+        border-color: var(--color-primary-element-hover);
+      }
+    }
+    
+    .action-closed {
+      background: var(--color-error);
+      color: white;
+      border-color: var(--color-error);
+      min-width: 80px;
+      
+      &:hover {
+        background: var(--color-error-hover);
+        border-color: var(--color-error-hover);
+      }
+    }
+  }
+}
+
+.inquiry-group-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  
+  @media (max-width: 1024px) {
+    order: -1;
+  }
+}
+
+.group-description-sidebar {
+  background: var(--color-main-background);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 20px;
+  
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+    color: var(--color-main-text);
+  }
+}
+
+.group-description-content {
+  color: var(--color-text-lighter);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .breadcrumb-fixed {
+    padding: 8px 0;
+    
+    &__content {
+      font-size: 12px;
+      gap: 4px;
+    }
+  }
+  
+  .group-header-section {
+    padding: 0 16px;
+    margin-bottom: 16px;
+  }
+  
+  .group-header-icon {
+    width: 40px;
+    height: 40px;
+    
+    :deep(svg) {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  .group-header-title {
+    font-size: 22px;
+  }
+  
+  .group-header-subtitle {
+    font-size: 14px;
+  }
+  
+  .assembly-type-overview {
+    padding: 0 16px 16px 16px;
+  }
+  
+  .assembly-type-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 16px;
+    padding: 24px;
+    
+    .assembly-type-icon {
+      width: 64px;
+      height: 64px;
+      
+      :deep(svg) {
+        width: 32px;
+        height: 32px;
+      }
+    }
+    
+    .assembly-type-content {
+      h2 {
+        font-size: 24px;
+      }
+      
+      .assembly-type-description {
+        font-size: 16px;
+      }
+    }
+  }
+  
+  .assembly-groups-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .assembly-group-card {
+    &__cover {
+      height: 120px;
+    }
+    
+    &__content {
+      padding: 16px;
+    }
+    
+    &__meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+  }
+  
+  .inquiry-group-layout {
+    padding: 0 16px 16px 16px;
+    gap: 24px;
+  }
+  
+  .group-cover__image {
+    max-height: 250px;
+  }
+  
+  .child-group-card {
+    padding: 12px;
+    
+    &__icon {
+      width: 40px;
+      height: 40px;
+    }
+  }
+  
+  .response-types-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+  
+  .inquiries-vignettes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .inquiry-block-item {
+    flex-direction: column;
+    align-items: flex-start;
+    
+    &__action {
+      width: 100%;
+      margin-top: 12px;
+      
+      button {
+        width: 100%;
+      }
+    }
+  }
+}
+</style>

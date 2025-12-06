@@ -6,7 +6,7 @@
 import { computed, onMounted, ref } from 'vue'
 import { useInquiryGroupStore } from '../../stores/inquiryGroup.ts'
 import { useSessionStore } from '../../stores/session.ts'
-import { getAvailableFields } from '../../helpers/modules/InquiryHelper.ts'
+import { getAvailableGroupFields } from '../../helpers/modules/InquiryHelper.ts'
 import { StatusIcons } from '../../utils/icons.ts'
 import { t } from '@nextcloud/l10n'
 
@@ -58,12 +58,11 @@ const dynamicFields = computed(() => {
       return []
     }
 
-    const fields = getAvailableFields(
+    const fields = getAvailableGroupFields(
       inquiryGroupStore.type, 
       sessionStore.appSettings.inquiryGroupTypeTab || [],
       inquiryGroupStore.type
     )
-
     return Array.isArray(fields) ? fields : []
   } catch (e) {
     console.error('Error getting fields:', e)
@@ -73,7 +72,7 @@ const dynamicFields = computed(() => {
 
 const getMiscValue = (key: string) => {
   try {
-    if (!inquiryGroupStore.miscFields || typeof inquiryStore.miscFields !== 'object' || !key) {
+    if (!inquiryGroupStore.miscFields || typeof inquiryGroupStore.miscFields !== 'object' || !key) {
       return null
     }
     
@@ -195,7 +194,6 @@ const loadMiscData = () => {
   try {
     isLoading.value = true
     error.value = null
-
     initializeMiscFields()
     initializeLocalCheckboxes()
     
@@ -249,13 +247,11 @@ const saveFieldToDatabase = async (fieldKey: string, value: Field) => {
   }
 }
 
-// Ensure miscFields has all dynamic fields with proper defaults - UPDATED
 const initializeMiscFields = () => {
   dynamicFields.value.forEach(field => {
     if (inquiryGroupStore.miscFields[field.key] === undefined) {
       // Set default value if field doesn't exist in miscFields
       let defaultValue = field.default
-      
       // Convert default values to proper string format for the store
       if (defaultValue === null || defaultValue === undefined) {
         defaultValue = ''
@@ -340,9 +336,11 @@ const getFormattedDate = (key: string) => {
 const getCheckboxValue = (key: string) => localCheckboxes.value[key] || false
 
 onMounted(() => {
+  console.log(" READONLY ",props.isReadonly)
   loadMiscData()
 })
 </script>
+
 <template>
 	<div class="sidebar-tab-misc">
 		<div class="tab-content">

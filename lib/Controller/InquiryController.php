@@ -162,7 +162,7 @@ class InquiryController extends BaseController
         $subscribed = $this->subscriptionService->get($inquiryId);
         $timerMicro['subscribed'] = microtime(true);
     
-        $attachments = $this->attachmentService->getAll($inquiryId);
+        $attachments = $this->attachmentService->getAll($inquiryId,0);
         $timerMicro['attachments'] = microtime(true);
 
         $inquiryLink = $this->inquiryLinkService->findByInquiryId($inquiryId);

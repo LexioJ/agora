@@ -176,7 +176,6 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
     },
 
     /**
-     * Getter pour accéder facilement à l'objet group complet
      */
     inquiryGroup: (state): InquiryGroup => ({
       id: state.id,
@@ -239,8 +238,8 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
           throw new Error('No inquiry group data in response')
         }
         
-        // Mettre à jour toutes les propriétés du state
         const groupData = response.data.inquiryGroup
+      /*  console.log(" FRRRRRRRRRRR ", groupData)
         this.id = groupData.id || 0
         this.coverId = groupData.coverId || null
         this.type = groupData.type || 'default'
@@ -264,7 +263,7 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
         this.slug = groupData.slug || ''
         this.inquiryIds = Array.isArray(groupData.inquiryIds) ? groupData.inquiryIds : []
         this.allowEdit = Boolean(groupData.allowEdit)
-        this.miscFields = Array.isArray(groupData.miscFields) ? groupData.miscFields : []
+        this.miscFields = groupData.miscFields
         this.childs = Array.isArray(groupData.childs) ? groupData.childs : []
         this.order = groupData.order || 0
         this.expire = groupData.expire || null
@@ -272,22 +271,28 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
         // Mettre à jour le statut owner dans sessionStore si nécessaire
         if (this.owner.id === sessionStore.currentUser.id) {
           sessionStore.currentUser.isOwner = true
-        } else {
+          } else {
           sessionStore.currentUser.isOwner = false
-        }
-        
+          }
+          */
+
+        this.$patch(response.data.inquiryGroup)
+        // optionsStore.options = response.data.options
+        //sharesStore.shares = response.data.shares
+        //subscriptionStore.subscribed = response.data.subscribed
+    //    attachmentsStore.attachments = response.data.attachments
         this.meta.status = 'loaded'
         console.log("Group loaded successfully:", this.inquiryGroup)
-        
+
       } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
-        }
-        this.meta.status = 'error'
-        console.error('Error loading inquiry group:', error)
-        Logger.error('Error loading inquiry group', { error })
-        showError(t('agora', 'Failed to load inquiry group'))
-        throw error
+          if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+              return
+          }
+          this.meta.status = 'error'
+          console.error('Error loading inquiry group:', error)
+          Logger.error('Error loading inquiry group', { error })
+          showError(t('agora', 'Failed to load inquiry group'))
+          throw error
       }
     },
 
@@ -295,165 +300,165 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
      * Create a new inquiry group
      */
     async add(payload: {
-      title?: string
-      titleExt?: string
-      description?: string
-      type?: string
-      parentId?: number
-      protected?: boolean
-      ownedGroup?: string
-      groupStatus?: string
-      inquiryIds?: number[]
+        title?: string
+        titleExt?: string
+        description?: string
+        type?: string
+        parentId?: number
+        protected?: boolean
+        ownedGroup?: string
+        groupStatus?: string
+        inquiryIds?: number[]
     }): Promise<any | void> {
-      try {
-        const response = await InquiryGroupsAPI.addGroup({
-          title: payload.title,
-          titleExt: payload.titleExt,
-          type: payload.type || 'default',
-          parentId: payload.parentId,
-          protected: payload.protected || true,
-          ownedGroup: payload.ownedGroup,
-          groupStatus: payload.groupStatus || 'draft',
-        })
+        try {
+            const response = await InquiryGroupsAPI.addGroup({
+                title: payload.title,
+                titleExt: payload.titleExt,
+                type: payload.type || 'default',
+                parentId: payload.parentId,
+                protected: payload.protected || true,
+                ownedGroup: payload.ownedGroup,
+                groupStatus: payload.groupStatus || 'draft',
+            })
 
-        // Met à jour le store avec le nouveau groupe
-        if (response.data?.inquiryGroup) {
-          const groupData = response.data.inquiryGroup
-          this.id = groupData.id
-          this.title = groupData.title || ''
-          this.type = groupData.type || 'default'
-          // ... met à jour les autres propriétés
+            // Met à jour le store avec le nouveau groupe
+            if (response.data?.inquiryGroup) {
+                const groupData = response.data.inquiryGroup
+                this.id = groupData.id
+                this.title = groupData.title || ''
+                this.type = groupData.type || 'default'
+                // ... met à jour les autres propriétés
+            }
+
+            return response.data
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error adding inquiry group:', {
+                error,
+                payload,
+            })
+            throw error
         }
-        
-        return response.data
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
-        }
-        Logger.error('Error adding inquiry group:', {
-          error,
-          payload,
-        })
-        throw error
-      }
     },
 
     /**
      * Update the current inquiry group
      */
     async update(payload: {
-      title?: string
-      titleExt?: string
-      description?: string
-      type?: string
-      parentId?: number
-      protected?: boolean
-      ownedGroup?: string
-      groupStatus?: string
-      expire?: number
+        title?: string
+        titleExt?: string
+        description?: string
+        type?: string
+        parentId?: number
+        protected?: boolean
+        ownedGroup?: string
+        groupStatus?: string
+        expire?: number
     }): Promise<any | void> {
-      const inquiriesStore = useInquiriesStore()
+        const inquiriesStore = useInquiriesStore()
 
-      try {
-        const response = await InquiryGroupsAPI.updateGroup(this.id, {
-          title: payload.title,
-          titleExt: payload.titleExt,
-          description: payload.description,
-          type: payload.type,
-          parentId: payload.parentId,
-          protected: payload.protected,
-          ownedGroup: payload.ownedGroup,
-          groupStatus: payload.groupStatus,
-          expire: payload.expire,
-        })
+        try {
+            const response = await InquiryGroupsAPI.updateGroup(this.id, {
+                title: payload.title,
+                titleExt: payload.titleExt,
+                description: payload.description,
+                type: payload.type,
+                parentId: payload.parentId,
+                protected: payload.protected,
+                ownedGroup: payload.ownedGroup,
+                groupStatus: payload.groupStatus,
+                expire: payload.expire,
+            })
 
-        if (response.data?.inquiryGroup) {
-          const groupData = response.data.inquiryGroup
-          // Met à jour les propriétés
-          if (payload.title !== undefined) this.title = payload.title
-          if (payload.description !== undefined) this.description = payload.description
-          if (payload.type !== undefined) this.type = payload.type
-          if (payload.groupStatus !== undefined) this.groupStatus = payload.groupStatus
-          // ... autres mises à jour
+            if (response.data?.inquiryGroup) {
+                const groupData = response.data.inquiryGroup
+                // Met à jour les propriétés
+                if (payload.title !== undefined) this.title = payload.title
+                    if (payload.description !== undefined) this.description = payload.description
+                        if (payload.type !== undefined) this.type = payload.type
+                            if (payload.groupStatus !== undefined) this.groupStatus = payload.groupStatus
+                                // ... autres mises à jour
+            }
+
+            emit('update:inquiry-group', {
+                store: 'inquiryGroup',
+                message: t('agora', 'Inquiry group updated'),
+            })
+
+            return response.data
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error updating inquiry group', {
+                error,
+                payload,
+            })
+            throw error
+        } finally {
+            inquiriesStore.load()
         }
-        
-        emit('update:inquiry-group', {
-          store: 'inquiryGroup',
-          message: t('agora', 'Inquiry group updated'),
-        })
-        
-        return response.data
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
-        }
-        Logger.error('Error updating inquiry group', {
-          error,
-          payload,
-        })
-        throw error
-      } finally {
-        inquiriesStore.load()
-      }
     },
 
     /**
      * Add an inquiry to the current group
      */
     async addInquiry(inquiryId: number): Promise<void> {
-      try {
-        const response = await InquiryGroupsAPI.addInquiryToGroup(
-          inquiryId,
-          this.id
-        )
-        
-        if (response.data?.inquiryGroup?.inquiryIds) {
-          this.inquiryIds = response.data.inquiryGroup.inquiryIds
+        try {
+            const response = await InquiryGroupsAPI.addInquiryToGroup(
+                inquiryId,
+                this.id
+            )
+
+            if (response.data?.inquiryGroup?.inquiryIds) {
+                this.inquiryIds = response.data.inquiryGroup.inquiryIds
+            }
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error adding inquiry to group', {
+                error,
+                inquiryId,
+                inquiryGroupId: this.id,
+            })
+            throw error
         }
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
-        }
-        Logger.error('Error adding inquiry to group', {
-          error,
-          inquiryId,
-          inquiryGroupId: this.id,
-        })
-        throw error
-      }
     },
 
     /**
      * Remove an inquiry from the current group
      */
     async removeInquiry(inquiryId: number): Promise<void> {
-      const inquiriesStore = useInquiriesStore()
+        const inquiriesStore = useInquiriesStore()
 
-      try {
-        const response = await InquiryGroupsAPI.removeInquiryFromGroup(
-          this.id,
-          inquiryId
-        )
+        try {
+            const response = await InquiryGroupsAPI.removeInquiryFromGroup(
+                this.id,
+                inquiryId
+            )
 
-        if (response.data?.inquiryGroup === null) {
-          // Group was deleted because it became empty
-          this.reset()
-        } else if (response.data?.inquiryGroup?.inquiryIds) {
-          this.inquiryIds = response.data.inquiryGroup.inquiryIds
+            if (response.data?.inquiryGroup === null) {
+                // Group was deleted because it became empty
+                this.reset()
+            } else if (response.data?.inquiryGroup?.inquiryIds) {
+                this.inquiryIds = response.data.inquiryGroup.inquiryIds
+            }
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error removing inquiry from group', {
+                error,
+                inquiryId,
+                inquiryGroupId: this.id,
+            })
+            throw error
+        } finally {
+            inquiriesStore.load()
         }
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
-        }
-        Logger.error('Error removing inquiry from group', {
-          error,
-          inquiryId,
-          inquiryGroupId: this.id,
-        })
-        throw error
-      } finally {
-        inquiriesStore.load()
-      }
     },
 
 
@@ -461,283 +466,314 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
      * Delete the current inquiry group
      */
     async deleteGroup(): Promise<void> {
-      const inquiriesStore = useInquiriesStore()
+        const inquiriesStore = useInquiriesStore()
 
-      try {
-        await InquiryGroupsAPI.deleteGroup(this.inquiryGroup.id)
-        emit('delete:inquiry-group', {
-          store: 'inquiryGroup',
-          message: t('inquiries', 'Inquiry group deleted'),
-        })
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
+        try {
+            await InquiryGroupsAPI.deleteGroup(this.inquiryGroup.id)
+            emit('delete:inquiry-group', {
+                store: 'inquiryGroup',
+                message: t('inquiries', 'Inquiry group deleted'),
+            })
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error deleting inquiry group', {
+                error,
+                inquiryGroupId: this.inquiryGroup.id,
+            })
+            throw error
+        } finally {
+            inquiriesStore.load()
         }
-        Logger.error('Error deleting inquiry group', {
-          error,
-          inquiryGroupId: this.inquiryGroup.id,
-        })
-        throw error
-      } finally {
-        inquiriesStore.load()
-      }
     },
 
     /**
      * Archive the current inquiry group
      */
     async archive(): Promise<void> {
-      try {
-        const response = await InquiryGroupsAPI.updateGroup(this.inquiryGroup.id, {
-          groupStatus: 'archived',
-        })
-        this.inquiryGroup = response.data.inquiryGroup
-        emit('archive:inquiry-group', {
-          store: 'inquiryGroup',
-          message: t('inquiries', 'Inquiry group archived'),
-        })
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
+        try {
+            const response = await InquiryGroupsAPI.updateGroup(this.inquiryGroup.id, {
+                groupStatus: 'archived',
+            })
+            this.inquiryGroup = response.data.inquiryGroup
+            emit('archive:inquiry-group', {
+                store: 'inquiryGroup',
+                message: t('inquiries', 'Inquiry group archived'),
+            })
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error archiving inquiry group', {
+                error,
+                inquiryGroupId: this.inquiryGroup.id,
+            })
+            throw error
         }
-        Logger.error('Error archiving inquiry group', {
-          error,
-          inquiryGroupId: this.inquiryGroup.id,
-        })
-        throw error
-      }
     },
 
     /**
      * Restore an archived inquiry group
      */
     async restore(): Promise<void> {
-      try {
-        const response = await InquiryGroupsAPI.updateGroup(this.inquiryGroup.id, {
-          groupStatus: 'active',
-        })
-        this.inquiryGroup = response.data.inquiryGroup
-        emit('restore:inquiry-group', {
-          store: 'inquiryGroup',
-          message: t('inquiries', 'Inquiry group restored'),
-        })
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
+        try {
+            const response = await InquiryGroupsAPI.updateGroup(this.inquiryGroup.id, {
+                groupStatus: 'active',
+            })
+            this.inquiryGroup = response.data.inquiryGroup
+            emit('restore:inquiry-group', {
+                store: 'inquiryGroup',
+                message: t('inquiries', 'Inquiry group restored'),
+            })
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error restoring inquiry group', {
+                error,
+                inquiryGroupId: this.inquiryGroup.id,
+            })
+            throw error
         }
-        Logger.error('Error restoring inquiry group', {
-          error,
-          inquiryGroupId: this.inquiryGroup.id,
-        })
-        throw error
-      }
     },
 
     /**
      * Write configuration changes to the API
      */
     async write(): Promise<void> {
-      const inquiriesStore = useInquiriesStore()
+        const inquiriesStore = useInquiriesStore()
 
-      if (!this.inquiryGroup.title && !this.inquiryGroup.title) {
-        showError(t('inquiries', 'Group title must not be empty!'))
-        return
-      }
-
-      this.updating = true
-      try {
-        const response = await InquiryGroupsAPI.updateGroup(this.inquiryGroup.id, {
-          title: this.inquiryGroup.title || this.inquiryGroup.title,
-          titleExt: this.inquiryGroup.titleExt,
-          description: this.inquiryGroup.description,
-          type: this.inquiryGroup.group_type,
-          parentId: this.inquiryGroup.parent_id,
-          protected: this.inquiryGroup.protected,
-          ownedGroup: this.inquiryGroup.owned_group,
-          groupStatus: this.inquiryGroup.group_status,
-        })
-
-        this.inquiryGroup = response.data.inquiryGroup
-        emit('update:inquiry-group', {
-          store: 'inquiryGroup',
-          message: t('inquiries', 'Inquiry group updated'),
-        })
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
+        if (!this.inquiryGroup.title && !this.inquiryGroup.title) {
+            showError(t('inquiries', 'Group title must not be empty!'))
+            return
         }
-        Logger.error('Error writing inquiry group:', {
-          error,
-          inquiryGroup: this.inquiryGroup,
-        })
-        showError(t('inquiries', 'Error writing inquiry group'))
-        throw error
-      } finally {
-        this.updating = false
-        inquiriesStore.load()
-      }
+
+        this.updating = true
+        try {
+            const response = await InquiryGroupsAPI.updateGroup(this.inquiryGroup.id, {
+                title: this.inquiryGroup.title || this.inquiryGroup.title,
+                titleExt: this.inquiryGroup.titleExt,
+                description: this.inquiryGroup.description,
+                type: this.inquiryGroup.group_type,
+                parentId: this.inquiryGroup.parent_id,
+                protected: this.inquiryGroup.protected,
+                ownedGroup: this.inquiryGroup.owned_group,
+                groupStatus: this.inquiryGroup.group_status,
+            })
+
+            this.inquiryGroup = response.data.inquiryGroup
+            emit('update:inquiry-group', {
+                store: 'inquiryGroup',
+                message: t('inquiries', 'Inquiry group updated'),
+            })
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error writing inquiry group:', {
+                error,
+                inquiryGroup: this.inquiryGroup,
+            })
+            showError(t('inquiries', 'Error writing inquiry group'))
+            throw error
+        } finally {
+            this.updating = false
+            inquiriesStore.load()
+        }
     },
 
     /**
      * Add an inquiry to the current group
      */
     async addInquiryToGroup(inquiryId: number): Promise<void> {
-      try {
-        const response = await InquiryGroupsAPI.addInquiryToGroup(
-          inquiryId,
-          this.inquiryGroup.id
-        )
-        this.inquiryGroup = response.data.inquiryGroup
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
+        try {
+            const response = await InquiryGroupsAPI.addInquiryToGroup(
+                inquiryId,
+                this.inquiryGroup.id
+            )
+            this.inquiryGroup = response.data.inquiryGroup
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error adding inquiry to group', {
+                error,
+                inquiryId,
+                inquiryGroupId: this.inquiryGroup.id,
+            })
+            throw error
         }
-        Logger.error('Error adding inquiry to group', {
-          error,
-          inquiryId,
-          inquiryGroupId: this.inquiryGroup.id,
-        })
-        throw error
-      }
     },
 
     /**
      * Remove an inquiry from the current group
      */
     async removeInquiryFromGroup(inquiryId: number): Promise<void> {
-      const inquiriesStore = useInquiriesStore()
+        const inquiriesStore = useInquiriesStore()
 
-      try {
-        const response = await InquiryGroupsAPI.removeInquiryFromGroup(
-          this.inquiryGroup.id,
-          inquiryId
-        )
+        try {
+            const response = await InquiryGroupsAPI.removeInquiryFromGroup(
+                this.inquiryGroup.id,
+                inquiryId
+            )
 
-        if (response.data.inquiryGroup === null) {
-          // Group was deleted because it became empty
-          this.reset()
-        } else {
-          this.inquiryGroup = response.data.inquiryGroup
+            if (response.data.inquiryGroup === null) {
+                // Group was deleted because it became empty
+                this.reset()
+            } else {
+                this.inquiryGroup = response.data.inquiryGroup
+            }
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error removing inquiry from group', {
+                error,
+                inquiryId,
+                inquiryGroupId: this.inquiryGroup.id,
+            })
+            throw error
+        } finally {
+            inquiriesStore.load()
         }
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
-        }
-        Logger.error('Error removing inquiry from group', {
-          error,
-          inquiryId,
-          inquiryGroupId: this.inquiryGroup.id,
-        })
-        throw error
-      } finally {
-        inquiriesStore.load()
-      }
     },
 
     /**
      * Reorder inquiries in the group
      */
     async reorderInquiries(inquiryIds: number[]): Promise<void> {
-      try {
-        const response = await InquiryGroupsAPI.reorderInquiriesInGroup(
-          this.inquiryGroup.id,
-          inquiryIds
-        )
-        this.inquiryGroup = response.data.inquiryGroup
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
+        try {
+            const response = await InquiryGroupsAPI.reorderInquiriesInGroup(
+                this.inquiryGroup.id,
+                inquiryIds
+            )
+            this.inquiryGroup = response.data.inquiryGroup
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error reordering inquiries in group', {
+                error,
+                inquiryGroupId: this.inquiryGroup.id,
+                inquiryIds,
+            })
+            throw error
         }
-        Logger.error('Error reordering inquiries in group', {
-          error,
-          inquiryGroupId: this.inquiryGroup.id,
-          inquiryIds,
-        })
-        throw error
-      }
     },
 
     /**
      * Change the owner of the inquiry group
      */
     async changeOwner(newOwnerId: string): Promise<void> {
-      try {
-        const response = await InquiryGroupsAPI.changeGroupOwner(
-          this.inquiryGroup.id,
-          newOwnerId
-        )
-        this.inquiryGroup = response.data.inquiryGroup
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
+        try {
+            const response = await InquiryGroupsAPI.changeGroupOwner(
+                this.inquiryGroup.id,
+                newOwnerId
+            )
+            this.inquiryGroup = response.data.inquiryGroup
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error changing inquiry group owner', {
+                error,
+                inquiryGroupId: this.inquiryGroup.id,
+                newOwnerId,
+            })
+            throw error
         }
-        Logger.error('Error changing inquiry group owner', {
-          error,
-          inquiryGroupId: this.inquiryGroup.id,
-          newOwnerId,
-        })
-        throw error
-      }
     },
 
     /**
      * Update a single field of the inquiry group
      */
     async updateField<K extends keyof InquiryGroup>(
-      field: K,
-      value: InquiryGroup[K]
+        field: K,
+        value: InquiryGroup[K]
     ): Promise<void> {
-      const oldValue = this.inquiryGroup[field]
-      this.inquiryGroup[field] = value
+        const oldValue = this.inquiryGroup[field]
+        this.inquiryGroup[field] = value
 
-      try {
-        await this.write()
-      } catch (error) {
-        // Revert on error
-        this.inquiryGroup[field] = oldValue
-        throw error
-      }
+        try {
+            await this.write()
+        } catch (error) {
+            // Revert on error
+            this.inquiryGroup[field] = oldValue
+            throw error
+        }
     },
 
     /**
      * Update group status
      */
     async updateGroupStatus(status: string): Promise<void> {
-      try {
-        const response = await InquiryGroupsAPI.updateGroup(this.inquiryGroup.id, {
-          groupStatus: status,
-        })
-        this.inquiryGroup = response.data.inquiryGroup
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
+        try {
+            const response = await InquiryGroupsAPI.updateGroup(this.inquiryGroup.id, {
+                groupStatus: status,
+            })
+            this.inquiryGroup = response.data.inquiryGroup
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error updating group status', {
+                error,
+                inquiryGroupId: this.inquiryGroup.id,
+                status,
+            })
+            throw error
         }
-        Logger.error('Error updating group status', {
-          error,
-          inquiryGroupId: this.inquiryGroup.id,
-          status,
-        })
-        throw error
-      }
+    },
+
+    async updateMiscField(key: string,val: string): Promise<void> {
+        try {
+            await InquiryGroupsAPI.updateGroupMiscField(this.id, { key, value: val })
+            this.miscFields[key]=val
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error setting inquiry status:', {
+                error,
+                state: this.$state,
+            })
+            throw error
+        }
+    },
+
+    async setInquiryGroupStatus(inquiryGroupStatus: string): Promise<void> {
+        try {
+            await InquiryGroupsAPI.updateInquiryGroupStatus(this.id, inquiryGroupStatus)
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error setting inquiry group status:', {
+                error,
+                state: this.$state,
+            })
+            throw error
+        }
     },
 
     /**
      * Clone the current inquiry group
      */
     async clone(): Promise<InquiryGroup | void> {
-      try {
-        const response = await InquiryGroupsAPI.cloneGroup(this.inquiryGroup.id)
-        return response.data.inquiryGroup
-      } catch (error) {
-        if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-          return
+        try {
+            const response = await InquiryGroupsAPI.cloneGroup(this.inquiryGroup.id)
+            return response.data.inquiryGroup
+        } catch (error) {
+            if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                return
+            }
+            Logger.error('Error cloning inquiry group', {
+                error,
+                inquiryGroupId: this.inquiryGroup.id,
+            })
+            throw error
         }
-        Logger.error('Error cloning inquiry group', {
-          error,
-          inquiryGroupId: this.inquiryGroup.id,
-        })
-        throw error
-      }
     },
   },
 })

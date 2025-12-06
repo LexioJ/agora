@@ -60,7 +60,7 @@ const dynamicFields = computed(() => {
 
     const fields = getAvailableFields(
       inquiryStore.type, 
-      sessionStore.appSettings.inquiryGroupTypeTab || [],
+      sessionStore.appSettings.inquiryTypeTab || [],
       inquiryStore.type
     )
 

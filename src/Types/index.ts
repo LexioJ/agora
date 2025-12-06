@@ -5,7 +5,6 @@
 
 export { Activity, Activities } from '../stores/activity.ts'
 export { UpdateType, Group, AppSettings } from '../stores/appSettings.ts'
-export { Combo } from '../stores/combo.ts'
 export { Comment, Comments, CommentsGrouped } from '../stores/comments.ts'
 export { Support, Supports, SupportsGrouped } from '../stores/supports.ts'
 
@@ -145,7 +144,6 @@ export type AppPermissions = {
   addSharesExternal: boolean
   allAccess: boolean
   changeForeignInquiries: boolean
-  comboView: boolean
   deanonymizeInquiry: boolean
   inquiryCreation: boolean
   inquiryDownload: boolean
