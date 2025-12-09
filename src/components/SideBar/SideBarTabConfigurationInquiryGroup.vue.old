@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watch, onUnmounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -14,7 +14,6 @@ import NcTextField from '@nextcloud/vue/components/NcTextField'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import { useInquiryGroupStore } from '../../stores/inquiryGroup.ts'
 import { useSessionStore } from '../../stores/session'
-import { useAttachmentsStore } from '../../stores/attachments' // Import attachments store
 
 // Import icons from InquiryGeneralIcons
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
@@ -27,17 +26,12 @@ const emit = defineEmits<{
 // Stores
 const inquiryGroupStore = useInquiryGroupStore()
 const sessionStore = useSessionStore()
-const attachmentsStore = useAttachmentsStore()
 
 // State
 const loading = ref(false)
-const autoSaving = ref(false)
+const saving = ref(false)
 const imageFileInput = ref<HTMLInputElement | null>(null)
 const currentCoverUrl = ref('')
-
-// Auto-save debouncing
-let saveTimeout: NodeJS.Timeout | null = null
-let lastSaveData = ''
 
 // Form validation
 const formErrors = ref({
@@ -87,9 +81,6 @@ const loadGroup = async () => {
     if (inquiryGroupStore.coverId) {
       currentCoverUrl.value = getNextcloudPreviewUrl(inquiryGroupStore.coverId)
     }
-    
-    // Initialize last save data
-    lastSaveData = JSON.stringify(getSaveableData())
   } catch (error) {
     console.error('Failed to load group:', error)
     showError(t('agora', 'Failed to load group data'))
@@ -108,10 +99,6 @@ const triggerImageUpload = () => {
   imageFileInput.value?.click()
 }
 
-/**
- * Upload a single file and add to attachments list
- * @param event
- */
 const handleImageUpload = async (event: Event) => {
   if (!canEditGroup.value) return
   
@@ -123,54 +110,31 @@ const handleImageUpload = async (event: Event) => {
     return
   }
 
-  // Check image size 5Mb max
-  const maxSize = 5 * 1024 * 1024
+  const maxSize = 5 * 1024 * 1024 // 5MB
   if (file.size > maxSize) {
     showError(t('agora', 'Image size should be less than 5MB'))
     return
   }
 
   try {
-    autoSaving.value = true
+    saving.value = true
     
-    const response = await attachmentsStore.upload(inquiryGroupStore.id, file, true)
-
-    const attachment = {
-      id: response.id ?? `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      name: response.name ?? file.name,
-      size: response.size ?? file.size,
-      fileId: response.fileId ?? undefined,
-      mimeType: response.mimeType ?? undefined,
+    // Here you would call your API to upload the image
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      currentCoverUrl.value = e.target?.result as string
     }
-
-    // Use immutable update for better reactivity
-    attachmentsStore.attachments = [...attachmentsStore.attachments, attachment]
-    currentCoverUrl.value = getNextcloudPreviewUrl(attachment.fileId as number)
-    inquiryGroupStore.coverId = attachment.fileId as number
+    reader.readAsDataURL(file)
     
-    // Auto-save after image upload
-    await autoSaveGroup()
-    showSuccess(t('agora', '{file} uploaded', { file: response.name ?? file.name }))
+    showSuccess(t('agora', 'Cover image uploaded successfully'))
   } catch (error) {
     console.error('Failed to upload image:', error)
     showError(t('agora', 'Failed to upload cover image'))
-    throw error
   } finally {
-    autoSaving.value = false
+    saving.value = false
     if (imageFileInput.value) {
       imageFileInput.value.value = ''
     }
-  }
-}
-
-const getSaveableData = () => {
-  return {
-    title: inquiryGroupStore.title.trim(),
-    titleExt: inquiryGroupStore.titleExt.trim(),
-    description: inquiryGroupStore.description.trim(),
-    groupStatus: inquiryGroupStore.groupStatus,
-    expire: inquiryGroupStore.expire,
-    coverId: inquiryGroupStore.coverId,
   }
 }
 
@@ -199,73 +163,46 @@ const validateForm = () => {
   return isValid
 }
 
-const autoSaveGroup = async () => {
-  if (!canEditGroup.value) return
-  
+const saveGroup = async () => {
+  if (!canEditGroup.value) {
+    showError(t('agora', 'You do not have permission to edit this group'))
+    return
+  }
+
   if (!validateForm()) {
     return
   }
 
-  // Check if there are actual changes
-  const currentData = JSON.stringify(getSaveableData())
-  if (currentData === lastSaveData) {
-    return // No changes to save
-  }
-
-  // Clear any existing timeout
-  if (saveTimeout) {
-    clearTimeout(saveTimeout)
-    saveTimeout = null
-  }
-
-  autoSaving.value = true
+  saving.value = true
   try {
-    await inquiryGroupStore.update(getSaveableData())
+    await inquiryGroupStore.update({
+      title: inquiryGroupStore.title.trim(),
+      titleExt: inquiryGroupStore.titleExt.trim(),
+      description: inquiryGroupStore.description.trim(),
+      groupStatus: inquiryGroupStore.groupStatus,
+      expire: inquiryGroupStore.expire,
+    })
     
-    // Update last saved data
-    lastSaveData = currentData
-    
-    // Show success feedback (optional, you might want to show this less frequently)
-    // showSuccess(t('agora', 'Settings saved'))
+    showSuccess(t('agora', 'Group settings saved successfully'))
     emit('saved')
   } catch (error) {
     console.error('Failed to save group:', error)
-    showError(t('agora', 'Failed to save settings'))
+    showError(t('agora', 'Failed to save group settings'))
   } finally {
-    autoSaving.value = false
+    saving.value = false
   }
-}
-
-const debouncedSave = () => {
-  if (!canEditGroup.value) return
-  
-  // Clear any existing timeout
-  if (saveTimeout) {
-    clearTimeout(saveTimeout)
-  }
-  
-  // Set new timeout for auto-save (1 second delay)
-  saveTimeout = setTimeout(() => {
-    autoSaveGroup()
-  }, 1000)
 }
 
 const removeCoverImage = async () => {
   if (!canEditGroup.value) return
   
   try {
-    autoSaving.value = true
     currentCoverUrl.value = ''
     inquiryGroupStore.coverId = null
-    
-    // Auto-save after removing cover image
-    await autoSaveGroup()
     showSuccess(t('agora', 'Cover image removed'))
   } catch (error) {
     console.error('Failed to remove cover image:', error)
     showError(t('agora', 'Failed to remove cover image'))
-  } finally {
-    autoSaving.value = false
   }
 }
 
@@ -281,21 +218,6 @@ const getFormFieldState = (field: keyof typeof formErrors) => {
     helperText: formErrors.value[field],
   }
 }
-
-// Watchers for auto-save
-watch(() => inquiryGroupStore.title, debouncedSave, { deep: true })
-watch(() => inquiryGroupStore.titleExt, debouncedSave, { deep: true })
-watch(() => inquiryGroupStore.description, debouncedSave, { deep: true })
-watch(() => inquiryGroupStore.groupStatus, debouncedSave, { deep: true })
-watch(() => inquiryGroupStore.expire, debouncedSave, { deep: true })
-watch(() => inquiryGroupStore.coverId, debouncedSave, { deep: true })
-
-// Cleanup on unmount
-onUnmounted(() => {
-  if (saveTimeout) {
-    clearTimeout(saveTimeout)
-  }
-})
 
 // Lifecycle
 onMounted(() => {
@@ -371,7 +293,7 @@ onMounted(() => {
             <NcButton 
               type="primary" 
               class="add-cover-btn"
-              :disabled="!canEditGroup || autoSaving"
+              :disabled="!canEditGroup"
             >
               {{ t('agora', 'Add cover image') }}
             </NcButton>
@@ -397,11 +319,12 @@ onMounted(() => {
           :label="t('agora', 'Title') + ' *'"
           :placeholder="t('agora', 'Enter group title')"
           :maxlength="200"
-          :disabled="!canEditGroup || autoSaving"
+          :disabled="!canEditGroup || saving"
           :error="getFormFieldState('title').error"
           :success="getFormFieldState('title').success"
           :helper-text="getFormFieldState('title').helperText"
           class="form-input full-width"
+          @keyup.enter="saveGroup"
         >
           <template #icon>
             <component :is="InquiryGeneralIcons.Text" />
@@ -414,11 +337,12 @@ onMounted(() => {
           :label="t('agora', 'Extended Title')"
           :placeholder="t('agora', 'Optional extended title')"
           :maxlength="200"
-          :disabled="!canEditGroup || autoSaving"
+          :disabled="!canEditGroup || saving"
           :error="getFormFieldState('titleExt').error"
           :success="getFormFieldState('titleExt').success"
           :helper-text="getFormFieldState('titleExt').helperText"
           class="form-input full-width"
+          @keyup.enter="saveGroup"
         >
           <template #icon>
             <component :is="InquiryGeneralIcons.Text" />
@@ -439,7 +363,7 @@ onMounted(() => {
           v-model="inquiryGroupStore.description"
           :placeholder="t('agora', 'Enter group description...')"
           :rows="10"
-          :disabled="!canEditGroup || autoSaving"
+          :disabled="!canEditGroup || saving"
           class="form-textarea large"
         />
         <div class="character-count">
@@ -468,7 +392,7 @@ onMounted(() => {
             v-model="inquiryGroupStore.groupStatus"
             :options="statusOptions"
             :clearable="false"
-            :disabled="!canEditGroup || autoSaving"
+            :disabled="!canEditGroup || saving"
             class="form-select"
           />
           <p class="form-help">{{ t('agora', 'Current status of the group') }}</p>
@@ -484,7 +408,7 @@ onMounted(() => {
             <NcButton 
               type="secondary" 
               size="small"
-              :disabled="!canEditGroup || autoSaving"
+              :disabled="!canEditGroup || saving"
               @click="inquiryGroupStore.expire = null"
             >
               {{ t('agora', 'Remove expiration') }}
@@ -494,16 +418,19 @@ onMounted(() => {
       </div>
     </div>
 
-    <!-- Auto-save Status -->
-    <div v-if="canEditGroup" class="auto-save-status">
-      <div v-if="autoSaving" class="saving-indicator">
-        <div class="saving-spinner"></div>
-        <span>{{ t('agora', 'Saving changes...') }}</span>
-      </div>
-      <div v-else class="saved-indicator">
-        <component :is="InquiryGeneralIcons.CheckCircle" />
-        <span>{{ t('agora', 'Changes saved') }}</span>
-      </div>
+    <!-- Actions -->
+    <div v-if="canEditGroup" class="settings-actions">
+      <NcButton
+        type="primary"
+        :disabled="saving || !inquiryGroupStore.title.trim()"
+        @click="saveGroup"
+        class="save-btn"
+      >
+        <template #icon>
+          <component :is="InquiryGeneralIcons.Save" />
+        </template>
+        {{ saving ? t('agora', 'Saving...') : t('agora', 'Save Changes') }}
+      </NcButton>
     </div>
     
     <!-- Loading State -->
@@ -792,38 +719,13 @@ onMounted(() => {
   }
 }
 
-.auto-save-status {
+.settings-actions {
   margin-top: 32px;
   padding-top: 20px;
   border-top: 2px solid var(--color-border);
   
-  .saving-indicator,
-  .saved-indicator {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-  }
-  
-  .saving-indicator {
-    color: var(--color-text-lighter);
-    
-    .saving-spinner {
-      width: 16px;
-      height: 16px;
-      border: 2px solid var(--color-border);
-      border-top-color: var(--color-primary);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-  }
-  
-  .saved-indicator {
-    color: var(--color-success);
-    
-    svg {
-      color: var(--color-success);
-    }
+  .save-btn {
+    width: 100%;
   }
 }
 

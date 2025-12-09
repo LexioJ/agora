@@ -274,6 +274,7 @@ watch(
                 :key="inquiry.id"
                 :name="inquiry.title"
                 :exact="true"
+				:to="{ name: 'inquiry', params: { id: inquiry.id } }"
                 class="navigation-item"
                 >
                 <template #icon>

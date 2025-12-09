@@ -55,6 +55,7 @@ const activeTab = ref(t('agora', 'Comments').toLowerCase())
 
 
 onMounted(() => {
+  console.log(" IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIINTO THE MOUNTED ")
   subscribe(Event.SidebarToggle, (payload) => {
     showSidebar.value = payload?.open ?? !showSidebar.value
     activeTab.value = payload?.activeTab ?? activeTab.value
@@ -106,7 +107,7 @@ function closeSideBar() {
 
                 <NcAppSidebarTab
                         id="sharing"
-                        :order="5"
+                        :order="3"
                         :name="t('agora', 'Sharing')"
                         >
                         <template #icon>

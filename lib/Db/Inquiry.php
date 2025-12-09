@@ -40,6 +40,7 @@ use OCP\IURLGenerator;
  * @method    void setDeleted(int $value)
  * @method    void setAccess(string $value)
  * @method    string getAccess()
+ * @method    void setAccess(string $access)
  * @method    string getModerationStatus()
  * @method    void setModerationStatus(string $value)
  * @method    string getInquiryStatus()
@@ -178,7 +179,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     protected ?string $inquiryGroupUserShares = '';
     protected ?string $miscSettingsConcat = '';
 
-    private array $children = [];
+    protected array $childs = [];
     // Dynamic fields for inquiry types
     protected array $miscFields = [];
 
@@ -242,6 +243,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'lastInteraction' => $this->getLastInteraction(),
         'configuration' => $this->getConfigurationArray(),
         'miscFields' => $this->getMiscArray(),
+        'childs' => $this->getChilds(),
         ];
         return $baseData;
     }
@@ -433,9 +435,9 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     }
     // Setting childs for setting rights
 
-    public function setChildren(array $children): void
+    public function setChilds(array $childs): void
     {
-        $this->children = $children;
+        $this->childs = $childs;
     }
 
     public function getInquiryId(): int

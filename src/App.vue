@@ -45,7 +45,7 @@ const useNavigation = computed(() => sessionStore.userStatus.isLoggedin)
 const useSidebar = computed(
   () =>
     inquiryStore.permissions.edit || (sessionStore.route.name === 'group' &&
-      inquiryGroupStore.owner.id === sessionStore.currentUser.id)
+      (inquiryGroupStore.owner === sessionStore.currentUser.id))
 )
 
 /**

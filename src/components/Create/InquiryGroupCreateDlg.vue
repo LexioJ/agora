@@ -184,7 +184,6 @@ function resetInquiry() {
 </script>
 
 <template>
-  <!-- Overlay pour le fond flou -->
   <div class="dialog-overlay" @click="emit('close')">
     <!-- Dialog container -->
     <div class="create-dialog" @click.stop>

@@ -47,11 +47,13 @@ use OCA\Agora\UserSession;
  * @method    void setCoverId(?int $value)
  * @method    bool getProtected()
  * @method    void setProtected(bool $value)
+ * @method    bool getAllowEdit()
+ * @method    void setAllowEdit(bool $value)
  */
 
 class InquiryGroup extends EntityWithUser implements JsonSerializable
 {
-    public const TABLE = 'agora_groups';
+    public const TABLE = 'agora_inq_group';
     public const RELATION_TABLE = 'agora_groups_inquiries';
     public const CONCAT_SEPARATOR = ',';
     public const PERMISSION_INQUIRY_GROUP_EDIT = 'inquiry_group_edit';
@@ -75,6 +77,7 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     protected ?string $metadata = null;
     protected ?int $coverId = null;
     protected ?bool $protected = false;
+    protected ?bool $allowEdit = false;
     // joined inquiries
     protected ?string $inquiryIds = '';
     protected array $miscFields = [];
@@ -95,6 +98,7 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
         $this->addType('created', 'integer');
         $this->addType('deleted', 'integer');
         $this->addType('expire', 'integer');
+        $this->addType('allowEdit', 'integer');
         $this->addType('inquiryIds', 'string');
         $this->addType('miscFields', 'json');
         $this->addType('childs', 'json');
@@ -217,7 +221,7 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
             'created' => $this->getCreated(),
             'deleted' => $this->getDeleted(),
             'description' => $this->getDescription(),
-            'owner' => $this->getUser(),
+            'owner' => $this->getOwner(),
             'type' => $this->getType(),
             'groupStatus' => $this->getGroupStatus(),
             'title' => $this->getTitle(),
@@ -228,9 +232,9 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
             'metadata' => $this->getMetadata(),
             'coverId' => $this->getCoverId(),
             'protected' => $this->getProtected(),
+            'allowEdit' => $this->getAllowEdit(),
             'inquiryIds' => $this->getInquiryIds(),
             'childs' => $this->getChilds(),
-            'ins' => $this->getInquiryIds(),
             'slug' => $this->getSlug(),
             'miscFields' => $this->getMiscArray(),
         ];

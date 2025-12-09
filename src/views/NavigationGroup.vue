@@ -50,6 +50,7 @@ const allInquiryGroupTypes = computed((): InquiryGroupType[] => {
   return groupTypes.filter(groupType => groupType.is_root === true)
 })
 
+
 // Filter group types by selected family
 const filteredInquiryGroupTypes = computed(() => {
   if (!selectedFamily.value) return allInquiryGroupTypes.value
@@ -92,23 +93,14 @@ function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
   createGroupDlgToggle.value = true
 }
 
-// Function to navigate to existing inquiry group
-function navigateToInquiryGroup(group: any) {
+function selectGroupType(inquiryGroupType) {
+  // update store
+  inquiryGroupsStore.setCurrentGroupType(inquiryGroupType.group_type)
+console.log(" CUUUUUUUUUUUUUURR ",inquiryGroupsStore.currentGroupType)
+  // navigate with hidden state
   router.push({
-    name: 'group',
-    params: { id: group.id },
-  })
-}
-
-// Function to handle inquiry group added
-function inquiryGroupAdded(payload: { id: number; slug: string }) {
-  createGroupDlgToggle.value = false
-  selectedInquiryGroupTypeForCreation.value = null
-  selectedGroups.value = []
-  // Refresh groups to include the new one
-  router.push({
-    name: 'group',
-    params: { id: payload.id },
+    name: 'group-list',
+    params: { slug: 'none' },
   })
 }
 
@@ -147,201 +139,201 @@ function showSettings() {
     <template #list>
       <!-- Groups Section -->
       <NcAppNavigationList v-if="filteredInquiryGroupTypes.length > 0">
-        <h3 class="navigation-caption">
+      <h3 class="navigation-caption">
           {{ t('agora', 'Group Types') }}
-        </h3>
-        
-        <NcAppNavigationItem
-          v-for="inquiryGroupType in filteredInquiryGroupTypes"
-          :key="inquiryGroupType.id"
-          :name="t('agora', getInquiryGroupTypeDisplayData(inquiryGroupType).label)"
-          :title="t('agora', getInquiryGroupTypeDisplayData(inquiryGroupType).description)"
-          allow-collapse
-          class="navigation-item"
-          :open="false"
-          @click="createInquiryGroup(inquiryGroupType)"
-        >
-          <template #icon>
-            <component :is="getInquiryGroupTypeDisplayData(inquiryGroupType).icon" />
-          </template>
-          
-          <template #counter>
-            <NcCounterBubble
-              :count="getGroupTypeCount(inquiryGroupType.group_type)"
-              class="navigation-counter"
-            />
-          </template>
+      </h3>
+      <NcAppNavigationItem
+              v-for="inquiryGroupType in filteredInquiryGroupTypes"
+              :key="inquiryGroupType.id"
+              :name="t('agora', getInquiryGroupTypeDisplayData(inquiryGroupType).label)"
+              :title="t('agora', getInquiryGroupTypeDisplayData(inquiryGroupType).description)"
+              allow-collapse
+              class="navigation-item"
+              :open="false"
+              @click="selectGroupType(inquiryGroupType)"
+              >
 
-          <!-- List of existing groups of this type -->
-          <ul class="navigation-sublist">
-            <NcAppNavigationItem
-              v-for="group in inquiryGroupsByType[inquiryGroupType.group_type]"
-              :key="group.id"
-              :name="group.title"
-              :title="group.description"
-              :to="{
-                name: 'group',
-                params: { id: group.id },
-              }"
-              class="navigation-subitem"
-            >
-              <template #icon>
-                <component :is="getInquiryGroupTypeDisplayData(inquiryGroupType).icon" />
-              </template>
-            </NcAppNavigationItem>
+      <template #icon>
+          <component :is="getInquiryGroupTypeDisplayData(inquiryGroupType).icon" />
+      </template>
 
-            <NcAppNavigationItem
-              v-if="getGroupTypeCount(inquiryGroupType.group_type) === 0"
-              :name="t('agora', 'No groups created yet')"
-              class="navigation-empty"
-            />
-          </ul>
-        </NcAppNavigationItem>
+      <template #counter>
+          <NcCounterBubble
+                  :count="getGroupTypeCount(inquiryGroupType.group_type)"
+                  class="navigation-counter"
+                  />
+      </template>
+
+      <!-- List of existing groups of this type -->
+      <ul class="navigation-sublist">
+          <NcAppNavigationItem
+                  v-for="group in inquiryGroupsByType[inquiryGroupType.group_type]"
+                  :key="group.id"
+                  :name="group.title"
+                  :title="group.description"
+                  :to="{
+                       name: 'group-list',
+                       params: { slug: group.slug },
+                       }"
+                  class="navigation-subitem"
+                  >
+                  <template #icon>
+                      <component :is="getInquiryGroupTypeDisplayData(inquiryGroupType).icon" />
+                  </template>
+          </NcAppNavigationItem>
+
+          <NcAppNavigationItem
+                  v-if="getGroupTypeCount(inquiryGroupType.group_type) === 0"
+                  :name="t('agora', 'No groups created yet')"
+                  class="navigation-empty"
+                  />
+      </ul>
+          </NcAppNavigationItem>
       </NcAppNavigationList>
 
       <NcAppNavigationSpacer v-if="filteredInquiryGroupTypes.length > 0" />
 
       <!-- Quick Actions Section -->
       <NcAppNavigationList>
-        <h3 class="navigation-caption">
+      <h3 class="navigation-caption">
           {{ t('agora', 'Quick Actions') }}
-        </h3>
+      </h3>
 
-        <NcAppNavigationItem
-          :name="t('agora', 'All Groups')"
-          :to="{ name: 'menu' }"
-          :exact="true"
-          class="navigation-item"
-        >
-          <template #icon>
-            <component :is="NavigationIcons.Home" />
-          </template>
-        </NcAppNavigationItem>
+      <NcAppNavigationItem
+              :name="t('agora', 'Create')"
+              :to="{ name: 'menu' }"
+              :exact="true"
+              class="navigation-item"
+              >
+              <template #icon>
+                  <component :is="NavigationIcons.Home" />
+              </template>
+      </NcAppNavigationItem>
 
-        <NcAppNavigationItem
-          :name="t('agora', 'Settings')"
-          class="navigation-item"
-          @click="showSettings()"
-        >
-          <template #icon>
-            <Component :is="NavigationIcons.Settings" />
-          </template>
-        </NcAppNavigationItem>
+      <NcAppNavigationItem
+              :name="t('agora', 'Settings')"
+              class="navigation-item"
+              @click="showSettings()"
+              >
+              <template #icon>
+                  <Component :is="NavigationIcons.Settings" />
+              </template>
+      </NcAppNavigationItem>
       </NcAppNavigationList>
     </template>
   </NcAppNavigation>
 
   <InquiryGroupCreateDlg
-    v-if="createGroupDlgToggle"
-    :inquiry-group-type="selectedInquiryGroupTypeForCreation"
-    :selected-groups="selectedGroups"
-    :available-groups="availableGroups"
-    @close="handleCloseGroupDialog"
-    @added="inquiryGroupAdded"
-    @update:selected-groups="handleGroupUpdate"
-  />
+          v-if="createGroupDlgToggle"
+          :inquiry-group-type="selectedInquiryGroupTypeForCreation"
+          :selected-groups="selectedGroups"
+          :available-groups="availableGroups"
+          @close="handleCloseGroupDialog"
+          @added="inquiryGroupAdded"
+          @update:selected-groups="handleGroupUpdate"
+          />
 </template>
 
 <style lang="scss">
 .agora-navigation {
-  padding: 12px 0;
+    padding: 12px 0;
 }
 
 .navigation-caption {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-text-lighter);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0 12px 8px 12px;
-  padding: 0;
-  border-bottom: 1px solid var(--color-border);
-  padding-bottom: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-lighter);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 12px 8px 12px;
+    padding: 0;
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: 8px;
 }
 
-.navigation-item {
-  margin: 2px 8px;
-  border-radius: 8px;
+  .navigation-item {
+      margin: 2px 8px;
+      border-radius: 8px;
 
-  &:hover {
-    background-color: var(--color-background-hover);
+      &:hover {
+          background-color: var(--color-background-hover);
+      }
+
+      &.active {
+          background-color: var(--color-primary-light);
+
+          :deep(.app-navigation-entry__title) {
+              font-weight: 600;
+          }
+      }
   }
 
-  &.active {
-    background-color: var(--color-primary-light);
-
-    :deep(.app-navigation-entry__title) {
-      font-weight: 600;
-    }
+  .navigation-sublist {
+      margin-left: 8px;
   }
-}
 
-.navigation-sublist {
-  margin-left: 8px;
-}
+  .navigation-subitem {
+      margin: 1px 4px;
+      border-radius: 6px;
 
-.navigation-subitem {
-  margin: 1px 4px;
-  border-radius: 6px;
-
-  &:hover {
-    background-color: var(--color-background-hover);
+      &:hover {
+          background-color: var(--color-background-hover);
+      }
   }
-}
 
-.navigation-counter {
-  background-color: var(--color-background-darker);
-  color: var(--color-text-lighter);
-}
+  .navigation-counter {
+      background-color: var(--color-background-darker);
+      color: var(--color-text-lighter);
+  }
 
-.navigation-empty {
-  opacity: 0.6;
-  font-style: italic;
-}
+  .navigation-empty {
+      opacity: 0.6;
+      font-style: italic;
+  }
 
-// Override default navigation styles
-:deep(.app-navigation__body) {
-  overflow: revert;
-}
+  // Override default navigation styles
+      :deep(.app-navigation__body) {
+      overflow: revert;
+  }
 
-:deep(.app-navigation-entry-icon),
-:deep(.app-navigation-entry__title) {
-  transition: opacity 0.2s ease;
-}
-
-:deep(.app-navigation-entry.active .app-navigation-entry-icon),
-:deep(.app-navigation-entry.active .app-navigation-entry__title) {
-  opacity: 1;
-}
-
-.closed {
   :deep(.app-navigation-entry-icon),
   :deep(.app-navigation-entry__title) {
-    opacity: 0.6;
+      transition: opacity 0.2s ease;
   }
-}
 
-.force-not-active {
-  :deep(.app-navigation-entry.active) {
-    background-color: transparent !important;
-
-    * {
-      color: unset !important;
-    }
+  :deep(.app-navigation-entry.active .app-navigation-entry-icon),
+  :deep(.app-navigation-entry.active .app-navigation-entry__title) {
+      opacity: 1;
   }
-}
 
-// Responsive adjustments
+  .closed {
+      :deep(.app-navigation-entry-icon),
+      :deep(.app-navigation-entry__title) {
+          opacity: 0.6;
+      }
+  }
+
+  .force-not-active {
+      :deep(.app-navigation-entry.active) {
+          background-color: transparent !important;
+
+          * {
+              color: unset !important;
+          }
+      }
+  }
+
+  // Responsive adjustments
 @media (max-width: 768px) {
-  .agora-navigation {
-    padding: 8px 0;
+      .agora-navigation {
+          padding: 8px 0;
+      }
   }
-}
 
-// Dark theme adjustments
-.theme--dark {
-  .navigation-caption {
-    color: var(--color-text-light);
+  // Dark theme adjustments
+      .theme--dark {
+      .navigation-caption {
+          color: var(--color-text-light);
+      }
   }
-}
 </style>

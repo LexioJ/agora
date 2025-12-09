@@ -728,7 +728,7 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
 
     async updateMiscField(key: string,val: string): Promise<void> {
         try {
-            await InquiryGroupsAPI.updateGroupMiscField(this.id, { key, value: val })
+            await InquiryGroupsAPI.updateMiscField(this.id, { key, value: val })
             this.miscFields[key]=val
         } catch (error) {
             if ((error as AxiosError)?.code === 'ERR_CANCELED') {

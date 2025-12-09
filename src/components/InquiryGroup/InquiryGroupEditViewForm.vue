@@ -197,6 +197,7 @@ const formatDate = (timestamp: number) => {
 
 onMounted(() => {
     const id = route.params.id
+    console.log(" ROUTE ID ",id)
     inquiryGroupStore.load(id)
 })
 </script>

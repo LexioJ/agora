@@ -18,6 +18,7 @@ import { t } from '@nextcloud/l10n'
 export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
   const inquiryGroups = ref<InquiryGroup[]>([])
   const updating = ref(false)
+  const currentGroupType = ref<string>('assembly')
 
   /**
    * Get inquiry group by slug
@@ -65,6 +66,10 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
    */
   const byId = (id: number): InquiryGroup | undefined => {
     return inquiryGroups.value.find(g => g.id === id)
+  }
+
+  const setCurrentGroupType = (type: string) => {
+    currentGroupType.value = type
   }
 
   /**
@@ -173,16 +178,20 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
   })
 
   /**
-   * Sort inquiry groups by title in ascending order
-   * @return {InquiryGroup[]} Sorted inquiry groups, sorted by title in ascending order
-   */
-  const inquiryGroupsSorted = computed((): InquiryGroup[] =>
-    orderBy(
-      inquiryGroups.value.filter((group) => countInquiriesInInquiryGroups.value[group.id] > 0),
-      ['title'],
-      ['asc']
-    )
+ * Sort inquiry groups by title in ascending order
+ * @return {InquiryGroup[]} Sorted inquiry groups, sorted by title in ascending order
+ */
+const inquiryGroupsSorted = computed((): InquiryGroup[] =>
+  orderBy(
+    inquiryGroups.value.filter((group) =>
+      group.type === 'private' &&
+      countInquiriesInInquiryGroups.value[group.id] > 0
+    ),
+    ['title'],
+    ['asc']
   )
+)
+
 
   const inquiriesInCurrentInquiryGroup = computed((): Inquiry[] => {
     const inquiriesStore = useInquiriesStore()
@@ -545,5 +554,7 @@ async function fetchAllGroups(): Promise<InquiryGroup[]> {
     loadGroup,
     generateSlug,
     ensureSlugs,
+     currentGroupType,
+    setCurrentGroupType
   }
 })

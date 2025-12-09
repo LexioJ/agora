@@ -46,7 +46,7 @@ class InquiryGroupController extends BaseController
         return $this->response(
             function () {
                 return [
-                    'inquiryGroups' => $this->inquiryGroupService->listInquiryGroups(),
+                    'inquiryGroups' => $this->inquiryGroupService->listInquiryGroups(true,true),
                 ];
             }
         );
@@ -98,7 +98,7 @@ class InquiryGroupController extends BaseController
     #[FrontpageRoute(verb: 'GET', url: '/inquirygroup/{inquiryGroupId}')]
     public function get(int $inquiryGroupId): JSONResponse
     {
-        $inquiryGroup = $this->inquiryGroupService->get($inquiryGroupId);
+        $inquiryGroup = $this->inquiryGroupService->get($inquiryGroupId,true,true);
         $this->logger->debug('Creating new inquiry group', ['inquiryGroup' => $inquiryGroup->getMiscFields()]);
         return $this->response(
             fn () => [

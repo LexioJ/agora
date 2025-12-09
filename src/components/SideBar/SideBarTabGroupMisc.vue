@@ -119,6 +119,75 @@ const parseMiscValue = (value: MiscValue) => {
   }
 }
 
+// Add these computed properties
+const hierarchicalLocation = computed(() => {
+  if (!Array.isArray(sessionStore.appSettings.locationTab)) return []
+  return buildHierarchy(sessionStore.appSettings.locationTab).map((item) => ({
+    value: item.id,
+    label: `${'— '.repeat(item.depth ?? 0)}${item.name ?? '[no name]'}`,
+    original: item,
+  }))
+})
+
+const hierarchicalCategory = computed(() => {
+  if (!Array.isArray(sessionStore.appSettings.categoryTab)) return []
+  return buildHierarchy(sessionStore.appSettings.categoryTab).map((item) => ({
+    value: item.id,
+    label: `${'— '.repeat(item.depth ?? 0)}${item.name ?? '[no name]'}`,
+    original: item,
+  }))
+})
+
+// Add this flag to control display mode (you might want to make this reactive)
+const showLocationAsLabel = ref(false)
+const showCategoryAsLabel = ref(false)
+
+// Add the buildHierarchy function
+function buildHierarchy(list: any[], parentId = 0, depth = 0): any[] {
+  if (!Array.isArray(list)) return []
+  return list
+    .filter((item) => item?.parentId === parentId)
+    .map((item) => {
+      const children = buildHierarchy(list, item.id, depth + 1)
+      return {
+        ...item,
+        depth,
+        children,
+      }
+    })
+    .flatMap((item) => [item, ...item.children])
+}
+
+// Add the getHierarchyPath function
+function getHierarchyPath(items: any[], targetId: number | string): string {
+  if (!items || !Array.isArray(items)) return ''
+  
+  const itemMap: Record<string, any> = {}
+
+  items.forEach((item) => {
+    itemMap[item.id] = item
+  })
+
+  if (!itemMap[targetId]) {
+    return 'ID not found'
+  }
+
+  function buildPath(item: any): string {
+    if (item.parentId === 0) {
+      return item.name
+    }
+    const parent = itemMap[item.parentId]
+    if (parent) {
+      return `${buildPath(parent)} -> ${item.name}`
+    }
+    return item.name
+  }
+
+  return buildPath(itemMap[targetId])
+}
+
+
+
 // Format value for display
 const getDisplayValue = (value: MiscValue, field: Field) => {
   if (value === null || value === undefined || value === '') {
@@ -130,22 +199,26 @@ const getDisplayValue = (value: MiscValue, field: Field) => {
 
     switch (fieldType) {
       case 'boolean':
-	return value ? t('Yes') : t('No')
+    return value ? t('Yes') : t('No')
       case 'datetime':
-	return new Date(value).toLocaleString()
+    return new Date(value).toLocaleString()
       case 'json': {
         const parsed = typeof value === 'string' ? JSON.parse(value) : value
-  	return typeof parsed === 'object' ? JSON.stringify(parsed, null, 2) : String(value)
-	}
+    return typeof parsed === 'object' ? JSON.stringify(parsed, null, 2) : String(value)
+    }
       case 'integer':
-	return String(value)
+    return String(value)
       case 'enum':
-	return String(value).charAt(0).toUpperCase() + String(value).slice(1)
+    return String(value).charAt(0).toUpperCase() + String(value).slice(1)
       case 'users':
       case 'groups':
-	return Array.isArray(value) ? value.join(', ') : String(value)
+    return Array.isArray(value) ? value.join(', ') : String(value)
+    case 'location':
+        return getHierarchyPath(sessionStore.appSettings.locationTab || [], value) || String(value)
+      case 'category':
+        return getHierarchyPath(sessionStore.appSettings.categoryTab || [], value) || String(value)
       default:
-	return String(value)
+    return String(value)
     }
   } catch {
     return String(value)
@@ -196,7 +269,7 @@ const loadMiscData = () => {
     error.value = null
     initializeMiscFields()
     initializeLocalCheckboxes()
-    
+
     // Initialize selected users from existing data
     dynamicFields.value.forEach(field => {
       if (field.type === 'users' || field.type === 'groups') {
@@ -262,7 +335,7 @@ const initializeMiscFields = () => {
       } else {
         defaultValue = String(defaultValue)
       }
-      
+
       inquiryGroupStore.miscFields[field.key] = defaultValue
     }
   })
@@ -276,7 +349,7 @@ const initializeLocalCheckboxes = () => {
     }
   })
   }
-	
+
 
 // Update the updateFieldValue method to handle user objects
 const updateFieldValue = (fieldKey: string, value: string, fieldType: string) => {
@@ -315,7 +388,7 @@ const getFormattedDate = (key: string) => {
   const value = getMiscValue(key)
 
   if (!value) return null
-  
+
   // Try manual construction
   try {
     const year = parseInt(value.substring(0,4))
@@ -323,9 +396,9 @@ const getFormattedDate = (key: string) => {
     const day = parseInt(value.substring(8,10))
     const hours = parseInt(value.substring(11,13))
     const minutes = parseInt(value.substring(14,16))
-    
+
     const manualDate = new Date(year, month, day, hours, minutes)
-    
+
     return manualDate
   } catch (e) {
     console.error("Manual date construction failed:", e)
@@ -342,113 +415,150 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="sidebar-tab-misc">
-		<div class="tab-content">
-			<!-- Loading state -->
-			<div v-if="isLoading" class="loading-state">
-				<div class="icon-loading"></div>
-				<p>{{ t('Loading settings...') }}</p>
-			</div>
+    <div class="sidebar-tab-misc">
+        <div class="tab-content">
+            <!-- Loading state -->
+            <div v-if="isLoading" class="loading-state">
+                <div class="icon-loading"></div>
+                <p>{{ t('Loading settings...') }}</p>
+            </div>
 
-			<!-- Error state -->
-			<div v-else-if="error" class="error-state">
-				<component :is="StatusIcons.AlertCircleOutline" class="error-icon" />
-				<p>{{ error }}</p>
-			</div>
+            <!-- Error state -->
+            <div v-else-if="error" class="error-state">
+                <component :is="StatusIcons.AlertCircleOutline" class="error-icon" />
+                <p>{{ error }}</p>
+            </div>
 
-			<!-- No data state -->
-			<div v-else-if="!displayFields.length && props.isReadonly" class="no-data-state">
-				<component :is="StatusIcons.Info" class="no-data-icon" />
-				<p>{{ t('No additional settings configured.') }}</p>
-			</div>
+            <!-- No data state -->
+            <div v-else-if="!displayFields.length && props.isReadonly" class="no-data-state">
+                <component :is="StatusIcons.Info" class="no-data-icon" />
+                <p>{{ t('No additional settings configured.') }}</p>
+            </div>
 
-			<!-- Readonly mode -->
-			<div v-else-if="props.isReadonly" class="misc-fields-readonly">
-				<div class="misc-fields-list">
-					<div
-							v-for="field in displayFields"
-							:key="field.key"
-							class="misc-field-item"
-							>
-							<div class="field-row">
-								<label class="field-label">{{ field.label }}:</label>
-								<div class="field-value">
-									<pre v-if="field.type === 'json'" class="json-value">{{ field.displayValue }}</pre>
-									<span v-else>{{ field.displayValue }}</span>
-								</div>
-							</div>
-					</div>
-				</div>
-			</div>
-			<!-- Editable fields -->
-			<div v-else class="misc-fields-edit">
-				<div v-if="isSaving" class="saving-indicator">
-					<div class="icon-loading-small"></div>
-					<span>{{ t('agora','Saving...') }}</span>
-				</div>
+            <!-- Readonly mode -->
+            <div v-else-if="props.isReadonly" class="misc-fields-readonly">
+                <div class="misc-fields-list">
+                    <div
+                            v-for="field in displayFields"
+                            :key="field.key"
+                            class="misc-field-item"
+                            >
+                            <div class="field-row">
+                                <label class="field-label">{{ field.label }}:</label>
+                                <div class="field-value">
+                                    <pre v-if="field.type === 'json'" class="json-value">{{ field.displayValue }}</pre>
+                                    <span v-else>{{ field.displayValue }}</span>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Editable fields -->
+            <div v-else class="misc-fields-edit">
+                <div v-if="isSaving" class="saving-indicator">
+                    <div class="icon-loading-small"></div>
+                    <span>{{ t('agora','Saving...') }}</span>
+                </div>
 
-				<div class="edit-fields">
-					<div
-							v-for="field in dynamicFields.slice()" 
-							:key="field.key"
-							class="edit-field-item"
-							>
-							<!-- Checkbox field -->
-						<div v-if="field.type === 'boolean'" class="checkbox-field">
-							<div class="checkbox-wrapper">
-								<input
-										:id="`checkbox-${field.key}`"
-										type="checkbox"
-										:checked="getCheckboxValue(field.key)"
-										:name="field.key"
-										:disabled="isSaving"
-										@change="(e) => updateFieldValue(field.key, (e.target as HTMLInputElement).checked, 'boolean')"
-										/>
-										<label :for="`checkbox-${field.key}`" class="checkbox-label">
-											{{ field.label }}
-											<span v-if="!field.required" class="optional-label">({{ t('agora','optional') }})</span>
-										</label>
-							</div>
-						</div>
+                <div class="edit-fields">
+                    <div
+                            v-for="field in dynamicFields.slice()" 
+                            :key="field.key"
+                            class="edit-field-item"
+                            >
+                            <!-- Checkbox field -->
+                        <div v-if="field.type === 'boolean'" class="checkbox-field">
+                            <div class="checkbox-wrapper">
+                                <input
+                                        :id="`checkbox-${field.key}`"
+                                        type="checkbox"
+                                        :checked="getCheckboxValue(field.key)"
+                                        :name="field.key"
+                                        :disabled="isSaving"
+                                        @change="(e) => updateFieldValue(field.key, (e.target as HTMLInputElement).checked, 'boolean')"
+                                        />
+                                        <label :for="`checkbox-${field.key}`" class="checkbox-label">
+                                            {{ field.label }}
+                                            <span v-if="!field.required" class="optional-label">({{ t('agora','optional') }})</span>
+                                        </label>
+                            </div>
+                        </div>
 
-						<!-- Other fields -->
-						<div v-else class="standard-field">
-							<label class="edit-field-label">
-								{{ field.label }}
-								<span v-if="field.required" class="required-asterisk">*</span>
-								<span v-else class="optional-label">({{ t('agora','optional') }})</span>
-							</label>
+                        <!-- Other fields -->
+                        <div v-else class="standard-field">
+                            <label class="edit-field-label">
+                                {{ field.label }}
+                                <span v-if="field.required" class="required-asterisk">*</span>
+                                <span v-else class="optional-label">({{ t('agora','optional') }})</span>
+                            </label>
 
-							<div class="edit-field-input">
-								<!-- Enum field -->
-								<NcSelect
-										v-if="field.type === 'enum'"
-										:model-value="getMiscValue(field.key) || field.default"
-										:options="field.allowed_values || []"
-										:reduce="(option: string) => option"
-										:clearable="!field.required"
-										:label-outside="true"
-										:input-label="field.label"
-										:disabled="isSaving"
-										:placeholder="t('Select an option')"
-										@update:model-value="(val: string) => updateFieldValue(field.key, val, 'enum')"
-										/>
+                            <div class="edit-field-input">
+                                <!-- Location field -->
+                                <div v-if="field.type === 'location'" class="location-field">
+                                    <div v-if="showLocationAsLabel" class="metadata-value">
+                                        {{ getHierarchyPath(sessionStore.appSettings.locationTab, getMiscValue(field.key)) || t('agora', 'Inherited from parent') }}
+                                    </div>
+                                    <NcSelect
+                                            v-else
+                                            :model-value="getMiscValue(field.key)"
+                                            :options="hierarchicalLocation"
+                                            :clearable="!field.required"
+                                            :label-outside="true"
+                                            :disabled="isSaving"
+                                            class="select-field location-select"
+                                            :placeholder="t('Select location')"
+                                            :required="field.required"
+                                            @update:model-value="(val) => updateFieldValue(field.key, val, 'location')"
+                                            />
+                                </div>
 
-										<!-- Integer field -->
-										<NcInputField
-												v-else-if="field.type === 'integer'"
-												v-model="inquiryGroupStore.miscFields[field.key]"
-												type="number"
-												:label="field.label"
-												:disabled="isSaving"
-												@update:model-value="(val: string) => updateFieldValue(field.key, parseInt(val) || null, 'integer')"
-												/>
+                                <!-- Category field -->
+                                <div v-else-if="field.type === 'category'" class="category-field">
+                                    <div v-if="showCategoryAsLabel" class="metadata-value">
+                                        {{ getHierarchyPath(sessionStore.appSettings.categoryTab, getMiscValue(field.key)) || t('agora', 'Inherited from parent') }}
+                                    </div>
+                                    <NcSelect
+                                            v-else
+                                            :model-value="getMiscValue(field.key)"
+                                            :options="hierarchicalCategory"
+                                            :clearable="!field.required"
+                                            :label-outside="true"
+                                            :disabled="isSaving"
+                                            class="select-field category-select"
+                                            :placeholder="t('Select category')"
+                                            :required="field.required"
+                                            @update:model-value="(val) => updateFieldValue(field.key, val, 'category')"
+                                            />
+                                </div>
+                                <!-- Enum field -->
+                                <NcSelect
+                                        v-else-if="field.type === 'enum'"
+                                        :model-value="getMiscValue(field.key) || field.default"
+                                        :options="field.allowed_values || []"
+                                        :reduce="(option: string) => option"
+                                        :clearable="!field.required"
+                                        :label-outside="true"
+                                        :input-label="field.label"
+                                        :disabled="isSaving"
+                                        :placeholder="t('Select an option')"
+                                        @update:model-value="(val: string) => updateFieldValue(field.key, val, 'enum')"
+                                        />
 
-												<!-- Datetime field -->
-												<NcDateTimePickerNative
-														v-else-if="field.type === 'datetime'"
-														:model-value="getFormattedDate(field.key)"
-														type="date"
+                                        <!-- Integer field -->
+                                        <NcInputField
+                                                v-else-if="field.type === 'integer'"
+                                                v-model="inquiryGroupStore.miscFields[field.key]"
+                                                type="number"
+                                                :label="field.label"
+                                                :disabled="isSaving"
+                                                @update:model-value="(val: string) => updateFieldValue(field.key, parseInt(val) || null, 'integer')"
+                                                />
+
+                                                <!-- Datetime field -->
+                                                <NcDateTimePickerNative
+                                                        v-else-if="field.type === 'datetime'"
+                                                        :model-value="getFormattedDate(field.key)"
+                                                        type="date"
                                                         :label="field.label"
                                                         :disabled="isSaving"
                                                         @update:model-value="(val: string) => updateFieldValue(field.key, val, 'datetime')"
@@ -474,13 +584,13 @@ onMounted(() => {
                                                                             :label="field.label"
                                                                             :disabled="isSaving"
                                                                             @update:model-value="(val: string) => {
-                                                                                                 try {
-                                                                                                 const parsed = val ? JSON.parse(val) : null
-                                                                                                 updateFieldValue(field.key, parsed, 'json')
-                                                                                                 } catch {
-                                                                                                 updateFieldValue(field.key, val, 'json')
-                                                                                                 }
-                                                                                                 }"
+                                                                                                   try {
+                                                                                                   const parsed = val ? JSON.parse(val) : null
+                                                                                                   updateFieldValue(field.key, parsed, 'json')
+                                                                                                   } catch {
+                                                                                                   updateFieldValue(field.key, val, 'json')
+                                                                                                   }
+                                                                                                   }"
                                                                             />
                                                                 </div>
 
@@ -707,12 +817,12 @@ onMounted(() => {
     width: 100%;
 }
 
-                                                                                              @keyframes rotate {
-                                                                                                  from {
-                                                                                                      transform: rotate(0deg);
-                                                                                                  }
-                                                                                                  to {
-                                                                                                      transform: rotate(360deg);
-                                                                                                  }
-                                                                                              }
+                                                                                                      @keyframes rotate {
+                                                                                                          from {
+                                                                                                              transform: rotate(0deg);
+                                                                                                          }
+                                                                                                          to {
+                                                                                                              transform: rotate(360deg);
+                                                                                                          }
+                                                                                                      }
 </style>

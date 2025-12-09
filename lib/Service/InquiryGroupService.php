@@ -46,7 +46,7 @@ class InquiryGroupService
     /**
      * Get a single inquiry group
      */
-    public function get(int $inquiryGroupId, bool $withMiscFields = true, bool $withChildren = false): InquiryGroup
+    public function get(int $inquiryGroupId, bool $withMiscFields = true, bool $withChildren = true): InquiryGroup
     {
         $inquiryGroup = $this->inquiryGroupMapper->get($inquiryGroupId, false, $withMiscFields);
         $this->enrichInquiryGroup($inquiryGroup, $withMiscFields, $withChildren);
@@ -56,7 +56,7 @@ class InquiryGroupService
     /**
      * List all inquiry groups
      */
-    public function listInquiryGroups(bool $withMiscFields = false, bool $withChildren = false): array
+    public function listInquiryGroups(bool $withMiscFields = false, bool $withChildren = true): array
     {
         $inquiryGroups = $this->inquiryGroupMapper->list();
         foreach ($inquiryGroups as $inquiryGroup) {
@@ -559,8 +559,8 @@ private function setBasicPermissions(InquiryGroup $inquiryGroup): void
     $isAdmin = $this->userSession->isAdmin();
 
     // Set allowEdit based on permissions
-    //$allowEdit = $isOwner || $isAdmin;
-    //$inquiryGroup->setAllowEdit($allowEdit);
+    $allowEdit = $isOwner || $isAdmin;
+    $inquiryGroup->setAllowEdit($allowEdit);
 
     // Initialize empty misc fields if not set
     if ($inquiryGroup->getMiscFields() === null) {

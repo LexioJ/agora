@@ -475,8 +475,8 @@ class InitDbDefault extends Command
             'label' => 'News',
             'description' => 'Public informational notice.',
             'fields' => [
-                ["key"=>"display","label"=>"Display in groups","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","main","block"],"rules"=>[]],
-                ["key"=>"display_position","label"=>"Position in the display group","type"=>"enum","required"=>false,"default"=>"bottom","allowed_values"=>["center","left","rigth","top","bottom"],"rules"=>[]],
+                ["key"=>"layout_zone","label"=>"Position display into the layout","type"=>"enum","required"=>false,"default"=>"footer","allowed_values"=>["sidebar","main","footer","modal","popup"],"rules"=>[]],
+                ["key"=>"render_mode","label"=>"Render mode of inquiries","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","list","full","summary","rich_html"],"rules"=>[]],
             ],
             'allowed_response' => [],
             'allowed_transformation' => null,
@@ -493,8 +493,8 @@ class InitDbDefault extends Command
             'description' => 'Administrative or public announcement.',
              
             'fields' => [
-                ["key"=>"display","label"=>"Display in groups","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","main","block"],"rules"=>[]],
-                ["key"=>"display_position","label"=>"Position in the display group","type"=>"enum","required"=>false,"default"=>"bottom","allowed_values"=>["center","left","rigth","top","bottom"],"rules"=>[]],
+                ["key"=>"layout_zone","label"=>"Position display into the layout","type"=>"enum","required"=>false,"default"=>"footer","allowed_values"=>["sidebar","main","footer","modal","popup"],"rules"=>[]],
+                ["key"=>"render_mode","label"=>"Render mode of inquiries","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","list","full","summary","rich_html"],"rules"=>[]],
            
             ],
             'allowed_response' => [],
@@ -511,8 +511,8 @@ class InitDbDefault extends Command
             'label' => 'Bulletin',
             'description' => 'Periodic update or report.',
             'fields' => [
-                ["key"=>"display","label"=>"Display in groups","type"=>"enum","required"=>false,"default"=>"block","allowed_values"=>["cards","main","block"],"rules"=>[]],
-                ["key"=>"display_position","label"=>"Position in the display group","type"=>"enum","required"=>false,"default"=>"center","allowed_values"=>["center","left","rigth","top","bottom"],"rules"=>[]],
+                ["key"=>"layout_zone","label"=>"Position display into the layout","type"=>"enum","required"=>false,"default"=>"footer","allowed_values"=>["sidebar","main","footer","modal","popup"],"rules"=>[]],
+                ["key"=>"render_mode","label"=>"Render mode of inquiries","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","list","full","summary","rich_html"],"rules"=>[]],
             ],
             'allowed_response' => [],
             'allowed_transformation' => null,
@@ -530,8 +530,8 @@ class InitDbDefault extends Command
             'fields' => [
                 ["key"=>"location","label"=>"Location","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
                 ["key"=>"meeting_date","label"=>"Meeting Date","type"=>"datetime","required"=>true,"default"=>null,"rules"=>[]],
-                ["key"=>"display","label"=>"Display in groups","type"=>"enum","required"=>false,"default"=>"block","allowed_values"=>["cards","main","block"],"rules"=>[]],
-                ["key"=>"display_position","label"=>"Position in the display group","type"=>"enum","required"=>false,"default"=>"center","allowed_values"=>["center","left","rigth","top","bottom"],"rules"=>[]],
+                ["key"=>"layout_zone","label"=>"Position display into the layout","type"=>"enum","required"=>false,"default"=>"footer","allowed_values"=>["sidebar","main","footer","modal","popup"],"rules"=>[]],
+                ["key"=>"render_mode","label"=>"Render mode of inquiries","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","list","full","summary","rich_html"],"rules"=>[]],
             ],
             'allowed_response' => ['suggestion'],
             'allowed_transformation' => null,
@@ -567,8 +567,8 @@ class InitDbDefault extends Command
             'fields' => [
                 ["key"=>"topic","label"=>"Topic","type"=>"string","required"=>true,"default"=>null,"rules"=>[]],
                 ["key"=>"speakers","label"=>"Speakers","type"=>"json","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"display","label"=>"Display in groups","type"=>"enum","required"=>false,"default"=>"block","allowed_values"=>["cards","main","block"],"rules"=>[]],
-                ["key"=>"display_position","label"=>"Position in the display group","type"=>"enum","required"=>false,"default"=>"bottom","allowed_values"=>["center","left","rigth","top","bottom"],"rules"=>[]],
+                ["key"=>"layout_zone","label"=>"Position display into the layout","type"=>"enum","required"=>false,"default"=>"footer","allowed_values"=>["sidebar","main","footer","modal","popup"],"rules"=>[]],
+                ["key"=>"render_mode","label"=>"Render mode of inquiries","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","list","full","summary","rich_html"],"rules"=>[]],
             ],
             'allowed_response' => ['suggestion'],
             'allowed_transformation' => null,
@@ -595,6 +595,8 @@ class InitDbDefault extends Command
                 ["key"=>"support_start","label"=>"Supporting Start","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
                 ["key"=>"support_end","label"=>"Supporting End","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
                 ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
+                ["key"=>"layout_zone","label"=>"Position display into the layout","type"=>"enum","required"=>false,"default"=>"footer","allowed_values"=>["sidebar","main","footer","modal","popup"],"rules"=>[]],
+                ["key"=>"render_mode","label"=>"Render mode of inquiries","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","list","full","summary","rich_html"],"rules"=>[]],
             ],
             'allowed_response' => ['suggestion','proposal','petition','official'],
             'allowed_transformation' => ['law_proposal','policy_consultation'],
@@ -624,6 +626,8 @@ class InitDbDefault extends Command
                 ["key"=>"tie_break_rule","label"=>"Tie Break Rule","type"=>"enum","required"=>true,"default"=>"random","allowed_values"=>["random","condorcet_priority","highest_median"],"rules"=>[]],
                 ["key"=>"result_visibility","label"=>"Result Visibility","type"=>"enum","required"=>true,"default"=>"after_close","allowed_values"=>["always","after_close","partial"],"rules"=>[]],
                 ["key"=>"vote_secret","label"=>"Secret Vote","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
+                ["key"=>"layout_zone","label"=>"Position display into the layout","type"=>"enum","required"=>false,"default"=>"footer","allowed_values"=>["sidebar","main","footer","modal","popup"],"rules"=>[]],
+                ["key"=>"render_mode","label"=>"Render mode of inquiries","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","list","full","summary","rich_html"],"rules"=>[]],
             ],
             'allowed_response' => ['official'],
             'allowed_transformation' => null,
@@ -648,6 +652,41 @@ class InitDbDefault extends Command
             'is_root' => true,
             'created' => '',
         ],
+
+        // --- Consultation  ---
+        // --- Consultation ---
+        [
+            'inquiry_type' => 'consultation',
+            'family' => 'collective',
+            'icon' => 'Gavel',
+            'label' => 'Citizen Consultation',
+            'description' => 'A public consultation process allowing citizens to submit opinions, proposals, or feedback.',
+            'fields' => [
+                [
+                    "key" => "mandate",
+                    "label" => "Mandate",
+                    "type" => "text",
+                    "required" => false,
+                    "default" => null,
+                    "rules" => []
+                ],
+                [
+                    "key" => "deadline",
+                    "label" => "Deadline",
+                    "type" => "date",
+                    "required" => false,
+                    "default" => null,
+                    "rules" => []
+                ],
+            ],
+
+            'allowed_response' => ['proposal', 'law_proposal', 'official'],
+            'allowed_transformation' => null,
+            'is_root' => true,
+            'created' => '',
+        ],
+
+
 
         // --- Official (single type) ---
         [
@@ -869,7 +908,7 @@ class InitDbDefault extends Command
                 ["key"=> "voting_rules", "label"=>"Voting Rules","type"=> "text","required"=>false,"default"=>null,"rules"=>[]],
                 ["key"=> "agenda", "label"=>"Agenda","type"=> "text","required"=>true,"default"=>null,"rules"=>[]],
                 ["key"=> "facilitator_id","label"=>"Facilitator","type"=> "users","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=> "location","label"=>"Location","type"=> "locations","required"=>false,"default"=>null,"rules"=>[]],
+                ["key"=> "location","label"=>"Location","type"=> "location","required"=>false,"default"=>null,"rules"=>[]],
             ],
 
             'allowed_inquiry_types' => ['deliberation','consultation','proposal','law_proposal'],
@@ -936,7 +975,7 @@ class InitDbDefault extends Command
                 ["key"=>"name","label"=>"Name","type"=>"string","required"=>true,"default"=>null,"rules"=>[]],
                 ["key"=>"code","label"=>"Code","type"=>"string","required"=>false,"default"=>null,"rules"=>[]],
                 ["key"=>"population","label"=>"Population","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=> "location","label"=>"Location","type"=> "locations","required"=>false,"default"=>null,"rules"=>[]],
+                ["key"=> "location","label"=>"Location","type"=> "location","required"=>false,"default"=>null,"rules"=>[]],
             ],
 
             'allowed_inquiry_types' => ['consultation','deliberation','proposal'],
@@ -956,7 +995,7 @@ class InitDbDefault extends Command
             'fields' => [
                 ["key"=>"name","label"=>"Name","type"=>"string","required"=>true,"default"=>null,"rules"=>[]],
                 ["key"=>"population","label"=>"Population","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=> "location","label"=>"Location","type"=> "locations","required"=>false,"default"=>null,"rules"=>[]],
+                ["key"=> "location","label"=>"Location","type"=> "location","required"=>false,"default"=>null,"rules"=>[]],
             ],
 
             'allowed_inquiry_types' => ['consultation','deliberation','proposal','news','announcement'],
@@ -976,7 +1015,7 @@ class InitDbDefault extends Command
             'fields' => [
                 ["key"=>"name","label"=>"Name","type"=>"string","required"=>true,"default"=>null,"rules"=>[]],
                 ["key"=>"population","label"=>"Population","type"=>"integer","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=> "location","label"=>"Location","type"=> "locations","required"=>false,"default"=>null,"rules"=>[]],
+                ["key"=> "location","label"=>"Location","type"=> "location","required"=>false,"default"=>null,"rules"=>[]],
             ],
 
             'allowed_inquiry_types' => ['consultation','proposal','news','meeting','announcement','gathering'],

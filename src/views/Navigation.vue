@@ -118,7 +118,7 @@ onMounted(() => {
         <NcAppNavigationItem
           v-for="inquiryGroup in inquiryGroupsStore.inquiryGroupsSorted"
           :key="inquiryGroup.id"
-          :name="inquiryGroup.name"
+          :name="inquiryGroup.title"
           :title="inquiryGroup.titleExt"
           allow-collapse
           :to="{
