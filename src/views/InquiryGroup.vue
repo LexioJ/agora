@@ -208,6 +208,10 @@
                       :group="currentInquiryGroup"
                       :inquiry-ids="currentInquiryGroup.inquiryIds"
                       />
+              <InquiryGroupViewMain
+                      :group="currentInquiryGroup"
+                      :inquiry-ids="currentInquiryGroup.inquiryIds"
+                      />
           </div>
           <!-- Empty state -->
           <div v-else class="empty-state">
@@ -275,8 +279,9 @@ import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
 import { InquiryGeneralIcons } from '../utils/icons.ts'
 import { getInquiryGroupTypeData } from '../helpers/modules/InquiryHelper.ts'
 import InquiryGroupCreateDlg from '../components/Create/InquiryGroupCreateDlg.vue'
-import type { InquiryGroupType, IInquiryGroup } from '../stores/inquiryGroups.types.ts'
+import type { InquiryGroupType, InquiryGroup } from '../stores/inquiryGroups.types.ts'
 import InquiryGroupViewMiddle from '../components/InquiryGroup/InquiryGroupViewMiddle.vue'
+import InquiryGroupViewMain from '../components/InquiryGroup/InquiryGroupViewMain.vue'
 
 
 const route = useRoute()
@@ -295,7 +300,7 @@ const selectedInquiryGroupTypeForCreation = ref<InquiryGroupType | null>(null)
 
 // Delete dialog state
 const showDeleteDialog = ref(false)
-const deleteDialogGroup = ref<IInquiryGroup | null>(null)
+const deleteDialogGroup = ref<InquiryGroup | null>(null)
 
 // Check if we have a slug in the route
 const hasSlug = computed(() => {
@@ -326,7 +331,7 @@ const currentInquiryGroup = computed(() => {
 const parentGroups = computed(() => {
   if (!currentInquiryGroup.value) return []
 
-  const parents: IInquiryGroup[] = []
+  const parents: InquiryGroup[] = []
   let currentGroup = currentInquiryGroup.value
 
   // Build parent chain using parentId
@@ -405,7 +410,7 @@ const getGroupTypeIconComponent = (type: string) => {
 }
 
 // Helper function to get children from inquiryGroupsStore[group.Id].childs
-function getGroupChildren(group: IInquiryGroup) {
+function getGroupChildren(group: InquiryGroup) {
   if (!group || !group.id) return []
 
   // Try to get children from store structure
@@ -499,7 +504,7 @@ function navigateToHome() {
   router.push({ name: 'group-list', params: { slug: 'none' }, query: {} })
 }
 
-function selectGroup(group: IInquiryGroup) {
+function selectGroup(group: InquiryGroup) {
   if (group.slug) {
     router.push({ name: 'group-list', params: { slug: group.slug } })
   }
@@ -528,20 +533,20 @@ function getCoverUrl(coverId: string) {
 }
 
 // Owner menu actions
-function modifyGroup(group: IInquiryGroup) {
+function modifyGroup(group: InquiryGroup) {
   router.push({
     name: 'group',
     params: { id: group.id }
   })
 }
 
-async function deleteGroup(group: IInquiryGroup) {
+async function deleteGroup(group: InquiryGroup) {
   deleteDialogGroup.value = group
   showDeleteDialog.value = true
 }
 
 // Actual delete logic
-async function performDeleteGroup(group: IInquiryGroup) {
+async function performDeleteGroup(group: InquiryGroup) {
   try {
     // Implement delete logic here
     // await inquiryGroupsStore.deleteGroup(group.id)
@@ -580,7 +585,7 @@ function handleCloseGroupDialog() {
   selectedInquiryGroupTypeForCreation.value = null
 }
 
-function inquiryGroupAdded(newGroup: IInquiryGroup) {
+function inquiryGroupAdded(newGroup: InquiryGroup) {
   // Handle new group creation
   console.log('Group added:', newGroup)
   createGroupDlgToggle.value = false
@@ -608,9 +613,7 @@ const selectedGroups = computed(() => {
 
 // Debug: Log owner/admin status
 onMounted(() => {
-  console.log('isOwnerOrAdmin:', isOwnerOrAdmin.value)
   console.log('sessionStore:', sessionStore)
-  console.log('sessionStore.user:', sessionStore.user)
 })
 
 // Lifecycle
@@ -618,17 +621,18 @@ onMounted(async () => {
   try {
     // Load data if needed
     if (inquiryGroupsStore.inquiryGroups.length === 0) {
-      // await inquiryGroupsStore.fetchAllGroups()
+       await inquiryGroupsStore.fetchAllGroups()
     }
 
     if (inquiriesStore.inquiries.length === 0) {
-      // await inquiriesStore.fetchAll()
+      await inquiriesStore.fetchAll()
     }
 
     // Check if group exists when slug is provided
     if (hasSlug.value) {
       const slug = route.params.slug as string
       const group = inquiryGroupsStore.bySlug(slug)
+       
       if (!group) {
         groupNotFound.value = true
       }

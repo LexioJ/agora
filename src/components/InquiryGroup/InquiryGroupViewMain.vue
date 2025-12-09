@@ -161,11 +161,11 @@ import { useInquiriesStore } from '../../stores/inquiries.ts'
 import { useAppSettingsStore } from '../../stores/appSettings.ts'
 
 // Import inquiry display components
-import InquiryCard from '../components/InquiryCard.vue'
-import InquiryListItem from '../components/InquiryListItem.vue'
-import InquiryFull from '../components/InquiryFull.vue'
-import InquiryRichHTML from '../components/InquiryRichHTML.vue'
-import InquirySummary from '../components/InquirySummary.vue'
+import InquiryCard from './InquiryCard.vue'
+import InquiryListItem from './InquiryListItem.vue'
+import InquiryFull from './InquiryFull.vue'
+import InquiryRichHTML from './InquiryRichHTML.vue'
+import InquirySummary from './InquirySummary.vue'
 
 interface Props {
   group: InquiryGroup
@@ -204,52 +204,52 @@ const inquiryTypes = computed(() => {
 
 // Compatibility matrix based on your requirements
 const compatibilityMatrix = {
-  cards: ['sidebar', 'main'],
+  cards: ['sidebar', 'main','footer'],
   list_item: ['sidebar', 'main'],
   full: ['main'],
   rich_html: ['main', 'modal'],
-  summary: ['header', 'sidebar']
+  summary: ['header', 'sidebar','popup']
 }
 
 // Group inquiries by layout zone
 const sidebarInquiries = computed(() => {
   return inquiries.value.filter(inquiry => 
-    inquiry.layout_zone === 'sidebar' || 
-    ['cards', 'list_item', 'summary'].includes(inquiry.render_mode)
+    inquiry.miscFields.layout_zone === 'sidebar' || 
+    ['cards', 'list_item', 'summary'].includes(inquiry.miscFields.render_mode)
   ).slice(0, 10) // Limit sidebar items
 })
 
 const headerInquiries = computed(() => {
   return inquiries.value.filter(inquiry => 
-    inquiry.layout_zone === 'header' || 
-    inquiry.render_mode === 'summary'
+    inquiry.miscFields.layout_zone === 'header' || 
+    inquiry.miscFields.render_mode === 'summary'
   ).slice(0, 3) // Limit header items
 })
 
 const mainInquiries = computed(() => {
   return inquiries.value.filter(inquiry => 
-    inquiry.layout_zone === 'main' || 
-    ['cards', 'list_item', 'full', 'rich_html'].includes(inquiry.render_mode)
+    inquiry.miscFields.layout_zone === 'main' || 
+    ['cards', 'list_item', 'full', 'rich_html'].includes(inquiry.miscFields.render_mode)
   )
 })
 
 const footerInquiries = computed(() => {
   return inquiries.value.filter(inquiry => 
-    inquiry.layout_zone === 'footer' || 
-    inquiry.render_mode === 'summary'
+    inquiry.miscFields.layout_zone === 'footer' || 
+    inquiry.miscFields.render_mode === 'summary'
   ).slice(0, 5) // Limit footer items
 })
 
 const modalInquiries = computed(() => {
   return inquiries.value.filter(inquiry => 
-    (inquiry.layout_zone === 'modal' || inquiry.render_mode === 'rich_html') &&
+    (inquiry.miscFields.layout_zone === 'modal' || inquiry.miscFields.render_mode === 'rich_html') &&
     openModals.value.includes(inquiry.id)
   )
 })
 
 const popupInquiries = computed(() => {
   return inquiries.value.filter(inquiry => 
-    inquiry.layout_zone === 'popup' &&
+    inquiry.miscFields.layout_zone === 'popup' &&
     openPopups.value.includes(inquiry.id)
   )
 })
@@ -260,7 +260,7 @@ const totalInquiries = computed(() => inquiries.value.length)
 
 // Get the appropriate render mode for a given layout zone
 function getRenderMode(inquiry: Inquiry, layoutZone: string): string {
-  const preferredMode = inquiry.render_mode || 'cards'
+  const preferredMode = inquiry.miscFields.render_mode || 'cards'
   
   // Check if preferred mode is compatible with layout zone
   if (compatibilityMatrix[preferredMode]?.includes(layoutZone)) {
@@ -299,7 +299,7 @@ function getInquiryComponent(inquiry: Inquiry, layoutZone: string) {
 
 // Handle inquiry click
 function handleInquiryClick(inquiry: Inquiry) {
-  const layoutZone = inquiry.layout_zone || 'main'
+  const layoutZone = inquiry.miscFields.layout_zone || 'main'
   
   switch (layoutZone) {
     case 'modal':

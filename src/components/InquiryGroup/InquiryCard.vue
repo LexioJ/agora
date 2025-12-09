@@ -1,0 +1,485 @@
+<!--
+- SPDX-FileCopyrightText: 2025 Nextcloud contributors
+- SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<template>
+  <div class="inquiry-card" :class="cardClasses" @click="handleClick">
+    <!-- Cover Image -->
+    <div v-if="coverUrl" class="card-cover">
+      <img :src="coverUrl" :alt="inquiry.title" class="cover-image" />
+      <div class="cover-overlay"></div>
+    </div>
+
+    <!-- Content -->
+    <div class="card-content" :class="{ 'has-cover': coverUrl }">
+      <!-- Header -->
+      <div class="card-header">
+        <div class="type-badge">
+          <component :is="typeIcon" class="type-icon" />
+          <span class="type-label">{{ typeLabel }}</span>
+        </div>
+        
+        <div v-if="inquiry.status" class="status-badge" :class="statusClass">
+          {{ statusText }}
+        </div>
+      </div>
+
+      <!-- Title -->
+      <h3 class="card-title" :title="inquiry.title">
+        {{ inquiry.title }}
+      </h3>
+
+      <!-- Description -->
+      <div v-if="inquiry.description" class="card-description">
+        {{ truncatedDescription }}
+      </div>
+
+      <!-- Metadata -->
+      <div class="card-meta">
+        <!-- Author -->
+        <div class="meta-author">
+          <NcAvatar
+            :user="inquiry.owner?.id"
+            :size="24"
+            class="author-avatar"
+            :show-name="false"
+          />
+          <span class="author-name">{{ inquiry.owner?.displayName }}</span>
+        </div>
+
+        <!-- Stats -->
+        <div class="meta-stats">
+          <div v-if="inquiry.responsesCount" class="stat-item" title="Responses">
+            <MessageIcon :size="14" />
+            <span>{{ inquiry.responsesCount }}</span>
+          </div>
+          
+          <div v-if="inquiry.supportsCount" class="stat-item supports" @click.stop="handleSupportClick">
+            <HeartIcon :size="14" :fill="isSupported ? 'var(--color-primary-element)' : 'none'" />
+            <span>{{ inquiry.supportsCount }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dates -->
+      <div class="card-dates">
+        <div v-if="inquiry.created_at" class="date-item">
+          <CalendarIcon :size="12" />
+          <span>{{ formatDate(inquiry.created_at) }}</span>
+        </div>
+        
+        <div v-if="inquiry.expires_at" class="date-item">
+          <ClockIcon :size="12" />
+          <span>{{ timeUntilExpiry }}</span>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="card-actions">
+        <NcButton type="secondary" class="view-button" @click.stop="viewInquiry">
+          {{ t('agora', 'View') }}
+        </NcButton>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { computed } from 'vue'
+import { t } from '@nextcloud/l10n'
+import { useRouter } from 'vue-router'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcAvatar from '@nextcloud/vue/components/NcAvatar'
+import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
+import ClockIcon from 'vue-material-design-icons/Clock.vue'
+import MessageIcon from 'vue-material-design-icons/Message.vue'
+import HeartIcon from 'vue-material-design-icons/Heart.vue'
+
+import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
+import type { Inquiry } from '../../Types/index.ts'
+import { useAppSettingsStore } from '../../stores/appSettings.ts'
+
+interface Props {
+  inquiry: Inquiry
+  isActive?: boolean
+  dense?: boolean
+  interactive?: boolean
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  isActive: false,
+  dense: false,
+  interactive: true
+})
+
+const emit = defineEmits<{
+  click: [inquiry: Inquiry]
+  support: [inquiryId: number]
+}>()
+
+const router = useRouter()
+const appSettingsStore = useAppSettingsStore()
+
+// Get inquiry types
+const inquiryTypes = computed(() => appSettingsStore.inquiryTypeTab || [])
+
+// Card classes
+const cardClasses = computed(() => ({
+  'is-active': props.isActive,
+  'is-dense': props.dense,
+  'is-interactive': props.interactive,
+  'has-cover': !!coverUrl.value
+}))
+
+// Get type data
+const typeData = computed(() => {
+  return getInquiryTypeData(props.inquiry.inquiry_type, inquiryTypes.value)
+})
+
+const typeIcon = computed(() => typeData.value?.icon || '📝')
+const typeLabel = computed(() => typeData.value?.label || props.inquiry.inquiry_type)
+
+// Status
+const statusClass = computed(() => {
+  switch (props.inquiry.status) {
+    case 'open': return 'status-open'
+    case 'closed': return 'status-closed'
+    case 'draft': return 'status-draft'
+    default: return 'status-unknown'
+  }
+})
+
+const statusText = computed(() => {
+  switch (props.inquiry.status) {
+    case 'open': return t('agora', 'Open')
+    case 'closed': return t('agora', 'Closed')
+    case 'draft': return t('agora', 'Draft')
+    default: return props.inquiry.status || ''
+  }
+})
+
+// Cover image
+const coverUrl = computed(() => {
+  if (props.inquiry.coverId) {
+    const baseUrl = window.location.origin
+    return `${baseUrl}/index.php/core/preview?fileId=${props.inquiry.coverId}&x=400&y=200&a=1`
+  }
+  return null
+})
+
+// Description
+const truncatedDescription = computed(() => {
+  if (!props.inquiry.description) return ''
+  const text = props.inquiry.description.replace(/<[^>]*>/g, '')
+  return text.length > 120 ? text.substring(0, 120) + '...' : text
+})
+
+// Dates
+function formatDate(dateString: string) {
+  if (!dateString) return ''
+  try {
+    return new Date(dateString).toLocaleDateString()
+  } catch {
+    return dateString
+  }
+}
+
+const timeUntilExpiry = computed(() => {
+  if (!props.inquiry.expires_at) return ''
+  const expiry = new Date(props.inquiry.expires_at)
+  const now = new Date()
+  const diff = expiry.getTime() - now.getTime()
+  const days = Math.ceil(diff / (1000 * 60 * 60 * 24))
+  
+  if (days > 0) {
+    return t('agora', '{days} days left', { days })
+  } else if (days === 0) {
+    return t('agora', 'Today')
+  } else {
+    return t('agora', 'Expired')
+  }
+})
+
+// Support
+const isSupported = computed(() => props.inquiry.currentUserStatus?.hasSupported || false)
+
+// Handlers
+function handleClick() {
+  if (props.interactive) {
+    emit('click', props.inquiry)
+    viewInquiry()
+  }
+}
+
+function viewInquiry() {
+  router.push({
+    name: 'inquiry',
+    params: { id: props.inquiry.id }
+  })
+}
+
+function handleSupportClick() {
+  emit('support', props.inquiry.id)
+}
+</script>
+
+<style lang="scss" scoped>
+.inquiry-card {
+  position: relative;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
+  &.is-interactive {
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+      border-color: var(--color-primary-element);
+      
+      .card-cover .cover-overlay {
+        opacity: 0.2;
+      }
+    }
+  }
+  
+  &.is-active {
+    border-color: var(--color-primary-element);
+    box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
+  }
+  
+  &.is-dense {
+    border-radius: 12px;
+    
+    .card-content {
+      padding: 16px;
+    }
+    
+    .card-title {
+      font-size: 15px;
+    }
+  }
+}
+
+.card-cover {
+  position: relative;
+  height: 160px;
+  overflow: hidden;
+  
+  .cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+  }
+  
+  .cover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.4));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  .inquiry-card:hover & {
+    .cover-image {
+      transform: scale(1.05);
+    }
+  }
+}
+
+.card-content {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  
+  &.has-cover {
+    padding-top: 16px;
+  }
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.type-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  background: var(--color-background-dark);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-lighter);
+  
+  .type-icon {
+    width: 14px;
+    height: 14px;
+    color: var(--color-primary-element);
+  }
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  
+  &.status-open {
+    background: rgba(34, 197, 94, 0.1);
+    color: #16a34a;
+  }
+  
+  &.status-closed {
+    background: rgba(239, 68, 68, 0.1);
+    color: #dc2626;
+  }
+  
+  &.status-draft {
+    background: rgba(148, 163, 184, 0.1);
+    color: #64748b;
+  }
+  
+  &.status-unknown {
+    background: var(--color-background-dark);
+    color: var(--color-text-lighter);
+  }
+}
+
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--color-main-text);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-lighter);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
+}
+
+.card-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+}
+
+.meta-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  
+  .author-avatar {
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .author-name {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-main-text);
+  }
+}
+
+.meta-stats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  
+  .stat-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--color-text-lighter);
+    
+    &.supports {
+      cursor: pointer;
+      transition: color 0.2s ease;
+      
+      &:hover {
+        color: var(--color-primary-element);
+      }
+    }
+  }
+}
+
+.card-dates {
+  display: flex;
+  gap: 16px;
+  font-size: 12px;
+  color: var(--color-text-maxcontrast);
+  
+  .date-item {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+}
+
+.card-actions {
+  padding-top: 12px;
+  border-top: 1px solid var(--color-border);
+  
+  .view-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .inquiry-card {
+    border-radius: 12px;
+  }
+  
+  .card-cover {
+    height: 140px;
+  }
+  
+  .card-content {
+    padding: 16px;
+    gap: 10px;
+  }
+  
+  .card-title {
+    font-size: 16px;
+  }
+  
+  .card-description {
+    font-size: 13px;
+    -webkit-line-clamp: 2;
+  }
+}
+</style>

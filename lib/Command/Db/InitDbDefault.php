@@ -594,7 +594,7 @@ class InitDbDefault extends Command
                 ["key"=>"type_of_vote","label"=>"Type of Vote","type"=>"enum","required"=>false,"default"=>"simple","allowed_values"=>["simple","majority_judgement_beneficial","majority_judgement_number"],"rules"=>[]],
                 ["key"=>"support_start","label"=>"Supporting Start","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
                 ["key"=>"support_end","label"=>"Supporting End","type"=>"datetime","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
+                ["key"=>"auto_reminder","label"=>"Auto Reminder","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
                 ["key"=>"layout_zone","label"=>"Position display into the layout","type"=>"enum","required"=>false,"default"=>"footer","allowed_values"=>["sidebar","main","footer","modal","popup"],"rules"=>[]],
                 ["key"=>"render_mode","label"=>"Render mode of inquiries","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","list","full","summary","rich_html"],"rules"=>[]],
             ],
@@ -625,7 +625,7 @@ class InitDbDefault extends Command
                 ["key"=>"allow_multiple_choices","label"=>"Allow Multiple Choices","type"=>"boolean","required"=>true,"default"=>false,"rules"=>[]],
                 ["key"=>"tie_break_rule","label"=>"Tie Break Rule","type"=>"enum","required"=>true,"default"=>"random","allowed_values"=>["random","condorcet_priority","highest_median"],"rules"=>[]],
                 ["key"=>"result_visibility","label"=>"Result Visibility","type"=>"enum","required"=>true,"default"=>"after_close","allowed_values"=>["always","after_close","partial"],"rules"=>[]],
-                ["key"=>"vote_secret","label"=>"Secret Vote","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]]
+                ["key"=>"vote_secret","label"=>"Secret Vote","type"=>"boolean","required"=>true,"default"=>true,"rules"=>[]],
                 ["key"=>"layout_zone","label"=>"Position display into the layout","type"=>"enum","required"=>false,"default"=>"footer","allowed_values"=>["sidebar","main","footer","modal","popup"],"rules"=>[]],
                 ["key"=>"render_mode","label"=>"Render mode of inquiries","type"=>"enum","required"=>false,"default"=>"cards","allowed_values"=>["cards","list","full","summary","rich_html"],"rules"=>[]],
             ],
@@ -1355,11 +1355,42 @@ class InitDbDefault extends Command
     ];
 
     private array $locations = [
-        ['name' => 'Country', 'parent' => 0],
-        ['name' => 'State 1', 'parent' => 'Country'],
-        ['name' => 'State 2', 'parent' => 'Country'],
-        ['name' => 'State 3', 'parent' => 'Country'],
+        // --- Country ---
+        ['name' => 'Switzerland', 'parent' => 0],
+
+        // --- Cantons ---
+        ['name' => 'Geneva', 'parent' => 'Switzerland'],
+        ['name' => 'Vaud',   'parent' => 'Switzerland'],
+        ['name' => 'Bern',   'parent' => 'Switzerland'],
+        ['name' => 'Zürich', 'parent' => 'Switzerland'],
+
+        // --- Bern Districts ---
+        ['name' => 'Bern-Mittelland', 'parent' => 'Bern'],
+
+        // --- Zürich Regions ---
+        ['name' => 'Winterthur District', 'parent' => 'Zürich'],
+        ['name' => 'Limmattal',           'parent' => 'Zürich'],
+
+        // --- Vaud Districts ---
+        ['name' => 'Nyon District', 'parent' => 'Vaud'],
+
+        // --- Cities / Communes (Geneva) ---
+        ['name' => 'City of Geneva', 'parent' => 'Geneva'],
+
+        // --- Cities / Communes (Vaud) ---
+        ['name' => 'Nyon',      'parent' => 'Nyon District'],
+        ['name' => 'Prangins',  'parent' => 'Nyon District'],
+
+        // --- Zürich Cities ---
+        ['name' => 'Winterthur', 'parent' => 'Winterthur District'],
+        ['name' => 'Dietikon',   'parent' => 'Limmattal'],
+
+        // --- Composite Locations (derived from misc table) ---
+        ['name' => 'Nyon, Vaud',            'parent' => 'Nyon District'],
+        ['name' => 'Winterthur, Zürich',    'parent' => 'Winterthur District'],
+        ['name' => 'Limmattal, Zürich',     'parent' => 'Zürich'],
     ];
+
 
     public function __construct(IDBConnection $connection, IGroupManager $groupManager)
     {

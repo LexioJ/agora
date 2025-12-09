@@ -216,7 +216,6 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
     async load(inquiryGroupId: number | null = null): Promise<void> {
       const sessionStore = useSessionStore()
       
-      // Si pas d'ID fourni, essaie de le récupérer de la route
       let groupId = inquiryGroupId
       if (!groupId && sessionStore.route?.params?.id) {
         groupId = Number(sessionStore.route.params.id)
