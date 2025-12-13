@@ -385,6 +385,7 @@ export const NavigationIcons: Record<string, Component> = {
     Group: makeIconComponent(AccountGroup, '#0097A7'),
     Add: makeIconComponent(Plus, '#388E3C'),
     Moderate: makeIconComponent(MessageText, '#1565C0'),
+    Home: makeIconComponent(Home, '#795548'),
 }
 
 export const BadgeIcons: Record<string, Component> = {

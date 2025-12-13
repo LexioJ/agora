@@ -226,7 +226,7 @@ async function addGroupInquiry() {
       showError(t('agora', 'Please enter a title'))
       return
     }
-    let typeSelected = selectedInquiryGroupType
+    let typeSelected = selectedInquiryGroupType.value
 
     console.log("SLECT INQUIRY GROUP TYPE:", selectedInquiryGroupType.value)
     console.log("LOCAL SLECT INQUIRY GROUP TYPE:", localInquiryGroupType.value)

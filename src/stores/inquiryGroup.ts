@@ -238,42 +238,6 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
         }
         
         const groupData = response.data.inquiryGroup
-      /*  console.log(" FRRRRRRRRRRR ", groupData)
-        this.id = groupData.id || 0
-        this.coverId = groupData.coverId || null
-        this.type = groupData.type || 'default'
-        this.parentId = groupData.parentId || 0
-        this.created = groupData.created || 0
-        this.deleted = groupData.deleted || 0
-        this.description = groupData.description || ''
-        this.ownedGroup = groupData.ownedGroup || ''
-        this.metadata = groupData.metadata || null
-        this.groupStatus = groupData.groupStatus || 'draft'
-        this.protected = Boolean(groupData.protected)
-        this.owner = groupData.owner || {
-          id: '',
-          displayName: '',
-          type: 'user',
-          isOwner: false,
-          groups: [],
-        }
-        this.title = groupData.title || ''
-        this.titleExt = groupData.titleExt || ''
-        this.slug = groupData.slug || ''
-        this.inquiryIds = Array.isArray(groupData.inquiryIds) ? groupData.inquiryIds : []
-        this.allowEdit = Boolean(groupData.allowEdit)
-        this.miscFields = groupData.miscFields
-        this.childs = Array.isArray(groupData.childs) ? groupData.childs : []
-        this.order = groupData.order || 0
-        this.expire = groupData.expire || null
-        
-        // Mettre à jour le statut owner dans sessionStore si nécessaire
-        if (this.owner.id === sessionStore.currentUser.id) {
-          sessionStore.currentUser.isOwner = true
-          } else {
-          sessionStore.currentUser.isOwner = false
-          }
-          */
 
         this.$patch(response.data.inquiryGroup)
         // optionsStore.options = response.data.options
@@ -463,15 +427,13 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
     /**
      * Delete the current inquiry group
      */
-    async deleteGroup(): Promise<void> {
-        const inquiriesStore = useInquiriesStore()
-
+    async deleteGroup(inquiryGroupId: number): Promise<void> {
+        
         try {
-            await InquiryGroupsAPI.deleteGroup(this.inquiryGroup.id)
-            emit('delete:inquiry-group', {
-                store: 'inquiryGroup',
-                message: t('inquiries', 'Inquiry group deleted'),
-            })
+            let groupId= this.inquiryGroup.id
+            if (inquiryGroupId) groupId=inquiryGroupId
+
+            await InquiryGroupsAPI.deleteGroup(groupId)
         } catch (error) {
             if ((error as AxiosError)?.code === 'ERR_CANCELED') {
                 return
@@ -481,9 +443,8 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
                 inquiryGroupId: this.inquiryGroup.id,
             })
             throw error
-        } finally {
-            inquiriesStore.load()
         }
+       
     },
 
     /**

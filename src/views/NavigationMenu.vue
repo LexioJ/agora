@@ -42,8 +42,7 @@ const inquiryGroupsStore = useInquiryGroupsStore()
 const createDlgToggle = ref(false)
 const createGroupDlgToggle = ref(false)
 const selectedInquiryTypeForCreation = ref<InquiryType | null>(null)
-const selectedInquiryGroupTypeForCreation = ref<InquiryGroupType | null>(null)
-const selectedGroups = ref<string[]>([])
+const selectedInquiryGroupTypeForCreation = ref(null)
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -190,7 +189,7 @@ function createInquiry(inquiryType: InquiryType) {
 
 // Function to create new inquiry group from type
 function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
-  selectedInquiryGroupTypeForCreation.value = inquiryGroupType
+  selectedInquiryGroupTypeForCreation.value = inquiryGroupType.group_type
   createGroupDlgToggle.value = true
 }
 
@@ -198,7 +197,6 @@ function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
 function inquiryAdded(payload: { id: number; title: string }) {
   createDlgToggle.value = false
   selectedInquiryTypeForCreation.value = null
-  selectedGroups.value = []
   router.push({
     name: 'inquiry',
     params: { id: payload.id },
@@ -209,7 +207,6 @@ function inquiryAdded(payload: { id: number; title: string }) {
 function inquiryGroupAdded(payload: { id: number; slug: string }) {
   createGroupDlgToggle.value = false
   selectedInquiryGroupTypeForCreation.value = null
-  selectedGroups.value = []
   console.log(" REDIRCTEEEEEEEE to GROUP ID :",payload.id)
   router.push({
     name: 'group',
@@ -238,18 +235,11 @@ function getInquiryGroupIcon(inquiryGroup) {
 function handleCloseDialog() {
   createDlgToggle.value = false
   selectedInquiryTypeForCreation.value = null
-  selectedGroups.value = []
 }
 
 function handleCloseGroupDialog() {
   createGroupDlgToggle.value = false
   selectedInquiryGroupTypeForCreation.value = null
-  selectedGroups.value = []
-}
-
-// Function to handle group selection update
-function handleGroupUpdate(groups: string[]) {
-  selectedGroups.value = groups
 }
 
 // Watch for familyType changes in store
@@ -388,19 +378,6 @@ watch(
                 />
         </NcAppNavigationList>
 
-        <!-- Quick Actions Section 
-        <NcAppNavigationList>
-        <h3 class="navigation-caption">
-            {{ t('agora', 'Quick Actions') }}
-        </h3>
-
-        <NcAppNavigationItem
-                :name="t('agora', 'All Inquiries')"
-                :to="{ name: 'list', params: { type: 'relevant' } }"
-                :exact="true"
-                class="navigation-item"
-                />
-        </NcAppNavigationList> -->
     </template>
 
     <!-- Footer Section -->
@@ -422,21 +399,17 @@ watch(
     <InquiryCreateDlg
             v-if="createDlgToggle"
             :inquiry-type="selectedInquiryTypeForCreation"
-            :selected-groups="selectedGroups"
             :available-groups="availableGroups"
             @close="handleCloseDialog"
             @added="inquiryAdded"
-            @update:selected-groups="handleGroupUpdate"
             />
 
     <InquiryGroupCreateDlg
             v-if="createGroupDlgToggle"
             :inquiry-group-type="selectedInquiryGroupTypeForCreation"
-            :selected-groups="selectedGroups"
             :available-groups="availableGroups"
             @close="handleCloseGroupDialog"
             @added="inquiryGroupAdded"
-            @update:selected-groups="handleGroupUpdate"
             />
 </template>
 

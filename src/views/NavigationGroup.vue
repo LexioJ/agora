@@ -30,7 +30,7 @@ const sessionStore = useSessionStore()
 const inquiriesStore = useInquiriesStore()
 const inquiryGroupsStore = useInquiryGroupsStore()
 const createGroupDlgToggle = ref(false)
-const selectedInquiryGroupTypeForCreation = ref<InquiryGroupType | null>(null)
+const selectedInquiryGroupTypeForCreation = ref(null)
 const selectedGroups = ref<string[]>([])
 
 const availableGroups = computed(() => {
@@ -89,7 +89,8 @@ function getGroupTypeCount(groupType: string) {
 
 // Function to create new inquiry group from type
 function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
-  selectedInquiryGroupTypeForCreation.value = inquiryGroupType
+  console.log(" NAV GROUP MENU CREATE",inquiryGroupType.value.type)
+  selectedInquiryGroupTypeForCreation.value = inquiryGroupType.value.group_type
   createGroupDlgToggle.value = true
 }
 
@@ -104,6 +105,16 @@ console.log(" CUUUUUUUUUUUUUURR ",inquiryGroupsStore.currentGroupType)
   })
 }
 
+function inquiryGroupAdded(payLoad: { id: number; slug: string }) {
+  createGroupDlgToggle.value = false
+  selectedInquiryGroupTypeForCreation.value = null
+  router.push({
+    name: 'group',
+    params: { id: payLoad.id },
+    query: { viewMode: viewMode.value }
+})
+}
+
 function handleCloseGroupDialog() {
   createGroupDlgToggle.value = false
   selectedInquiryGroupTypeForCreation.value = null
@@ -115,9 +126,6 @@ function handleGroupUpdate(groups: string[]) {
   selectedGroups.value = groups
 }
 
-// Load data on mount
-onMounted(() => {
-})
 
 // Watch for familyType changes in store
 watch(
@@ -226,7 +234,6 @@ function showSettings() {
   <InquiryGroupCreateDlg
           v-if="createGroupDlgToggle"
           :inquiry-group-type="selectedInquiryGroupTypeForCreation"
-          :selected-groups="selectedGroups"
           :available-groups="availableGroups"
           @close="handleCloseGroupDialog"
           @added="inquiryGroupAdded"

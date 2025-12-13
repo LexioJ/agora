@@ -7660,12 +7660,12 @@ tr.file-picker__row td.row-name[data-v-1f96131b] {
 const appName = "agora";
 const appVersion = "1.6.0-beta";
 import { at as h$1, i as defineStore, bc as Settings, u as _export_sfc, d as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, e as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, a as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, V as withDirectives, bg as vModelRadio, bh as withKeys, Z as withModifiers, F as useModel, bi as useSlots, J as watch, aw as logger, b as onMounted, aK as onBeforeUnmount, r as renderSlot, af as useCssVars, bj as useIsDarkTheme, B as unref, bk as mdiCreation, f as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, Y as NcButton, ba as NcActions, $ as resolveComponent, K as mergeProps, W as vShow, n as normalizeProps, g as guardReactiveProps, bl as userStatus, L as NcAvatar, M as normalizeStyle, E as mergeModels, U as ref, bm as provide, I as warn, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, a2 as mdiCheck, a3 as mdiAlertCircle, G as Fragment$1, H as renderList, ae as NcLoadingIcon, bn as Teleport, bo as useRouter, bp as useRoute, b6 as emit, P as DateTime, R as RouterLink, b8 as onUnmounted, bq as translatePlural, br as TransitionGroup, aL as nextTick, q as _$2, bs as NcModal, b7 as shallowRef, bt as markRaw, bu as watchEffect, bv as getCurrentInstance, bw as customRef, bx as global, by as getAugmentedNamespace, aN as process$1, b5 as commonjsGlobal, bz as Buffer, S as getDefaultExportFromCjs, bA as vModelSelect, bB as toRaw, bC as subscribe, bD as unsubscribe, as as Transition, bE as onBeforeRouteUpdate, m as purify, aR as getCurrentUser, aT as v, aS as cancelableClient, bF as createRouter, bG as createWebHistory, bH as axios, h as createApp, p as pinia } from "./TernarySupportIcon.vue_vue_type_style_index_0_scoped_ef057a6f_lang-DP0cV9SN.chunk.mjs";
-import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, o as options, b as useInquiriesStore, i as useInquiryStore, j as orderBy, k as createPermissionContextForContent, C as ContentType, l as canTransfer, m as canDelete, n as canArchive, I as InquiryGeneralIcons, q as useInquiryGroupsStore, r as NavigationIcons, s as showError$1, t as showSuccess, v as useInquiryGroupStore, E as Event$1, w as accessFamilyMenu, x as NcEmptyContent, S as StatusIcons, B as BadgeIcons, y as canSupport, z as canComment, A as sortTitlesMapping, D as lodashExports, F as appSettings, G as showInfo, H as canEdit, J as canRestore, K as getAvailableResponseTypesWithPermissions, M as getAvailableTransformTypesWithPermissions, O as canViewToggle, P as validators, Q as inquiries, R as commonjsRequire, T as useAttachmentsStore, U as useCommentsStore, V as useSharesStore, d as useAppSettingsStore, W as moment, X as ShareIcons, Y as inquiryLinks, Z as canShare, _ as canUseResource } from "./NcDashboardWidget-Bu7bWoUK-C7O0MLXy.chunk.mjs";
-import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-YVjul4oD.chunk.mjs";
-import { b as NcAppNavigationItem, u as useAppSettingsDialog, _ as _sfc_main$1Q, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, C as ChevronRightIcon, O as Options, P as PlusIcon, k as NcDateTimePickerNative, l as NcAppSidebar, a as NcAppSettingsDialog, m as NcContent } from "./index-D2Etf6uV.chunk.mjs";
-import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getAvailableInquiryGroupTypesForCreation, d as getInquiryGroupTypeOptions, e as getInquiryGroupTypeData, f as getInquiryTypesByFamily, h as getInquiryTypesForFamily, i as getInquiryItemData, j as getInquiryGroupTypesByFamily, k as getInquiryGroupTypesForFamily, l as isInquiryFinalStatus, m as getAvailableFields, n as getAvailableGroupFields } from "./InquiryHelper-DWmlj8Bi.chunk.mjs";
+import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, o as options, b as useInquiriesStore, i as useInquiryStore, j as orderBy, k as createPermissionContextForContent, C as ContentType, l as canTransfer, m as canDelete, n as canArchive, I as InquiryGeneralIcons, q as useInquiryGroupsStore, r as NavigationIcons, s as showError$1, t as showSuccess, v as useInquiryGroupStore, E as Event$1, w as accessFamilyMenu, x as NcEmptyContent, S as StatusIcons, B as BadgeIcons, y as canSupport, z as canComment, A as sortTitlesMapping, D as lodashExports, F as appSettings, G as showInfo, H as canEdit, J as canRestore, K as getAvailableResponseTypesWithPermissions, M as getAvailableTransformTypesWithPermissions, O as canViewToggle, P as validators, Q as inquiries, R as commonjsRequire, T as useAttachmentsStore, U as useCommentsStore, V as useSharesStore, d as useAppSettingsStore, W as moment, X as ShareIcons, Y as inquiryLinks, Z as canShare, _ as canUseResource } from "./NcDashboardWidget-Bu7bWoUK-B8xtCYnf.chunk.mjs";
+import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-DLSHMhhh.chunk.mjs";
+import { b as NcAppNavigationItem, u as useAppSettingsDialog, _ as _sfc_main$1Q, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, C as ChevronRightIcon, O as Options, P as PlusIcon, k as NcDateTimePickerNative, l as NcAppSidebar, a as NcAppSettingsDialog, m as NcContent } from "./index-BczskX3t.chunk.mjs";
+import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getAvailableInquiryGroupTypesForCreation, d as getInquiryGroupTypeOptions, e as getInquiryGroupTypeData, f as getInquiryTypesByFamily, h as getInquiryTypesForFamily, i as getInquiryItemData, j as getInquiryGroupTypesByFamily, k as getInquiryGroupTypesForFamily, l as isInquiryFinalStatus, m as getAvailableFields, n as getAvailableGroupFields } from "./InquiryHelper-DwO9jLQY.chunk.mjs";
 import { _ as _sfc_main$1R, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1S, e as NcRichText, b as NcInputField } from "./NcRichText-CETsOVBU-DEd7DX2A.chunk.mjs";
-import { R as RadioGroupDiv, C as CardDiv, N as NcNoteCard } from "./markdown-NJv_ju98.chunk.mjs";
+import { R as RadioGroupDiv, C as CardDiv, N as NcNoteCard } from "./markdown-DkAelLQ2.chunk.mjs";
 import { A as AgoraAppIcon } from "./AgoraAppIcon-CUV4jUNy.chunk.mjs";
 const setCookie = (cookieName, cookieValue = "", cookieExpiration = 360) => {
   const expirationTime = /* @__PURE__ */ new Date();
@@ -11184,7 +11184,7 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
     __expose();
     const props2 = __props;
     const emit2 = __emit;
-    const inquiryGroupStore = useInquiryGroupStore();
+    const inquiryGroupStore2 = useInquiryGroupStore();
     const sessionStore = useSessionStore();
     const inquiryTitle = ref("");
     const inquiryId = ref(null);
@@ -11312,7 +11312,7 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
           showError$1(translate("agora", "Please enter a title"));
           return;
         }
-        let typeSelected = selectedInquiryGroupType;
+        let typeSelected = selectedInquiryGroupType.value;
         console.log("SLECT INQUIRY GROUP TYPE:", selectedInquiryGroupType.value);
         console.log("LOCAL SLECT INQUIRY GROUP TYPE:", localInquiryGroupType.value);
         if (localInquiryGroupType.value) typeSelected = localInquiryGroupType.value;
@@ -11329,7 +11329,7 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
         }
         console.log("Creating inquiry group with data:", inquiryData);
         console.log("Creation mode:", creationMode.value);
-        const inquiry = await inquiryGroupStore.add(inquiryData);
+        const inquiry = await inquiryGroupStore2.add(inquiryData);
         console.log("Inquiry group created:", inquiry);
         if (inquiry) {
           inquiryId.value = inquiry.id;
@@ -11370,7 +11370,7 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
       selectedNextcloudGroup.value = null;
       emit2("update:selected-groups", []);
     }
-    const __returned__ = { props: props2, emit: emit2, inquiryGroupStore, sessionStore, inquiryTitle, inquiryId, adding, accessType, selectedNextcloudGroup, localInquiryGroupType, allInquiryGroupTypes, allowedResponseGroupTypes, availableInquiryGroupTypes, inquiryGroupTypeOptions, selectedInquiryGroupType, currentInquiryGroupTypeData, creationMode, showInquiryGroupTypeSelector, dialogTitle, contextDescription, selectNextcloudGroup, updateLocalInquiryGroupType, titleIsEmpty, disableAddButton, addGroupInquiry, resetInquiry, get t() {
+    const __returned__ = { props: props2, emit: emit2, inquiryGroupStore: inquiryGroupStore2, sessionStore, inquiryTitle, inquiryId, adding, accessType, selectedNextcloudGroup, localInquiryGroupType, allInquiryGroupTypes, allowedResponseGroupTypes, availableInquiryGroupTypes, inquiryGroupTypeOptions, selectedInquiryGroupType, currentInquiryGroupTypeData, creationMode, showInquiryGroupTypeSelector, dialogTitle, contextDescription, selectNextcloudGroup, updateLocalInquiryGroupType, titleIsEmpty, disableAddButton, addGroupInquiry, resetInquiry, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -11683,7 +11683,6 @@ const _sfc_main$1n = /* @__PURE__ */ defineComponent({
     const createGroupDlgToggle = ref(false);
     const selectedInquiryTypeForCreation = ref(null);
     const selectedInquiryGroupTypeForCreation = ref(null);
-    const selectedGroups = ref([]);
     const availableGroups = computed(() => {
       const groups = sessionStore.currentUser.groups || {};
       if (typeof groups === "object" && !Array.isArray(groups)) {
@@ -11780,13 +11779,12 @@ const _sfc_main$1n = /* @__PURE__ */ defineComponent({
       createDlgToggle.value = true;
     }
     function createInquiryGroup(inquiryGroupType) {
-      selectedInquiryGroupTypeForCreation.value = inquiryGroupType;
+      selectedInquiryGroupTypeForCreation.value = inquiryGroupType.group_type;
       createGroupDlgToggle.value = true;
     }
     function inquiryAdded(payload) {
       createDlgToggle.value = false;
       selectedInquiryTypeForCreation.value = null;
-      selectedGroups.value = [];
       router2.push({
         name: "inquiry",
         params: { id: payload.id }
@@ -11795,7 +11793,6 @@ const _sfc_main$1n = /* @__PURE__ */ defineComponent({
     function inquiryGroupAdded(payload) {
       createGroupDlgToggle.value = false;
       selectedInquiryGroupTypeForCreation.value = null;
-      selectedGroups.value = [];
       console.log(" REDIRCTEEEEEEEE to GROUP ID :", payload.id);
       router2.push({
         name: "group",
@@ -11819,15 +11816,10 @@ const _sfc_main$1n = /* @__PURE__ */ defineComponent({
     function handleCloseDialog() {
       createDlgToggle.value = false;
       selectedInquiryTypeForCreation.value = null;
-      selectedGroups.value = [];
     }
     function handleCloseGroupDialog() {
       createGroupDlgToggle.value = false;
       selectedInquiryGroupTypeForCreation.value = null;
-      selectedGroups.value = [];
-    }
-    function handleGroupUpdate(groups) {
-      selectedGroups.value = groups;
     }
     watch(
       () => inquiriesStore.familyType,
@@ -11835,7 +11827,7 @@ const _sfc_main$1n = /* @__PURE__ */ defineComponent({
         selectedFamily.value = newFamilyId;
       }
     );
-    const __returned__ = { preferencesStore, router: router2, route, sessionStore, inquiriesStore, inquiryGroupsStore, createDlgToggle, createGroupDlgToggle, selectedInquiryTypeForCreation, selectedInquiryGroupTypeForCreation, selectedGroups, availableGroups, selectedFamily, expandedFamilies, inquiryFamilies, recentInquiries, inquiryGroups, shouldRedirectToGroupView, recentInquiryGroups, allInquiryTypes, allInquiryGroupTypes, inquiryTypesByFamily, inquiryGroupTypesByFamily, defaultViewMode, toggleFamily, isFamilyExpanded, getInquiryTypesForCurrentFamily, getInquiryGroupTypesForCurrentFamily, getFamilyData, getInquiryTypeDisplayData, getInquiryGroupTypeDisplayData, showSettings, navigateToFamilyInquiries, createInquiry, createInquiryGroup, inquiryAdded, inquiryGroupAdded, getInquiryIcon, getInquiryGroupIcon, handleCloseDialog, handleCloseGroupDialog, handleGroupUpdate, get t() {
+    const __returned__ = { preferencesStore, router: router2, route, sessionStore, inquiriesStore, inquiryGroupsStore, createDlgToggle, createGroupDlgToggle, selectedInquiryTypeForCreation, selectedInquiryGroupTypeForCreation, availableGroups, selectedFamily, expandedFamilies, inquiryFamilies, recentInquiries, inquiryGroups, shouldRedirectToGroupView, recentInquiryGroups, allInquiryTypes, allInquiryGroupTypes, inquiryTypesByFamily, inquiryGroupTypesByFamily, defaultViewMode, toggleFamily, isFamilyExpanded, getInquiryTypesForCurrentFamily, getInquiryGroupTypesForCurrentFamily, getFamilyData, getInquiryTypeDisplayData, getInquiryGroupTypeDisplayData, showSettings, navigateToFamilyInquiries, createInquiry, createInquiryGroup, inquiryAdded, inquiryGroupAdded, getInquiryIcon, getInquiryGroupIcon, handleCloseDialog, handleCloseGroupDialog, get t() {
       return translate;
     }, get NcAppNavigationItem() {
       return NcAppNavigationItem;
@@ -12081,20 +12073,7 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
             ]),
             _: 1
             /* STABLE */
-          }),
-          createCommentVNode(` Quick Actions Section 
-        <NcAppNavigationList>
-        <h3 class="navigation-caption">
-            {{ t('agora', 'Quick Actions') }}
-        </h3>
-
-        <NcAppNavigationItem
-                :name="t('agora', 'All Inquiries')"
-                :to="{ name: 'list', params: { type: 'relevant' } }"
-                :exact="true"
-                class="navigation-item"
-                />
-        </NcAppNavigationList> `)
+          })
         ]),
         footer: withCtx(() => [
           createVNode($setup["NcAppNavigationList"], { class: "navigation-footer" }, {
@@ -12121,21 +12100,17 @@ function _sfc_render$1n(_ctx, _cache, $props, $setup, $data, $options) {
       $setup.createDlgToggle ? (openBlock(), createBlock($setup["InquiryCreateDlg"], {
         key: 0,
         "inquiry-type": $setup.selectedInquiryTypeForCreation,
-        "selected-groups": $setup.selectedGroups,
         "available-groups": $setup.availableGroups,
         onClose: $setup.handleCloseDialog,
-        onAdded: $setup.inquiryAdded,
-        "onUpdate:selectedGroups": $setup.handleGroupUpdate
-      }, null, 8, ["inquiry-type", "selected-groups", "available-groups"])) : createCommentVNode("v-if", true),
+        onAdded: $setup.inquiryAdded
+      }, null, 8, ["inquiry-type", "available-groups"])) : createCommentVNode("v-if", true),
       $setup.createGroupDlgToggle ? (openBlock(), createBlock($setup["InquiryGroupCreateDlg"], {
         key: 1,
         "inquiry-group-type": $setup.selectedInquiryGroupTypeForCreation,
-        "selected-groups": $setup.selectedGroups,
         "available-groups": $setup.availableGroups,
         onClose: $setup.handleCloseGroupDialog,
-        onAdded: $setup.inquiryGroupAdded,
-        "onUpdate:selectedGroups": $setup.handleGroupUpdate
-      }, null, 8, ["inquiry-group-type", "selected-groups", "available-groups"])) : createCommentVNode("v-if", true)
+        onAdded: $setup.inquiryGroupAdded
+      }, null, 8, ["inquiry-group-type", "available-groups"])) : createCommentVNode("v-if", true)
     ],
     64
     /* STABLE_FRAGMENT */
@@ -12190,7 +12165,8 @@ const _sfc_main$1m = /* @__PURE__ */ defineComponent({
       return inquiryGroupsByType.value[groupType]?.length || 0;
     }
     function createInquiryGroup(inquiryGroupType) {
-      selectedInquiryGroupTypeForCreation.value = inquiryGroupType;
+      console.log(" NAV GROUP MENU CREATE", inquiryGroupType.value.type);
+      selectedInquiryGroupTypeForCreation.value = inquiryGroupType.value.group_type;
       createGroupDlgToggle.value = true;
     }
     function selectGroupType(inquiryGroupType) {
@@ -12201,6 +12177,15 @@ const _sfc_main$1m = /* @__PURE__ */ defineComponent({
         params: { slug: "none" }
       });
     }
+    function inquiryGroupAdded(payLoad) {
+      createGroupDlgToggle.value = false;
+      selectedInquiryGroupTypeForCreation.value = null;
+      router2.push({
+        name: "group",
+        params: { id: payLoad.id },
+        query: { viewMode: viewMode.value }
+      });
+    }
     function handleCloseGroupDialog() {
       createGroupDlgToggle.value = false;
       selectedInquiryGroupTypeForCreation.value = null;
@@ -12209,8 +12194,6 @@ const _sfc_main$1m = /* @__PURE__ */ defineComponent({
     function handleGroupUpdate(groups) {
       selectedGroups.value = groups;
     }
-    onMounted(() => {
-    });
     watch(
       () => inquiriesStore.familyType,
       (newFamilyId) => {
@@ -12220,7 +12203,7 @@ const _sfc_main$1m = /* @__PURE__ */ defineComponent({
     function showSettings() {
       showError$1(translate("agora", "Settings functionality not implemented yet"));
     }
-    const __returned__ = { preferencesStore, router: router2, sessionStore, inquiriesStore, inquiryGroupsStore, createGroupDlgToggle, selectedInquiryGroupTypeForCreation, selectedGroups, availableGroups, selectedFamily, allInquiryGroupTypes, filteredInquiryGroupTypes, inquiryGroups, inquiryGroupsByType, getInquiryGroupTypeDisplayData, getGroupTypeCount, createInquiryGroup, selectGroupType, handleCloseGroupDialog, handleGroupUpdate, showSettings, get t() {
+    const __returned__ = { preferencesStore, router: router2, sessionStore, inquiriesStore, inquiryGroupsStore, createGroupDlgToggle, selectedInquiryGroupTypeForCreation, selectedGroups, availableGroups, selectedFamily, allInquiryGroupTypes, filteredInquiryGroupTypes, inquiryGroups, inquiryGroupsByType, getInquiryGroupTypeDisplayData, getGroupTypeCount, createInquiryGroup, selectGroupType, inquiryGroupAdded, handleCloseGroupDialog, handleGroupUpdate, showSettings, get t() {
       return translate;
     }, get NcAppNavigationItem() {
       return NcAppNavigationItem;
@@ -12373,12 +12356,11 @@ function _sfc_render$1m(_ctx, _cache, $props, $setup, $data, $options) {
       $setup.createGroupDlgToggle ? (openBlock(), createBlock($setup["InquiryGroupCreateDlg"], {
         key: 0,
         "inquiry-group-type": $setup.selectedInquiryGroupTypeForCreation,
-        "selected-groups": $setup.selectedGroups,
         "available-groups": $setup.availableGroups,
         onClose: $setup.handleCloseGroupDialog,
-        onAdded: _ctx.inquiryGroupAdded,
+        onAdded: $setup.inquiryGroupAdded,
         "onUpdate:selectedGroups": $setup.handleGroupUpdate
-      }, null, 8, ["inquiry-group-type", "selected-groups", "available-groups", "onAdded"])) : createCommentVNode("v-if", true)
+      }, null, 8, ["inquiry-group-type", "available-groups"])) : createCommentVNode("v-if", true)
     ],
     64
     /* STABLE_FRAGMENT */
@@ -14977,7 +14959,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
     const selectedInquiryGroupTypeForCreation = ref(null);
     const selectedGroups = ref([]);
     const preferencesStore = usePreferencesStore();
-    const viewMode = ref(route.query.viewMode || (preferencesStore.user?.defaultDisplayMode || "view"));
+    const viewMode2 = ref(route.query.viewMode || (preferencesStore.user?.defaultDisplayMode || "view"));
     const availableGroups = computed(() => {
       const groups = sessionStore.currentUser.groups || {};
       if (typeof groups === "object" && !Array.isArray(groups)) {
@@ -15032,7 +15014,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       () => preferencesStore.user.defaultDisplayMode,
       (newMode) => {
         if (!route.query.viewMode && newMode) {
-          viewMode.value = newMode;
+          viewMode2.value = newMode;
         }
       },
       { immediate: true }
@@ -15050,7 +15032,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       if (accessFamilyMenu(familyType)) {
         selectedFamily.value = familyType;
         inquiriesStore.setFamilyType(familyType);
-        if (viewMode.value === "view") {
+        if (viewMode2.value === "view") {
           if (shouldRedirectToGroupView(familyType)) {
             console.log(" REDIRECT TO GROUP");
             router2.push({
@@ -15083,7 +15065,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       selectedFamily.value = null;
       router2.push({
         name: "menu",
-        query: { viewMode: viewMode.value }
+        query: { viewMode: viewMode2.value }
       });
     }
     watch(
@@ -15091,7 +15073,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       (newFamilyId) => {
         if (!newFamilyId) return;
         inquiriesStore.setFamilyType(newFamilyId);
-        if (viewMode.value === "create") {
+        if (viewMode2.value === "create") {
           router2.push({
             name: "menu",
             query: { viewMode: "create" }
@@ -15123,7 +15105,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       return hasGroupTypes;
     };
     function handleViewModeChange(mode) {
-      viewMode.value = mode;
+      viewMode2.value = mode;
       inquiriesStore.setFamilyType(selectedFamily.value);
       if (selectedFamily.value) {
         if (mode === "create") {
@@ -15149,7 +15131,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       createDlgToggle.value = true;
     }
     function createInquiryGroup(inquiryGroupType) {
-      selectedInquiryGroupTypeForCreation.value = inquiryGroupType;
+      selectedInquiryGroupTypeForCreation.value = inquiryGroupType.group_type;
       createGroupDlgToggle.value = true;
     }
     function inquiryAdded(payLoad) {
@@ -15158,7 +15140,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       router2.push({
         name: "inquiry",
         params: { id: payLoad.id },
-        query: { viewMode: viewMode.value }
+        query: { viewMode: viewMode2.value }
       });
     }
     function inquiryGroupAdded(payLoad) {
@@ -15167,7 +15149,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       router2.push({
         name: "group",
         params: { id: payLoad.id },
-        query: { viewMode: viewMode.value }
+        query: { viewMode: viewMode2.value }
       });
     }
     const emptyContentProps = computed(() => ({
@@ -15184,7 +15166,7 @@ const _sfc_main$19 = /* @__PURE__ */ defineComponent({
       selectedInquiryGroupTypeForCreation.value = null;
       selectedGroups.value = [];
     }
-    const __returned__ = { route, router: router2, sessionStore, inquiriesStore, createDlgToggle, createGroupDlgToggle, selectedInquiryTypeForCreation, selectedInquiryGroupTypeForCreation, selectedGroups, preferencesStore, viewMode, availableGroups, selectedFamily, inquiryFamilies, allInquiryTypes, allInquiryGroupTypes, inquiryTypesByFamily, inquiryGroupTypesByFamily, filteredInquiryTypes, filteredInquiryGroupTypes, currentFamily, currentFamilyData, selectFamily, clearFamilySelection, shouldRedirectToGroupView, handleViewModeChange, getInquiryGroupTypesForCurrentFamily, createInquiry, createInquiryGroup, inquiryAdded, inquiryGroupAdded, emptyContentProps, handleCloseDialog, handleCloseGroupDialog, get t() {
+    const __returned__ = { route, router: router2, sessionStore, inquiriesStore, createDlgToggle, createGroupDlgToggle, selectedInquiryTypeForCreation, selectedInquiryGroupTypeForCreation, selectedGroups, preferencesStore, viewMode: viewMode2, availableGroups, selectedFamily, inquiryFamilies, allInquiryTypes, allInquiryGroupTypes, inquiryTypesByFamily, inquiryGroupTypesByFamily, filteredInquiryTypes, filteredInquiryGroupTypes, currentFamily, currentFamilyData, selectFamily, clearFamilySelection, shouldRedirectToGroupView, handleViewModeChange, getInquiryGroupTypesForCurrentFamily, createInquiry, createInquiryGroup, inquiryAdded, inquiryGroupAdded, emptyContentProps, handleCloseDialog, handleCloseGroupDialog, get t() {
       return translate;
     }, get NcDialog() {
       return NcDialog;
@@ -64504,22 +64486,22 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
   setup(__props, { expose: __expose }) {
     __expose();
     const sessionStore = useSessionStore();
-    const inquiryGroupStore = useInquiryGroupStore();
+    const inquiryGroupStore2 = useInquiryGroupStore();
     const inquiriesStore = useInquiriesStore();
     const route = useRoute();
-    const viewMode = ref("list");
+    const viewMode2 = ref("list");
     const dragItem = ref(null);
     const dragOverDropZone = ref(false);
     const groupTypeData = computed(() => {
-      if (!inquiryGroupStore.type || !sessionStore.appSettings.inquiryGroupTypeTab) {
+      if (!inquiryGroupStore2.type || !sessionStore.appSettings.inquiryGroupTypeTab) {
         return {
           icon: InquiryGeneralIcons.Question,
-          label: inquiryGroupStore.type || translate("agora", "Unknown"),
+          label: inquiryGroupStore2.type || translate("agora", "Unknown"),
           description: ""
         };
       }
       return getInquiryGroupTypeData(
-        inquiryGroupStore.type,
+        inquiryGroupStore2.type,
         sessionStore.appSettings.inquiryGroupTypeTab
       );
     });
@@ -64534,8 +64516,8 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
       return getInquiryTypeData(inquiryType, sessionStore.appSettings.inquiryTypeTab);
     };
     const groupInquiries = computed(() => {
-      if (!inquiryGroupStore.inquiryIds || !inquiryGroupStore.inquiryIds.length) return [];
-      return inquiryGroupStore.inquiryIds.map((id) => inquiriesStore.byId[id]).filter(Boolean).sort((a, b) => {
+      if (!inquiryGroupStore2.inquiryIds || !inquiryGroupStore2.inquiryIds.length) return [];
+      return inquiryGroupStore2.inquiryIds.map((id) => inquiriesStore.byId[id]).filter(Boolean).sort((a, b) => {
         const orderA = a.order || a.created;
         const orderB = b.order || b.created;
         return orderA - orderB;
@@ -64543,12 +64525,12 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
     });
     const allInquiries = computed(() => {
       return Object.values(inquiriesStore.byId).filter(
-        (inquiry) => inquiry && !inquiryGroupStore.inquiryIds.includes(inquiry.id)
+        (inquiry) => inquiry && !inquiryGroupStore2.inquiryIds.includes(inquiry.id)
       );
     });
     const allowedInquiryTypes = computed(() => {
-      if (!inquiryGroupStore.type || !sessionStore.appSettings.inquiryGroupTab) return [];
-      const groupTypeConfig = sessionStore.appSettings.inquiryGroupTab[inquiryGroupStore.type];
+      if (!inquiryGroupStore2.type || !sessionStore.appSettings.inquiryGroupTab) return [];
+      const groupTypeConfig = sessionStore.appSettings.inquiryGroupTab[inquiryGroupStore2.type];
       return groupTypeConfig?.allowed_inquiry_types || [];
     });
     const filteredAvailableInquiries = computed(() => {
@@ -64593,7 +64575,7 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
         return;
       }
       try {
-        await inquiryGroupStore.addInquiry(dragItem.value.id);
+        await inquiryGroupStore2.addInquiry(dragItem.value.id);
         showSuccess(translate("agora", "Inquiry added to group"));
         dragItem.value = null;
       } catch (error) {
@@ -64607,7 +64589,7 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
         return;
       }
       try {
-        await inquiryGroupStore.removeInquiry(dragItem.value.id);
+        await inquiryGroupStore2.removeInquiry(dragItem.value.id);
         showSuccess(translate("agora", "Inquiry removed from group"));
         dragItem.value = null;
       } catch (error) {
@@ -64617,7 +64599,7 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
     };
     const addInquiryToGroup = async (inquiry) => {
       try {
-        await inquiryGroupStore.addInquiry(inquiry.id);
+        await inquiryGroupStore2.addInquiry(inquiry.id);
         showSuccess(translate("agora", "Inquiry added to group"));
       } catch (error) {
         showError$1(translate("agora", "Failed to add inquiry to group"));
@@ -64626,7 +64608,7 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
     };
     const removeInquiryFromGroup = async (inquiry) => {
       try {
-        await inquiryGroupStore.removeInquiry(inquiry.id);
+        await inquiryGroupStore2.removeInquiry(inquiry.id);
         showSuccess(translate("agora", "Inquiry removed from group"));
       } catch (error) {
         showError$1(translate("agora", "Failed to remove inquiry from group"));
@@ -64639,9 +64621,9 @@ const _sfc_main$G = /* @__PURE__ */ defineComponent({
     onMounted(() => {
       const id = route.params.id;
       console.log(" ROUTE ID ", id);
-      inquiryGroupStore.load(id);
+      inquiryGroupStore2.load(id);
     });
-    const __returned__ = { sessionStore, inquiryGroupStore, inquiriesStore, route, viewMode, dragItem, dragOverDropZone, groupTypeData, getInquiryTypeInfo, groupInquiries, allInquiries, allowedInquiryTypes, filteredAvailableInquiries, displayedGroupInquiries, displayedAvailableInquiries, formattedInquiryCount, onDragStart, onDragOver, onDragLeave, onDropToGroup, onDropToAvailable, addInquiryToGroup, removeInquiryFromGroup, formatDate, get t() {
+    const __returned__ = { sessionStore, inquiryGroupStore: inquiryGroupStore2, inquiriesStore, route, viewMode: viewMode2, dragItem, dragOverDropZone, groupTypeData, getInquiryTypeInfo, groupInquiries, allInquiries, allowedInquiryTypes, filteredAvailableInquiries, displayedGroupInquiries, displayedAvailableInquiries, formattedInquiryCount, onDragStart, onDragOver, onDragLeave, onDropToGroup, onDropToAvailable, addInquiryToGroup, removeInquiryFromGroup, formatDate, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -65238,7 +65220,7 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     const selectedMode = ref("response");
     const route = useRoute();
     const router2 = useRouter();
-    const inquiryGroupStore = useInquiryGroupStore();
+    const inquiryGroupStore2 = useInquiryGroupStore();
     const inquiryGroupsStore = useInquiryGroupsStore();
     const inquiriesStore = useInquiriesStore();
     const sessionStore = useSessionStore();
@@ -65260,16 +65242,16 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     }
     async function loadInquiry(id) {
       try {
-        await inquiryGroupStore.load(id);
+        await inquiryGroupStore2.load(id);
         const result2 = inquiryGroupsStore.inquiryGroups.filter(
           (i) => i.parentId === Number(id)
         );
-        inquiryGroupStore.childs = result2;
-        if (inquiryGroupStore.childs.length === 0) {
-          inquiryGroupStore.status.forceEditMode = true;
+        inquiryGroupStore2.childs = result2;
+        if (inquiryGroupStore2.childs.length === 0) {
+          inquiryGroupStore2.status.forceEditMode = true;
           editMode.value = true;
         } else {
-          inquiryGroupStore.status.forceEditMode = false;
+          inquiryGroupStore2.status.forceEditMode = false;
           editMode.value = false;
         }
         await nextTick();
@@ -65290,36 +65272,36 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     );
     onBeforeRouteUpdate(async (to, from2, next) => {
       if (to.params.id) {
-        inquiryGroupStore.reset();
+        inquiryGroupStore2.reset();
       }
       next();
       emit("transitions-off", 500);
     });
     onUnmounted(() => {
-      inquiryGroupStore.reset();
+      inquiryGroupStore2.reset();
       unsubscribe("load-inquiry", () => {
       });
     });
     const collapsibleProps = computed(() => ({
-      noCollapse: !inquiryGroupStore.configuration.collapseDescription || isShortDescription.value,
-      initialState: inquiryGroupStore.currentUserStatus.countInquiries === 0 ? "max" : "min"
+      noCollapse: !inquiryGroupStore2.configuration.collapseDescription || isShortDescription.value,
+      initialState: inquiryGroupStore2.currentUserStatus.countInquiries === 0 ? "max" : "min"
     }));
     const handleSave = async () => {
       if (isSaving.value) return;
-      if (!inquiryGroupStore.title || inquiryGroupStore.title.trim() === "") {
+      if (!inquiryGroupStore2.title || inquiryGroupStore2.title.trim() === "") {
         showError$1(translate("agora", "Title is mandatory"), { timeout: 2e3 });
         return;
       }
       isSaving.value = true;
       try {
-        await inquiryGroupStore.update({
-          id: inquiryGroupStore.id,
-          type: inquiryGroupStore.type,
-          title: inquiryGroupStore.title,
-          description: inquiryGroupStore.description,
-          categoryId: inquiryGroupStore.categoryId,
-          locationId: inquiryGroupStore.locationId,
-          parentId: inquiryGroupStore.parentId
+        await inquiryGroupStore2.update({
+          id: inquiryGroupStore2.id,
+          type: inquiryGroupStore2.type,
+          title: inquiryGroupStore2.title,
+          description: inquiryGroupStore2.description,
+          categoryId: inquiryGroupStore2.categoryId,
+          locationId: inquiryGroupStore2.locationId,
+          parentId: inquiryGroupStore2.parentId
         });
         showSuccess(translate("agora", "The inquiry has been saved"), { timeout: 2e3 });
       } catch {
@@ -65349,7 +65331,7 @@ const _sfc_main$F = /* @__PURE__ */ defineComponent({
     const handleGroupUpdate = (groups) => {
       selectedGroups.value = groups;
     };
-    const __returned__ = { forceRenderKey, selectedMode, route, router: router2, inquiryGroupStore, inquiryGroupsStore, inquiriesStore, sessionStore, editMode, isAppLoaded, createGroupDlgToggle, selectedInquiryGroupTypeForCreation, selectedGroups, isSaving, availableGroups, routeChild, loadInquiry, collapsibleProps, handleSave, handleAllowedResponse, handleCloseDialog, inquiryAdded, handleGroupUpdate, get NcAppContent() {
+    const __returned__ = { forceRenderKey, selectedMode, route, router: router2, inquiryGroupStore: inquiryGroupStore2, inquiryGroupsStore, inquiriesStore, sessionStore, editMode, isAppLoaded, createGroupDlgToggle, selectedInquiryGroupTypeForCreation, selectedGroups, isSaving, availableGroups, routeChild, loadInquiry, collapsibleProps, handleSave, handleAllowedResponse, handleCloseDialog, inquiryAdded, handleGroupUpdate, get NcAppContent() {
       return NcAppContent;
     }, InquiryHeaderButtons, InquiryGroupEditViewForm, InquiryGroupCreateDlg, Collapsible, InquiryInfoCards };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
@@ -67896,7 +67878,9 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
     }
     async function performDeleteGroup(group2) {
       try {
+        await inquiryGroupStore.deleteGroup(group2.id);
         showSuccess(translate("agora", "Group deleted successfully"));
+        await inquiryGroupsStore.fetchAllGroups();
         if (currentInquiryGroup.value?.id === group2.id) {
           if (group2.parentId) {
             const parent = inquiryGroupsStore.inquiryGroups.find((g) => g.id === group2.parentId);
@@ -67930,7 +67914,7 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
       console.log("Group added:", newGroup);
       createGroupDlgToggle.value = false;
       if (newGroup.slug) {
-        router2.push({ name: "group-list", params: { slug: newGroup.slug } });
+        router2.push({ name: "group", params: { slug: newGroup.slug } });
       }
     }
     const availableGroups = computed(() => {
@@ -70996,7 +70980,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
   setup(__props, { expose: __expose }) {
     __expose();
     const props2 = __props;
-    const inquiryGroupStore = useInquiryGroupStore();
+    const inquiryGroupStore2 = useInquiryGroupStore();
     const sessionStore = useSessionStore();
     const isLoading = ref(true);
     const error = ref(null);
@@ -71006,13 +70990,13 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     const localCheckboxes = ref({});
     const dynamicFields = computed(() => {
       try {
-        if (!inquiryGroupStore.type) {
+        if (!inquiryGroupStore2.type) {
           return [];
         }
         const fields = getAvailableGroupFields(
-          inquiryGroupStore.type,
+          inquiryGroupStore2.type,
           sessionStore.appSettings.inquiryGroupTypeTab || [],
-          inquiryGroupStore.type
+          inquiryGroupStore2.type
         );
         return Array.isArray(fields) ? fields : [];
       } catch (e) {
@@ -71022,13 +71006,13 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     });
     const getMiscValue = (key) => {
       try {
-        if (!inquiryGroupStore.miscFields || typeof inquiryGroupStore.miscFields !== "object" || !key) {
+        if (!inquiryGroupStore2.miscFields || typeof inquiryGroupStore2.miscFields !== "object" || !key) {
           return null;
         }
-        if (!inquiryGroupStore.miscFields[key]) {
+        if (!inquiryGroupStore2.miscFields[key]) {
           return null;
         }
-        const value = inquiryGroupStore.miscFields[key];
+        const value = inquiryGroupStore2.miscFields[key];
         if (typeof value === "string") {
           let cleanedValue = value;
           if (value.startsWith('"') && value.endsWith('"')) {
@@ -71201,7 +71185,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
         } else {
           stringValue = String(value);
         }
-        await inquiryGroupStore.updateMiscField(fieldKey, stringValue);
+        await inquiryGroupStore2.updateMiscField(fieldKey, stringValue);
       } catch (e) {
         console.error(`❌ Error saving field ${fieldKey}:`, e);
       } finally {
@@ -71210,7 +71194,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
     };
     const initializeMiscFields = () => {
       dynamicFields.value.forEach((field) => {
-        if (inquiryGroupStore.miscFields[field.key] === void 0) {
+        if (inquiryGroupStore2.miscFields[field.key] === void 0) {
           let defaultValue = field.default;
           if (defaultValue === null || defaultValue === void 0) {
             defaultValue = "";
@@ -71221,7 +71205,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
           } else {
             defaultValue = String(defaultValue);
           }
-          inquiryGroupStore.miscFields[field.key] = defaultValue;
+          inquiryGroupStore2.miscFields[field.key] = defaultValue;
         }
       });
     };
@@ -71274,7 +71258,7 @@ const _sfc_main$7 = /* @__PURE__ */ defineComponent({
       console.log(" READONLY ", props2.isReadonly);
       loadMiscData();
     });
-    const __returned__ = { props: props2, inquiryGroupStore, sessionStore, isLoading, error, isSaving, saveTimeouts, selectedUsers, localCheckboxes, dynamicFields, getMiscValue, parseMiscValue, hierarchicalLocation, hierarchicalCategory, showLocationAsLabel, showCategoryAsLabel, buildHierarchy, getHierarchyPath, getDisplayValue, shouldDisplayField, displayFields, loadMiscData, saveFieldToDatabase, initializeMiscFields, initializeLocalCheckboxes, updateFieldValue, handleUserSelected, getFormattedDate, getCheckboxValue, get StatusIcons() {
+    const __returned__ = { props: props2, inquiryGroupStore: inquiryGroupStore2, sessionStore, isLoading, error, isSaving, saveTimeouts, selectedUsers, localCheckboxes, dynamicFields, getMiscValue, parseMiscValue, hierarchicalLocation, hierarchicalCategory, showLocationAsLabel, showCategoryAsLabel, buildHierarchy, getHierarchyPath, getDisplayValue, shouldDisplayField, displayFields, loadMiscData, saveFieldToDatabase, initializeMiscFields, initializeLocalCheckboxes, updateFieldValue, handleUserSelected, getFormattedDate, getCheckboxValue, get StatusIcons() {
       return StatusIcons;
     }, get t() {
       return translate;
@@ -73931,7 +73915,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
   setup(__props, { expose: __expose, emit: __emit }) {
     __expose();
     const emit2 = __emit;
-    const inquiryGroupStore = useInquiryGroupStore();
+    const inquiryGroupStore2 = useInquiryGroupStore();
     const sessionStore = useSessionStore();
     const attachmentsStore = useAttachmentsStore();
     const loading = ref(false);
@@ -73959,18 +73943,18 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
       }))
     );
     const canEditGroup = computed(() => {
-      return inquiryGroupStore.currentUserStatus?.isOwner || sessionStore.currentUser.type === "admin" || inquiryGroupStore.allowEdit;
+      return inquiryGroupStore2.currentUserStatus?.isOwner || sessionStore.currentUser.type === "admin" || inquiryGroupStore2.allowEdit;
     });
     const hasChanges = computed(() => {
-      return inquiryGroupStore.title !== "" || inquiryGroupStore.titleExt !== "" || inquiryGroupStore.description !== "";
+      return inquiryGroupStore2.title !== "" || inquiryGroupStore2.titleExt !== "" || inquiryGroupStore2.description !== "";
     });
     const loadGroup = async () => {
-      if (!inquiryGroupStore.id) return;
+      if (!inquiryGroupStore2.id) return;
       loading.value = true;
       try {
-        await inquiryGroupStore.load(inquiryGroupStore.id);
-        if (inquiryGroupStore.coverId) {
-          currentCoverUrl.value = getNextcloudPreviewUrl(inquiryGroupStore.coverId);
+        await inquiryGroupStore2.load(inquiryGroupStore2.id);
+        if (inquiryGroupStore2.coverId) {
+          currentCoverUrl.value = getNextcloudPreviewUrl(inquiryGroupStore2.coverId);
         }
         lastSaveData = JSON.stringify(getSaveableData());
       } catch (error) {
@@ -74003,7 +73987,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
       }
       try {
         autoSaving.value = true;
-        const response = await attachmentsStore.uploadGroup(inquiryGroupStore.id, file, true);
+        const response = await attachmentsStore.uploadGroup(inquiryGroupStore2.id, file, true);
         const attachment = {
           id: response.id ?? `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           name: response.name ?? file.name,
@@ -74013,7 +73997,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
         };
         attachmentsStore.attachments = [...attachmentsStore.attachments, attachment];
         currentCoverUrl.value = getNextcloudPreviewUrl(attachment.fileId);
-        inquiryGroupStore.coverId = attachment.fileId;
+        inquiryGroupStore2.coverId = attachment.fileId;
         await autoSaveGroup();
         showSuccess(translate("agora", "{file} uploaded", { file: response.name ?? file.name }));
       } catch (error) {
@@ -74029,29 +74013,29 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     };
     const getSaveableData = () => {
       return {
-        title: inquiryGroupStore.title.trim(),
-        titleExt: inquiryGroupStore.titleExt.trim(),
-        description: inquiryGroupStore.description.trim(),
-        groupStatus: inquiryGroupStore.groupStatus,
-        expire: inquiryGroupStore.expire,
-        coverId: inquiryGroupStore.coverId
+        title: inquiryGroupStore2.title.trim(),
+        titleExt: inquiryGroupStore2.titleExt.trim(),
+        description: inquiryGroupStore2.description.trim(),
+        groupStatus: inquiryGroupStore2.groupStatus,
+        expire: inquiryGroupStore2.expire,
+        coverId: inquiryGroupStore2.coverId
       };
     };
     const validateForm = () => {
       let isValid = true;
       formErrors.value = { title: "", titleExt: "", description: "" };
-      if (!inquiryGroupStore.title.trim()) {
+      if (!inquiryGroupStore2.title.trim()) {
         formErrors.value.title = translate("agora", "Group title is required");
         isValid = false;
-      } else if (inquiryGroupStore.title.length > 200) {
+      } else if (inquiryGroupStore2.title.length > 200) {
         formErrors.value.title = translate("agora", "Title must be less than 200 characters");
         isValid = false;
       }
-      if (inquiryGroupStore.titleExt.length > 200) {
+      if (inquiryGroupStore2.titleExt.length > 200) {
         formErrors.value.titleExt = translate("agora", "Extended title must be less than 200 characters");
         isValid = false;
       }
-      if (inquiryGroupStore.description.length > 1e3) {
+      if (inquiryGroupStore2.description.length > 1e3) {
         formErrors.value.description = translate("agora", "Description must be less than 1000 characters");
         isValid = false;
       }
@@ -74072,7 +74056,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
       }
       autoSaving.value = true;
       try {
-        await inquiryGroupStore.update(getSaveableData());
+        await inquiryGroupStore2.update(getSaveableData());
         lastSaveData = currentData;
         emit2("saved");
       } catch (error) {
@@ -74096,7 +74080,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
       try {
         autoSaving.value = true;
         currentCoverUrl.value = "";
-        inquiryGroupStore.coverId = null;
+        inquiryGroupStore2.coverId = null;
         await autoSaveGroup();
         showSuccess(translate("agora", "Cover image removed"));
       } catch (error) {
@@ -74113,16 +74097,16 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     const getFormFieldState = (field) => {
       return {
         error: !!formErrors.value[field],
-        success: !formErrors.value[field] && inquiryGroupStore[field] ? true : void 0,
+        success: !formErrors.value[field] && inquiryGroupStore2[field] ? true : void 0,
         helperText: formErrors.value[field]
       };
     };
-    watch(() => inquiryGroupStore.title, debouncedSave, { deep: true });
-    watch(() => inquiryGroupStore.titleExt, debouncedSave, { deep: true });
-    watch(() => inquiryGroupStore.description, debouncedSave, { deep: true });
-    watch(() => inquiryGroupStore.groupStatus, debouncedSave, { deep: true });
-    watch(() => inquiryGroupStore.expire, debouncedSave, { deep: true });
-    watch(() => inquiryGroupStore.coverId, debouncedSave, { deep: true });
+    watch(() => inquiryGroupStore2.title, debouncedSave, { deep: true });
+    watch(() => inquiryGroupStore2.titleExt, debouncedSave, { deep: true });
+    watch(() => inquiryGroupStore2.description, debouncedSave, { deep: true });
+    watch(() => inquiryGroupStore2.groupStatus, debouncedSave, { deep: true });
+    watch(() => inquiryGroupStore2.expire, debouncedSave, { deep: true });
+    watch(() => inquiryGroupStore2.coverId, debouncedSave, { deep: true });
     onUnmounted(() => {
       if (saveTimeout) {
         clearTimeout(saveTimeout);
@@ -74131,7 +74115,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
     onMounted(() => {
       loadGroup();
     });
-    const __returned__ = { emit: emit2, inquiryGroupStore, sessionStore, attachmentsStore, loading, autoSaving, imageFileInput, currentCoverUrl, get saveTimeout() {
+    const __returned__ = { emit: emit2, inquiryGroupStore: inquiryGroupStore2, sessionStore, attachmentsStore, loading, autoSaving, imageFileInput, currentCoverUrl, get saveTimeout() {
       return saveTimeout;
     }, set saveTimeout(v2) {
       saveTimeout = v2;
@@ -74721,7 +74705,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
   __name: "SideBarInquiryGroup",
   setup(__props, { expose: __expose }) {
     __expose();
-    const inquiryGroupStore = useInquiryGroupStore();
+    const inquiryGroupStore2 = useInquiryGroupStore();
     const showSidebar = ref(window.innerWidth > 920);
     const activeTab = ref(translate("agora", "Comments").toLowerCase());
     onMounted(() => {
@@ -74745,7 +74729,7 @@ const _sfc_main$2 = /* @__PURE__ */ defineComponent({
     function closeSideBar() {
       emit(Event$1.SidebarToggle, { open: false });
     }
-    const __returned__ = { inquiryGroupStore, showSidebar, activeTab, closeSideBar, get t() {
+    const __returned__ = { inquiryGroupStore: inquiryGroupStore2, showSidebar, activeTab, closeSideBar, get t() {
       return translate;
     }, get NcAppSidebar() {
       return NcAppSidebar;
@@ -75232,7 +75216,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     useInquiryWatcher();
     const sessionStore = useSessionStore();
     const inquiryStore = useInquiryStore();
-    const inquiryGroupStore = useInquiryGroupStore();
+    const inquiryGroupStore2 = useInquiryGroupStore();
     const transitionClass = ref("transitions-active");
     const appClass = computed(() => [
       transitionClass.value,
@@ -75242,7 +75226,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
     ]);
     const useNavigation = computed(() => sessionStore.userStatus.isLoggedin);
     const useSidebar = computed(
-      () => inquiryStore.permissions.edit || sessionStore.route.name === "group" && inquiryGroupStore.owner === sessionStore.currentUser.id
+      () => inquiryStore.permissions.edit || sessionStore.route.name === "group" && inquiryGroupStore2.owner === sessionStore.currentUser.id
     );
     function transitionsOn() {
       transitionClass.value = "transitions-active";
@@ -75285,7 +75269,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
       unsubscribe(Event$1.UpdateInquiry, () => {
       });
     });
-    const __returned__ = { sessionStore, inquiryStore, inquiryGroupStore, transitionClass, appClass, useNavigation, useSidebar, transitionsOn, transitionsOff, notify, get NcContent() {
+    const __returned__ = { sessionStore, inquiryStore, inquiryGroupStore: inquiryGroupStore2, transitionClass, appClass, useNavigation, useSidebar, transitionsOn, transitionsOff, notify, get NcContent() {
       return NcContent;
     }, UserSettingsDlg };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });

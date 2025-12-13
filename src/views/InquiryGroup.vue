@@ -266,6 +266,7 @@ import NcDialog from '@nextcloud/vue/components/NcDialog'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
 import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
+import { useInquiryGroupStore } from '../stores/inquiryGroup.ts'
 import { InquiryGeneralIcons } from '../utils/icons.ts'
 import { getInquiryGroupTypeData,  getAllowedResponseGroupTypes } from '../helpers/modules/InquiryHelper.ts'
 import InquiryGroupCreateDlg from '../components/Create/InquiryGroupCreateDlg.vue'
@@ -279,6 +280,7 @@ const router = useRouter()
 const sessionStore = useSessionStore()
 const inquiriesStore = useInquiriesStore()
 const inquiryGroupsStore = useInquiryGroupsStore()
+const inquiryGroupStore = useInquiryGroupStore()
 
 const isLoading = ref(true)
 const isSubGroup = ref(false)
@@ -536,11 +538,11 @@ async function deleteGroup(group: InquiryGroup) {
 async function performDeleteGroup(group: InquiryGroup) {
   try {
     // Implement delete logic here
-    // await inquiryGroupsStore.deleteGroup(group.id)
+     await inquiryGroupStore.deleteGroup(group.id)
     showSuccess(t('agora', 'Group deleted successfully'))
 
     // Refresh groups
-    // await inquiryGroupsStore.fetchAllGroups()
+    await inquiryGroupsStore.fetchAllGroups()
 
     // If we're in the deleted group's page, navigate to parent or home
     if (currentInquiryGroup.value?.id === group.id) {
@@ -583,7 +585,7 @@ function inquiryGroupAdded(newGroup: InquiryGroup) {
 
   // Navigate to the new group
   if (newGroup.slug) {
-    router.push({ name: 'group-list', params: { slug: newGroup.slug } })
+    router.push({ name: 'group', params: { slug: newGroup.slug } })
   }
 }
 

@@ -40,7 +40,7 @@ const inquiriesStore = useInquiriesStore()
 const createDlgToggle = ref(false)
 const createGroupDlgToggle = ref(false)
 const selectedInquiryTypeForCreation = ref<InquiryType | null>(null)
-const selectedInquiryGroupTypeForCreation = ref<InquiryGroupType | null>(null)
+const selectedInquiryGroupTypeForCreation = ref(null)
 const selectedGroups = ref<string[]>([])
 const preferencesStore = usePreferencesStore()
 
@@ -267,7 +267,7 @@ function createInquiry(inquiryType: InquiryType) {
 
 // Function to create new inquiry group from type
 function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
-  selectedInquiryGroupTypeForCreation.value = inquiryGroupType
+  selectedInquiryGroupTypeForCreation.value = inquiryGroupType.group_type
   createGroupDlgToggle.value = true
 }
 
