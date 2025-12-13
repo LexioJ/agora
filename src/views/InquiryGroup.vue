@@ -115,6 +115,7 @@
               @mouseenter="hoveredGroupId = group.id"
               @mouseleave="hoveredGroupId = null"
             >
+             <div class="vignette-container">
               <div class="group-vignette" @click="selectGroup(group)">
                 <div v-if="group.coverId" class="vignette-cover">
                   <img :src="getCoverUrl(group.coverId)" :alt="group.title" />
@@ -197,13 +198,14 @@
                         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                       </svg>
                     </template>
-                    {{ t('agora', 'Add Response') }}
+                    {{ t('agora', 'Add Subgroup') }}
                   </NcButton>
                 </div>
               </div>
             </div>
           </div>
-          <div v-if="hasSlug && currentInquiryGroup">
+         </div>
+              <div v-if="hasSlug && currentInquiryGroup" class="inquiry-group-content">
               <InquiryGroupViewMiddle
                       :group="currentInquiryGroup"
                       :inquiry-ids="currentInquiryGroup.inquiryIds"
@@ -212,18 +214,6 @@
                       :group="currentInquiryGroup"
                       :inquiry-ids="currentInquiryGroup.inquiryIds"
                       />
-          </div>
-          <!-- Empty state -->
-          <div v-else class="empty-state">
-              <div class="empty-icon">📝</div>
-              <h3>{{ emptyStateTitle }}</h3>
-              <p>{{ emptyStateMessage }}</p>
-              <NcButton v-if="hasSlug" @click="navigateToCreateInquiry()" type="primary">
-              ➕ {{ t('agora', 'Create First Inquiry') }}
-              </NcButton>
-              <NcButton v-else-if="isOwnerOrAdmin" @click="createInquiryGroup(currentGroupType)" type="primary">
-              ➕ {{ t('agora', 'Create First Group') }}
-              </NcButton>
           </div>
         </div>
       </div>
@@ -244,14 +234,14 @@
             :enable-slide-up="false"
             @close="handleCloseGroupDialog"
             >
+
             <InquiryGroupCreateDlg
                     :inquiry-group-type="selectedInquiryGroupTypeForCreation"
-                    :selected-groups="selectedGroups"
-                    :parent-inquiry-id="currentInquiryGroup.id"
+                    :parent-group-id="selectedParentId"
                     :available-groups="availableGroups"
+                    :isSubGroup="isSubGroup"
                     @added="inquiryGroupAdded"
                     @close="handleCloseGroupDialog"
-                    @update:selected-groups="selectedGroups = $event"
                     />
     </NcDialog>
 
@@ -277,7 +267,7 @@ import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
 import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
 import { InquiryGeneralIcons } from '../utils/icons.ts'
-import { getInquiryGroupTypeData } from '../helpers/modules/InquiryHelper.ts'
+import { getInquiryGroupTypeData,  getAllowedResponseGroupTypes } from '../helpers/modules/InquiryHelper.ts'
 import InquiryGroupCreateDlg from '../components/Create/InquiryGroupCreateDlg.vue'
 import type { InquiryGroupType, InquiryGroup } from '../stores/inquiryGroups.types.ts'
 import InquiryGroupViewMiddle from '../components/InquiryGroup/InquiryGroupViewMiddle.vue'
@@ -291,10 +281,11 @@ const inquiriesStore = useInquiriesStore()
 const inquiryGroupsStore = useInquiryGroupsStore()
 
 const isLoading = ref(true)
+const isSubGroup = ref(false)
 const groupNotFound = ref(false)
 const hoveredGroupId = ref<number | null>(null)
-const selectedGroupForDialog = ref<any>(null)
 const createDlgToggle = ref(false)
+const selectedParentId = ref(null)
 const createGroupDlgToggle = ref(false)
 const selectedInquiryGroupTypeForCreation = ref<InquiryGroupType | null>(null)
 
@@ -321,9 +312,11 @@ const currentInquiryGroup = computed(() => {
   if (!hasSlug.value) return null
   const slug = route.params.slug as string
   const group = inquiryGroupsStore.bySlug(slug)
+
   if (!group) {
     groupNotFound.value = true
   }
+  console.log(" CONSOLE ", group)
   return group
 })
 
@@ -381,21 +374,6 @@ const sectionTitle = computed(() => {
     return t('agora', '')
   }
   return selectedTypeLabel.value
-})
-
-// Empty state titles
-const emptyStateTitle = computed(() => {
-  if (hasSlug.value && currentInquiryGroup.value) {
-    return t('agora', 'No subgroups yet')
-  }
-  return t('agora', 'No groups yet')
-})
-
-const emptyStateMessage = computed(() => {
-  if (hasSlug.value && currentInquiryGroup.value) {
-    return t('agora', 'This group doesn\'t contain any subgroups yet.')
-  }
-  return t('agora', 'Create your first group to organize inquiries.')
 })
 
 // Check if user is owner or admin - FIXED: Ensure this returns boolean
@@ -522,14 +500,23 @@ function navigateToCreateInquiry() {
 
 // Function to create new inquiry group from type
 function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
+  console.log(" CREATETTTTTTTTTTTT INQUIRY GROUP ",inquiryGroupType)
+  console.log(" HAS INQUIRY GROUP ",hasSlug.value)
+  if (hasSlug.value) selectedParentId.value=currentInquiryGroup?.value.id
   selectedInquiryGroupTypeForCreation.value = inquiryGroupType
   createGroupDlgToggle.value = true
 }
 
+// Image URL function
+function getNextcloudPreviewUrl(fileId: number, x = 1920, y = 1080, autoScale = true) {
+  const baseUrl = window.location.origin
+  return `${baseUrl}/index.php/core/preview?fileId=${fileId}&x=${x}&y=${y}&a=${autoScale ? 1 : 0}`
+}
+
+
 // Cover URL helper
 function getCoverUrl(coverId: string) {
-  // Implement cover URL generation based on your API
-  return `/api/cover/${coverId}`
+  return getNextcloudPreviewUrl(coverId)
 }
 
 // Owner menu actions
@@ -576,12 +563,16 @@ async function performDeleteGroup(group: InquiryGroup) {
 
 function addAllowedResponse(group: InquiryGroup) {
   selectedInquiryGroupTypeForCreation.value = group.type
+  console.log(" SELECTEEEEEEEEEEEEEEEEEE PARENT ID ", group.id)
+  selectedParentId.value = group.id
+  isSubGroup.value = true
   createGroupDlgToggle.value = true
 }
 
 // Dialog handlers
 function handleCloseGroupDialog() {
   createGroupDlgToggle.value = false
+  selectedParentId.value = null
   selectedInquiryGroupTypeForCreation.value = null
 }
 
@@ -598,18 +589,12 @@ function inquiryGroupAdded(newGroup: InquiryGroup) {
 
 // Available groups for dialog (groups that can be selected as parents)
 const availableGroups = computed(() => {
-  return inquiryGroupsStore.inquiryGroups.filter(group => 
-    group.id !== currentInquiryGroup.value?.id // Don't include current group
-  )
+  const groups = sessionStore.currentUser.groups || {}
+  if (typeof groups === 'object' && !Array.isArray(groups)) {
+    return Object.keys(groups)
+  }
 })
 
-// Selected groups for dialog (pre-selected in dialog)
-const selectedGroups = computed(() => {
-  if (currentInquiryGroup.value) {
-    return [currentInquiryGroup.value.id]
-  }
-  return []
-})
 
 // Debug: Log owner/admin status
 onMounted(() => {
@@ -632,7 +617,7 @@ onMounted(async () => {
     if (hasSlug.value) {
       const slug = route.params.slug as string
       const group = inquiryGroupsStore.bySlug(slug)
-       
+      currentInquiryGroup.value=group
       if (!group) {
         groupNotFound.value = true
       }
@@ -662,6 +647,13 @@ watch(() => route.params.slug, async () => {
 </script>
 
 <style lang="scss" scoped>
+.inquiry-group-content {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
 .inquiry-group-page {
     width: 100%;
     background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
@@ -921,7 +913,21 @@ watch(() => route.params.slug, async () => {
             /* Container for vignette + menu */
             .group-vignette-wrapper {
                 position: relative;
-                margin-bottom: 60px; /* Added space for the owner menu */
+                margin-bottom: 0px; 
+            }
+
+            .vignette-container {
+                position: relative;
+                margin-bottom: 60px; /* Space for the menu */
+
+                &:hover {
+                    .owner-menu-under {
+                        opacity: 1;
+                        visibility: visible;
+                        transform: translateY(0);
+                        pointer-events: auto; /* Enable clicks on menu */
+                    }
+                }
             }
 
             .group-vignette {
@@ -1288,3 +1294,4 @@ watch(() => route.params.slug, async () => {
                 }
             }
 </style>
+

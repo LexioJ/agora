@@ -15,10 +15,32 @@ const attachments = {
     const formData = new FormData()
     formData.append('file', file)
     formData.append('coverId', coverId)
-
+    
     return httpInstance.request({
       method: 'POST',
       url: `inquiry/${inquiryId}/attachment`,
+      data: formData,
+      headers: {
+        'X-Requested-With': 'XMLHttpRequest',
+        requesttoken: OC.requestToken || '', // Token CSRF for Nextcloud
+      },
+      cancelToken:
+        cancelTokenHandlerObject[this.uploadAttachment.name].handleRequestCancellation().token,
+    })
+  },
+
+  uploadGroupAttachment(
+    groupId: number,
+    file: File,
+    coverId: boolean
+  ): Promise<AxiosResponse<{ attachment: Attachment }>> {
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('coverId', coverId)
+    
+    return httpInstance.request({
+      method: 'POST',
+      url: `group/${groupId}/attachment`,
       data: formData,
       headers: {
         'X-Requested-With': 'XMLHttpRequest',

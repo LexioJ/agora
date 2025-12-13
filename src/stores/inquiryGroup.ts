@@ -310,6 +310,7 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
         inquiryIds?: number[]
     }): Promise<any | void> {
         try {
+            console.log(" TYPEPPPPPPPPPPPPPPPPPPPPP ",payload.type)
             const response = await InquiryGroupsAPI.addGroup({
                 title: payload.title,
                 titleExt: payload.titleExt,
@@ -320,16 +321,14 @@ export const useInquiryGroupStore = defineStore('inquiryGroup', {
                 groupStatus: payload.groupStatus || 'draft',
             })
 
-            // Met à jour le store avec le nouveau groupe
             if (response.data?.inquiryGroup) {
                 const groupData = response.data.inquiryGroup
                 this.id = groupData.id
                 this.title = groupData.title || ''
                 this.type = groupData.type || 'default'
-                // ... met à jour les autres propriétés
+                return response.data.inquiryGroup
             }
 
-            return response.data
         } catch (error) {
             if ((error as AxiosError)?.code === 'ERR_CANCELED') {
                 return

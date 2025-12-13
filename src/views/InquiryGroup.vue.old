@@ -1,0 +1,716 @@
+<!--
+- SPDX-FileCopyrightText: 2025 Nextcloud contributors
+- SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<template>
+  <NcAppContent class="inquiry-group-page">
+    <div class="inquiry-group-page">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar theme-dark">
+        <div class="breadcrumb-container">
+          <!-- Home Button -->
+          <NcButton 
+            type="tertiary"
+            class="breadcrumb-home"
+            @click="navigateToHome"
+          >
+            <template #icon>
+                <component :is="InquiryGeneralIcons.Home" :size="20"/>
+            </template>
+            <span class="breadcrumb-label">{{ t('agora', 'Home') }}</span>
+          </NcButton>
+          
+          <!-- Parent groups -->
+          <template v-for="(parent, index) in parentGroups" :key="parent.id">
+            <div class="breadcrumb-separator">❯</div>
+            <NcButton 
+              type="tertiary"
+              class="breadcrumb-item"
+              @click="selectGroup(parent)"
+            >
+              <div class="breadcrumb-item-content">
+                  <component
+                    :is="getGroupTypeIconComponent(parent.type)"
+                    class="breadcrumb-icon"
+                  />
+                  <span class="breadcrumb-label">{{ parent.title }}</span>
+              </div>
+            </NcButton>
+          </template>
+
+          <!-- Current group or type -->
+          <div v-if="hasSlug || parentGroups.length > 0" class="breadcrumb-separator">❯</div>
+          <div class="breadcrumb-current">
+              <div class="breadcrumb-current-content">
+                  <component
+                    :is="currentIconComponent"
+                    class="breadcrumb-icon"
+                  />
+                  <span class="breadcrumb-label">{{ currentBreadcrumbTitle }}</span>
+                  <span v-if="totalInquiries > 0 && hasSlug" class="inquiry-count">
+                      ({{ totalInquiries }})
+                  </span>
+                  <span v-else-if="displayedGroups.length > 0 && !hasSlug" class="inquiry-count">
+                      ({{ displayedGroups.length }})
+                  </span>
+              </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- White Separation Line -->
+      <div class="separation-line"></div>
+
+      <!-- Main Content -->
+      <div v-if="!groupNotFound">
+        <!-- Header Section -->
+        <div class="group-header">
+            <div class="header-left">
+                <div class="group-icon-badge">
+                    <component
+                      :is="currentIconComponent"
+                      class="group-icon"
+                    />
+                </div>
+                <div class="group-title-section">
+                    <h1 class="group-title">{{ currentTitle }}</h1>
+                    <div class="group-subtitle">
+                        <p>{{ currentDescription }}</p>
+                        <span v-if="totalInquiries > 0 && hasSlug" class="inquiry-count-badge">
+                            {{ totalInquiries }} {{ t('agora', 'inquiries') }}
+                        </span>
+                        <span v-if="displayedGroups.length > 0 && !hasSlug" class="groups-count-badge">
+                            {{ displayedGroups.length }} {{ t('agora', 'groups') }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Loading State -->
+        <div v-if="isLoading" class="loading-state">
+            <div class="spinner"></div>
+            <p>{{ t('agora', 'Loading...') }}</p>
+        </div>
+
+        <!-- Content when loaded -->
+        <div v-else class="content-area">
+          <!-- Section Header -->
+          <div class="section-header">
+            <h3>{{ sectionTitle }}</h3>
+            <div class="section-actions" v-if="isOwnerOrAdmin">
+              <NcButton class="create-button" @click="createInquiryGroup(currentGroupType)">
+                ➕ {{ t('agora', 'Create Group') }}
+              </NcButton>
+            </div>
+          </div>
+
+          <!-- Groups Grid -->
+          <div v-if="displayedGroups.length > 0" class="groups-grid">
+            <div 
+              v-for="group in displayedGroups" 
+              :key="group.id"
+              class="group-vignette-wrapper"
+              @mouseenter="hoveredGroupId = group.id"
+              @mouseleave="hoveredGroupId = null"
+            >
+              <div class="group-vignette" @click="selectGroup(group)">
+                <div v-if="group.coverId" class="vignette-cover">
+                  <img :src="getCoverUrl(group.coverId)" :alt="group.title" />
+                  <div class="vignette-cover-overlay"></div>
+                </div>
+                <div class="vignette-content">
+                  <div class="vignette-icon">
+                    <component
+                      :is="getGroupTypeIconComponent(group.type)"
+                    />
+                  </div>
+                  <h4>{{ group.title }}</h4>
+                  <p v-if="group.description" class="vignette-description">
+                    {{ group.description}}
+                  </p>
+                  <div class="vignette-stats">
+                    <div class="stat-item">
+                      <span class="stat-icon">📝</span>
+                      <span class="stat-value">{{ group.inquiryIds?.length || 0 }}</span>
+                    </div>
+                    <div v-if="getGroupChildren(group).length > 0" class="stat-item">
+                      <span class="stat-icon">👥</span>
+                      <span class="stat-value">{{ getGroupChildren(group).length }}</span>
+                    </div>
+                  </div>
+                  <div class="vignette-footer">
+                    <NcButton class="view-group-button" @click.stop="selectGroup(group)">
+                      {{ t('agora', 'View Group') }}
+                      <template #icon>
+                        <svg width="16" height="16" viewBox="0 0 24 24">
+                          <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
+                        </svg>
+                      </template>
+                    </NcButton>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Owner menu (appears under the vignette on hover) -->
+              <div 
+                v-if="group.slug && isOwnerOrAdmin && hoveredGroupId === group.id" 
+                class="owner-menu-under"
+                @mouseenter="hoveredGroupId = group.id"
+                @mouseleave="hoveredGroupId = null"
+              >
+                <div class="owner-menu-content">
+                  <NcButton 
+                    type="tertiary" 
+                    class="menu-item modify"
+                    @click.stop="modifyGroup(group)"
+                  >
+                    <template #icon>
+                      <svg width="14" height="14" viewBox="0 0 24 24">
+                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                      </svg>
+                    </template>
+                    {{ t('agora', 'Modify') }}
+                  </NcButton>
+                  
+                  <NcButton 
+                    type="tertiary" 
+                    class="menu-item delete"
+                    @click.stop="deleteGroup(group)"
+                  >
+                    <template #icon>
+                      <svg width="14" height="14" viewBox="0 0 24 24">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                      </svg>
+                    </template>
+                    {{ t('agora', 'Delete') }}
+                  </NcButton>
+                  
+                  <NcButton 
+                    type="tertiary" 
+                    class="menu-item add-response"
+                    @click.stop="addAllowedResponse(group)"
+                  >
+                    <template #icon>
+                      <svg width="14" height="14" viewBox="0 0 24 24">
+                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                      </svg>
+                    </template>
+                    {{ t('agora', 'Add Response') }}
+                  </NcButton>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Add empty state here -->
+          <div v-else class="empty-state">
+            <div class="empty-icon">📁</div>
+            <h3>{{ t('agora', 'No groups yet') }}</h3>
+            <p>{{ t('agora', 'Create your first group to organize inquiries') }}</p>
+            <NcButton 
+              v-if="isOwnerOrAdmin" 
+              @click="createInquiryGroup(currentGroupType)" 
+              type="primary"
+            >
+              ➕ {{ t('agora', 'Create first group') }}
+            </NcButton>
+          </div>
+
+          <!-- Main content area for inquiries -->
+          <div v-if="hasSlug && currentInquiryGroup" class="inquiry-group-content">
+            <InquiryGroupViewMiddle
+              :group="currentInquiryGroup"
+              :inquiry-ids="currentInquiryGroup.inquiryIds"
+            />
+            <InquiryGroupViewMain
+              :group="currentInquiryGroup"
+              :inquiry-ids="currentInquiryGroup.inquiryIds"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Group not found -->
+      <div v-else class="not-found-state">
+          <div class="not-found-icon">🔍</div>
+          <h2>{{ t('agora', 'Group not found') }}</h2>
+          <p>{{ t('agora', 'The group you are looking for does not exist or you do not have permission to access it.') }}</p>
+          <NcButton @click="navigateToHome" type="primary">
+          {{ t('agora', 'Back to home') }}
+          </NcButton>
+      </div>
+    </div>
+
+    <NcDialog
+      v-if="createGroupDlgToggle"
+      :name="t('agora', 'Create New Inquiry Group')"
+      :enable-slide-up="false"
+      @close="handleCloseGroupDialog"
+    >
+      <InquiryGroupCreateDlg
+        :inquiry-group-type="selectedInquiryGroupTypeForCreation"
+        :selected-groups="selectedGroups"
+        :parent-inquiry-id="currentInquiryGroup.id"
+        :available-groups="availableGroups"
+        @added="inquiryGroupAdded"
+        @close="handleCloseGroupDialog"
+        @update:selected-groups="selectedGroups = $event"
+      />
+    </NcDialog>
+
+    <NcDialog
+      v-if="deleteDialogGroup"
+      v-model:open="showDeleteDialog"
+      :name="deleteDialogTitle"
+      :message="deleteDialogMessage"
+      :buttons="deleteDialogButtons"
+    />
+  </NcAppContent>
+</template>
+
+<script setup lang="ts">
+import { computed, ref, onMounted, watch } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+import { t } from '@nextcloud/l10n'
+import { showError, showSuccess } from '@nextcloud/dialogs'
+import NcAppContent from '@nextcloud/vue/components/NcAppContent'
+import NcButton from '@nextcloud/vue/components/NcButton'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
+import { useSessionStore } from '../stores/session.ts'
+import { useInquiriesStore } from '../stores/inquiries.ts'
+import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
+import { InquiryGeneralIcons } from '../utils/icons.ts'
+import { getInquiryGroupTypeData } from '../helpers/modules/InquiryHelper.ts'
+import InquiryGroupCreateDlg from '../components/Create/InquiryGroupCreateDlg.vue'
+import type { InquiryGroupType, InquiryGroup } from '../stores/inquiryGroups.types.ts'
+import InquiryGroupViewMiddle from '../components/InquiryGroup/InquiryGroupViewMiddle.vue'
+import InquiryGroupViewMain from '../components/InquiryGroup/InquiryGroupViewMain.vue'
+
+const route = useRoute()
+const router = useRouter()
+const sessionStore = useSessionStore()
+const inquiriesStore = useInquiriesStore()
+const inquiryGroupsStore = useInquiryGroupsStore()
+
+const isLoading = ref(true)
+const groupNotFound = ref(false)
+const hoveredGroupId = ref<number | null>(null)
+const selectedGroupForDialog = ref<any>(null)
+const createDlgToggle = ref(false)
+const createGroupDlgToggle = ref(false)
+const selectedInquiryGroupTypeForCreation = ref<InquiryGroupType | null>(null)
+
+// Delete dialog state
+const showDeleteDialog = ref(false)
+const deleteDialogGroup = ref<InquiryGroup | null>(null)
+
+// Check if we have a slug in the route
+const hasSlug = computed(() => {
+  const slug = route.params.slug as string
+  return slug && slug !== 'none' && slug !== 'undefined' && slug !== ''
+})
+
+// Get current group type
+const currentGroupType = computed(() => {
+  if (hasSlug.value && currentInquiryGroup.value) {
+    return currentInquiryGroup.value.type
+  }
+  return inquiryGroupsStore.currentGroupType || 'assembly'
+})
+
+// Get current group if slug exists
+const currentInquiryGroup = computed(() => {
+  if (!hasSlug.value) return null
+  const slug = route.params.slug as string
+  const group = inquiryGroupsStore.bySlug(slug)
+  if (!group) {
+    groupNotFound.value = true
+  }
+  return group
+})
+
+// Get parent groups for breadcrumb
+const parentGroups = computed(() => {
+  if (!currentInquiryGroup.value) return []
+
+  const parents: InquiryGroup[] = []
+  let currentGroup = currentInquiryGroup.value
+
+  // Build parent chain using parentId
+  while (currentGroup.parentId) {
+    const parent = inquiryGroupsStore.inquiryGroups.find(g => g.id === currentGroup.parentId)
+    if (parent) {
+      parents.unshift(parent)
+      currentGroup = parent
+    } else {
+      break
+    }
+  }
+
+  return parents
+})
+
+// Get groups to display
+const displayedGroups = computed(() => {
+  if (hasSlug.value && currentInquiryGroup.value) {
+    // Show child groups of current group
+    const childGroups = inquiryGroupsStore.inquiryGroups.filter(
+      group => group.parentId === currentInquiryGroup.value?.id
+    )
+    return childGroups.sort((a, b) => a.title.localeCompare(b.title))
+  }
+
+  // Show root groups of current type
+  const rootGroups = inquiryGroupsStore.inquiryGroups.filter(
+    group => !group.parentId && group.type === currentGroupType.value
+  )
+  return rootGroups.sort((a, b) => a.title.localeCompare(b.title))
+})
+
+// Get total inquiries for current group
+const totalInquiries = computed(() => {
+  if (!hasSlug.value || !currentInquiryGroup.value) return 0
+
+  // Count inquiries belonging to this group
+  return inquiriesStore.inquiries.filter(
+    inquiry => inquiry.groupId === currentInquiryGroup.value?.id
+  ).length
+})
+
+// Section title
+const sectionTitle = computed(() => {
+  if (hasSlug.value && currentInquiryGroup.value) {
+    return t('agora', '')
+  }
+  return selectedTypeLabel.value
+})
+
+// You need to add the missing computed properties and methods here:
+const selectedTypeLabel = computed(() => {
+  // Implement this based on your group type data
+  return currentGroupType.value.charAt(0).toUpperCase() + currentGroupType.value.slice(1)
+})
+
+const currentIconComponent = computed(() => {
+  // Implement this to return the appropriate icon component
+  return InquiryGeneralIcons.Home // Replace with actual implementation
+})
+
+const currentBreadcrumbTitle = computed(() => {
+  // Implement this
+  return currentInquiryGroup.value?.title || selectedTypeLabel.value
+})
+
+const currentTitle = computed(() => {
+  // Implement this
+  return currentInquiryGroup.value?.title || selectedTypeLabel.value
+})
+
+const currentDescription = computed(() => {
+  // Implement this
+  return currentInquiryGroup.value?.description || ''
+})
+
+const isOwnerOrAdmin = computed(() => {
+  // Implement this based on your permission logic
+  return sessionStore.isAdmin || sessionStore.isOwner
+})
+
+const getGroupTypeIconComponent = (type: InquiryGroupType) => {
+  // Implement this
+  return InquiryGeneralIcons.Home
+}
+
+const getGroupChildren = (group: InquiryGroup) => {
+  // Implement this
+  return []
+}
+
+const getCoverUrl = (coverId: string) => {
+  // Implement this
+  return ''
+}
+
+const navigateToHome = () => {
+  router.push('/')
+}
+
+const selectGroup = (group: InquiryGroup) => {
+  router.push(`/group/${group.slug}`)
+}
+
+const createInquiryGroup = (type: InquiryGroupType) => {
+  selectedInquiryGroupTypeForCreation.value = type
+  createGroupDlgToggle.value = true
+}
+
+const modifyGroup = (group: InquiryGroup) => {
+  // Implement this
+}
+
+const deleteGroup = (group: InquiryGroup) => {
+  deleteDialogGroup.value = group
+  showDeleteDialog.value = true
+}
+
+const addAllowedResponse = (group: InquiryGroup) => {
+  // Implement this
+}
+
+const handleCloseGroupDialog = () => {
+  createGroupDlgToggle.value = false
+}
+
+const inquiryGroupAdded = () => {
+  // Implement this
+}
+
+// Add the missing computed properties for delete dialog
+const deleteDialogTitle = computed(() => {
+  return t('agora', 'Delete Group')
+})
+
+const deleteDialogMessage = computed(() => {
+  if (deleteDialogGroup.value) {
+    return t('agora', 'Are you sure you want to delete "{title}"? This action cannot be undone.', { title: deleteDialogGroup.value.title })
+  }
+  return ''
+})
+
+const deleteDialogButtons = computed(() => {
+  return [
+    {
+      label: t('agora', 'Cancel'),
+      action: () => {
+        showDeleteDialog.value = false
+        deleteDialogGroup.value = null
+      },
+    },
+    {
+      label: t('agora', 'Delete'),
+      action: async () => {
+        if (deleteDialogGroup.value) {
+          try {
+            await inquiryGroupsStore.deleteInquiryGroup(deleteDialogGroup.value.id)
+            showSuccess(t('agora', 'Group deleted successfully'))
+            // Navigate to parent or home
+            if (currentInquiryGroup.value?.parentId) {
+              const parent = inquiryGroupsStore.inquiryGroups.find(g => g.id === currentInquiryGroup.value?.parentId)
+              if (parent) {
+                router.push(`/group/${parent.slug}`)
+              } else {
+                router.push('/')
+              }
+            } else {
+              router.push('/')
+            }
+          } catch (error) {
+            showError(t('agora', 'Failed to delete group'))
+          }
+        }
+        showDeleteDialog.value = false
+        deleteDialogGroup.value = null
+      },
+      type: 'error',
+    },
+  ]
+})
+
+// Initialize
+onMounted(async () => {
+  try {
+    isLoading.value = true
+    // Load necessary data
+    await inquiryGroupsStore.loadInquiryGroups()
+    await inquiriesStore.loadInquiries()
+    
+    if (hasSlug.value && !currentInquiryGroup.value) {
+      groupNotFound.value = true
+    }
+  } catch (error) {
+    console.error('Error loading inquiry group:', error)
+    showError(t('agora', 'Failed to load group data'))
+  } finally {
+    isLoading.value = false
+  }
+})
+
+// Watch for route changes
+watch(() => route.params.slug, async (newSlug) => {
+  if (newSlug) {
+    isLoading.value = true
+    try {
+      // Reload data when route changes
+      await inquiryGroupsStore.loadInquiryGroups()
+      if (hasSlug.value && !currentInquiryGroup.value) {
+        groupNotFound.value = true
+      } else {
+        groupNotFound.value = false
+      }
+    } catch (error) {
+      console.error('Error loading group:', error)
+    } finally {
+      isLoading.value = false
+    }
+  }
+})
+</script>
+
+<style scoped>
+/* Add your CSS styles here */
+.inquiry-group-content {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.separation-line {
+  height: 1px;
+  background-color: #e0e6ed;
+  margin: 0;
+}
+
+/* Add the missing CSS styles from your original file */
+.empty-state {
+  text-align: center;
+  padding: 50px 20px;
+  background: white;
+  border-radius: 15px;
+  border: 2px dashed #e0e6ed;
+}
+
+.empty-state .empty-icon {
+  font-size: 48px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin: 0 0 10px 0;
+}
+
+.empty-state p {
+  color: #7f8c8d;
+  margin-bottom: 25px;
+  font-size: 15px;
+}
+
+/* Not Found State */
+.not-found-state {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.not-found-state .not-found-icon {
+  font-size: 60px;
+  margin-bottom: 25px;
+  opacity: 0.5;
+}
+
+.not-found-state h2 {
+  font-size: 28px;
+  color: #2c3e50;
+  margin: 0 0 15px 0;
+}
+
+.not-found-state p {
+  color: #7f8c8d;
+  font-size: 16px;
+  margin-bottom: 30px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Debug styles to check if owner menu is working */
+.debug-info {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+  font-size: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .breadcrumb-bar {
+    padding: 12px 0;
+  }
+
+  .breadcrumb-bar .breadcrumb-container {
+    padding: 0 15px;
+    gap: 6px;
+  }
+
+  .breadcrumb-bar .breadcrumb-container .breadcrumb-home,
+  .breadcrumb-bar .breadcrumb-container .breadcrumb-item {
+    font-size: 13px;
+    padding: 6px 8px;
+  }
+
+  .breadcrumb-bar .breadcrumb-container .breadcrumb-current {
+    font-size: 14px;
+  }
+
+  .breadcrumb-bar .breadcrumb-container .breadcrumb-current .breadcrumb-current-content {
+    padding: 6px 10px;
+  }
+
+  .group-header {
+    padding: 25px 15px 15px;
+  }
+
+  .group-header .group-icon-badge {
+    width: 50px;
+    height: 50px;
+    border-radius: 12px;
+  }
+
+  .group-header .group-icon-badge .group-icon {
+    width: 25px;
+    height: 25px;
+  }
+
+  .group-header .group-title {
+    font-size: 22px;
+  }
+
+  .content-area {
+    padding: 0 15px 30px;
+  }
+
+  .section-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .section-header h3 {
+    font-size: 20px;
+  }
+
+  .groups-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .owner-menu-under .owner-menu-content {
+    flex-direction: column;
+  }
+
+  .owner-menu-under .owner-menu-content .menu-item {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 10px 12px;
+  }
+}
+</style>

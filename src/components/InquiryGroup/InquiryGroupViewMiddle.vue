@@ -222,29 +222,42 @@ onMounted(() => {
   }
 })
 </script>
-
 <style lang="scss" scoped>
 .consultation-layout {
-  display: grid;
-  grid-template-columns: 70% 30%;
-  gap: 48px;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 32px;
-  min-height: calc(100vh - 120px);
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  max-width: none; /* Remove max-width constraint */
+  margin: 0;
+  padding: 16px;
+  align-items: flex-start;
+  box-sizing: border-box;
 }
 
-/* Left Column: Description (70%) */
+/* Left Column: Description */
 .left-column {
+  flex: 0 0 70%; /* Fixed 70% width */
+  width: 70%;
+  min-width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  
   .description-section {
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    
     .section-title {
       font-size: 36px;
       font-weight: 800;
       color: var(--color-main-text);
-      margin: 0 0 32px 0;
+      margin: 0 0 16px 0;
       line-height: 1.2;
       padding-bottom: 16px;
       border-bottom: 2px solid var(--color-border);
+      width: 100%;
     }
   }
 }
@@ -254,11 +267,19 @@ onMounted(() => {
   border-radius: 12px;
   border: 1px solid var(--color-border);
   overflow: hidden;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .description-content {
   padding: 32px;
   position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   
   &.expanded {
     .description-text {
@@ -278,6 +299,8 @@ onMounted(() => {
   max-height: 10.8em; /* 6 lines * 1.8 line-height */
   overflow: hidden;
   transition: max-height 0.3s ease;
+  width: 100%;
+  flex: 1;
   
   p {
     margin: 0 0 16px 0;
@@ -307,6 +330,7 @@ onMounted(() => {
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  align-self: flex-start;
   
   &:hover {
     background: var(--color-background-hover);
@@ -323,11 +347,16 @@ onMounted(() => {
   }
 }
 
-/* Right Sidebar: Inquiries (30%) */
+/* Right Sidebar: Inquiries */
 .right-sidebar {
+  flex: 0 0 30%; /* Fixed 30% width */
+  width: 30%;
+  min-width: 30%;
   position: sticky;
   top: 32px;
   height: fit-content;
+  display: flex;
+  flex-direction: column;
   
   .sidebar-header {
     display: flex;
@@ -336,6 +365,7 @@ onMounted(() => {
     margin-bottom: 24px;
     padding-bottom: 16px;
     border-bottom: 2px solid var(--color-border);
+    width: 100%;
   }
   
   .sidebar-title {
@@ -357,9 +387,36 @@ onMounted(() => {
   }
 }
 
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .consultation-layout {
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px;
+    width: 100%;
+  }
+  
+  .left-column {
+    flex: 1;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+  }
+  
+  .right-sidebar {
+    flex: 1;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    position: static;
+  }
+}
+
 /* Inquiry Type Groups */
 .inquiry-type-group {
   margin-bottom: 16px;
+  width: 100%;
   
   &:last-child {
     margin-bottom: 0;
@@ -375,6 +432,7 @@ onMounted(() => {
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
+  width: 100%;
   
   &:hover {
     background: var(--color-background-hover);
@@ -387,6 +445,7 @@ onMounted(() => {
   gap: 12px;
   flex: 1;
   min-width: 0;
+  width: 100%;
 }
 
 .type-icon {
@@ -443,6 +502,7 @@ onMounted(() => {
 .type-inquiries {
   margin-top: 8px;
   margin-left: 32px; /* Indent for nested items */
+  width: 100%;
 }
 
 .inquiries-list {
@@ -450,9 +510,11 @@ onMounted(() => {
   border: none;
   margin: 0;
   padding: 0;
+  width: 100%;
   
   :deep(.app-navigation-entry) {
     margin-bottom: 4px;
+    width: 100%;
     
     &:last-child {
       margin-bottom: 0;
@@ -463,6 +525,8 @@ onMounted(() => {
       border-radius: 6px;
       border: 1px solid var(--color-border);
       transition: all 0.2s ease;
+      width: 100%;
+      box-sizing: border-box;
       
       &:hover {
         background: var(--color-background-hover);
@@ -501,6 +565,7 @@ onMounted(() => {
   background: var(--color-background-dark);
   border-radius: 12px;
   border: 1px dashed var(--color-border);
+  width: 100%;
   
   .empty-icon {
     font-size: 40px;
@@ -525,12 +590,21 @@ onMounted(() => {
 /* Responsive Design */
 @media (max-width: 1200px) {
   .consultation-layout {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 32px;
     padding: 24px;
   }
   
+  .left-column {
+    flex: 1;
+    max-width: 100%;
+    width: 100%;
+  }
+  
   .right-sidebar {
+    flex: 1;
+    max-width: 100%;
+    width: 100%;
     position: static;
   }
 }

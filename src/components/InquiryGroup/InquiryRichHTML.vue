@@ -91,11 +91,11 @@ const inquiryTypes = computed(() => appSettingsStore.inquiryTypeTab || [])
 
 // Get type data
 const typeData = computed(() => {
-  return getInquiryTypeData(props.inquiry.inquiry_type, inquiryTypes.value)
+  return getInquiryTypeData(props.inquiry.type, inquiryTypes.value)
 })
 
 const typeIcon = computed(() => typeData.value?.icon || '📝')
-const typeLabel = computed(() => typeData.value?.label || props.inquiry.inquiry_type)
+const typeLabel = computed(() => typeData.value?.label || props.inquiry.type)
 
 // Support
 const isSupported = computed(() => props.inquiry.currentUserStatus?.hasSupported || false)

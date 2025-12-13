@@ -214,8 +214,8 @@
 }
 .create-dialog[data-v-ab6eef9a] {
   background-color: var(--color-main-background);
-  padding: 20px;
-  max-width: 400px;
+  padding: 24px;
+  max-width: 500px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
@@ -223,24 +223,69 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   margin: 20px;
 }
+.dialog-header[data-v-ab6eef9a] {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--color-border);
+}
+.dialog-header h3[data-v-ab6eef9a] {
+  margin: 0;
+  font-size: 1.2em;
+  color: var(--color-main-text);
+}
+.mode-badge[data-v-ab6eef9a] {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+.mode-badge.response[data-v-ab6eef9a] {
+  background: var(--color-warning);
+  color: var(--color-warning-text);
+}
+.mode-badge.child[data-v-ab6eef9a] {
+  background: var(--color-info);
+  color: var(--color-info-text);
+}
+.mode-badge.creation[data-v-ab6eef9a] {
+  background: var(--color-success);
+  color: var(--color-success-text);
+}
+.context-description[data-v-ab6eef9a] {
+  margin-bottom: 20px;
+  padding: 12px;
+  background: var(--color-background-hover);
+  border-radius: 6px;
+  border-left: 3px solid var(--color-primary);
+}
+.context-description p[data-v-ab6eef9a] {
+  margin: 0;
+  color: var(--color-text-lighter);
+  font-size: 0.9em;
+  line-height: 1.4;
+}
 .create-buttons[data-v-ab6eef9a] {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  margin-top: 20px;
-  padding-top: 16px;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
   border-top: 1px solid var(--color-border);
 }
 .selected-type[data-v-ab6eef9a] {
-  padding: 8px 0;
+  padding: 12px 0;
 }
 .type-description[data-v-ab6eef9a] {
   color: var(--color-text-lighter);
   font-size: 0.9em;
-  margin-top: 4px;
+  margin-top: 8px;
+  line-height: 1.4;
 }
 .access-settings[data-v-ab6eef9a] {
-  padding: 8px 0;
+  padding: 12px 0;
 }
 .access-description[data-v-ab6eef9a] {
   color: var(--color-text-lighter);
@@ -248,9 +293,9 @@
   font-size: 0.95em;
 }
 .access-radio-group[data-v-ab6eef9a] {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
-.groups-selection[data-v-ab6eef9a] {
+.nextcloud-groups-selection[data-v-ab6eef9a] {
   margin-top: 16px;
   padding: 16px;
   background: var(--color-background-dark);
@@ -3358,34 +3403,58 @@ to { transform: rotate(360deg);
 #expiring.open {
   color: var(--color-text-lighter);
 }.consultation-layout[data-v-d9c54b78] {
-  display: grid;
-  grid-template-columns: 70% 30%;
-  gap: 48px;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 32px;
-  min-height: calc(100vh - 120px);
+  display: flex;
+  gap: 24px;
+  width: 100%;
+  max-width: none; /* Remove max-width constraint */
+  margin: 0;
+  padding: 16px;
+  align-items: flex-start;
+  box-sizing: border-box;
 }
 
-/* Left Column: Description (70%) */
+/* Left Column: Description */
+.left-column[data-v-d9c54b78] {
+  flex: 0 0 70%; /* Fixed 70% width */
+  width: 70%;
+  min-width: 70%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.left-column .description-section[data-v-d9c54b78] {
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
 .left-column .description-section .section-title[data-v-d9c54b78] {
   font-size: 36px;
   font-weight: 800;
   color: var(--color-main-text);
-  margin: 0 0 32px 0;
+  margin: 0 0 16px 0;
   line-height: 1.2;
   padding-bottom: 16px;
   border-bottom: 2px solid var(--color-border);
+  width: 100%;
 }
 .description-container[data-v-d9c54b78] {
   background: white;
   border-radius: 12px;
   border: 1px solid var(--color-border);
   overflow: hidden;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .description-content[data-v-d9c54b78] {
   padding: 32px;
   position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 .description-content.expanded .description-text[data-v-d9c54b78] {
   max-height: none;
@@ -3400,6 +3469,8 @@ to { transform: rotate(360deg);
   max-height: 10.8em; /* 6 lines * 1.8 line-height */
   overflow: hidden;
   transition: max-height 0.3s ease;
+  width: 100%;
+  flex: 1;
 }
 .description-text p[data-v-d9c54b78] {
   margin: 0 0 16px 0;
@@ -3425,6 +3496,7 @@ to { transform: rotate(360deg);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  align-self: flex-start;
 }
 .expand-button[data-v-d9c54b78]:hover {
   background: var(--color-background-hover);
@@ -3438,11 +3510,16 @@ to { transform: rotate(360deg);
   transform: rotate(180deg);
 }
 
-/* Right Sidebar: Inquiries (30%) */
+/* Right Sidebar: Inquiries */
 .right-sidebar[data-v-d9c54b78] {
+  flex: 0 0 30%; /* Fixed 30% width */
+  width: 30%;
+  min-width: 30%;
   position: sticky;
   top: 32px;
   height: fit-content;
+  display: flex;
+  flex-direction: column;
 }
 .right-sidebar .sidebar-header[data-v-d9c54b78] {
   display: flex;
@@ -3451,6 +3528,7 @@ to { transform: rotate(360deg);
   margin-bottom: 24px;
   padding-bottom: 16px;
   border-bottom: 2px solid var(--color-border);
+  width: 100%;
 }
 .right-sidebar .sidebar-title[data-v-d9c54b78] {
   font-size: 20px;
@@ -3469,9 +3547,32 @@ to { transform: rotate(360deg);
   text-align: center;
 }
 
+/* Responsive Design */
+@media (max-width: 1200px) {
+.consultation-layout[data-v-d9c54b78] {
+    flex-direction: column;
+    gap: 32px;
+    padding: 24px;
+    width: 100%;
+}
+.left-column[data-v-d9c54b78] {
+    flex: 1;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+}
+.right-sidebar[data-v-d9c54b78] {
+    flex: 1;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    position: static;
+}
+}
 /* Inquiry Type Groups */
 .inquiry-type-group[data-v-d9c54b78] {
   margin-bottom: 16px;
+  width: 100%;
 }
 .inquiry-type-group[data-v-d9c54b78]:last-child {
   margin-bottom: 0;
@@ -3485,6 +3586,7 @@ to { transform: rotate(360deg);
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
+  width: 100%;
 }
 .type-header[data-v-d9c54b78]:hover {
   background: var(--color-background-hover);
@@ -3495,6 +3597,7 @@ to { transform: rotate(360deg);
   gap: 12px;
   flex: 1;
   min-width: 0;
+  width: 100%;
 }
 .type-icon[data-v-d9c54b78] {
   width: 20px;
@@ -3544,15 +3647,18 @@ to { transform: rotate(360deg);
 .type-inquiries[data-v-d9c54b78] {
   margin-top: 8px;
   margin-left: 32px; /* Indent for nested items */
+  width: 100%;
 }
 .inquiries-list[data-v-d9c54b78] {
   background: transparent;
   border: none;
   margin: 0;
   padding: 0;
+  width: 100%;
 }
 .inquiries-list[data-v-d9c54b78] .app-navigation-entry {
   margin-bottom: 4px;
+  width: 100%;
 }
 .inquiries-list[data-v-d9c54b78] .app-navigation-entry:last-child {
   margin-bottom: 0;
@@ -3562,6 +3668,8 @@ to { transform: rotate(360deg);
   border-radius: 6px;
   border: 1px solid var(--color-border);
   transition: all 0.2s ease;
+  width: 100%;
+  box-sizing: border-box;
 }
 .inquiries-list[data-v-d9c54b78] .app-navigation-entry .app-navigation-entry__content:hover {
   background: var(--color-background-hover);
@@ -3594,6 +3702,7 @@ to { transform: rotate(360deg);
   background: var(--color-background-dark);
   border-radius: 12px;
   border: 1px dashed var(--color-border);
+  width: 100%;
 }
 .empty-state .empty-icon[data-v-d9c54b78] {
   font-size: 40px;
@@ -3615,11 +3724,19 @@ to { transform: rotate(360deg);
 /* Responsive Design */
 @media (max-width: 1200px) {
 .consultation-layout[data-v-d9c54b78] {
-    grid-template-columns: 1fr;
+    flex-direction: column;
     gap: 32px;
     padding: 24px;
 }
+.left-column[data-v-d9c54b78] {
+    flex: 1;
+    max-width: 100%;
+    width: 100%;
+}
 .right-sidebar[data-v-d9c54b78] {
+    flex: 1;
+    max-width: 100%;
+    width: 100%;
     position: static;
 }
 }
@@ -4812,313 +4929,363 @@ to { transform: rotate(360deg);
 }.inquiry-group-view-main[data-v-71f2b206] {
   width: 100%;
   min-height: 100vh;
-  background: var(--color-main-background);
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
 }
 
 /* Layout Container */
 .layout-container[data-v-71f2b206] {
   display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 32px;
+  grid-template-columns: 1fr 320px;
+  gap: 40px;
   max-width: 1600px;
   margin: 0 auto;
-  padding: 32px;
+  padding: 40px;
   min-height: calc(100vh - 120px);
 }
-
-/* Sidebar Styles */
-.layout-sidebar[data-v-71f2b206] {
-  position: sticky;
-  top: 32px;
-  height: fit-content;
-  max-height: calc(100vh - 120px);
-  overflow-y: auto;
+@media (max-width: 1200px) {
+.layout-container[data-v-71f2b206] {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    padding: 32px;
 }
-.layout-sidebar .sidebar-content[data-v-71f2b206] {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--color-border);
-  overflow: hidden;
 }
-.layout-sidebar .sidebar-header[data-v-71f2b206] {
-  padding: 20px 24px;
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-background-dark);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+@media (max-width: 768px) {
+.layout-container[data-v-71f2b206] {
+    padding: 24px;
+    gap: 24px;
 }
-.layout-sidebar .sidebar-header h3[data-v-71f2b206] {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--color-main-text);
-  margin: 0;
-}
-.layout-sidebar .sidebar-header .sidebar-count[data-v-71f2b206] {
-  background: var(--color-primary-element);
-  color: white;
-  padding: 4px 10px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 600;
-  min-width: 28px;
-  text-align: center;
-}
-.layout-sidebar .sidebar-inquiries[data-v-71f2b206] {
-  padding: 16px;
-}
-.layout-sidebar .sidebar-inquiry-item[data-v-71f2b206] {
-  margin-bottom: 12px;
-}
-.layout-sidebar .sidebar-inquiry-item[data-v-71f2b206]:last-child {
-  margin-bottom: 0;
-}
-.layout-sidebar .sidebar-inquiry-item.active[data-v-71f2b206] {
-  position: relative;
-}
-.layout-sidebar .sidebar-inquiry-item.active[data-v-71f2b206]::before {
-  content: "";
-  position: absolute;
-  left: -8px;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--color-primary-element);
-  border-radius: 2px;
 }
 
 /* Main Content Area */
 .layout-main.with-sidebar[data-v-71f2b206] {
-  grid-column: 2;
+  grid-column: 1;
 }
-.layout-main .header-area[data-v-71f2b206],
-.layout-main .main-area[data-v-71f2b206],
-.layout-main .footer-area[data-v-71f2b206] {
-  margin-bottom: 32px;
+.layout-main .header-section[data-v-71f2b206],
+.layout-main .main-section[data-v-71f2b206],
+.layout-main .footer-section[data-v-71f2b206] {
+  margin-bottom: 48px;
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  overflow: hidden;
 }
-.layout-main .header-area[data-v-71f2b206]:last-child,
-.layout-main .main-area[data-v-71f2b206]:last-child,
-.layout-main .footer-area[data-v-71f2b206]:last-child {
+.layout-main .header-section[data-v-71f2b206]:last-child,
+.layout-main .main-section[data-v-71f2b206]:last-child,
+.layout-main .footer-section[data-v-71f2b206]:last-child {
   margin-bottom: 0;
 }
 
-/* Header Area */
-.header-area .header-inquiries[data-v-71f2b206] {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 16px;
+/* Section Headers */
+.section-header[data-v-71f2b206] {
+  padding: 24px 32px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
 }
-
-/* Main Area */
-.main-area .main-inquiries[data-v-71f2b206] {
+.section-header .section-title[data-v-71f2b206] {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-/* Footer Area */
-.footer-area .footer-inquiries[data-v-71f2b206] {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 16px;
-}
-
-/* Empty State */
-.empty-main[data-v-71f2b206] {
-  text-align: center;
-  padding: 80px 24px;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  border: 1px solid var(--color-border);
-}
-.empty-main .empty-icon[data-v-71f2b206] {
-  font-size: 64px;
-  margin-bottom: 24px;
-  opacity: 0.3;
-}
-.empty-main h2[data-v-71f2b206] {
+  align-items: center;
+  gap: 12px;
   font-size: 24px;
-  font-weight: 600;
-  color: var(--color-main-text);
-  margin: 0 0 12px 0;
-}
-.empty-main p[data-v-71f2b206] {
-  color: var(--color-text-lighter);
-  font-size: 16px;
+  font-weight: 700;
   margin: 0;
 }
+.section-header .section-title .section-icon[data-v-71f2b206] {
+  font-size: 28px;
+  opacity: 0.9;
+}
+.section-header .section-title .section-count[data-v-71f2b206] {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: auto;
+}
 
-/* Modal Styles */
-.modal-overlay[data-v-71f2b206] {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  z-index: 9999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Inquiry Grids */
+.inquiry-grid[data-v-71f2b206] {
+  padding: 32px;
 }
-.modal-container[data-v-71f2b206] {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
+.inquiry-grid.header-grid[data-v-71f2b206] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
 }
-.modal-content[data-v-71f2b206] {
-  position: relative;
+.inquiry-grid.main-grid[data-v-71f2b206] {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+.inquiry-grid.footer-grid[data-v-71f2b206] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Type Groups */
+.type-groups[data-v-71f2b206] {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Type Header - Beautiful Design */
+.type-header[data-v-71f2b206] {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+  border-radius: 16px;
+  margin: 24px 32px 0;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+.type-header .type-header-content[data-v-71f2b206] {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 20px;
+  align-items: center;
+  padding: 24px;
+}
+@media (max-width: 768px) {
+.type-header .type-header-content[data-v-71f2b206] {
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+}
+.type-header .type-icon-wrapper[data-v-71f2b206] {
+  width: 64px;
+  height: 64px;
   background: white;
   border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 800px;
-  max-height: 90vh;
-  overflow-y: auto;
-  animation: modalSlideIn-71f2b206 0.3s ease;
-}
-.modal-close[data-v-71f2b206] {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: var(--color-background-hover);
-  border: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  z-index: 100;
-  transition: background-color 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-.modal-close[data-v-71f2b206]:hover {
-  background: var(--color-background-darker);
-}
-.modal-close svg[data-v-71f2b206] {
-  fill: var(--color-text-lighter);
-}
-
-/* Popup Styles */
-.popup-overlay[data-v-71f2b206] {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 9998;
-}
-.popup-container[data-v-71f2b206] {
-  position: absolute;
-  pointer-events: auto;
-  animation: popupFadeIn-71f2b206 0.2s ease;
-}
-.popup-content[data-v-71f2b206] {
-  position: relative;
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
-  border: 1px solid var(--color-border);
-  width: 300px;
-  max-height: 400px;
-  overflow-y: auto;
-}
-.popup-close[data-v-71f2b206] {
-  position: absolute;
-  top: 8px;
-  right: 8px;
+.type-header .type-icon-wrapper .type-icon[data-v-71f2b206] {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
-  background: var(--color-background-hover);
-  border: none;
+  color: #667eea;
+}
+.type-header .type-info .type-name[data-v-71f2b206] {
+  font-size: 22px;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 0 0 8px 0;
+}
+.type-header .type-info .type-description[data-v-71f2b206] {
+  font-size: 14px;
+  color: #718096;
+  margin: 0;
+  line-height: 1.5;
+}
+.type-header .type-stats[data-v-71f2b206] {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+.type-header .type-stats .type-badge[data-v-71f2b206] {
+  background: #667eea;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+.type-header .type-stats .type-family[data-v-71f2b206] {
+  background: rgba(102, 126, 234, 0.1);
+  color: #667eea;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.type-header .type-actions[data-v-71f2b206] {
+  padding: 0 24px 24px;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+.type-header .type-actions .type-action-btn[data-v-71f2b206] {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
+  background: transparent;
+  border: none;
+  color: #667eea;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 8px 16px;
   cursor: pointer;
-  z-index: 100;
-  transition: background-color 0.2s ease;
+  transition: all 0.2s ease;
 }
-.popup-close[data-v-71f2b206]:hover {
-  background: var(--color-background-darker);
+.type-header .type-actions .type-action-btn[data-v-71f2b206]:hover {
+  color: #764ba2;
 }
-.popup-close svg[data-v-71f2b206] {
-  fill: var(--color-text-lighter);
+.type-header .type-actions .type-action-btn:hover svg[data-v-71f2b206] {
+  transform: translateX(4px);
+}
+.type-header .type-actions .type-action-btn svg[data-v-71f2b206] {
+  fill: currentColor;
+  transition: transform 0.2s ease;
 }
 
-/* Animations */
-@keyframes modalSlideIn-71f2b206 {
-from {
-    opacity: 0;
-    transform: translateY(-20px);
+/* Type Inquiries */
+.type-inquiries[data-v-71f2b206] {
+  padding: 32px;
 }
-to {
-    opacity: 1;
-    transform: translateY(0);
+.type-inquiries .main-grid[data-v-71f2b206] {
+  padding: 0;
 }
+
+/* Right Sidebar */
+.layout-sidebar[data-v-71f2b206] {
+  position: sticky;
+  top: 40px;
+  height: fit-content;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
 }
-@keyframes popupFadeIn-71f2b206 {
-from {
-    opacity: 0;
-    transform: scale(0.9);
-}
-to {
-    opacity: 1;
-    transform: scale(1);
-}
-}
-/* Responsive Design */
 @media (max-width: 1200px) {
-.layout-container[data-v-71f2b206] {
-    grid-template-columns: 280px 1fr;
-    gap: 24px;
-    padding: 24px;
-}
-}
-@media (max-width: 992px) {
-.layout-container[data-v-71f2b206] {
-    grid-template-columns: 1fr;
-}
 .layout-sidebar[data-v-71f2b206] {
     position: static;
     max-height: none;
 }
+}
+.layout-sidebar .sidebar-header[data-v-71f2b206] {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  padding: 24px;
+  border-radius: 20px 20px 0 0;
+}
+.layout-sidebar .sidebar-header .sidebar-title[data-v-71f2b206] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+}
+.layout-sidebar .sidebar-header .sidebar-title .sidebar-icon[data-v-71f2b206] {
+  font-size: 24px;
+  opacity: 0.9;
+}
+.layout-sidebar .sidebar-header .sidebar-title .sidebar-count[data-v-71f2b206] {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 10px;
+  border-radius: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: auto;
+}
+.layout-sidebar .sidebar-header .sidebar-subtitle[data-v-71f2b206] {
+  font-size: 14px;
+  opacity: 0.9;
+  margin: 0;
+}
+.layout-sidebar .sidebar-content[data-v-71f2b206] {
+  background: white;
+  border-radius: 0 0 20px 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  border-top: none;
+  padding: 24px;
+}
+
+/* Sidebar Type Groups */
+.sidebar-type-groups[data-v-71f2b206] {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.sidebar-type-group[data-v-71f2b206] {
+  background: #f8fafc;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+.sidebar-type-group .sidebar-type-header[data-v-71f2b206] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.sidebar-type-group .sidebar-type-header .sidebar-type-icon[data-v-71f2b206] {
+  width: 24px;
+  height: 24px;
+  color: #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.sidebar-type-group .sidebar-type-header .sidebar-type-info[data-v-71f2b206] {
+  flex: 1;
+}
+.sidebar-type-group .sidebar-type-header .sidebar-type-info .sidebar-type-name[data-v-71f2b206] {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2d3748;
+  margin: 0 0 4px 0;
+}
+.sidebar-type-group .sidebar-type-header .sidebar-type-info .sidebar-type-count[data-v-71f2b206] {
+  background: #e2e8f0;
+  color: #4a5568;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.sidebar-type-group .sidebar-inquiries[data-v-71f2b206] {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
 .layout-main.with-sidebar[data-v-71f2b206] {
     grid-column: 1;
+}
+.inquiry-grid[data-v-71f2b206] {
+    padding: 24px;
+}
+.inquiry-grid.main-grid[data-v-71f2b206] {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+.type-header .type-header-content[data-v-71f2b206] {
+    padding: 20px;
 }
 }
 @media (max-width: 768px) {
 .layout-container[data-v-71f2b206] {
     padding: 16px;
 }
-.header-area[data-v-71f2b206],
-  .main-area[data-v-71f2b206],
-  .footer-area[data-v-71f2b206] {
-    margin-bottom: 24px;
+.section-header[data-v-71f2b206] {
+    padding: 20px 24px;
 }
-.modal-content[data-v-71f2b206] {
-    width: 95%;
-    max-height: 95vh;
+.section-header .section-title[data-v-71f2b206] {
+    font-size: 20px;
 }
+.inquiry-grid[data-v-71f2b206] {
+    padding: 20px;
 }
-@media (max-width: 480px) {
-.modal-content[data-v-71f2b206] {
-    border-radius: 12px;
+.inquiry-grid.main-grid[data-v-71f2b206] {
+    grid-template-columns: 1fr;
 }
-.popup-content[data-v-71f2b206] {
-    width: 280px;
+.inquiry-grid.header-grid[data-v-71f2b206], .inquiry-grid.footer-grid[data-v-71f2b206] {
+    grid-template-columns: 1fr;
 }
-}.inquiry-group-page[data-v-4f232cad] {
+.type-header[data-v-71f2b206] {
+    margin: 20px 24px 0;
+}
+}.inquiry-group-content[data-v-4f232cad] {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.inquiry-group-page[data-v-4f232cad] {
   width: 100%;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   min-height: 100vh;
@@ -5349,7 +5516,17 @@ to {
 /* Container for vignette + menu */
 .group-vignette-wrapper[data-v-4f232cad] {
   position: relative;
-  margin-bottom: 60px; /* Added space for the owner menu */
+  margin-bottom: 0px;
+}
+.vignette-container[data-v-4f232cad] {
+  position: relative;
+  margin-bottom: 60px; /* Space for the menu */
+}
+.vignette-container:hover .owner-menu-under[data-v-4f232cad] {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  pointer-events: auto; /* Enable clicks on menu */
 }
 .group-vignette[data-v-4f232cad] {
   background: white;
@@ -7483,12 +7660,12 @@ tr.file-picker__row td.row-name[data-v-1f96131b] {
 const appName = "agora";
 const appVersion = "1.6.0-beta";
 import { at as h$1, i as defineStore, bc as Settings, u as _export_sfc, d as defineComponent, l as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, k as toDisplayString, A as normalizeClass, b9 as NcActionButton, t as translate, _ as _export_sfc$1, e as createBlock, w as withCtx, C as createCommentVNode, s as resolveDynamicComponent, a as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, V as withDirectives, bg as vModelRadio, bh as withKeys, Z as withModifiers, F as useModel, bi as useSlots, J as watch, aw as logger, b as onMounted, aK as onBeforeUnmount, r as renderSlot, af as useCssVars, bj as useIsDarkTheme, B as unref, bk as mdiCreation, f as createVNode, a7 as createSlots, j as createTextVNode, N as NcIconSvgWrapper, Y as NcButton, ba as NcActions, $ as resolveComponent, K as mergeProps, W as vShow, n as normalizeProps, g as guardReactiveProps, bl as userStatus, L as NcAvatar, M as normalizeStyle, E as mergeModels, U as ref, bm as provide, I as warn, a1 as useTemplateRef, a0 as useAttrs, D as isLegacy, a2 as mdiCheck, a3 as mdiAlertCircle, G as Fragment$1, H as renderList, ae as NcLoadingIcon, bn as Teleport, bo as useRouter, bp as useRoute, b6 as emit, P as DateTime, R as RouterLink, b8 as onUnmounted, bq as translatePlural, br as TransitionGroup, aL as nextTick, q as _$2, bs as NcModal, b7 as shallowRef, bt as markRaw, bu as watchEffect, bv as getCurrentInstance, bw as customRef, bx as global, by as getAugmentedNamespace, aN as process$1, b5 as commonjsGlobal, bz as Buffer, S as getDefaultExportFromCjs, bA as vModelSelect, bB as toRaw, bC as subscribe, bD as unsubscribe, as as Transition, bE as onBeforeRouteUpdate, m as purify, aR as getCurrentUser, aT as v, aS as cancelableClient, bF as createRouter, bG as createWebHistory, bH as axios, h as createApp, p as pinia } from "./TernarySupportIcon.vue_vue_type_style_index_0_scoped_ef057a6f_lang-DP0cV9SN.chunk.mjs";
-import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, o as options, b as useInquiriesStore, i as useInquiryStore, j as orderBy, k as createPermissionContextForContent, C as ContentType, l as canTransfer, m as canDelete, n as canArchive, I as InquiryGeneralIcons, q as useInquiryGroupsStore, r as NavigationIcons, s as showError$1, t as showSuccess, v as useInquiryGroupStore, E as Event$1, w as accessFamilyMenu, x as NcEmptyContent, S as StatusIcons, B as BadgeIcons, y as canSupport, z as canComment, A as sortTitlesMapping, D as lodashExports, F as appSettings, G as showInfo, H as canEdit, J as canRestore, K as getAvailableResponseTypesWithPermissions, M as getAvailableTransformTypesWithPermissions, O as canViewToggle, P as validators, Q as inquiries, R as commonjsRequire, T as useAttachmentsStore, U as useCommentsStore, V as useSharesStore, d as useAppSettingsStore, W as moment, X as ShareIcons, Y as inquiryLinks, Z as canShare, _ as canUseResource } from "./NcDashboardWidget-Bu7bWoUK-BK8gV_Y5.chunk.mjs";
-import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-jhbcW3xp.chunk.mjs";
-import { b as NcAppNavigationItem, u as useAppSettingsDialog, _ as _sfc_main$1Q, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, C as ChevronRightIcon, O as Options, P as PlusIcon, k as NcDateTimePickerNative, l as NcAppSidebar, a as NcAppSettingsDialog, m as NcContent } from "./index-B2AuYrEu.chunk.mjs";
-import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getAvailableInquiryGroupTypesForCreation, d as getInquiryGroupTypeOptions, e as getInquiryGroupTypeData, f as getInquiryTypesByFamily, h as getInquiryTypesForFamily, i as getInquiryItemData, j as getInquiryGroupTypesByFamily, k as getInquiryGroupTypesForFamily, l as isInquiryFinalStatus, m as getAvailableFields, n as getAvailableGroupFields } from "./InquiryHelper-DRGz3hB3.chunk.mjs";
+import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, o as options, b as useInquiriesStore, i as useInquiryStore, j as orderBy, k as createPermissionContextForContent, C as ContentType, l as canTransfer, m as canDelete, n as canArchive, I as InquiryGeneralIcons, q as useInquiryGroupsStore, r as NavigationIcons, s as showError$1, t as showSuccess, v as useInquiryGroupStore, E as Event$1, w as accessFamilyMenu, x as NcEmptyContent, S as StatusIcons, B as BadgeIcons, y as canSupport, z as canComment, A as sortTitlesMapping, D as lodashExports, F as appSettings, G as showInfo, H as canEdit, J as canRestore, K as getAvailableResponseTypesWithPermissions, M as getAvailableTransformTypesWithPermissions, O as canViewToggle, P as validators, Q as inquiries, R as commonjsRequire, T as useAttachmentsStore, U as useCommentsStore, V as useSharesStore, d as useAppSettingsStore, W as moment, X as ShareIcons, Y as inquiryLinks, Z as canShare, _ as canUseResource } from "./NcDashboardWidget-Bu7bWoUK-C7O0MLXy.chunk.mjs";
+import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-YVjul4oD.chunk.mjs";
+import { b as NcAppNavigationItem, u as useAppSettingsDialog, _ as _sfc_main$1Q, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as NcActionInput, i as find$1, r as registerCustomProtocol, t as tokenize, j as reset, C as ChevronRightIcon, O as Options, P as PlusIcon, k as NcDateTimePickerNative, l as NcAppSidebar, a as NcAppSettingsDialog, m as NcContent } from "./index-D2Etf6uV.chunk.mjs";
+import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getAvailableInquiryGroupTypesForCreation, d as getInquiryGroupTypeOptions, e as getInquiryGroupTypeData, f as getInquiryTypesByFamily, h as getInquiryTypesForFamily, i as getInquiryItemData, j as getInquiryGroupTypesByFamily, k as getInquiryGroupTypesForFamily, l as isInquiryFinalStatus, m as getAvailableFields, n as getAvailableGroupFields } from "./InquiryHelper-DWmlj8Bi.chunk.mjs";
 import { _ as _sfc_main$1R, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1S, e as NcRichText, b as NcInputField } from "./NcRichText-CETsOVBU-DEd7DX2A.chunk.mjs";
-import { R as RadioGroupDiv, C as CardDiv, N as NcNoteCard } from "./markdown-BKJ3gQI_.chunk.mjs";
+import { R as RadioGroupDiv, C as CardDiv, N as NcNoteCard } from "./markdown-NJv_ju98.chunk.mjs";
 import { A as AgoraAppIcon } from "./AgoraAppIcon-CUV4jUNy.chunk.mjs";
 const setCookie = (cookieName, cookieValue = "", cookieExpiration = 360) => {
   const expirationTime = /* @__PURE__ */ new Date();
@@ -9130,15 +9307,15 @@ const _hoisted_7$o = {
   key: 1,
   class: "list-item-details__extra"
 };
-const _hoisted_8$m = {
+const _hoisted_8$n = {
   key: 1,
   class: "list-item-details__indicator"
 };
-const _hoisted_9$l = {
+const _hoisted_9$m = {
   key: 0,
   class: "list-item-content__extra-actions"
 };
-const _hoisted_10$l = {
+const _hoisted_10$m = {
   key: 1,
   class: "list-item__extra"
 };
@@ -9200,7 +9377,7 @@ function _sfc_render$1B(_ctx, _cache, $props, $setup, $data, $options) {
                     class: "list-item-details__counter",
                     type: $props.counterType
                   }, null, 8, ["count", "active", "type"])) : createCommentVNode("", true),
-                  $data.hasIndicator ? (openBlock(), createElementBlock("span", _hoisted_8$m, [
+                  $data.hasIndicator ? (openBlock(), createElementBlock("span", _hoisted_8$n, [
                     renderSlot(_ctx.$slots, "indicator", {}, void 0, true)
                   ])) : createCommentVNode("", true)
                 ], 512)), [
@@ -9209,7 +9386,7 @@ function _sfc_render$1B(_ctx, _cache, $props, $setup, $data, $options) {
               ])
             ])
           ], 40, _hoisted_1$1k),
-          _ctx.$slots["extra-actions"] ? (openBlock(), createElementBlock("div", _hoisted_9$l, [
+          _ctx.$slots["extra-actions"] ? (openBlock(), createElementBlock("div", _hoisted_9$m, [
             renderSlot(_ctx.$slots, "extra-actions", {}, void 0, true)
           ])) : createCommentVNode("", true),
           withDirectives(createBaseVNode("div", {
@@ -9239,7 +9416,7 @@ function _sfc_render$1B(_ctx, _cache, $props, $setup, $data, $options) {
           ], 544), [
             [vShow, $props.forceDisplayActions || $data.displayActionsOnHoverFocus]
           ]),
-          _ctx.$slots.extra ? (openBlock(), createElementBlock("div", _hoisted_10$l, [
+          _ctx.$slots.extra ? (openBlock(), createElementBlock("div", _hoisted_10$m, [
             renderSlot(_ctx.$slots, "extra", {}, void 0, true)
           ])) : createCommentVNode("", true)
         ], 34)
@@ -10997,11 +11174,10 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
   __name: "InquiryGroupCreateDlg",
   props: {
     inquiryGroupType: { type: null, required: false, default: null },
-    responseType: { type: [String, null], required: false, default: null },
-    selectedMode: { type: String, required: false, default: null },
+    parentGroupId: { type: [String, Number, null], required: false, default: null },
     availableGroups: { type: Array, required: false, default: () => [] },
-    parentInquiryId: { type: [String, Number, null], required: false, default: null },
-    defaultTitle: { type: [String, null], required: false, default: null }
+    defaultTitle: { type: [String, null], required: false, default: null },
+    isSubGroup: { type: Boolean, required: false, default: false }
   },
   emits: ["close", "added", "update:selected-groups"],
   setup(__props, { expose: __expose, emit: __emit }) {
@@ -11014,40 +11190,113 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
     const inquiryId = ref(null);
     const adding = ref(false);
     const accessType = ref("user");
-    const selectedGroup = ref(null);
-    const inquiryGroupTypes = computed(() => {
+    const selectedNextcloudGroup = ref(null);
+    const localInquiryGroupType = ref("");
+    const allInquiryGroupTypes = computed(() => {
       const types = sessionStore.appSettings.inquiryGroupTypeTab || [];
-      return types.filter((type) => type.is_root === true);
+      return types;
     });
-    const availableInquiryGroupTypes = computed(() => getAvailableInquiryGroupTypesForCreation(inquiryGroupTypes.value));
-    const inquiryGroupTypeOptions = computed(() => getInquiryGroupTypeOptions(availableInquiryGroupTypes.value));
-    const localInquiryGroupType = ref(availableInquiryGroupTypes.value[0]?.inquiry_type || "");
-    const selectedType = computed(() => {
+    const allowedResponseGroupTypes = computed(() => {
+      if (props2.isSubGroup && props2.parentGroupId && !props2.inquiryGroupType) ;
+      return [];
+    });
+    const availableInquiryGroupTypes = computed(() => {
+      if (props2.inquiryGroupType && !props2.parentGroupId && !props2.isSubGroup) {
+        return [props2.inquiryGroupType];
+      }
+      if (props2.inquiryGroupType && props2.parentGroupId && !props2.isSubGroup) {
+        return [props2.inquiryGroupType];
+      }
+      if (props2.parentGroupId && props2.isSubGroup && !props2.inquiryGroupType) {
+        if (allowedResponseGroupTypes.value.length > 0) {
+          return getAvailableInquiryGroupTypesForCreation(allowedResponseGroupTypes.value);
+        }
+        const rootTypes2 = allInquiryGroupTypes.value.filter((type) => type.is_root === true);
+        return getAvailableInquiryGroupTypesForCreation(rootTypes2);
+      }
+      const rootTypes = allInquiryGroupTypes.value.filter((type) => type.is_root === true);
+      return getAvailableInquiryGroupTypesForCreation(rootTypes);
+    });
+    const inquiryGroupTypeOptions = computed(
+      () => getInquiryGroupTypeOptions(availableInquiryGroupTypes.value)
+    );
+    const selectedInquiryGroupType = computed(() => {
+      console.log(" PROPS GROUP TYPE ", props2.inquiryGroupType);
+      console.log(" localInq GROUP TYPE ", localInquiryGroupType);
+      console.log(" Available GROUP TYPE ", availableInquiryGroupTypes.value[0]?.group_type);
       if (props2.inquiryGroupType) {
-        return props2.inquiryGroupType.group_type;
+        return props2.inquiryGroupType;
       }
-      if (props2.responseType) {
-        return props2.responseType;
-      }
-      return localInquiryGroupType.value;
+      return localInquiryGroupType.value || availableInquiryGroupTypes.value[0]?.group_type;
     });
-    const currentInquiryGroupTypeData = computed(() => getInquiryGroupTypeData(selectedType.value, inquiryGroupTypes.value));
-    const hasPredefinedType = computed(() => !!(props2.inquiryGroupType || props2.responseType));
-    const selectGroup = (group2) => {
-      selectedGroup.value = group2;
+    const currentInquiryGroupTypeData = computed(
+      () => getInquiryGroupTypeData(selectedInquiryGroupType.value, allInquiryGroupTypes.value)
+    );
+    const creationMode = computed(() => {
+      console.log(" PROPS INQUIRY GORUOP", props2.inquiryGroupType);
+      console.log(" PARENT.ID", props2?.parentGroupId);
+      console.log("IS SUB GROUP", props2?.isSubGroup);
+      if (props2.inquiryGroupType && !props2.parentGroupId && !props2.isSubGroup) {
+        return "direct-creation";
+      }
+      if (props2.inquiryGroupType && props2.parentGroupId && !props2.isSubGroup) {
+        return "child-creation";
+      }
+      if (props2.parentGroupId && props2.isSubGroup) {
+        return "subgroup-creation";
+      }
+      return "free-creation";
+    });
+    const showInquiryGroupTypeSelector = computed(() => {
+      return creationMode.value === "subgroup-creation" && availableInquiryGroupTypes.value.length > 1;
+    });
+    const dialogTitle = computed(() => {
+      switch (creationMode.value) {
+        case "direct-creation":
+          return translate("agora", "Create {type} Group", {
+            type: props2.inquiryGroupType?.label || ""
+          });
+        case "child-creation":
+          return translate("agora", "Create {type} Child Group", {
+            type: props2.inquiryGroupType?.label || ""
+          });
+        case "subgroup-creation":
+          return translate("agora", "Add sub group");
+        default:
+          return translate("agora", "Create New Group");
+      }
+    });
+    const contextDescription = computed(() => {
+      switch (creationMode.value) {
+        case "direct-creation":
+          return translate("agora", "Creating a new {type} group", {
+            type: props2.inquiryGroupType?.label || ""
+          });
+        case "child-creation":
+          return translate("agora", "Creating a {type} group as a child of the parent group", {
+            type: props2.inquiryGroupType?.label || ""
+          });
+        case "subgroup-creation":
+          return translate("agora", "Add an allowed response group to the parent group");
+        default:
+          return translate("agora", "Create a new inquiry group");
+      }
+    });
+    const selectNextcloudGroup = (group2) => {
+      selectedNextcloudGroup.value = group2;
       emit2("update:selected-groups", group2 ? [group2] : []);
     };
     const updateLocalInquiryGroupType = (newType) => {
       localInquiryGroupType.value = newType;
     };
-    watch(() => props2.inquiryGroupType, (newType) => {
-      if (newType && newType.inquiry_type) {
-        localInquiryGroupType.value = newType.inquiry_type;
-      }
-    }, { immediate: true });
     watch(() => props2.defaultTitle, (newTitle) => {
       if (newTitle) {
         inquiryTitle.value = newTitle;
+      }
+    }, { immediate: true });
+    watch(availableInquiryGroupTypes, (newTypes) => {
+      if (newTypes.length > 0 && !localInquiryGroupType.value) {
+        localInquiryGroupType.value = newTypes[0].group_type;
       }
     }, { immediate: true });
     const titleIsEmpty = computed(() => inquiryTitle.value.trim() === "");
@@ -11055,35 +11304,58 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
     async function addGroupInquiry() {
       try {
         adding.value = true;
+        if (!selectedInquiryGroupType.value) {
+          showError$1(translate("agora", "Please select a group type"));
+          return;
+        }
+        if (titleIsEmpty.value) {
+          showError$1(translate("agora", "Please enter a title"));
+          return;
+        }
+        let typeSelected = selectedInquiryGroupType;
+        console.log("SLECT INQUIRY GROUP TYPE:", selectedInquiryGroupType.value);
+        console.log("LOCAL SLECT INQUIRY GROUP TYPE:", localInquiryGroupType.value);
+        if (localInquiryGroupType.value) typeSelected = localInquiryGroupType.value;
+        console.log("APRES SLECT INQUIRY GROUP TYPE:", selectedInquiryGroupType.value);
         const inquiryData = {
-          type: selectedType.value,
+          type: typeSelected,
           title: inquiryTitle.value.trim()
         };
-        if (props2.parentInquiryId) {
-          inquiryData.parentId = props2.parentInquiryId;
+        if (props2.parentGroupId) {
+          inquiryData.parentId = props2.parentGroupId;
         }
-        if (accessType.value === "groups" && selectedGroup.value) {
-          inquiryData.ownedGroup = selectedGroup.value;
+        if (accessType.value === "groups" && selectedNextcloudGroup.value) {
+          inquiryData.ownedGroup = selectedNextcloudGroup.value;
         }
-        console.log(" BEFORE ADD ");
+        console.log("Creating inquiry group with data:", inquiryData);
+        console.log("Creation mode:", creationMode.value);
         const inquiry = await inquiryGroupStore.add(inquiryData);
-        console.log(" AFTER ADD ", inquiry);
+        console.log("Inquiry group created:", inquiry);
         if (inquiry) {
           inquiryId.value = inquiry.id;
-          showSuccess(
-            translate("agora", '"{inquiryTitle}" group has been added', {
+          let successMessage = translate("agora", '"{inquiryTitle}" group has been created', {
+            inquiryTitle: inquiry.title
+          });
+          if (creationMode.value === "subgroup-creation") {
+            successMessage = translate("agora", 'Allowed response "{inquiryTitle}" has been added', {
               inquiryTitle: inquiry.title
-            })
-          );
+            });
+          } else if (creationMode.value === "child-creation") {
+            successMessage = translate("agora", 'Child group "{inquiryTitle}" has been created', {
+              inquiryTitle: inquiry.title
+            });
+          }
+          showSuccess(successMessage);
           emit2("added", {
             id: inquiry.id,
             title: inquiry.title
           });
           resetInquiry();
         }
-      } catch {
+      } catch (error) {
+        console.error("Error creating inquiry group:", error);
         showError$1(
-          translate("agora", 'Error while creating group Inquiry "{inquiryTitle}"', {
+          translate("agora", 'Error while creating group "{inquiryTitle}"', {
             inquiryTitle: inquiryTitle.value
           })
         );
@@ -11095,10 +11367,10 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
       inquiryId.value = null;
       inquiryTitle.value = "";
       accessType.value = "user";
-      selectedGroup.value = null;
+      selectedNextcloudGroup.value = null;
       emit2("update:selected-groups", []);
     }
-    const __returned__ = { props: props2, emit: emit2, inquiryGroupStore, sessionStore, inquiryTitle, inquiryId, adding, accessType, selectedGroup, inquiryGroupTypes, availableInquiryGroupTypes, inquiryGroupTypeOptions, localInquiryGroupType, selectedType, currentInquiryGroupTypeData, hasPredefinedType, selectGroup, updateLocalInquiryGroupType, titleIsEmpty, disableAddButton, addGroupInquiry, resetInquiry, get t() {
+    const __returned__ = { props: props2, emit: emit2, inquiryGroupStore, sessionStore, inquiryTitle, inquiryId, adding, accessType, selectedNextcloudGroup, localInquiryGroupType, allInquiryGroupTypes, allowedResponseGroupTypes, availableInquiryGroupTypes, inquiryGroupTypeOptions, selectedInquiryGroupType, currentInquiryGroupTypeData, creationMode, showInquiryGroupTypeSelector, dialogTitle, contextDescription, selectNextcloudGroup, updateLocalInquiryGroupType, titleIsEmpty, disableAddButton, addGroupInquiry, resetInquiry, get t() {
       return translate;
     }, get NcButton() {
       return NcButton;
@@ -11119,19 +11391,33 @@ const _sfc_main$1o = /* @__PURE__ */ defineComponent({
     return __returned__;
   }
 });
-const _hoisted_1$15 = { class: "access-settings" };
+const _hoisted_1$15 = { class: "dialog-header" };
 const _hoisted_2$P = {
   key: 0,
-  class: "groups-selection"
+  class: "mode-badge response"
 };
-const _hoisted_3$N = { class: "groups-title" };
-const _hoisted_4$J = { class: "groups-list" };
-const _hoisted_5$q = { class: "selected-type" };
-const _hoisted_6$m = {
+const _hoisted_3$N = {
+  key: 1,
+  class: "mode-badge child"
+};
+const _hoisted_4$J = {
+  key: 2,
+  class: "mode-badge creation"
+};
+const _hoisted_5$q = { class: "context-description" };
+const _hoisted_6$m = { class: "access-settings" };
+const _hoisted_7$m = {
+  key: 0,
+  class: "nextcloud-groups-selection"
+};
+const _hoisted_8$m = { class: "groups-title" };
+const _hoisted_9$l = { class: "groups-list" };
+const _hoisted_10$l = { class: "selected-type" };
+const _hoisted_11$l = {
   key: 0,
   class: "type-description"
 };
-const _hoisted_7$m = { class: "create-buttons" };
+const _hoisted_12$k = { class: "create-buttons" };
 function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", {
     class: "dialog-overlay",
@@ -11143,8 +11429,47 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
       onClick: _cache[5] || (_cache[5] = withModifiers(() => {
       }, ["stop"]))
     }, [
-      createCommentVNode(" Access Configuration "),
-      $props.availableGroups.length > 0 ? (openBlock(), createBlock($setup["ConfigBox"], {
+      createCommentVNode(" Dialog Header "),
+      createBaseVNode("div", _hoisted_1$15, [
+        createBaseVNode(
+          "h3",
+          null,
+          toDisplayString($setup.dialogTitle),
+          1
+          /* TEXT */
+        ),
+        $setup.creationMode === "subgroup-creation" ? (openBlock(), createElementBlock(
+          "div",
+          _hoisted_2$P,
+          toDisplayString($setup.t("agora", "SubGroup")),
+          1
+          /* TEXT */
+        )) : $setup.creationMode === "child-creation" ? (openBlock(), createElementBlock(
+          "div",
+          _hoisted_3$N,
+          toDisplayString($setup.t("agora", "Child Group")),
+          1
+          /* TEXT */
+        )) : $setup.creationMode === "direct-creation" ? (openBlock(), createElementBlock(
+          "div",
+          _hoisted_4$J,
+          toDisplayString($setup.t("agora", "New Group")),
+          1
+          /* TEXT */
+        )) : createCommentVNode("v-if", true)
+      ]),
+      createCommentVNode(" Context description "),
+      createBaseVNode("div", _hoisted_5$q, [
+        createBaseVNode(
+          "p",
+          null,
+          toDisplayString($setup.contextDescription),
+          1
+          /* TEXT */
+        )
+      ]),
+      createCommentVNode(" Access Configuration - Groups Nextcloud "),
+      $setup.props.availableGroups && $setup.props.availableGroups.length > 0 ? (openBlock(), createBlock($setup["ConfigBox"], {
         key: 0,
         name: $setup.t("agora", "Access Settings")
       }, {
@@ -11152,18 +11477,18 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
           (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.AccountGroup)))
         ]),
         default: withCtx(() => [
-          createBaseVNode("div", _hoisted_1$15, [
+          createBaseVNode("div", _hoisted_6$m, [
             createVNode($setup["NcRadioGroup"], {
               "model-value": $setup.accessType,
               class: "access-radio-group",
-              description: $setup.t("agora", "Choose who is opening this inquiry"),
+              description: $setup.t("agora", "Choose who can access this group"),
               "onUpdate:modelValue": _cache[0] || (_cache[0] = ($event) => $setup.accessType = $event)
             }, {
               default: withCtx(() => [
                 createVNode($setup["NcCheckboxRadioSwitch"], { value: "user" }, {
                   default: withCtx(() => [
                     createTextVNode(
-                      toDisplayString($setup.t("agora", "Only me (personal inquiry)")),
+                      toDisplayString($setup.t("agora", "Only me (personal group)")),
                       1
                       /* TEXT */
                     )
@@ -11174,7 +11499,7 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
                 createVNode($setup["NcCheckboxRadioSwitch"], { value: "groups" }, {
                   default: withCtx(() => [
                     createTextVNode(
-                      toDisplayString($setup.t("agora", "Open with this group")),
+                      toDisplayString($setup.t("agora", "Share with Nextcloud group")),
                       1
                       /* TEXT */
                     )
@@ -11186,26 +11511,26 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
               _: 1
               /* STABLE */
             }, 8, ["model-value", "description"]),
-            createCommentVNode(" Group Selection "),
-            $setup.accessType === "groups" ? (openBlock(), createElementBlock("div", _hoisted_2$P, [
+            createCommentVNode(" Nextcloud Group Selection "),
+            $setup.accessType === "groups" ? (openBlock(), createElementBlock("div", _hoisted_7$m, [
               createBaseVNode(
                 "h4",
-                _hoisted_3$N,
-                toDisplayString($setup.t("agora", "Select groups")),
+                _hoisted_8$m,
+                toDisplayString($setup.t("agora", "Select Nextcloud group")),
                 1
                 /* TEXT */
               ),
-              createBaseVNode("div", _hoisted_4$J, [
+              createBaseVNode("div", _hoisted_9$l, [
                 createVNode($setup["NcRadioGroup"], {
-                  "model-value": $setup.selectedGroup,
-                  description: $setup.t("agora", "Choose which of your groups can access this inquiry"),
-                  "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.selectGroup($event))
+                  "model-value": $setup.selectedNextcloudGroup,
+                  description: $setup.t("agora", "Choose which Nextcloud group can access this inquiry group"),
+                  "onUpdate:modelValue": _cache[1] || (_cache[1] = ($event) => $setup.selectNextcloudGroup($event))
                 }, {
                   default: withCtx(() => [
                     (openBlock(true), createElementBlock(
                       Fragment$1,
                       null,
-                      renderList($props.availableGroups, (group2) => {
+                      renderList($setup.props.availableGroups, (group2) => {
                         return openBlock(), createElementBlock("div", {
                           key: group2,
                           class: "group-item"
@@ -11213,7 +11538,7 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
                           createVNode($setup["NcCheckboxRadioSwitch"], {
                             value: group2,
                             type: "radio",
-                            name: "group-selection"
+                            name: "nextcloud-group-selection"
                           }, {
                             default: withCtx(() => [
                               createTextVNode(
@@ -11253,9 +11578,9 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
             "model-value": $setup.inquiryTitle,
             focus: "",
             type: "text",
-            placeholder: $setup.t("agora", "Enter title"),
-            "helper-text": $setup.t("agora", "Choose a meaningful title for your inquiry"),
-            label: $setup.t("agora", "Enter title"),
+            placeholder: $setup.t("agora", "Enter group title"),
+            "helper-text": $setup.t("agora", "Choose a meaningful title for your group"),
+            label: $setup.t("agora", "Group Title"),
             "onUpdate:modelValue": _cache[2] || (_cache[2] = ($event) => $setup.inquiryTitle = $event),
             onSubmit: $setup.addGroupInquiry
           }, null, 8, ["model-value", "placeholder", "helper-text", "label"])
@@ -11263,11 +11588,10 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
         _: 1
         /* STABLE */
       }, 8, ["name"]),
-      createCommentVNode(" Inquiry Type Selector "),
-      !$setup.hasPredefinedType ? (openBlock(), createBlock($setup["ConfigBox"], {
+      $setup.showInquiryGroupTypeSelector ? (openBlock(), createBlock($setup["ConfigBox"], {
         key: 1,
-        name: $setup.t("agora", "Inquiry type"),
-        label: $setup.t("agora", "Inquiry type")
+        name: $setup.t("agora", "Group Type"),
+        label: $setup.t("agora", "Select group type")
       }, {
         icon: withCtx(() => [
           (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Check)))
@@ -11281,45 +11605,37 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
         ]),
         _: 1
         /* STABLE */
-      }, 8, ["name", "label"])) : (openBlock(), createElementBlock(
-        Fragment$1,
-        { key: 2 },
-        [
-          createCommentVNode(" Selected Type Display "),
-          createVNode($setup["ConfigBox"], {
-            name: $setup.t("agora", "Inquiry  group type"),
-            label: $setup.t("agora", "Inquiry group type")
-          }, {
-            icon: withCtx(() => [
-              (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Check)))
-            ]),
-            default: withCtx(() => [
-              createBaseVNode("div", _hoisted_5$q, [
-                createBaseVNode(
-                  "strong",
-                  null,
-                  toDisplayString($setup.currentInquiryGroupTypeData?.label),
-                  1
-                  /* TEXT */
-                ),
-                $setup.currentInquiryGroupTypeData?.description ? (openBlock(), createElementBlock(
-                  "p",
-                  _hoisted_6$m,
-                  toDisplayString($setup.currentInquiryGroupTypeData.description),
-                  1
-                  /* TEXT */
-                )) : createCommentVNode("v-if", true)
-              ])
-            ]),
-            _: 1
-            /* STABLE */
-          }, 8, ["name", "label"])
-        ],
-        2112
-        /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
-      )),
+      }, 8, ["name", "label"])) : $setup.currentInquiryGroupTypeData ? (openBlock(), createBlock($setup["ConfigBox"], {
+        key: 2,
+        name: $setup.t("agora", "Group Type"),
+        label: $setup.t("agora", "Group type")
+      }, {
+        icon: withCtx(() => [
+          (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Check)))
+        ]),
+        default: withCtx(() => [
+          createBaseVNode("div", _hoisted_10$l, [
+            createBaseVNode(
+              "strong",
+              null,
+              toDisplayString($setup.currentInquiryGroupTypeData.label),
+              1
+              /* TEXT */
+            ),
+            $setup.currentInquiryGroupTypeData.description ? (openBlock(), createElementBlock(
+              "p",
+              _hoisted_11$l,
+              toDisplayString($setup.currentInquiryGroupTypeData.description),
+              1
+              /* TEXT */
+            )) : createCommentVNode("v-if", true)
+          ])
+        ]),
+        _: 1
+        /* STABLE */
+      }, 8, ["name", "label"])) : createCommentVNode("v-if", true),
       createCommentVNode(" Buttons "),
-      createBaseVNode("div", _hoisted_7$m, [
+      createBaseVNode("div", _hoisted_12$k, [
         createVNode($setup["NcButton"], {
           onClick: _cache[4] || (_cache[4] = ($event) => $setup.emit("close"))
         }, {
@@ -11340,7 +11656,7 @@ function _sfc_render$1o(_ctx, _cache, $props, $setup, $data, $options) {
         }, {
           default: withCtx(() => [
             createTextVNode(
-              toDisplayString($setup.adding ? $setup.t("agora", "Creating...") : $setup.t("agora", "Create group Inquiry")),
+              toDisplayString($setup.adding ? $setup.t("agora", "Creating...") : $setup.creationMode === "subgroup-creation" ? $setup.t("agora", "Add Allowed Response") : $setup.t("agora", "Create Group")),
               1
               /* TEXT */
             )
@@ -12356,19 +12672,19 @@ const _hoisted_20$d = {
 const _hoisted_21$c = { class: "quorum-target" };
 const _hoisted_22$c = { class: "quorum-label" };
 const _hoisted_23$b = ["title"];
-const _hoisted_24$9 = {
+const _hoisted_24$a = {
   key: 5,
   class: "metadata-item"
 };
-const _hoisted_25$9 = { class: "metadata-value" };
-const _hoisted_26$9 = { class: "actions" };
-const _hoisted_27$9 = { class: "grid-card" };
-const _hoisted_28$8 = { class: "grid-cover-container" };
-const _hoisted_29$8 = {
+const _hoisted_25$a = { class: "metadata-value" };
+const _hoisted_26$a = { class: "actions" };
+const _hoisted_27$a = { class: "grid-card" };
+const _hoisted_28$9 = { class: "grid-cover-container" };
+const _hoisted_29$9 = {
   key: 0,
   class: "grid-cover"
 };
-const _hoisted_30$6 = ["src", "alt"];
+const _hoisted_30$7 = ["src", "alt"];
 const _hoisted_31$6 = { class: "user-avatar-top" };
 const _hoisted_32$5 = { class: "first-line" };
 const _hoisted_33$5 = { class: "type-title" };
@@ -12679,18 +12995,18 @@ function _sfc_render$1j(_ctx, _cache, $props, $setup, $data, $options) {
               size: 32
             }, null, 8, ["user"]),
             createCommentVNode(" Updated and Expire only when no vote period "),
-            !$setup.hasVotePeriod && $props.inquiry.configuration.expire ? (openBlock(), createElementBlock("div", _hoisted_24$9, [
+            !$setup.hasVotePeriod && $props.inquiry.configuration.expire ? (openBlock(), createElementBlock("div", _hoisted_24$a, [
               (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Expiration), { size: 12 })),
               createBaseVNode(
                 "span",
-                _hoisted_25$9,
+                _hoisted_25$a,
                 toDisplayString($setup.timeExpirationRelative),
                 1
                 /* TEXT */
               )
             ])) : createCommentVNode("v-if", true)
           ]),
-          createBaseVNode("div", _hoisted_26$9, [
+          createBaseVNode("div", _hoisted_26$a, [
             renderSlot(_ctx.$slots, "actions", {}, void 0, true)
           ])
         ],
@@ -12701,15 +13017,15 @@ function _sfc_render$1j(_ctx, _cache, $props, $setup, $data, $options) {
         { key: 1 },
         [
           createCommentVNode(" Grid Mode "),
-          createBaseVNode("div", _hoisted_27$9, [
+          createBaseVNode("div", _hoisted_27$a, [
             createCommentVNode(" Cover Image with User Avatar "),
-            createBaseVNode("div", _hoisted_28$8, [
-              $setup.currentCoverUrl ? (openBlock(), createElementBlock("div", _hoisted_29$8, [
+            createBaseVNode("div", _hoisted_28$9, [
+              $setup.currentCoverUrl ? (openBlock(), createElementBlock("div", _hoisted_29$9, [
                 createBaseVNode("img", {
                   src: $setup.currentCoverUrl,
                   alt: $props.inquiry.title,
                   class: "cover-image"
-                }, null, 8, _hoisted_30$6)
+                }, null, 8, _hoisted_30$7)
               ])) : createCommentVNode("v-if", true),
               createCommentVNode(" User Avatar top left "),
               createBaseVNode("div", _hoisted_31$6, [
@@ -14934,12 +15250,12 @@ const _hoisted_22$a = {
   class: "inquiry-section"
 };
 const _hoisted_23$9 = { class: "section-title" };
-const _hoisted_24$8 = { class: "inquiry-types-grid" };
-const _hoisted_25$8 = ["onClick"];
-const _hoisted_26$8 = { class: "inquiry-type-card__icon" };
-const _hoisted_27$8 = { class: "inquiry-type-card__content" };
-const _hoisted_28$7 = { class: "inquiry-type-card__title" };
-const _hoisted_29$7 = {
+const _hoisted_24$9 = { class: "inquiry-types-grid" };
+const _hoisted_25$9 = ["onClick"];
+const _hoisted_26$9 = { class: "inquiry-type-card__icon" };
+const _hoisted_27$9 = { class: "inquiry-type-card__content" };
+const _hoisted_28$8 = { class: "inquiry-type-card__title" };
+const _hoisted_29$8 = {
   key: 0,
   class: "inquiry-type-card__description"
 };
@@ -15146,7 +15462,7 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                 1
                 /* TEXT */
               ),
-              createBaseVNode("div", _hoisted_24$8, [
+              createBaseVNode("div", _hoisted_24$9, [
                 (openBlock(true), createElementBlock(
                   Fragment$1,
                   null,
@@ -15156,26 +15472,26 @@ function _sfc_render$19(_ctx, _cache, $props, $setup, $data, $options) {
                       class: "inquiry-type-card",
                       onClick: ($event) => $setup.createInquiryGroup(inquiryGroupType)
                     }, [
-                      createBaseVNode("div", _hoisted_26$8, [
+                      createBaseVNode("div", _hoisted_26$9, [
                         (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryGroupTypeData(inquiryGroupType.group_type, $setup.allInquiryGroupTypes).icon)))
                       ]),
-                      createBaseVNode("div", _hoisted_27$8, [
+                      createBaseVNode("div", _hoisted_27$9, [
                         createBaseVNode(
                           "h4",
-                          _hoisted_28$7,
+                          _hoisted_28$8,
                           toDisplayString($setup.t("agora", $setup.getInquiryGroupTypeData(inquiryGroupType.group_type, $setup.allInquiryGroupTypes).label)),
                           1
                           /* TEXT */
                         ),
                         $setup.getInquiryGroupTypeData(inquiryGroupType.group_type, $setup.allInquiryGroupTypes).description ? (openBlock(), createElementBlock(
                           "p",
-                          _hoisted_29$7,
+                          _hoisted_29$8,
                           toDisplayString($setup.t("agora", $setup.getInquiryGroupTypeData(inquiryGroupType.group_type, $setup.allInquiryGroupTypes).description)),
                           1
                           /* TEXT */
                         )) : createCommentVNode("v-if", true)
                       ])
-                    ], 8, _hoisted_25$8);
+                    ], 8, _hoisted_25$9);
                   }),
                   128
                   /* KEYED_FRAGMENT */
@@ -62514,16 +62830,16 @@ const _hoisted_20$a = { class: "quorum-target" };
 const _hoisted_21$9 = { class: "quorum-label" };
 const _hoisted_22$9 = { class: "metadata-section" };
 const _hoisted_23$8 = { class: "metadata-grid" };
-const _hoisted_24$7 = { class: "metadata-item" };
-const _hoisted_25$7 = { class: "metadata-label" };
-const _hoisted_26$7 = { class: "metadata-value" };
-const _hoisted_27$7 = { class: "metadata-item" };
-const _hoisted_28$6 = { class: "metadata-label" };
-const _hoisted_29$6 = {
+const _hoisted_24$8 = { class: "metadata-item" };
+const _hoisted_25$8 = { class: "metadata-label" };
+const _hoisted_26$8 = { class: "metadata-value" };
+const _hoisted_27$8 = { class: "metadata-item" };
+const _hoisted_28$7 = { class: "metadata-label" };
+const _hoisted_29$7 = {
   key: 1,
   class: "metadata-value"
 };
-const _hoisted_30$5 = { class: "metadata-item" };
+const _hoisted_30$6 = { class: "metadata-item" };
 const _hoisted_31$5 = { class: "metadata-label" };
 const _hoisted_32$4 = { class: "metadata-value" };
 const _hoisted_33$4 = { class: "metadata-item" };
@@ -62831,28 +63147,28 @@ function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
       createCommentVNode(" Metadata section "),
       createBaseVNode("div", _hoisted_22$9, [
         createBaseVNode("div", _hoisted_23$8, [
-          createBaseVNode("div", _hoisted_24$7, [
+          createBaseVNode("div", _hoisted_24$8, [
             (openBlock(), createBlock(resolveDynamicComponent($setup.inquiryTypeData.icon), { size: 16 })),
             createBaseVNode(
               "span",
-              _hoisted_25$7,
+              _hoisted_25$8,
               toDisplayString($setup.t("agora", "Type")) + ":",
               1
               /* TEXT */
             ),
             createBaseVNode(
               "span",
-              _hoisted_26$7,
+              _hoisted_26$8,
               toDisplayString($setup.inquiryTypeData.label),
               1
               /* TEXT */
             )
           ]),
-          createBaseVNode("div", _hoisted_27$7, [
+          createBaseVNode("div", _hoisted_27$8, [
             (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Location), { size: 16 })),
             createBaseVNode(
               "span",
-              _hoisted_28$6,
+              _hoisted_28$7,
               toDisplayString($setup.t("agora", "Location")) + ":",
               1
               /* TEXT */
@@ -62868,13 +63184,13 @@ function _sfc_render$U(_ctx, _cache, $props, $setup, $data, $options) {
               required: ""
             }, null, 8, ["modelValue", "options"])) : (openBlock(), createElementBlock(
               "span",
-              _hoisted_29$6,
+              _hoisted_29$7,
               toDisplayString($setup.getHierarchyPath($setup.sessionStore.appSettings.locationTab, $setup.inquiryStore.locationId) || $setup.t("agora", "Inherited from parent")),
               1
               /* TEXT */
             ))
           ]),
-          createBaseVNode("div", _hoisted_30$5, [
+          createBaseVNode("div", _hoisted_30$6, [
             (openBlock(), createBlock(resolveDynamicComponent($setup.StatusIcons.Calendar), { size: 16 })),
             createBaseVNode(
               "span",
@@ -64362,16 +64678,16 @@ const _hoisted_20$9 = { class: "info-content" };
 const _hoisted_21$8 = { class: "info-label" };
 const _hoisted_22$8 = { class: "info-value" };
 const _hoisted_23$7 = { class: "info-item highlight" };
-const _hoisted_24$6 = { class: "info-icon" };
-const _hoisted_25$6 = { class: "info-content" };
-const _hoisted_26$6 = { class: "info-label" };
-const _hoisted_27$6 = { class: "info-value" };
-const _hoisted_28$5 = {
+const _hoisted_24$7 = { class: "info-icon" };
+const _hoisted_25$7 = { class: "info-content" };
+const _hoisted_26$7 = { class: "info-label" };
+const _hoisted_27$7 = { class: "info-value" };
+const _hoisted_28$6 = {
   key: 0,
   class: "count-label"
 };
-const _hoisted_29$5 = { class: "inquiries-management-section" };
-const _hoisted_30$4 = { class: "section-header" };
+const _hoisted_29$6 = { class: "inquiries-management-section" };
+const _hoisted_30$5 = { class: "section-header" };
 const _hoisted_31$4 = { class: "section-title-container" };
 const _hoisted_32$3 = { class: "section-subtitle" };
 const _hoisted_33$3 = { class: "attached-inquiries-section card-section" };
@@ -64522,18 +64838,18 @@ function _sfc_render$G(_ctx, _cache, $props, $setup, $data, $options) {
           ])
         ]),
         createBaseVNode("div", _hoisted_23$7, [
-          createBaseVNode("div", _hoisted_24$6, [
+          createBaseVNode("div", _hoisted_24$7, [
             (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Link)))
           ]),
-          createBaseVNode("div", _hoisted_25$6, [
+          createBaseVNode("div", _hoisted_25$7, [
             createBaseVNode(
               "span",
-              _hoisted_26$6,
+              _hoisted_26$7,
               toDisplayString($setup.t("agora", "Inquiries")),
               1
               /* TEXT */
             ),
-            createBaseVNode("span", _hoisted_27$6, [
+            createBaseVNode("span", _hoisted_27$7, [
               createTextVNode(
                 toDisplayString($setup.formattedInquiryCount) + " ",
                 1
@@ -64541,7 +64857,7 @@ function _sfc_render$G(_ctx, _cache, $props, $setup, $data, $options) {
               ),
               $setup.groupInquiries.length > 0 ? (openBlock(), createElementBlock(
                 "span",
-                _hoisted_28$5,
+                _hoisted_28$6,
                 " (" + toDisplayString($setup.groupInquiries.length) + " total) ",
                 1
                 /* TEXT */
@@ -64552,8 +64868,8 @@ function _sfc_render$G(_ctx, _cache, $props, $setup, $data, $options) {
       ])
     ]),
     createCommentVNode(" Inquiries Management Section "),
-    createBaseVNode("div", _hoisted_29$5, [
-      createBaseVNode("div", _hoisted_30$4, [
+    createBaseVNode("div", _hoisted_29$6, [
+      createBaseVNode("div", _hoisted_30$5, [
         createBaseVNode("div", _hoisted_31$4, [
           createBaseVNode(
             "h2",
@@ -65677,10 +65993,10 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
       "has-cover": !!coverUrl.value
     }));
     const typeData = computed(() => {
-      return getInquiryTypeData(props2.inquiry.inquiry_type, inquiryTypes.value);
+      return getInquiryTypeData(props2.inquiry.type, inquiryTypes.value);
     });
     const typeIcon = computed(() => typeData.value?.icon || "📝");
-    const typeLabel = computed(() => typeData.value?.label || props2.inquiry.inquiry_type);
+    const typeLabel = computed(() => typeData.value?.label || props2.inquiry.type);
     const statusClass = computed(() => {
       switch (props2.inquiry.status) {
         case "open":
@@ -65694,16 +66010,7 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
       }
     });
     const statusText = computed(() => {
-      switch (props2.inquiry.status) {
-        case "open":
-          return translate("agora", "Open");
-        case "closed":
-          return translate("agora", "Closed");
-        case "draft":
-          return translate("agora", "Draft");
-        default:
-          return props2.inquiry.status || "";
-      }
+      return appSettingsStore.getStatusByKey(props2.inquiry.type, props2.inquiry.status.inquiryStatus);
     });
     const coverUrl = computed(() => {
       if (props2.inquiry.coverId) {
@@ -65986,32 +66293,14 @@ const _sfc_main$y = /* @__PURE__ */ defineComponent({
       "is-interactive": props2.interactive
     }));
     const typeData = computed(() => {
-      return getInquiryTypeData(props2.inquiry.inquiry_type, inquiryTypes.value);
+      return getInquiryTypeData(props2.inquiry.type, inquiryTypes.value);
     });
     const typeIcon = computed(() => typeData.value?.icon || "📝");
     const statusClass = computed(() => {
-      switch (props2.inquiry.status) {
-        case "open":
-          return "status-open";
-        case "closed":
-          return "status-closed";
-        case "draft":
-          return "status-draft";
-        default:
-          return "status-unknown";
-      }
+      return appSettingsStore.getStatusByKey(props2.inquiry.type, props2.inquiry.status.inquiryStatus);
     });
     const statusText = computed(() => {
-      switch (props2.inquiry.status) {
-        case "open":
-          return translate("agora", "Open");
-        case "closed":
-          return translate("agora", "Closed");
-        case "draft":
-          return translate("agora", "Draft");
-        default:
-          return props2.inquiry.status || "";
-      }
+      return appSettingsStore.getStatusByKey(props2.inquiry.type, props2.inquiry.status.inquiryStatus);
     });
     const isSupported = computed(() => props2.inquiry.currentUserStatus?.hasSupported || false);
     function formatDate(dateString) {
@@ -66177,33 +66466,15 @@ const _sfc_main$x = /* @__PURE__ */ defineComponent({
     const appSettingsStore = useAppSettingsStore();
     const inquiryTypes = computed(() => appSettingsStore.inquiryTypeTab || []);
     const typeData = computed(() => {
-      return getInquiryTypeData(props2.inquiry.inquiry_type, inquiryTypes.value);
+      return getInquiryTypeData(props2.inquiry.type, inquiryTypes.value);
     });
     const typeIcon = computed(() => typeData.value?.icon || "📝");
-    const typeLabel = computed(() => typeData.value?.label || props2.inquiry.inquiry_type);
+    const typeLabel = computed(() => typeData.value?.label || props2.inquiry.type);
     const statusClass = computed(() => {
-      switch (props2.inquiry.status) {
-        case "open":
-          return "status-open";
-        case "closed":
-          return "status-closed";
-        case "draft":
-          return "status-draft";
-        default:
-          return "status-unknown";
-      }
+      return appSettingsStore.getStatusByKey(props2.inquiry.type, props2.inquiry.status.inquiryStatus);
     });
     const statusText = computed(() => {
-      switch (props2.inquiry.status) {
-        case "open":
-          return translate("agora", "Open");
-        case "closed":
-          return translate("agora", "Closed");
-        case "draft":
-          return translate("agora", "Draft");
-        default:
-          return props2.inquiry.status || "";
-      }
+      return appSettingsStore.getStatusByKey(props2.inquiry.type, props2.inquiry.status.inquiryStatus);
     });
     const coverUrl = computed(() => {
       if (props2.inquiry.coverId) {
@@ -66279,18 +66550,18 @@ const _hoisted_20$7 = { class: "stat-label" };
 const _hoisted_21$6 = { class: "stat-card" };
 const _hoisted_22$6 = { class: "stat-value" };
 const _hoisted_23$6 = { class: "stat-label" };
-const _hoisted_24$5 = {
+const _hoisted_24$6 = {
   key: 0,
   class: "description-section"
 };
-const _hoisted_25$5 = { class: "section-title" };
-const _hoisted_26$5 = ["innerHTML"];
-const _hoisted_27$5 = {
+const _hoisted_25$6 = { class: "section-title" };
+const _hoisted_26$6 = ["innerHTML"];
+const _hoisted_27$6 = {
   key: 1,
   class: "additional-sections"
 };
-const _hoisted_28$4 = { class: "action-buttons" };
-const _hoisted_29$4 = { class: "secondary-actions" };
+const _hoisted_28$5 = { class: "action-buttons" };
+const _hoisted_29$5 = { class: "secondary-actions" };
 function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$p, [
     createCommentVNode(" Header "),
@@ -66451,10 +66722,10 @@ function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
         ])
       ]),
       createCommentVNode(" Description "),
-      $props.inquiry.description ? (openBlock(), createElementBlock("div", _hoisted_24$5, [
+      $props.inquiry.description ? (openBlock(), createElementBlock("div", _hoisted_24$6, [
         createBaseVNode(
           "h2",
-          _hoisted_25$5,
+          _hoisted_25$6,
           toDisplayString($setup.t("agora", "Description")),
           1
           /* TEXT */
@@ -66462,15 +66733,15 @@ function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
         createBaseVNode("div", {
           class: "description-content",
           innerHTML: $setup.sanitizedDescription
-        }, null, 8, _hoisted_26$5)
+        }, null, 8, _hoisted_26$6)
       ])) : createCommentVNode("v-if", true),
       createCommentVNode(" Additional Content "),
-      $setup.hasAdditionalContent ? (openBlock(), createElementBlock("div", _hoisted_27$5, [
+      $setup.hasAdditionalContent ? (openBlock(), createElementBlock("div", _hoisted_27$6, [
         createCommentVNode(" Custom sections based on inquiry type "),
         renderSlot(_ctx.$slots, "additional-sections", {}, void 0, true)
       ])) : createCommentVNode("v-if", true),
       createCommentVNode(" Actions "),
-      createBaseVNode("div", _hoisted_28$4, [
+      createBaseVNode("div", _hoisted_28$5, [
         createVNode($setup["NcButton"], {
           type: "primary",
           class: "participate-button"
@@ -66499,7 +66770,7 @@ function _sfc_render$x(_ctx, _cache, $props, $setup, $data, $options) {
           _: 1
           /* STABLE */
         }),
-        createBaseVNode("div", _hoisted_29$4, [
+        createBaseVNode("div", _hoisted_29$5, [
           createVNode($setup["NcButton"], {
             type: "tertiary",
             class: "comment-button"
@@ -66596,10 +66867,10 @@ const _sfc_main$v = /* @__PURE__ */ defineComponent({
     const appSettingsStore = useAppSettingsStore();
     const inquiryTypes = computed(() => appSettingsStore.inquiryTypeTab || []);
     const typeData = computed(() => {
-      return getInquiryTypeData(props2.inquiry.inquiry_type, inquiryTypes.value);
+      return getInquiryTypeData(props2.inquiry.type, inquiryTypes.value);
     });
     const typeIcon = computed(() => typeData.value?.icon || "📝");
-    const typeLabel = computed(() => typeData.value?.label || props2.inquiry.inquiry_type);
+    const typeLabel = computed(() => typeData.value?.label || props2.inquiry.type);
     const isSupported = computed(() => props2.inquiry.currentUserStatus?.hasSupported || false);
     const participantsCount = computed(() => props2.inquiry.status?.countParticipants || 0);
     const sanitizedContent = computed(() => {
@@ -66794,33 +67065,15 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
       "is-interactive": props2.interactive
     }));
     const typeData = computed(() => {
-      return getInquiryTypeData(props2.inquiry.inquiry_type, inquiryTypes.value);
+      return getInquiryTypeData(props2.inquiry.type, inquiryTypes.value);
     });
     const typeIcon = computed(() => typeData.value?.icon || "📝");
-    const typeLabel = computed(() => typeData.value?.label || props2.inquiry.inquiry_type);
+    const typeLabel = computed(() => typeData.value?.label || props2.inquiry.type);
     const statusClass = computed(() => {
-      switch (props2.inquiry.status) {
-        case "open":
-          return "status-open";
-        case "closed":
-          return "status-closed";
-        case "draft":
-          return "status-draft";
-        default:
-          return "status-unknown";
-      }
+      return appSettingsStore.getStatusByKey(props2.inquiry.type, props2.inquiry.status.inquiryStatus);
     });
     const statusText = computed(() => {
-      switch (props2.inquiry.status) {
-        case "open":
-          return translate("agora", "Open");
-        case "closed":
-          return translate("agora", "Closed");
-        case "draft":
-          return translate("agora", "Draft");
-        default:
-          return props2.inquiry.status || "";
-      }
+      return appSettingsStore.getStatusByKey(props2.inquiry.type, props2.inquiry.status.inquiryStatus);
     });
     const isSupported = computed(() => props2.inquiry.currentUserStatus?.hasSupported || false);
     const truncatedTitle = computed(() => {
@@ -67072,13 +67325,9 @@ const _sfc_main$t = /* @__PURE__ */ defineComponent({
     __expose();
     const props2 = __props;
     const emit2 = __emit;
-    const router2 = useRouter();
-    const inquiryStore = useInquiryStore();
     const inquiriesStore = useInquiriesStore();
     const appSettingsStore = useAppSettingsStore();
     const activeInquiryId = ref(null);
-    const openModals = ref([]);
-    const openPopups = ref([]);
     const inquiries2 = computed(() => {
       const allInquiries = inquiriesStore.inquiries || [];
       return allInquiries.filter(
@@ -67088,56 +67337,31 @@ const _sfc_main$t = /* @__PURE__ */ defineComponent({
     const inquiryTypes = computed(() => {
       return appSettingsStore.inquiryTypeTab || [];
     });
-    const compatibilityMatrix = {
-      cards: ["sidebar", "main", "footer"],
-      list_item: ["sidebar", "main"],
-      full: ["main"],
-      rich_html: ["main", "modal"],
-      summary: ["header", "sidebar", "popup"]
+    const layoutCompatibility = {
+      sidebar: ["cards", "list_item", "summary"],
+      main: ["rich_html", "full", "summary", "cards", "list_item"],
+      footer: ["cards", "summary", "list_item"],
+      header: ["cards", "summary", "list_item"]
     };
-    const sidebarInquiries = computed(() => {
-      return inquiries2.value.filter(
-        (inquiry) => inquiry.miscFields.layout_zone === "sidebar" || ["cards", "list_item", "summary"].includes(inquiry.miscFields.render_mode)
-      ).slice(0, 10);
-    });
-    const headerInquiries = computed(() => {
-      return inquiries2.value.filter(
-        (inquiry) => inquiry.miscFields.layout_zone === "header" || inquiry.miscFields.render_mode === "summary"
-      ).slice(0, 3);
-    });
-    const mainInquiries = computed(() => {
-      return inquiries2.value.filter(
-        (inquiry) => inquiry.miscFields.layout_zone === "main" || ["cards", "list_item", "full", "rich_html"].includes(inquiry.miscFields.render_mode)
-      );
-    });
-    const footerInquiries = computed(() => {
-      return inquiries2.value.filter(
-        (inquiry) => inquiry.miscFields.layout_zone === "footer" || inquiry.miscFields.render_mode === "summary"
-      ).slice(0, 5);
-    });
-    const modalInquiries = computed(() => {
-      return inquiries2.value.filter(
-        (inquiry) => (inquiry.miscFields.layout_zone === "modal" || inquiry.miscFields.render_mode === "rich_html") && openModals.value.includes(inquiry.id)
-      );
-    });
-    const popupInquiries = computed(() => {
-      return inquiries2.value.filter(
-        (inquiry) => inquiry.miscFields.layout_zone === "popup" && openPopups.value.includes(inquiry.id)
-      );
-    });
-    const hasSidebarInquiries = computed(() => sidebarInquiries.value.length > 0);
-    const totalInquiries = computed(() => inquiries2.value.length);
+    function getMiscField(inquiry, field, defaultValue = null) {
+      return inquiry.miscFields?.[field] || defaultValue;
+    }
+    function getLayoutZone(inquiry) {
+      const layoutZone = getMiscField(inquiry, "layout_zone");
+      if (layoutZone && ["sidebar", "main", "footer", "header"].includes(layoutZone)) {
+        return layoutZone;
+      }
+      const renderMode = getMiscField(inquiry, "render_mode", "cards");
+      const compatibleLayouts = Object.entries(layoutCompatibility).filter(([_2, modes]) => modes.includes(renderMode)).map(([layout]) => layout);
+      const priorityOrder = ["main", "header", "sidebar", "footer"];
+      return priorityOrder.find((layout) => compatibleLayouts.includes(layout)) || "main";
+    }
     function getRenderMode(inquiry, layoutZone) {
-      const preferredMode = inquiry.miscFields.render_mode || "cards";
-      if (compatibilityMatrix[preferredMode]?.includes(layoutZone)) {
+      const preferredMode = getMiscField(inquiry, "render_mode", "cards");
+      if (layoutCompatibility[layoutZone]?.includes(preferredMode)) {
         return preferredMode;
       }
-      for (const [mode, zones] of Object.entries(compatibilityMatrix)) {
-        if (zones.includes(layoutZone)) {
-          return mode;
-        }
-      }
-      return "cards";
+      return layoutCompatibility[layoutZone]?.[0] || "cards";
     }
     function getInquiryComponent(inquiry, layoutZone) {
       const renderMode = getRenderMode(inquiry, layoutZone);
@@ -67156,61 +67380,57 @@ const _sfc_main$t = /* @__PURE__ */ defineComponent({
           return InquiryCard;
       }
     }
-    function handleInquiryClick(inquiry) {
-      const layoutZone = inquiry.miscFields.layout_zone || "main";
-      switch (layoutZone) {
-        case "modal":
-          openModal(inquiry.id);
-          break;
-        case "popup":
-          openPopup(inquiry.id);
-          break;
-        default:
-          setActiveInquiry(inquiry.id);
-          emit2("viewInquiry", inquiry.id);
-          break;
-      }
+    function groupInquiriesByType(inquiryList) {
+      const grouped = {};
+      inquiryList.forEach((inquiry) => {
+        const type = inquiry.type || "default";
+        if (!grouped[type]) grouped[type] = [];
+        grouped[type].push(inquiry);
+      });
+      return grouped;
     }
-    function setActiveInquiry(id) {
-      activeInquiryId.value = id;
-    }
-    function openModal(id) {
-      if (!openModals.value.includes(id)) {
-        openModals.value.push(id);
-      }
-    }
-    function closeModal(id) {
-      const index = openModals.value.indexOf(id);
-      if (index > -1) {
-        openModals.value.splice(index, 1);
-      }
-    }
-    function openPopup(id) {
-      if (!openPopups.value.includes(id)) {
-        openPopups.value.push(id);
-      }
-    }
-    function closePopup(id) {
-      const index = openPopups.value.indexOf(id);
-      if (index > -1) {
-        openPopups.value.splice(index, 1);
-      }
-    }
-    function getPopupStyle(inquiry) {
-      const left = Math.random() * 70 + 15;
-      const top = Math.random() * 70 + 15;
-      return {
-        left: `${left}%`,
-        top: `${top}%`
-      };
+    const sidebarInquiries = computed(
+      () => inquiries2.value.filter((inquiry) => getLayoutZone(inquiry) === "sidebar")
+    );
+    const headerInquiries = computed(
+      () => inquiries2.value.filter((inquiry) => getLayoutZone(inquiry) === "header")
+    );
+    const mainInquiries = computed(
+      () => inquiries2.value.filter((inquiry) => getLayoutZone(inquiry) === "main")
+    );
+    const footerInquiries = computed(
+      () => inquiries2.value.filter((inquiry) => getLayoutZone(inquiry) === "footer")
+    );
+    const sidebarInquiriesByType = computed(() => groupInquiriesByType(sidebarInquiries.value));
+    const mainInquiriesByType = computed(() => groupInquiriesByType(mainInquiries.value));
+    const hasSidebarInquiries = computed(() => sidebarInquiries.value.length > 0);
+    const totalInquiries = computed(() => inquiries2.value.length);
+    function getInquiryTypeData2(typeKey) {
+      return inquiryTypes.value.find((type) => type.inquiry_type === typeKey);
     }
     function getInquiryTypeIcon(typeKey) {
-      const typeData = getInquiryTypeData(typeKey, inquiryTypes.value);
-      return typeData?.icon || "📝";
+      const typeData = getInquiryTypeData2(typeKey);
+      return typeData?.icon || "FileDocument";
     }
-    const __returned__ = { props: props2, emit: emit2, router: router2, inquiryStore, inquiriesStore, appSettingsStore, activeInquiryId, openModals, openPopups, inquiries: inquiries2, inquiryTypes, compatibilityMatrix, sidebarInquiries, headerInquiries, mainInquiries, footerInquiries, modalInquiries, popupInquiries, hasSidebarInquiries, totalInquiries, getRenderMode, getInquiryComponent, handleInquiryClick, setActiveInquiry, openModal, closeModal, openPopup, closePopup, getPopupStyle, getInquiryTypeIcon, get t() {
-      return translate;
-    } };
+    function getInquiryTypeLabel(typeKey) {
+      const typeData = getInquiryTypeData2(typeKey);
+      return typeData?.label || typeKey;
+    }
+    function getInquiryTypeDescription(typeKey) {
+      const typeData = getInquiryTypeData2(typeKey);
+      return typeData?.description || "";
+    }
+    function getInquiryTypeFamily(typeKey) {
+      const typeData = getInquiryTypeData2(typeKey);
+      return typeData?.family || "default";
+    }
+    function handleInquiryClick(inquiry) {
+      emit2("viewInquiry", inquiry.id);
+    }
+    function viewAllOfType(typeKey) {
+      console.log("View all of type:", typeKey);
+    }
+    const __returned__ = { props: props2, emit: emit2, inquiriesStore, appSettingsStore, activeInquiryId, inquiries: inquiries2, inquiryTypes, layoutCompatibility, getMiscField, getLayoutZone, getRenderMode, getInquiryComponent, groupInquiriesByType, sidebarInquiries, headerInquiries, mainInquiries, footerInquiries, sidebarInquiriesByType, mainInquiriesByType, hasSidebarInquiries, totalInquiries, getInquiryTypeData: getInquiryTypeData2, getInquiryTypeIcon, getInquiryTypeLabel, getInquiryTypeDescription, getInquiryTypeFamily, handleInquiryClick, viewAllOfType };
     Object.defineProperty(__returned__, "__isScriptSetup", { enumerable: false, value: true });
     return __returned__;
   }
@@ -67219,93 +67439,48 @@ const _hoisted_1$l = { class: "inquiry-group-view-main" };
 const _hoisted_2$e = { class: "layout-container" };
 const _hoisted_3$e = {
   key: 0,
+  class: "header-section"
+};
+const _hoisted_4$c = { class: "inquiry-grid header-grid" };
+const _hoisted_5$8 = {
+  key: 1,
+  class: "main-section"
+};
+const _hoisted_6$6 = { class: "type-groups" };
+const _hoisted_7$6 = { class: "type-header" };
+const _hoisted_8$6 = { class: "type-header-content" };
+const _hoisted_9$6 = { class: "type-icon-wrapper" };
+const _hoisted_10$6 = { class: "type-info" };
+const _hoisted_11$6 = { class: "type-name" };
+const _hoisted_12$6 = { class: "type-description" };
+const _hoisted_13$5 = { class: "type-stats" };
+const _hoisted_14$5 = { class: "type-badge" };
+const _hoisted_15$5 = { class: "type-family" };
+const _hoisted_16$5 = { class: "type-actions" };
+const _hoisted_17$5 = ["onClick"];
+const _hoisted_18$5 = { class: "type-inquiries" };
+const _hoisted_19$5 = { class: "inquiry-grid main-grid" };
+const _hoisted_20$5 = {
+  key: 2,
+  class: "footer-section"
+};
+const _hoisted_21$5 = { class: "inquiry-grid footer-grid" };
+const _hoisted_22$5 = {
+  key: 0,
   class: "layout-sidebar"
 };
-const _hoisted_4$c = { class: "sidebar-content" };
-const _hoisted_5$8 = { class: "sidebar-header" };
-const _hoisted_6$6 = { class: "sidebar-count" };
-const _hoisted_7$6 = { class: "sidebar-inquiries" };
-const _hoisted_8$6 = ["onClick"];
-const _hoisted_9$6 = {
-  key: 0,
-  class: "header-area"
-};
-const _hoisted_10$6 = { class: "header-inquiries" };
-const _hoisted_11$6 = {
-  key: 1,
-  class: "main-area"
-};
-const _hoisted_12$6 = { class: "main-inquiries" };
-const _hoisted_13$5 = {
-  key: 2,
-  class: "footer-area"
-};
-const _hoisted_14$5 = { class: "footer-inquiries" };
-const _hoisted_15$5 = {
-  key: 3,
-  class: "empty-main"
-};
-const _hoisted_16$5 = {
-  key: 0,
-  class: "modal-overlay"
-};
-const _hoisted_17$5 = ["onClick"];
-const _hoisted_18$5 = { class: "modal-content" };
-const _hoisted_19$5 = ["onClick"];
-const _hoisted_20$5 = {
-  key: 1,
-  class: "popup-overlay"
-};
-const _hoisted_21$5 = ["onClick"];
-const _hoisted_22$5 = { class: "popup-content" };
-const _hoisted_23$5 = ["onClick"];
+const _hoisted_23$5 = { class: "sidebar-content" };
+const _hoisted_24$5 = { class: "sidebar-type-groups" };
+const _hoisted_25$5 = { class: "sidebar-type-header" };
+const _hoisted_26$5 = { class: "sidebar-type-icon" };
+const _hoisted_27$5 = { class: "sidebar-type-info" };
+const _hoisted_28$4 = { class: "sidebar-type-name" };
+const _hoisted_29$4 = { class: "sidebar-type-count" };
+const _hoisted_30$4 = { class: "sidebar-inquiries" };
 function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createElementBlock("div", _hoisted_1$l, [
     createCommentVNode(" Main Layout Container "),
     createBaseVNode("div", _hoisted_2$e, [
-      createCommentVNode(" Left Sidebar (30%) "),
-      $setup.hasSidebarInquiries ? (openBlock(), createElementBlock("aside", _hoisted_3$e, [
-        createBaseVNode("div", _hoisted_4$c, [
-          createBaseVNode("div", _hoisted_5$8, [
-            createBaseVNode(
-              "h3",
-              null,
-              toDisplayString($setup.t("agora", "Inquiries")),
-              1
-              /* TEXT */
-            ),
-            createBaseVNode(
-              "span",
-              _hoisted_6$6,
-              toDisplayString($setup.sidebarInquiries.length),
-              1
-              /* TEXT */
-            )
-          ]),
-          createCommentVNode(" Sidebar Inquiries "),
-          createBaseVNode("div", _hoisted_7$6, [
-            (openBlock(true), createElementBlock(
-              Fragment$1,
-              null,
-              renderList($setup.sidebarInquiries, (inquiry) => {
-                return openBlock(), createElementBlock("div", {
-                  key: inquiry.id,
-                  class: normalizeClass(["sidebar-inquiry-item", { active: $setup.activeInquiryId === inquiry.id }]),
-                  onClick: ($event) => $setup.setActiveInquiry(inquiry.id)
-                }, [
-                  (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryComponent(inquiry, "sidebar")), {
-                    inquiry,
-                    "render-mode": $setup.getRenderMode(inquiry, "sidebar"),
-                    onClick: ($event) => $setup.handleInquiryClick(inquiry)
-                  }, null, 8, ["inquiry", "render-mode", "onClick"]))
-                ], 10, _hoisted_8$6);
-              }),
-              128
-              /* KEYED_FRAGMENT */
-            ))
-          ])
-        ])
-      ])) : createCommentVNode("v-if", true),
       createCommentVNode(" Main Content Area (70%) "),
       createBaseVNode(
         "main",
@@ -67314,43 +67489,123 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
         },
         [
           createCommentVNode(" Header Area Inquiries "),
-          $setup.headerInquiries.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_9$6, [
-            createBaseVNode("div", _hoisted_10$6, [
+          $setup.headerInquiries.length > 0 ? (openBlock(), createElementBlock("section", _hoisted_3$e, [
+            createBaseVNode("div", _hoisted_4$c, [
               (openBlock(true), createElementBlock(
                 Fragment$1,
                 null,
                 renderList($setup.headerInquiries, (inquiry) => {
-                  return openBlock(), createElementBlock("div", {
+                  return openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryComponent(inquiry, "header")), {
                     key: inquiry.id,
-                    class: "header-inquiry-item"
-                  }, [
-                    (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryComponent(inquiry, "header")), {
-                      inquiry,
-                      "render-mode": $setup.getRenderMode(inquiry, "header")
-                    }, null, 8, ["inquiry", "render-mode"]))
-                  ]);
+                    inquiry,
+                    "render-mode": $setup.getRenderMode(inquiry, "header"),
+                    class: "header-item"
+                  }, null, 8, ["inquiry", "render-mode"]);
                 }),
                 128
                 /* KEYED_FRAGMENT */
               ))
             ])
           ])) : createCommentVNode("v-if", true),
-          createCommentVNode(" Main Area Inquiries "),
-          $setup.mainInquiries.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_11$6, [
-            createBaseVNode("div", _hoisted_12$6, [
+          createCommentVNode(" Main Area Inquiries - Grouped by Type with Beautiful Headers "),
+          $setup.mainInquiries.length > 0 ? (openBlock(), createElementBlock("section", _hoisted_5$8, [
+            createCommentVNode(" Group by Inquiry Type "),
+            createBaseVNode("div", _hoisted_6$6, [
               (openBlock(true), createElementBlock(
                 Fragment$1,
                 null,
-                renderList($setup.mainInquiries, (inquiry) => {
+                renderList($setup.mainInquiriesByType, (typeGroup, typeKey) => {
                   return openBlock(), createElementBlock("div", {
-                    key: inquiry.id,
-                    class: "main-inquiry-item"
+                    key: typeKey,
+                    class: "type-group"
                   }, [
-                    (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryComponent(inquiry, "main")), {
-                      inquiry,
-                      "render-mode": $setup.getRenderMode(inquiry, "main"),
-                      "is-active": $setup.activeInquiryId === inquiry.id
-                    }, null, 8, ["inquiry", "render-mode", "is-active"]))
+                    createCommentVNode(" Beautiful Type Header "),
+                    createBaseVNode("div", _hoisted_7$6, [
+                      createBaseVNode("div", _hoisted_8$6, [
+                        createBaseVNode("div", _hoisted_9$6, [
+                          (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryTypeIcon(typeKey)), { class: "type-icon" }))
+                        ]),
+                        createBaseVNode("div", _hoisted_10$6, [
+                          createBaseVNode(
+                            "h3",
+                            _hoisted_11$6,
+                            toDisplayString($setup.getInquiryTypeLabel(typeKey)),
+                            1
+                            /* TEXT */
+                          ),
+                          createBaseVNode(
+                            "p",
+                            _hoisted_12$6,
+                            toDisplayString($setup.getInquiryTypeDescription(typeKey)),
+                            1
+                            /* TEXT */
+                          )
+                        ]),
+                        createBaseVNode("div", _hoisted_13$5, [
+                          createBaseVNode(
+                            "span",
+                            _hoisted_14$5,
+                            toDisplayString(typeGroup.length) + " items",
+                            1
+                            /* TEXT */
+                          ),
+                          createBaseVNode(
+                            "span",
+                            _hoisted_15$5,
+                            toDisplayString($setup.getInquiryTypeFamily(typeKey)),
+                            1
+                            /* TEXT */
+                          )
+                        ])
+                      ]),
+                      createBaseVNode("div", _hoisted_16$5, [
+                        createBaseVNode("button", {
+                          class: "type-action-btn",
+                          onClick: ($event) => $setup.viewAllOfType(typeKey)
+                        }, [..._cache[0] || (_cache[0] = [
+                          createBaseVNode(
+                            "span",
+                            null,
+                            "View All",
+                            -1
+                            /* CACHED */
+                          ),
+                          createBaseVNode(
+                            "svg",
+                            {
+                              width: "16",
+                              height: "16",
+                              viewBox: "0 0 24 24"
+                            },
+                            [
+                              createBaseVNode("path", { d: "M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" })
+                            ],
+                            -1
+                            /* CACHED */
+                          )
+                        ])], 8, _hoisted_17$5)
+                      ])
+                    ]),
+                    createCommentVNode(" Type Inquiries Grid "),
+                    createBaseVNode("div", _hoisted_18$5, [
+                      createBaseVNode("div", _hoisted_19$5, [
+                        (openBlock(true), createElementBlock(
+                          Fragment$1,
+                          null,
+                          renderList(typeGroup, (inquiry) => {
+                            return openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryComponent(inquiry, "main")), {
+                              key: inquiry.id,
+                              inquiry,
+                              "render-mode": $setup.getRenderMode(inquiry, "main"),
+                              class: "main-item",
+                              onClick: ($event) => $setup.handleInquiryClick(inquiry)
+                            }, null, 8, ["inquiry", "render-mode", "onClick"]);
+                          }),
+                          128
+                          /* KEYED_FRAGMENT */
+                        ))
+                      ])
+                    ])
                   ]);
                 }),
                 128
@@ -67359,138 +67614,91 @@ function _sfc_render$t(_ctx, _cache, $props, $setup, $data, $options) {
             ])
           ])) : createCommentVNode("v-if", true),
           createCommentVNode(" Footer Area Inquiries "),
-          $setup.footerInquiries.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_13$5, [
-            createBaseVNode("div", _hoisted_14$5, [
+          $setup.footerInquiries.length > 0 ? (openBlock(), createElementBlock("section", _hoisted_20$5, [
+            createBaseVNode("div", _hoisted_21$5, [
               (openBlock(true), createElementBlock(
                 Fragment$1,
                 null,
                 renderList($setup.footerInquiries, (inquiry) => {
-                  return openBlock(), createElementBlock("div", {
+                  return openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryComponent(inquiry, "footer")), {
                     key: inquiry.id,
-                    class: "footer-inquiry-item"
-                  }, [
-                    (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryComponent(inquiry, "footer")), {
-                      inquiry,
-                      "render-mode": $setup.getRenderMode(inquiry, "footer")
-                    }, null, 8, ["inquiry", "render-mode"]))
-                  ]);
+                    inquiry,
+                    "render-mode": $setup.getRenderMode(inquiry, "footer"),
+                    class: "footer-item",
+                    onClick: ($event) => $setup.handleInquiryClick(inquiry)
+                  }, null, 8, ["inquiry", "render-mode", "onClick"]);
                 }),
                 128
                 /* KEYED_FRAGMENT */
               ))
             ])
-          ])) : createCommentVNode("v-if", true),
-          createCommentVNode(" Empty State "),
-          $setup.totalInquiries === 0 ? (openBlock(), createElementBlock("div", _hoisted_15$5, [
-            _cache[0] || (_cache[0] = createBaseVNode(
-              "div",
-              { class: "empty-icon" },
-              "📋",
-              -1
-              /* CACHED */
-            )),
-            createBaseVNode(
-              "h2",
-              null,
-              toDisplayString($setup.t("agora", "No inquiries to display")),
-              1
-              /* TEXT */
-            ),
-            createBaseVNode(
-              "p",
-              null,
-              toDisplayString($setup.t("agora", "Configure inquiry display settings or create inquiries")),
-              1
-              /* TEXT */
-            )
           ])) : createCommentVNode("v-if", true)
         ],
         2
         /* CLASS */
-      )
-    ]),
-    createCommentVNode(" Modal/Popup Overlays "),
-    $setup.modalInquiries.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_16$5, [
-      (openBlock(true), createElementBlock(
-        Fragment$1,
-        null,
-        renderList($setup.modalInquiries, (inquiry) => {
-          return openBlock(), createElementBlock("div", {
-            key: inquiry.id,
-            class: "modal-container",
-            onClick: withModifiers(($event) => $setup.closeModal(inquiry.id), ["self"])
-          }, [
-            createBaseVNode("div", _hoisted_18$5, [
-              createBaseVNode("button", {
-                class: "modal-close",
-                onClick: ($event) => $setup.closeModal(inquiry.id)
-              }, [..._cache[1] || (_cache[1] = [
-                createBaseVNode(
-                  "svg",
-                  {
-                    width: "24",
-                    height: "24",
-                    viewBox: "0 0 24 24"
-                  },
-                  [
-                    createBaseVNode("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" })
-                  ],
-                  -1
-                  /* CACHED */
-                )
-              ])], 8, _hoisted_19$5),
-              (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryComponent(inquiry, "modal")), {
-                inquiry,
-                "render-mode": $setup.getRenderMode(inquiry, "modal")
-              }, null, 8, ["inquiry", "render-mode"]))
-            ])
-          ], 8, _hoisted_17$5);
-        }),
-        128
-        /* KEYED_FRAGMENT */
-      ))
-    ])) : createCommentVNode("v-if", true),
-    $setup.popupInquiries.length > 0 ? (openBlock(), createElementBlock("div", _hoisted_20$5, [
-      (openBlock(true), createElementBlock(
-        Fragment$1,
-        null,
-        renderList($setup.popupInquiries, (inquiry) => {
-          return openBlock(), createElementBlock("div", {
-            key: inquiry.id,
-            class: "popup-container",
-            style: normalizeStyle($setup.getPopupStyle(inquiry)),
-            onClick: withModifiers(($event) => $setup.closePopup(inquiry.id), ["self"])
-          }, [
-            createBaseVNode("div", _hoisted_22$5, [
-              createBaseVNode("button", {
-                class: "popup-close",
-                onClick: ($event) => $setup.closePopup(inquiry.id)
-              }, [..._cache[2] || (_cache[2] = [
-                createBaseVNode(
-                  "svg",
-                  {
-                    width: "20",
-                    height: "20",
-                    viewBox: "0 0 24 24"
-                  },
-                  [
-                    createBaseVNode("path", { d: "M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" })
-                  ],
-                  -1
-                  /* CACHED */
-                )
-              ])], 8, _hoisted_23$5),
-              (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryComponent(inquiry, "popup")), {
-                inquiry,
-                "render-mode": $setup.getRenderMode(inquiry, "popup")
-              }, null, 8, ["inquiry", "render-mode"]))
-            ])
-          ], 12, _hoisted_21$5);
-        }),
-        128
-        /* KEYED_FRAGMENT */
-      ))
-    ])) : createCommentVNode("v-if", true)
+      ),
+      createCommentVNode(" Right Sidebar (30%) "),
+      $setup.hasSidebarInquiries ? (openBlock(), createElementBlock("aside", _hoisted_22$5, [
+        createBaseVNode("div", _hoisted_23$5, [
+          createCommentVNode(" Sidebar Inquiries - Grouped by Type "),
+          createBaseVNode("div", _hoisted_24$5, [
+            (openBlock(true), createElementBlock(
+              Fragment$1,
+              null,
+              renderList($setup.sidebarInquiriesByType, (typeGroup, typeKey) => {
+                return openBlock(), createElementBlock("div", {
+                  key: typeKey,
+                  class: "sidebar-type-group"
+                }, [
+                  createCommentVNode(" Sidebar Type Header "),
+                  createBaseVNode("div", _hoisted_25$5, [
+                    createBaseVNode("div", _hoisted_26$5, [
+                      (openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryTypeIcon(typeKey))))
+                    ]),
+                    createBaseVNode("div", _hoisted_27$5, [
+                      createBaseVNode(
+                        "h4",
+                        _hoisted_28$4,
+                        toDisplayString($setup.getInquiryTypeLabel(typeKey)),
+                        1
+                        /* TEXT */
+                      ),
+                      createBaseVNode(
+                        "span",
+                        _hoisted_29$4,
+                        toDisplayString(typeGroup.length),
+                        1
+                        /* TEXT */
+                      )
+                    ])
+                  ]),
+                  createCommentVNode(" Sidebar Type Inquiries "),
+                  createBaseVNode("div", _hoisted_30$4, [
+                    (openBlock(true), createElementBlock(
+                      Fragment$1,
+                      null,
+                      renderList(typeGroup, (inquiry) => {
+                        return openBlock(), createBlock(resolveDynamicComponent($setup.getInquiryComponent(inquiry, "sidebar")), {
+                          key: inquiry.id,
+                          inquiry,
+                          "render-mode": $setup.getRenderMode(inquiry, "sidebar"),
+                          class: "sidebar-item",
+                          onClick: ($event) => $setup.handleInquiryClick(inquiry)
+                        }, null, 8, ["inquiry", "render-mode", "onClick"]);
+                      }),
+                      128
+                      /* KEYED_FRAGMENT */
+                    ))
+                  ])
+                ]);
+              }),
+              128
+              /* KEYED_FRAGMENT */
+            ))
+          ])
+        ])
+      ])) : createCommentVNode("v-if", true)
+    ])
   ]);
 }
 const InquiryGroupViewMain = /* @__PURE__ */ _export_sfc$1(_sfc_main$t, [["render", _sfc_render$t], ["__scopeId", "data-v-71f2b206"], ["__file", "/var/www/nextcloud/apps/agora/src/components/InquiryGroup/InquiryGroupViewMain.vue"]]);
@@ -67504,10 +67712,11 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
     const inquiriesStore = useInquiriesStore();
     const inquiryGroupsStore = useInquiryGroupsStore();
     const isLoading = ref(true);
+    const isSubGroup = ref(false);
     const groupNotFound = ref(false);
     const hoveredGroupId = ref(null);
-    const selectedGroupForDialog = ref(null);
     const createDlgToggle = ref(false);
+    const selectedParentId = ref(null);
     const createGroupDlgToggle = ref(false);
     const selectedInquiryGroupTypeForCreation = ref(null);
     const showDeleteDialog = ref(false);
@@ -67529,6 +67738,7 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
       if (!group2) {
         groupNotFound.value = true;
       }
+      console.log(" CONSOLE ", group2);
       return group2;
     });
     const parentGroups = computed(() => {
@@ -67569,18 +67779,6 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
         return translate("agora", "");
       }
       return selectedTypeLabel.value;
-    });
-    const emptyStateTitle = computed(() => {
-      if (hasSlug.value && currentInquiryGroup.value) {
-        return translate("agora", "No subgroups yet");
-      }
-      return translate("agora", "No groups yet");
-    });
-    const emptyStateMessage = computed(() => {
-      if (hasSlug.value && currentInquiryGroup.value) {
-        return translate("agora", "This group doesn't contain any subgroups yet.");
-      }
-      return translate("agora", "Create your first group to organize inquiries.");
     });
     const isOwnerOrAdmin = computed(() => {
       return true;
@@ -67673,11 +67871,18 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
       });
     }
     function createInquiryGroup(inquiryGroupType) {
+      console.log(" CREATETTTTTTTTTTTT INQUIRY GROUP ", inquiryGroupType);
+      console.log(" HAS INQUIRY GROUP ", hasSlug.value);
+      if (hasSlug.value) selectedParentId.value = currentInquiryGroup?.value.id;
       selectedInquiryGroupTypeForCreation.value = inquiryGroupType;
       createGroupDlgToggle.value = true;
     }
+    function getNextcloudPreviewUrl(fileId, x = 1920, y = 1080, autoScale = true) {
+      const baseUrl = window.location.origin;
+      return `${baseUrl}/index.php/core/preview?fileId=${fileId}&x=${x}&y=${y}&a=${autoScale ? 1 : 0}`;
+    }
     function getCoverUrl(coverId) {
-      return `/api/cover/${coverId}`;
+      return getNextcloudPreviewUrl(coverId);
     }
     function modifyGroup(group2) {
       router2.push({
@@ -67711,10 +67916,14 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
     }
     function addAllowedResponse(group2) {
       selectedInquiryGroupTypeForCreation.value = group2.type;
+      console.log(" SELECTEEEEEEEEEEEEEEEEEE PARENT ID ", group2.id);
+      selectedParentId.value = group2.id;
+      isSubGroup.value = true;
       createGroupDlgToggle.value = true;
     }
     function handleCloseGroupDialog() {
       createGroupDlgToggle.value = false;
+      selectedParentId.value = null;
       selectedInquiryGroupTypeForCreation.value = null;
     }
     function inquiryGroupAdded(newGroup) {
@@ -67725,16 +67934,10 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
       }
     }
     const availableGroups = computed(() => {
-      return inquiryGroupsStore.inquiryGroups.filter(
-        (group2) => group2.id !== currentInquiryGroup.value?.id
-        // Don't include current group
-      );
-    });
-    const selectedGroups = computed(() => {
-      if (currentInquiryGroup.value) {
-        return [currentInquiryGroup.value.id];
+      const groups = sessionStore.currentUser.groups || {};
+      if (typeof groups === "object" && !Array.isArray(groups)) {
+        return Object.keys(groups);
       }
-      return [];
     });
     onMounted(() => {
       console.log("sessionStore:", sessionStore);
@@ -67750,6 +67953,7 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
         if (hasSlug.value) {
           const slug = route.params.slug;
           const group2 = inquiryGroupsStore.bySlug(slug);
+          currentInquiryGroup.value = group2;
           if (!group2) {
             groupNotFound.value = true;
           }
@@ -67773,7 +67977,7 @@ const _sfc_main$s = /* @__PURE__ */ defineComponent({
       }
       isLoading.value = false;
     });
-    const __returned__ = { route, router: router2, sessionStore, inquiriesStore, inquiryGroupsStore, isLoading, groupNotFound, hoveredGroupId, selectedGroupForDialog, createDlgToggle, createGroupDlgToggle, selectedInquiryGroupTypeForCreation, showDeleteDialog, deleteDialogGroup, hasSlug, currentGroupType, currentInquiryGroup, parentGroups, displayedGroups, totalInquiries, sectionTitle, emptyStateTitle, emptyStateMessage, isOwnerOrAdmin, getGroupTypeIconComponent, getGroupChildren, currentIconComponent, selectedTypeData, selectedTypeLabel, selectedTypeDescription, currentTitle, currentDescription, currentBreadcrumbTitle, deleteDialogTitle, deleteDialogMessage, deleteDialogButtons, navigateToHome, selectGroup, navigateToCreateInquiry, createInquiryGroup, getCoverUrl, modifyGroup, deleteGroup, performDeleteGroup, addAllowedResponse, handleCloseGroupDialog, inquiryGroupAdded, availableGroups, selectedGroups, get t() {
+    const __returned__ = { route, router: router2, sessionStore, inquiriesStore, inquiryGroupsStore, isLoading, isSubGroup, groupNotFound, hoveredGroupId, createDlgToggle, selectedParentId, createGroupDlgToggle, selectedInquiryGroupTypeForCreation, showDeleteDialog, deleteDialogGroup, hasSlug, currentGroupType, currentInquiryGroup, parentGroups, displayedGroups, totalInquiries, sectionTitle, isOwnerOrAdmin, getGroupTypeIconComponent, getGroupChildren, currentIconComponent, selectedTypeData, selectedTypeLabel, selectedTypeDescription, currentTitle, currentDescription, currentBreadcrumbTitle, deleteDialogTitle, deleteDialogMessage, deleteDialogButtons, navigateToHome, selectGroup, navigateToCreateInquiry, createInquiryGroup, getNextcloudPreviewUrl, getCoverUrl, modifyGroup, deleteGroup, performDeleteGroup, addAllowedResponse, handleCloseGroupDialog, inquiryGroupAdded, availableGroups, get t() {
       return translate;
     }, get NcAppContent() {
       return NcAppContent;
@@ -67839,31 +68043,34 @@ const _hoisted_26$4 = {
   class: "groups-grid"
 };
 const _hoisted_27$4 = ["onMouseenter"];
-const _hoisted_28$3 = ["onClick"];
-const _hoisted_29$3 = {
+const _hoisted_28$3 = { class: "vignette-container" };
+const _hoisted_29$3 = ["onClick"];
+const _hoisted_30$3 = {
   key: 0,
   class: "vignette-cover"
 };
-const _hoisted_30$3 = ["src", "alt"];
-const _hoisted_31$3 = { class: "vignette-content" };
-const _hoisted_32$2 = { class: "vignette-icon" };
-const _hoisted_33$2 = {
+const _hoisted_31$3 = ["src", "alt"];
+const _hoisted_32$2 = { class: "vignette-content" };
+const _hoisted_33$2 = { class: "vignette-icon" };
+const _hoisted_34$2 = {
   key: 0,
   class: "vignette-description"
 };
-const _hoisted_34$2 = { class: "vignette-stats" };
-const _hoisted_35$2 = { class: "stat-item" };
-const _hoisted_36$1 = { class: "stat-value" };
-const _hoisted_37$1 = {
+const _hoisted_35$2 = { class: "vignette-stats" };
+const _hoisted_36$1 = { class: "stat-item" };
+const _hoisted_37$1 = { class: "stat-value" };
+const _hoisted_38$1 = {
   key: 0,
   class: "stat-item"
 };
-const _hoisted_38$1 = { class: "stat-value" };
-const _hoisted_39$1 = { class: "vignette-footer" };
-const _hoisted_40$1 = ["onMouseenter"];
-const _hoisted_41$1 = { class: "owner-menu-content" };
-const _hoisted_42 = { key: 1 };
-const _hoisted_43 = { class: "empty-state" };
+const _hoisted_39$1 = { class: "stat-value" };
+const _hoisted_40$1 = { class: "vignette-footer" };
+const _hoisted_41$1 = ["onMouseenter"];
+const _hoisted_42 = { class: "owner-menu-content" };
+const _hoisted_43 = {
+  key: 1,
+  class: "inquiry-group-content"
+};
 const _hoisted_44 = { class: "not-found-state" };
 function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
   return openBlock(), createBlock($setup["NcAppContent"], { class: "inquiry-group-page" }, {
@@ -67904,7 +68111,7 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
                     key: parent.id
                   },
                   [
-                    _cache[7] || (_cache[7] = createBaseVNode(
+                    _cache[4] || (_cache[4] = createBaseVNode(
                       "div",
                       { class: "breadcrumb-separator" },
                       "❯",
@@ -67969,7 +68176,7 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
           ])
         ]),
         createCommentVNode(" White Separation Line "),
-        _cache[18] || (_cache[18] = createBaseVNode(
+        _cache[14] || (_cache[14] = createBaseVNode(
           "div",
           { class: "separation-line" },
           null,
@@ -68020,7 +68227,7 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
           ]),
           createCommentVNode(" Loading State "),
           $setup.isLoading ? (openBlock(), createElementBlock("div", _hoisted_22$4, [
-            _cache[8] || (_cache[8] = createBaseVNode(
+            _cache[5] || (_cache[5] = createBaseVNode(
               "div",
               { class: "spinner" },
               null,
@@ -68078,90 +68285,132 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
                         onMouseenter: ($event) => $setup.hoveredGroupId = group2.id,
                         onMouseleave: _cache[2] || (_cache[2] = ($event) => $setup.hoveredGroupId = null)
                       }, [
-                        createBaseVNode("div", {
-                          class: "group-vignette",
-                          onClick: ($event) => $setup.selectGroup(group2)
-                        }, [
-                          group2.coverId ? (openBlock(), createElementBlock("div", _hoisted_29$3, [
-                            createBaseVNode("img", {
-                              src: $setup.getCoverUrl(group2.coverId),
-                              alt: group2.title
-                            }, null, 8, _hoisted_30$3),
-                            _cache[9] || (_cache[9] = createBaseVNode(
-                              "div",
-                              { class: "vignette-cover-overlay" },
-                              null,
-                              -1
-                              /* CACHED */
-                            ))
-                          ])) : createCommentVNode("v-if", true),
-                          createBaseVNode("div", _hoisted_31$3, [
+                        createBaseVNode("div", _hoisted_28$3, [
+                          createBaseVNode("div", {
+                            class: "group-vignette",
+                            onClick: ($event) => $setup.selectGroup(group2)
+                          }, [
+                            group2.coverId ? (openBlock(), createElementBlock("div", _hoisted_30$3, [
+                              createBaseVNode("img", {
+                                src: $setup.getCoverUrl(group2.coverId),
+                                alt: group2.title
+                              }, null, 8, _hoisted_31$3),
+                              _cache[6] || (_cache[6] = createBaseVNode(
+                                "div",
+                                { class: "vignette-cover-overlay" },
+                                null,
+                                -1
+                                /* CACHED */
+                              ))
+                            ])) : createCommentVNode("v-if", true),
                             createBaseVNode("div", _hoisted_32$2, [
-                              (openBlock(), createBlock(resolveDynamicComponent($setup.getGroupTypeIconComponent(group2.type))))
-                            ]),
-                            createBaseVNode(
-                              "h4",
-                              null,
-                              toDisplayString(group2.title),
-                              1
-                              /* TEXT */
-                            ),
-                            group2.description ? (openBlock(), createElementBlock(
-                              "p",
-                              _hoisted_33$2,
-                              toDisplayString(group2.description),
-                              1
-                              /* TEXT */
-                            )) : createCommentVNode("v-if", true),
-                            createBaseVNode("div", _hoisted_34$2, [
-                              createBaseVNode("div", _hoisted_35$2, [
-                                _cache[10] || (_cache[10] = createBaseVNode(
-                                  "span",
-                                  { class: "stat-icon" },
-                                  "📝",
-                                  -1
-                                  /* CACHED */
-                                )),
-                                createBaseVNode(
-                                  "span",
-                                  _hoisted_36$1,
-                                  toDisplayString(group2.inquiryIds?.length || 0),
-                                  1
-                                  /* TEXT */
-                                )
+                              createBaseVNode("div", _hoisted_33$2, [
+                                (openBlock(), createBlock(resolveDynamicComponent($setup.getGroupTypeIconComponent(group2.type))))
                               ]),
-                              $setup.getGroupChildren(group2).length > 0 ? (openBlock(), createElementBlock("div", _hoisted_37$1, [
-                                _cache[11] || (_cache[11] = createBaseVNode(
-                                  "span",
-                                  { class: "stat-icon" },
-                                  "👥",
-                                  -1
-                                  /* CACHED */
-                                )),
-                                createBaseVNode(
-                                  "span",
-                                  _hoisted_38$1,
-                                  toDisplayString($setup.getGroupChildren(group2).length),
-                                  1
-                                  /* TEXT */
-                                )
-                              ])) : createCommentVNode("v-if", true)
-                            ]),
-                            createBaseVNode("div", _hoisted_39$1, [
+                              createBaseVNode(
+                                "h4",
+                                null,
+                                toDisplayString(group2.title),
+                                1
+                                /* TEXT */
+                              ),
+                              group2.description ? (openBlock(), createElementBlock(
+                                "p",
+                                _hoisted_34$2,
+                                toDisplayString(group2.description),
+                                1
+                                /* TEXT */
+                              )) : createCommentVNode("v-if", true),
+                              createBaseVNode("div", _hoisted_35$2, [
+                                createBaseVNode("div", _hoisted_36$1, [
+                                  _cache[7] || (_cache[7] = createBaseVNode(
+                                    "span",
+                                    { class: "stat-icon" },
+                                    "📝",
+                                    -1
+                                    /* CACHED */
+                                  )),
+                                  createBaseVNode(
+                                    "span",
+                                    _hoisted_37$1,
+                                    toDisplayString(group2.inquiryIds?.length || 0),
+                                    1
+                                    /* TEXT */
+                                  )
+                                ]),
+                                $setup.getGroupChildren(group2).length > 0 ? (openBlock(), createElementBlock("div", _hoisted_38$1, [
+                                  _cache[8] || (_cache[8] = createBaseVNode(
+                                    "span",
+                                    { class: "stat-icon" },
+                                    "👥",
+                                    -1
+                                    /* CACHED */
+                                  )),
+                                  createBaseVNode(
+                                    "span",
+                                    _hoisted_39$1,
+                                    toDisplayString($setup.getGroupChildren(group2).length),
+                                    1
+                                    /* TEXT */
+                                  )
+                                ])) : createCommentVNode("v-if", true)
+                              ]),
+                              createBaseVNode("div", _hoisted_40$1, [
+                                createVNode($setup["NcButton"], {
+                                  class: "view-group-button",
+                                  onClick: withModifiers(($event) => $setup.selectGroup(group2), ["stop"])
+                                }, {
+                                  icon: withCtx(() => [..._cache[9] || (_cache[9] = [
+                                    createBaseVNode(
+                                      "svg",
+                                      {
+                                        width: "16",
+                                        height: "16",
+                                        viewBox: "0 0 24 24"
+                                      },
+                                      [
+                                        createBaseVNode("path", { d: "M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" })
+                                      ],
+                                      -1
+                                      /* CACHED */
+                                    )
+                                  ])]),
+                                  default: withCtx(() => [
+                                    createTextVNode(
+                                      toDisplayString($setup.t("agora", "View Group")) + " ",
+                                      1
+                                      /* TEXT */
+                                    )
+                                  ]),
+                                  _: 2
+                                  /* DYNAMIC */
+                                }, 1032, ["onClick"])
+                              ])
+                            ])
+                          ], 8, _hoisted_29$3),
+                          createCommentVNode(" Owner menu (appears under the vignette on hover) "),
+                          group2.slug && $setup.isOwnerOrAdmin && $setup.hoveredGroupId === group2.id ? (openBlock(), createElementBlock("div", {
+                            key: 0,
+                            class: "owner-menu-under",
+                            onMouseenter: ($event) => $setup.hoveredGroupId = group2.id,
+                            onMouseleave: _cache[1] || (_cache[1] = ($event) => $setup.hoveredGroupId = null)
+                          }, [
+                            createBaseVNode("div", _hoisted_42, [
                               createVNode($setup["NcButton"], {
-                                class: "view-group-button",
-                                onClick: withModifiers(($event) => $setup.selectGroup(group2), ["stop"])
+                                type: "tertiary",
+                                class: "menu-item modify",
+                                onClick: withModifiers(($event) => $setup.modifyGroup(group2), ["stop"])
                               }, {
-                                icon: withCtx(() => [..._cache[12] || (_cache[12] = [
+                                icon: withCtx(() => [..._cache[10] || (_cache[10] = [
                                   createBaseVNode(
                                     "svg",
                                     {
-                                      width: "16",
-                                      height: "16",
+                                      width: "14",
+                                      height: "14",
                                       viewBox: "0 0 24 24"
                                     },
                                     [
-                                      createBaseVNode("path", { d: "M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" })
+                                      createBaseVNode("path", { d: "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" })
                                     ],
                                     -1
                                     /* CACHED */
@@ -68169,7 +68418,67 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
                                 ])]),
                                 default: withCtx(() => [
                                   createTextVNode(
-                                    toDisplayString($setup.t("agora", "View Group")) + " ",
+                                    " " + toDisplayString($setup.t("agora", "Modify")),
+                                    1
+                                    /* TEXT */
+                                  )
+                                ]),
+                                _: 2
+                                /* DYNAMIC */
+                              }, 1032, ["onClick"]),
+                              createVNode($setup["NcButton"], {
+                                type: "tertiary",
+                                class: "menu-item delete",
+                                onClick: withModifiers(($event) => $setup.deleteGroup(group2), ["stop"])
+                              }, {
+                                icon: withCtx(() => [..._cache[11] || (_cache[11] = [
+                                  createBaseVNode(
+                                    "svg",
+                                    {
+                                      width: "14",
+                                      height: "14",
+                                      viewBox: "0 0 24 24"
+                                    },
+                                    [
+                                      createBaseVNode("path", { d: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" })
+                                    ],
+                                    -1
+                                    /* CACHED */
+                                  )
+                                ])]),
+                                default: withCtx(() => [
+                                  createTextVNode(
+                                    " " + toDisplayString($setup.t("agora", "Delete")),
+                                    1
+                                    /* TEXT */
+                                  )
+                                ]),
+                                _: 2
+                                /* DYNAMIC */
+                              }, 1032, ["onClick"]),
+                              createVNode($setup["NcButton"], {
+                                type: "tertiary",
+                                class: "menu-item add-response",
+                                onClick: withModifiers(($event) => $setup.addAllowedResponse(group2), ["stop"])
+                              }, {
+                                icon: withCtx(() => [..._cache[12] || (_cache[12] = [
+                                  createBaseVNode(
+                                    "svg",
+                                    {
+                                      width: "14",
+                                      height: "14",
+                                      viewBox: "0 0 24 24"
+                                    },
+                                    [
+                                      createBaseVNode("path", { d: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" })
+                                    ],
+                                    -1
+                                    /* CACHED */
+                                  )
+                                ])]),
+                                default: withCtx(() => [
+                                  createTextVNode(
+                                    " " + toDisplayString($setup.t("agora", "Add Subgroup")),
                                     1
                                     /* TEXT */
                                   )
@@ -68178,115 +68487,15 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
                                 /* DYNAMIC */
                               }, 1032, ["onClick"])
                             ])
-                          ])
-                        ], 8, _hoisted_28$3),
-                        createCommentVNode(" Owner menu (appears under the vignette on hover) "),
-                        group2.slug && $setup.isOwnerOrAdmin && $setup.hoveredGroupId === group2.id ? (openBlock(), createElementBlock("div", {
-                          key: 0,
-                          class: "owner-menu-under",
-                          onMouseenter: ($event) => $setup.hoveredGroupId = group2.id,
-                          onMouseleave: _cache[1] || (_cache[1] = ($event) => $setup.hoveredGroupId = null)
-                        }, [
-                          createBaseVNode("div", _hoisted_41$1, [
-                            createVNode($setup["NcButton"], {
-                              type: "tertiary",
-                              class: "menu-item modify",
-                              onClick: withModifiers(($event) => $setup.modifyGroup(group2), ["stop"])
-                            }, {
-                              icon: withCtx(() => [..._cache[13] || (_cache[13] = [
-                                createBaseVNode(
-                                  "svg",
-                                  {
-                                    width: "14",
-                                    height: "14",
-                                    viewBox: "0 0 24 24"
-                                  },
-                                  [
-                                    createBaseVNode("path", { d: "M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" })
-                                  ],
-                                  -1
-                                  /* CACHED */
-                                )
-                              ])]),
-                              default: withCtx(() => [
-                                createTextVNode(
-                                  " " + toDisplayString($setup.t("agora", "Modify")),
-                                  1
-                                  /* TEXT */
-                                )
-                              ]),
-                              _: 2
-                              /* DYNAMIC */
-                            }, 1032, ["onClick"]),
-                            createVNode($setup["NcButton"], {
-                              type: "tertiary",
-                              class: "menu-item delete",
-                              onClick: withModifiers(($event) => $setup.deleteGroup(group2), ["stop"])
-                            }, {
-                              icon: withCtx(() => [..._cache[14] || (_cache[14] = [
-                                createBaseVNode(
-                                  "svg",
-                                  {
-                                    width: "14",
-                                    height: "14",
-                                    viewBox: "0 0 24 24"
-                                  },
-                                  [
-                                    createBaseVNode("path", { d: "M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" })
-                                  ],
-                                  -1
-                                  /* CACHED */
-                                )
-                              ])]),
-                              default: withCtx(() => [
-                                createTextVNode(
-                                  " " + toDisplayString($setup.t("agora", "Delete")),
-                                  1
-                                  /* TEXT */
-                                )
-                              ]),
-                              _: 2
-                              /* DYNAMIC */
-                            }, 1032, ["onClick"]),
-                            createVNode($setup["NcButton"], {
-                              type: "tertiary",
-                              class: "menu-item add-response",
-                              onClick: withModifiers(($event) => $setup.addAllowedResponse(group2), ["stop"])
-                            }, {
-                              icon: withCtx(() => [..._cache[15] || (_cache[15] = [
-                                createBaseVNode(
-                                  "svg",
-                                  {
-                                    width: "14",
-                                    height: "14",
-                                    viewBox: "0 0 24 24"
-                                  },
-                                  [
-                                    createBaseVNode("path", { d: "M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" })
-                                  ],
-                                  -1
-                                  /* CACHED */
-                                )
-                              ])]),
-                              default: withCtx(() => [
-                                createTextVNode(
-                                  " " + toDisplayString($setup.t("agora", "Add Response")),
-                                  1
-                                  /* TEXT */
-                                )
-                              ]),
-                              _: 2
-                              /* DYNAMIC */
-                            }, 1032, ["onClick"])
-                          ])
-                        ], 40, _hoisted_40$1)) : createCommentVNode("v-if", true)
+                          ], 40, _hoisted_41$1)) : createCommentVNode("v-if", true)
+                        ])
                       ], 40, _hoisted_27$4);
                     }),
                     128
                     /* KEYED_FRAGMENT */
                   ))
                 ])) : createCommentVNode("v-if", true),
-                $setup.hasSlug && $setup.currentInquiryGroup ? (openBlock(), createElementBlock("div", _hoisted_42, [
+                $setup.hasSlug && $setup.currentInquiryGroup ? (openBlock(), createElementBlock("div", _hoisted_43, [
                   createVNode($setup["InquiryGroupViewMiddle"], {
                     group: $setup.currentInquiryGroup,
                     "inquiry-ids": $setup.currentInquiryGroup.inquiryIds
@@ -68295,67 +68504,7 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
                     group: $setup.currentInquiryGroup,
                     "inquiry-ids": $setup.currentInquiryGroup.inquiryIds
                   }, null, 8, ["group", "inquiry-ids"])
-                ])) : (openBlock(), createElementBlock(
-                  Fragment$1,
-                  { key: 2 },
-                  [
-                    createCommentVNode(" Empty state "),
-                    createBaseVNode("div", _hoisted_43, [
-                      _cache[16] || (_cache[16] = createBaseVNode(
-                        "div",
-                        { class: "empty-icon" },
-                        "📝",
-                        -1
-                        /* CACHED */
-                      )),
-                      createBaseVNode(
-                        "h3",
-                        null,
-                        toDisplayString($setup.emptyStateTitle),
-                        1
-                        /* TEXT */
-                      ),
-                      createBaseVNode(
-                        "p",
-                        null,
-                        toDisplayString($setup.emptyStateMessage),
-                        1
-                        /* TEXT */
-                      ),
-                      $setup.hasSlug ? (openBlock(), createBlock($setup["NcButton"], {
-                        key: 0,
-                        onClick: _cache[3] || (_cache[3] = ($event) => $setup.navigateToCreateInquiry()),
-                        type: "primary"
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(
-                            " ➕ " + toDisplayString($setup.t("agora", "Create First Inquiry")),
-                            1
-                            /* TEXT */
-                          )
-                        ]),
-                        _: 1
-                        /* STABLE */
-                      })) : $setup.isOwnerOrAdmin ? (openBlock(), createBlock($setup["NcButton"], {
-                        key: 1,
-                        onClick: _cache[4] || (_cache[4] = ($event) => $setup.createInquiryGroup($setup.currentGroupType)),
-                        type: "primary"
-                      }, {
-                        default: withCtx(() => [
-                          createTextVNode(
-                            " ➕ " + toDisplayString($setup.t("agora", "Create First Group")),
-                            1
-                            /* TEXT */
-                          )
-                        ]),
-                        _: 1
-                        /* STABLE */
-                      })) : createCommentVNode("v-if", true)
-                    ])
-                  ],
-                  2112
-                  /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */
-                ))
+                ])) : createCommentVNode("v-if", true)
               ])
             ],
             2112
@@ -68367,7 +68516,7 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
           [
             createCommentVNode(" Group not found "),
             createBaseVNode("div", _hoisted_44, [
-              _cache[17] || (_cache[17] = createBaseVNode(
+              _cache[13] || (_cache[13] = createBaseVNode(
                 "div",
                 { class: "not-found-icon" },
                 "🔍",
@@ -68417,13 +68566,12 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
         default: withCtx(() => [
           createVNode($setup["InquiryGroupCreateDlg"], {
             "inquiry-group-type": $setup.selectedInquiryGroupTypeForCreation,
-            "selected-groups": $setup.selectedGroups,
-            "parent-inquiry-id": $setup.currentInquiryGroup.id,
+            "parent-group-id": $setup.selectedParentId,
             "available-groups": $setup.availableGroups,
+            isSubGroup: $setup.isSubGroup,
             onAdded: $setup.inquiryGroupAdded,
-            onClose: $setup.handleCloseGroupDialog,
-            "onUpdate:selectedGroups": _cache[5] || (_cache[5] = ($event) => $setup.selectedGroups = $event)
-          }, null, 8, ["inquiry-group-type", "selected-groups", "parent-inquiry-id", "available-groups"])
+            onClose: $setup.handleCloseGroupDialog
+          }, null, 8, ["inquiry-group-type", "parent-group-id", "available-groups", "isSubGroup"])
         ]),
         _: 1
         /* STABLE */
@@ -68431,7 +68579,7 @@ function _sfc_render$s(_ctx, _cache, $props, $setup, $data, $options) {
       $setup.deleteDialogGroup ? (openBlock(), createBlock($setup["NcDialog"], {
         key: 1,
         open: $setup.showDeleteDialog,
-        "onUpdate:open": _cache[6] || (_cache[6] = ($event) => $setup.showDeleteDialog = $event),
+        "onUpdate:open": _cache[3] || (_cache[3] = ($event) => $setup.showDeleteDialog = $event),
         name: $setup.deleteDialogTitle,
         message: $setup.deleteDialogMessage,
         buttons: $setup.deleteDialogButtons
@@ -73855,7 +74003,7 @@ const _sfc_main$4 = /* @__PURE__ */ defineComponent({
       }
       try {
         autoSaving.value = true;
-        const response = await attachmentsStore.upload(inquiryGroupStore.id, file, true);
+        const response = await attachmentsStore.uploadGroup(inquiryGroupStore.id, file, true);
         const attachment = {
           id: response.id ?? `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
           name: response.name ?? file.name,

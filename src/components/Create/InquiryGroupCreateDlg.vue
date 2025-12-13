@@ -22,27 +22,25 @@ import {
   getAvailableInquiryGroupTypesForCreation,
   getInquiryGroupTypeOptions,
   getInquiryGroupTypeData,
+  getAllowedResponseGroupTypes,
 } from '../../helpers/modules/InquiryHelper.ts'
 
 // Define props
 interface Props {
   inquiryGroupType?: InquiryGroupType | null
-  responseType?: string | null
-  selectedMode?: string
+  parentGroupId?: string | number | null
   availableGroups?: string[]
-  parentInquiryId?: string | number | null
   defaultTitle?: string | null
+  isSubGroup?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
   inquiryGroupType: null,
-  responseType: null,
-  selectedMode: null,
+  parentGroupId: null,
   availableGroups: () => [],
-  parentInquiryId: null,
-  defaultTitle: null
+  defaultTitle: null,
+  isSubGroup: false
 })
-
 
 const emit = defineEmits<{
   (e: 'close'): void
@@ -56,43 +54,131 @@ const sessionStore = useSessionStore()
 const inquiryTitle = ref('')
 const inquiryId = ref<number | null>(null)
 const adding = ref(false)
-const accessType = ref<'user' | 'groups'>('user')
-const selectedGroup = ref<string | null>(null)
 
-// Get inquiry types from app settings
-const inquiryGroupTypes = computed((): InquiryGroupType[] => {
+const accessType = ref<'user' | 'groups'>('user')
+const selectedNextcloudGroup = ref<string | null>(null)
+
+const localInquiryGroupType = ref<string>('')
+
+// Get all inquiry types from app settings
+const allInquiryGroupTypes = computed((): InquiryGroupType[] => {
   const types = sessionStore.appSettings.inquiryGroupTypeTab || []
-  return types.filter(type => type.is_root === true)
+  return types
 })
 
-// Filter out official and suggestion types for creation
-const availableInquiryGroupTypes = computed(() => getAvailableInquiryGroupTypesForCreation(inquiryGroupTypes.value))
+const allowedResponseGroupTypes = computed(() => {
+  if (props.isSubGroup && props.parentGroupId && !props.inquiryGroupType) {
+    const parentGroupType = '' 
+    
+    if (parentGroupType) {
+      return getAllowedResponseGroupTypes(allInquiryGroupTypes.value, parentGroupType)
+    }
+  }
+  return []
+})
 
-// Inquiry type options for radio group
-const inquiryGroupTypeOptions = computed(() => getInquiryGroupTypeOptions(availableInquiryGroupTypes.value))
+const availableInquiryGroupTypes = computed(() => {
+  if (props.inquiryGroupType && !props.parentGroupId && !props.isSubGroup) {
+    return [props.inquiryGroupType]
+  }
+  
+  if (props.inquiryGroupType && props.parentGroupId && !props.isSubGroup) {
+    return [props.inquiryGroupType]
+  }
+  
+  if (props.parentGroupId && props.isSubGroup && !props.inquiryGroupType) {
+    if (allowedResponseGroupTypes.value.length > 0) {
+      return getAvailableInquiryGroupTypesForCreation(allowedResponseGroupTypes.value)
+    }
+    const rootTypes = allInquiryGroupTypes.value.filter(type => type.is_root === true)
+    return getAvailableInquiryGroupTypesForCreation(rootTypes)
+  }
+  
+  const rootTypes = allInquiryGroupTypes.value.filter(type => type.is_root === true)
+  return getAvailableInquiryGroupTypesForCreation(rootTypes)
+})
 
-// Selected inquiry type (for selector display)
-const localInquiryGroupType = ref(availableInquiryGroupTypes.value[0]?.inquiry_type || '')
+const inquiryGroupTypeOptions = computed(() => 
+  getInquiryGroupTypeOptions(availableInquiryGroupTypes.value)
+)
 
-// Final selected type (priority to props)
-const selectedType = computed(() => {
+const selectedInquiryGroupType = computed(() => {
+  console.log(" PROPS GROUP TYPE ",props.inquiryGroupType)
+  console.log(" localInq GROUP TYPE ",localInquiryGroupType)
+  console.log(" Available GROUP TYPE ",availableInquiryGroupTypes.value[0]?.group_type)
+
   if (props.inquiryGroupType) {
-    return props.inquiryGroupType.group_type
+    return props.inquiryGroupType
   }
-  if (props.responseType) {
-    return props.responseType
-  }
-  return localInquiryGroupType.value
+  
+  return localInquiryGroupType.value || availableInquiryGroupTypes.value[0]?.group_type
 })
 
 // Data for display
-const currentInquiryGroupTypeData = computed(() => getInquiryGroupTypeData(selectedType.value, inquiryGroupTypes.value))
+const currentInquiryGroupTypeData = computed(() => 
+  getInquiryGroupTypeData(selectedInquiryGroupType.value, allInquiryGroupTypes.value)
+)
 
-// Check if type is predefined (don't show selector)
-const hasPredefinedType = computed(() => !!(props.inquiryGroupType || props.responseType))
+const creationMode = computed(() => {
+  console.log(" PROPS INQUIRY GORUOP",props.inquiryGroupType)
+  console.log(" PARENT.ID",props?.parentGroupId)
+  console.log("IS SUB GROUP",props?.isSubGroup)
 
-const selectGroup = (group: string | null) => {
-  selectedGroup.value = group
+  if (props.inquiryGroupType && !props.parentGroupId && !props.isSubGroup) {
+    return 'direct-creation'
+  }
+  
+  if (props.inquiryGroupType && props.parentGroupId && !props.isSubGroup) {
+    return 'child-creation'
+  }
+  
+  if (props.parentGroupId && props.isSubGroup) {
+    return 'subgroup-creation'
+  }
+  
+  return 'free-creation'
+})
+
+const showInquiryGroupTypeSelector = computed(() => {
+  return creationMode.value === 'subgroup-creation' && availableInquiryGroupTypes.value.length > 1
+})
+
+const dialogTitle = computed(() => {
+  switch (creationMode.value) {
+    case 'direct-creation':
+      return t('agora', 'Create {type} Group', { 
+        type: props.inquiryGroupType?.label || '' 
+      })
+    case 'child-creation':
+      return t('agora', 'Create {type} Child Group', {
+        type: props.inquiryGroupType?.label || ''
+      })
+    case 'subgroup-creation':
+      return t('agora', 'Add sub group')
+    default:
+      return t('agora', 'Create New Group')
+  }
+})
+
+const contextDescription = computed(() => {
+  switch (creationMode.value) {
+    case 'direct-creation':
+      return t('agora', 'Creating a new {type} group', {
+        type: props.inquiryGroupType?.label || ''
+      })
+    case 'child-creation':
+      return t('agora', 'Creating a {type} group as a child of the parent group', {
+        type: props.inquiryGroupType?.label || ''
+      })
+    case 'subgroup-creation':
+      return t('agora', 'Add an allowed response group to the parent group')
+    default:
+      return t('agora', 'Create a new inquiry group')
+  }
+})
+
+const selectNextcloudGroup = (group: string | null) => {
+  selectedNextcloudGroup.value = group
   emit('update:selected-groups', group ? [group] : [])
 }
 
@@ -101,17 +187,17 @@ const updateLocalInquiryGroupType = (newType: string) => {
   localInquiryGroupType.value = newType
 }
 
-// Watch to pre-fill type when prop changes
-watch(() => props.inquiryGroupType, (newType) => {
-  if (newType && newType.inquiry_type) {
-    localInquiryGroupType.value = newType.inquiry_type
-  }
-}, { immediate: true })
-
 // Watch to pre-fill title
 watch(() => props.defaultTitle, (newTitle) => {
   if (newTitle) {
     inquiryTitle.value = newTitle
+  }
+}, { immediate: true })
+
+// Watch available inquiry group types
+watch(availableInquiryGroupTypes, (newTypes) => {
+  if (newTypes.length > 0 && !localInquiryGroupType.value) {
+    localInquiryGroupType.value = newTypes[0].group_type
   }
 }, { immediate: true })
 
@@ -121,7 +207,7 @@ const disableAddButton = computed(() => titleIsEmpty.value || adding.value)
 interface InquiryGroupData {
   type: string
   title: string
-  parentId?: string | number | null
+  parentId?:  number | null
   ownedGroup?: string
   description?: string
 }
@@ -129,43 +215,77 @@ interface InquiryGroupData {
 async function addGroupInquiry() {
   try {
     adding.value = true
-    // Prepare inquiry data with proper typing
+    
+    // Validate required fields
+    if (!selectedInquiryGroupType.value) {
+      showError(t('agora', 'Please select a group type'))
+      return
+    }
+    
+    if (titleIsEmpty.value) {
+      showError(t('agora', 'Please enter a title'))
+      return
+    }
+    let typeSelected = selectedInquiryGroupType
+
+    console.log("SLECT INQUIRY GROUP TYPE:", selectedInquiryGroupType.value)
+    console.log("LOCAL SLECT INQUIRY GROUP TYPE:", localInquiryGroupType.value)
+    if (localInquiryGroupType.value) typeSelected = localInquiryGroupType.value
+    
+    console.log("APRES SLECT INQUIRY GROUP TYPE:", selectedInquiryGroupType.value)
+    // Prepare inquiry data
     const inquiryData: InquiryGroupData = {
-      type: selectedType.value,
+      type: typeSelected,
       title: inquiryTitle.value.trim(),
     }
 
-    if (props.parentInquiryId) {
-      inquiryData.parentId = props.parentInquiryId
+    // Add parent ID if provided
+    if (props.parentGroupId) {
+      inquiryData.parentId = props.parentGroupId
     }
     
-    // Add groups if groups access is selected
-    if (accessType.value === 'groups' && selectedGroup.value) {
-      inquiryData.ownedGroup = selectedGroup.value
+    // Add Nextcloud groups if groups access is selected
+    if (accessType.value === 'groups' && selectedNextcloudGroup.value) {
+      inquiryData.ownedGroup = selectedNextcloudGroup.value
     }
    
-    console.log(" BEFORE ADD ")
-    // Add the inquiry
+    console.log("Creating inquiry group with data:", inquiryData)
+    console.log("Creation mode:", creationMode.value)
+    
+    // Add the inquiry group
     const inquiry = await inquiryGroupStore.add(inquiryData)
     
-    console.log(" AFTER ADD ",inquiry)
+    console.log("Inquiry group created:", inquiry)
 
     if (inquiry) {
       inquiryId.value = inquiry.id
-      showSuccess(
-        t('agora', '"{inquiryTitle}" group has been added', {
+      
+      let successMessage = t('agora', '"{inquiryTitle}" group has been created', {
+        inquiryTitle: inquiry.title,
+      })
+      
+      if (creationMode.value === 'subgroup-creation') {
+        successMessage = t('agora', 'Allowed response "{inquiryTitle}" has been added', {
           inquiryTitle: inquiry.title,
         })
-      )
+      } else if (creationMode.value === 'child-creation') {
+        successMessage = t('agora', 'Child group "{inquiryTitle}" has been created', {
+          inquiryTitle: inquiry.title,
+        })
+      }
+      
+      showSuccess(successMessage)
+      
       emit('added', {
         id: inquiry.id,
         title: inquiry.title,
       })
       resetInquiry()
     }
-  } catch  {
+  } catch (error) {
+    console.error('Error creating inquiry group:', error)
     showError(
-      t('agora', 'Error while creating group Inquiry "{inquiryTitle}"', {
+      t('agora', 'Error while creating group "{inquiryTitle}"', {
         inquiryTitle: inquiryTitle.value,
       })
     )
@@ -178,7 +298,7 @@ function resetInquiry() {
   inquiryId.value = null
   inquiryTitle.value = ''
   accessType.value = 'user'
-  selectedGroup.value = null
+  selectedNextcloudGroup.value = null
   emit('update:selected-groups', [])
 }
 </script>
@@ -187,9 +307,28 @@ function resetInquiry() {
   <div class="dialog-overlay" @click="emit('close')">
     <!-- Dialog container -->
     <div class="create-dialog" @click.stop>
-      <!-- Access Configuration -->
+      <!-- Dialog Header -->
+      <div class="dialog-header">
+        <h3>{{ dialogTitle }}</h3>
+        <div v-if="creationMode === 'subgroup-creation'" class="mode-badge response">
+          {{ t('agora', 'SubGroup') }}
+        </div>
+        <div v-else-if="creationMode === 'child-creation'" class="mode-badge child">
+          {{ t('agora', 'Child Group') }}
+        </div>
+        <div v-else-if="creationMode === 'direct-creation'" class="mode-badge creation">
+          {{ t('agora', 'New Group') }}
+        </div>
+      </div>
+
+      <!-- Context description -->
+      <div class="context-description">
+        <p>{{ contextDescription }}</p>
+      </div>
+
+      <!-- Access Configuration - Groups Nextcloud -->
       <ConfigBox
-        v-if="availableGroups.length > 0"
+        v-if="props.availableGroups && props.availableGroups.length > 0"
         :name="t('agora', 'Access Settings')"
       >
         <template #icon>
@@ -199,38 +338,38 @@ function resetInquiry() {
           <NcRadioGroup
             :model-value="accessType"
             class="access-radio-group"
-            :description="t('agora', 'Choose who is opening this inquiry')"
+            :description="t('agora', 'Choose who can access this group')"
             @update:model-value="accessType = $event"
           >
             <NcCheckboxRadioSwitch value="user">
-              {{ t('agora', 'Only me (personal inquiry)') }}
+              {{ t('agora', 'Only me (personal group)') }}
             </NcCheckboxRadioSwitch>
 
             <NcCheckboxRadioSwitch value="groups">
-              {{ t('agora', 'Open with this group') }}
+              {{ t('agora', 'Share with Nextcloud group') }}
             </NcCheckboxRadioSwitch>
           </NcRadioGroup>
 
-          <!-- Group Selection -->
-          <div v-if="accessType === 'groups'" class="groups-selection">
+          <!-- Nextcloud Group Selection -->
+          <div v-if="accessType === 'groups'" class="nextcloud-groups-selection">
             <h4 class="groups-title">
-              {{ t('agora', 'Select groups') }}
+              {{ t('agora', 'Select Nextcloud group') }}
             </h4>
             <div class="groups-list">
               <NcRadioGroup
-                :model-value="selectedGroup"
-                :description="t('agora', 'Choose which of your groups can access this inquiry')"
-                @update:model-value="selectGroup($event)"
+                :model-value="selectedNextcloudGroup"
+                :description="t('agora', 'Choose which Nextcloud group can access this inquiry group')"
+                @update:model-value="selectNextcloudGroup($event)"
               >
                 <div
-                  v-for="group in availableGroups"
+                  v-for="group in props.availableGroups"
                   :key="group"
                   class="group-item"
                 >
                   <NcCheckboxRadioSwitch
                     :value="group"
                     type="radio"
-                    name="group-selection"
+                    name="nextcloud-group-selection"
                   >
                     {{ group }}
                   </NcCheckboxRadioSwitch>
@@ -250,19 +389,18 @@ function resetInquiry() {
           :model-value="inquiryTitle"
           focus
           type="text"
-          :placeholder="t('agora', 'Enter title')"
-          :helper-text="t('agora', 'Choose a meaningful title for your inquiry')"
-          :label="t('agora', 'Enter title')"
+          :placeholder="t('agora', 'Enter group title')"
+          :helper-text="t('agora', 'Choose a meaningful title for your group')"
+          :label="t('agora', 'Group Title')"
           @update:model-value="inquiryTitle = $event"
           @submit="addGroupInquiry"
         />
       </ConfigBox>
 
-      <!-- Inquiry Type Selector -->
       <ConfigBox
-        v-if="!hasPredefinedType"
-        :name="t('agora', 'Inquiry type')"
-        :label="t('agora', 'Inquiry type')"
+        v-if="showInquiryGroupTypeSelector"
+        :name="t('agora', 'Group Type')"
+        :label="t('agora', 'Select group type')"
       >
         <template #icon>
           <Component :is="InquiryGeneralIcons.Check" />
@@ -274,18 +412,17 @@ function resetInquiry() {
         />
       </ConfigBox>
 
-      <!-- Selected Type Display -->
       <ConfigBox
-        v-else
-        :name="t('agora', 'Inquiry  group type')"
-        :label="t('agora', 'Inquiry group type')"
+        v-else-if="currentInquiryGroupTypeData"
+        :name="t('agora', 'Group Type')"
+        :label="t('agora', 'Group type')"
       >
         <template #icon>
           <Component :is="InquiryGeneralIcons.Check" />
         </template>
         <div class="selected-type">
-          <strong>{{ currentInquiryGroupTypeData?.label }}</strong>
-          <p v-if="currentInquiryGroupTypeData?.description" class="type-description">
+          <strong>{{ currentInquiryGroupTypeData.label }}</strong>
+          <p v-if="currentInquiryGroupTypeData.description" class="type-description">
             {{ currentInquiryGroupTypeData.description }}
           </p>
         </div>
@@ -301,7 +438,10 @@ function resetInquiry() {
           :variant="'primary'"
           @click="addGroupInquiry"
         >
-          {{ adding ? t('agora', 'Creating...') : t('agora', 'Create group Inquiry') }}
+          {{ adding ? t('agora', 'Creating...') : 
+            creationMode === 'subgroup-creation' ? 
+            t('agora', 'Add Allowed Response') : 
+            t('agora', 'Create Group') }}
         </NcButton>
       </div>
     </div>
@@ -324,8 +464,8 @@ function resetInquiry() {
 
 .create-dialog {
   background-color: var(--color-main-background);
-  padding: 20px;
-  max-width: 400px;
+  padding: 24px;
+  max-width: 500px;
   width: 90%;
   max-height: 90vh;
   overflow-y: auto;
@@ -334,27 +474,80 @@ function resetInquiry() {
   margin: 20px;
 }
 
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.dialog-header h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: var(--color-main-text);
+}
+
+.mode-badge {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+.mode-badge.response {
+  background: var(--color-warning);
+  color: var(--color-warning-text);
+}
+
+.mode-badge.child {
+  background: var(--color-info);
+  color: var(--color-info-text);
+}
+
+.mode-badge.creation {
+  background: var(--color-success);
+  color: var(--color-success-text);
+}
+
+.context-description {
+  margin-bottom: 20px;
+  padding: 12px;
+  background: var(--color-background-hover);
+  border-radius: 6px;
+  border-left: 3px solid var(--color-primary);
+}
+
+.context-description p {
+  margin: 0;
+  color: var(--color-text-lighter);
+  font-size: 0.9em;
+  line-height: 1.4;
+}
+
 .create-buttons {
   display: flex;
   justify-content: flex-end;
-  gap: 8px;
-  margin-top: 20px;
-  padding-top: 16px;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
   border-top: 1px solid var(--color-border);
 }
 
 .selected-type {
-  padding: 8px 0;
+  padding: 12px 0;
 }
 
 .type-description {
   color: var(--color-text-lighter);
   font-size: 0.9em;
-  margin-top: 4px;
+  margin-top: 8px;
+  line-height: 1.4;
 }
 
 .access-settings {
-  padding: 8px 0;
+  padding: 12px 0;
 }
 
 .access-description {
@@ -364,10 +557,10 @@ function resetInquiry() {
 }
 
 .access-radio-group {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
-.groups-selection {
+.nextcloud-groups-selection {
   margin-top: 16px;
   padding: 16px;
   background: var(--color-background-dark);

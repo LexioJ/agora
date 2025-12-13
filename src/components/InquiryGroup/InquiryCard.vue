@@ -134,11 +134,11 @@ const cardClasses = computed(() => ({
 
 // Get type data
 const typeData = computed(() => {
-  return getInquiryTypeData(props.inquiry.inquiry_type, inquiryTypes.value)
+  return getInquiryTypeData(props.inquiry.type, inquiryTypes.value)
 })
 
 const typeIcon = computed(() => typeData.value?.icon || '📝')
-const typeLabel = computed(() => typeData.value?.label || props.inquiry.inquiry_type)
+const typeLabel = computed(() => typeData.value?.label || props.inquiry.type)
 
 // Status
 const statusClass = computed(() => {
@@ -151,12 +151,7 @@ const statusClass = computed(() => {
 })
 
 const statusText = computed(() => {
-  switch (props.inquiry.status) {
-    case 'open': return t('agora', 'Open')
-    case 'closed': return t('agora', 'Closed')
-    case 'draft': return t('agora', 'Draft')
-    default: return props.inquiry.status || ''
-  }
+return appSettingsStore.getStatusByKey(props.inquiry.type,props.inquiry.status.inquiryStatus)
 })
 
 // Cover image

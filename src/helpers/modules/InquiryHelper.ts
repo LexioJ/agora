@@ -192,6 +192,36 @@ export function getAvailableTransformTypes(inquiryType: string, inquiryTypes: In
     allowedTransforms.includes(type.inquiry_type)
   )
 }
+
+/**
+ * Get available response types for an inquiry type based on allowed_response field
+ * @param inquiryType
+ * @param allTypes
+ */
+export function getAllowedResponseGroupTypes(
+  allTypes: InquiryGroupType[], 
+  inquiryType: string
+): InquiryGroupType[] {
+  const currentType = allTypes.find(t => t.group_type === inquiryType)
+  if (!currentType || !currentType.allowed_response) return []
+
+  // Parse allowed_response if it's a string (JSON)
+  let allowedResponses: string[] = []
+  if (typeof currentType.allowed_response === 'string') {
+    try {
+      allowedResponses = JSON.parse(currentType.allowed_response)
+    } catch {
+      allowedResponses = []
+    }
+  } else if (Array.isArray(currentType.allowed_response)) {
+    allowedResponses = currentType.allowed_response
+  }
+
+  // Filter inquiry types that are in allowed_response
+  return allTypes.filter(type =>
+    allowedResponses.includes(type.group_type)
+  )
+}
 /**
  * Get available fields for an inquiry type based on fields
  * @param inquiryType
@@ -269,25 +299,20 @@ export function getAvailableResponseTypes(inquiryType: string, inquiryTypes: Inq
 }
 
 /**
- * Get available inquiry group types for creation (filter out official and suggestion)
- * @param inquiryTypes
+ * Get available inquiry group types for creation (is_root === true)
+ * @param inquiryGroupTypes
  */
-export function getAvailableInquiryGroupTypesForCreation(inquiryGroupTypes: InquiryGroupType[]): InquiryGroupType[] {
-  return inquiryGroupTypes.filter(type =>
-    !['official', 'suggestion'].includes(type.group_type)
-  )
-}
+export const getAvailableInquiryGroupTypesForCreation =
+  (list: InquiryGroupType[]) => list.filter(t => t.is_root);
 
 
 /**
  * Get available inquiry types for creation (filter out official and suggestion)
  * @param inquiryTypes
  */
-export function getAvailableInquiryTypesForCreation(inquiryTypes: InquiryType[]): InquiryType[] {
-  return inquiryTypes.filter(type =>
-    !['official', 'suggestion'].includes(type.inquiry_type)
-  )
-}
+export const getAvailableInquiryTypesForCreation =
+  (list: InquiryType[]) => list.filter(t => t.is_root);
+
 
 /**
  * Check if inquiry has final status based on appSettings.inquiryStatusTab

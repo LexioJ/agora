@@ -124,6 +124,7 @@ class InquiryGroupController extends BaseController
             if (empty($data['title'])) {
                 throw new \InvalidArgumentException('Title is required');
             }
+            $this->logger->debug('ADDIIIIIIIIIIIIII inquiry group', ['type' => $data['type']]);
 
             return $this->response(
                 fn () => [

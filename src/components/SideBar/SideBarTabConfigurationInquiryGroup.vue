@@ -133,7 +133,7 @@ const handleImageUpload = async (event: Event) => {
   try {
     autoSaving.value = true
     
-    const response = await attachmentsStore.upload(inquiryGroupStore.id, file, true)
+    const response = await attachmentsStore.uploadGroup(inquiryGroupStore.id, file, true)
 
     const attachment = {
       id: response.id ?? `temp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,

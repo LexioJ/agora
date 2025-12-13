@@ -85,24 +85,24 @@ class AttachmentService
      * @return Attachment
      * @throws \Exception
      */
-    public function add(int $inquiryId, int $groupId, array $uploadedFile, bool $coverId): Attachment
+    public function add(int $id,  array $uploadedFile, bool $coverId, bool $state ): Attachment
     {
         // Validate that either inquiryId or groupId is provided
-        if ($inquiryId === 0 && $groupId === 0) {
+        if ($id === 0 ) {
             throw new \InvalidArgumentException('Either inquiryId or groupId must be provided');
         }
 
         // Determine if this is a group or inquiry attachment
-        $isGroupAttachment = $groupId > 0;
+        $isGroupAttachment = $state;
         
         if ($isGroupAttachment) {
-            $entityFolder = $this->getGroupFolder($groupId);
-            $entity = $this->inquiryGroupMapper->find($groupId);
-            $this->logger->info('Adding group attachment', ['groupId' => $groupId, 'coverId' => $coverId]);
+            $entityFolder = $this->getGroupFolder($id);
+            $entity = $this->inquiryGroupMapper->find($id);
+            $this->logger->info('Adding group attachment', ['groupId' => $id, 'coverId' => $coverId]);
         } else {
-            $entityFolder = $this->getInquiryFolder($inquiryId);
-            $entity = $this->inquiryMapper->find($inquiryId);
-            $this->logger->info('Adding inquiry attachment', ['inquiryId' => $inquiryId, 'coverId' => $coverId]);
+            $entityFolder = $this->getInquiryFolder($id);
+            $entity = $this->inquiryMapper->find($id);
+            $this->logger->info('Adding inquiry attachment', ['inquiryId' => $id, 'coverId' => $coverId]);
         }
 
         $user = $this->userSession->getUser();
@@ -114,9 +114,9 @@ class AttachmentService
                 try {
                     // Check if old attachment exists before attempting removal
                     if ($isGroupAttachment) {
-                        $oldAttachment = $this->attachmentMapper->findByFileIdForGroup($groupId, $entity->getCoverId());
+                        $oldAttachment = $this->attachmentMapper->findByFileIdForGroup($id, $entity->getCoverId());
                     } else {
-                        $oldAttachment = $this->attachmentMapper->findByFileId($inquiryId, $entity->getCoverId());
+                        $oldAttachment = $this->attachmentMapper->findByFileId($id, $entity->getCoverId());
                     }
                 
                     // If we get here, attachment exists and can be removed
@@ -161,8 +161,14 @@ class AttachmentService
 
         // Create database record
         $attachment = new Attachment();
-        $attachment->setInquiryId($inquiryId);
-        $attachment->setGroupId($groupId);
+        if ($isGroupAttachment) {
+            $attachment->setGroupId($id); 
+            $attachment->setInquiryId(0);
+        }
+        else {
+            $attachment->setGroupId(0); 
+            $attachment->setInquiryId($id);
+        }
         $attachment->setName($uploadedFile['name']);
         $attachment->setMimeType($uploadedFile['type'] ?? 'application/octet-stream');
         $attachment->setSize($uploadedFile['size']);

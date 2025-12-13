@@ -112,28 +112,17 @@ const listItemClasses = computed(() => ({
 
 // Get type data
 const typeData = computed(() => {
-  return getInquiryTypeData(props.inquiry.inquiry_type, inquiryTypes.value)
+  return getInquiryTypeData(props.inquiry.type, inquiryTypes.value)
 })
 
 const typeIcon = computed(() => typeData.value?.icon || '📝')
 
-// Status
 const statusClass = computed(() => {
-  switch (props.inquiry.status) {
-    case 'open': return 'status-open'
-    case 'closed': return 'status-closed'
-    case 'draft': return 'status-draft'
-    default: return 'status-unknown'
-  }
+return appSettingsStore.getStatusByKey(props.inquiry.type,props.inquiry.status.inquiryStatus)
 })
 
 const statusText = computed(() => {
-  switch (props.inquiry.status) {
-    case 'open': return t('agora', 'Open')
-    case 'closed': return t('agora', 'Closed')
-    case 'draft': return t('agora', 'Draft')
-    default: return props.inquiry.status || ''
-  }
+return appSettingsStore.getStatusByKey(props.inquiry.type,props.inquiry.status.inquiryStatus)
 })
 
 // Support

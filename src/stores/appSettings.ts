@@ -255,6 +255,14 @@ export const useAppSettingsStore = defineStore('appSettings', {
 			.filter((status) => status.inquiryType === inquiryType)
 			.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
+ 
+        // Get specific status details by key
+    getStatusByKey(inquiryType: string, statusKey: string): InquiryStatus | undefined {
+        return this.inquiryStatusTab.find(
+            status => status.inquiryType === inquiryType &&
+                      status.statusKey === statusKey
+        );
+    },
 
 		// Add a new status for an inquiry type
 		async addStatusForInquiryType(
