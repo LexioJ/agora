@@ -171,6 +171,7 @@ OC.L10N.register(
     "Collectives" : "Kolektívy",
     "Title is required" : "Titulok je povinný",
     "Files uploaded successfully" : "Súbory boli úspešne nahrané.",
+    "Failed to create {resource}" : "Nepodarilo sa vytvoriť {resource}",
     "OR" : "ALEBO",
     "Remove file" : "Ostrániť súbor",
     "Uploading..." : "Nahrávanie...",
