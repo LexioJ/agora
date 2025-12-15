@@ -4,378 +4,484 @@
 -->
 
 <template>
-  <div class="inquiry-list-item" :class="listItemClasses" @click="handleClick">
-    <!-- Type Icon -->
-    <div class="item-icon">
-      <component :is="typeIcon" class="icon" />
-    </div>
-    
-    <!-- Content -->
-    <div class="item-content">
-      <!-- Header -->
-      <div class="item-header">
-        <h3 class="item-title" :title="inquiry.title">
-          {{ inquiry.title }}
-        </h3>
+  <NcListItem
+    :name="inquiry.title"
+    :details="listItemDetails"
+    :active="isActiveListItem"
+    :bold="isBold"
+    :aria-label="listItemAriaLabel"
+    :to="inquiryRoute"
+    @click="handleClick"
+  >
+    <!-- Icon slot -->
+    <template #icon>
+      <component :is="typeIconComponent" :size="20" />
+    </template>
+
+    <!-- Subtitle with metadata -->
+    <template #subname>
+      <div class="inquiry-subtitle">
+        <!-- Location -->
+        <span v-if="locationPath" class="subtitle-location">
+          <component :is="InquiryGeneralIconsComponents.IdCard" class="location-icon" :size="12" />
+          {{ truncatedLocation }}
+        </span>
         
-        <div v-if="inquiry.status" class="item-status" :class="statusClass">
-          {{ statusText }}
+        <!-- Category -->
+        <span v-if="categoryPath" class="subtitle-category">
+          <component :is="InquiryGeneralIconsComponents.FolderMultiple" class="category-icon" :size="12" />
+          {{ truncatedCategory }}
+        </span>
+        
+        <!-- Expiry -->
+        <span v-if="showExpiryBadge" class="subtitle-expiry" :class="expiryBadgeClass">
+          <component :is="InquiryGeneralIconsComponents.Clock" class="expiry-icon" :size="12" />
+          {{ expiryText }}
+        </span>
+      </div>
+    </template>
+    
+    <!-- Details slot - Support and Comments only -->
+    <template #details>
+      <div class="inquiry-details">
+        <!-- Support -->
+        <div 
+           v-if="canSupport && inquiry.status?.countSupports !== undefined && inquiry.status?.countSupports >0" 
+          class="detail-item supports" 
+          :title="t('agora', '{count} supports', { count: inquiry.status.countSupports })" 
+          @click.stop="handleSupportClick"
+        >
+          <TernarySupportIcon 
+            v-if="inquiry.configuration?.supportMode === 'ternary'" 
+            :support-value="inquiry.currentUserStatus?.supportValue || 0" 
+            :size="16" 
+          />
+          <ThumbIcon 
+            v-else 
+            :supported="isSupported" 
+            :size="16" 
+          />
+          <span class="support-count">{{ inquiry.status.countSupports }}</span>
+          <span v-if="hasQuorum" class="quorum-compact">
+            <span class="quorum-separator"> / </span>
+            <span class="quorum-target">{{ quorumValue }}</span>
+          </span>
+        </div>
+        
+        <!-- Comments -->
+        <div 
+          v-if="canComment && inquiry.status?.countComments" 
+          class="detail-item comments"
+          :title="t('agora', '{count} comments', { count: inquiry.status.countComments })"
+          @click.stop="handleCommentsClick"
+        >
+          <component :is="InquiryGeneralIconsComponents.MessageSquare" class="comments-icon" :size="16" />
+          <span class="comments-count">{{ inquiry.status.countComments }}</span>
         </div>
       </div>
-      
-      <!-- Metadata -->
-      <div class="item-meta">
-        <div class="meta-left">
-          <!-- Author -->
-          <div class="meta-author">
-            <NcAvatar
-              :user="inquiry.owner?.id"
-              :size="20"
-              class="author-avatar"
-              :show-name="false"
-            />
-            <span class="author-name">{{ inquiry.owner?.displayName }}</span>
-          </div>
-          
-          <!-- Date -->
-          <div v-if="inquiry.created_at" class="meta-date">
-            <CalendarIcon :size="12" />
-            <span>{{ formatDate(inquiry.created_at) }}</span>
-          </div>
-          
-          <!-- Responses -->
-          <div v-if="inquiry.responsesCount" class="meta-responses">
-            <MessageIcon :size="12" />
-            <span>{{ inquiry.responsesCount }}</span>
-          </div>
-        </div>
-        
-        <!-- Supports -->
-        <div v-if="inquiry.supportsCount" class="meta-supports" @click.stop="handleSupportClick">
-          <HeartIcon :size="14" :fill="isSupported ? 'var(--color-primary-element)' : 'none'" />
-          <span>{{ inquiry.supportsCount }}</span>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Arrow -->
-    <div class="item-arrow">
-      <ChevronRightIcon :size="20" />
-    </div>
-  </div>
+    </template>
+  </NcListItem>
 </template>
 
 <script setup lang="ts">
 import { computed } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { useRouter } from 'vue-router'
-import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
-import MessageIcon from 'vue-material-design-icons/Message.vue'
-import HeartIcon from 'vue-material-design-icons/Heart.vue'
-import ChevronRightIcon from 'vue-material-design-icons/ChevronRight.vue'
+import NcListItem from '@nextcloud/vue/components/NcListItem'
 
 import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
 import type { Inquiry } from '../../Types/index.ts'
-import { useAppSettingsStore } from '../../stores/appSettings.ts'
+import { useSessionStore } from '../../stores/session.ts'
+import { InquiryGeneralIcons } from '../../utils/icons.ts'
+import TernarySupportIcon from '../AppIcons/modules/TernarySupportIcon.vue'
+import ThumbIcon from '../AppIcons/modules/ThumbIcon.vue'
+
+// Import permissions if needed
+// import { canSupport, canComment } from '../../utils/permissions.ts'
 
 interface Props {
   inquiry: Inquiry
   isActive?: boolean
-  dense?: boolean
-  interactive?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  isActive: false,
-  dense: false,
-  interactive: true
+  isActive: false
 })
 
 const emit = defineEmits<{
   click: [inquiry: Inquiry]
   support: [inquiryId: number]
+  comments: [inquiryId: number]
 }>()
 
 const router = useRouter()
-const appSettingsStore = useAppSettingsStore()
+const sessionStore = useSessionStore()
 
-// Get inquiry types
-const inquiryTypes = computed(() => appSettingsStore.inquiryTypeTab || [])
+// Import icon components from utils/icons.ts
+const InquiryGeneralIconsComponents = InquiryGeneralIcons
 
-// List item classes
-const listItemClasses = computed(() => ({
-  'is-active': props.isActive,
-  'is-dense': props.dense,
-  'is-interactive': props.interactive
+// Route for the list item
+const inquiryRoute = computed(() => ({
+  name: 'inquiry',
+  params: { id: props.inquiry.id }
 }))
 
-// Get type data
+// Permissions (simplified - adjust based on your actual permission logic)
+const canSupport = computed(() => {
+  // Simplified: always show if inquiry has support mode
+  return props.inquiry.configuration?.supportMode !== undefined
+})
+
+const canComment = computed(() => {
+  // Simplified: always show comments count
+  return true
+})
+
+// List item properties
+const listItemDetails = computed(() => {
+  const details = []
+  if (props.inquiry.owner?.displayName) {
+    details.push(props.inquiry.owner.displayName)
+  }
+  if (props.inquiry.created_at) {
+    const date = new Date(props.inquiry.created_at)
+    details.push(date.toLocaleDateString())
+  }
+  return details.join(' • ')
+})
+
+const isActiveListItem = computed(() => {
+  return props.isActive || props.inquiry.currentUserStatus?.hasSupported || false
+})
+
+const isBold = computed(() => {
+  return props.inquiry.status?.inquiryStatus === 'open' && !props.inquiry.currentUserStatus?.hasRead
+})
+
+const listItemAriaLabel = computed(() => {
+  return t('agora', 'Inquiry: {title}. {supports} supports, {comments} comments', {
+    title: props.inquiry.title,
+    supports: props.inquiry.status?.countSupports || 0,
+    comments: props.inquiry.status?.countComments || 0
+  })
+})
+
+// Get type icon
+const inquiryTypes = computed(() => sessionStore.appSettings?.inquiryTypeTab || [])
+
 const typeData = computed(() => {
   return getInquiryTypeData(props.inquiry.type, inquiryTypes.value)
 })
 
-const typeIcon = computed(() => typeData.value?.icon || '📝')
-
-const statusClass = computed(() => {
-return appSettingsStore.getStatusByKey(props.inquiry.type,props.inquiry.status.inquiryStatus)
-})
-
-const statusText = computed(() => {
-return appSettingsStore.getStatusByKey(props.inquiry.type,props.inquiry.status.inquiryStatus)
+const typeIconComponent = computed(() => {
+  if (typeData.value?.icon) {
+    const iconName = typeData.value.icon
+    
+    if (typeof iconName === 'string' && InquiryGeneralIconsComponents[iconName]) {
+      return InquiryGeneralIconsComponents[iconName]
+    }
+  }
+  
+  const iconMap = {
+    'survey': 'ClipboardList',
+    'poll': 'CheckCircle',
+    'question': 'Question',
+    'discussion': 'MessageSquare',
+    'news': 'Newspaper',
+    'announcement': 'Megaphone',
+    'meeting': 'Users',
+    'document': 'BookOpen',
+    'proposal': 'Scale',
+    'general': 'FolderMultiple',
+    'draft': 'Empty',
+  }
+  
+  const mappedIconName = iconMap[props.inquiry.type?.toLowerCase()] || 'FolderMultiple'
+  return InquiryGeneralIconsComponents[mappedIconName]
 })
 
 // Support
 const isSupported = computed(() => props.inquiry.currentUserStatus?.hasSupported || false)
 
-// Format date
-function formatDate(dateString: string) {
-  if (!dateString) return ''
-  try {
-    return new Date(dateString).toLocaleDateString()
-  } catch {
-    return dateString
+// Quorum
+const hasQuorum = computed(() => props.inquiry.miscFields?.quorum)
+const quorumValue = computed(() => props.inquiry.miscFields?.quorum || 0)
+
+// Location and Category paths
+const locationPath = computed(() => {
+  if (!props.inquiry.locationId || !sessionStore.appSettings?.locationTab) return ''
+  
+  const getHierarchyPath = (items: any[], targetId: number): string => {
+    const itemMap: Record<number, any> = {}
+    
+    items.forEach((item) => {
+      itemMap[item.id] = item
+    })
+    
+    if (!itemMap[targetId]) {
+      return 'ID not found'
+    }
+    
+    function buildPath(item: any): string {
+      if (item.parentId === 0) {
+        return item.name
+      }
+      const parent = itemMap[item.parentId]
+      if (parent) {
+        return `${buildPath(parent)} → ${item.name}`
+      }
+      return item.name
+    }
+    
+    return buildPath(itemMap[targetId])
   }
-}
+  
+  return getHierarchyPath(sessionStore.appSettings.locationTab, props.inquiry.locationId)
+})
+
+const categoryPath = computed(() => {
+  if (!props.inquiry.categoryId || !sessionStore.appSettings?.categoryTab) return ''
+  
+  const getHierarchyPath = (items: any[], targetId: number): string => {
+    const itemMap: Record<number, any> = {}
+    
+    items.forEach((item) => {
+      itemMap[item.id] = item
+    })
+    
+    if (!itemMap[targetId]) {
+      return 'ID not found'
+    }
+    
+    function buildPath(item: any): string {
+      if (item.parentId === 0) {
+        return item.name
+      }
+      const parent = itemMap[item.parentId]
+      if (parent) {
+        return `${buildPath(parent)} → ${item.name}`
+      }
+      return item.name
+    }
+    
+    return buildPath(itemMap[targetId])
+  }
+  
+  return getHierarchyPath(sessionStore.appSettings.categoryTab, props.inquiry.categoryId)
+})
+
+// Truncated text
+const truncatedLocation = computed(() => {
+  if (!locationPath.value) return ''
+  return locationPath.value.length > 20 
+    ? locationPath.value.substring(0, 20) + '…' 
+    : locationPath.value
+})
+
+const truncatedCategory = computed(() => {
+  if (!categoryPath.value) return ''
+  return categoryPath.value.length > 20 
+    ? categoryPath.value.substring(0, 20) + '…' 
+    : categoryPath.value
+})
+
+// Expiry
+const showExpiryBadge = computed(() => {
+  return !!props.inquiry.expire && new Date(props.inquiry.expire) > new Date()
+})
+
+const expiryText = computed(() => {
+  if (!props.inquiry.expire) return ''
+  
+  const expiryDate = new Date(props.inquiry.expire)
+  const now = new Date()
+  const diff = expiryDate.getTime() - now.getTime()
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  
+  if (days > 0) {
+    return t('agora', '{days}d', { days })
+  } else if (hours > 0) {
+    return t('agora', '{hours}h', { hours })
+  } else {
+    return t('agora', 'Soon')
+  }
+})
+
+const expiryBadgeClass = computed(() => {
+  if (!props.inquiry.expire) return ''
+  
+  const expiryDate = new Date(props.inquiry.expire)
+  const now = new Date()
+  const diff = expiryDate.getTime() - now.getTime()
+  const hours = diff / (1000 * 60 * 60)
+  
+  if (hours < 24) return 'expiry-soon'
+  if (hours < 72) return 'expiry-warning'
+  return 'expiry-normal'
+})
 
 // Handlers
 function handleClick() {
-  if (props.interactive) {
-    emit('click', props.inquiry)
-    viewInquiry()
-  }
-}
-
-function viewInquiry() {
-  router.push({
-    name: 'inquiry',
-    params: { id: props.inquiry.id }
-  })
+  emit('click', props.inquiry)
 }
 
 function handleSupportClick() {
   emit('support', props.inquiry.id)
 }
+
+function handleCommentsClick() {
+  emit('comments', props.inquiry.id)
+}
 </script>
 
 <style lang="scss" scoped>
-.inquiry-list-item {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
-  background: white;
-  border-radius: 12px;
-  border: 1px solid var(--color-border);
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  
-  &.is-interactive {
-    cursor: pointer;
-    
-    &:hover {
-      transform: translateX(4px);
-      border-color: var(--color-primary-element);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-      
-      .item-arrow {
-        transform: translateX(4px);
-      }
-    }
-  }
-  
-  &.is-active {
-    background: var(--color-primary-light);
-    border-color: var(--color-primary-element);
-    
-    .item-title {
-      color: var(--color-primary-text);
-    }
-  }
-  
-  &.is-dense {
-    padding: 12px 16px;
-    gap: 12px;
-    
-    .item-icon .icon {
-      width: 20px;
-      height: 20px;
-    }
-    
-    .item-title {
-      font-size: 15px;
-    }
-  }
-}
-
-.item-icon {
-  flex-shrink: 0;
-  
-  .icon {
-    width: 24px;
-    height: 24px;
-    color: var(--color-primary-element);
-  }
-}
-
-.item-content {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.item-header {
+// Custom subtitle styling
+.inquiry-subtitle {
   display: flex;
   align-items: center;
   gap: 12px;
-}
-
-.item-title {
-  flex: 1;
-  font-size: 16px;
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--color-main-text);
-  margin: 0;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.item-status {
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
+  flex-wrap: wrap;
+  font-size: 12px;
+  color: var(--color-text-lighter);
   
-  &.status-open {
-    background: rgba(34, 197, 94, 0.1);
-    color: #16a34a;
+  > span {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    white-space: nowrap;
   }
   
-  &.status-closed {
-    background: rgba(239, 68, 68, 0.1);
-    color: #dc2626;
+  // Location and category styling
+  .subtitle-location,
+  .subtitle-category {
+    .location-icon,
+    .category-icon {
+      color: var(--color-text-maxcontrast);
+    }
   }
   
-  &.status-draft {
-    background: rgba(148, 163, 184, 0.1);
-    color: #64748b;
-  }
-  
-  &.status-unknown {
-    background: var(--color-background-dark);
-    color: var(--color-text-lighter);
+  // Expiry styling
+  .subtitle-expiry {
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 10px;
+    
+    .expiry-icon {
+      color: inherit;
+    }
+    
+    &.expiry-soon {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+      color: #ef4444;
+    }
+    
+    &.expiry-warning {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
+      color: #f59e0b;
+    }
+    
+    &.expiry-normal {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+      color: #10b981;
+    }
   }
 }
 
-.item-meta {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-
-.meta-left {
+// Details styling - Clean support and comments
+.inquiry-details {
   display: flex;
   align-items: center;
   gap: 20px;
-  flex: 1;
-}
-
-.meta-author {
-  display: flex;
-  align-items: center;
-  gap: 8px;
   
-  .author-avatar {
-    border: 2px solid white;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .author-name {
-    font-size: 13px;
-    color: var(--color-text-lighter);
-  }
-}
-
-.meta-date,
-.meta-responses {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
-  color: var(--color-text-maxcontrast);
-  
-  svg {
-    opacity: 0.7;
-  }
-}
-
-.meta-supports {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: var(--color-background-dark);
-  border-radius: 20px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-main-text);
-  cursor: pointer;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-  
-  &:hover {
-    background: var(--color-background-darker);
-    color: var(--color-primary-element);
-  }
-  
-  svg {
-    transition: fill 0.2s ease;
-  }
-}
-
-.item-arrow {
-  flex-shrink: 0;
-  color: var(--color-text-maxcontrast);
-  transition: transform 0.2s ease;
-}
-
-// Responsive
-@media (max-width: 768px) {
-  .inquiry-list-item {
-    padding: 14px 16px;
-    gap: 12px;
-  }
-  
-  .item-icon .icon {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .item-title {
-    font-size: 15px;
-  }
-  
-  .meta-left {
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-  
-  .meta-author {
-    min-width: 0;
+  .detail-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
     
-    .author-name {
-      max-width: 100px;
-      white-space: nowrap;
+    // Support styling
+    &.supports {
+      color: var(--color-text-lighter);
+      
+      &:hover {
+        color: var(--color-primary-element);
+      }
+      
+      .support-count {
+        font-weight: 600;
+        font-size: 13px;
+      }
+      
+      .quorum-compact {
+        font-size: 11px;
+        color: var(--color-text-maxcontrast);
+        
+        .quorum-separator {
+          margin: 0 2px;
+        }
+        
+        .quorum-target {
+          font-weight: 600;
+        }
+      }
+    }
+    
+    // Comments styling
+    &.comments {
+      color: var(--color-text-lighter);
+      
+      &:hover {
+        color: #3b82f6;
+        
+        .comments-icon {
+          color: #3b82f6;
+        }
+      }
+      
+      .comments-icon {
+        color: var(--color-text-maxcontrast);
+      }
+      
+      .comments-count {
+        font-weight: 600;
+        font-size: 13px;
+      }
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .inquiry-subtitle {
+    gap: 8px;
+    
+    > span {
+      max-width: 120px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+  }
+  
+  .inquiry-details {
+    gap: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .inquiry-subtitle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    
+    > span {
+      max-width: 100%;
+    }
+  }
+  
+  .inquiry-details {
+    gap: 12px;
   }
 }
 </style>

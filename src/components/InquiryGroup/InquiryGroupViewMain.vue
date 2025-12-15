@@ -1,16 +1,16 @@
 <!--
 - SPDX-FileCopyrightText: 2025 Nextcloud contributors
 - SPDX-License-Identifier: AGPL-3.0-or-later
-->
+-->
 <!-- InquiryGroupViewMain.vue -->
 <template>
   <div class="inquiry-group-view-main">
     <!-- Main Layout Container -->
     <div class="layout-container">
-      <!-- Main Content Area (70%) -->
-      <main class="layout-main" :class="{ 'with-sidebar': hasSidebarInquiries }">
+      <!-- Main Content Area -->
+      <main class="layout-main">
         <!-- Header Area Inquiries -->
-        <section v-if="headerInquiries.length > 0" class="header-section">
+        <section v-if="headerInquiries.length > 0" class="inquiry-section header-section">
           <div class="inquiry-grid header-grid">
             <template v-for="inquiry in headerInquiries" :key="inquiry.id">
               <component
@@ -18,13 +18,14 @@
                 :inquiry="inquiry"
                 :render-mode="getRenderMode(inquiry, 'header')"
                 class="header-item"
+                @click="handleInquiryClick(inquiry)"
               />
             </template>
           </div>
         </section>
 
-        <!-- Main Area Inquiries - Grouped by Type with Beautiful Headers -->
-        <section v-if="mainInquiries.length > 0" class="main-section">
+        <!-- Main Area Inquiries - Grouped by Type -->
+        <section v-if="mainInquiries.length > 0" class="inquiry-section main-section">
           <!-- Group by Inquiry Type -->
           <div class="type-groups">
             <div
@@ -32,43 +33,22 @@
               :key="typeKey"
               class="type-group"
             >
-              <!-- Beautiful Type Header -->
-              <div class="type-header">
-                <div class="type-header-content">
-                  <div class="type-icon-wrapper">
-                    <component
-                      :is="getInquiryTypeIcon(typeKey)"
-                      class="type-icon"
-                    />
-                  </div>
-                  <div class="type-info">
-                    <h3 class="type-name">{{ getInquiryTypeLabel(typeKey) }}</h3>
-                    <p class="type-description">{{ getInquiryTypeDescription(typeKey) }}</p>
-                  </div>
-                  <div class="type-stats">
-                    <span class="type-badge">{{ typeGroup.length }} items</span>
-                    <span class="type-family">{{ getInquiryTypeFamily(typeKey) }}</span>
-                  </div>
-                </div>
-                <div class="type-actions">
-                  <button class="type-action-btn" @click="viewAllOfType(typeKey)">
-                    <span>View All</span>
-                    <svg width="16" height="16" viewBox="0 0 24 24">
-                      <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z"/>
-                    </svg>
-                  </button>
-                </div>
+              <!-- Simple Type Header -->
+              <div class="type-header" v-if="typeGroup.length > 1">
+                <h3 class="type-title">{{ getInquiryTypeLabel(typeKey) }}</h3>
+                <span class="type-count">{{ typeGroup.length }}</span>
               </div>
 
               <!-- Type Inquiries Grid -->
               <div class="type-inquiries">
-                <div class="inquiry-grid main-grid">
+                <div class="inquiry-grid main-grid" :class="{ 'single-full-item': typeGroup.length === 1 && isFullInquiry(typeGroup[0]) }">
                   <template v-for="inquiry in typeGroup" :key="inquiry.id">
                     <component
                       :is="getInquiryComponent(inquiry, 'main')"
                       :inquiry="inquiry"
                       :render-mode="getRenderMode(inquiry, 'main')"
                       class="main-item"
+                      :class="{ 'full-width': isFullInquiry(inquiry) }"
                       @click="handleInquiryClick(inquiry)"
                     />
                   </template>
@@ -79,7 +59,7 @@
         </section>
 
         <!-- Footer Area Inquiries -->
-        <section v-if="footerInquiries.length > 0" class="footer-section">
+        <section v-if="footerInquiries.length > 0" class="inquiry-section footer-section">
           <div class="inquiry-grid footer-grid">
             <template v-for="inquiry in footerInquiries" :key="inquiry.id">
               <component
@@ -94,50 +74,76 @@
         </section>
       </main>
 
-      <!-- Right Sidebar (30%) -->
+      <!-- Right Sidebar -->
       <aside v-if="hasSidebarInquiries" class="layout-sidebar">
-        <div class="sidebar-content">
-          <!-- Sidebar Inquiries - Grouped by Type -->
-          <div class="sidebar-type-groups">
-            <div
-              v-for="(typeGroup, typeKey) in sidebarInquiriesByType"
-              :key="typeKey"
-              class="sidebar-type-group"
-            >
-              <!-- Sidebar Type Header -->
-              <div class="sidebar-type-header">
-                <div class="sidebar-type-icon">
-                  <component :is="getInquiryTypeIcon(typeKey)" />
-                </div>
-                <div class="sidebar-type-info">
-                  <h4 class="sidebar-type-name">{{ getInquiryTypeLabel(typeKey) }}</h4>
-                  <span class="sidebar-type-count">{{ typeGroup.length }}</span>
-                </div>
-              </div>
+        <!-- Sidebar Inquiries - Grouped by Type -->
+        <div class="sidebar-type-groups">
+          <div
+            v-for="(typeGroup, typeKey) in sidebarInquiriesByType"
+            :key="typeKey"
+            class="sidebar-type-group"
+          >
+            <!-- Sidebar Type Header -->
+            <div class="sidebar-type-header" v-if="typeGroup.length > 1">
+              <h4 class="sidebar-type-title">{{ getInquiryTypeLabel(typeKey) }}</h4>
+              <span class="sidebar-type-count">{{ typeGroup.length }}</span>
+            </div>
 
-              <!-- Sidebar Type Inquiries -->
-              <div class="sidebar-inquiries">
-                <template v-for="inquiry in typeGroup" :key="inquiry.id">
-                  <component
-                    :is="getInquiryComponent(inquiry, 'sidebar')"
-                    :inquiry="inquiry"
-                    :render-mode="getRenderMode(inquiry, 'sidebar')"
-                    class="sidebar-item"
-                    @click="handleInquiryClick(inquiry)"
-                  />
-                </template>
-              </div>
+            <!-- Sidebar Type Inquiries -->
+            <div class="sidebar-inquiries">
+              <template v-for="inquiry in typeGroup" :key="inquiry.id">
+                <component
+                  :is="getInquiryComponent(inquiry, 'sidebar')"
+                  :inquiry="inquiry"
+                  :render-mode="getRenderMode(inquiry, 'sidebar')"
+                  class="sidebar-item"
+                  @click="handleInquiryClick(inquiry)"
+                />
+              </template>
             </div>
           </div>
         </div>
       </aside>
     </div>
+
+    <!-- Modal for inquiries -->
+    <NcModal
+      v-if="showModal && modalInquiry"
+      :show="showModal"
+      :name="modalInquiry.title || 'Inquiry'"
+      size="large"
+      @close="closeModal"
+    >
+      <component
+        :is="getInquiryComponent(modalInquiry, 'modal')"
+        :inquiry="modalInquiry"
+        :render-mode="getRenderMode(modalInquiry, 'modal')"
+        class="modal-inquiry-content"
+      />
+    </NcModal>
+
+    <!-- Small popup modal -->
+    <NcModal
+      v-if="showPopup && popupInquiry"
+      :show="showPopup"
+      :name="popupInquiry.title || 'Inquiry'"
+      size="small"
+      @close="closePopup"
+    >
+      <component
+        :is="getInquiryComponent(popupInquiry, 'popup')"
+        :inquiry="popupInquiry"
+        :render-mode="getRenderMode(popupInquiry, 'popup')"
+        class="popup-inquiry-content"
+      />
+    </NcModal>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { t } from '@nextcloud/l10n'
+import { useRouter } from 'vue-router'
+import NcModal from '@nextcloud/vue/components/NcModal'
 
 import type { InquiryGroup } from '../../stores/inquiryGroups.types.ts'
 import type { Inquiry } from '../../Types/index.ts'
@@ -146,12 +152,17 @@ import type { Inquiry } from '../../Types/index.ts'
 import { useInquiriesStore } from '../../stores/inquiries.ts'
 import { useAppSettingsStore } from '../../stores/appSettings.ts'
 
-// Import all inquiry display components
+// Import all inquiry display components - FIX: Make sure all imports are correct
 import InquiryCard from './InquiryCard.vue'
 import InquiryListItem from './InquiryListItem.vue'
 import InquiryFull from './InquiryFull.vue'
 import InquiryRichHTML from './InquiryRichHTML.vue'
 import InquirySummary from './InquirySummary.vue'
+
+// Debug log to check if components are imported
+console.log('InquiryFull component:', InquiryFull)
+console.log('InquiryCard component:', InquiryCard)
+console.log('InquiryListItem component:', InquiryListItem)
 
 interface Props {
   group: InquiryGroup
@@ -164,18 +175,22 @@ const emit = defineEmits<{
   viewInquiry: [id: number]
 }>()
 
-// Initialize stores
+// Initialize stores and router
 const inquiriesStore = useInquiriesStore()
 const appSettingsStore = useAppSettingsStore()
+const router = useRouter()
 
-const activeInquiryId = ref<number | null>(null)
+const showModal = ref(false)
+const showPopup = ref(false)
+const modalInquiry = ref<Inquiry | null>(null)
+const popupInquiry = ref<Inquiry | null>(null)
 
 // Get inquiries from store using the IDs
 const inquiries = computed(() => {
   const allInquiries = inquiriesStore.inquiries || []
-  return allInquiries.filter(inquiry =>
-    props.inquiryIds.includes(inquiry.id)
-  )
+  return props.inquiryIds
+    .map(id => allInquiries.find(inquiry => inquiry.id === id))
+    .filter(Boolean) as Inquiry[]
 })
 
 // Get inquiry types from appSettings
@@ -185,10 +200,12 @@ const inquiryTypes = computed(() => {
 
 // Layout compatibility matrix
 const layoutCompatibility = {
-  sidebar: ['cards', 'list_item', 'summary'],
-  main: ['rich_html', 'full', 'summary', 'cards', 'list_item'],
-  footer: ['cards', 'summary', 'list_item'],
-  header: ['cards', 'summary', 'list_item']
+  sidebar: ['cards', 'list', 'summary'],
+  main: ['rich_html', 'full', 'summary', 'cards', 'list'],
+  footer: ['cards', 'summary', 'list'],
+  header: ['cards', 'summary', 'list'],
+  modal: ['cards', 'list', 'summary', 'full', 'rich_html'],
+  popup: ['summary', 'cards', 'list']
 }
 
 // Helper function to get miscField with fallback
@@ -196,11 +213,27 @@ function getMiscField(inquiry: Inquiry, field: string, defaultValue: any = null)
   return inquiry.miscFields?.[field] || defaultValue
 }
 
+// Check if inquiry should render in full mode
+function isFullInquiry(inquiry: Inquiry): boolean {
+  const renderMode = getMiscField(inquiry, 'render_mode', 'cards')
+  return renderMode === 'full' || renderMode === 'rich_html'
+}
+
+// Get open mode for inquiry
+function getOpenMode(inquiry: Inquiry): string {
+  return getMiscField(inquiry, 'open_mode', 'page') // Default to 'page'
+}
+
 // Get layout zone for inquiry
 function getLayoutZone(inquiry: Inquiry): string {
   const layoutZone = getMiscField(inquiry, 'layout_zone')
   if (layoutZone && ['sidebar', 'main', 'footer', 'header'].includes(layoutZone)) {
     return layoutZone
+  }
+
+  // If it's a full inquiry, always put it in main
+  if (isFullInquiry(inquiry)) {
+    return 'main'
   }
 
   // Determine by render mode
@@ -229,17 +262,25 @@ function getRenderMode(inquiry: Inquiry, layoutZone: string): string {
   return layoutCompatibility[layoutZone]?.[0] || 'cards'
 }
 
-// Get component based on render mode
+// Get component based on render mode - FIXED: Added fallback logic
 function getInquiryComponent(inquiry: Inquiry, layoutZone: string) {
   const renderMode = getRenderMode(inquiry, layoutZone)
 
+  console.log(`Getting component for render mode: ${renderMode}, layout: ${layoutZone}`)
+
   switch (renderMode) {
-    case 'cards': return InquiryCard
-    case 'list_item': return InquiryListItem
-    case 'full': return InquiryFull
-    case 'rich_html': return InquiryRichHTML
-    case 'summary': return InquirySummary
-    default: return InquiryCard
+    case 'cards': 
+      return InquiryCard || 'div' // Fallback to div if component not found
+    case 'list': 
+      return InquiryListItem || 'div'
+    case 'full': 
+      return InquiryFull || 'div'
+    case 'rich_html': 
+      return InquiryRichHTML || 'div'
+    case 'summary': 
+      return InquirySummary || 'div'
+    default: 
+      return InquiryCard || 'div'
   }
 }
 
@@ -279,16 +320,10 @@ const mainInquiriesByType = computed(() => groupInquiriesByType(mainInquiries.va
 
 // Helper computed properties
 const hasSidebarInquiries = computed(() => sidebarInquiries.value.length > 0)
-const totalInquiries = computed(() => inquiries.value.length)
 
 // Get inquiry type information
 function getInquiryTypeData(typeKey: string) {
   return inquiryTypes.value.find(type => type.inquiry_type === typeKey)
-}
-
-function getInquiryTypeIcon(typeKey: string) {
-  const typeData = getInquiryTypeData(typeKey)
-  return typeData?.icon || 'FileDocument'
 }
 
 function getInquiryTypeLabel(typeKey: string) {
@@ -296,129 +331,220 @@ function getInquiryTypeLabel(typeKey: string) {
   return typeData?.label || typeKey
 }
 
-function getInquiryTypeDescription(typeKey: string) {
-  const typeData = getInquiryTypeData(typeKey)
-  return typeData?.description || ''
-}
-
-function getInquiryTypeFamily(typeKey: string) {
-  const typeData = getInquiryTypeData(typeKey)
-  return typeData?.family || 'default'
-}
-
 // Handle inquiry click
 function handleInquiryClick(inquiry: Inquiry) {
+  const openMode = getOpenMode(inquiry)
+  
+  switch (openMode) {
+    case 'modal':
+      modalInquiry.value = inquiry
+      showModal.value = true
+      break
+    case 'popup':
+      popupInquiry.value = inquiry
+      showPopup.value = true
+      break
+    case 'page':
+    default:
+      // Navigate to edit page
+      router.push({
+        name: 'inquiry-edit',
+        params: { id: inquiry.id }
+      })
+      break
+  }
+  
   emit('viewInquiry', inquiry.id)
 }
 
-// View all of specific type
-function viewAllOfType(typeKey: string) {
-  // Implement navigation to filtered view
-  console.log('View all of type:', typeKey)
+// Close modal
+function closeModal() {
+  showModal.value = false
+  modalInquiry.value = null
+}
+
+// Close popup
+function closePopup() {
+  showPopup.value = false
+  popupInquiry.value = null
 }
 </script>
-
 <style lang="scss" scoped>
 .inquiry-group-view-main {
-  width: 100%;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+  background: transparent;
+  overflow: visible;
+}
+
+  /* Simplified version - uniform styling for all inquiry items */
+.header-item,
+.sidebar-item,
+.footer-item,
+.main-item {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 12px !important;
+  transition: all 0.3s ease !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+
+  /* Target all inquiry components */
+  :deep(div[class*="inquiry-"]) {
+    border: 1px solid var(--color-border) !important;
+    border-radius: 12px !important;
+    background-color: var(--color-main-background) !important;
+    transition: all 0.3s ease !important;
+    overflow: hidden !important;
+  }
+
+  /* Add padding to all inquiry content */
+  :deep(div[class*="inquiry-"] > *) {
+    padding: 16px !important;
+  }
+
+  /* Hover effect for all */
+  &:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+
+    :deep(div[class*="inquiry-"]) {
+      border-color: var(--color-primary-element) !important;
+      background-color: rgba(245, 245, 245, 0.9) !important; /* Light grey on hover */
+    }
+  }
+}
+
+/* Different hover colors for different sections */
+.header-item:hover :deep(div[class*="inquiry-"]) {
+  background-color: rgba(240, 248, 255, 0.9) !important; /* Light blue */
+}
+
+.main-item:hover :deep(div[class*="inquiry-"]) {
+  background-color: rgba(245, 245, 245, 0.9) !important; /* Light grey */
+}
+
+.footer-item:hover :deep(div[class*="inquiry-"]) {
+  background-color: rgba(248, 249, 250, 0.9) !important; /* Off-white */
+}
+
+.sidebar-item:hover :deep(div[class*="inquiry-"]) {
+  background-color: rgba(233, 236, 239, 0.9) !important; /* Grey-blue */
 }
 
 /* Layout Container */
 .layout-container {
   display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 40px;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
   max-width: 1600px;
   margin: 0 auto;
-  padding: 40px;
+  padding: 24px;
   min-height: calc(100vh - 120px);
+  align-items: start;
 
   @media (max-width: 1200px) {
     grid-template-columns: 1fr;
-    gap: 32px;
-    padding: 32px;
+    gap: 20px;
+    padding: 20px;
   }
 
   @media (max-width: 768px) {
-    padding: 24px;
-    gap: 24px;
+    gap: 16px;
+    padding: 16px;
   }
+}
+
+/* Common section styles */
+.inquiry-section {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
 }
 
 /* Main Content Area */
 .layout-main {
-  &.with-sidebar {
-    grid-column: 1;
-  }
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
+  width: 100%;
 
   .header-section,
   .main-section,
   .footer-section {
-    margin-bottom: 48px;
-    background: white;
-    border-radius: 20px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    overflow: hidden;
-
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-}
-
-/* Section Headers */
-.section-header {
-  padding: 24px 32px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-
-  .section-title {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 24px;
-    font-weight: 700;
     margin: 0;
-
-    .section-icon {
-      font-size: 28px;
-      opacity: 0.9;
-    }
-
-    .section-count {
-      background: rgba(255, 255, 255, 0.2);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 16px;
-      font-weight: 600;
-      margin-left: auto;
-    }
+    padding: 0;
+    overflow: visible;
   }
 }
 
 /* Inquiry Grids */
 .inquiry-grid {
-  padding: 32px;
+  padding: 0;
+  margin: 0;
+  overflow: visible;
 
   &.header-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 16px;
   }
 
   &.main-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 24px;
+    gap: 20px;
+    width: 100%;
+
+    &.single-full-item {
+      grid-template-columns: 1fr;
+      width: 100%;
+      
+      .main-item.full-width {
+        width: 100%;
+        max-width: 100%;
+      }
+    }
   }
 
   &.footer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 20px;
+    gap: 16px;
+  }
+
+  .full-width {
+    grid-column: 1 / -1;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    
+    /* Override any problematic styles from child components */
+    :deep(.inquiry-full) {
+      width: 100% !important;
+      max-width: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      position: relative !important;
+      
+      .full-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+    }
   }
 }
 
@@ -427,185 +553,77 @@ function viewAllOfType(typeKey: string) {
   display: flex;
   flex-direction: column;
   gap: 32px;
+  width: 100%;
+  overflow: visible;
 }
 
-/* Type Header - Beautiful Design */
+.type-group {
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow: visible;
+}
+
+/* Simple Type Header */
 .type-header {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-  border-radius: 16px;
-  margin: 24px 32px 0;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 0;
+  background: transparent;
+  border: none;
 
-  .type-header-content {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    gap: 20px;
-    align-items: center;
-    padding: 24px;
-
-    @media (max-width: 768px) {
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
+  .type-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
   }
 
-  .type-icon-wrapper {
-    width: 64px;
-    height: 64px;
-    background: white;
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-
-    .type-icon {
-      width: 32px;
-      height: 32px;
-      color: #667eea;
-    }
-  }
-
-  .type-info {
-    .type-name {
-      font-size: 22px;
-      font-weight: 700;
-      color: #2d3748;
-      margin: 0 0 8px 0;
-    }
-
-    .type-description {
-      font-size: 14px;
-      color: #718096;
-      margin: 0;
-      line-height: 1.5;
-    }
-  }
-
-  .type-stats {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: flex-end;
-
-    .type-badge {
-      background: #667eea;
-      color: white;
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-
-    .type-family {
-      background: rgba(102, 126, 234, 0.1);
-      color: #667eea;
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: 500;
-    }
-  }
-
-  .type-actions {
-    padding: 0 24px 24px;
-    border-top: 1px solid rgba(0, 0, 0, 0.05);
-
-    .type-action-btn {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: transparent;
-      border: none;
-      color: #667eea;
-      font-size: 14px;
-      font-weight: 600;
-      padding: 8px 16px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-
-      &:hover {
-        color: #764ba2;
-
-        svg {
-          transform: translateX(4px);
-        }
-      }
-
-      svg {
-        fill: currentColor;
-        transition: transform 0.2s ease;
-      }
-    }
+  .type-count {
+    background: var(--color-background-darker);
+    color: var(--color-text);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 500;
   }
 }
 
 /* Type Inquiries */
 .type-inquiries {
-  padding: 32px;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  overflow: visible;
 
   .main-grid {
     padding: 0;
+    width: 100%;
   }
 }
 
 /* Right Sidebar */
 .layout-sidebar {
   position: sticky;
-  top: 40px;
-  height: fit-content;
-  max-height: calc(100vh - 120px);
-  overflow-y: auto;
+  top: 24px;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 
   @media (max-width: 1200px) {
     position: static;
-    max-height: none;
-  }
-
-  .sidebar-header {
-    background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-    color: white;
-    padding: 24px;
-    border-radius: 20px 20px 0 0;
-
-    .sidebar-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 20px;
-      font-weight: 700;
-      margin: 0 0 8px 0;
-
-      .sidebar-icon {
-        font-size: 24px;
-        opacity: 0.9;
-      }
-
-      .sidebar-count {
-        background: rgba(255, 255, 255, 0.2);
-        padding: 4px 10px;
-        border-radius: 16px;
-        font-size: 14px;
-        font-weight: 600;
-        margin-left: auto;
-      }
-    }
-
-    .sidebar-subtitle {
-      font-size: 14px;
-      opacity: 0.9;
-      margin: 0;
-    }
-  }
-
-  .sidebar-content {
-    background: white;
-    border-radius: 0 0 20px 20px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    border-top: none;
-    padding: 24px;
+    margin-top: 20px;
   }
 }
 
@@ -614,95 +632,104 @@ function viewAllOfType(typeKey: string) {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  width: 100%;
 }
 
 .sidebar-type-group {
-  background: #f8fafc;
-  border-radius: 16px;
-  overflow: hidden;
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  background: transparent;
+  border-radius: 0;
+  overflow: visible;
+  border: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
 
   .sidebar-type-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 12px;
-    padding: 16px;
-    background: white;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    margin-bottom: 12px;
+    padding: 0;
+    background: transparent;
+    border: none;
+    width: 100%;
 
-    .sidebar-type-icon {
-      width: 24px;
-      height: 24px;
-      color: #4f46e5;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .sidebar-type-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--color-text);
+      margin: 0;
     }
 
-    .sidebar-type-info {
-      flex: 1;
-
-      .sidebar-type-name {
-        font-size: 16px;
-        font-weight: 600;
-        color: #2d3748;
-        margin: 0 0 4px 0;
-      }
-
-      .sidebar-type-count {
-        background: #e2e8f0;
-        color: #4a5568;
-        padding: 2px 8px;
-        border-radius: 10px;
-        font-size: 12px;
-        font-weight: 600;
-      }
+    .sidebar-type-count {
+      background: var(--color-background-darker);
+      color: var(--color-text);
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 500;
     }
   }
 
   .sidebar-inquiries {
-    padding: 16px;
+    padding: 0;
+    margin: 0;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    width: 100%;
   }
+}
+
+/* Ensure all inquiry items are consistent */
+
+/* Modal content */
+.modal-inquiry-content,
+.popup-inquiry-content {
+  padding: 20px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+/* Remove scrollbars */
+.inquiry-group-view-main,
+.layout-container,
+.layout-main,
+.inquiry-section,
+.type-inquiries,
+.inquiry-grid {
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 /* Responsive Design */
 @media (max-width: 1200px) {
-  .layout-main.with-sidebar {
-    grid-column: 1;
+  .layout-container {
+    gap: 20px;
+    padding: 20px;
   }
 
   .inquiry-grid {
-    padding: 24px;
-
     &.main-grid {
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
-  }
-
-  .type-header .type-header-content {
-    padding: 20px;
   }
 }
 
 @media (max-width: 768px) {
   .layout-container {
+    gap: 16px;
     padding: 16px;
   }
 
-  .section-header {
-    padding: 20px 24px;
-
-    .section-title {
-      font-size: 20px;
-    }
-  }
-
   .inquiry-grid {
-    padding: 20px;
-
     &.main-grid {
       grid-template-columns: 1fr;
     }
@@ -711,10 +738,6 @@ function viewAllOfType(typeKey: string) {
     &.footer-grid {
       grid-template-columns: 1fr;
     }
-  }
-
-  .type-header {
-    margin: 20px 24px 0;
   }
 }
 </style>

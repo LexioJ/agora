@@ -24,6 +24,10 @@ import {
   getInquiryGroupTypeData,
 } from '../helpers/modules/InquiryHelper.ts'
 
+defineProps<{
+  slug?: string
+}>()
+
 const preferencesStore = usePreferencesStore()
 const router = useRouter()
 const sessionStore = useSessionStore()

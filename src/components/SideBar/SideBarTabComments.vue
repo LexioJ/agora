@@ -4,51 +4,73 @@
 -->
 
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted } from 'vue'
-import { subscribe, unsubscribe } from '@nextcloud/event-bus'
+import { computed, onMounted, watch } from 'vue'
+import { onBeforeRouteLeave, onBeforeRouteUpdate } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 
 import NcEmptyContent from '@nextcloud/vue/components/NcEmptyContent'
 
 import CommentAdd from '../Comments/CommentAdd.vue'
 import Comments from '../Comments/Comments.vue'
-import CommentsIcon from 'vue-material-design-icons/CommentProcessing.vue'
+import CommentsIcon from 'vue-material-design-icons/CommentProcessingOutline.vue'
 
-import { useInquiryStore } from '../../stores/inquiry.ts'
-import { useCommentsStore } from '../../stores/comments.ts'
-import { useSessionStore } from '../../stores/session.ts'
-import { Event } from '../../Types/index.ts'
+import { useInquiryStore } from '../../stores/inquiry'
+import { useCommentsStore } from '../../stores/comments'
+import ConfigAllowComment from '../Configuration/ConfigAllowComment.vue'
+import ConfigForceConfidentialComments from '../Configuration/ConfigForceConfidentialComments.vue'
+import ConfigBox from '../Base/modules/ConfigBox.vue'
+import InquiryConfigIcon from 'vue-material-design-icons/WrenchOutline.vue'
+import CardDiv from '../Base/modules/CardDiv.vue'
 
 const inquiryStore = useInquiryStore()
 const commentsStore = useCommentsStore()
-const sessionStore = useSessionStore()
 
 const emptyContentProps = {
-  name: t('agora', 'No comments'),
-  description: t('agora', 'Be the first'),
+	name: t('agora', 'No comments'),
+	description: t('agora', 'Be the first.'),
 }
 
 const showEmptyContent = computed(() => commentsStore.comments.length === 0)
 
 onMounted(() => {
-  subscribe(Event.UpdateComments, () => commentsStore.load())
+	commentsStore.load()
 })
 
-onUnmounted(() => {
-  unsubscribe(Event.UpdateComments, () => commentsStore.load())
+onBeforeRouteUpdate(async () => {
+	commentsStore.load()
 })
+
+onBeforeRouteLeave(() => {
+	commentsStore.$reset()
+})
+
+watch(
+	[() => inquiryStore.permissions.comment, () => inquiryStore.permissions.seeUsernames],
+	() => {
+		commentsStore.load()
+	},
+)
 </script>
 
 <template>
-  <div class="comments">
-    <CommentAdd
-      v-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type].commentInquiry"
-    />
-    <Comments v-if="!showEmptyContent" />
-    <NcEmptyContent v-else v-bind="emptyContentProps">
-      <template #icon>
-        <CommentsIcon />
-      </template>
-    </NcEmptyContent>
-  </div>
+	<ConfigBox v-if="inquiryStore.permissions.edit" :name="t('agora', 'Configuration')">
+	<!--	<ConfigAllowComment @change="inquiryStore.write" />
+    <ConfigForceConfidentialComments @change="inquiryStore.write" /> -->
+		<CardDiv v-if="!inquiryStore.configuration.allowComment" type="warning">
+			{{
+				t(
+					'agora',
+					'Comments are disabled, except for owner and delegated inquiry administration.',
+				)
+			}}
+		</CardDiv>
+	</ConfigBox>
+
+	<CommentAdd v-if="inquiryStore.permissions.comment" />
+	<Comments v-if="!showEmptyContent" />
+	<NcEmptyContent v-else v-bind="emptyContentProps">
+		<template #icon>
+			<CommentsIcon />
+		</template>
+	</NcEmptyContent>
 </template>

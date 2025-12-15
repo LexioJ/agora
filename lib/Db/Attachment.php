@@ -40,7 +40,7 @@ class Attachment extends Entity implements JsonSerializable
     protected ?string $name = null;
     protected ?string $mimeType = null;
     protected int $inquiryId = 0;
-    protected int $groupId = 0;
+    protected ?int $groupId = null;
     protected ?int $fileId = 0;
     protected int $size = 0;
     protected int $created = 0;

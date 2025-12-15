@@ -7,22 +7,57 @@
   <div class="inquiry-summary" :class="summaryClasses" @click="handleClick">
     <!-- Compact Mode -->
     <div v-if="compact" class="summary-compact">
-      <div class="compact-icon">
-        <component :is="typeIcon" class="icon" />
+      <div class="compact-type-badge" :class="typeBadgeClass">
+        <component :is="typeIconComponent" class="compact-type-icon" />
       </div>
       
       <div class="compact-content">
-        <div class="compact-title" :title="inquiry.title">
-          {{ truncatedTitle }}
+        <div class="compact-title-row">
+          <div class="compact-title" :title="inquiry.title">
+            {{ truncatedTitle }}
+          </div>
+          <div v-if="showExpiryBadge" class="compact-expiry-badge" :class="expiryBadgeClass">
+            <component :is="InquiryGeneralIconsComponents.Clock" class="expiry-icon" :size="12" />
+            <span>{{ expiryText }}</span>
+          </div>
         </div>
         
         <div class="compact-meta">
-          <div v-if="inquiry.responsesCount" class="meta-responses">
-            {{ inquiry.responsesCount }}
+          <div class="compact-author">
+				<component
+						:is="NcAvatar"
+						v-if="inquiry.ownedGroup !== ''"
+						:display-name="inquiry.ownedGroup"
+						:show-user-status="false"
+						:size="16"
+                        class="author-avatar"
+                        :show-name="false"
+						/>
+				<component
+						:is="NcAvatar"
+						v-else
+						:user="inquiryStore.owner.id"
+						:display-name="inquiryStore.owner.displayName"
+						:size="16"
+                        class="author-avatar"
+                        :show-name="false"
+            />
+            <span class="author-name">{{ truncatedAuthorName }}</span>
           </div>
           
-          <div v-if="inquiry.supportsCount" class="meta-supports" @click.stop="handleSupportClick">
-            {{ inquiry.supportsCount }}
+          <div class="compact-stats">
+            <div v-if="inquiry.status?.countSupports" 
+                 class="stat-item supports" 
+                 :class="{ 'is-supported': isSupported }"
+                 @click.stop="handleSupportClick">
+              <component :is="supportIconComponent" class="support-icon" :size="10" />
+              <span>{{ inquiry.status.countSupports }}</span>
+            </div>
+            
+            <div v-if="inquiry.status?.countComments" class="stat-item comments">
+              <component :is="InquiryGeneralIconsComponents.MessageSquare" class="comments-icon" :size="10" />
+              <span>{{ inquiry.status.countComments }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -30,31 +65,73 @@
     
     <!-- Regular Mode -->
     <div v-else class="summary-regular">
-      <!-- Header -->
+      <!-- Cover Image (if exists) -->
+      <div v-if="coverUrl" class="summary-cover">
+        <img :src="coverUrl" :alt="inquiry.title" class="cover-image" @load="handleImageLoad" />
+        <div class="cover-overlay"></div>
+      </div>
+      
+      <!-- Header with Type and Status -->
       <div class="summary-header">
-        <div class="header-type">
-          <component :is="typeIcon" class="type-icon" />
+        <div class="header-type-badge" :class="typeBadgeClass">
+          <component :is="typeIconComponent" class="type-icon" :size="14" />
           <span class="type-label">{{ typeLabel }}</span>
         </div>
         
-        <div v-if="inquiry.status" class="header-status" :class="statusClass">
-          {{ statusText }}
+        <div class="header-right">
+          <div v-if="showExpiryBadge" class="expiry-badge" :class="expiryBadgeClass">
+            <component :is="InquiryGeneralIconsComponents.Clock" class="expiry-icon" :size="12" />
+            <span>{{ expiryText }}</span>
+          </div>
+          
+          <div v-if="inquiry.status?.inquiryStatus" class="header-status" :class="statusClass">
+            <component :is="statusIconComponent" class="status-icon" :size="12" />
+            <span>{{ statusText }}</span>
+          </div>
         </div>
       </div>
       
-      <!-- Title -->
-      <div class="summary-title" :title="inquiry.title">
-        {{ inquiry.title }}
+      <!-- Main Content -->
+      <div class="summary-content">
+        <!-- Title -->
+        <div class="summary-title" :title="inquiry.title">
+          {{ inquiry.title }}
+        </div>
+        
+        <!-- Location (if exists) -->
+        <div v-if="locationPath" class="summary-location">
+          <component :is="InquiryGeneralIconsComponents.IdCard" class="location-icon" :size="14" />
+          <span class="location-text" :title="locationPath">{{ truncatedLocation }}</span>
+        </div>
+        
+        <!-- Category (if exists) -->
+        <div v-if="categoryPath" class="summary-category">
+          <component :is="InquiryGeneralIconsComponents.FolderMultiple" class="category-icon" :size="14" />
+          <span class="category-text" :title="categoryPath">{{ truncatedCategory }}</span>
+        </div>
+        
+        <!-- Description -->
+        <div v-if="inquiry.descriptionSafe" class="summary-description" v-html="safeDescription">
+        </div>
+        
+        <!-- Quorum (if exists) -->
+        <div v-if="hasQuorum" class="summary-quorum">
+          <component :is="InquiryGeneralIconsComponents.Scale" class="quorum-icon" :size="14" />
+          <span>{{ t('agora', 'Quorum: {quorum}', { quorum: quorumValue }) }}</span>
+        </div>
+        
+        <!-- "Read More" Button -->
+        <div v-if="showReadMore" class="read-more-section">
+          <button class="read-more-btn" @click.stop="viewInquiry">
+            <span class="read-more-text">{{ t('agora', 'Read more') }}</span>
+            <component :is="InquiryGeneralIconsComponents.ChevronRight" class="read-more-icon" :size="14" />
+          </button>
+        </div>
       </div>
       
-      <!-- Description -->
-      <div v-if="inquiry.description && !compact" class="summary-description">
-        {{ truncatedDescription }}
-      </div>
-      
-      <!-- Footer -->
+      <!-- Footer with Author and Stats -->
       <div class="summary-footer">
-        <!-- Author -->
+        <!-- Author Info -->
         <div class="footer-author">
           <NcAvatar
             :user="inquiry.owner?.id"
@@ -62,24 +139,28 @@
             class="author-avatar"
             :show-name="false"
           />
-          <span class="author-name">{{ truncatedAuthorName }}</span>
+          <div class="author-info">
+            <div class="author-name">{{ inquiry.owner?.displayName }}</div>
+            <div class="post-time">
+              <component :is="InquiryGeneralIconsComponents.Calendar" class="calendar-icon" :size="12" />
+              <span>{{ formattedTime }}</span>
+            </div>
+          </div>
         </div>
         
-        <!-- Stats -->
+        <!-- Stats Icons -->
         <div class="footer-stats">
-          <div v-if="inquiry.responsesCount" class="stat-item">
-            <MessageIcon :size="12" />
-            <span>{{ inquiry.responsesCount }}</span>
+          <div v-if="inquiry.status?.countSupports" 
+               class="stat-item supports" 
+               :class="{ 'is-supported': isSupported }"
+               @click.stop="handleSupportClick">
+            <component :is="supportIconComponent" class="support-icon" :size="16" />
+            <span>{{ inquiry.status.countSupports }}</span>
           </div>
           
-          <div v-if="inquiry.supportsCount" class="stat-item supports" @click.stop="handleSupportClick">
-            <HeartIcon :size="12" :fill="isSupported ? 'var(--color-primary-element)' : 'none'" />
-            <span>{{ inquiry.supportsCount }}</span>
-          </div>
-          
-          <div v-if="inquiry.created_at" class="stat-item">
-            <CalendarIcon :size="12" />
-            <span>{{ timeAgo }}</span>
+          <div v-if="inquiry.status?.countComments" class="stat-item comments">
+            <component :is="InquiryGeneralIconsComponents.CommentProcessing" class="comments-icon" :size="16" />
+            <span>{{ inquiry.status.countComments }}</span>
           </div>
         </div>
       </div>
@@ -88,17 +169,14 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { useRouter } from 'vue-router'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
-import CalendarIcon from 'vue-material-design-icons/Calendar.vue'
-import MessageIcon from 'vue-material-design-icons/Message.vue'
-import HeartIcon from 'vue-material-design-icons/Heart.vue'
-
 import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
 import type { Inquiry } from '../../Types/index.ts'
-import { useAppSettingsStore } from '../../stores/appSettings.ts'
+import { useSessionStore } from '../../stores/session.ts'
+import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
 
 interface Props {
   inquiry: Inquiry
@@ -117,81 +195,346 @@ const emit = defineEmits<{
 }>()
 
 const router = useRouter()
-const appSettingsStore = useAppSettingsStore()
+const sessionStore = useSessionStore()
 
-// Get inquiry types
-const inquiryTypes = computed(() => appSettingsStore.inquiryTypeTab || [])
+// Import icon components from utils/icons.ts
+const InquiryGeneralIconsComponents = InquiryGeneralIcons
 
-// Summary classes
+// Get available inquiry statuses (similar to InquiryEditViewForm)
+const availableInquiryStatuses = computed(() => {
+  const statusesFromSettings = sessionStore.appSettings?.inquiryStatusTab
+    ?.filter((status) => status.inquiryType === props.inquiry.type)
+    ?.sort((a, b) => a.order - b.order) || []
+
+  if (props.inquiry.status?.inquiryStatus === 'draft') {
+    statusesFromSettings.unshift({
+      statusKey: 'draft',
+      label: 'Draft',
+      icon: 'draft',
+      inquiryType: props.inquiry.type,
+      order: 0,
+    })
+  }
+
+  if (props.inquiry.status?.inquiryStatus === 'waiting_approval') {
+    statusesFromSettings.unshift({
+      statusKey: 'waiting_approval',
+      label: 'Waiting Approval',
+      icon: 'waitingapproval',
+      inquiryType: props.inquiry.type,
+      order: 1,
+    })
+  }
+
+  return statusesFromSettings
+})
+
+// Get current status similar to InquiryEditViewForm
+const currentInquiryStatus = computed(() => {
+  const specialStatuses = {
+    'draft': {
+      statusKey: 'draft',
+      label: 'Draft',
+      icon: 'draft',
+      inquiryType: props.inquiry.type,
+      order: 0,
+    },
+    'waiting_approval': {
+      statusKey: 'waiting_approval',
+      label: 'Waiting Approval',
+      icon: 'waitingapproval',
+      inquiryType: props.inquiry.type,
+      order: 1,
+    }
+  }
+
+  const currentStatus = props.inquiry.status?.inquiryStatus
+
+  if (specialStatuses[currentStatus]) {
+    return specialStatuses[currentStatus]
+  }
+
+  return availableInquiryStatuses.value.find(
+    (status) => status.statusKey === currentStatus
+  ) || specialStatuses.draft
+})
+
+// Computed properties
+const inquiryTypes = computed(() => sessionStore.appSettings?.inquiryTypeTab || [])
+
 const summaryClasses = computed(() => ({
   'is-compact': props.compact,
-  'is-interactive': props.interactive
+  'is-interactive': props.interactive,
+  'has-expiry': showExpiryBadge.value,
+  'has-cover': !!coverUrl.value
 }))
 
-// Get type data
+// Get type data with icons
 const typeData = computed(() => {
   return getInquiryTypeData(props.inquiry.type, inquiryTypes.value)
 })
 
-const typeIcon = computed(() => typeData.value?.icon || '📝')
 const typeLabel = computed(() => typeData.value?.label || props.inquiry.type)
 
-// Status
+// Map inquiry type to appropriate icon from InquiryGeneralIcons
+const typeIconComponent = computed(() => {
+  const type = props.inquiry.type?.toLowerCase()
+  
+  // Map common inquiry types to icons from InquiryGeneralIcons
+  const iconMap: Record<string, keyof typeof InquiryGeneralIconsComponents> = {
+    'survey': 'ClipboardList',
+    'poll': 'CheckCircle',
+    'question': 'Question',
+    'discussion': 'MessageSquare',
+    'news': 'Newspaper',
+    'announcement': 'Megaphone',
+    'meeting': 'Users',
+    'document': 'BookOpen',
+    'proposal': 'Scale',
+    'general': 'FolderMultiple',
+    'draft': 'Empty',
+  }
+  
+  const iconName = iconMap[type] || 'FolderMultiple'
+  return InquiryGeneralIconsComponents[iconName]
+})
+
+const typeBadgeClass = computed(() => {
+  const type = props.inquiry.type?.toLowerCase().replace(/\s+/g, '-')
+  return `type-${type}`
+})
+
+// Status handling using StatusIcons
 const statusClass = computed(() => {
-return appSettingsStore.getStatusByKey(props.inquiry.type,props.inquiry.status.inquiryStatus)
+  if (!currentInquiryStatus.value) return 'status-unknown'
+  
+  const statusKey = currentInquiryStatus.value.statusKey
+  const statusMap: Record<string, string> = {
+    'draft': 'status-draft',
+    'waiting_approval': 'status-waiting',
+    'open': 'status-open',
+    'closed': 'status-closed',
+    'archived': 'status-archived',
+    'published': 'status-published',
+    'completed': 'status-completed',
+    'cancelled': 'status-cancelled',
+  }
+  
+  return statusMap[statusKey] || 'status-unknown'
 })
 
 const statusText = computed(() => {
-return appSettingsStore.getStatusByKey(props.inquiry.type,props.inquiry.status.inquiryStatus)
+  return currentInquiryStatus.value?.label ? t('agora', currentInquiryStatus.value.label) : ''
 })
 
-// Support
+const statusIconComponent = computed(() => {
+  if (!currentInquiryStatus.value?.icon) return StatusIcons.Default
+  
+  const iconName = currentInquiryStatus.value.icon
+  return StatusIcons[iconName] || StatusIcons.Default
+})
+
+// Support icon
 const isSupported = computed(() => props.inquiry.currentUserStatus?.hasSupported || false)
+
+const supportIconComponent = computed(() => {
+  // Use heart icon from InquiryGeneralIcons or ternary support if needed
+  if (props.inquiry.configuration?.supportMode === 'ternary') {
+    return InquiryGeneralIconsComponents.Scale // For ternary support
+  }
+  return InquiryGeneralIconsComponents.Heart // Simple support
+})
+
+// Location and Category paths (same function as InquiryEditViewForm)
+const locationPath = computed(() => {
+  if (!props.inquiry.locationId || !sessionStore.appSettings?.locationTab) return ''
+  
+  const getHierarchyPath = (items: any[], targetId: number): string => {
+    const itemMap: Record<number, any> = {}
+    
+    items.forEach((item) => {
+      itemMap[item.id] = item
+    })
+    
+    if (!itemMap[targetId]) {
+      return 'ID not found'
+    }
+    
+    function buildPath(item: any): string {
+      if (item.parentId === 0) {
+        return item.name
+      }
+      const parent = itemMap[item.parentId]
+      if (parent) {
+        return `${buildPath(parent)} → ${item.name}`
+      }
+      return item.name
+    }
+    
+    return buildPath(itemMap[targetId])
+  }
+  
+  return getHierarchyPath(sessionStore.appSettings.locationTab, props.inquiry.locationId)
+})
+
+const categoryPath = computed(() => {
+  if (!props.inquiry.categoryId || !sessionStore.appSettings?.categoryTab) return ''
+  
+  const getHierarchyPath = (items: any[], targetId: number): string => {
+    const itemMap: Record<number, any> = {}
+    
+    items.forEach((item) => {
+      itemMap[item.id] = item
+    })
+    
+    if (!itemMap[targetId]) {
+      return 'ID not found'
+    }
+    
+    function buildPath(item: any): string {
+      if (item.parentId === 0) {
+        return item.name
+      }
+      const parent = itemMap[item.parentId]
+      if (parent) {
+        return `${buildPath(parent)} → ${item.name}`
+      }
+      return item.name
+    }
+    
+    return buildPath(itemMap[targetId])
+  }
+  
+  return getHierarchyPath(sessionStore.appSettings.categoryTab, props.inquiry.categoryId)
+})
 
 // Truncated text
 const truncatedTitle = computed(() => {
   if (!props.inquiry.title) return ''
   return props.inquiry.title.length > 40 
-    ? props.inquiry.title.substring(0, 40) + '...' 
+    ? props.inquiry.title.substring(0, 40) + '…' 
     : props.inquiry.title
-})
-
-const truncatedDescription = computed(() => {
-  if (!props.inquiry.description) return ''
-  const text = props.inquiry.description.replace(/<[^>]*>/g, '')
-  return text.length > 80 
-    ? text.substring(0, 80) + '...' 
-    : text
 })
 
 const truncatedAuthorName = computed(() => {
   if (!props.inquiry.owner?.displayName) return ''
   const name = props.inquiry.owner.displayName
-  return name.length > 20 
-    ? name.substring(0, 20) + '...' 
+  return name.length > 15 
+    ? name.substring(0, 15) + '…' 
     : name
 })
 
-// Time ago
-const timeAgo = computed(() => {
-  if (!props.inquiry.created_at) return ''
+const truncatedLocation = computed(() => {
+  if (!locationPath.value) return ''
+  return locationPath.value.length > 30 
+    ? locationPath.value.substring(0, 30) + '…' 
+    : locationPath.value
+})
+
+const truncatedCategory = computed(() => {
+  if (!categoryPath.value) return ''
+  return categoryPath.value.length > 30 
+    ? categoryPath.value.substring(0, 30) + '…' 
+    : categoryPath.value
+})
+
+// Safe description handling
+const safeDescription = computed(() => {
+  if (!props.inquiry.descriptionSafe) return ''
   
-  const created = new Date(props.inquiry.created_at)
+  // Limit description length for summary view
+  const description = props.inquiry.descriptionSafe
+  const maxLength = 150
+  
+  if (description.length > maxLength) {
+    return description.substring(0, maxLength) + '…'
+  }
+  
+  return description
+})
+
+// Cover image
+const coverUrl = computed(() => {
+  if (!props.inquiry.coverId) return ''
+  return getNextcloudPreviewUrl(props.inquiry.coverId)
+})
+
+function getNextcloudPreviewUrl(fileId: number, x = 400, y = 200, autoScale = true) {
+  const baseUrl = window.location.origin
+  return `${baseUrl}/index.php/core/preview?fileId=${fileId}&x=${x}&y=${y}&a=${autoScale}`
+}
+
+const imageLoaded = ref(false)
+function handleImageLoad() {
+  imageLoaded.value = true
+}
+
+// Quorum handling
+const hasQuorum = computed(() => props.inquiry.miscFields?.quorum)
+const quorumValue = computed(() => props.inquiry.miscFields?.quorum || 0)
+
+// Expiry handling
+const showExpiryBadge = computed(() => {
+  return !!props.inquiry.expire && new Date(props.inquiry.expire) > new Date()
+})
+
+const expiryText = computed(() => {
+  if (!props.inquiry.expire) return ''
+  
+  const expiryDate = new Date(props.inquiry.expire)
+  const now = new Date()
+  const diff = expiryDate.getTime() - now.getTime()
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24))
+  const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+  
+  if (days > 0) {
+    return t('agora', '{days}d', { days })
+  } else if (hours > 0) {
+    return t('agora', '{hours}h', { hours })
+  } else {
+    return t('agora', 'Soon')
+  }
+})
+
+const expiryBadgeClass = computed(() => {
+  if (!props.inquiry.expire) return ''
+  
+  const expiryDate = new Date(props.inquiry.expire)
+  const now = new Date()
+  const diff = expiryDate.getTime() - now.getTime()
+  const hours = diff / (1000 * 60 * 60)
+  
+  if (hours < 24) return 'expiry-soon'
+  if (hours < 72) return 'expiry-warning'
+  return 'expiry-normal'
+})
+
+// Time formatting
+const formattedTime = computed(() => {
+  if (!props.inquiry.status?.created) return ''
+  
+  const created = new Date(props.inquiry.status.created)
   const now = new Date()
   const diff = now.getTime() - created.getTime()
   const days = Math.floor(diff / (1000 * 60 * 60 * 24))
   const hours = Math.floor(diff / (1000 * 60 * 60))
   const minutes = Math.floor(diff / (1000 * 60))
   
-  if (days > 0) {
-    return t('agora', '{days}d', { days })
+  if (days > 30) {
+    return created.toLocaleDateString()
+  } else if (days > 0) {
+    return t('agora', '{days} days ago', { days })
   } else if (hours > 0) {
-    return t('agora', '{hours}h', { hours })
+    return t('agora', '{hours} hours ago', { hours })
   } else if (minutes > 0) {
-    return t('agora', '{minutes}m', { minutes })
+    return t('agora', '{minutes} minutes ago', { minutes })
   } else {
     return t('agora', 'Just now')
   }
+})
+
+const showReadMore = computed(() => {
+  return props.interactive && !props.compact
 })
 
 // Handlers
@@ -216,18 +559,35 @@ function handleSupportClick() {
 
 <style lang="scss" scoped>
 .inquiry-summary {
+  font-family: var(--font-family);
+  
   &.is-interactive {
     cursor: pointer;
     
     &:hover {
       .summary-regular {
-        transform: translateX(4px);
+        transform: translateY(-2px);
+        box-shadow: var(--shadow-2);
         border-color: var(--color-primary-element);
       }
       
       .summary-compact {
         background: var(--color-background-hover);
+        border-color: var(--color-primary-element);
       }
+    }
+  }
+  
+  &.has-expiry {
+    .summary-regular,
+    .summary-compact {
+      border-left: 3px solid var(--color-warning);
+    }
+  }
+  
+  &.has-cover {
+    .summary-regular {
+      padding-top: 0;
     }
   }
 }
@@ -238,16 +598,50 @@ function handleSupportClick() {
   align-items: center;
   gap: 12px;
   padding: 10px 14px;
+  border: 1px solid var(--color-border);
   border-radius: 10px;
-  transition: background-color 0.2s ease;
+  background: var(--color-main-background);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 60px;
   
-  .compact-icon {
+  .compact-type-badge {
     flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--color-primary-element), var(--color-primary));
     
-    .icon {
-      width: 20px;
-      height: 20px;
-      color: var(--color-primary-element);
+    &.type-survey {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    }
+    
+    &.type-poll {
+      background: linear-gradient(135deg, #10b981, #34d399);
+    }
+    
+    &.type-question {
+      background: linear-gradient(135deg, #f59e0b, #fbbf24);
+    }
+    
+    &.type-discussion {
+      background: linear-gradient(135deg, #3b82f6, #60a5fa);
+    }
+    
+    &.type-news {
+      background: linear-gradient(135deg, #ec4899, #f472b6);
+    }
+    
+    &.type-announcement {
+      background: linear-gradient(135deg, #ef4444, #f87171);
+    }
+    
+    .compact-type-icon {
+      width: 14px;
+      height: 14px;
+      color: white;
     }
   }
   
@@ -256,35 +650,114 @@ function handleSupportClick() {
     min-width: 0;
   }
   
+  .compact-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  
   .compact-title {
-    font-size: 14px;
-    font-weight: 500;
+    flex: 1;
+    font-size: 13px;
+    font-weight: 600;
     color: var(--color-main-text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-bottom: 4px;
+  }
+  
+  .compact-expiry-badge {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 10px;
+    font-weight: 600;
+    
+    &.expiry-soon {
+      background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
+      color: #ef4444;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    &.expiry-warning {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));
+      color: #f59e0b;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    
+    &.expiry-normal {
+      background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+      color: #10b981;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+    
+    .expiry-icon {
+      color: inherit;
+    }
   }
   
   .compact-meta {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 12px;
-    font-size: 11px;
-    color: var(--color-text-maxcontrast);
+    gap: 8px;
+  }
+  
+  .compact-author {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
     
-    .meta-responses,
-    .meta-supports {
-      display: flex;
-      align-items: center;
-      gap: 4px;
+    .author-avatar {
+      flex-shrink: 0;
+      border: 1px solid white;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
     }
     
-    .meta-supports {
-      cursor: pointer;
+    .author-name {
+      font-size: 11px;
+      color: var(--color-text-lighter);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+  
+  .compact-stats {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    .stat-item {
+      display: flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--color-text-maxcontrast);
+      transition: all 0.2s ease;
       
-      &:hover {
-        color: var(--color-primary-element);
+      .support-icon,
+      .comments-icon {
+        color: inherit;
+      }
+      
+      &.supports {
+        cursor: pointer;
+        
+        &:hover {
+          color: var(--color-primary-element);
+        }
+        
+        &.is-supported {
+          color: var(--color-primary-element);
+        }
       }
     }
   }
@@ -292,60 +765,184 @@ function handleSupportClick() {
 
 // Regular Mode
 .summary-regular {
-  background: white;
+  background: var(--color-main-background);
   border: 1px solid var(--color-border);
-  border-radius: 12px;
-  padding: 16px;
+  border-radius: 16px;
+  padding: 20px;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  position: relative;
+}
+
+.summary-cover {
+  position: relative;
+  height: 160px;
+  margin: -20px -20px 20px -20px;
+  overflow: hidden;
+  
+  .cover-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+  
+  .cover-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
+  }
+  
+  &:hover .cover-image {
+    transform: scale(1.05);
+  }
 }
 
 .summary-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 16px;
 }
 
-.header-type {
+.header-type-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  background: var(--color-background-dark);
+  gap: 8px;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, var(--color-background-dark), var(--color-background-darker));
   border-radius: 20px;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--color-text-lighter);
   
+  &.type-survey {
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(99, 102, 241, 0.1));
+    color: #6366f1;
+    border: 1px solid rgba(99, 102, 241, 0.2);
+  }
+  
+  &.type-poll {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.1));
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  
+  &.type-question {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.1));
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+  }
+  
+  &.type-discussion {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(59, 130, 246, 0.1));
+    color: #3b82f6;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+  
+  &.type-news {
+    background: linear-gradient(135deg, rgba(236, 72, 153, 0.15), rgba(236, 72, 153, 0.1));
+    color: #ec4899;
+    border: 1px solid rgba(236, 72, 153, 0.2);
+  }
+  
+  &.type-announcement {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.1));
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+  
   .type-icon {
-    width: 12px;
-    height: 12px;
-    color: var(--color-primary-element);
+    color: inherit;
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.expiry-badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 600;
+  
+  &.expiry-soon {
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.1));
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+  }
+  
+  &.expiry-warning {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.1));
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+  }
+  
+  &.expiry-normal {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.1));
+    color: #10b981;
+    border: 1px solid rgba(16, 185, 129, 0.2);
+  }
+  
+  .expiry-icon {
+    color: inherit;
   }
 }
 
 .header-status {
-  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
   border-radius: 20px;
-  font-size: 10px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
+  
+  .status-icon {
+    color: inherit;
+  }
   
   &.status-open {
-    background: rgba(34, 197, 94, 0.1);
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.1));
     color: #16a34a;
+    border: 1px solid rgba(34, 197, 94, 0.2);
   }
   
   &.status-closed {
-    background: rgba(239, 68, 68, 0.1);
+    background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.1));
     color: #dc2626;
+    border: 1px solid rgba(239, 68, 68, 0.2);
   }
   
   &.status-draft {
-    background: rgba(148, 163, 184, 0.1);
+    background: linear-gradient(135deg, rgba(148, 163, 184, 0.15), rgba(148, 163, 184, 0.1));
     color: #64748b;
+    border: 1px solid rgba(148, 163, 184, 0.2);
+  }
+  
+  &.status-waiting {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.1));
+    color: #f59e0b;
+    border: 1px solid rgba(245, 158, 11, 0.2);
+  }
+  
+  &.status-archived {
+    background: linear-gradient(135deg, rgba(107, 114, 128, 0.15), rgba(107, 114, 128, 0.1));
+    color: #6b7280;
+    border: 1px solid rgba(107, 114, 128, 0.2);
   }
   
   &.status-unknown {
@@ -354,22 +951,15 @@ function handleSupportClick() {
   }
 }
 
-.summary-title {
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.4;
-  color: var(--color-main-text);
-  margin-bottom: 8px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.summary-content {
+  margin-bottom: 20px;
 }
 
-.summary-description {
-  font-size: 13px;
+.summary-title {
+  font-size: 17px;
+  font-weight: 700;
   line-height: 1.4;
-  color: var(--color-text-lighter);
+  color: var(--color-main-text);
   margin-bottom: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -377,32 +967,176 @@ function handleSupportClick() {
   overflow: hidden;
 }
 
+.summary-location,
+.summary-category,
+.summary-quorum {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--color-text-lighter);
+  margin-bottom: 8px;
+  
+  .location-text,
+  .category-text {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 200px;
+  }
+  
+  .location-icon,
+  .category-icon,
+  .quorum-icon {
+    color: var(--color-text-maxcontrast);
+    flex-shrink: 0;
+  }
+}
+
+.summary-quorum {
+  background: rgba(var(--color-primary-rgb), 0.05);
+  padding: 6px 10px;
+  border-radius: 8px;
+  border-left: 3px solid var(--color-primary-element);
+  margin-top: 12px;
+  
+  .quorum-icon {
+    color: var(--color-primary-element);
+  }
+}
+
+.summary-description {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-text-lighter);
+  margin: 16px 0;
+  
+  :deep(*) {
+    margin: 0;
+    padding: 0;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+  }
+  
+  :deep(a) {
+    color: var(--color-primary-element);
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+  
+  :deep(ul),
+  :deep(ol) {
+    padding-left: 20px;
+    margin: 8px 0;
+  }
+  
+  :deep(li) {
+    margin-bottom: 4px;
+  }
+  
+  :deep(p) {
+    margin: 8px 0;
+  }
+}
+
+// Beautiful Read More Button
+.read-more-section {
+  margin-top: 16px;
+  text-align: center;
+  
+  .read-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-primary-element);
+    background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.08), rgba(var(--color-primary-rgb), 0.04));
+    border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    
+    &:hover {
+      background: linear-gradient(135deg, rgba(var(--color-primary-rgb), 0.15), rgba(var(--color-primary-rgb), 0.08));
+      border-color: var(--color-primary-element);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(var(--color-primary-rgb), 0.15);
+      
+      .read-more-icon {
+        transform: translateX(3px);
+      }
+    }
+    
+    &:active {
+      transform: translateY(0);
+      transition-duration: 0.1s;
+    }
+    
+    .read-more-text {
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    
+    .read-more-icon {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      color: var(--color-primary-element);
+    }
+  }
+}
+
 .summary-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
 }
 
 .footer-author {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
   flex: 1;
   min-width: 0;
   
   .author-avatar {
     flex-shrink: 0;
-    border: 1px solid white;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .author-info {
+    min-width: 0;
   }
   
   .author-name {
-    font-size: 12px;
-    color: var(--color-text-lighter);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-main-text);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    margin-bottom: 2px;
+  }
+  
+  .post-time {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: var(--color-text-maxcontrast);
+    
+    .calendar-icon {
+      color: var(--color-text-maxcontrast);
+    }
   }
 }
 
@@ -410,54 +1144,103 @@ function handleSupportClick() {
   display: flex;
   align-items: center;
   gap: 16px;
-  flex-shrink: 0;
   
   .stat-item {
     display: flex;
     align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    color: var(--color-text-maxcontrast);
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--color-background-dark);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-lighter);
+    transition: all 0.2s ease;
+    cursor: pointer;
+    
+    .support-icon,
+    .comments-icon {
+      color: inherit;
+    }
     
     &.supports {
-      cursor: pointer;
-      
       &:hover {
+        background: rgba(var(--color-primary-rgb), 0.1);
         color: var(--color-primary-element);
       }
+      
+      &.is-supported {
+        background: rgba(var(--color-primary-rgb), 0.15);
+        color: var(--color-primary-element);
+      }
+    }
+    
+    &.comments:hover {
+      background: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
     }
   }
 }
 
-// Responsive
+// Responsive Design
 @media (max-width: 768px) {
   .summary-regular {
-    padding: 14px;
+    padding: 16px;
+  }
+  
+  .summary-cover {
+    height: 120px;
+    margin: -16px -16px 16px -16px;
   }
   
   .summary-title {
-    font-size: 14px;
+    font-size: 15px;
   }
   
   .summary-description {
+    font-size: 13px;
+  }
+  
+  .read-more-section .read-more-btn {
+    padding: 6px 12px;
     font-size: 12px;
   }
   
   .footer-stats {
     gap: 12px;
+    
+    .stat-item {
+      padding: 5px 10px;
+      font-size: 12px;
+    }
   }
 }
 
 @media (max-width: 480px) {
-  .summary-footer {
+  .summary-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
   
-  .footer-stats {
+  .header-right {
     width: 100%;
     justify-content: space-between;
+  }
+  
+  .summary-footer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .footer-stats {
+    justify-content: center;
+  }
+  
+  .summary-location .location-text,
+  .summary-category .category-text {
+    max-width: 150px;
   }
 }
 </style>
