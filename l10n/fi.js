@@ -75,6 +75,7 @@ OC.L10N.register(
     "Summary" : "Yhteenveto",
     "Generating…" : "Luodaan…",
     "Generate" : "Luo",
+    "Pending" : "Odottaa",
     "Accepted" : "Hyväksytty",
     "Rejected" : "Hylätty",
     "Save" : "Tallenna",
