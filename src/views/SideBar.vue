@@ -121,7 +121,7 @@ function closeSideBar() {
                 <template #icon>
                     <component :is="InquiryGeneralIcons.LinkIcon" />
                 </template>
-        <SideBarTabResources />
+        <SideBarTabResources :inquiry="null"/>
         </NcAppSidebarTab>
         
         <NcAppSidebarTab

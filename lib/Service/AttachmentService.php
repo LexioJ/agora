@@ -271,7 +271,6 @@ class AttachmentService
                     $share->setPermissions($permissions);
 
                     $this->shareManager->createShare($share);
-                    $this->logger->info('File shared with group: ' . $groupName . ' - ' . $file->getPath());
 
                 } catch (\Exception $e) {
                     $this->logger->error('Error sharing file with group ' . $groupName . ': ' . $e->getMessage());

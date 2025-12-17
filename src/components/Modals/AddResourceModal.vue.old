@@ -40,7 +40,7 @@ interface SelectOption {
 const props = defineProps<{
   open: boolean
   availableApps?: string[]
-  inquiry?: Inquiry
+  inquiry: Inquiry
 }>()
 
 const emit = defineEmits<{
@@ -60,25 +60,9 @@ const isLoading = ref(false)
 const fileInput = ref<HTMLInputElement | null>(null)
 const selectedFiles = ref<File[]>([])
 
-// Determine which inquiry to use
-const currentInquiry = computed(() => {
-  // If currentInquiry has an inquiry, use it
-  if (inquiryStore.id) {
-    return inquiryStore
-  }
-  
-  // Otherwise, try to find the inquiry by ID in the store or use minimal data
-  if (props.inquiry) {
-    return props.inquiry
-    }
-  
-  return null
-})
-
-
 // Form data
-const resourceTitle = ref(currentInquiry.value.title ? `${currentInquiry.value.title}` : '')
-const resourceDescription = ref(currentInquiry.value.description || '')
+const resourceTitle = ref(inquiryStore.title ? `${inquiryStore.title}` : '')
+const resourceDescription = ref(inquiryStore.description || '')
 
 // Resource types configuration
 const resourceTypes: ResourceType[] = [
@@ -219,8 +203,8 @@ watch(() => props.open, async (isOpen) => {
     // Reset form when opening
     selectedResource.value = null
     selectedFiles.value = []
-    resourceTitle.value = currentInquiry.value.title ? `${currentInquiry.value.title}` : ''
-    resourceDescription.value = currentInquiry.value.description || ''
+    resourceTitle.value = inquiryStore.title ? `${inquiryStore.title}` : ''
+    resourceDescription.value = inquiryStore.description || ''
   }
 })
 
@@ -254,7 +238,7 @@ const loadResources = async () => {
       case 'files':
         // For files, load existing attachments
         resources.value = attachmentsStore.attachments
-          .filter(att => att.fileId !== currentInquiry.value.coverId)
+          .filter(att => att.fileId !== inquiryStore.coverId)
           .map(att => ({
             id: att.id,
             filename: att.name,
@@ -358,7 +342,7 @@ const createNewResource = async () => {
       case 'forms':
         // Use the new createForm method that handles both creation and linking
         await inquiryLinksStore.createForm(
-          currentInquiry.value.id,
+          inquiryStore.id,
           {
             title: resourceTitle.value,
             description: resourceDescription.value
@@ -373,7 +357,7 @@ const createNewResource = async () => {
         }
 
         for (const file of selectedFiles.value) {
-          const response = await attachmentsStore.upload(currentInquiry.value.id, file, false)
+          const response = await attachmentsStore.upload(inquiryStore.id, file, false)
           
           // Update attachments store reactively
           attachmentsStore.attachments.push({
@@ -389,7 +373,7 @@ const createNewResource = async () => {
       case 'polls':
         // Use the new createPoll method
         await inquiryLinksStore.createPoll(
-          currentInquiry.value.id,
+          inquiryStore.id,
           {
             title: resourceTitle.value,
             description: resourceDescription.value
@@ -399,7 +383,7 @@ const createNewResource = async () => {
 
       case 'deck':
         await inquiryLinksStore.createDeckBoard(
-          currentInquiry.value.id,
+          inquiryStore.id,
           {
             title: resourceTitle.value,
             description: resourceDescription.value
@@ -410,7 +394,7 @@ const createNewResource = async () => {
       case 'cospend':
         // Use the new createCospendProject method
         await inquiryLinksStore.createCospendProject(
-          currentInquiry.value.id,
+          inquiryStore.id,
           {
             title: resourceTitle.value,
             description: resourceDescription.value
@@ -421,7 +405,7 @@ const createNewResource = async () => {
       case 'collectives':
         // Use the new createCollective method
         await inquiryLinksStore.createCollective(
-          currentInquiry.value.id,
+          inquiryStore.id,
           {
             title: resourceTitle.value,
             description: resourceDescription.value
@@ -471,25 +455,25 @@ const linkExistingResource = async () => {
     switch (resourceType.id) {
       case 'forms':
         const formHash = resourceData.hash || resourceData.configuration?.hash
-        await inquiryLinksStore.linkForm(currentInquiry.value.id, resourceId,formHash,title)
+        await inquiryLinksStore.linkForm(inquiryStore.id, resourceId,formHash,title)
         break
       case 'polls':
-        await inquiryLinksStore.linkPoll(currentInquiry.value.id, resourceId, resourceData.configuration.title)
+        await inquiryLinksStore.linkPoll(inquiryStore.id, resourceId, resourceData.configuration.title)
         break
       case 'deck':
-        await inquiryLinksStore.linkDeckBoard(currentInquiry.value.id, resourceId, title)
+        await inquiryLinksStore.linkDeckBoard(inquiryStore.id, resourceId, title)
         break
       case 'cospend':
-        await inquiryLinksStore.linkCospendProject(currentInquiry.value.id, resourceId,title)
+        await inquiryLinksStore.linkCospendProject(inquiryStore.id, resourceId,title)
         break
       case 'collectives':
         const collectiveTitle = resourceData.title || resourceData.name
-        await inquiryLinksStore.linkCollective(currentInquiry.value.id, resourceId, collectiveTitle)
+        await inquiryLinksStore.linkCollective(inquiryStore.id, resourceId, collectiveTitle)
         break
       default:
         // Fallback for other types
         await inquiryLinksStore.create({
-          inquiryId: currentInquiry.value.id,
+          inquiryId: inquiryStore.id,
           targetApp: resourceType.id,
           targetType: resourceType.id === 'forms' ? 'form' : resourceType.id,
           targetId: resourceId,
@@ -723,7 +707,7 @@ const handleTitleInput = () => {
                 class="form-field"
               />
 
-              <NcNoteCard v-if="currentInquiry.expires && selectedResourceType === 'forms'" type="info" class="info-card">
+              <NcNoteCard v-if="inquiryStore.expires && selectedResourceType === 'forms'" type="info" class="info-card">
                 {{ t('agora', 'This form will inherit the inquiry expiration date.') }}
               </NcNoteCard>
             </div>

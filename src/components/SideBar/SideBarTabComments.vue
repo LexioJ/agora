@@ -66,7 +66,7 @@ watch(
 		</CardDiv>
 	</ConfigBox>
 
-	<CommentAdd v-if="inquiryStore.permissions.comment" />
+	<CommentAdd />
 	<Comments v-if="!showEmptyContent" />
 	<NcEmptyContent v-else v-bind="emptyContentProps">
 		<template #icon>

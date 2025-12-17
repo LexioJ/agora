@@ -612,7 +612,7 @@ onMounted(async () => {
     }
 
     if (inquiriesStore.inquiries.length === 0) {
-      await inquiriesStore.fetchAll()
+      await inquiriesStore.load()
     }
 
     // Check if group exists when slug is provided

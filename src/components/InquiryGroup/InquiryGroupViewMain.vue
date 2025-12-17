@@ -18,7 +18,6 @@
                 :inquiry="inquiry"
                 :render-mode="getRenderMode(inquiry, 'header')"
                 class="header-item"
-                @click="handleInquiryClick(inquiry)"
               />
             </template>
           </div>
@@ -346,11 +345,6 @@ function handleInquiryClick(inquiry: Inquiry) {
       break
     case 'page':
     default:
-      // Navigate to edit page
-      router.push({
-        name: 'inquiry-edit',
-        params: { id: inquiry.id }
-      })
       break
   }
   

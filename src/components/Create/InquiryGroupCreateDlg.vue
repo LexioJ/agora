@@ -69,6 +69,7 @@ const allInquiryGroupTypes = computed((): InquiryGroupType[] => {
 const allowedResponseGroupTypes = computed(() => {
   if (props.isSubGroup && props.parentGroupId && !props.inquiryGroupType) {
     const parentGroupType = '' 
+  console.log(" CHECK ALLOWED RSPONSE Available GROUP TYPE ",availableInquiryGroupTypes.value[props.parentGroupId]?.group_type)
     
     if (parentGroupType) {
       return getAllowedResponseGroupTypes(allInquiryGroupTypes.value, parentGroupType)

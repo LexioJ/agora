@@ -30,8 +30,8 @@ const confidential = ref(false)
 // Determine which inquiry to use
 const currentInquiry = computed(() => {
   // If inquiryStore has an inquiry, use it
-  if (inquiryStore.inquiry?.id) {
-    return inquiryStore.inquiry
+  if (inquiryStore.id) {
+    return inquiryStore
   }
   
   // Otherwise, try to find the inquiry by ID in the store or use minimal data

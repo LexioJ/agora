@@ -212,7 +212,7 @@ function showSettings() {
       </h3>
 
       <NcAppNavigationItem
-              :name="t('agora', 'Create')"
+              :name="t('agora', 'Create or View')"
               :to="{ name: 'menu' }"
               :exact="true"
               class="navigation-item"

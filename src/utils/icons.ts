@@ -176,6 +176,9 @@ import Menu from '@iconify-icons/mdi/menu'
 
 import School from '@iconify-icons/mdi/school'
 import BabyFace from '@iconify-icons/mdi/baby-face'
+import TagMultiple from '@iconify-icons/mdi/tag-multiple'
+import MapMarkerRadius from '@iconify-icons/mdi/map-marker-radius'
+
 
 import Link from '@iconify-icons/mdi/link'
 import LinkVariant from '@iconify-icons/mdi/link-variant'
@@ -200,6 +203,8 @@ export const makeIconComponent = (icon: Component, color = '#000', size = 24) =>
   },
 })
 export const InquiryGeneralIcons: Record<string, Component> = {
+    Category: makeIconComponent(TagMultiple, '#5E35B1'),
+    Location: makeIconComponent(MapMarkerRadius, '#2E7D32'),
     Wrench: makeIconComponent(Wrench, '#607D8B'),
     Empty: makeIconComponent(InboxRemove, '#999'),
     Drag: makeIconComponent(DragHorizontal, '#999'),
@@ -320,6 +325,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     Group: makeIconComponent(AccountGroup, '#0097A7'),
     Paste: makeIconComponent(ClipboardTextMultiple, '#5D4037'),
     Calendar: makeIconComponent(Calendar, '#3949AB'),
+    Updated: makeIconComponent(Update, '#FF8F00'),
 }
 
 export const ShareIcons: Record<string, Component> = {

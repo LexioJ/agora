@@ -4,7 +4,6 @@
  */
 export { default as AdminActivities } from './AdminActivities.vue'
 export { default as AdminArchiveInquiries } from './AdminArchiveInquiries.vue'
-export { default as AdminCombo } from './AdminCombo.vue'
 export { default as AdminDeleteInquiries } from './AdminDeleteInquiries.vue'
 export { default as AdminExpireInquiries } from './AdminExpireInquiries.vue'
 export { default as AdminEmail } from './AdminEmail.vue'

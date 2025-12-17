@@ -34,7 +34,7 @@ import AddResourceModal from '../Modals/AddResourceModal.vue'
 // Props
 const props = defineProps<{
   availableApps?: string[]
-  inquiry?: Inquiry
+  inquiry: Inquiry
 }>()
 
 // Stores
@@ -49,7 +49,7 @@ const showAddModal = ref(false)
 
 // Determine which inquiry to use
 const currentInquiry = computed(() => {
-  // If currentInquiry has an inquiry, use it
+  // If inquiryStore has an inquiry, use it
   if (inquiryStore.id) {
     return inquiryStore
   }
@@ -89,19 +89,19 @@ interface GroupedResources {
 const context = computed(() => {
   const ctx = createPermissionContextForContent(
     ContentType.Inquiry,
-    currentInquiry.value.owner.id,
-    currentInquiry.value.configuration.access === 'public',
-    currentInquiry.value.status.isLocked,
-    currentInquiry.value.status.isExpired,
-    currentInquiry.value.status.deletionDate > 0,
-    currentInquiry.value.status.isArchived,
-    currentInquiry.value.inquiryGroups.length > 0,
-    currentInquiry.value.inquiryGroups,
-    currentInquiry.value.type,
-    currentInquiry.value.family, 
-    currentInquiry.value.configuration.access as AccessLevel,
-    isInquiryFinalStatus(currentInquiry.value,sessionStore.appSettings),
-    currentInquiry.value.status.moderationStatus 
+    inquiryStore.owner.id,
+    inquiryStore.configuration.access === 'public',
+    inquiryStore.status.isLocked,
+    inquiryStore.status.isExpired,
+    inquiryStore.status.deletionDate > 0,
+    inquiryStore.status.isArchived,
+    inquiryStore.inquiryGroups.length > 0,
+    inquiryStore.inquiryGroups,
+    inquiryStore.type,
+    inquiryStore.family, 
+    inquiryStore.configuration.access as AccessLevel,
+    isInquiryFinalStatus(inquiryStore,sessionStore.appSettings),
+    inquiryStore.status.moderationStatus 
   )
   return ctx
 })
@@ -124,7 +124,7 @@ const groupedResources = computed((): GroupedResources => {
   const groups: GroupedResources = {}
 
   // Add linked resources
-  const links = inquiryLinksStore.getByInquiryId(currentInquiry.value.id)
+  const links = inquiryLinksStore.getByInquiryId(inquiryStore.id)
     .sort((a, b) => a.sort_order - b.sort_order)
 
   links.forEach((link: InquiryLink) => {
@@ -145,7 +145,7 @@ const groupedResources = computed((): GroupedResources => {
 
   // Add file attachments (excluding cover image)
   const fileAttachments = attachmentsStore.attachments
-    .filter(att => att.file_id !== currentInquiry.value.coverId)
+    .filter(att => att.file_id !== inquiryStore.coverId)
 
   if (fileAttachments.length > 0) {
     groups.files = fileAttachments.map(attachment => ({
@@ -400,18 +400,17 @@ const getResourceTarget = (): string => '_blank'
 
 // Add this function to check if resource can be edited
 const canEditResource = (): boolean => {
-   console.log(" CAN EDIT RESOURRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR CE ",currentInquiry.value.id)
   // Only owners can delete resources
-  if (!currentInquiry.value.currentUserStatus?.isOwner) {
+  if (!inquiryStore.currentUserStatus?.isOwner) {
     return false
   }
 
   // Use your permission system if available, otherwise simple owner check
   try {
-    return canEdit?.(context.value) ?? currentInquiry.value.currentUserStatus?.isOwner
+    return canEdit?.(context.value) ?? inquiryStore.currentUserStatus?.isOwner
   } catch (error) {
     console.error('Error checking edit permissions:', error)
-    return currentInquiry.value.currentUserStatus?.isOwner
+    return inquiryStore.currentUserStatus?.isOwner
   }
 }
 
@@ -446,11 +445,7 @@ const handleResourceClick = () => {
 const loadLinks = async () => {
   try {
     isLoading.value = true
-    console.log(" WE ARE LOADING LINK ",currentInquiry.value)
-    console.log(" WE ARE LOADING LINK ",currentInquiry.value.id)
-    console.log(" WE ARE LOADING LINK ",currentInquiry.value.id)
-    await inquiryLinksStore.loadByInquiry(currentInquiry.value.id)
-    console.log(" OIIIIIIIIIIIIIIIIIII ARE LOADING LINK ",currentInquiry.value)
+    await inquiryLinksStore.loadByInquiry(inquiryStore.id)
   } catch (error) {
     console.warn('Could not load inquiry links:', error)
   } finally {
@@ -510,7 +505,7 @@ onMounted(async () => {
                     <p class="description">{{ t('agora', 'Manage links to other Nextcloud resources and files') }}</p>
                 </div>
                 <NcButton
-                        v-if="currentInquiry.currentUserStatus?.isOwner"
+                        v-if="inquiryStore.currentUserStatus?.isOwner"
                         type="primary"
                         class="add-resource-btn"
                         @click="openAddModal"
@@ -580,7 +575,6 @@ onMounted(async () => {
         <AddResourceModal
                 v-model:open="showAddModal"
                 :available-apps="props.availableApps"
-                :inquiry="currentInquiry"
                 />
     </div>
 </template>

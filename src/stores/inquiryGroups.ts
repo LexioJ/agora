@@ -537,6 +537,7 @@ async function fetchAllGroups(): Promise<InquiryGroup[]> {
     descendantGroups,
     rootGroups,
     withChildren,
+    fetchAllGroups,
     
     // Getter functions
     bySlug,
