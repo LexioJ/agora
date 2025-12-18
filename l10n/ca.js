@@ -1,6 +1,7 @@
 OC.L10N.register(
     "agora",
     {
+    "Agora" : "Àgora",
     "Team" : "Equip",
     "Contact group" : "Grup de contactes",
     "Group" : "Grup",
