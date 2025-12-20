@@ -2,6 +2,7 @@ OC.L10N.register(
     "agora",
     {
     "Inquiry changes" : "查询更改",
+    "Agora" : "Agora",
     "Team" : "团队",
     "Contact group" : "联系人群组",
     "Group" : "群组",
