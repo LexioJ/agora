@@ -107,7 +107,7 @@ const context = computed(() => {
 })
 
 // Helper function to parse metadata
-const parseMetadata = (metadata: any) => {
+const parseMetadata = (metadata: string) => {
   if (typeof metadata === 'string') {
     try {
       return JSON.parse(metadata)
@@ -400,7 +400,6 @@ const getResourceTarget = (): string => '_blank'
 
 // Add this function to check if resource can be edited
 const canEditResource = (): boolean => {
-   console.log(" CAN EDIT RESOURRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR CE ",currentInquiry.value.id)
   // Only owners can delete resources
   if (!currentInquiry.value.currentUserStatus?.isOwner) {
     return false
@@ -446,11 +445,7 @@ const handleResourceClick = () => {
 const loadLinks = async () => {
   try {
     isLoading.value = true
-    console.log(" WE ARE LOADING LINK ",currentInquiry.value)
-    console.log(" WE ARE LOADING LINK ",currentInquiry.value.id)
-    console.log(" WE ARE LOADING LINK ",currentInquiry.value.id)
     await inquiryLinksStore.loadByInquiry(currentInquiry.value.id)
-    console.log(" OIIIIIIIIIIIIIIIIIII ARE LOADING LINK ",currentInquiry.value)
   } catch (error) {
     console.warn('Could not load inquiry links:', error)
   } finally {

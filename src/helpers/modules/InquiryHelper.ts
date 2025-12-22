@@ -195,8 +195,8 @@ export function getAvailableTransformTypes(inquiryType: string, inquiryTypes: In
 
 /**
  * Get available response types for an inquiry type based on allowed_response field
- * @param inquiryType
- * @param allTypes
+ * @param allTypes Array of all available inquiry group types
+ * @param inquiryType The inquiry type to get allowed responses for
  */
 export function getAllowedResponseGroupTypes(
   allTypes: InquiryGroupType[], 
@@ -300,7 +300,7 @@ export function getAvailableResponseTypes(inquiryType: string, inquiryTypes: Inq
 
 /**
  * Get available inquiry group types for creation (is_root === true)
- * @param inquiryGroupTypes
+ * @param list
  */
 export const getAvailableInquiryGroupTypesForCreation =
   (list: InquiryGroupType[]) => list.filter(t => t.is_root);
@@ -308,7 +308,7 @@ export const getAvailableInquiryGroupTypesForCreation =
 
 /**
  * Get available inquiry types for creation (filter out official and suggestion)
- * @param inquiryTypes
+ * @param list
  */
 export const getAvailableInquiryTypesForCreation =
   (list: InquiryType[]) => list.filter(t => t.is_root);
@@ -380,7 +380,7 @@ export function countInquiryTypesByFamily(
 
 /**
  * Get inquiry group type options for radio/select components
- * @param inquiryTypes
+ * @param inquiryGroupTypes
  */
 export function getInquiryGroupTypeOptions(inquiryGroupTypes: InquiryGroupType[]) {
   return inquiryGroupTypes.map(type => ({

@@ -16,11 +16,11 @@ import NcInputField from '@nextcloud/vue/components/NcInputField'
 import NcDateTimePickerNative from '@nextcloud/vue/components/NcDateTimePickerNative'
 import UserSearch from '../User/UserSearch.vue' 
 
-
-// Props
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   isReadonly?: boolean
-}>()
+}>(), {
+  isReadonly: true,
+})
 
 // Stores
 const inquiryStore = useInquiryStore()
@@ -33,7 +33,7 @@ const isSaving = ref(false)
 const saveTimeouts = ref<Record<string, NodeJS.Timeout>>({})
 const selectedUsers = ref<Record<string, User | undefined>>({})
 
-
+console.log(" INTO SIDE BAR MISC READ ONLY",props.isReadonly)
 
 // Reactive state for checkbox values
 const localCheckboxes = ref<Record<string, boolean>>({})

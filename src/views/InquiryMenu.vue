@@ -151,7 +151,6 @@ function selectFamily(familyType: string) {
     
   if (viewMode.value === 'view') {
       if (shouldRedirectToGroupView(familyType)) {
-      console.log(" REDIRECT TO GROUP")
         router.push({
           name: 'group-list',
           params: {
@@ -199,8 +198,7 @@ watch(
         name: 'menu',
         query: { viewMode: 'create' }
       })
-    } else {
-      if (shouldRedirectToGroupView(inquiriesStore.advancedFilters.familyType)) {
+    } else if (shouldRedirectToGroupView(inquiriesStore.advancedFilters.familyType)) {
         router.push({
           name: 'group-list',
           params: {
@@ -217,14 +215,12 @@ watch(
         query: { viewMode: 'view' }
       })
       }
-    }
   }
 )
 
 // Check if a family has inquiry groups OR inquiry group types defined
 const shouldRedirectToGroupView = (familyType: string) => {
   const hasGroupTypes = getInquiryGroupTypesForCurrentFamily(familyType).length > 0
-  console.log(`Family ${familyType} has group types: ${hasGroupTypes}`)
   return hasGroupTypes
 }
 

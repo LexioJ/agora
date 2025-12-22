@@ -63,7 +63,6 @@ const context = computed(() => {
 const onToggleSupport = async () => {
   // Store the current state before toggling
   const hadSupportedBefore = inquiry.currentUserStatus.hasSupported
-  const supportValueBefore = inquiry.currentUserStatus.supportValue
   
   try {
     await supportsStore.toggleSupport(inquiry.id, sessionStore.currentUser.id, inquiryStore, inquiriesStore)

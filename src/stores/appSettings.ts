@@ -11,7 +11,7 @@ import { AxiosError } from '@nextcloud/axios'
 import type { InquiryGroupType } from './inquiryGroups.types'
 
 import type { InquiryTypeRights, ModeratorRights, OfficialRights } from '../utils/permissions.ts'
-import { DefaultInquiryRights, DefaultModeratorRights, DefaultOfficialRights } from '../utils/permissions.ts'
+import {  DefaultModeratorRights, DefaultOfficialRights } from '../utils/permissions.ts'
 
 export type UpdateType = 'noInquirying' | 'periodicInquirying' | 'longInquirying'
 

@@ -20,6 +20,7 @@ import Menu from './views/InquiryMenu.vue'
 import NotFound from './views/NotFound.vue'
 import InquiryView from './views/InquiryView.vue'
 import GroupView from './views/InquiryGroupView.vue'
+import GroupList from './views/InquiryGroupList.vue'
 import Group from './views/InquiryGroup.vue'
 
 import SideBar from './views/SideBar.vue'
@@ -90,6 +91,19 @@ async function validateToken(to: RouteLocationNormalized, from: RouteLocationNor
 }
 
 const routes: RouteRecordRaw[] = [
+  {
+    name: 'group-archived',
+    path: '/groups/archived',
+    components: {
+      default: GroupList,
+      navigation: NavigationGroup,
+    },
+    props: true,
+    meta: {
+      listPage: true,
+    },
+  },
+
   {
     name: 'list',
     path: '/list/:type?',

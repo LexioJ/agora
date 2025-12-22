@@ -20,7 +20,7 @@
           <span class="type-label">{{ typeLabel }}</span>
         </div>
         
-        <div v-if="currentInquiryStatus" class="status-badge" :class="statusClass">
+        <div v-if="currentInquiryStatus" class="status-badge">
           <component :is="statusIconComponent" class="status-icon" :size="12" />
           {{ statusText }}
         </div>
@@ -31,21 +31,21 @@
         {{ inquiry.title }}
       </h3>
 
-      <!-- Short Description (2 lines) -->
+      <!-- Short Description -->
       <div v-if="shortDescription" class="card-description">
         {{ shortDescription }}
       </div>
 
       <!-- Metadata - Location & Category -->
-      <div v-if="locationPath || categoryPath" class="card-meta-info">
-        <div v-if="locationPath" class="meta-item location">
+      <div  class="card-meta-info">
+        <div class="meta-item location">
           <component :is="InquiryGeneralIcons.Location" class="meta-icon" :size="12" />
-          <span class="meta-text" :title="locationPath">{{ truncatedLocation }}</span>
+          <span class="location-text">{{ truncatedLocation }}</span>
         </div>
         
-        <div v-if="categoryPath" class="meta-item category">
-          <component :is="InquiryGeneralIcons.Tag" class="meta-icon" :size="12" />
-          <span class="meta-text" :title="categoryPath">{{ truncatedCategory }}</span>
+        <div class="meta-item category">
+          <component :is="InquiryGeneralIcons.Category" class="meta-icon" :size="12" />
+          <span class="meta-text">{{ truncatedCategory }}</span>
         </div>
       </div>
 
@@ -84,13 +84,9 @@
                @click.stop="handleSupportClick">
             <component :is="supportIconComponent" class="counter-icon" :size="14" />
             <span class="counter-value">{{ inquiry.status.countSupports }}</span>
-            <span v-if="hasQuorum" class="quorum-compact">
-              <span class="quorum-separator">/</span>
-              <span class="quorum-target">{{ quorumValue }}</span>
-            </span>
           </div>
           
-          <div v-if="inquiry.status?.countComments" class="counter-item comments">
+          <div v-if="inquiry.status?.countComments" class="counter-item comments" @click.stop="handleCommentsClick">
             <component :is="InquiryGeneralIcons.Comment" class="counter-icon" :size="14" />
             <span class="counter-value">{{ inquiry.status.countComments }}</span>
           </div>
@@ -100,19 +96,9 @@
       <!-- Dates -->
       <div v-if="showExpiryBadge" class="card-dates">
         <div class="date-item expiry" :class="expiryBadgeClass">
-          <component :is="InquiryGeneralIcons.Clock" class="date-icon" :size="12" />
+          <component :is="InquiryGeneralIcons.ClockOutline" class="date-icon" :size="12" />
           <span>{{ expiryText }}</span>
         </div>
-      </div>
-
-      <!-- Actions -->
-      <div v-if="interactive" class="card-actions">
-        <NcButton type="secondary" class="view-button" @click.stop="viewInquiry">
-          {{ t('agora', 'View details') }}
-          <template #icon>
-            <component :is="InquiryGeneralIcons.ChevronRight" :size="16" />
-          </template>
-        </NcButton>
       </div>
     </div>
   </div>
@@ -130,6 +116,7 @@ import type { Inquiry } from '../../Types/index.ts'
 import { useSessionStore } from '../../stores/session.ts'
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
 import { ThumbIcon, TernarySupportIcon } from '../AppIcons'
+import { BaseEntry } from '../../Types/index.ts'
 
 interface Props {
   inquiry: Inquiry
@@ -147,6 +134,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   click: [inquiry: Inquiry]
   support: [inquiryId: number]
+  comments: [inquiryId: number]
 }>()
 
 const router = useRouter()
@@ -164,29 +152,23 @@ const cardClasses = computed(() => ({
 const inquiryTypes = computed(() => sessionStore.appSettings?.inquiryTypeTab || [])
 
 // Get type data
-const typeData = computed(() => {
-  return getInquiryTypeData(props.inquiry.type, inquiryTypes.value)
-})
+const typeData = computed(() => getInquiryTypeData(props.inquiry.type, inquiryTypes.value))
 
 const typeLabel = computed(() => typeData.value?.label || props.inquiry.type)
 
 // Type icon
 const typeIconComponent = computed(() => {
-  // First check if typeData has an icon
   if (typeData.value?.icon) {
     const iconName = typeData.value.icon
-    // If it's a string, try to get it from InquiryGeneralIcons
     if (typeof iconName === 'string' && InquiryGeneralIcons[iconName]) {
       return InquiryGeneralIcons[iconName]
     }
-    // If it's already a component, return it
     if (typeof iconName === 'function' || typeof iconName === 'object') {
       return iconName
     }
   }
   
-  // Fallback mapping based on inquiry type
-  const iconMap: Record<string, keyof typeof InquiryGeneralIcons> = {
+  const iconMap = {
     'survey': 'ClipboardList',
     'poll': 'CheckCircle',
     'question': 'Question',
@@ -204,7 +186,7 @@ const typeIconComponent = computed(() => {
   return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.FolderMultiple
 })
 
-// Get current status (same as InquiryEditViewForm)
+// Get current status
 const currentInquiryStatus = computed(() => {
   if (!props.inquiry.status?.inquiryStatus) return null
   
@@ -238,32 +220,12 @@ const currentInquiryStatus = computed(() => {
   ) || specialStatuses.draft
 })
 
-const statusText = computed(() => {
-  return currentInquiryStatus.value?.label ? t('agora', currentInquiryStatus.value.label) : ''
-})
+const statusText = computed(() => currentInquiryStatus.value?.label ? t('agora', currentInquiryStatus.value.label) : '')
 
 const statusIconComponent = computed(() => {
   if (!currentInquiryStatus.value?.icon) return StatusIcons.Default
   const iconName = currentInquiryStatus.value.icon
   return StatusIcons[iconName] || StatusIcons.Default
-})
-
-const statusClass = computed(() => {
-  if (!currentInquiryStatus.value) return 'status-unknown'
-  
-  const statusKey = currentInquiryStatus.value.statusKey
-  const statusMap = {
-    'draft': 'status-draft',
-    'waiting_approval': 'status-waiting',
-    'open': 'status-open',
-    'closed': 'status-closed',
-    'archived': 'status-archived',
-    'published': 'status-published',
-    'completed': 'status-completed',
-    'cancelled': 'status-cancelled',
-  }
-  
-  return statusMap[statusKey] || 'status-unknown'
 })
 
 // Cover image
@@ -277,16 +239,14 @@ function getNextcloudPreviewUrl(fileId: number, x = 400, y = 200, autoScale = tr
   return `${baseUrl}/index.php/core/preview?fileId=${fileId}&x=${x}&y=${y}&a=${autoScale}`
 }
 
-// Short Description (2 lines max, ~100 characters)
+// Short Description
 const shortDescription = computed(() => {
   if (!props.inquiry.description) return ''
   
-  // Get plain text from description (remove HTML tags)
   const plainText = props.inquiry.description.replace(/<[^>]*>/g, '')
   
-  // Limit to ~100 characters for 2 lines
   if (plainText.length > 100) {
-    return plainText.substring(0, 100) + '…'
+    return `${plainText.substring(0, 100)}…`
   }
   
   return plainText
@@ -302,93 +262,58 @@ const supportIconComponent = computed(() => {
   return ThumbIcon
 })
 
-// Quorum
-const hasQuorum = computed(() => props.inquiry.miscFields?.quorum)
-const quorumValue = computed(() => props.inquiry.miscFields?.quorum || 0)
-
-// Location and Category paths (same function as InquiryEditViewForm)
-const locationPath = computed(() => {
-  if (!props.inquiry.locationId || !sessionStore.appSettings?.locationTab) return ''
+// Get hierarchy path for location and category display
+function getHierarchyPath(items, targetId) {
+  if (!items || !Array.isArray(items)) return ''
   
-  const getHierarchyPath = (items: any[], targetId: number): string => {
-    const itemMap: Record<number, any> = {}
-    
-    items.forEach((item) => {
-      itemMap[item.id] = item
-    })
-    
-    if (!itemMap[targetId]) {
-      return t('agora', 'Not defined')
-    }
-    
-    function buildPath(item: any): string {
-      if (item.parentId === 0) {
-        return item.name
-      }
-      const parent = itemMap[item.parentId]
-      if (parent) {
-        return `${buildPath(parent)} → ${item.name}`
-      }
+  const itemMap = {}
+
+  items.forEach((item) => {
+    itemMap[item.id] = item
+  })
+
+  if (!itemMap[targetId]) {
+    return itemMap[1]?.name || t('agora', 'Not defined')
+  }
+
+  function buildPath(item) {
+    if (item.parentId === 0) {
       return item.name
     }
-    
-    return buildPath(itemMap[targetId])
+    const parent = itemMap[item.parentId]
+    if (parent) {
+      return `${buildPath(parent)} → ${item.name}`
+    }
+    return item.name
   }
-  
-  return getHierarchyPath(sessionStore.appSettings.locationTab, props.inquiry.locationId)
+
+  return buildPath(itemMap[targetId])
+}
+
+// Location and Category paths
+const locationPath = computed(() => getHierarchyPath(sessionStore.appSettings?.locationTab, props.inquiry.locationId))
+const categoryPath = computed(() => getHierarchyPath(sessionStore.appSettings?.categoryTab, props.inquiry.categoryId))
+
+const truncatedLocation = computed(() => {
+  if (!locationPath.value) return ''
+  return locationPath.value.length > 15 
+    ? `${locationPath.value.substring(0, 15)}…` 
+    : locationPath.value
 })
 
-const categoryPath = computed(() => {
-  if (!props.inquiry.categoryId || !sessionStore.appSettings?.categoryTab) return ''
-  
-  const getHierarchyPath = (items: any[], targetId: number): string => {
-    const itemMap: Record<number, any> = {}
-    
-    items.forEach((item) => {
-      itemMap[item.id] = item
-    })
-    
-    if (!itemMap[targetId]) {
-      return t('agora', 'Not defined')
-    }
-    
-    function buildPath(item: any): string {
-      if (item.parentId === 0) {
-        return item.name
-      }
-      const parent = itemMap[item.parentId]
-      if (parent) {
-        return `${buildPath(parent)} → ${item.name}`
-      }
-      return item.name
-    }
-    
-    return buildPath(itemMap[targetId])
-  }
-  
-  return getHierarchyPath(sessionStore.appSettings.categoryTab, props.inquiry.categoryId)
+const truncatedCategory = computed(() => {
+  if (!categoryPath.value) return ''
+  return categoryPath.value.length > 15 
+    ? `${categoryPath.value.substring(0, 15)}…` 
+    : categoryPath.value
 })
 
 // Truncated text
 const truncatedAuthorName = computed(() => {
   const name = props.inquiry.ownedGroup || props.inquiry.owner?.displayName || ''
   return name.length > 20 
-    ? name.substring(0, 20) + '…' 
+    ? `${name.substring(0, 20)}…` 
     : name
-})
-
-const truncatedLocation = computed(() => {
-  if (!locationPath.value) return ''
-  return locationPath.value.length > 20 
-    ? locationPath.value.substring(0, 20) + '…' 
-    : locationPath.value
-})
-
-const truncatedCategory = computed(() => {
-  if (!categoryPath.value) return ''
-  return categoryPath.value.length > 20 
-    ? categoryPath.value.substring(0, 20) + '…' 
-    : categoryPath.value
 })
 
 // Time formatting
@@ -404,21 +329,18 @@ const formattedTime = computed(() => {
   
   if (days > 30) {
     return created.toLocaleDateString()
-  } else if (days > 0) {
+  } if (days > 0) {
     return t('agora', '{days}d ago', { days })
-  } else if (hours > 0) {
+  } if (hours > 0) {
     return t('agora', '{hours}h ago', { hours })
-  } else if (minutes > 0) {
+  } if (minutes > 0) {
     return t('agora', '{minutes}m ago', { minutes })
-  } else {
+  } 
     return t('agora', 'Just now')
-  }
 })
 
-// Expiry (using configuration.expire like InquiryEditViewForm)
-const showExpiryBadge = computed(() => {
-  return !!props.inquiry.configuration?.expire && props.inquiry.configuration.expire > 0
-})
+// Expiry
+const showExpiryBadge = computed(() => !!props.inquiry.configuration?.expire && props.inquiry.configuration.expire > 0)
 
 const expiryText = computed(() => {
   if (!props.inquiry.configuration?.expire) return ''
@@ -431,11 +353,10 @@ const expiryText = computed(() => {
   
   if (days > 0) {
     return t('agora', '{days} days left', { days })
-  } else if (hours > 0) {
+  } if (hours > 0) {
     return t('agora', '{hours} hours left', { hours })
-  } else {
+  } 
     return t('agora', 'Expiring soon')
-  }
 })
 
 const expiryBadgeClass = computed(() => {
@@ -458,29 +379,27 @@ function handleClick() {
   }
 }
 
-function viewInquiry() {
-  router.push({
-    name: 'inquiry',
-    params: { id: props.inquiry.id }
-  })
-}
-
 function handleSupportClick() {
   emit('support', props.inquiry.id)
+}
+
+function handleCommentsClick() {
+  emit('comments', props.inquiry.id)
 }
 </script>
 
 <style lang="scss" scoped>
 .inquiry-card {
   position: relative;
-  background: var(--color-main-background);
+  background: transparent;
   border-radius: 16px;
-  border: 1px solid var(--color-border);
+  border: 2px solid var(--color-border);
   overflow: hidden;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   height: 100%;
   display: flex;
   flex-direction: column;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   
   &.is-interactive {
     cursor: pointer;
@@ -751,10 +670,9 @@ function handleSupportClick() {
     font-size: 13px;
     color: var(--color-text-lighter);
     transition: all 0.2s ease;
+    cursor: pointer;
     
     &.supports {
-      cursor: pointer;
-      
       &:hover {
         color: var(--color-primary-element);
         
@@ -777,6 +695,14 @@ function handleSupportClick() {
     }
     
     &.comments {
+      &:hover {
+        color: #3b82f6;
+        
+        .counter-icon {
+          opacity: 0.9;
+        }
+      }
+      
       .counter-icon {
         color: var(--color-text-maxcontrast);
       }
@@ -784,18 +710,6 @@ function handleSupportClick() {
     
     .counter-value {
       font-weight: 600;
-    }
-    
-    .quorum-compact {
-      font-size: 11px;
-      
-      .quorum-separator {
-        margin: 0 2px;
-      }
-      
-      .quorum-target {
-        font-weight: 600;
-      }
     }
   }
 }
@@ -833,17 +747,6 @@ function handleSupportClick() {
         opacity: 0.9;
       }
     }
-  }
-}
-
-.card-actions {
-  padding-top: 12px;
-  border-top: 1px solid var(--color-border);
-  
-  .view-button {
-    width: 100%;
-    justify-content: center;
-    font-weight: 600;
   }
 }
 

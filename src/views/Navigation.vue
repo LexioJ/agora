@@ -57,7 +57,7 @@ const icons = {
   },
   archived: {
     id: 'archived',
-    iconComponent: NavigationIcons.Archived,
+    iconComponent: NavigationIcons.Archive,
   },
   admin: {
     id: 'admin',

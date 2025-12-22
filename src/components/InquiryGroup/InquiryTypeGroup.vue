@@ -59,11 +59,11 @@
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
 import InquiryItem from '../Inquiry/InquiryItem.vue'
-import type { Inquiry } from '../../Types/index.ts'
+import type { InquiryType, Inquiry } from '../../Types/index.ts'
 
 interface Props {
   inquiries: Inquiry[]
-  inquiryTypes: any[]
+  inquiryTypes: InquiryType[]
   groupByType: boolean
   defaultExpanded?: boolean
   layoutZone: string

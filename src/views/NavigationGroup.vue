@@ -4,7 +4,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script setup lang="ts">
-import { watch, ref, computed, onMounted } from 'vue'
+import { watch, ref, computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import { showError } from '@nextcloud/dialogs'
@@ -24,10 +24,6 @@ import {
   getInquiryGroupTypeData,
 } from '../helpers/modules/InquiryHelper.ts'
 
-defineProps<{
-  slug?: string
-}>()
-
 const preferencesStore = usePreferencesStore()
 const router = useRouter()
 const sessionStore = useSessionStore()
@@ -36,6 +32,7 @@ const inquiryGroupsStore = useInquiryGroupsStore()
 const createGroupDlgToggle = ref(false)
 const selectedInquiryGroupTypeForCreation = ref(null)
 const selectedGroups = ref<string[]>([])
+const viewMode = computed(() => preferencesStore.user.defaultDisplayMode || 'create')
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -67,20 +64,6 @@ const filteredInquiryGroupTypes = computed(() => {
 // Get inquiry groups from store
 const inquiryGroups = computed(() => inquiryGroupsStore.inquiryGroups)
 
-// Group inquiry groups by their type
-const inquiryGroupsByType = computed(() => {
-  const groupsByType: Record<string, any[]> = {}
-  
-  filteredInquiryGroupTypes.value.forEach(groupType => {
-    const groupsOfType = inquiryGroups.value.filter(group => 
-      group.type === groupType.group_type || group.group_type === groupType.group_type
-    )
-    groupsByType[groupType.group_type] = groupsOfType
-  })
-  
-  return groupsByType
-})
-
 // Get inquiry group type data (icon, label, description)
 function getInquiryGroupTypeDisplayData(inquiryGroupType: InquiryGroupType) {
   return getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes.value)
@@ -91,22 +74,32 @@ function getGroupTypeCount(groupType: string) {
   return inquiryGroupsByType.value[groupType]?.length || 0
 }
 
-// Function to create new inquiry group from type
-function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
-  console.log(" NAV GROUP MENU CREATE",inquiryGroupType.value.type)
-  selectedInquiryGroupTypeForCreation.value = inquiryGroupType.value.group_type
-  createGroupDlgToggle.value = true
-}
-
 function selectGroupType(inquiryGroupType) {
   // update store
   inquiryGroupsStore.setCurrentGroupType(inquiryGroupType.group_type)
-console.log(" CUUUUUUUUUUUUUURR ",inquiryGroupsStore.currentGroupType)
   // navigate with hidden state
   router.push({
     name: 'group-list',
-    params: { slug: 'none' },
+    //params: { slug: '' },
   })
+}
+
+
+// Function to navigate to default view based on preferences
+function navigateToCreateOrView() {
+  if (viewMode.value === 'create') {
+    // Navigate to create new inquiry
+    router.push({ 
+      name: 'menu',
+      query: { viewMode: 'create' }
+    })
+  } else {
+    // Navigate to default menu view
+    router.push({ 
+      name: 'list',
+      query: { viewMode: 'view' }
+    })
+  }
 }
 
 function inquiryGroupAdded(payLoad: { id: number; slug: string }) {
@@ -129,6 +122,41 @@ function handleCloseGroupDialog() {
 function handleGroupUpdate(groups: string[]) {
   selectedGroups.value = groups
 }
+
+// Group inquiry groups by their type (non-archived only)
+const inquiryGroupsByType = computed(() => {
+  const groupsByType: Record<string, InquiryGroupType[]> = {}
+  
+  filteredInquiryGroupTypes.value.forEach(groupType => {
+    const groupsOfType = inquiryGroups.value.filter(group => 
+      (group.type === groupType.group_type || group.group_type === groupType.group_type) &&
+      group.groupStatus !== "archived"
+    )
+    groupsByType[groupType.group_type] = groupsOfType
+  })
+  
+  return groupsByType
+})
+
+// Group archived inquiry groups by their type
+const archivedInquiryGroupsByType = computed(() => {
+  const groupsByType: Record<string, InquiryGroupType[]> = {}
+  
+  filteredInquiryGroupTypes.value.forEach(groupType => {
+    const groupsOfType = inquiryGroups.value.filter(group => 
+      (group.type === groupType.group_type || group.group_type === groupType.group_type) &&
+      group.groupStatus === "archived"
+    )
+    if (groupsOfType.length > 0) {
+      groupsByType[groupType.group_type] = groupsOfType
+    }
+  })
+  
+  return groupsByType
+})
+
+// Check if there are any archived groups
+const hasArchivedGroups = computed(() => Object.values(archivedInquiryGroupsByType.value).some(groups => groups.length > 0))
 
 
 // Watch for familyType changes in store
@@ -203,7 +231,33 @@ function showSettings() {
           </NcAppNavigationItem>
       </NcAppNavigationList>
 
-      <NcAppNavigationSpacer v-if="filteredInquiryGroupTypes.length > 0" />
+      <NcAppNavigationSpacer />
+
+       <!-- Archived Groups Section (Conditional) -->
+        <!-- Archived Groups Section -->
+<NcAppNavigationList v-if="hasArchivedGroups && filteredInquiryGroupTypes.length > 0">
+  <NcAppNavigationItem
+    :name="t('agora', 'Archived Groups')"
+    :title="t('agora', 'View archived groups')"
+    class="navigation-item archived-groups-item"
+    :to="{
+      name: 'group-archived',
+    }"
+  >
+    <template #icon>
+      <component :is="NavigationIcons.Archive" />
+    </template>
+    
+    <template #counter>
+      <NcCounterBubble
+        :count="Object.values(archivedInquiryGroupsByType).flat().length"
+        class="navigation-counter archived-counter"
+      />
+    </template>
+  </NcAppNavigationItem>
+</NcAppNavigationList>
+
+      <NcAppNavigationSpacer />
 
       <!-- Quick Actions Section -->
       <NcAppNavigationList>
@@ -212,10 +266,17 @@ function showSettings() {
       </h3>
 
       <NcAppNavigationItem
-              :name="t('agora', 'Create or View')"
-              :to="{ name: 'menu' }"
+              :name="viewMode === 'create'
+                     ? t('agora', 'Create')
+                     : t('agora', 'View')"
+              :to="{
+                   name: 'list',
+                   params: { type: 'relevant' },
+                   query: { viewMode: 'view' }
+                   }"
               :exact="true"
               class="navigation-item"
+              @click="navigateToCreateOrView"
               >
               <template #icon>
                   <component :is="NavigationIcons.Home" />
@@ -262,89 +323,89 @@ function showSettings() {
     padding-bottom: 8px;
 }
 
-  .navigation-item {
-      margin: 2px 8px;
-      border-radius: 8px;
+      .navigation-item {
+          margin: 2px 8px;
+          border-radius: 8px;
 
-      &:hover {
-          background-color: var(--color-background-hover);
-      }
+          &:hover {
+              background-color: var(--color-background-hover);
+          }
 
-      &.active {
-          background-color: var(--color-primary-light);
+          &.active {
+              background-color: var(--color-primary-light);
 
-          :deep(.app-navigation-entry__title) {
-              font-weight: 600;
+              :deep(.app-navigation-entry__title) {
+                  font-weight: 600;
+              }
           }
       }
-  }
 
-  .navigation-sublist {
-      margin-left: 8px;
-  }
-
-  .navigation-subitem {
-      margin: 1px 4px;
-      border-radius: 6px;
-
-      &:hover {
-          background-color: var(--color-background-hover);
+      .navigation-sublist {
+          margin-left: 8px;
       }
-  }
 
-  .navigation-counter {
-      background-color: var(--color-background-darker);
-      color: var(--color-text-lighter);
-  }
+      .navigation-subitem {
+          margin: 1px 4px;
+          border-radius: 6px;
 
-  .navigation-empty {
-      opacity: 0.6;
-      font-style: italic;
-  }
+          &:hover {
+              background-color: var(--color-background-hover);
+          }
+      }
 
-  // Override default navigation styles
-      :deep(.app-navigation__body) {
-      overflow: revert;
-  }
+      .navigation-counter {
+          background-color: var(--color-background-darker);
+          color: var(--color-text-lighter);
+      }
 
-  :deep(.app-navigation-entry-icon),
-  :deep(.app-navigation-entry__title) {
-      transition: opacity 0.2s ease;
-  }
+      .navigation-empty {
+          opacity: 0.6;
+          font-style: italic;
+      }
 
-  :deep(.app-navigation-entry.active .app-navigation-entry-icon),
-  :deep(.app-navigation-entry.active .app-navigation-entry__title) {
-      opacity: 1;
-  }
+      // Override default navigation styles
+          :deep(.app-navigation__body) {
+          overflow: revert;
+      }
 
-  .closed {
       :deep(.app-navigation-entry-icon),
       :deep(.app-navigation-entry__title) {
-          opacity: 0.6;
+          transition: opacity 0.2s ease;
       }
-  }
 
-  .force-not-active {
-      :deep(.app-navigation-entry.active) {
-          background-color: transparent !important;
+      :deep(.app-navigation-entry.active .app-navigation-entry-icon),
+      :deep(.app-navigation-entry.active .app-navigation-entry__title) {
+          opacity: 1;
+      }
 
-          * {
-              color: unset !important;
+      .closed {
+          :deep(.app-navigation-entry-icon),
+          :deep(.app-navigation-entry__title) {
+              opacity: 0.6;
           }
       }
-  }
 
-  // Responsive adjustments
-@media (max-width: 768px) {
-      .agora-navigation {
-          padding: 8px 0;
-      }
-  }
+      .force-not-active {
+          :deep(.app-navigation-entry.active) {
+              background-color: transparent !important;
 
-  // Dark theme adjustments
-      .theme--dark {
-      .navigation-caption {
-          color: var(--color-text-light);
+              * {
+                  color: unset !important;
+              }
+          }
       }
-  }
+
+      // Responsive adjustments
+  @media (max-width: 768px) {
+          .agora-navigation {
+              padding: 8px 0;
+          }
+      }
+
+      // Dark theme adjustments
+          .theme--dark {
+          .navigation-caption {
+              color: var(--color-text-light);
+          }
+      }
 </style>

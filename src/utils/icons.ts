@@ -37,8 +37,6 @@ import TownHall from '@iconify-icons/mdi/town-hall'
 import ViewListOutline from '@iconify-icons/mdi/view-list-outline'
 import CommentQuote from '@iconify-icons/mdi/comment-quote'
 import HomeGroup from '@iconify-icons/mdi/home-group'
-import AccountCog from '@iconify-icons/mdi/account-cog'         
-import MessageSquare from '@iconify-icons/mdi/chat-outline'
 import AccountMultipleCheck from '@iconify-icons/mdi/account-multiple-check'
 import LightbulbOn from '@iconify-icons/mdi/lightbulb-on'
 import Newspaper from '@iconify-icons/mdi/newspaper'
@@ -79,6 +77,7 @@ import CircleIcon from '@iconify-icons/mdi/google-circles-extended'
 import DeletedUserIcon from '@iconify-icons/mdi/account-off'
 import InquiryGroupIcon from '@iconify-icons/mdi/code-braces'
 import ChevronDown from '@iconify-icons/mdi/chevron-down'
+import ChevronUp from '@iconify-icons/mdi/chevron-up'
 import BarChart from '@iconify-icons/mdi/bar-chart'
 
 import CommentIcon from '@iconify-icons/mdi/comment'
@@ -121,7 +120,6 @@ import Flag from '@iconify-icons/mdi/flag'
 import CheckCircle from '@iconify-icons/mdi/check-circle'
 import Scale from '@iconify-icons/mdi/scale-balance'
 import Layers from '@iconify-icons/mdi/layers'
-import Users from '@iconify-icons/mdi/account-group'
 import BookOpen from '@iconify-icons/mdi/book-open-page-variant'
 import CalendarMultiselect from '@iconify-icons/mdi/calendar-multiselect'
 import UsersCog from '@iconify-icons/mdi/account-cog'
@@ -144,7 +142,6 @@ import AccountEdit from '@iconify-icons/mdi/account-edit'
 import Logout from '@iconify-icons/mdi/logout'
 import Undo from '@iconify-icons/mdi/undo'
 import EmailEditOutline from '@iconify-icons/mdi/email-edit-outline'
-import ViewListOutline from '@iconify-icons/mdi/view-list-outline'
 import Table from '@iconify-icons/mdi/table'
 import FormatListBulletedSquare from '@iconify-icons/mdi/format-list-bulleted-square'
 import FormatListNumbered from '@iconify-icons/mdi/format-list-numbered'
@@ -188,6 +185,8 @@ import Cash from '@iconify-icons/mdi/cash'
 import IdCard from '@iconify-icons/mdi/id-card'
 import DragHorizontal from '@iconify-icons/mdi/drag-horizontal'
 import InboxRemove from '@iconify-icons/mdi/inbox-remove'
+import NoteText from '@iconify-icons/mdi/note-text'  
+import Presentation from '@iconify-icons/mdi/presentation'
 
 // -------------------------------
 // -------------------------------
@@ -203,9 +202,11 @@ export const makeIconComponent = (icon: Component, color = '#000', size = 24) =>
   },
 })
 export const InquiryGeneralIcons: Record<string, Component> = {
+    Description: makeIconComponent(NoteText, '#1976D2'),
     Category: makeIconComponent(TagMultiple, '#5E35B1'),
     Location: makeIconComponent(MapMarkerRadius, '#2E7D32'),
     Wrench: makeIconComponent(Wrench, '#607D8B'),
+    WrenchOutline: makeIconComponent(WrenchOutline, '#607D8B'),
     Empty: makeIconComponent(InboxRemove, '#999'),
     Drag: makeIconComponent(DragHorizontal, '#999'),
     FolderMultiple: makeIconComponent(FolderMultiple, '#546E7A'),
@@ -217,16 +218,18 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     CheckCircle: makeIconComponent(CheckCircle, '#4CAF50'),
     Scale: makeIconComponent(Scale, '#795548'),
     Layers: makeIconComponent(Layers, '#5D4037'),
-    Users: makeIconComponent(Users, '#2196F3'),
+    Users: makeIconComponent(AccountGroup, '#2196F3'),
     HomeGroup: makeIconComponent(HomeGroup, '#795548'),
     BookOpen: makeIconComponent(BookOpen, '#3949AB'),
-    MessageSquare: makeIconComponent(MessageSquare, '#1565C0'),
+    MessageSquare: makeIconComponent(ChatOutline, '#1565C0'),
     UsersCog: makeIconComponent(UsersCog, '#607D8B'),
     CommentProcessing: makeIconComponent(CommentProcessing, '#FF5722'),
     Plus: makeIconComponent(Plus, '#4CAF50'),
     Share: makeIconComponent(ShareIcon, '#03A9F4'),
     Update: makeIconComponent(Update, '#FF9800'),
+    HandHeart: makeIconComponent(HandHeart, '#FF9800'),
     Archive: makeIconComponent(Archive, '#607D8B'),
+    Archives: makeIconComponent(Archive, '#607D8B'),
     Delete: makeIconComponent(Delete, '#F44336'),
     Back: makeIconComponent(ArrowLeft, '#2196F3'),
     Minus: makeIconComponent(Minus, '#9E9E9E'),
@@ -237,10 +240,12 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     Alphabetical: makeIconComponent(Alphabetical, '#673AB7'),
     Type: makeIconComponent(Type, '#3F51B5'),
     AccountCircle: makeIconComponent(AccountCircle, '#2196F3'),
+    AccountCog: makeIconComponent(UsersCog, '#2196F3'),
     AccountMultiple: makeIconComponent(AccountMultiple, '#4CAF50'),
     SortAscending: makeIconComponent(SortAscending, '#1E88E5'),
     SortDescending: makeIconComponent(SortDescending, '#1565C0'),
     Gesture: makeIconComponent(Gesture, '#7E57C2'),
+    GestureTap: makeIconComponent(GestureTap, '#7E57C2'),
     Activity: makeIconComponent(LightbulbOn, '#FF9800'),
     ChartBar: makeIconComponent(ChartBar, '#5C6BC0'),
     BriefcaseCheck: makeIconComponent(BriefcaseCheck, '#43A047'),
@@ -276,7 +281,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     AlertOctagon: makeIconComponent(AlertCircleOutline, '#B71C1C'),
     Forum: makeIconComponent(Forum, '#1565C0'),
     FileDocumentEdit: makeIconComponent(FileDocumentEdit, '#283593'),
-    Flag: makeIconComponent(FileDocumentEdit, '#283593'),
+    Flag: makeIconComponent(Flag, '#283593'),
     Flash: makeIconComponent(LightbulbOn, '#283593'),
     InteractiveSpace: makeIconComponent(AccountGroup, '#2E7D32'),
     BabyFace: makeIconComponent(BabyFace, '#AD1457'),
@@ -310,6 +315,7 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     Add: makeIconComponent(Plus, '#4CAF50'),
     BarChart: makeIconComponent(BarChart, '#4CAF50'),
     Document: makeIconComponent(FileDocument, '#607D8B'),
+    Presentation: makeIconComponent(Presentation, '#5D4037'),
     Settings: makeIconComponent(Cog, '#455A64'),
     Close: makeIconComponent(Close, '#F44336'),
     Download: makeIconComponent(Download, '#2196F3'),
@@ -386,12 +392,15 @@ export const NavigationIcons: Record<string, Component> = {
     Open: makeIconComponent(Earth, '#388E3C'),
     All: makeIconComponent(FormatListBulleted, '#1565C0'),
     Closed: makeIconComponent(LockCheck, '#5D4037'),
-    Archived: makeIconComponent(Archive, '#757575'),
+    Archive: makeIconComponent(Archive, '#757575'),
     GoTo: makeIconComponent(ArrowRight, '#5E35B1'),
     Group: makeIconComponent(AccountGroup, '#0097A7'),
     Add: makeIconComponent(Plus, '#388E3C'),
     Moderate: makeIconComponent(MessageText, '#1565C0'),
     Home: makeIconComponent(Home, '#795548'),
+    Users: makeIconComponent(AccountGroup, '#2196F3'),
+    ChevronDown: makeIconComponent(ChevronDown, '#5D4037'),
+    ChevronUp: makeIconComponent(ChevronUp, '#1565C'),
 }
 
 export const BadgeIcons: Record<string, Component> = {
@@ -445,7 +454,7 @@ export const StatusIcons: Record<string, Component> = {
     CircleIcon: makeIconComponent(CircleIcon, '#00ACC1'),
     DeletedUserIcon: makeIconComponent(DeletedUserIcon, '#D32F2F'),
     AnonymousIcon: makeIconComponent(AnonymousIcon, '#757575'),
-    InquiryGroupIcon: makeIconComponent(AccountGroup, '#5E35B1'),
+    InquiryGroupIcon: makeIconComponent(InquiryGroupIcon, '#5E35B1'),
     Draft: makeIconComponent(FileDocumentEdit, '#6A1B9A'),
     Default: makeIconComponent(FileDocumentEdit, '#757575'),
 }

@@ -13,20 +13,13 @@ import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 
 import InquiryHeaderButtons from '../components/Inquiry/InquiryHeaderButtons.vue'
 import InquiryGroupEditViewForm from '../components/InquiryGroup/InquiryGroupEditViewForm.vue'
-import InquiryTransition from '../components/Inquiry/InquiryTransition.vue'
-import InquiryGroup from './InquiryGroup.vue'
 import InquiryGroupCreateDlg from '../components/Create/InquiryGroupCreateDlg.vue'
 import { useInquiryGroupStore } from '../stores/inquiryGroup.ts'
 import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
-import { useInquiriesStore } from '../stores/inquiries.ts'
 import { useSessionStore } from '../stores/session.ts'
 import Collapsible from '../components/Base/modules/Collapsible.vue'
 import type { CollapsibleProps } from '../components/Base/modules/Collapsible.vue'
 import InquiryInfoCards from '../components/Cards/InquiryInfoCards.vue'
-import { createPermissionContextForContent, ContentType, canEdit } from '../utils/permissions.ts'
-import type { AccessLevel } from '../utils/permissions.ts'
-
-
 
 const forceRenderKey = ref(0)
 const selectedMode = ref('response')
@@ -34,7 +27,6 @@ const route = useRoute()
 const router = useRouter()
 const inquiryGroupStore = useInquiryGroupStore()
 const inquiryGroupsStore = useInquiryGroupsStore()
-const inquiriesStore = useInquiriesStore()
 const sessionStore = useSessionStore()
 const editMode = ref(false)
 const isAppLoaded = ref(false)
@@ -42,7 +34,6 @@ const isAppLoaded = ref(false)
 const createGroupDlgToggle = ref(false)
 const selectedInquiryGroupTypeForCreation = ref('')
 const selectedGroups = ref([])
-const isSaving = ref(false)
 
 
 const availableGroups = computed(() => {
@@ -52,10 +43,6 @@ const availableGroups = computed(() => {
   }
   return groups
 })
-
-async function routeChild(childId: string) {
-  router.push({ name: 'inquiryGroup', params: { id: childId } })
-}
 
 async function loadInquiry(id: string) {
   try {
@@ -107,40 +94,6 @@ const collapsibleProps = computed<CollapsibleProps>(() => ({
   noCollapse: !inquiryGroupStore.configuration.collapseDescription || isShortDescription.value,
   initialState: inquiryGroupStore.currentUserStatus.countInquiries === 0 ? 'max' : 'min',
 }))
-
-const handleSave = async () => {
-  if (isSaving.value) return
-
-  if (!inquiryGroupStore.title || inquiryGroupStore.title.trim() === '') {
-    showError(t('agora', 'Title is mandatory'), { timeout: 2000 })
-    return
-  }
-
-  isSaving.value = true
-
-  try {
-    await inquiryGroupStore.update({
-      id: inquiryGroupStore.id,
-      type: inquiryGroupStore.type,
-      title: inquiryGroupStore.title,
-      description: inquiryGroupStore.description,
-      categoryId: inquiryGroupStore.categoryId,
-      locationId: inquiryGroupStore.locationId,
-      parentId: inquiryGroupStore.parentId,
-    })
-    showSuccess(t('agora', 'The inquiry has been saved'), { timeout: 2000 })
-  } catch {
-    showError(t('agora', 'Error saving inquiry!'), { timeout: 2000 })
-  } finally {
-    isSaving.value = false
-  }
-}
-
-const handleAllowedResponse = (responseType: string) => {
-  selectedMode.value = 'response' 
-  selectedInquiryGroupTypeForCreation.value = responseType
-  createGroupDlgToggle.value = true
-}
 
 
 const handleCloseDialog = () => {

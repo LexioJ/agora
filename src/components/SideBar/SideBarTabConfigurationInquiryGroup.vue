@@ -10,8 +10,6 @@ import { showSuccess, showError } from '@nextcloud/dialogs'
 import NcButton from '@nextcloud/vue/components/NcButton'
 import NcTextArea from '@nextcloud/vue/components/NcTextArea'
 import NcSelect from '@nextcloud/vue/components/NcSelect'
-import NcTextField from '@nextcloud/vue/components/NcTextField'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import { useInquiryGroupStore } from '../../stores/inquiryGroup.ts'
 import { useSessionStore } from '../../stores/session'
 import { useAttachmentsStore } from '../../stores/attachments' // Import attachments store
@@ -47,13 +45,11 @@ const formErrors = ref({
 })
 
 // Computed
-const availableGroupStatuses = computed(() => {
-  return [
+const availableGroupStatuses = computed(() => [
     { id: 'draft', label: t('agora', 'Draft'), icon: StatusIcons.Draft },
     { id: 'active', label: t('agora', 'Active'), icon: StatusIcons.Active },
     { id: 'archived', label: t('agora', 'Archived'), icon: StatusIcons.Archived },
-  ]
-})
+  ])
 
 const statusOptions = computed(() => 
   availableGroupStatuses.value.map(status => ({
@@ -62,18 +58,9 @@ const statusOptions = computed(() =>
   }))
 )
 
-const canEditGroup = computed(() => {
-  return inquiryGroupStore.currentUserStatus?.isOwner || 
+const canEditGroup = computed(() => inquiryGroupStore.currentUserStatus?.isOwner || 
          sessionStore.currentUser.type === 'admin' ||
-         inquiryGroupStore.allowEdit
-})
-
-// Check if form has changes
-const hasChanges = computed(() => {
-  return inquiryGroupStore.title !== '' || 
-         inquiryGroupStore.titleExt !== '' || 
-         inquiryGroupStore.description !== ''
-})
+         inquiryGroupStore.allowEdit)
 
 // Methods
 const loadGroup = async () => {
@@ -163,16 +150,14 @@ const handleImageUpload = async (event: Event) => {
   }
 }
 
-const getSaveableData = () => {
-  return {
+const getSaveableData = () => ({
     title: inquiryGroupStore.title.trim(),
     titleExt: inquiryGroupStore.titleExt.trim(),
     description: inquiryGroupStore.description.trim(),
     groupStatus: inquiryGroupStore.groupStatus,
     expire: inquiryGroupStore.expire,
     coverId: inquiryGroupStore.coverId,
-  }
-}
+  })
 
 const validateForm = () => {
   let isValid = true
@@ -274,13 +259,11 @@ const formatDate = (timestamp: number | null) => {
   return new Date(timestamp * 1000).toLocaleDateString()
 }
 
-const getFormFieldState = (field: keyof typeof formErrors) => {
-  return {
+const getFormFieldState = (field: keyof typeof formErrors) => ({
     error: !!formErrors.value[field],
     success: !formErrors.value[field] && inquiryGroupStore[field as keyof typeof inquiryGroupStore] ? true : undefined,
     helperText: formErrors.value[field],
-  }
-}
+  })
 
 // Watchers for auto-save
 watch(() => inquiryGroupStore.title, debouncedSave, { deep: true })
@@ -330,15 +313,15 @@ onMounted(() => {
           class="hidden"
           accept="image/*"
           :aria-label="t('agora', 'Select cover image')"
-          @change="handleImageUpload"
           :disabled="!canEditGroup"
+          @change="handleImageUpload"
         />
 
         <div 
           v-if="currentCoverUrl" 
           class="cover-preview"
-          @click="triggerImageUpload"
           :class="{ 'readonly': !canEditGroup }"
+          @click="triggerImageUpload"
         >
           <img 
             :src="currentCoverUrl" 
@@ -363,8 +346,8 @@ onMounted(() => {
         <div 
           v-else
           class="cover-placeholder"
-          @click="triggerImageUpload"
           :class="{ 'readonly': !canEditGroup }"
+          @click="triggerImageUpload"
         >
           <div class="placeholder-content">
             <component :is="InquiryGeneralIcons.Image" class="placeholder-icon" />

@@ -22,7 +22,7 @@
           </NcButton>
           
           <!-- Parent groups -->
-          <template v-for="(parent, index) in parentGroups" :key="parent.id">
+          <template v-for="(parent) in parentGroups" :key="parent.id">
             <div class="breadcrumb-separator">❯</div>
             <NcButton 
               type="tertiary"
@@ -99,7 +99,7 @@
           <!-- Section Header -->
           <div class="section-header">
             <h3>{{ sectionTitle }}</h3>
-            <div class="section-actions" v-if="isOwnerOrAdmin">
+            <div v-if="isOwnerOrAdmin" class="section-actions">
               <NcButton class="create-button" @click="createInquiryGroup(currentGroupType)">
                 ➕ {{ t('agora', 'Create Group') }}
               </NcButton>
@@ -190,15 +190,15 @@
                   
                   <NcButton 
                     type="tertiary" 
-                    class="menu-item add-response"
-                    @click.stop="addAllowedResponse(group)"
+                    class="menu-item archive"
+                    @click.stop="archiveGroup(group)"
                   >
                     <template #icon>
                       <svg width="14" height="14" viewBox="0 0 24 24">
                         <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
                       </svg>
                     </template>
-                    {{ t('agora', 'Add Subgroup') }}
+                    {{ t('agora', 'Archive') }}
                   </NcButton>
                 </div>
               </div>
@@ -223,7 +223,7 @@
           <div class="not-found-icon">🔍</div>
           <h2>{{ t('agora', 'Group not found') }}</h2>
           <p>{{ t('agora', 'The group you are looking for does not exist or you do not have permission to access it.') }}</p>
-          <NcButton @click="navigateToHome" type="primary">
+          <NcButton type="primary" @click="navigateToHome">
           {{ t('agora', 'Back to home') }}
           </NcButton>
       </div>
@@ -239,7 +239,6 @@
                     :inquiry-group-type="selectedInquiryGroupTypeForCreation"
                     :parent-group-id="selectedParentId"
                     :available-groups="availableGroups"
-                    :isSubGroup="isSubGroup"
                     @added="inquiryGroupAdded"
                     @close="handleCloseGroupDialog"
                     />
@@ -256,7 +255,7 @@
   </NcAppContent>
 </template>
 <script setup lang="ts">
-    import { computed, ref, onMounted, watch } from 'vue'
+import { computed, ref, watch, onMounted} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -268,7 +267,7 @@ import { useInquiriesStore } from '../stores/inquiries.ts'
 import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
 import { useInquiryGroupStore } from '../stores/inquiryGroup.ts'
 import { InquiryGeneralIcons } from '../utils/icons.ts'
-import { getInquiryGroupTypeData,  getAllowedResponseGroupTypes } from '../helpers/modules/InquiryHelper.ts'
+import { getInquiryGroupTypeData } from '../helpers/modules/InquiryHelper.ts'
 import InquiryGroupCreateDlg from '../components/Create/InquiryGroupCreateDlg.vue'
 import type { InquiryGroupType, InquiryGroup } from '../stores/inquiryGroups.types.ts'
 import InquiryGroupViewMiddle from '../components/InquiryGroup/InquiryGroupViewMiddle.vue'
@@ -283,10 +282,7 @@ const inquiryGroupsStore = useInquiryGroupsStore()
 const inquiryGroupStore = useInquiryGroupStore()
 
 const isLoading = ref(true)
-const isSubGroup = ref(false)
-const groupNotFound = ref(false)
 const hoveredGroupId = ref<number | null>(null)
-const createDlgToggle = ref(false)
 const selectedParentId = ref(null)
 const createGroupDlgToggle = ref(false)
 const selectedInquiryGroupTypeForCreation = ref<InquiryGroupType | null>(null)
@@ -313,14 +309,12 @@ const currentGroupType = computed(() => {
 const currentInquiryGroup = computed(() => {
   if (!hasSlug.value) return null
   const slug = route.params.slug as string
-  const group = inquiryGroupsStore.bySlug(slug)
-
-  if (!group) {
-    groupNotFound.value = true
-  }
-  console.log(" CONSOLE ", group)
-  return group
+  return inquiryGroupsStore.bySlug(slug)
 })
+
+// Compute whether group was found
+const groupNotFound = computed(() => hasSlug.value && !currentInquiryGroup.value)
+
 
 // Get parent groups for breadcrumb
 const parentGroups = computed(() => {
@@ -348,14 +342,14 @@ const displayedGroups = computed(() => {
   if (hasSlug.value && currentInquiryGroup.value) {
     // Show child groups of current group
     const childGroups = inquiryGroupsStore.inquiryGroups.filter(
-      group => group.parentId === currentInquiryGroup.value?.id
+      group => group.parentId === currentInquiryGroup.value?.id && group.groupStatus !== "archived"
     )
     return childGroups.sort((a, b) => a.title.localeCompare(b.title))
   }
 
   // Show root groups of current type
   const rootGroups = inquiryGroupsStore.inquiryGroups.filter(
-    group => !group.parentId && group.type === currentGroupType.value
+    group => !group.parentId && group.type === currentGroupType.value && group.groupStatus !== "archived"
   )
   return rootGroups.sort((a, b) => a.title.localeCompare(b.title))
 })
@@ -366,7 +360,8 @@ const totalInquiries = computed(() => {
 
   // Count inquiries belonging to this group
   return inquiriesStore.inquiries.filter(
-    inquiry => inquiry.groupId === currentInquiryGroup.value?.id
+ //   inquiry => inquiry.groupId === currentInquiryGroup.value?.id
+    inquiry => inquiry.id === currentInquiryGroup.value?.id
   ).length
 })
 
@@ -379,9 +374,7 @@ const sectionTitle = computed(() => {
 })
 
 // Check if user is owner or admin - FIXED: Ensure this returns boolean
-const isOwnerOrAdmin = computed(() => {
-  return true
-})
+const isOwnerOrAdmin = computed(() => true)
 
 // Get icon component for group type
 const getGroupTypeIconComponent = (type: string) => {
@@ -413,9 +406,7 @@ const currentIconComponent = computed(() => {
 })
 
 // Get type data
-const selectedTypeData = computed(() => {
-  return getInquiryGroupTypeData(currentGroupType.value, sessionStore.appSettings.inquiryGroupTypeTab)
-})
+const selectedTypeData = computed(() => getInquiryGroupTypeData(currentGroupType.value, sessionStore.appSettings.inquiryGroupTypeTab))
 
 const selectedTypeLabel = computed(() => 
   selectedTypeData.value?.label ? t('agora', selectedTypeData.value.label) : t('agora', 'Assembly')
@@ -442,9 +433,7 @@ const currentDescription = computed(() => {
 })
 
 // Breadcrumb current title
-const currentBreadcrumbTitle = computed(() => {
-  return currentTitle.value
-})
+const currentBreadcrumbTitle = computed(() => currentTitle.value)
 
 // Delete dialog properties
 const deleteDialogTitle = computed(() => 
@@ -481,7 +470,9 @@ const deleteDialogButtons = computed(() => [
 
 // Methods
 function navigateToHome() {
-  router.push({ name: 'group-list', params: { slug: 'none' }, query: {} })
+  router.push({ name: 'group-list', 
+ // params: { slug: 'none' }, 
+  query: {} })
 }
 
 function selectGroup(group: InquiryGroup) {
@@ -490,20 +481,9 @@ function selectGroup(group: InquiryGroup) {
   }
 }
 
-function navigateToCreateInquiry() {
-  router.push({
-    name: 'menu',
-    query: {
-      viewMode: 'create',
-      groupId: currentInquiryGroup.value?.id
-    }
-  })
-}
 
 // Function to create new inquiry group from type
 function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
-  console.log(" CREATETTTTTTTTTTTT INQUIRY GROUP ",inquiryGroupType)
-  console.log(" HAS INQUIRY GROUP ",hasSlug.value)
   if (hasSlug.value) selectedParentId.value=currentInquiryGroup?.value.id
   selectedInquiryGroupTypeForCreation.value = inquiryGroupType
   createGroupDlgToggle.value = true
@@ -563,13 +543,18 @@ async function performDeleteGroup(group: InquiryGroup) {
   }
 }
 
-function addAllowedResponse(group: InquiryGroup) {
-  selectedInquiryGroupTypeForCreation.value = group.type
-  console.log(" SELECTEEEEEEEEEEEEEEEEEE PARENT ID ", group.id)
-  selectedParentId.value = group.id
-  isSubGroup.value = true
-  createGroupDlgToggle.value = true
+async function archiveGroup(group: InquiryGroup) {
+  try {
+    // Implement archive logic here
+     await inquiryGroupStore.archiveGroup(group.id)
+    showSuccess(t('agora', 'Group archived successfully'))
+    navigateToHome()
+  } catch (error) {
+    console.error('Error archiving group:', error)
+    showError(t('agora', 'Failed to archive group'))
+  }
 }
+
 
 // Dialog handlers
 function handleCloseGroupDialog() {
@@ -580,7 +565,6 @@ function handleCloseGroupDialog() {
 
 function inquiryGroupAdded(newGroup: InquiryGroup) {
   // Handle new group creation
-  console.log('Group added:', newGroup)
   createGroupDlgToggle.value = false
 
   // Navigate to the new group
@@ -595,12 +579,7 @@ const availableGroups = computed(() => {
   if (typeof groups === 'object' && !Array.isArray(groups)) {
     return Object.keys(groups)
   }
-})
-
-
-// Debug: Log owner/admin status
-onMounted(() => {
-  console.log('sessionStore:', sessionStore)
+  return []
 })
 
 // Lifecycle
@@ -1142,7 +1121,7 @@ watch(() => route.params.slug, async () => {
                             }
                         }
 
-                        &.add-response:hover {
+                        &.archive:hover {
                             color: #10b981;
                             border-color: #a7f3d0;
                             :deep(svg) {

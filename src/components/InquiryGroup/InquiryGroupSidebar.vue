@@ -13,7 +13,7 @@
       <!-- Inquiry Types List -->
       <div v-if="Object.keys(inquiriesByType).length > 0" class="inquiry-types-list">
         <div 
-          v-for="(typeKey, index) in Object.keys(inquiriesByType)" 
+          v-for="(typeKey) in Object.keys(inquiriesByType)" 
           :key="typeKey"
           class="inquiry-type-item"
           :class="{ 'has-inquiries': inquiriesByType[typeKey].length > 0 }"
@@ -38,7 +38,7 @@
       
       <!-- Add Inquiry Button -->
       <div v-if="isOwnerOrAdmin" class="sidebar-card__actions">
-        <NcButton @click="$emit('add-inquiry')" class="add-inquiry-button">
+        <NcButton class="add-inquiry-button" @click="emit('addInquiry')">
           <template #icon>
             <PlusIcon />
           </template>
@@ -57,31 +57,26 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import PlusIcon from 'vue-material-design-icons/Plus.vue'
 import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
 import { useSessionStore } from '../../stores/session.ts'
+import type { InquiryGroupType } from '../stores/inquiryGroups.types.ts'
+import type { InquiryType, Inquiry } from '../../Types/index.ts'
 
 const sessionStore = useSessionStore()
 const router = useRouter()
 
 const props = defineProps<{
-  inquiryGroup?: any
-  inquiriesByType?: Record<string, any[]>
-  inquiryTypes?: any[]
+  inquiryGroup?: InquiryGroupType 
+  inquiriesByType?: Record<string, Inquiry[]>
+  inquiryTypes?: InquiryType[]
 }>()
 
-const emit = defineEmits(['add-inquiry'])
+const emit = defineEmits(['addInquiry'])
 
-// Safe computed properties
-const safeInquiriesByType = computed(() => {
-  return props.inquiriesByType || {}
-})
+const safeInquiryTypes = computed(() => props.inquiryTypes || sessionStore.appSettings.inquiryTypeTab || [])
 
-const safeInquiryTypes = computed(() => {
-  return props.inquiryTypes || sessionStore.appSettings.inquiryTypeTab || []
-})
-
-const isOwnerOrAdmin = computed(() => {
+const isOwnerOrAdmin = computed(() => 
   // Implement ownership check
-  return false
-})
+   false
+)
 
 function getTypeData(typeKey: string) {
   return getInquiryTypeData(typeKey, safeInquiryTypes.value)

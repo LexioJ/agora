@@ -45,122 +45,132 @@ export const useCommentsStore = defineStore('comments', {
 				if (!response) {
 					this.$reset()
 					return
-				}
+                }
 
-				this.comments = response.data.comments
-			} catch (error) {
-				if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-					return
-				}
-				this.$reset()
-			}
-		},
+                this.comments = response.data.comments
+            } catch (error) {
+                if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                    return
+                }
+                this.$reset()
+            }
+        },
 
-		async add(payload: { message: string; confidential: boolean }) {
-			const sessionStore = useSessionStore()
-			try {
-				const response = await (() => {
-					if (sessionStore.route.name === 'publicInquiry') {
-						return PublicAPI.addComment(
-							sessionStore.publicToken,
-							payload.message,
-							payload.confidential,
-						)
-					}
-					if (sessionStore.route.name === 'inquiry') {
-						return CommentsAPI.addComment(
-							sessionStore.currentInquiryId,
-							payload.message,
-							payload.confidential,
-						)
-					}
-					return null
-				})()
+        async add(payload: { message: string; confidential: boolean }, inquiryId?: string | number) {
+            const sessionStore = useSessionStore()
+            try {
+                const response = await (() => {
+                    if (sessionStore.route.name === 'publicInquiry') {
+                        return PublicAPI.addComment(
+                            sessionStore.publicToken,
+                            payload.message,
+                            payload.confidential,
+                        )
+                    }
 
-				if (!response) {
-					this.$reset()
-					return
-				}
 
-				this.load()
-			} catch (error) {
-				if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-					return
-				}
-				Logger.error('Error writing comment', {
-					error,
-					payload,
-				})
-				throw error
-			}
-		},
+                    if (sessionStore.route.name === 'inquiry' || sessionStore.route.name === 'group-list') {
+                        const targetInquiryId = inquiryId || sessionStore.currentInquiryId
 
-		setItem(payload: { comment: Comment }) {
-			const index = this.comments.findIndex(
-				(comment) => comment.id === payload.comment.id,
-			)
+                        if (!targetInquiryId) {
+                            console.warn('No inquiryId available for adding comment')
+                            return null
+                        }
 
-			if (index < 0) {
-				this.comments.push(payload.comment)
-			} else {
-				this.comments[index] = Object.assign(
-					this.comments[index],
-					payload.comment,
-				)
-			}
-		},
+                        return CommentsAPI.addComment(
+                            targetInquiryId,
+                            payload.message,
+                            payload.confidential,
+                        )
+                    }
+                    return null
+                })()
 
-		async delete(payload: { comment: Comment }) {
-			const sessionStore = useSessionStore()
+                if (!response) {
+                    this.$reset()
+                    return
+                }
 
-			try {
-				const response = await (() => {
-					if (sessionStore.route.name === 'publicInquiry') {
-						return PublicAPI.deleteComment(
-							sessionStore.publicToken,
-							payload.comment.id,
-						)
-					}
-					return CommentsAPI.deleteComment(payload.comment.id)
-				})()
+                this.load()
+            } catch (error) {
+                if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                    return
+                }
+                Logger.error('Error writing comment', {
+                    error,
+                    payload,
+                    inquiryId,
+                })
+                throw error
+            }
+        },
 
-				this.setItem({ comment: response.data.comment })
-			} catch (error) {
-				if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-					return
-				}
-				Logger.error('Error deleting comment', {
-					error,
-					payload,
-				})
-				throw error
-			}
-		},
+        setItem(payload: { comment: Comment }) {
+            const index = this.comments.findIndex(
+                (comment) => comment.id === payload.comment.id,
+            )
 
-		async restore(payload: { comment: Comment }) {
-			const sessionStore = useSessionStore()
-			try {
-				const response = await (() => {
-					if (sessionStore.route.name === 'publicInquiry') {
-						return PublicAPI.restoreComment(
-							sessionStore.publicToken,
-							payload.comment.id,
-						)
-					}
-					return CommentsAPI.restoreComment(payload.comment.id)
-				})()
+                if (index < 0) {
+                    this.comments.push(payload.comment)
+                } else {
+                    this.comments[index] = Object.assign(
+                        this.comments[index],
+                        payload.comment,
+                    )
+                }
+        },
 
-				this.setItem({ comment: response.data.comment })
-			} catch (error) {
-				if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-					return
-				}
-				Logger.error('Error restoring comment', {
-					error,
-					payload,
-				})
-				throw error
-			}
-		},
-	},
+        async delete(payload: { comment: Comment }) {
+            const sessionStore = useSessionStore()
+
+            try {
+                const response = await (() => {
+                    if (sessionStore.route.name === 'publicInquiry') {
+                        return PublicAPI.deleteComment(
+                            sessionStore.publicToken,
+                            payload.comment.id,
+                        )
+                    }
+                    return CommentsAPI.deleteComment(payload.comment.id)
+                })()
+
+                this.setItem({ comment: response.data.comment })
+            } catch (error) {
+                if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                    return
+                }
+                Logger.error('Error deleting comment', {
+                    error,
+                    payload,
+                })
+                throw error
+            }
+        },
+
+        async restore(payload: { comment: Comment }) {
+            const sessionStore = useSessionStore()
+            try {
+                const response = await (() => {
+                    if (sessionStore.route.name === 'publicInquiry') {
+                        return PublicAPI.restoreComment(
+                            sessionStore.publicToken,
+                            payload.comment.id,
+                        )
+                    }
+                    return CommentsAPI.restoreComment(payload.comment.id)
+                })()
+
+                this.setItem({ comment: response.data.comment })
+            } catch (error) {
+                if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+                    return
+                }
+                Logger.error('Error restoring comment', {
+                    error,
+                    payload,
+                })
+                throw error
+            }
+        },
+    },
 })

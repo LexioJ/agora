@@ -4,7 +4,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script setup lang="ts">
-import { computed, ref, watch } from 'vue'
+import { computed, ref, watch, onMounted } from 'vue'
 import { t } from '@nextcloud/l10n'
 
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -20,18 +20,16 @@ import { useSessionStore } from '../../stores/session.ts'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import {
   getAvailableInquiryGroupTypesForCreation,
-  getInquiryGroupTypeOptions,
   getInquiryGroupTypeData,
   getAllowedResponseGroupTypes,
 } from '../../helpers/modules/InquiryHelper.ts'
 
 // Define props
 interface Props {
-  inquiryGroupType?: InquiryGroupType | null
+  inquiryGroupType?: string | null
   parentGroupId?: string | number | null
   availableGroups?: string[]
   defaultTitle?: string | null
-  isSubGroup?: boolean
 }
 
 const props = withDefaults(defineProps<Props>(), {
@@ -39,7 +37,6 @@ const props = withDefaults(defineProps<Props>(), {
   parentGroupId: null,
   availableGroups: () => [],
   defaultTitle: null,
-  isSubGroup: false
 })
 
 const emit = defineEmits<{
@@ -66,116 +63,92 @@ const allInquiryGroupTypes = computed((): InquiryGroupType[] => {
   return types
 })
 
-const allowedResponseGroupTypes = computed(() => {
-  if (props.isSubGroup && props.parentGroupId && !props.inquiryGroupType) {
-    const parentGroupType = '' 
-  console.log(" CHECK ALLOWED RSPONSE Available GROUP TYPE ",availableInquiryGroupTypes.value[props.parentGroupId]?.group_type)
-    
-    if (parentGroupType) {
-      return getAllowedResponseGroupTypes(allInquiryGroupTypes.value, parentGroupType)
-    }
+// Find the InquiryGroupType object by group_type string
+const findInquiryGroupTypeByType = (typeString: string): InquiryGroupType | null => allInquiryGroupTypes.value.find(type => type.group_type === typeString) || null
+
+// Get the initial inquiry group type object
+const initialInquiryGroupType = computed(() => {
+  if (props.inquiryGroupType) {
+    return findInquiryGroupTypeByType(props.inquiryGroupType)
   }
-  return []
+  return null
 })
 
+// CASE 1: No parentId - use the provided type
+// CASE 2: Has parentId - get parent type and its allowed responses
 const availableInquiryGroupTypes = computed(() => {
-  if (props.inquiryGroupType && !props.parentGroupId && !props.isSubGroup) {
-    return [props.inquiryGroupType]
+  
+  // CASE 1: No parent ID, use the provided type
+  if (!props.parentGroupId && initialInquiryGroupType.value) {
+    return [initialInquiryGroupType.value]
   }
   
-  if (props.inquiryGroupType && props.parentGroupId && !props.isSubGroup) {
-    return [props.inquiryGroupType]
-  }
-  
-  if (props.parentGroupId && props.isSubGroup && !props.inquiryGroupType) {
-    if (allowedResponseGroupTypes.value.length > 0) {
-      return getAvailableInquiryGroupTypesForCreation(allowedResponseGroupTypes.value)
+  // CASE 2: Has parent ID, we need to find parent group type
+  if (props.parentGroupId && initialInquiryGroupType.value) {
+    
+    // Get allowed response types for the parent group type
+    const allowedResponses = getAllowedResponseGroupTypes(allInquiryGroupTypes.value, initialInquiryGroupType.value.group_type)
+    
+    if (allowedResponses && allowedResponses.length > 0) {
+      // Return parent type + allowed responses
+      const result = [initialInquiryGroupType.value, ...allowedResponses]
+      return result
     }
-    const rootTypes = allInquiryGroupTypes.value.filter(type => type.is_root === true)
-    return getAvailableInquiryGroupTypesForCreation(rootTypes)
+    
+    // Fallback: if no allowed responses, just return parent type
+    return [initialInquiryGroupType.value]
   }
   
+  // Default: return all root types
   const rootTypes = allInquiryGroupTypes.value.filter(type => type.is_root === true)
-  return getAvailableInquiryGroupTypesForCreation(rootTypes)
+  const result = getAvailableInquiryGroupTypesForCreation(rootTypes)
+  return result
 })
-
-const inquiryGroupTypeOptions = computed(() => 
-  getInquiryGroupTypeOptions(availableInquiryGroupTypes.value)
-)
 
 const selectedInquiryGroupType = computed(() => {
-  console.log(" PROPS GROUP TYPE ",props.inquiryGroupType)
-  console.log(" localInq GROUP TYPE ",localInquiryGroupType)
-  console.log(" Available GROUP TYPE ",availableInquiryGroupTypes.value[0]?.group_type)
-
-  if (props.inquiryGroupType) {
-    return props.inquiryGroupType
+  // If we have a specific type provided, use it
+  if (initialInquiryGroupType.value) {
+    return initialInquiryGroupType.value.group_type
   }
   
-  return localInquiryGroupType.value || availableInquiryGroupTypes.value[0]?.group_type
+  // Otherwise use local selection or first available
+  const result = localInquiryGroupType.value || availableInquiryGroupTypes.value[0]?.group_type
+  return result
 })
 
 // Data for display
-const currentInquiryGroupTypeData = computed(() => 
-  getInquiryGroupTypeData(selectedInquiryGroupType.value, allInquiryGroupTypes.value)
-)
-
-const creationMode = computed(() => {
-  console.log(" PROPS INQUIRY GORUOP",props.inquiryGroupType)
-  console.log(" PARENT.ID",props?.parentGroupId)
-  console.log("IS SUB GROUP",props?.isSubGroup)
-
-  if (props.inquiryGroupType && !props.parentGroupId && !props.isSubGroup) {
-    return 'direct-creation'
-  }
-  
-  if (props.inquiryGroupType && props.parentGroupId && !props.isSubGroup) {
-    return 'child-creation'
-  }
-  
-  if (props.parentGroupId && props.isSubGroup) {
-    return 'subgroup-creation'
-  }
-  
-  return 'free-creation'
+const currentInquiryGroupTypeData = computed(() => {
+  const data = getInquiryGroupTypeData(selectedInquiryGroupType.value, allInquiryGroupTypes.value)
+  return data
 })
 
-const showInquiryGroupTypeSelector = computed(() => {
-  return creationMode.value === 'subgroup-creation' && availableInquiryGroupTypes.value.length > 1
+const showGroupTypeSelector = computed(() => {
+  const shouldShow = props.parentGroupId && availableInquiryGroupTypes.value.length > 1
+  return shouldShow
 })
 
 const dialogTitle = computed(() => {
-  switch (creationMode.value) {
-    case 'direct-creation':
-      return t('agora', 'Create {type} Group', { 
-        type: props.inquiryGroupType?.label || '' 
-      })
-    case 'child-creation':
-      return t('agora', 'Create {type} Child Group', {
-        type: props.inquiryGroupType?.label || ''
-      })
-    case 'subgroup-creation':
-      return t('agora', 'Add sub group')
-    default:
-      return t('agora', 'Create New Group')
-  }
+  if (!props.parentGroupId) {
+    const title = t('agora', 'Create {type} Group', { 
+      type: currentInquiryGroupTypeData.value?.label || '' 
+    })
+    return title
+  } 
+    const title = t('agora', 'Add Group to Parent')
+    return title
+  
 })
 
 const contextDescription = computed(() => {
-  switch (creationMode.value) {
-    case 'direct-creation':
-      return t('agora', 'Creating a new {type} group', {
-        type: props.inquiryGroupType?.label || ''
-      })
-    case 'child-creation':
-      return t('agora', 'Creating a {type} group as a child of the parent group', {
-        type: props.inquiryGroupType?.label || ''
-      })
-    case 'subgroup-creation':
-      return t('agora', 'Add an allowed response group to the parent group')
-    default:
-      return t('agora', 'Create a new inquiry group')
-  }
+  if (!props.parentGroupId) {
+    const desc = t('agora', 'Creating a new {type} group', {
+      type: currentInquiryGroupTypeData.value?.label || ''
+    })
+    return desc
+  } 
+    const desc = t('agora', 'Adding a group to the parent. You can create the same type as parent or an allowed response type.')
+    return desc
+  
 })
 
 const selectNextcloudGroup = (group: string | null) => {
@@ -188,17 +161,25 @@ const updateLocalInquiryGroupType = (newType: string) => {
   localInquiryGroupType.value = newType
 }
 
+// Initialize local type when component mounts
+onMounted(() => {
+  
+  if (availableInquiryGroupTypes.value.length > 0 && !localInquiryGroupType.value) {
+    // Default to parent type if available, otherwise first available
+    const parentType = initialInquiryGroupType.value?.group_type
+    
+    if (parentType && availableInquiryGroupTypes.value.some(t => t.group_type === parentType)) {
+      localInquiryGroupType.value = parentType
+    } else if (availableInquiryGroupTypes.value[0]) {
+      localInquiryGroupType.value = availableInquiryGroupTypes.value[0].group_type
+    }
+  }
+})
+
 // Watch to pre-fill title
 watch(() => props.defaultTitle, (newTitle) => {
   if (newTitle) {
     inquiryTitle.value = newTitle
-  }
-}, { immediate: true })
-
-// Watch available inquiry group types
-watch(availableInquiryGroupTypes, (newTypes) => {
-  if (newTypes.length > 0 && !localInquiryGroupType.value) {
-    localInquiryGroupType.value = newTypes[0].group_type
   }
 }, { immediate: true })
 
@@ -208,7 +189,7 @@ const disableAddButton = computed(() => titleIsEmpty.value || adding.value)
 interface InquiryGroupData {
   type: string
   title: string
-  parentId?:  number | null
+  parentId?: number | null
   ownedGroup?: string
   description?: string
 }
@@ -227,16 +208,11 @@ async function addGroupInquiry() {
       showError(t('agora', 'Please enter a title'))
       return
     }
-    let typeSelected = selectedInquiryGroupType.value
-
-    console.log("SLECT INQUIRY GROUP TYPE:", selectedInquiryGroupType.value)
-    console.log("LOCAL SLECT INQUIRY GROUP TYPE:", localInquiryGroupType.value)
-    if (localInquiryGroupType.value) typeSelected = localInquiryGroupType.value
     
-    console.log("APRES SLECT INQUIRY GROUP TYPE:", selectedInquiryGroupType.value)
+    
     // Prepare inquiry data
     const inquiryData: InquiryGroupData = {
-      type: typeSelected,
+      type: selectedInquiryGroupType.value,
       title: inquiryTitle.value.trim(),
     }
 
@@ -250,30 +226,21 @@ async function addGroupInquiry() {
       inquiryData.ownedGroup = selectedNextcloudGroup.value
     }
    
-    console.log("Creating inquiry group with data:", inquiryData)
-    console.log("Creation mode:", creationMode.value)
     
     // Add the inquiry group
     const inquiry = await inquiryGroupStore.add(inquiryData)
     
-    console.log("Inquiry group created:", inquiry)
 
     if (inquiry) {
       inquiryId.value = inquiry.id
       
-      let successMessage = t('agora', '"{inquiryTitle}" group has been created', {
-        inquiryTitle: inquiry.title,
-      })
-      
-      if (creationMode.value === 'subgroup-creation') {
-        successMessage = t('agora', 'Allowed response "{inquiryTitle}" has been added', {
-          inquiryTitle: inquiry.title,
-        })
-      } else if (creationMode.value === 'child-creation') {
-        successMessage = t('agora', 'Child group "{inquiryTitle}" has been created', {
-          inquiryTitle: inquiry.title,
-        })
-      }
+      const successMessage = props.parentGroupId 
+        ? t('agora', 'Group "{inquiryTitle}" has been added to parent', {
+            inquiryTitle: inquiry.title,
+          })
+        : t('agora', '"{inquiryTitle}" group has been created', {
+            inquiryTitle: inquiry.title,
+          })
       
       showSuccess(successMessage)
       
@@ -284,7 +251,7 @@ async function addGroupInquiry() {
       resetInquiry()
     }
   } catch (error) {
-    console.error('Error creating inquiry group:', error)
+    console.error("Error while creating group",error)
     showError(
       t('agora', 'Error while creating group "{inquiryTitle}"', {
         inquiryTitle: inquiryTitle.value,
@@ -311,13 +278,10 @@ function resetInquiry() {
       <!-- Dialog Header -->
       <div class="dialog-header">
         <h3>{{ dialogTitle }}</h3>
-        <div v-if="creationMode === 'subgroup-creation'" class="mode-badge response">
-          {{ t('agora', 'SubGroup') }}
-        </div>
-        <div v-else-if="creationMode === 'child-creation'" class="mode-badge child">
+        <div v-if="props.parentGroupId" class="mode-badge child">
           {{ t('agora', 'Child Group') }}
         </div>
-        <div v-else-if="creationMode === 'direct-creation'" class="mode-badge creation">
+        <div v-else class="mode-badge creation">
           {{ t('agora', 'New Group') }}
         </div>
       </div>
@@ -347,7 +311,7 @@ function resetInquiry() {
             </NcCheckboxRadioSwitch>
 
             <NcCheckboxRadioSwitch value="groups">
-              {{ t('agora', 'Share with Nextcloud group') }}
+              {{ t('agora', 'Open with Nextcloud group') }}
             </NcCheckboxRadioSwitch>
           </NcRadioGroup>
 
@@ -398,8 +362,9 @@ function resetInquiry() {
         />
       </ConfigBox>
 
+      <!-- Group Type Selection (only shown when parentId exists and we have multiple types) -->
       <ConfigBox
-        v-if="showInquiryGroupTypeSelector"
+        v-if="showGroupTypeSelector"
         :name="t('agora', 'Group Type')"
         :label="t('agora', 'Select group type')"
       >
@@ -408,11 +373,15 @@ function resetInquiry() {
         </template>
         <RadioGroupDiv
           :model-value="localInquiryGroupType"
-          :options="inquiryGroupTypeOptions"
+          :options="availableInquiryGroupTypes"
           @update:model-value="updateLocalInquiryGroupType($event)"
         />
+        <div v-if="props.parentGroupId" class="type-help">
+          <small>{{ t('agora', 'You can create the same type as parent or choose from allowed response types') }}</small>
+        </div>
       </ConfigBox>
 
+      <!-- Display selected type when selector is not shown -->
       <ConfigBox
         v-else-if="currentInquiryGroupTypeData"
         :name="t('agora', 'Group Type')"
@@ -426,6 +395,12 @@ function resetInquiry() {
           <p v-if="currentInquiryGroupTypeData.description" class="type-description">
             {{ currentInquiryGroupTypeData.description }}
           </p>
+          <div v-if="props.parentGroupId" class="type-info">
+            <small>{{ t('agora', 'Same type as parent group') }}</small>
+          </div>
+          <div v-else class="type-info">
+            <small>{{ t('agora', 'Creating new {type} group', { type: currentInquiryGroupTypeData.label }) }}</small>
+          </div>
         </div>
       </ConfigBox>
 
@@ -440,8 +415,8 @@ function resetInquiry() {
           @click="addGroupInquiry"
         >
           {{ adding ? t('agora', 'Creating...') : 
-            creationMode === 'subgroup-creation' ? 
-            t('agora', 'Add Allowed Response') : 
+            props.parentGroupId ? 
+            t('agora', 'Add to Parent') : 
             t('agora', 'Create Group') }}
         </NcButton>
       </div>
@@ -497,11 +472,6 @@ function resetInquiry() {
   font-weight: 600;
 }
 
-.mode-badge.response {
-  background: var(--color-warning);
-  color: var(--color-warning-text);
-}
-
 .mode-badge.child {
   background: var(--color-info);
   color: var(--color-info-text);
@@ -545,6 +515,18 @@ function resetInquiry() {
   font-size: 0.9em;
   margin-top: 8px;
   line-height: 1.4;
+}
+
+.type-info {
+  margin-top: 8px;
+  color: var(--color-info);
+  font-size: 0.85em;
+}
+
+.type-help {
+  margin-top: 8px;
+  color: var(--color-text-lighter);
+  font-size: 0.85em;
 }
 
 .access-settings {

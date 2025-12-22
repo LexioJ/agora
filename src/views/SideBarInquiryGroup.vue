@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import { ref, onMounted, computed, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
 
@@ -13,24 +13,24 @@ import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import { Event } from '../Types/index.ts'
 
 import { InquiryGeneralIcons } from '../utils/icons.ts'
-import {
-  canComment,
-  canUseResource,
-  canShare,
-  createPermissionContextForContent,
-  ContentType,
-} from '../utils/permissions.ts'
+// import {
+//  canComment,
+//  canUseResource,
+//  canShare,
+//  createPermissionContextForContent,
+//  ContentType,
+// } from '../utils/permissions.ts'
 import {
   SideBarTabConfigurationInquiryGroup,
   SideBarTabInquiryGroupShare,
   SideBarTabGroupMisc,
 } from '../components/SideBar/index.js'
-import { useInquiryGroupStore } from '../stores/inquiryGroup.ts'
+// import { useInquiryGroupStore } from '../stores/inquiryGroup.ts'
 
-const inquiryGroupStore = useInquiryGroupStore()
+// const inquiryGroupStore = useInquiryGroupStore()
 
 // Context for permissions
-/*const context = computed(() => {
+/* const context = computed(() => {
   const ctx = createPermissionContextForContent(
     ContentType.InquiryGroup,
     inquiryGroupStore.owner.id,
@@ -55,7 +55,6 @@ const activeTab = ref(t('agora', 'Comments').toLowerCase())
 
 
 onMounted(() => {
-  console.log(" IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIINTO THE MOUNTED ")
   subscribe(Event.SidebarToggle, (payload) => {
     showSidebar.value = payload?.open ?? !showSidebar.value
     activeTab.value = payload?.activeTab ?? activeTab.value

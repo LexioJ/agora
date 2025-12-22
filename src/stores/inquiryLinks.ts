@@ -489,7 +489,7 @@ export const useInquiryLinksStore = defineStore('inquiryLinks', {
                                                                                                                             try {
                                                                                                                                 const url = generateOcsUrl(`/apps/forms/api/v3/forms/${formId}`)
 
-                                                                                                                                const keyValuePairs: Record<string, any> = {}
+                                                                                                                                const keyValuePairs: Record<string, object> = {}
 
                                                                                                                                 if (formData.title) {
                                                                                                                                     keyValuePairs.title = formData.title

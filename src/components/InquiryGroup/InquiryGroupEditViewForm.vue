@@ -4,11 +4,10 @@
 -->
 
 <script setup lang="ts">
-import { ref, computed, watch, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import { useInquiryGroupStore } from '../../stores/inquiryGroup.ts'
 import { useInquiriesStore } from '../../stores/inquiries'
 import { useSessionStore } from '../../stores/session'
@@ -19,7 +18,6 @@ import { InquiryGeneralIcons } from '../../utils/icons.ts'
 import { 
   getInquiryGroupTypeData,
   getInquiryTypeData,
-  getInquiryItemData
 } from '../../helpers/modules/InquiryHelper.ts'
 
 // Store declarations
@@ -29,7 +27,6 @@ const inquiriesStore = useInquiriesStore()
 const route = useRoute()
 
 // State
-const viewMode = ref<'list' | 'grid'>('list')
 const dragItem = ref<Inquiry | null>(null)
 const dragOverDropZone = ref(false)
 
@@ -73,11 +70,9 @@ const groupInquiries = computed(() => {
     })
 })
 
-const allInquiries = computed(() => {
-  return Object.values(inquiriesStore.byId).filter(inquiry => 
+const allInquiries = computed(() => Object.values(inquiriesStore.byId).filter(inquiry => 
     inquiry && !inquiryGroupStore.inquiryIds.includes(inquiry.id)
-  )
-})
+  ))
 
 const allowedInquiryTypes = computed(() => {
   if (!inquiryGroupStore.type || !sessionStore.appSettings.inquiryGroupTab) return []
@@ -87,23 +82,17 @@ const allowedInquiryTypes = computed(() => {
   return groupTypeConfig?.allowed_inquiry_types || []
 })
 
-const filteredAvailableInquiries = computed(() => {
-  return allInquiries.value.filter(inquiry => {
+const filteredAvailableInquiries = computed(() => allInquiries.value.filter(inquiry => {
     // If no allowed types are specified, show all inquiries
     if (!allowedInquiryTypes.value.length) return true
     
     // Check if inquiry type is in allowed list
     return allowedInquiryTypes.value.includes(inquiry.type)
-  })
-})
+  }))
 
-const displayedGroupInquiries = computed(() => {
-  return groupInquiries.value
-})
+const displayedGroupInquiries = computed(() => groupInquiries.value)
 
-const displayedAvailableInquiries = computed(() => {
-  return filteredAvailableInquiries.value
-})
+const displayedAvailableInquiries = computed(() => filteredAvailableInquiries.value)
 
 // Improved inquiry count formatting
 const formattedInquiryCount = computed(() => {
@@ -191,13 +180,10 @@ const removeInquiryFromGroup = async (inquiry: Inquiry) => {
 }
 
 // Format helpers
-const formatDate = (timestamp: number) => {
-  return new Date(timestamp * 1000).toLocaleDateString()
-}
+const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDateString()
 
 onMounted(() => {
     const id = route.params.id
-    console.log(" ROUTE ID ",id)
     inquiryGroupStore.load(id)
 })
 </script>
@@ -253,7 +239,7 @@ onMounted(() => {
             <span class="info-label">{{ t('agora', 'Inquiries') }}</span>
             <span class="info-value">
               {{ formattedInquiryCount }}
-              <span class="count-label" v-if="groupInquiries.length > 0">
+              <span v-if="groupInquiries.length > 0" class="count-label">
                 ({{ groupInquiries.length }} total)
               </span>
             </span>
@@ -346,10 +332,10 @@ onMounted(() => {
       <!-- Drop Zone -->
       <div 
         class="drop-zone-section"
+        :class="{ 'drag-over': dragOverDropZone }"
         @dragover="onDragOver($event, true)"
         @dragleave="onDragLeave(true)"
         @drop="onDropToGroup($event)"
-        :class="{ 'drag-over': dragOverDropZone }"
       >
         <div class="drop-zone-content">
           <div class="drop-icon"><component :is="InquiryGeneralIcons.ArrowDown" /></div>

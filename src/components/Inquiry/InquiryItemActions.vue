@@ -184,54 +184,6 @@ async function toggleArchive() {
           <component :is="InquiryGeneralIcons.Transfer" :size="24" />
         </template>
       </NcActionButton>
-
-      <NcActionButton
-        v-show="canEdit(context)"
-        is-menu
-        name="Add to group"
-        @click="toggleSubMenu('addToGroup')"
-      >
-        <template #icon>
-          <component :is="InquiryGeneralIcons.Plus" :size="16" />
-        </template>
-      </NcActionButton>
-
-      <NcActionButton
-        v-show="inquiry.permissions.edit && inquiry.inquiryGroups.length > 0"
-        is-menu
-        name="Remove from group"
-        @click="toggleSubMenu('removeFromGroup')"
-      >
-        <template #icon>
-          <component :is="InquiryGeneralIcons.Minus" :size="16" />
-        </template>
-      </NcActionButton>
-    </template>
-
-    <template v-if="subMenu === 'addToGroup'">
-      <NcActionButton
-        v-for="inquiryGroup in inquiryGroupsStore.addableInquiryGroups(inquiry.id)"
-        :key="`add-${inquiryGroup.id}`"
-        :name="inquiryGroup.name"
-        @click="addInquiryToInquiryGroup(inquiry.id, inquiryGroup.id)"
-      />
-      <NcActionInput
-        v-if="sessionStore.appPermissions.inquiryCreation"
-        v-model="newGroupTitle"
-        :name="t('agora', 'Create new group')"
-        :aria-label="t('agora', 'Create new group')"
-        :placeholder="t('agora', 'New group name')"
-        @submit="addInquiryToNewInquiryGroup(inquiry.id)"
-      />
-    </template>
-
-    <template v-if="subMenu === 'removeFromGroup'">
-      <NcActionButton
-        v-for="inquiryGroupId in inquiry.inquiryGroups"
-        :key="`remove-${inquiryGroupId}`"
-        :name="inquiryGroupsStore.getInquiryGroupName(inquiryGroupId)"
-        @click="removeInquiryFromGroup(inquiry.id, inquiryGroupId)"
-      />
     </template>
   </NcActions>
 

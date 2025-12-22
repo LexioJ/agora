@@ -9,8 +9,6 @@ import { IconProps } from './types'
 import { computed } from 'vue'
 
 const {
-  title = t('agora', 'Support status'),
-  fillColor = '#9ca3af', 
   size = 24,
   supportValue = null, 
 } = defineProps<IconProps & { supportValue?: number | null }>()

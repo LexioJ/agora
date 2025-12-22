@@ -12,7 +12,7 @@
         
         <div v-if="group.description" class="description-container">
           <div class="description-content" :class="{ expanded: isDescriptionExpanded }">
-            <div class="description-text" ref="descriptionText">
+            <div ref="descriptionText" class="description-text">
               <div class="rich-text-display">
                 <p>{{ group.description }}</p>
               </div>
@@ -21,8 +21,8 @@
             <button 
               v-if="isTruncated" 
               class="expand-button"
-              @click="isDescriptionExpanded = !isDescriptionExpanded"
               :aria-expanded="isDescriptionExpanded"
+              @click="isDescriptionExpanded = !isDescriptionExpanded"
             >
               <span class="button-text">
                 {{ isDescriptionExpanded ? t('agora', 'Show less') : t('agora', 'Read more') }}
@@ -50,7 +50,7 @@
           :key="typeKey" 
           class="inquiry-type-group"
         >
-          <!-- Type Header -->
+        <!-- Type Header -->
           <div class="type-header" @click="toggleType(typeKey)">
             <div class="type-info">
               <div class="type-icon">
@@ -64,7 +64,7 @@
                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
               </svg>
             </div>
-          </div>
+          </div> 
           
           <!-- Inquiries List -->
           <div v-show="expandedTypes.includes(typeKey)" class="type-inquiries">
@@ -105,7 +105,6 @@
 <script setup lang="ts">
 import { computed, ref, onMounted, nextTick } from 'vue'
 import { t } from '@nextcloud/l10n'
-import { useRouter } from 'vue-router'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
 import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 
@@ -114,7 +113,6 @@ import type { InquiryGroup } from '../../stores/inquiryGroups.types.ts'
 import type { Inquiry } from '../../Types/index.ts'
 
 // Import stores
-import { useInquiryStore } from '../../stores/inquiry.ts'
 import { useInquiriesStore } from '../../stores/inquiries.ts'
 import { useAppSettingsStore } from '../../stores/appSettings.ts'
 
@@ -129,10 +127,8 @@ const emit = defineEmits<{
   viewInquiry: [id: number]
 }>()
 
-const router = useRouter()
 
 // Initialize stores
-const inquiryStore = useInquiryStore()
 const inquiriesStore = useInquiriesStore()
 const appSettingsStore = useAppSettingsStore()
 
@@ -150,9 +146,7 @@ const inquiries = computed(() => {
 })
 
 // Get inquiry types from appSettings
-const inquiryTypes = computed(() => {
-  return appSettingsStore.inquiryTypeTab || []
-})
+const inquiryTypes = computed(() => appSettingsStore.inquiryTypeTab || [])
 
 // Group inquiries by type
 const groupedInquiries = computed(() => {
@@ -224,6 +218,7 @@ onMounted(() => {
 </script>
 <style lang="scss" scoped>
 .consultation-layout {
+  background: transparent;
   display: flex;
   gap: 24px;
   width: 100%;
@@ -263,7 +258,6 @@ onMounted(() => {
 }
 
 .description-container {
-  background: white;
   border-radius: 12px;
   border: 1px solid var(--color-border);
   overflow: hidden;

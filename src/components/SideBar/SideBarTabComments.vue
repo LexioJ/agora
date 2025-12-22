@@ -16,10 +16,7 @@ import CommentsIcon from 'vue-material-design-icons/CommentProcessingOutline.vue
 
 import { useInquiryStore } from '../../stores/inquiry'
 import { useCommentsStore } from '../../stores/comments'
-import ConfigAllowComment from '../Configuration/ConfigAllowComment.vue'
-import ConfigForceConfidentialComments from '../Configuration/ConfigForceConfidentialComments.vue'
 import ConfigBox from '../Base/modules/ConfigBox.vue'
-import InquiryConfigIcon from 'vue-material-design-icons/WrenchOutline.vue'
 import CardDiv from '../Base/modules/CardDiv.vue'
 
 const inquiryStore = useInquiryStore()

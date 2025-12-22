@@ -32,11 +32,11 @@
               :key="typeKey"
               class="type-group"
             >
-              <!-- Simple Type Header -->
-              <div class="type-header" v-if="typeGroup.length > 1">
+              <!-- Simple Type Header 
+              <div v-if="typeGroup.length > 1" class="type-header">
                 <h3 class="type-title">{{ getInquiryTypeLabel(typeKey) }}</h3>
                 <span class="type-count">{{ typeGroup.length }}</span>
-              </div>
+              </div> -->
 
               <!-- Type Inquiries Grid -->
               <div class="type-inquiries">
@@ -82,11 +82,6 @@
             :key="typeKey"
             class="sidebar-type-group"
           >
-            <!-- Sidebar Type Header -->
-            <div class="sidebar-type-header" v-if="typeGroup.length > 1">
-              <h4 class="sidebar-type-title">{{ getInquiryTypeLabel(typeKey) }}</h4>
-              <span class="sidebar-type-count">{{ typeGroup.length }}</span>
-            </div>
 
             <!-- Sidebar Type Inquiries -->
             <div class="sidebar-inquiries">
@@ -151,17 +146,12 @@ import type { Inquiry } from '../../Types/index.ts'
 import { useInquiriesStore } from '../../stores/inquiries.ts'
 import { useAppSettingsStore } from '../../stores/appSettings.ts'
 
-// Import all inquiry display components - FIX: Make sure all imports are correct
+// Import all inquiry display components
 import InquiryCard from './InquiryCard.vue'
 import InquiryListItem from './InquiryListItem.vue'
 import InquiryFull from './InquiryFull.vue'
 import InquiryRichHTML from './InquiryRichHTML.vue'
 import InquirySummary from './InquirySummary.vue'
-
-// Debug log to check if components are imported
-console.log('InquiryFull component:', InquiryFull)
-console.log('InquiryCard component:', InquiryCard)
-console.log('InquiryListItem component:', InquiryListItem)
 
 interface Props {
   group: InquiryGroup
@@ -197,16 +187,6 @@ const inquiryTypes = computed(() => {
   return appSettingsStore.inquiryTypeTab || []
 })
 
-// Layout compatibility matrix
-const layoutCompatibility = {
-  sidebar: ['cards', 'list', 'summary'],
-  main: ['rich_html', 'full', 'summary', 'cards', 'list'],
-  footer: ['cards', 'summary', 'list'],
-  header: ['cards', 'summary', 'list'],
-  modal: ['cards', 'list', 'summary', 'full', 'rich_html'],
-  popup: ['summary', 'cards', 'list']
-}
-
 // Helper function to get miscField with fallback
 function getMiscField(inquiry: Inquiry, field: string, defaultValue: any = null) {
   return inquiry.miscFields?.[field] || defaultValue
@@ -218,9 +198,17 @@ function isFullInquiry(inquiry: Inquiry): boolean {
   return renderMode === 'full' || renderMode === 'rich_html'
 }
 
-// Get open mode for inquiry
+// Get open mode for inquiry with default to 'page'
 function getOpenMode(inquiry: Inquiry): string {
   return getMiscField(inquiry, 'open_mode', 'page') // Default to 'page'
+}
+
+// Layout compatibility matrix
+const layoutCompatibility = {
+  sidebar: ['cards', 'list', 'summary'],
+  main: ['rich_html', 'full', 'summary', 'cards', 'list'],
+  footer: ['cards', 'summary', 'list'],
+  header: ['cards', 'summary', 'list']
 }
 
 // Get layout zone for inquiry
@@ -261,26 +249,19 @@ function getRenderMode(inquiry: Inquiry, layoutZone: string): string {
   return layoutCompatibility[layoutZone]?.[0] || 'cards'
 }
 
-// Get component based on render mode - FIXED: Added fallback logic
+// Component mapping
+const componentMap = {
+  cards: InquiryCard,
+  list: InquiryListItem,
+  full: InquiryFull,
+  rich_html: InquiryRichHTML,
+  summary: InquirySummary
+}
+
+// Get component for inquiry
 function getInquiryComponent(inquiry: Inquiry, layoutZone: string) {
   const renderMode = getRenderMode(inquiry, layoutZone)
-
-  console.log(`Getting component for render mode: ${renderMode}, layout: ${layoutZone}`)
-
-  switch (renderMode) {
-    case 'cards': 
-      return InquiryCard || 'div' // Fallback to div if component not found
-    case 'list': 
-      return InquiryListItem || 'div'
-    case 'full': 
-      return InquiryFull || 'div'
-    case 'rich_html': 
-      return InquiryRichHTML || 'div'
-    case 'summary': 
-      return InquirySummary || 'div'
-    default: 
-      return InquiryCard || 'div'
-  }
+  return componentMap[renderMode as keyof typeof componentMap] || InquiryCard
 }
 
 // Group inquiries by type
@@ -321,16 +302,12 @@ const mainInquiriesByType = computed(() => groupInquiriesByType(mainInquiries.va
 const hasSidebarInquiries = computed(() => sidebarInquiries.value.length > 0)
 
 // Get inquiry type information
-function getInquiryTypeData(typeKey: string) {
-  return inquiryTypes.value.find(type => type.inquiry_type === typeKey)
-}
-
 function getInquiryTypeLabel(typeKey: string) {
-  const typeData = getInquiryTypeData(typeKey)
+  const typeData = inquiryTypes.value.find(type => type.inquiry_type === typeKey)
   return typeData?.label || typeKey
 }
 
-// Handle inquiry click
+// Handle inquiry click - with open_mode support
 function handleInquiryClick(inquiry: Inquiry) {
   const openMode = getOpenMode(inquiry)
   
@@ -339,15 +316,23 @@ function handleInquiryClick(inquiry: Inquiry) {
       modalInquiry.value = inquiry
       showModal.value = true
       break
+      
     case 'popup':
       popupInquiry.value = inquiry
       showPopup.value = true
       break
+      
     case 'page':
     default:
+      // Navigate to edit page using router
+      router.push({
+        name: 'inquiry-edit',
+        params: { id: inquiry.id }
+      })
       break
   }
   
+  // Emit the viewInquiry event for parent components
   emit('viewInquiry', inquiry.id)
 }
 
@@ -363,6 +348,7 @@ function closePopup() {
   popupInquiry.value = null
 }
 </script>
+
 <style lang="scss" scoped>
 .inquiry-group-view-main {
   min-height: 100vh;
@@ -370,60 +356,110 @@ function closePopup() {
   overflow: visible;
 }
 
-  /* Simplified version - uniform styling for all inquiry items */
+/* === ENVELOPE STYLES - Applied to ALL inquiry items === */
 .header-item,
 .sidebar-item,
 .footer-item,
 .main-item {
+  /* Outer container styling */
+  border: 2px solid var(--color-border);
+  border-radius: 16px;
+  // background: var(--color-main-background);
   background: transparent;
-  border: none;
-  box-shadow: none;
-  border-radius: 12px !important;
-  transition: all 0.3s ease !important;
-  overflow: hidden !important;
-  cursor: pointer !important;
 
-  /* Target all inquiry components */
-  :deep(div[class*="inquiry-"]) {
-    border: 1px solid var(--color-border) !important;
-    border-radius: 12px !important;
-    background-color: var(--color-main-background) !important;
-    transition: all 0.3s ease !important;
-    overflow: hidden !important;
+  box-shadow: 
+    0 2px 8px rgba(0, 0, 0, 0.05),
+    0 1px 2px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  
+  /* Subtle gradient overlay on hover */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(var(--color-primary-rgb), 0.02) 0%,
+      rgba(var(--color-primary-rgb), 0) 100%
+    );
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
   }
-
-  /* Add padding to all inquiry content */
-  :deep(div[class*="inquiry-"] > *) {
-    padding: 16px !important;
-  }
-
-  /* Hover effect for all */
+  
+  /* Hover effects - ENVELOPE ONLY */
   &:hover {
-    transform: translateY(-2px) !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
-
-    :deep(div[class*="inquiry-"]) {
-      border-color: var(--color-primary-element) !important;
-      background-color: rgba(245, 245, 245, 0.9) !important; /* Light grey on hover */
+    border-color: var(--color-primary-element);
+    box-shadow: 
+      0 8px 24px rgba(0, 0, 0, 0.1),
+      0 4px 12px rgba(var(--color-primary-rgb), 0.05);
+    transform: translateY(-3px);
+    
+    &::before {
+      opacity: 1;
     }
   }
-}
-
-/* Different hover colors for different sections */
-.header-item:hover :deep(div[class*="inquiry-"]) {
-  background-color: rgba(240, 248, 255, 0.9) !important; /* Light blue */
-}
-
-.main-item:hover :deep(div[class*="inquiry-"]) {
-  background-color: rgba(245, 245, 245, 0.9) !important; /* Light grey */
-}
-
-.footer-item:hover :deep(div[class*="inquiry-"]) {
-  background-color: rgba(248, 249, 250, 0.9) !important; /* Off-white */
-}
-
-.sidebar-item:hover :deep(div[class*="inquiry-"]) {
-  background-color: rgba(233, 236, 239, 0.9) !important; /* Grey-blue */
+  
+  /* Active/Selected state */
+  &.active {
+    border-color: var(--color-primary-element);
+    background: rgba(var(--color-primary-rgb), 0.03);
+    box-shadow: 
+      0 4px 16px rgba(var(--color-primary-rgb), 0.1),
+      inset 0 0 0 1px rgba(var(--color-primary-rgb), 0.1);
+  }
+  
+  /* Different section accents */
+  &.header-item:hover {
+    border-color: #3b82f6; /* Blue accent */
+  }
+  
+  &.main-item:hover {
+    border-color: var(--color-primary-element); /* Primary color */
+  }
+  
+  &.footer-item:hover {
+    border-color: #10b981; /* Green accent */
+  }
+  
+  &.sidebar-item:hover {
+    border-color: #8b5cf6; /* Purple accent */
+  }
+  
+  /* === INSIDE THE ENVELOPE - Child components have full control === */
+  /* Remove any deep styling that affects child components */
+  :deep(*) {
+    /* Child components control their own:
+       - Padding/Margins
+       - Internal borders
+       - Background colors
+       - Typography
+       - Button styles
+       - Component-specific layouts
+    */
+  }
+  
+  /* Only set the wrapper for child components */
+  :deep(.inquiry-full-view),
+  :deep(.inquiry-card),
+  :deep(.inquiry-list-item),
+  :deep(.inquiry-summary),
+  :deep(.inquiry-rich-html) {
+    width: 100%;
+    height: 100%;
+    background: transparent !important; /* Let parent control background */
+    border: 2px !important; /* No borders inside */
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    position: relative;
+    z-index: 2; /* Above the envelope's ::before overlay */
+  }
 }
 
 /* Layout Container */
@@ -442,296 +478,62 @@ function closePopup() {
     gap: 20px;
     padding: 20px;
   }
-
-  @media (max-width: 768px) {
-    gap: 16px;
-    padding: 16px;
-  }
 }
 
-/* Common section styles */
-.inquiry-section {
-  background: transparent;
-  border-radius: 0;
-  box-shadow: none;
-  border: none;
-  margin: 0;
-  padding: 0;
-  overflow: visible;
-}
-
-/* Main Content Area */
-.layout-main {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  overflow: visible;
-  width: 100%;
-
-  .header-section,
-  .main-section,
-  .footer-section {
-    margin: 0;
-    padding: 0;
-    overflow: visible;
-  }
-}
-
-/* Inquiry Grids */
+/* Inquiry Grids - ENVELOPE positioning only */
 .inquiry-grid {
-  padding: 0;
-  margin: 0;
-  overflow: visible;
-
-  &.header-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 16px;
-  }
-
   &.main-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 20px;
-    width: 100%;
-
-    &.single-full-item {
-      grid-template-columns: 1fr;
-      width: 100%;
-      
-      .main-item.full-width {
-        width: 100%;
-        max-width: 100%;
-      }
+    gap: 24px;
+    
+    .full-width {
+      grid-column: 1 / -1;
     }
   }
-
+  
+  &.header-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
   &.footer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 16px;
-  }
-
-  .full-width {
-    grid-column: 1 / -1;
-    width: 100%;
-    max-width: 100%;
-    margin: 0;
-    padding: 0;
-    
-    /* Override any problematic styles from child components */
-    :deep(.inquiry-full) {
-      width: 100% !important;
-      max-width: 100% !important;
-      margin: 0 !important;
-      padding: 0 !important;
-      left: 0 !important;
-      right: 0 !important;
-      position: relative !important;
-      
-      .full-content {
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 0 !important;
-        padding: 0 !important;
-      }
-    }
-  }
-}
-
-/* Type Groups */
-.type-groups {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  width: 100%;
-  overflow: visible;
-}
-
-.type-group {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-  overflow: visible;
-}
-
-/* Simple Type Header */
-.type-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-  padding: 0;
-  background: transparent;
-  border: none;
-
-  .type-title {
-    font-size: 18px;
-    font-weight: 600;
-    color: var(--color-text);
-    margin: 0;
-  }
-
-  .type-count {
-    background: var(--color-background-darker);
-    color: var(--color-text);
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 14px;
-    font-weight: 500;
-  }
-}
-
-/* Type Inquiries */
-.type-inquiries {
-  padding: 0;
-  margin: 0;
-  width: 100%;
-  overflow: visible;
-
-  .main-grid {
-    padding: 0;
-    width: 100%;
-  }
-}
-
-/* Right Sidebar */
-.layout-sidebar {
-  position: sticky;
-  top: 24px;
-  height: auto;
-  max-height: none;
-  overflow: visible;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-
-  @media (max-width: 1200px) {
-    position: static;
-    margin-top: 20px;
-  }
-}
-
-/* Sidebar Type Groups */
-.sidebar-type-groups {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin: 0;
-  padding: 0;
-  background: transparent;
-  width: 100%;
-}
-
-.sidebar-type-group {
-  background: transparent;
-  border-radius: 0;
-  overflow: visible;
-  border: none;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-
-  .sidebar-type-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 12px;
-    padding: 0;
-    background: transparent;
-    border: none;
-    width: 100%;
-
-    .sidebar-type-title {
-      font-size: 16px;
-      font-weight: 600;
-      color: var(--color-text);
-      margin: 0;
-    }
-
-    .sidebar-type-count {
-      background: var(--color-background-darker);
-      color: var(--color-text);
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 12px;
-      font-weight: 500;
-    }
-  }
-
-  .sidebar-inquiries {
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-  }
-}
-
-/* Ensure all inquiry items are consistent */
-
-/* Modal content */
-.modal-inquiry-content,
-.popup-inquiry-content {
-  padding: 20px;
-  max-height: 80vh;
-  overflow-y: auto;
-}
-
-/* Remove scrollbars */
-.inquiry-group-view-main,
-.layout-container,
-.layout-main,
-.inquiry-section,
-.type-inquiries,
-.inquiry-grid {
-  &::-webkit-scrollbar {
-    display: none;
-  }
-  scrollbar-width: none;
-  -ms-overflow-style: none;
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .layout-container {
     gap: 20px;
-    padding: 20px;
-  }
-
-  .inquiry-grid {
-    &.main-grid {
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    }
   }
 }
 
-@media (max-width: 768px) {
-  .layout-container {
-    gap: 16px;
-    padding: 16px;
+/* Sidebar items - special envelope sizing */
+.sidebar-item {
+  /* Slightly smaller for sidebar */
+  border-width: 1.5px;
+  border-radius: 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  
+  &:hover {
+    transform: translateY(-2px);
   }
+}
 
-  .inquiry-grid {
-    &.main-grid {
-      grid-template-columns: 1fr;
+/* Responsive */
+@media (max-width: 768px) {
+  .header-item,
+  .sidebar-item,
+  .footer-item,
+  .main-item {
+    border-width: 1.5px;
+    border-radius: 12px;
+    
+    &:hover {
+      transform: translateY(-2px);
     }
-
-    &.header-grid,
-    &.footer-grid {
-      grid-template-columns: 1fr;
-    }
+  }
+  
+  .inquiry-grid.main-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 </style>

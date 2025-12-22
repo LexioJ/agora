@@ -1218,24 +1218,6 @@ class InitDbDefault extends Command
             'created' => '',
         ],
 
-        // Archive
-        [
-            'family' => 'collective',
-            'group_type' => 'archive',
-            'icon' => 'Archive',
-            'label' => 'Archive',
-            'description' => 'Archival container.',
-            'fields' => [
-                ["key"=> "retention_policy", "label"=>"Retention Policy","type"=> "string","required"=>false,"default"=>null,"rules"=>[]],
-                ["key"=> "auto_archive_after_days", "label"=>"Auto Archive After Days","type"=> "integer","required"=>false,"default"=>null,"rules"=>[]],
-            ],
-
-            'allowed_inquiry_types' => ['assembly','consultation','deliberation','proposal','law_proposal','amendment'],
-            'allowed_response' => [],
-            'is_root' => false,
-            'sort_order' => 1,
-            'created' => '',
-        ],
     ];
 
 

@@ -64,9 +64,7 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
    * @param {number} id - The ID to search for
    * @return {InquiryGroup | undefined} The inquiry group with matching ID, or undefined if not found
    */
-  const byId = (id: number): InquiryGroup | undefined => {
-    return inquiryGroups.value.find(g => g.id === id)
-  }
+  const byId = (id: number): InquiryGroup | undefined => inquiryGroups.value.find(g => g.id === id)
 
   const setCurrentGroupType = (type: string) => {
     currentGroupType.value = type
@@ -77,29 +75,23 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
    * @param {string} type - The group type to filter by
    * @return {InquiryGroup[]} Array of inquiry groups with matching type
    */
-  const byType = (type: string): InquiryGroup[] => {
-    return inquiryGroups.value.filter(g => g.type === type)
-  }
+  const byType = (type: string): InquiryGroup[] => inquiryGroups.value.filter(g => g.type === type)
 
   /**
    * Get inquiry groups by parent ID
    * @param {number | null} parentId - The parent ID to filter by (null for root groups)
    * @return {InquiryGroup[]} Array of inquiry groups with matching parent ID
    */
-  const byParentId = (parentId: number | null): InquiryGroup[] => {
-    return inquiryGroups.value.filter(g => g.parentId === parentId)
-  }
+  const byParentId = (parentId: number | null): InquiryGroup[] => inquiryGroups.value.filter(g => g.parentId === parentId)
 
   /**
    * Get inquiry groups with their child groups populated
    * @return {InquiryGroup[]} Array of inquiry groups with children property
    */
-  const withChildren = computed((): InquiryGroup[] => {
-    return inquiryGroups.value.map(group => ({
+  const withChildren = computed((): InquiryGroup[] => inquiryGroups.value.map(group => ({
       ...group,
       children: inquiryGroups.value.filter(g => g.parentId === group.id).map(g => g.id)
-    }))
-  })
+    })))
 
   /**
    * Currently selected inquiry group or undefined if not in an inquiry group route
@@ -160,9 +152,7 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
   const descendantGroups = computed((): InquiryGroup[] => {
     const getDescendants = (groupId: number): InquiryGroup[] => {
       const children = byParentId(groupId)
-      return children.reduce((descendants, child) => {
-        return [...descendants, child, ...getDescendants(child.id)]
-      }, [] as InquiryGroup[])
+      return children.reduce((descendants, child) => [...descendants, child, ...getDescendants(child.id)], [] as InquiryGroup[])
     }
     
     if (!currentInquiryGroup.value) return []
@@ -173,14 +163,12 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
    * Root groups (groups with no parent)
    * @return {InquiryGroup[]} Array of root groups
    */
-  const rootGroups = computed((): InquiryGroup[] => {
-    return byParentId(null)
-  })
+  const rootGroups = computed((): InquiryGroup[] => byParentId(null))
 
   /**
- * Sort inquiry groups by title in ascending order
- * @return {InquiryGroup[]} Sorted inquiry groups, sorted by title in ascending order
- */
+   * Sort inquiry groups by title in ascending order
+   * @return {InquiryGroup[]} Sorted inquiry groups, sorted by title in ascending order
+   */
 const inquiryGroupsSorted = computed((): InquiryGroup[] =>
   orderBy(
     inquiryGroups.value.filter((group) =>
@@ -245,7 +233,7 @@ async function loadGroup(slug: string, forceRefresh: boolean = false): Promise<I
     // Try alternative slug formats
     
     // Not found locally, try server
-    //return await loadGroupFromServer(slug)
+    // return await loadGroupFromServer(slug)
     
   } catch (error) {
     Logger.error('Error loading group by slug', {
@@ -260,6 +248,7 @@ async function loadGroup(slug: string, forceRefresh: boolean = false): Promise<I
 
 /**
  * Load group from server (if API endpoint exists)
+ * @param slug
  */
 async function loadGroupFromServer(slug: string): Promise<InquiryGroup | null> {
   try {
@@ -538,7 +527,7 @@ async function fetchAllGroups(): Promise<InquiryGroup[]> {
     rootGroups,
     withChildren,
     fetchAllGroups,
-    
+    getInquiryGroupName, 
     // Getter functions
     bySlug,
     byId,

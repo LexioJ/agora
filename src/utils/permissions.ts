@@ -211,7 +211,6 @@ export function getCurrentOfficialRights(): OfficialRights | null {
 }
 
 export function getCurrentInquiryGroupRights(): InquiryGroupRights | null {
-  const sessionStore = useSessionStore()
   const appSettings = useAppSettingsStore()
   return appSettings.inquiryGroupRights || DefaultInquiryGroupRights
 }
@@ -240,7 +239,7 @@ function hasGroupAccess(context: PermissionContext): boolean {
     return true
   }
 
-  return context.userGroups.some((group) => context.allowedGroups.includes(group))
+  return false
 }
 
 function isContentBlocked(context: PermissionContext): boolean {
@@ -296,21 +295,6 @@ function isAccessRestrictedForSharing(context: PermissionContext): boolean {
     case AccessLevel.Private:
     case AccessLevel.Moderate:
       return true
-    case AccessLevel.Open:
-    default:
-      return false
-  }
-}
-
-function isAccessRestrictedForAttachments(context: PermissionContext): boolean {
-  if (context.isFinalStatus) {
-    return true
-  }
-  
-  switch (context.accessLevel) {
-    case AccessLevel.Moderate:
-      return true
-    case AccessLevel.Private:
     case AccessLevel.Open:
     default:
       return false
@@ -1036,7 +1020,6 @@ export function canCreateTransformationType(transformType: string, context: Perm
   if (!hasRequiredGroupForTransformationType(transformType)) {
     return false
   }
-
   return canCreateTransformation(context)
 }
 
@@ -1194,6 +1177,16 @@ export function getAvailableTransformTypesWithPermissions(
 
 /**
  * Create permission context for inquiry group
+ * @param groupOwnerId
+ * @param isPublic
+ * @param isDeleted
+ * @param isArchived
+ * @param hasGroupRestrictions
+ * @param allowedGroups
+ * @param groupAccessLevel
+ * @param isGroupMember
+ * @param isGroupModerator
+ * @param groupType
  */
 export function createPermissionContextForInquiryGroup(
   groupOwnerId: string,
@@ -1232,6 +1225,20 @@ export function createPermissionContextForInquiryGroup(
 
 /**
  * Create permission context for content
+ * @param contentType
+ * @param contentOwnerId
+ * @param isPublic
+ * @param isLocked
+ * @param isExpired
+ * @param isDeleted
+ * @param isArchived
+ * @param hasGroupRestrictions
+ * @param allowedGroups
+ * @param inquiryType
+ * @param inquiryFamily
+ * @param accessLevel
+ * @param isFinalStatus
+ * @param moderationStatus
  */
 export function createPermissionContextForContent(
   contentType: ContentType,

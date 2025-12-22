@@ -4,7 +4,7 @@
 -->
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed } from 'vue'
 import { showError } from '@nextcloud/dialogs'
 import { InputDiv } from '../Base/index.ts'
 import { t } from '@nextcloud/l10n'
@@ -83,18 +83,20 @@ const isConfidentialForced = computed(() => {
  * Write a comment
  */
 async function writeComment() {
+    console.log(" COMMMMMMMMMENT VALUE ",comment.value)
+  
   if (!comment.value || !currentInquiry.value) {
     return
   }
 
   try {
+    console.log(" INTOOOOOOOOOOO COMMMENT WRITE ",currentInquiry.value.id)
     const inquiryId = currentInquiry.value.id
     
     await commentsStore.add({
-      inquiryId: inquiryId,
       message: comment.value,
       confidential: confidential.value || isConfidentialForced.value,
-    })
+    },inquiryId)
     
     comment.value = ''
     confidential.value = false
@@ -121,8 +123,8 @@ async function writeComment() {
         :placeholder="t('agora', 'Write a comment...')"
         :label="t('agora', 'Write a comment...')"
         submit
-        @submit="writeComment()"
         :disabled="!currentInquiry"
+        @submit="writeComment()"
       />
       
       <NcCheckboxRadioSwitch

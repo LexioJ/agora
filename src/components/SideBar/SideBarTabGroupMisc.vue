@@ -8,6 +8,7 @@ import { useInquiryGroupStore } from '../../stores/inquiryGroup.ts'
 import { useSessionStore } from '../../stores/session.ts'
 import { getAvailableGroupFields } from '../../helpers/modules/InquiryHelper.ts'
 import { StatusIcons } from '../../utils/icons.ts'
+import { BaseEntry } from '../../Types/index.ts'
 import { t } from '@nextcloud/l10n'
 
 // Components
@@ -143,7 +144,7 @@ const showLocationAsLabel = ref(false)
 const showCategoryAsLabel = ref(false)
 
 // Add the buildHierarchy function
-function buildHierarchy(list: any[], parentId = 0, depth = 0): any[] {
+function buildHierarchy(list: BaseEntry[], parentId = 0, depth = 0): BaseEntry[] {
   if (!Array.isArray(list)) return []
   return list
     .filter((item) => item?.parentId === parentId)
@@ -159,10 +160,10 @@ function buildHierarchy(list: any[], parentId = 0, depth = 0): any[] {
 }
 
 // Add the getHierarchyPath function
-function getHierarchyPath(items: any[], targetId: number | string): string {
+function getHierarchyPath(items: BaseEntry[], targetId: number | string): string {
   if (!items || !Array.isArray(items)) return ''
   
-  const itemMap: Record<string, any> = {}
+  const itemMap = {}
 
   items.forEach((item) => {
     itemMap[item.id] = item
@@ -172,7 +173,7 @@ function getHierarchyPath(items: any[], targetId: number | string): string {
     return 'ID not found'
   }
 
-  function buildPath(item: any): string {
+  function buildPath(item): string {
     if (item.parentId === 0) {
       return item.name
     }
@@ -409,7 +410,6 @@ const getFormattedDate = (key: string) => {
 const getCheckboxValue = (key: string) => localCheckboxes.value[key] || false
 
 onMounted(() => {
-  console.log(" READONLY ",props.isReadonly)
   loadMiscData()
 })
 </script>

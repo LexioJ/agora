@@ -2,8 +2,9 @@
   - SPDX-FileCopyrightText: 2018-2025 Nextcloud contributors
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
+
 <template>
-  <div class="inquiry-full-view" :class="{ 'comments-open': showComments }">
+  <div class="inquiry-full-view">
     <!-- Main Content -->
     <div class="full-view-wrapper">
       <div class="full-view-content">
@@ -26,7 +27,7 @@
             </div>
             
             <!-- Status Badge -->
-            <div v-if="currentInquiryStatus" class="status-badge" :class="statusClass">
+            <div v-if="currentInquiryStatus" class="status-badge" >
               <component :is="statusIconComponent" class="status-icon" :size="14" />
               {{ statusText }}
             </div>
@@ -74,7 +75,7 @@
               </div>
               <div class="meta-content">
                 <div class="meta-label">{{ t('agora', 'Location') }}</div>
-                <div class="meta-value">{{ getHierarchyPath(sessionStore.appSettings.locationTab, inquiryStore.locationId) || t('agora', 'Inherited from parent') }} </div>
+                <div class="meta-value">{{ getHierarchyPath(sessionStore.appSettings.locationTab, inquiry.locationId) || t('agora', 'Inherited from parent') }} </div>
               </div>
             </div>
 
@@ -85,7 +86,7 @@
               </div>
               <div class="meta-content">
                 <div class="meta-label">{{ t('agora', 'Category') }}</div>
-                <div class="meta-value">{{ getHierarchyPath(sessionStore.appSettings.categoryTab, inquiryStore.locationId) || t('agora', 'Inherited from parent') }} </div>
+                <div class="meta-value">{{ getHierarchyPath(sessionStore.appSettings.categoryTab, inquiry.categoryId) || t('agora', 'Inherited from parent') }} </div>
               </div>
             </div>
 
@@ -101,13 +102,13 @@
             </div>
 
             <!-- Last Interaction -->
-            <div v-if="formattedLastInteraction" class="meta-item interaction-item">
+            <div class="meta-item interaction-item">
               <div class="meta-icon-container">
                 <component :is="InquiryGeneralIcons.Updated" class="meta-icon" :size="20" />
               </div>
               <div class="meta-content">
                 <div class="meta-label">{{ t('agora', 'Last updated') }}</div>
-                <div class="meta-value">{{ formatDate(inquiryStore.status.lastInteraction) }}</div>
+                <div class="meta-value">{{ formattedLastInteraction }}</div>
               </div>
             </div>
           </div>
@@ -122,7 +123,7 @@
           <div class="description-content" v-html="sanitizedContent"></div>
         </div>
 
-        <!-- Resources Section (from old InquiryFull) -->
+        <!-- Resources Section -->
         <div v-if="hasResources" class="resources-section">
           <div class="section-header">
             <component :is="InquiryGeneralIcons.Attachment" class="section-icon" :size="20" />
@@ -175,8 +176,9 @@
               </div>
             </div>
           </div>
-        <!-- Comments Counter -->
-          <div v-if="canCommentValue" class="stat-item comments-stat" @click="toggleComments">
+
+          <!-- Comments Counter -->
+          <div v-if="canCommentValue" class="stat-item comments-stat" @click="openComments">
             <div class="stat-icon-container">
               <component :is="InquiryGeneralIcons.Comment" class="stat-icon" :size="24" />
             </div>
@@ -197,35 +199,77 @@
             </div>
           </div>
         </div>
-        </div>
 
-        <!-- Action Buttons -->
+        <!-- Ternary Support Buttons (only show if ternary mode) -->
+        <div v-if="canSupportValue && inquiry.configuration?.supportMode === 'ternary'" class="ternary-support-section">
+          <div class="section-header">
+            <h3 class="section-title">{{ t('agora', 'Express your position') }}</h3>
+          </div>
+          <div class="ternary-support-buttons">
+            <NcButton
+              type="secondary"
+              :class="{ 'active-support': currentSupportValue === 1 }"
+              class="support-button"
+              @click="toggleSupport(1)"
+            >
+              <template #icon>
+                <TernarySupportIcon :support-value="currentSupportValue === 1 ? 1 : null" :size="20" />
+              </template>
+              {{ getSupportButtonText(1) }}
+            </NcButton>
 
-      <!-- Comments Sidebar Panel - Fixed position upper right -->
-      <div v-if="showComments" class="comments-panel">
-        <div class="comments-header">
-          <h3 class="comments-title">
-            <component :is="InquiryGeneralIcons.Comment" class="title-icon" :size="20" />
-            {{ t('agora', 'Comments') }}
-            <span v-if="inquiry.status?.countComments" class="comments-badge">
-              {{ inquiry.status.countComments }}
-            </span>
-          </h3>
-          <NcButton
-            type="tertiary"
-            :aria-label="t('agora', 'Close comments')"
-            @click="toggleComments"
-            class="close-comments"
-          >
-            <template #icon>
-              <component :is="InquiryGeneralIcons.Close" :size="20" />
-            </template>
-          </NcButton>
+            <NcButton
+              type="secondary"
+              :class="{ 'active-neutral': currentSupportValue === 0 }"
+              class="support-button"
+              @click="toggleSupport(0)"
+            >
+              <template #icon>
+                <TernarySupportIcon :support-value="currentSupportValue === 0 ? 0 : null" :size="20" />
+              </template>
+              {{ getSupportButtonText(0) }}
+            </NcButton>
+
+            <NcButton
+              type="secondary"
+              :class="{ 'active-oppose': currentSupportValue === -1 }"
+              class="support-button"
+              @click="toggleSupport(-1)"
+            >
+              <template #icon>
+                <TernarySupportIcon :support-value="currentSupportValue === -1 ? -1 : null" :size="20" />
+              </template>
+              {{ getSupportButtonText(-1) }}
+            </NcButton>
+          </div>
         </div>
-        <div class="comments-content">
-          <CommentAdd :inquiry-id="inquiry.id" />
-          <Comments :inquiry-id="inquiry.id" />
+      </div>
+    </div>
+
+    <!-- Simple Sidebar for Comments -->
+    <div v-if="showSidebar" class="comments-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-title">
+          <component :is="InquiryGeneralIcons.Comment" class="title-icon" :size="20" />
+          <h3>{{ t('agora', 'Comments') }}</h3>
+          <span v-if="inquiry.status?.countComments" class="comments-badge">
+            {{ inquiry.status.countComments }}
+          </span>
         </div>
+        <NcButton
+          type="tertiary"
+          :aria-label="t('agora', 'Close comments')"
+          class="close-sidebar"
+          @click="closeSidebar"
+        >
+          <template #icon>
+            <component :is="InquiryGeneralIcons.Close" :size="20" />
+          </template>
+        </NcButton>
+      </div>
+      <div class="sidebar-content">
+        <CommentAdd :inquiry-id="inquiry.id" />
+        <Comments :inquiry-id="inquiry.id" />
       </div>
     </div>
   </div>
@@ -241,8 +285,7 @@ import DOMPurify from 'dompurify'
 import { DateTime } from 'luxon'
 
 // Import icons and components
-import { InquiryGeneralIcons } from '../../utils/icons.ts'
-import { StatusIcons } from '../../utils/icons.ts'
+import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
 import { TernarySupportIcon, ThumbIcon } from '../AppIcons'
 
 // Import components
@@ -252,17 +295,14 @@ import SideBarTabResources from '../SideBar/SideBarTabResources.vue'
 
 // Import helpers and stores
 import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
-import type { Inquiry } from '../../Types/index.ts'
+import type { Inquiry, InquiryType } from '../../Types/index.ts'
 import { useSessionStore } from '../../stores/session.ts'
 import { useSupportsStore } from '../../stores/supports.ts'
-import { useInquiryStore } from '../../stores/inquiry.ts'
 import { useInquiriesStore } from '../../stores/inquiries.ts'
 import { canSupport, canComment } from '../../utils/permissions.ts'
 
 interface Props {
   inquiry: Inquiry
-  renderMode?: string
-  fullWidth?: boolean
 }
 
 const props = defineProps<Props>()
@@ -273,19 +313,15 @@ const emit = defineEmits<{
 
 const sessionStore = useSessionStore()
 const supportsStore = useSupportsStore()
-const inquiryStore = useInquiryStore()
 const inquiriesStore = useInquiriesStore()
 
 // State
-const showComments = ref(false)
+const showSidebar = ref(false)
 const currentSupportValue = ref(props.inquiry.currentUserStatus?.supportValue || null)
-const isProcessingSupport = ref(false)
+const sidebarActiveTab = ref('comments')
 
-// Create permission context (same as InquiryEditViewForm)
-const context = computed(() => {
-  // Create a simplified context for permissions
-  // Similar to what InquiryEditViewForm does but without edit permissions
-  return {
+// Create permission context
+const context = computed(() => ({
     canSupport: canSupport({
       inquiryType: props.inquiry.type,
       inquiryStatus: props.inquiry.status?.inquiryStatus || 'open',
@@ -309,16 +345,13 @@ const context = computed(() => {
       hasDeletionDate: props.inquiry.status?.deletionDate > 0,
       isPublic: props.inquiry.configuration?.access === 'public',
     }),
-  }
-})
+  }))
 
 // Computed Properties
 const canSupportValue = computed(() => context.value.canSupport)
 const canCommentValue = computed(() => context.value.canComment)
 
-const inquiryTypeData = computed(() => {
-  return getInquiryTypeData(props.inquiry.type, sessionStore.appSettings?.inquiryTypeTab || [])
-})
+const inquiryTypeData = computed(() => getInquiryTypeData(props.inquiry.type, sessionStore.appSettings?.inquiryTypeTab || []))
 
 const typeIconComponent = computed(() => {
   if (inquiryTypeData.value?.icon) {
@@ -331,7 +364,6 @@ const typeIconComponent = computed(() => {
     }
   }
   
-  // Fallback based on type
   const iconMap = {
     'proposal': InquiryGeneralIcons.Scale,
     'survey': InquiryGeneralIcons.ClipboardList,
@@ -381,27 +413,8 @@ const currentInquiryStatus = computed(() => {
   ) || specialStatuses.draft
 })
 
-const statusClass = computed(() => {
-  if (!currentInquiryStatus.value) return 'status-unknown'
-  
-  const statusKey = currentInquiryStatus.value.statusKey
-  const statusMap = {
-    'draft': 'status-draft',
-    'waiting_approval': 'status-waiting',
-    'open': 'status-open',
-    'closed': 'status-closed',
-    'archived': 'status-archived',
-    'published': 'status-published',
-    'completed': 'status-completed',
-    'cancelled': 'status-cancelled',
-  }
-  
-  return statusMap[statusKey] || 'status-unknown'
-})
 
-const statusText = computed(() => {
-  return currentInquiryStatus.value?.label ? t('agora', currentInquiryStatus.value.label) : ''
-})
+const statusText = computed(() => currentInquiryStatus.value?.label ? t('agora', currentInquiryStatus.value.label) : '')
 
 const statusIconComponent = computed(() => {
   if (!currentInquiryStatus.value?.icon) return StatusIcons.Default
@@ -412,7 +425,6 @@ const statusIconComponent = computed(() => {
 // Support
 const isSupported = computed(() => props.inquiry.currentUserStatus?.hasSupported || false)
 
-// Support icon for stats
 const supportIconComponent = computed(() => {
   if (props.inquiry.configuration?.supportMode === 'ternary') {
     return TernarySupportIcon
@@ -437,6 +449,8 @@ function getNextcloudPreviewUrl(fileId: number, x = 1200, y = 400, autoScale = t
 
 // Get hierarchy path for location and category display
 function getHierarchyPath(items, targetId) {
+  if (!items || !Array.isArray(items)) return ''
+  
   const itemMap = {}
 
   items.forEach((item) => {
@@ -444,7 +458,7 @@ function getHierarchyPath(items, targetId) {
   })
 
   if (!itemMap[targetId]) {
-    return itemMap[1]?.name || 'Not defined'
+    return itemMap[1]?.name || t('agora', 'Not defined')
   }
 
   function buildPath(item) {
@@ -453,14 +467,13 @@ function getHierarchyPath(items, targetId) {
     }
     const parent = itemMap[item.parentId]
     if (parent) {
-      return `${buildPath(parent)} -> ${item.name}`
+      return `${buildPath(parent)} → ${item.name}`
     }
     return item.name
   }
 
   return buildPath(itemMap[targetId])
 }
-
 
 // Date formatting
 const formattedCreationDate = computed(() => {
@@ -479,12 +492,12 @@ const formattedLastInteraction = computed(() => {
     const now = DateTime.now()
     
     if (date.hasSame(now, 'day')) {
-      return t('agora', 'Today') + ' ' + date.toLocaleString(DateTime.TIME_SIMPLE)
-    } else if (date.hasSame(now.minus({ days: 1 }), 'day')) {
-      return t('agora', 'Yesterday') + ' ' + date.toLocaleString(DateTime.TIME_SIMPLE)
-    } else {
+      return `${t('agora', 'Today')  } ${  date.toLocaleString(DateTime.TIME_SIMPLE)}`
+    } if (date.hasSame(now.minus({ days: 1 }), 'day')) {
+      return `${t('agora', 'Yesterday')  } ${  date.toLocaleString(DateTime.TIME_SIMPLE)}`
+    } 
       return date.toRelative()
-    }
+    
   } catch {
     return ''
   }
@@ -529,13 +542,11 @@ const sanitizedContent = computed(() => {
   })
 })
 
-// Resources (from old InquiryFull)
-const hasResources = computed(() => {
-  return props.inquiry.miscFields && Object.keys(props.inquiry.miscFields).length > 0
-})
+// Resources
+const hasResources = computed(() => props.inquiry.miscFields && Object.keys(props.inquiry.miscFields).length > 0)
 
 // Helper to get available fields
-function getAvailableFields(inquiryType: string, inquiryTypeTab: any[], currentType: string) {
+function getAvailableFields(inquiryType: string, inquiryTypeTab: InquiryType[]) {
   if (!inquiryTypeTab || !Array.isArray(inquiryTypeTab)) return []
   
   const typeConfig = inquiryTypeTab.find(tab => tab.key === inquiryType)
@@ -549,27 +560,51 @@ function getMiscValue(key: string) {
   return props.inquiry.miscFields?.[key] ?? null
 }
 
+type FieldType = 'text' | 'number' | 'boolean' | 'enum' | 'date' | 'array'
+
+interface EnumValue {
+  value: string
+  label: string
+}
+
+interface FieldConfig {
+  type: FieldType
+  key: string
+  allowed_values?: (string | EnumValue)[]
+}
+
 // Get display value for a field
-function getDisplayValue(value: any, field: any) {
+function getDisplayValue(value: unknown, field: FieldConfig): string {
   if (value === null || value === undefined || value === '') {
     return t('agora', 'Not specified')
   }
   
   if (field.type === 'boolean') {
-    return value ? t('agora', 'Yes') : t('agora', 'No')
+    // Handle boolean values
+    if (typeof value === 'boolean') {
+      return value ? t('agora', 'Yes') : t('agora', 'No')
+    }
+    // Handle string representations of booleans
+    if (typeof value === 'string') {
+      const lowerValue = value.toLowerCase()
+      if (lowerValue === 'true' || lowerValue === '1' || lowerValue === 'yes') {
+        return t('agora', 'Yes')
+      }
+      if (lowerValue === 'false' || lowerValue === '0' || lowerValue === 'no') {
+        return t('agora', 'No')
+      }
+    }
   }
   
   if (field.type === 'enum' && field.allowed_values) {
-    // Find the matching value
-    const enumValue = field.allowed_values.find((v: any) => 
+    const enumValue = field.allowed_values.find(v => 
       typeof v === 'object' ? v.value === value : v === value
     )
     
-    if (typeof enumValue === 'object' && enumValue.label) {
+    if (enumValue && typeof enumValue === 'object') {
       return enumValue.label
     }
     
-    // Convert snake_case to readable text
     if (typeof value === 'string') {
       return value
         .replace(/_/g, ' ')
@@ -585,28 +620,31 @@ function getDisplayValue(value: any, field: any) {
 }
 
 // Check if field should be displayed
-function shouldDisplayField(field: any, value: any) {
-  // Hide technical fields
+function shouldDisplayField(field: FieldConfig, value: unknown): boolean {
   const hiddenFields = ['layout_mode', 'render_mode']
   if (hiddenFields.includes(field.key)) {
     return false
   }
   
-  // Don't show empty values
+  // Check for empty values
   if (value === null || value === undefined || value === '') {
     return false
   }
   
-  // For boolean fields, always show
+  // Handle arrays
+  if (Array.isArray(value) && value.length === 0) {
+    return false
+  }
+  
+  // Always display boolean fields (even false)
   if (field.type === 'boolean') {
     return true
   }
   
-  // Show if value is not empty
   return true
 }
 
-// Get dynamic fields (using your helper function)
+// Get dynamic fields
 const dynamicFields = computed(() => {
   try {
     if (!props.inquiry.type) {
@@ -615,8 +653,7 @@ const dynamicFields = computed(() => {
 
     const fields = getAvailableFields(
       props.inquiry.type, 
-      sessionStore.appSettings?.inquiryTypeTab || [],
-      props.inquiry.type
+      sessionStore.appSettings?.inquiryTypeTab || []
     )
 
     return Array.isArray(fields) ? fields : []
@@ -626,9 +663,8 @@ const dynamicFields = computed(() => {
   }
 })
 
-// Get fields that should be displayed (for readonly mode)
-const displayFields = computed(() => {
-  return dynamicFields.value
+// Get fields that should be displayed
+const displayFields = computed(() => dynamicFields.value
     .map(field => {
       const value = getMiscValue(field.key)
       return {
@@ -638,74 +674,75 @@ const displayFields = computed(() => {
         hasValue: field.type === 'boolean' ? true : shouldDisplayField(field, value)
       }
     })
-    .filter(field => field.hasValue)
-})
+    .filter(field => field.hasValue))
 
 // Handlers
-function toggleComments() {
-  showComments.value = !showComments.value
+function openComments() {
+  showSidebar.value = true
+  sidebarActiveTab.value = 'comments'
 }
 
-function handleSupportClick() {
-  if (canSupportValue.value) {
-    toggleSupport(1)
-  }
+function closeSidebar() {
+  showSidebar.value = false
 }
 
 function getSupportButtonText(value: number) {
   if (value === 1) {
     return currentSupportValue.value === 1 ? t('agora', 'Supported') : t('agora', 'Support')
-  } else if (value === 0) {
+  } if (value === 0) {
     return currentSupportValue.value === 0 ? t('agora', 'Neutral') : t('agora', 'Neutral')
-  } else if (value === -1) {
+  } if (value === -1) {
     return currentSupportValue.value === -1 ? t('agora', 'Opposed') : t('agora', 'Oppose')
   }
   return ''
 }
 
-
-const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDateString()
-
-// Toggle Support
-
-const onToggleSupport = async () => {
-  // Store the current state before toggling
-  const hadSupportedBefore = props.inquiry.currentUserStatus.hasSupported
-  const supportValueBefore = props.inquiry.currentUserStatus.supportValue
-
+async function toggleSupport(value: number) {
+  if (!canSupportValue.value) return
+  
+  const hadSupportedBefore = props.inquiry.currentUserStatus?.hasSupported || false
+  const supportValueBefore = props.inquiry.currentUserStatus?.supportValue || null
+  
+  const newValue = (props.inquiry.configuration?.supportMode === 'ternary' && supportValueBefore === value) ? null : value
+  
   try {
-    await supportsStore.toggleSupport(props.inquiry.id, sessionStore.currentUser.id, props.inquiry, inquiriesStore)
+    await supportsStore.toggleSupport(
+      props.inquiry.id, 
+      sessionStore.currentUser.id, 
+      props.inquiry, 
+      inquiriesStore
+    )
 
-    // Get the updated state after toggling
-    const hasSupportedAfter = props.inquiry.currentUserStatus.hasSupported
-    const supportValueAfter = props.inquiry.currentUserStatus.supportValue
-
-    if (props.inquiry.configuration.supportMode === 'simple') {
-      if (hasSupportedAfter && !hadSupportedBefore) {
+    currentSupportValue.value = newValue
+    
+    if (props.inquiry.configuration?.supportMode === 'simple') {
+      if (newValue === 1 && !hadSupportedBefore) {
         showSuccess(t('agora', 'Inquiry supported, thanks for your support!'), { timeout: 2000 })
-      } else if (!hasSupportedAfter && hadSupportedBefore) {
+      } else if (newValue === null && hadSupportedBefore) {
         showSuccess(t('agora', 'Inquiry support removed!'), { timeout: 2000 })
       }
-    }
-    else if (props.inquiry.configuration.supportMode === 'ternary') {
-      if (supportValueAfter === 1) {
+    } else if (props.inquiry.configuration?.supportMode === 'ternary') {
+      if (newValue === 1) {
         showSuccess(t('agora', 'Inquiry supported, thanks for your support!'), { timeout: 2000 })
-      } else if (supportValueAfter === 0) {
+      } else if (newValue === 0) {
         showSuccess(t('agora', 'Neutral position saved!'), { timeout: 2000 })
-      } else if (supportValueAfter === -1) {
+      } else if (newValue === -1) {
         showSuccess(t('agora', 'Against position saved!'), { timeout: 2000 })
-      } else if (supportValueAfter === null && hadSupportedBefore) {
+      } else if (newValue === null && hadSupportedBefore) {
         showSuccess(t('agora', 'Participation removed!'), { timeout: 2000 })
       }
     }
-
+    
   } catch (error) {
     console.error('Failed to toggle support:', error)
     showError(t('agora', 'Failed to update support status'))
+    currentSupportValue.value = supportValueBefore
   }
 }
 
-
+const onToggleSupport = async () => {
+  toggleSupport(1)
+}
 
 // Watch for changes in support value
 watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
@@ -717,18 +754,8 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
 .inquiry-full-view {
   width: 100%;
   height: 100%;
-  background: var(--color-main-background);
-  border-radius: var(--border-radius-large);
-  overflow: hidden;
+  background: transparent;
   position: relative;
-
-  &.comments-open {
-    .full-view-wrapper {
-      .full-view-content {
-        margin-right: 400px;
-      }
-    }
-  }
 }
 
 .full-view-wrapper {
@@ -737,14 +764,15 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
   overflow-y: auto;
   padding: 0;
   position: relative;
+  background: transparent;
 }
 
 .full-view-content {
   max-width: 900px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 14px;
   box-sizing: border-box;
-  transition: margin-right 0.3s ease;
+  background: transparent;
 }
 
 /* Cover Image Section */
@@ -754,6 +782,14 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  border: 2px solid var(--color-border);
+  background: var(--color-main-background);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--color-background-dark);
+    border-color: var(--color-primary-element-light);
+  }
 
   .cover-image {
     width: 100%;
@@ -766,6 +802,16 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
 /* Title Section */
 .title-section {
   margin-bottom: 32px;
+  padding: 32px;
+  border-radius: 16px;
+  border: 2px solid var(--color-border);
+  transition: all 0.3s ease;
+  background: var(--color-main-background);
+
+  &:hover {
+    background: var(--color-background-dark);
+    border-color: var(--color-primary-element-light);
+  }
 
   .title-header {
     display: flex;
@@ -786,6 +832,7 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
       font-weight: 600;
       color: var(--color-primary-element);
       border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+      transition: all 0.3s ease;
 
       .type-icon {
         color: var(--color-primary-element);
@@ -804,41 +851,28 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
       letter-spacing: 0.5px;
       transition: all 0.3s ease;
 
-      .status-icon {
-        transition: transform 0.3s ease;
-      }
-
       &.status-open {
         background: linear-gradient(135deg, rgba(34, 197, 94, 0.15), rgba(34, 197, 94, 0.08));
         color: #16a34a;
         border: 1px solid rgba(34, 197, 94, 0.3);
-        box-shadow: 0 2px 8px rgba(34, 197, 94, 0.15);
-
-        &:hover .status-icon {
-          transform: scale(1.1);
-        }
       }
 
       &.status-closed {
         background: linear-gradient(135deg, rgba(239, 68, 68, 0.15), rgba(239, 68, 68, 0.08));
         color: #dc2626;
         border: 1px solid rgba(239, 68, 68, 0.3);
-        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.15);
       }
 
       &.status-draft {
         background: linear-gradient(135deg, rgba(148, 163, 184, 0.15), rgba(148, 163, 184, 0.08));
         color: #64748b;
         border: 1px solid rgba(148, 163, 184, 0.3);
-        box-shadow: 0 2px 8px rgba(148, 163, 184, 0.15);
       }
 
       &.status-waiting {
         background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.08));
         color: #f59e0b;
         border: 1px solid rgba(245, 158, 11, 0.3);
-        box-shadow: 0 2px 8px rgba(245, 158, 11, 0.15);
-        animation: pulse 2s infinite;
       }
 
       &.status-unknown {
@@ -863,15 +897,21 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: 16px;
+      padding: 20px;
       background: var(--color-background-dark);
       border-radius: 12px;
       border: 1px solid var(--color-border);
+      transition: all 0.3s ease;
+
+      &:hover {
+        background: var(--color-background-darker);
+        border-color: var(--color-primary-element-light);
+      }
 
       .author-avatar {
         flex-shrink: 0;
-        border: 3px solid white;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        border: 3px solid var(--color-main-background);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s ease;
 
         &:hover {
@@ -919,16 +959,17 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
       display: flex;
       align-items: flex-start;
       gap: 16px;
-      padding: 20px;
-      background: var(--color-background-dark);
+      padding: 24px;
+      background: var(--color-main-background);
       border-radius: 16px;
-      border: 1px solid var(--color-border);
+      border: 2px solid var(--color-border);
       transition: all 0.3s ease;
       cursor: default;
 
       &:hover {
         transform: translateY(-2px);
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+        background: var(--color-background-dark);
         border-color: var(--color-primary-element-light);
 
         .meta-icon-container {
@@ -939,13 +980,13 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
 
       .meta-icon-container {
         flex-shrink: 0;
-        width: 48px;
-        height: 48px;
+        width: 56px;
+        height: 56px;
         display: flex;
         align-items: center;
         justify-content: center;
         background: rgba(var(--color-primary-rgb), 0.1);
-        border-radius: 12px;
+        border-radius: 14px;
         transition: all 0.3s ease;
 
         .meta-icon {
@@ -962,14 +1003,14 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
           color: var(--color-text-lighter);
           text-transform: uppercase;
           letter-spacing: 0.5px;
-          margin-bottom: 4px;
+          margin-bottom: 6px;
         }
 
         .meta-value {
           font-size: 16px;
           font-weight: 600;
           color: var(--color-main-text);
-          line-height: 1.4;
+          line-height: 1.5;
           word-break: break-word;
         }
       }
@@ -997,9 +1038,15 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
 .description-section {
   margin-bottom: 32px;
   padding: 32px;
-  background: var(--color-background-dark);
+  background: var(--color-main-background);
   border-radius: 16px;
   border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--color-background-dark);
+    border-color: var(--color-primary-element-light);
+  }
 
   .section-header {
     display: flex;
@@ -1085,7 +1132,7 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
       height: auto;
       border-radius: 12px;
       margin: 24px 0;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     :deep(.no-content) {
@@ -1095,7 +1142,6 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
       font-style: italic;
       background: var(--color-background-darker);
       border-radius: 12px;
-      font-size: 18px;
     }
   }
 }
@@ -1104,9 +1150,15 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
 .resources-section {
   margin-bottom: 32px;
   padding: 32px;
-  background: var(--color-background-dark);
+  background: var(--color-main-background);
   border-radius: 16px;
   border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--color-background-dark);
+    border-color: var(--color-primary-element-light);
+  }
 
   .section-header {
     display: flex;
@@ -1133,7 +1185,7 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
       gap: 16px;
       
       .attachment-item {
-        background: var(--color-main-background);
+        background: var(--color-background-dark);
         border-radius: 12px;
         border: 1px solid var(--color-border);
         padding: 16px;
@@ -1141,7 +1193,8 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
         
         &:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+          background: var(--color-background-darker);
           border-color: var(--color-primary-element);
         }
       }
@@ -1153,9 +1206,15 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
 .misc-fields-section {
   margin-bottom: 32px;
   padding: 32px;
-  background: linear-gradient(135deg, var(--color-background-dark), var(--color-background-darker));
+  background: var(--color-main-background);
   border-radius: 16px;
   border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--color-background-dark);
+    border-color: var(--color-primary-element-light);
+  }
 
   .section-header {
     display: flex;
@@ -1181,15 +1240,16 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
     gap: 16px;
 
     .misc-field-item {
-      padding: 16px;
-      background: var(--color-main-background);
+      padding: 20px;
+      background: var(--color-background-dark);
       border-radius: 12px;
       border: 1px solid var(--color-border);
       transition: all 0.3s ease;
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        background: var(--color-background-darker);
         border-color: var(--color-primary-element-light);
       }
 
@@ -1219,9 +1279,15 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
   gap: 24px;
   margin-bottom: 32px;
   padding: 24px;
-  background: var(--color-background-dark);
+  background: var(--color-main-background);
   border-radius: 16px;
   border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
+
+  &:hover {
+    background: var(--color-background-dark);
+    border-color: var(--color-primary-element-light);
+  }
 
   .stat-item {
     flex: 1;
@@ -1229,7 +1295,7 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
     align-items: center;
     gap: 16px;
     padding: 20px;
-    background: var(--color-main-background);
+    background: var(--color-background-dark);
     border-radius: 12px;
     border: 1px solid var(--color-border);
     transition: all 0.3s ease;
@@ -1237,7 +1303,8 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
 
     &:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background: var(--color-background-darker);
       border-color: var(--color-primary-element-light);
     }
 
@@ -1270,8 +1337,9 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
       }
     }
 
-    &:hover .stat-icon {
-      transform: scale(1.1);
+    &:hover .stat-icon-container {
+      background: rgba(var(--color-primary-rgb), 0.15);
+      transform: scale(1.05);
     }
 
     .stat-content {
@@ -1307,164 +1375,86 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
         }
       }
     }
-
-    &.supports-stat .stat-icon-container {
-      background: rgba(16, 185, 129, 0.1);
-    }
-
-    &.comments-stat .stat-icon-container {
-      background: rgba(59, 130, 246, 0.1);
-    }
-
-    &.participants-stat .stat-icon-container {
-      background: rgba(139, 92, 246, 0.1);
-    }
   }
 }
 
-/* Action Buttons Section */
-.action-buttons-section {
-  display: flex;
-  gap: 16px;
+/* Ternary Support Section */
+.ternary-support-section {
   margin-bottom: 32px;
-  flex-wrap: wrap;
+  padding: 32px;
+  background: var(--color-main-background);
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  transition: all 0.3s ease;
 
-  .action-button-group {
+  &:hover {
+    background: var(--color-background-dark);
+    border-color: var(--color-primary-element-light);
+  }
+
+  .section-header {
+    margin-bottom: 24px;
+
+    .section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-main-text);
+      margin: 0;
+    }
+  }
+
+  .ternary-support-buttons {
     display: flex;
     gap: 12px;
     flex-wrap: wrap;
-  }
 
-  .support-button {
-    min-width: 140px;
-    height: 48px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-
-    &:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    }
-
-    &.active-support {
-      background: linear-gradient(135deg, #10b981, #059669);
-      color: white;
-      border-color: #10b981;
+    .support-button {
+      flex: 1;
+      min-width: 120px;
+      height: 48px;
+      font-weight: 600;
+      transition: all 0.3s ease;
 
       &:hover {
-        background: linear-gradient(135deg, #059669, #047857);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      }
+
+      &.active-support {
+        background: linear-gradient(135deg, #10b981, #059669);
+        color: white;
+        border-color: #10b981;
+
+        &:hover {
+          background: linear-gradient(135deg, #059669, #047857);
+        }
+      }
+
+      &.active-neutral {
+        background: linear-gradient(135deg, #6b7280, #4b5563);
+        color: white;
+        border-color: #6b7280;
+      }
+
+      &.active-oppose {
+        background: linear-gradient(135deg, #ef4444, #dc2626);
+        color: white;
+        border-color: #ef4444;
       }
     }
-
-    &.active-neutral {
-      background: linear-gradient(135deg, #6b7280, #4b5563);
-      color: white;
-      border-color: #6b7280;
-    }
-
-    &.active-oppose {
-      background: linear-gradient(135deg, #ef4444, #dc2626);
-      color: white;
-      border-color: #ef4444;
-    }
-
-    &.ternary-button {
-      flex: 1;
-    }
-
-    &.simple-button {
-      padding: 0 32px;
-    }
   }
-
-  /* Removed comments-button styles as requested */
 }
 
-/* Comments Panel - Fixed position upper right */
-.comments-panel {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 400px;
-  background: var(--color-main-background);
-  border-left: 1px solid var(--color-border);
-  box-shadow: -4px 0 32px rgba(0, 0, 0, 0.15);
-  z-index: 1000;
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  transform: translateX(100%);
+/* Sidebar Tab Content */
+.sidebar-tab-content {
+  padding: 0;
+  height: 100%;
   display: flex;
   flex-direction: column;
 
-  .comments-open & {
-    transform: translateX(0);
-  }
-
-  .comments-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 24px;
-    border-bottom: 1px solid var(--color-border);
-    background: var(--color-background-dark);
-    flex-shrink: 0;
-
-    .comments-title {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin: 0;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--color-main-text);
-
-      .title-icon {
-        color: var(--color-primary-element);
-      }
-
-      .comments-badge {
-        background: var(--color-primary-element);
-        color: white;
-        padding: 4px 10px;
-        border-radius: 16px;
-        font-size: 12px;
-        font-weight: 700;
-        margin-left: 8px;
-      }
-    }
-
-    .close-comments {
-      width: 40px;
-      height: 40px;
-      min-width: auto;
-      min-height: auto;
-      padding: 0;
-      border-radius: 50%;
-    }
-  }
-
-  .comments-content {
+  > * {
     flex: 1;
     overflow-y: auto;
-    padding: 0;
-    display: flex;
-    flex-direction: column;
-
-    > * {
-      padding: 0;
-    }
-  }
-}
-
-/* Animations */
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.8;
-    transform: scale(0.98);
   }
 }
 
@@ -1472,6 +1462,7 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
 @media (max-width: 1024px) {
   .full-view-content {
     padding: 20px;
+    max-width: 100%;
   }
 
   .location-category-grid {
@@ -1483,12 +1474,12 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
     gap: 16px;
   }
 
-  .comments-panel {
-    width: 100%;
-  }
-
-  .comments-open .full-view-content {
-    margin-right: 0;
+  .ternary-support-buttons {
+    flex-direction: column;
+    
+    .support-button {
+      width: 100%;
+    }
   }
 }
 
@@ -1505,20 +1496,6 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
     font-size: 28px;
   }
 
-  .action-buttons-section {
-    flex-direction: column;
-    align-items: stretch;
-
-    .action-button-group {
-      flex-direction: column;
-    }
-
-    .support-button {
-      width: 100%;
-      justify-content: center;
-    }
-  }
-
   .misc-fields-grid {
     grid-template-columns: 1fr !important;
   }
@@ -1528,6 +1505,7 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
   .title-section .title-header {
     flex-direction: column;
     align-items: flex-start;
+    gap: 8px;
   }
 
   .author-meta-section .author-info {
@@ -1540,6 +1518,16 @@ watch(() => props.inquiry.currentUserStatus?.supportValue, (newValue) => {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+
+  .meta-item {
+    flex-direction: column;
+    align-items: flex-start;
+    
+    .meta-icon-container {
+      width: 44px;
+      height: 44px;
+    }
   }
 }
 </style>

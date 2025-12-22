@@ -1,7 +1,12 @@
-
 <?php
 
-namespace OCA\YourApp\Service;
+declare(strict_types=1);
+/**
+ * SPDX-FileCopyrightText: 2017 Nextcloud contributors
+ * SPDX-License-Identifier: AGPL-3.0-or-later
+ */
+
+namespace OCA\Agora\Service;
 
 use OCP\IGroupManager;
 use OCP\IUser;

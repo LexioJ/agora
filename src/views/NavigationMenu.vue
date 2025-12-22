@@ -4,7 +4,7 @@
 -->
 <script setup lang="ts">
 import { watch,ref, computed, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import { emit } from '@nextcloud/event-bus'
 import { showError } from '@nextcloud/dialogs'
@@ -16,7 +16,6 @@ import InquiryGroupCreateDlg from '../components/Create/InquiryGroupCreateDlg.vu
 import { InquiryGeneralIcons,NavigationIcons } from '../utils/icons.ts'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
-import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
 import { usePreferencesStore } from '../stores/preferences.ts'
 import { Event } from '../Types/index.ts'
 import type { InquiryGroupType } from '../stores/inquiryGroups.types.ts'
@@ -35,10 +34,8 @@ import { accessFamilyMenu } from '../utils/permissions.ts'
 const preferencesStore = usePreferencesStore()
 
 const router = useRouter()
-const route = useRoute()
 const sessionStore = useSessionStore()
 const inquiriesStore = useInquiriesStore()
-const inquiryGroupsStore = useInquiryGroupsStore()
 const createDlgToggle = ref(false)
 const createGroupDlgToggle = ref(false)
 const selectedInquiryTypeForCreation = ref<InquiryType | null>(null)
@@ -63,18 +60,11 @@ const inquiryFamilies = computed((): InquiryFamily[] => sessionStore.appSettings
 // Computed for recent inquiries
 const recentInquiries = computed(() => inquiriesStore.inquiries.slice(0, 5))
 
-// Get inquiry groups from store
-const inquiryGroups = computed(() => inquiryGroupsStore.inquiryGroups)
-
 // Check if a family has inquiry groups OR inquiry group types defined
 const shouldRedirectToGroupView = (familyType: string) => {
   const hasGroupTypes = getInquiryGroupTypesForCurrentFamily(familyType).length > 0
-  console.log(`Family ${familyType} has group types: ${hasGroupTypes}`)
   return hasGroupTypes
 }
-
-// Computed for recent inquiry groups
-const recentInquiryGroups = computed(() => inquiryGroupsStore.inquiryGroups.slice(0, 5))
 
 // Computed for all inquiry types
 const allInquiryTypes = computed((): InquiryType[] => {
@@ -207,7 +197,6 @@ function inquiryAdded(payload: { id: number; title: string }) {
 function inquiryGroupAdded(payload: { id: number; slug: string }) {
   createGroupDlgToggle.value = false
   selectedInquiryGroupTypeForCreation.value = null
-  console.log(" REDIRCTEEEEEEEE to GROUP ID :",payload.id)
   router.push({
     name: 'group',
     params: { id: payload.id },
@@ -221,15 +210,6 @@ function getInquiryIcon(inquiry) {
     return typeData?.icon || InquiryGeneralIcons.Flash
   }
   return InquiryGeneralIcons.Flash
-}
-
-// Function to get icon for an inquiry group based on its type
-function getInquiryGroupIcon(inquiryGroup) {
-  if (inquiryGroup.type) {
-    const typeData = getInquiryGroupTypeData(inquiryGroup.type, allInquiryGroupTypes.value)
-    return typeData?.icon || InquiryGeneralIcons.Users
-  }
-  return InquiryGeneralIcons.Users
 }
 
 function handleCloseDialog() {

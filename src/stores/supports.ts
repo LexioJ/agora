@@ -8,10 +8,12 @@ import { SupportsAPI, PublicAPI } from '../Api/index.ts'
 import { groupSupports, Logger } from '../helpers/index.ts'
 import { useSessionStore } from './session.ts'
 import type { AxiosError } from '@nextcloud/axios'
+import  { Inquiry } from '../Types/index.ts'
 
 export type Support = {
     id?: number
     inquiryId: number
+    groupId: number
     userId: string
     value: number
     created: number
@@ -48,10 +50,10 @@ export const useSupportsStore = defineStore('supports', {
                                                   s.inquiryId === payload.support.inquiryId && s.userId === payload.support.userId
                                                  )
 
-                                                 if (index !== -1) {
-                                                     this.supports[index] = payload.support
-                                                 } else {
+                                                 if (index === -1) {
                                                      this.supports.push(payload.support)
+                                                 } else {
+                                                     this.supports[index] = payload.support
                                                  }
         },
 
@@ -67,20 +69,20 @@ export const useSupportsStore = defineStore('supports', {
         },
 
         // Helper method to get support mode
-        getSupportMode(inquiryId: number, inquiryStore: any, inquiriesStore: any): string {
-            if (inquiryStore.id === inquiryId) {
-                return inquiryStore.configuration?.supportMode;
-            }
+         getSupportMode(inquiryId: number, inquiryStore: Inquiry | null, inquiriesStore: { inquiries: Inquiry[] }): string {
+    // Handle null inquiryStore
+    if (inquiryStore && inquiryStore.id === inquiryId) {
+        return inquiryStore.configuration?.supportMode;
+    }
 
-            // Otherwise search in inquiriesStore
-            const inquiry = inquiriesStore.inquiries.find((inq: any) => inq.id === inquiryId);
-            return inquiry?.configuration?.supportMode;
-        },
+    // Otherwise search in inquiriesStore
+    const inquiry = inquiriesStore.inquiries.find((inq: Inquiry) => inq.id === inquiryId);
+    return inquiry?.configuration?.supportMode;
+},
 
         // Main toggle method that handles both modes
-        async toggleSupport(inquiryId: number, userId: string, inquiryStore: any, inquiriesStore: any) {
+        async toggleSupport(inquiryId: number, userId: string, inquiryStore: Inquiry, inquiriesStore: { inquiries: Inquiry[] }) {
             const supportMode =  this.getSupportMode(inquiryId, inquiryStore, inquiriesStore);
-            console.log(" LOG SUPPORT ",supportMode)
 
             if (supportMode === 'simple') {
                 return this.toggleStandardSupport(inquiryId, userId, inquiryStore, inquiriesStore)
@@ -90,7 +92,7 @@ export const useSupportsStore = defineStore('supports', {
         },
 
         // Standard mode: 0/1 toggle (existing behavior)
-        async toggleStandardSupport(inquiryId: number, userId: string, inquiryStore: any, inquiriesStore: any) {
+        async toggleStandardSupport(inquiryId: number, userId: string, inquiryStore: Inquiry, inquiriesStore: { inquiries: Inquiry[] }) {
             const inquiryInList = inquiriesStore.inquiries.find((i) => i.id === inquiryId)
             const inquiryInChilds = inquiryStore?.childs?.find((i) => i.id === inquiryId)
             const isCurrentInquiry = inquiryStore?.id === inquiryId
@@ -99,7 +101,6 @@ export const useSupportsStore = defineStore('supports', {
                 inquiryInList || inquiryInChilds || (isCurrentInquiry ? inquiryStore : null)
 
             if (!sourceInquiry) {
-                console.error('Inquiry not found in any store')
                 return
             }
 
@@ -152,10 +153,10 @@ export const useSupportsStore = defineStore('supports', {
             }
         },
 
-        async toggleTernarySupport(inquiryId: number, userId: string, inquiryStore: any, inquiriesStore: any) {
+        async toggleTernarySupport(inquiryId: number, userId: string, inquiryStore: Inquiry, inquiriesStore: { inquiries: Inquiry[] }) {
             // Find all potential instances
-            const inquiryInList = inquiriesStore.inquiries.find((i: any) => i.id === inquiryId)
-            const inquiryInChilds = inquiryStore?.childs?.find((i: any) => i.id === inquiryId)
+            const inquiryInList = inquiriesStore.inquiries.find((i: Inquiry) => i.id === inquiryId)
+            const inquiryInChilds = inquiryStore?.childs?.find((i: Inquiry) => i.id === inquiryId)
             const isCurrentInquiry = inquiryStore?.id === inquiryId
 
             // Collect all unique instances to update
@@ -166,18 +167,16 @@ export const useSupportsStore = defineStore('supports', {
                     if (isCurrentInquiry && inquiryStore) instancesToUpdate.add(inquiryStore)
 
                         if (instancesToUpdate.size === 0) {
-                            console.error('Inquiry not found in any store')
                             return
                         }
 
                         // Use the first instance as source for current value
-                        const sourceInquiry = Array.from(instancesToUpdate)[0] as any
+                        const sourceInquiry = Array.from(instancesToUpdate)[0] as Inquiry
                         const currentValue = sourceInquiry.currentUserStatus?.supportValue ?? null
 
                         let nextValue: number | null
                         let shouldRemove = false
 
-                        console.log("CURRENT VALUE ", currentValue)
 
                         // Cycle: 1 -> 0 -> -1 -> remove (null)
                         if (currentValue === 1) {
@@ -206,50 +205,44 @@ export const useSupportsStore = defineStore('supports', {
 
                         try {
                             // Update ALL instances (no duplicates)
-                            instancesToUpdate.forEach((inquiry: any) => {
+                            instancesToUpdate.forEach((inquiry: Inquiry) => {
                                 this.updateTernaryUIState(inquiry, currentValue, nextValue, shouldRemove)
                             })
 
-                            console.log(`Updated ${instancesToUpdate.size} unique instances`)
 
                             // Make API call
                             if (shouldRemove) {
-                                console.log(" REMOVE ")
                                 // Remove from database
                                 await SupportsAPI.removeSupport(inquiryId, userId)
                                 this.removeItem(inquiryId, userId)
-                            } else if (currentValue !== null) {
-                                // Update existing support
-                                console.log(" UPDATE CURRENT VALUE ", nextValue)
-                                const result = await SupportsAPI.updateSupport(inquiryId, userId, nextValue as number)
+                            } else if (currentValue === null) {
+                                // Add new support
+                                const result = await SupportsAPI.addSupport(inquiryId, userId, nextValue as number)
                                 this.setItem({ support: result.data.support })
                             } else {
-                                // Add new support
-                                console.log(" IT WAS null we add IT ", nextValue)
-                                const result = await SupportsAPI.addSupport(inquiryId, userId, nextValue as number)
+                                // Update existing support
+                                const result = await SupportsAPI.updateSupport(inquiryId, userId, nextValue as number)
                                 this.setItem({ support: result.data.support })
                             }
 
                             return nextValue
                         } catch (error) {
                             // Rollback ALL instances on error
-                            instancesToUpdate.forEach((inquiry: any) => {
+                            instancesToUpdate.forEach((inquiry: Inquiry) => {
                                 this.rollbackTernaryUIState(inquiry, oldState)
                             })
 
-                            console.log(`Rolled back ${instancesToUpdate.size} instances due to error`)
                             throw error
                         }
         },
 
         // Helper to update UI state for ternary mode
-        updateTernaryUIState(inquiry: any, currentValue: number | null, nextValue: number | null, shouldRemove: boolean) {
+        updateTernaryUIState(inquiry: Inquiry, currentValue: number | null, nextValue: number | null, shouldRemove: boolean) {
             // Update the current user's support status
             if (!inquiry.currentUserStatus) {
                 inquiry.currentUserStatus = {}
             }
 
-            console.log(" IN TERNARY UI STate nulll we add IT ",nextValue)
             if (shouldRemove) {
                 // Remove support entirely
                 inquiry.currentUserStatus.supportValue = null
@@ -295,22 +288,10 @@ export const useSupportsStore = defineStore('supports', {
                                 inquiry.status.countNegativeSupports += 1
                                 inquiry.status.countSupports += 1
                             }
-                            // Note: if nextValue is null (removal), we don't add anything
 
-                            console.log('Updated UI state:', {
-                                from: currentValue,
-                                to: nextValue,
-                                removed: shouldRemove,
-                                counts: {
-                                    positive: inquiry.status.countPositiveSupports,
-                                    neutral: inquiry.status.countNeutralSupports,
-                                    negative: inquiry.status.countNegativeSupports,
-                                    total: inquiry.status.countSupports
-                                }
-                            })
         },
 
-        rollbackTernaryUIState(inquiry: any, oldState: any) {
+        rollbackTernaryUIState(inquiry: Inquiry, oldState: Inquiry) {
             // Restore current user status
             if (!inquiry.currentUserStatus) {
                 inquiry.currentUserStatus = {}
@@ -329,7 +310,6 @@ export const useSupportsStore = defineStore('supports', {
             inquiry.status.countNegativeSupports = oldState.counts.negative
             inquiry.status.countSupports = oldState.total
 
-            console.log('Rolled back UI state to:', oldState)
         },
 
         async load() {

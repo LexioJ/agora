@@ -5,13 +5,13 @@
 
 <template>
   <div class="inquiry-rich-html">
-    <!-- Cover Image -->
+    <!-- Cover Image with Title -->
     <div v-if="coverUrl" class="rich-cover">
       <img :src="coverUrl" :alt="inquiry.title" class="cover-image" />
       <div class="cover-overlay">
         <div class="cover-content">
           <div class="cover-type-badge">
-            <component :is="typeIconComponent" class="type-icon" :size="16" />
+            <component :is="typeIconComponent" class="type-icon" :size="20" />
             <span class="type-label">{{ typeLabel }}</span>
           </div>
           <h1 class="cover-title">{{ inquiry.title }}</h1>
@@ -25,7 +25,7 @@
       <div v-if="!coverUrl" class="rich-header">
         <div class="header-top">
           <div class="type-badge">
-            <component :is="typeIconComponent" class="type-icon" :size="16" />
+            <component :is="typeIconComponent" class="type-icon" :size="20" />
             <span class="type-label">{{ typeLabel }}</span>
           </div>
         </div>
@@ -62,12 +62,12 @@
               </div>
               
               <div v-if="locationPath" class="meta-location">
-                <component :is="InquiryGeneralIconsComponents.IdCard" class="location-icon" :size="14" />
+                <component :is="InquiryGeneralIconsComponents.Location" class="location-icon" :size="14" />
                 <span>{{ truncatedLocation }}</span>
               </div>
               
               <div v-if="categoryPath" class="meta-category">
-                <component :is="InquiryGeneralIconsComponents.FolderMultiple" class="category-icon" :size="14" />
+                <component :is="InquiryGeneralIconsComponents.Category" class="category-icon" :size="14" />
                 <span>{{ truncatedCategory }}</span>
               </div>
             </div>
@@ -78,33 +78,10 @@
       <!-- Main HTML Content -->
       <div class="rich-content" v-html="sanitizedContent"></div>
 
-      <!-- Optional Stats (minimal) -->
-      <div v-if="showStats" class="rich-stats">
-        <div class="stats-grid">
-          <div v-if="inquiry.status?.countSupports" class="stat-item">
-            <component :is="supportIconComponent" class="stat-icon" :size="18" />
-            <div class="stat-info">
-              <span class="stat-value">{{ inquiry.status.countSupports }}</span>
-              <span class="stat-label">{{ t('agora', 'Supports') }}</span>
-            </div>
-          </div>
-          
-          <div v-if="inquiry.status?.countComments" class="stat-item">
-            <component :is="InquiryGeneralIconsComponents.MessageSquare" class="stat-icon" :size="18" />
-            <div class="stat-info">
-              <span class="stat-value">{{ inquiry.status.countComments }}</span>
-              <span class="stat-label">{{ t('agora', 'Comments') }}</span>
-            </div>
-          </div>
-          
-          <div v-if="participantsCount" class="stat-item">
-            <component :is="InquiryGeneralIconsComponents.Users" class="stat-icon" :size="18" />
-            <div class="stat-info">
-              <span class="stat-value">{{ participantsCount }}</span>
-              <span class="stat-label">{{ t('agora', 'Participants') }}</span>
-            </div>
-          </div>
-        </div>
+      <!-- Expiry Warning (only if expired) -->
+      <div v-if="isExpired" class="expiry-warning">
+        <component :is="InquiryGeneralIconsComponents.AlertCircle" class="warning-icon" :size="18" />
+        <span>{{ t('agora', 'This inquiry has expired') }}</span>
       </div>
     </div>
   </div>
@@ -120,17 +97,13 @@ import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
 import type { Inquiry } from '../../Types/index.ts'
 import { useSessionStore } from '../../stores/session.ts'
 import { InquiryGeneralIcons } from '../../utils/icons.ts'
-import TernarySupportIcon from '../AppIcons/modules/TernarySupportIcon.vue'
-import ThumbIcon from '../AppIcons/modules/ThumbIcon.vue'
+import { BaseEntry } from '../../Types/index.ts'
 
 interface Props {
   inquiry: Inquiry
-  showStats?: boolean
 }
 
-const props = withDefaults(defineProps<Props>(), {
-  showStats: false
-})
+const props = defineProps<Props>()
 
 const sessionStore = useSessionStore()
 
@@ -140,9 +113,7 @@ const InquiryGeneralIconsComponents = InquiryGeneralIcons
 // Get type data
 const inquiryTypes = computed(() => sessionStore.appSettings?.inquiryTypeTab || [])
 
-const typeData = computed(() => {
-  return getInquiryTypeData(props.inquiry.type, inquiryTypes.value)
-})
+const typeData = computed(() => getInquiryTypeData(props.inquiry.type, inquiryTypes.value))
 
 const typeLabel = computed(() => typeData.value?.label || props.inquiry.type)
 
@@ -164,7 +135,7 @@ const typeIconComponent = computed(() => {
     'news': 'Newspaper',
     'announcement': 'Megaphone',
     'meeting': 'Users',
-    'document': 'BookOpen',
+    'document': 'Document',
     'proposal': 'Scale',
     'general': 'FolderMultiple',
     'draft': 'Empty',
@@ -176,7 +147,7 @@ const typeIconComponent = computed(() => {
 
 // Cover image
 const coverUrl = computed(() => {
-  if (!props.inquiry.coverId) return ''
+  if (!props.inquiry.coverId || props.inquiry.coverId === 0) return ''
   return getNextcloudPreviewUrl(props.inquiry.coverId)
 })
 
@@ -185,92 +156,56 @@ function getNextcloudPreviewUrl(fileId: number, x = 1200, y = 400, autoScale = t
   return `${baseUrl}/index.php/core/preview?fileId=${fileId}&x=${x}&y=${y}&a=${autoScale}`
 }
 
-// Support icon
-const supportIconComponent = computed(() => {
-  if (props.inquiry.configuration?.supportMode === 'ternary') {
-    return TernarySupportIcon
-  }
-  return ThumbIcon
+// Expiry check
+const isExpired = computed(() => {
+  if (!props.inquiry.configuration?.expire) return false
+  const now = Date.now() / 1000
+  return props.inquiry.configuration.expire < now
 })
-
-// Participants count
-const participantsCount = computed(() => props.inquiry.status?.countParticipants || 0)
 
 // Location and Category paths
-const locationPath = computed(() => {
-  if (!props.inquiry.locationId || !sessionStore.appSettings?.locationTab) return ''
+function getHierarchyPath(items, targetId) {
+  if (!items || !Array.isArray(items)) return ''
   
-  const getHierarchyPath = (items: any[], targetId: number): string => {
-    const itemMap: Record<number, any> = {}
-    
-    items.forEach((item) => {
-      itemMap[item.id] = item
-    })
-    
-    if (!itemMap[targetId]) {
-      return 'ID not found'
-    }
-    
-    function buildPath(item: any): string {
-      if (item.parentId === 0) {
-        return item.name
-      }
-      const parent = itemMap[item.parentId]
-      if (parent) {
-        return `${buildPath(parent)} → ${item.name}`
-      }
-      return item.name
-    }
-    
-    return buildPath(itemMap[targetId])
-  }
-  
-  return getHierarchyPath(sessionStore.appSettings.locationTab, props.inquiry.locationId)
-})
+  const itemMap = {}
 
-const categoryPath = computed(() => {
-  if (!props.inquiry.categoryId || !sessionStore.appSettings?.categoryTab) return ''
-  
-  const getHierarchyPath = (items: any[], targetId: number): string => {
-    const itemMap: Record<number, any> = {}
-    
-    items.forEach((item) => {
-      itemMap[item.id] = item
-    })
-    
-    if (!itemMap[targetId]) {
-      return 'ID not found'
-    }
-    
-    function buildPath(item: any): string {
-      if (item.parentId === 0) {
-        return item.name
-      }
-      const parent = itemMap[item.parentId]
-      if (parent) {
-        return `${buildPath(parent)} → ${item.name}`
-      }
+  items.forEach((item) => {
+    itemMap[item.id] = item
+  })
+
+  if (!itemMap[targetId]) {
+    return itemMap[1]?.name || t('agora', 'Not defined')
+  }
+
+  function buildPath(item) {
+    if (item.parentId === 0) {
       return item.name
     }
-    
-    return buildPath(itemMap[targetId])
+    const parent = itemMap[item.parentId]
+    if (parent) {
+      return `${buildPath(parent)} → ${item.name}`
+    }
+    return item.name
   }
-  
-  return getHierarchyPath(sessionStore.appSettings.categoryTab, props.inquiry.categoryId)
-})
+
+  return buildPath(itemMap[targetId])
+}
+
+const locationPath = computed(() => getHierarchyPath(sessionStore.appSettings?.locationTab, props.inquiry.locationId))
+const categoryPath = computed(() => getHierarchyPath(sessionStore.appSettings?.categoryTab, props.inquiry.categoryId))
 
 // Truncated text
 const truncatedLocation = computed(() => {
   if (!locationPath.value) return ''
-  return locationPath.value.length > 25 
-    ? locationPath.value.substring(0, 25) + '…' 
+  return locationPath.value.length > 30 
+    ? `${locationPath.value.substring(0, 30)}…` 
     : locationPath.value
 })
 
 const truncatedCategory = computed(() => {
   if (!categoryPath.value) return ''
-  return categoryPath.value.length > 25 
-    ? categoryPath.value.substring(0, 25) + '…' 
+  return categoryPath.value.length > 30 
+    ? `${categoryPath.value.substring(0, 30)}…` 
     : categoryPath.value
 })
 
@@ -279,7 +214,7 @@ const formattedDate = computed(() => {
   if (!props.inquiry.status?.created) return ''
   
   try {
-    const date = new Date(props.inquiry.status.created)
+    const date = new Date(props.inquiry.status.created * 1000)
     return date.toLocaleDateString('default', {
       year: 'numeric',
       month: 'long',
@@ -298,7 +233,6 @@ const sanitizedContent = computed(() => {
             </div>`
   }
   
-  // Use descriptionSafe if available, otherwise sanitize description
   const content = props.inquiry.descriptionSafe || props.inquiry.description
   return DOMPurify.sanitize(content, {
     ALLOWED_TAGS: [
@@ -309,14 +243,12 @@ const sanitizedContent = computed(() => {
       'img', 'figure', 'figcaption',
       'table', 'thead', 'tbody', 'tr', 'th', 'td',
       'a', 'span', 'div',
-      'hr',
-      'iframe' // For embedded content
+      'hr'
     ],
     ALLOWED_ATTR: [
       'href', 'target', 'rel', 'title',
       'src', 'alt', 'width', 'height', 'loading',
-      'class', 'id', 'style',
-      'frameborder', 'allowfullscreen', 'allow'
+      'class', 'id', 'style'
     ]
   })
 })
@@ -324,8 +256,8 @@ const sanitizedContent = computed(() => {
 
 <style lang="scss" scoped>
 .inquiry-rich-html {
-  background: var(--color-main-background);
   border-radius: 12px;
+  background: transparent;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
@@ -333,7 +265,7 @@ const sanitizedContent = computed(() => {
 // Cover Image
 .rich-cover {
   position: relative;
-  height: 300px;
+  height: 320px;
   width: 100%;
   
   .cover-image {
@@ -361,11 +293,11 @@ const sanitizedContent = computed(() => {
     .cover-type-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 6px 12px;
+      gap: 10px;
+      padding: 8px 16px;
       background: rgba(255, 255, 255, 0.9);
-      border-radius: 20px;
-      margin-bottom: 16px;
+      border-radius: 24px;
+      margin-bottom: 20px;
       backdrop-filter: blur(10px);
       
       .type-icon {
@@ -373,14 +305,14 @@ const sanitizedContent = computed(() => {
       }
       
       .type-label {
-        font-size: 13px;
+        font-size: 14px;
         font-weight: 600;
         color: var(--color-main-text);
       }
     }
     
     .cover-title {
-      font-size: 32px;
+      font-size: 36px;
       font-weight: 700;
       line-height: 1.2;
       margin: 0;
@@ -400,33 +332,35 @@ const sanitizedContent = computed(() => {
 
 // Header (without cover)
 .rich-header {
-  margin-bottom: 24px;
+  margin-bottom: 32px;
   
   .header-top {
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
   
   .type-badge {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px 12px;
-    background: var(--color-background-dark);
-    border-radius: 20px;
+    gap: 10px;
+    padding: 8px 16px;
+    background: linear-gradient(135deg, var(--color-primary-element-light), rgba(var(--color-primary-rgb), 0.1));
+    border-radius: 24px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-primary-element);
+    border: 1px solid rgba(var(--color-primary-rgb), 0.2);
     
     .type-icon {
       color: var(--color-primary-element);
     }
     
     .type-label {
-      font-size: 13px;
       font-weight: 600;
-      color: var(--color-text-lighter);
     }
   }
   
   .rich-title {
-    font-size: 28px;
+    font-size: 36px;
     font-weight: 700;
     line-height: 1.3;
     color: var(--color-main-text);
@@ -436,7 +370,7 @@ const sanitizedContent = computed(() => {
 
 // Meta Information
 .rich-meta {
-  margin-bottom: 32px;
+  margin-bottom: 40px;
   padding-bottom: 24px;
   border-bottom: 1px solid var(--color-border);
   
@@ -447,7 +381,7 @@ const sanitizedContent = computed(() => {
     
     .author-avatar {
       flex-shrink: 0;
-      border: 2px solid white;
+      border: 3px solid var(--color-main-background);
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
     
@@ -464,7 +398,7 @@ const sanitizedContent = computed(() => {
       .meta-details {
         display: flex;
         align-items: center;
-        gap: 20px;
+        gap: 24px;
         flex-wrap: wrap;
         
         .meta-date,
@@ -472,8 +406,8 @@ const sanitizedContent = computed(() => {
         .meta-category {
           display: flex;
           align-items: center;
-          gap: 6px;
-          font-size: 13px;
+          gap: 8px;
+          font-size: 14px;
           color: var(--color-text-lighter);
           
           .date-icon,
@@ -670,56 +604,28 @@ const sanitizedContent = computed(() => {
   }
 }
 
-// Stats (optional)
-.rich-stats {
+// Expiry Warning
+.expiry-warning {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, 0.2);
   margin-top: 40px;
-  padding-top: 24px;
-  border-top: 1px solid var(--color-border);
+  color: #ef4444;
+  font-weight: 600;
   
-  .stats-grid {
-    display: flex;
-    justify-content: center;
-    gap: 32px;
-    
-    .stat-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 24px;
-      background: var(--color-background-dark);
-      border-radius: 12px;
-      min-width: 140px;
-      
-      .stat-icon {
-        color: var(--color-text-maxcontrast);
-      }
-      
-      .stat-info {
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-        
-        .stat-value {
-          font-size: 20px;
-          font-weight: 700;
-          color: var(--color-main-text);
-        }
-        
-        .stat-label {
-          font-size: 12px;
-          color: var(--color-text-lighter);
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-        }
-      }
-    }
+  .warning-icon {
+    color: #ef4444;
   }
 }
 
 // Responsive Design
 @media (max-width: 768px) {
   .rich-cover {
-    height: 200px;
+    height: 240px;
     
     .cover-overlay {
       padding: 20px;
@@ -727,18 +633,18 @@ const sanitizedContent = computed(() => {
     
     .cover-content {
       .cover-title {
-        font-size: 24px;
+        font-size: 28px;
       }
     }
   }
   
   .rich-content-wrapper {
-    padding: 20px;
+    padding: 24px;
   }
   
   .rich-header {
     .rich-title {
-      font-size: 22px;
+      font-size: 28px;
     }
   }
   
@@ -769,27 +675,15 @@ const sanitizedContent = computed(() => {
       }
     }
   }
-  
-  .rich-stats {
-    .stats-grid {
-      flex-direction: column;
-      gap: 12px;
-      
-      .stat-item {
-        min-width: auto;
-        justify-content: space-between;
-      }
-    }
-  }
 }
 
 @media (max-width: 480px) {
   .rich-cover {
-    height: 150px;
+    height: 200px;
     
     .cover-content {
       .cover-title {
-        font-size: 20px;
+        font-size: 24px;
       }
     }
   }

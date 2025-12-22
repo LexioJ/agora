@@ -162,17 +162,16 @@ async function loadMore() {
 
 onMounted(() => {
   inquiriesStore.load(false)
+// Initialize modes from route query
+if (route.query.viewMode === 'create') {
+  mainMode.value = 'create' 
+}
+else if (route.query.viewMode === 'group') { 
+  mainMode.value = 'group'
+} else {
+  mainMode.value = 'view'
+}
 
-
-  // Initialize modes from route query
-  if (route.query.viewMode === 'create') {
-    mainMode.value = 'create' 
-  }
-  else if (route.query.viewMode === 'create') {
-    mainMode.value = 'group'
-  } else {
-    mainMode.value = 'view'
-  }
 
   // Initialize subMode from app settings
   if (preferencesStore.user.defaultViewInquiry) {

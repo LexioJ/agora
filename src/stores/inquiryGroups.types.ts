@@ -6,7 +6,7 @@ import { User } from '../Types/index.ts'
 
 export type InquiryGroupType = {
   id: number | string
-  type: string 
+  group_type: string 
   label: string
   family: string
   icon?: string
