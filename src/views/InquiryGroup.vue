@@ -99,7 +99,7 @@
           <!-- Section Header -->
           <div class="section-header">
             <h3>{{ sectionTitle }}</h3>
-            <div v-if="isOwnerOrAdmin" class="section-actions">
+            <div v-if="currentInquiryGroup && canUserEditGroup(currentInquiryGroup)" class="section-actions">
               <NcButton class="create-button" @click="createInquiryGroup(currentGroupType)">
                 ➕ {{ t('agora', 'Create Group') }}
               </NcButton>
@@ -155,107 +155,110 @@
               </div>
               
               <!-- Owner menu (appears under the vignette on hover) -->
-              <div 
-                v-if="group.slug && isOwnerOrAdmin && hoveredGroupId === group.id" 
-                class="owner-menu-under"
-                @mouseenter="hoveredGroupId = group.id"
-                @mouseleave="hoveredGroupId = null"
-              >
-                <div class="owner-menu-content">
+                  <div
+                          v-if="group && group.slug && (canUserEditGroup(group) || canUserDeleteGroup(group) || canUserArchiveGroup(group)) && hoveredGroupId === group.id"
+                          class="owner-menu-under"
+                          @mouseenter="hoveredGroupId = group.id"
+                          @mouseleave="hoveredGroupId = null"
+                          >
+                          <div class="owner-menu-content">
+                              <NcButton 
+                               v-if="canUserEditGroup(group)"
+                               type="tertiary" 
+                               class="menu-item modify"
+                               @click.stop="modifyGroup(group)"
+                               >
+                               <template #icon>
+                                   <svg width="14" height="14" viewBox="0 0 24 24">
+                                       <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
+                                   </svg>
+                               </template>
+                      {{ t('agora', 'Modify') }}
+                              </NcButton>
+
                   <NcButton 
-                    type="tertiary" 
-                    class="menu-item modify"
-                    @click.stop="modifyGroup(group)"
-                  >
-                    <template #icon>
-                      <svg width="14" height="14" viewBox="0 0 24 24">
-                        <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/>
-                      </svg>
-                    </template>
-                    {{ t('agora', 'Modify') }}
+                                             v-if="canUserDeleteGroup(group)"
+                                             type="tertiary" 
+                                             class="menu-item delete"
+                                             @click.stop="deleteGroup(group)"
+                                             >
+                                             <template #icon>
+                                                 <svg width="14" height="14" viewBox="0 0 24 24">
+                                                     <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                                                 </svg>
+                                             </template>
+                                             {{ t('agora', 'Delete') }}
                   </NcButton>
-                  
+
                   <NcButton 
-                    type="tertiary" 
-                    class="menu-item delete"
-                    @click.stop="deleteGroup(group)"
-                  >
-                    <template #icon>
-                      <svg width="14" height="14" viewBox="0 0 24 24">
-                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-                      </svg>
-                    </template>
-                    {{ t('agora', 'Delete') }}
+                                                           v-if="canUserArchiveGroup(group)"
+                                                           type="tertiary" 
+                                                           class="menu-item archive"
+                                                           @click.stop="archiveGroup(group)"
+                                                           >
+                                                           <template #icon>
+                                                               <svg width="14" height="14" viewBox="0 0 24 24">
+                                                                   <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+                                                               </svg>
+                                                           </template>
+                                                           {{ t('agora', 'Archive') }}
                   </NcButton>
-                  
-                  <NcButton 
-                    type="tertiary" 
-                    class="menu-item archive"
-                    @click.stop="archiveGroup(group)"
-                  >
-                    <template #icon>
-                      <svg width="14" height="14" viewBox="0 0 24 24">
-                        <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                      </svg>
-                    </template>
-                    {{ t('agora', 'Archive') }}
-                  </NcButton>
-                </div>
+                          </div>
+                  </div>
               </div>
+             </div>
+            </div>
+            <div v-if="hasSlug && currentInquiryGroup" class="inquiry-group-content">
+                <InquiryGroupViewMiddle
+                        :group="currentInquiryGroup"
+                        :inquiry-ids="currentInquiryGroup.inquiryIds"
+                        />
+                <InquiryGroupViewMain
+                        :group="currentInquiryGroup"
+                        :inquiry-ids="currentInquiryGroup.inquiryIds"
+                        />
             </div>
           </div>
-         </div>
-              <div v-if="hasSlug && currentInquiryGroup" class="inquiry-group-content">
-              <InquiryGroupViewMiddle
-                      :group="currentInquiryGroup"
-                      :inquiry-ids="currentInquiryGroup.inquiryIds"
-                      />
-              <InquiryGroupViewMain
-                      :group="currentInquiryGroup"
-                      :inquiry-ids="currentInquiryGroup.inquiryIds"
-                      />
-          </div>
+        </div>
+
+        <!-- Group not found -->
+        <div v-else class="not-found-state">
+            <div class="not-found-icon">🔍</div>
+            <h2>{{ t('agora', 'Group not found') }}</h2>
+            <p>{{ t('agora', 'The group you are looking for does not exist or you do not have permission to access it.') }}</p>
+            <NcButton type="primary" @click="navigateToHome">
+            {{ t('agora', 'Back to home') }}
+            </NcButton>
         </div>
       </div>
+      <NcDialog
+              v-if="createGroupDlgToggle"
+              :name="t('agora', 'Create New Inquiry Group')"
+              :enable-slide-up="false"
+              @close="handleCloseGroupDialog"
+              >
 
-      <!-- Group not found -->
-      <div v-else class="not-found-state">
-          <div class="not-found-icon">🔍</div>
-          <h2>{{ t('agora', 'Group not found') }}</h2>
-          <p>{{ t('agora', 'The group you are looking for does not exist or you do not have permission to access it.') }}</p>
-          <NcButton type="primary" @click="navigateToHome">
-          {{ t('agora', 'Back to home') }}
-          </NcButton>
-      </div>
-    </div>
-    <NcDialog
-            v-if="createGroupDlgToggle"
-            :name="t('agora', 'Create New Inquiry Group')"
-            :enable-slide-up="false"
-            @close="handleCloseGroupDialog"
-            >
+              <InquiryGroupCreateDlg
+                      :inquiry-group-type="selectedInquiryGroupTypeForCreation"
+                      :parent-group-id="selectedParentId"
+                      :available-groups="availableGroups"
+                      @added="inquiryGroupAdded"
+                      @close="handleCloseGroupDialog"
+                      />
+      </NcDialog>
 
-            <InquiryGroupCreateDlg
-                    :inquiry-group-type="selectedInquiryGroupTypeForCreation"
-                    :parent-group-id="selectedParentId"
-                    :available-groups="availableGroups"
-                    @added="inquiryGroupAdded"
-                    @close="handleCloseGroupDialog"
-                    />
-    </NcDialog>
-
-    <NcDialog
-            v-if="deleteDialogGroup"
-            v-model:open="showDeleteDialog"
-            :name="deleteDialogTitle"
-            :message="deleteDialogMessage"
-            :buttons="deleteDialogButtons"
-            />
+      <NcDialog
+              v-if="deleteDialogGroup"
+              v-model:open="showDeleteDialog"
+              :name="deleteDialogTitle"
+              :message="deleteDialogMessage"
+              :buttons="deleteDialogButtons"
+              />
 
   </NcAppContent>
 </template>
 <script setup lang="ts">
-import { computed, ref, watch, onMounted} from 'vue'
+    import { computed, ref, watch, onMounted} from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import { showError, showSuccess } from '@nextcloud/dialogs'
@@ -272,7 +275,19 @@ import InquiryGroupCreateDlg from '../components/Create/InquiryGroupCreateDlg.vu
 import type { InquiryGroupType, InquiryGroup } from '../stores/inquiryGroups.types.ts'
 import InquiryGroupViewMiddle from '../components/InquiryGroup/InquiryGroupViewMiddle.vue'
 import InquiryGroupViewMain from '../components/InquiryGroup/InquiryGroupViewMain.vue'
+import { 
+  createPermissionContextForInquiryGroup, 
+  GroupAccessLevel,
+  canArchive,
+  canEdit,
+  canDelete,
+  ContentType,
+  InquiryFamily
+} from '../utils/permissions.ts'
 
+defineProps<{
+  slug?: string
+}>()
 
 const route = useRoute()
 const router = useRouter()
@@ -305,15 +320,78 @@ const currentGroupType = computed(() => {
   return inquiryGroupsStore.currentGroupType || 'assembly'
 })
 
-// Get current group if slug exists
+// Get current group if slug exists (SIMPLIFIED)
 const currentInquiryGroup = computed(() => {
   if (!hasSlug.value) return null
+
   const slug = route.params.slug as string
-  return inquiryGroupsStore.bySlug(slug)
+  const group = inquiryGroupsStore.bySlug(slug)
+
+  // Check if group exists and has owner
+  if (!group || !group.owner) {
+    return null
+  }
+
+  return group
 })
+
 
 // Compute whether group was found
 const groupNotFound = computed(() => hasSlug.value && !currentInquiryGroup.value)
+
+
+// Create permission context for a specific group (WITH NULL CHECK)
+function createGroupPermissionContext(group: InquiryGroup | null) {
+  if (!group || !group.owner) {
+    return null
+  }
+
+  const currentUser = sessionStore.currentUser
+  const currentUserId = currentUser?.id || ''
+
+  const isOwner = currentUserId === group.owner.id
+  const isGroupEditor = sessionStore.userStatus.isGroupEditore || group.allowEdit || false
+  const isPublic = group.protected === false || group.protected === 0
+
+  return createPermissionContextForInquiryGroup(
+    group.owner.id,
+    isPublic, 
+    group.deleted > 0,
+    group.group_status === 'archived', 
+    group.owned_group !== null, 
+    group.owned_group ? [group.owned_group] : [], 
+    isGroupEditor || isOwner, 
+    false,                    
+    isGroupEditor,        
+    group.type,          
+    group.owned_group   
+  )
+}
+
+// Helper functions 
+function canUserArchiveGroup(group: InquiryGroup | null): boolean {
+  if (!group) return false  
+  const context = createGroupPermissionContext(group)
+  if (!context) return false
+  return canArchive(context)
+}
+
+function canUserEditGroup(group: InquiryGroup | null): boolean {
+  if (sessionStore.currentUser.isAdmin || sessionStore.currentUser.isGroupEditor ) return true
+  if (!group) {
+    return false
+    }
+  const context = createGroupPermissionContext(group)
+  if (!context) return false
+  return canEdit(context)
+}
+
+function canUserDeleteGroup(group: InquiryGroup | null): boolean {
+  if (!group) return false  
+  const context = createGroupPermissionContext(group)
+  if (!context) return false
+  return canDelete(context)
+}
 
 
 // Get parent groups for breadcrumb
@@ -629,10 +707,10 @@ watch(() => route.params.slug, async () => {
 
 <style lang="scss" scoped>
 .inquiry-group-content {
-  margin-top: 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
+    margin-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 .inquiry-group-page {
@@ -641,638 +719,638 @@ watch(() => route.params.slug, async () => {
     min-height: 100vh;
 }
 
-            /* Breadcrumb - smaller on left */
-            .breadcrumb-bar {
-                background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
-                padding: 15px 0;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-                border-bottom: 3px solid var(--color-primary, #2196f3);
+                        /* Breadcrumb - smaller on left */
+                        .breadcrumb-bar {
+                            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+                            padding: 15px 0;
+                            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+                            border-bottom: 3px solid var(--color-primary, #2196f3);
 
-                .breadcrumb-container {
-                    max-width: 1600px;
-                    margin: 0 auto;
-                    padding: 0 20px;
-                    display: flex;
-                    align-items: center;
-                    gap: 10px;
+                            .breadcrumb-container {
+                                max-width: 1600px;
+                                margin: 0 auto;
+                                padding: 0 20px;
+                                display: flex;
+                                align-items: center;
+                                gap: 10px;
 
-                    .breadcrumb-home {
-                        color: white;
-                        font-weight: 600;
-                        font-size: 14px;
-                        padding: 8px 12px;
-                        background: rgba(255, 255, 255, 0.1);
-                        border-radius: 8px;
-                        transition: all 0.3s ease;
-                        min-width: auto;
+                                .breadcrumb-home {
+                                    color: white;
+                                    font-weight: 600;
+                                    font-size: 14px;
+                                    padding: 8px 12px;
+                                    background: rgba(255, 255, 255, 0.1);
+                                    border-radius: 8px;
+                                    transition: all 0.3s ease;
+                                    min-width: auto;
 
-                        &:hover {
-                            background: rgba(255, 255, 255, 0.2);
+                                    &:hover {
+                                        background: rgba(255, 255, 255, 0.2);
+                                    }
+
+                                    .breadcrumb-label {
+                                        margin-left: 6px;
+                                    }
+                                }
+
+                                .breadcrumb-separator {
+                                    color: rgba(255, 255, 255, 0.6);
+                                    margin: 0 3px;
+                                    font-weight: 300;
+                                    font-size: 16px;
+                                }
+
+                                .breadcrumb-item {
+                                    color: rgba(255, 255, 255, 0.9);
+                                    font-weight: 500;
+                                    font-size: 14px;
+                                    padding: 6px 10px;
+                                    background: rgba(255, 255, 255, 0.05);
+                                    border-radius: 6px;
+                                    transition: all 0.3s ease;
+                                    min-width: auto;
+
+                                    &:hover {
+                                        background: rgba(255, 255, 255, 0.15);
+                                    }
+
+                                    .breadcrumb-item-content {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 6px;
+                                    }
+                                }
+
+                                .breadcrumb-current {
+                                    color: white;
+                                    font-weight: 700;
+                                    font-size: 16px;
+                                    margin-left: 3px;
+
+                                    .breadcrumb-current-content {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 8px;
+                                        padding: 8px 12px;
+                                        background: rgba(255, 255, 255, 0.15);
+                                        border-radius: 8px;
+                                        border-left: 3px solid var(--color-primary, #2196f3);
+                                    }
+
+                                    .inquiry-count {
+                                        font-weight: 400;
+                                        font-size: 12px;
+                                        opacity: 0.9;
+                                        margin-left: 6px;
+                                    }
+                                }
+
+                                .breadcrumb-icon {
+                                    width: 16px;
+                                    height: 16px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                }
+                            }
+                        } 
+
+                        /* White Separation Line */
+                        .separation-line {
+                            height: 1px;
+                            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
+                            margin: 0;
                         }
 
-                        .breadcrumb-label {
-                            margin-left: 6px;
-                        }
-                    }
+                        /* Group Header */
+                        .group-header {
+                            padding: 30px 20px 20px;
+                            background: white;
+                            border-radius: 0 0 20px 20px;
+                            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                            margin-bottom: 30px;
 
-                    .breadcrumb-separator {
-                        color: rgba(255, 255, 255, 0.6);
-                        margin: 0 3px;
-                        font-weight: 300;
-                        font-size: 16px;
-                    }
-
-                    .breadcrumb-item {
-                        color: rgba(255, 255, 255, 0.9);
-                        font-weight: 500;
-                        font-size: 14px;
-                        padding: 6px 10px;
-                        background: rgba(255, 255, 255, 0.05);
-                        border-radius: 6px;
-                        transition: all 0.3s ease;
-                        min-width: auto;
-
-                        &:hover {
-                            background: rgba(255, 255, 255, 0.15);
-                        }
-
-                        .breadcrumb-item-content {
-                            display: flex;
-                            align-items: center;
-                            gap: 6px;
-                        }
-                    }
-
-                    .breadcrumb-current {
-                        color: white;
-                        font-weight: 700;
-                        font-size: 16px;
-                        margin-left: 3px;
-
-                        .breadcrumb-current-content {
-                            display: flex;
-                            align-items: center;
-                            gap: 8px;
-                            padding: 8px 12px;
-                            background: rgba(255, 255, 255, 0.15);
-                            border-radius: 8px;
-                            border-left: 3px solid var(--color-primary, #2196f3);
-                        }
-
-                        .inquiry-count {
-                            font-weight: 400;
-                            font-size: 12px;
-                            opacity: 0.9;
-                            margin-left: 6px;
-                        }
-                    }
-
-                    .breadcrumb-icon {
-                        width: 16px;
-                        height: 16px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                    }
-                }
-            } 
-
-            /* White Separation Line */
-            .separation-line {
-                height: 1px;
-                background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.8), transparent);
-                margin: 0;
-            }
-
-            /* Group Header */
-            .group-header {
-                padding: 30px 20px 20px;
-                background: white;
-                border-radius: 0 0 20px 20px;
-                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-                margin-bottom: 30px;
-
-                .header-left {
-                    display: flex;
-                    align-items: center;
-                    gap: 20px;
-                    max-width: 1600px;
-                    margin: 0 auto;
-                }
-
-                .group-icon-badge {
-                    width: 60px;
-                    height: 60px;
-                    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-                    border-radius: 15px;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-
-                    .group-icon {
-                        width: 30px;
-                        height: 30px;
-                        color: white;
-                    }
-                }
-
-                .group-title-section {
-                    flex: 1;
-
-                    .group-title {
-                        font-size: 28px;
-                        font-weight: 700;
-                        margin: 0;
-                        color: #2c3e50;
-                        line-height: 1.2;
-                    }
-
-                    .group-subtitle {
-                        margin-top: 10px;
-
-                        p {
-                            color: #5d6d7e;
-                            font-size: 16px;
-                            line-height: 1.4;
-                            max-width: 800px;
-                            margin: 0 0 10px 0;
-                        }
-
-                        .inquiry-count-badge,
-                        .groups-count-badge {
-                            background: linear-gradient(135deg, #00b09b, #96c93d);
-                            color: white;
-                            padding: 6px 12px;
-                            border-radius: 15px;
-                            font-weight: 600;
-                            font-size: 13px;
-                            box-shadow: 0 2px 8px rgba(0, 176, 155, 0.3);
-                        }
-
-                        .groups-count-badge {
-                            background: linear-gradient(135deg, #667eea, #764ba2);
-                        }
-                    }
-                }
-            }
-
-            /* Loading State */
-            .loading-state {
-                text-align: center;
-                padding: 60px 20px;
-
-                .spinner {
-                    width: 40px;
-                    height: 40px;
-                    border: 3px solid #e0e6ed;
-                    border-top-color: #667eea;
-                    border-radius: 50%;
-                    margin: 0 auto 20px;
-                    animation: spin 1s linear infinite;
-                }
-
-                p {
-                    color: #5d6d7e;
-                    font-size: 16px;
-                }
-            }
-
-            @keyframes spin {
-                to { transform: rotate(360deg); }
-            }
-
-            /* Content Area */
-            .content-area {
-                max-width: 1600px;
-                margin: 0 auto;
-                padding: 0 20px 40px;
-            }
-
-            /* Section Header */
-            .section-header {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 25px;
-
-                h3 {
-                    font-size: 24px;
-                    font-weight: 600;
-                    color: #2c3e50;
-                    margin: 0;
-                }
-
-                .section-actions {
-                    .create-button {
-                        background: linear-gradient(135deg, #00b09b, #96c93d);
-                        color: white;
-                        font-weight: 600;
-                        padding: 10px 20px;
-                        border: none;
-                        border-radius: 8px;
-                        box-shadow: 0 2px 8px rgba(0, 176, 155, 0.3);
-                        cursor: pointer;
-                        transition: all 0.3s ease;
-
-                        &:hover {
-                            transform: translateY(-1px);
-                            box-shadow: 0 4px 12px rgba(0, 176, 155, 0.4);
-                        }
-                    }
-                }
-            }
-
-            /* Groups Grid */
-            .groups-grid {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                gap: 25px;
-                align-items: start;
-            }
-
-            /* Container for vignette + menu */
-            .group-vignette-wrapper {
-                position: relative;
-                margin-bottom: 0px; 
-            }
-
-            .vignette-container {
-                position: relative;
-                margin-bottom: 60px; /* Space for the menu */
-
-                &:hover {
-                    .owner-menu-under {
-                        opacity: 1;
-                        visibility: visible;
-                        transform: translateY(0);
-                        pointer-events: auto; /* Enable clicks on menu */
-                    }
-                }
-            }
-
-            .group-vignette {
-                background: white;
-                border-radius: 15px;
-                overflow: hidden;
-                cursor: pointer;
-                transition: all 0.3s ease;
-                box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-                border: 1px solid rgba(0, 0, 0, 0.05);
-                min-height: 320px;
-                max-height: 380px;
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-
-                &:hover {
-                    transform: translateY(-5px);
-                    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
-                    border-color: var(--color-primary, #2196f3);
-
-                    .vignette-cover img {
-                        transform: scale(1.05);
-                    }
-                }
-
-                .vignette-cover {
-                    height: 120px;
-                    overflow: hidden;
-                    position: relative;
-
-                    img {
-                        width: 100%;
-                        height: 100%;
-                        object-fit: cover;
-                        transition: transform 0.5s ease;
-                    }
-
-                    .vignette-cover-overlay {
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        right: 0;
-                        height: 50px;
-                        background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
-                    }
-                }
-
-                .vignette-content {
-                    padding: 16px 20px;
-                    flex: 1;
-                    display: flex;
-                    flex-direction: column;
-
-                    .vignette-icon {
-                        width: 36px;
-                        height: 36px;
-                        background: linear-gradient(135deg, #667eea, #764ba2);
-                        border-radius: 10px;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        color: white;
-                        font-size: 18px;
-                        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
-                        margin-bottom: 10px;
-                    }
-
-                    h4 {
-                        font-size: 16px;
-                        font-weight: 600;
-                        margin: 0 0 8px 0;
-                        color: #2c3e50;
-                        line-height: 1.3;
-                    }
-
-                    .vignette-description {
-                        color: #7f8c8d;
-                        font-size: 13px;
-                        line-height: 1.3;
-                        margin-bottom: 12px;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 2;
-                        -webkit-box-orient: vertical;
-                        overflow: hidden;
-                        flex: 0 0 auto;
-                    }
-
-                    .vignette-stats {
-                        display: flex;
-                        gap: 15px;
-                        margin-bottom: 15px;
-
-                        .stat-item {
-                            display: flex;
-                            align-items: center;
-                            gap: 5px;
-                            font-size: 13px;
-
-                            .stat-icon {
-                                opacity: 0.8;
+                            .header-left {
+                                display: flex;
+                                align-items: center;
+                                gap: 20px;
+                                max-width: 1600px;
+                                margin: 0 auto;
                             }
 
-                            .stat-value {
+                            .group-icon-badge {
+                                width: 60px;
+                                height: 60px;
+                                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                                border-radius: 15px;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+
+                                .group-icon {
+                                    width: 30px;
+                                    height: 30px;
+                                    color: white;
+                                }
+                            }
+
+                            .group-title-section {
+                                flex: 1;
+
+                                .group-title {
+                                    font-size: 28px;
+                                    font-weight: 700;
+                                    margin: 0;
+                                    color: #2c3e50;
+                                    line-height: 1.2;
+                                }
+
+                                .group-subtitle {
+                                    margin-top: 10px;
+
+                                    p {
+                                        color: #5d6d7e;
+                                        font-size: 16px;
+                                        line-height: 1.4;
+                                        max-width: 800px;
+                                        margin: 0 0 10px 0;
+                                    }
+
+                                    .inquiry-count-badge,
+                                    .groups-count-badge {
+                                        background: linear-gradient(135deg, #00b09b, #96c93d);
+                                        color: white;
+                                        padding: 6px 12px;
+                                        border-radius: 15px;
+                                        font-weight: 600;
+                                        font-size: 13px;
+                                        box-shadow: 0 2px 8px rgba(0, 176, 155, 0.3);
+                                    }
+
+                                    .groups-count-badge {
+                                        background: linear-gradient(135deg, #667eea, #764ba2);
+                                    }
+                                }
+                            }
+                        }
+
+                        /* Loading State */
+                        .loading-state {
+                            text-align: center;
+                            padding: 60px 20px;
+
+                            .spinner {
+                                width: 40px;
+                                height: 40px;
+                                border: 3px solid #e0e6ed;
+                                border-top-color: #667eea;
+                                border-radius: 50%;
+                                margin: 0 auto 20px;
+                                animation: spin 1s linear infinite;
+                            }
+
+                            p {
+                                color: #5d6d7e;
+                                font-size: 16px;
+                            }
+                        }
+
+                        @keyframes spin {
+                            to { transform: rotate(360deg); }
+                        }
+
+                        /* Content Area */
+                        .content-area {
+                            max-width: 1600px;
+                            margin: 0 auto;
+                            padding: 0 20px 40px;
+                        }
+
+                        /* Section Header */
+                        .section-header {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin-bottom: 25px;
+
+                            h3 {
+                                font-size: 24px;
                                 font-weight: 600;
                                 color: #2c3e50;
+                                margin: 0;
+                            }
+
+                            .section-actions {
+                                .create-button {
+                                    background: linear-gradient(135deg, #00b09b, #96c93d);
+                                    color: white;
+                                    font-weight: 600;
+                                    padding: 10px 20px;
+                                    border: none;
+                                    border-radius: 8px;
+                                    box-shadow: 0 2px 8px rgba(0, 176, 155, 0.3);
+                                    cursor: pointer;
+                                    transition: all 0.3s ease;
+
+                                    &:hover {
+                                        transform: translateY(-1px);
+                                        box-shadow: 0 4px 12px rgba(0, 176, 155, 0.4);
+                                    }
+                                }
                             }
                         }
-                    }
 
-                    .vignette-footer {
-                        margin-top: auto;
+                        /* Groups Grid */
+                        .groups-grid {
+                            display: grid;
+                            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                            gap: 25px;
+                            align-items: start;
+                        }
 
-                        .view-group-button {
-                            width: 100%;
-                            justify-content: center;
-                            background: linear-gradient(135deg, #667eea, #764ba2);
-                            color: white;
-                            border: none;
-                            padding: 8px;
-                            border-radius: 8px;
-                            font-weight: 600;
-                            font-size: 12px;
-                            transition: all 0.3s ease;
+                        /* Container for vignette + menu */
+                        .group-vignette-wrapper {
+                            position: relative;
+                            margin-bottom: 0px; 
+                        }
+
+                        .vignette-container {
+                            position: relative;
+                            margin-bottom: 60px; /* Space for the menu */
 
                             &:hover {
-                                background: linear-gradient(135deg, #764ba2, #667eea);
-                                transform: translateY(-1px);
-                            }
-                        }
-                    }
-                }
-            }
-
-            /* FIXED: Owner menu - appears under the vignette */
-            .owner-menu-under {
-                position: absolute;
-                top: calc(100% + 5px); /* Position it right below the vignette with a small gap */
-                left: 0;
-                right: 0;
-                background: white;
-                border-radius: 8px;
-                box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-                z-index: 50;
-                overflow: hidden;
-                border: 1px solid #e0e6ed;
-                opacity: 0;
-                visibility: hidden;
-                transform: translateY(-10px);
-                transition: all 0.3s ease;
-
-                /* Show when parent wrapper is hovered */
-                .group-vignette-wrapper:hover & {
-                    opacity: 1;
-                    visibility: visible;
-                    transform: translateY(0);
-                }
-
-                .owner-menu-content {
-                    display: flex;
-                    padding: 8px;
-                    gap: 6px;
-                    background: #f8fafc;
-
-                    .menu-item {
-                        flex: 1;
-                        justify-content: center;
-                        padding: 8px 6px;
-                        font-size: 12px;
-                        font-weight: 500;
-                        border-radius: 6px;
-                        background: white;
-                        color: #64748b;
-                        border: 1px solid #e2e8f0;
-                        transition: all 0.2s ease;
-                        min-height: 36px;
-                        white-space: nowrap;
-                        cursor: pointer;
-
-                        &:hover {
-                            background: #f1f5f9;
-                            color: #475569;
-                            border-color: #cbd5e1;
-                            transform: translateY(-1px);
-                            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-                        }
-
-                        &:active {
-                            transform: translateY(0);
-                        }
-
-                        :deep(svg) {
-                            margin-right: 6px;
-                            fill: #64748b;
-                        }
-
-                        &.modify:hover {
-                            color: #3b82f6;
-                            border-color: #93c5fd;
-                            :deep(svg) {
-                                fill: #3b82f6;
+                                .owner-menu-under {
+                                    opacity: 1;
+                                    visibility: visible;
+                                    transform: translateY(0);
+                                    pointer-events: auto; /* Enable clicks on menu */
+                                }
                             }
                         }
 
-                        &.delete:hover {
-                            color: #ef4444;
-                            border-color: #fca5a5;
-                            :deep(svg) {
-                                fill: #ef4444;
+                        .group-vignette {
+                            background: white;
+                            border-radius: 15px;
+                            overflow: hidden;
+                            cursor: pointer;
+                            transition: all 0.3s ease;
+                            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+                            border: 1px solid rgba(0, 0, 0, 0.05);
+                            min-height: 320px;
+                            max-height: 380px;
+                            display: flex;
+                            flex-direction: column;
+                            height: 100%;
+
+                            &:hover {
+                                transform: translateY(-5px);
+                                box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+                                border-color: var(--color-primary, #2196f3);
+
+                                .vignette-cover img {
+                                    transform: scale(1.05);
+                                }
+                            }
+
+                            .vignette-cover {
+                                height: 120px;
+                                overflow: hidden;
+                                position: relative;
+
+                                img {
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    transition: transform 0.5s ease;
+                                }
+
+                                .vignette-cover-overlay {
+                                    position: absolute;
+                                    bottom: 0;
+                                    left: 0;
+                                    right: 0;
+                                    height: 50px;
+                                    background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+                                }
+                            }
+
+                            .vignette-content {
+                                padding: 16px 20px;
+                                flex: 1;
+                                display: flex;
+                                flex-direction: column;
+
+                                .vignette-icon {
+                                    width: 36px;
+                                    height: 36px;
+                                    background: linear-gradient(135deg, #667eea, #764ba2);
+                                    border-radius: 10px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    color: white;
+                                    font-size: 18px;
+                                    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+                                    margin-bottom: 10px;
+                                }
+
+                                h4 {
+                                    font-size: 16px;
+                                    font-weight: 600;
+                                    margin: 0 0 8px 0;
+                                    color: #2c3e50;
+                                    line-height: 1.3;
+                                }
+
+                                .vignette-description {
+                                    color: #7f8c8d;
+                                    font-size: 13px;
+                                    line-height: 1.3;
+                                    margin-bottom: 12px;
+                                    display: -webkit-box;
+                                    -webkit-line-clamp: 2;
+                                    -webkit-box-orient: vertical;
+                                    overflow: hidden;
+                                    flex: 0 0 auto;
+                                }
+
+                                .vignette-stats {
+                                    display: flex;
+                                    gap: 15px;
+                                    margin-bottom: 15px;
+
+                                    .stat-item {
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 5px;
+                                        font-size: 13px;
+
+                                        .stat-icon {
+                                            opacity: 0.8;
+                                        }
+
+                                        .stat-value {
+                                            font-weight: 600;
+                                            color: #2c3e50;
+                                        }
+                                    }
+                                }
+
+                                .vignette-footer {
+                                    margin-top: auto;
+
+                                    .view-group-button {
+                                        width: 100%;
+                                        justify-content: center;
+                                        background: linear-gradient(135deg, #667eea, #764ba2);
+                                        color: white;
+                                        border: none;
+                                        padding: 8px;
+                                        border-radius: 8px;
+                                        font-weight: 600;
+                                        font-size: 12px;
+                                        transition: all 0.3s ease;
+
+                                        &:hover {
+                                            background: linear-gradient(135deg, #764ba2, #667eea);
+                                            transform: translateY(-1px);
+                                        }
+                                    }
+                                }
                             }
                         }
 
-                        &.archive:hover {
-                            color: #10b981;
-                            border-color: #a7f3d0;
-                            :deep(svg) {
-                                fill: #10b981;
+                        /* FIXED: Owner menu - appears under the vignette */
+                        .owner-menu-under {
+                            position: absolute;
+                            top: calc(100% + 5px); /* Position it right below the vignette with a small gap */
+                            left: 0;
+                            right: 0;
+                            background: white;
+                            border-radius: 8px;
+                            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+                            z-index: 50;
+                            overflow: hidden;
+                            border: 1px solid #e0e6ed;
+                            opacity: 0;
+                            visibility: hidden;
+                            transform: translateY(-10px);
+                            transition: all 0.3s ease;
+
+                            /* Show when parent wrapper is hovered */
+                            .group-vignette-wrapper:hover & {
+                                opacity: 1;
+                                visibility: visible;
+                                transform: translateY(0);
+                            }
+
+                            .owner-menu-content {
+                                display: flex;
+                                padding: 8px;
+                                gap: 6px;
+                                background: #f8fafc;
+
+                                .menu-item {
+                                    flex: 1;
+                                    justify-content: center;
+                                    padding: 8px 6px;
+                                    font-size: 12px;
+                                    font-weight: 500;
+                                    border-radius: 6px;
+                                    background: white;
+                                    color: #64748b;
+                                    border: 1px solid #e2e8f0;
+                                    transition: all 0.2s ease;
+                                    min-height: 36px;
+                                    white-space: nowrap;
+                                    cursor: pointer;
+
+                                    &:hover {
+                                        background: #f1f5f9;
+                                        color: #475569;
+                                        border-color: #cbd5e1;
+                                        transform: translateY(-1px);
+                                        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+                                    }
+
+                                    &:active {
+                                        transform: translateY(0);
+                                    }
+
+                                    :deep(svg) {
+                                        margin-right: 6px;
+                                        fill: #64748b;
+                                    }
+
+                                    &.modify:hover {
+                                        color: #3b82f6;
+                                        border-color: #93c5fd;
+                                        :deep(svg) {
+                                            fill: #3b82f6;
+                                        }
+                                    }
+
+                                    &.delete:hover {
+                                        color: #ef4444;
+                                        border-color: #fca5a5;
+                                        :deep(svg) {
+                                            fill: #ef4444;
+                                        }
+                                    }
+
+                                    &.archive:hover {
+                                        color: #10b981;
+                                        border-color: #a7f3d0;
+                                        :deep(svg) {
+                                            fill: #10b981;
+                                        }
+                                    }
+                                }
                             }
                         }
-                    }
-                }
-            }
 
-            /* Empty State */
-            .empty-state {
-                text-align: center;
-                padding: 50px 20px;
-                background: white;
-                border-radius: 15px;
-                border: 2px dashed #e0e6ed;
+                        /* Empty State */
+                        .empty-state {
+                            text-align: center;
+                            padding: 50px 20px;
+                            background: white;
+                            border-radius: 15px;
+                            border: 2px dashed #e0e6ed;
 
-                .empty-icon {
-                    font-size: 48px;
-                    margin-bottom: 20px;
-                    opacity: 0.5;
-                }
+                            .empty-icon {
+                                font-size: 48px;
+                                margin-bottom: 20px;
+                                opacity: 0.5;
+                            }
 
-                h3 {
-                    font-size: 20px;
-                    color: #2c3e50;
-                    margin: 0 0 10px 0;
-                }
+                            h3 {
+                                font-size: 20px;
+                                color: #2c3e50;
+                                margin: 0 0 10px 0;
+                            }
 
-                p {
-                    color: #7f8c8d;
-                    margin-bottom: 25px;
-                    font-size: 15px;
-                }
-            }
-
-            /* Not Found State */
-            .not-found-state {
-                text-align: center;
-                padding: 80px 20px;
-
-                .not-found-icon {
-                    font-size: 60px;
-                    margin-bottom: 25px;
-                    opacity: 0.5;
-                }
-
-                h2 {
-                    font-size: 28px;
-                    color: #2c3e50;
-                    margin: 0 0 15px 0;
-                }
-
-                p {
-                    color: #7f8c8d;
-                    font-size: 16px;
-                    margin-bottom: 30px;
-                    max-width: 500px;
-                    margin-left: auto;
-                    margin-right: auto;
-                }
-            }
-
-            /* Debug styles to check if owner menu is working */
-            .debug-info {
-                position: fixed;
-                top: 10px;
-                right: 10px;
-                background: rgba(0, 0, 0, 0.8);
-                color: white;
-                padding: 10px;
-                border-radius: 5px;
-                z-index: 1000;
-                font-size: 12px;
-            }
-
-            /* Responsive Design */
-            @media (max-width: 768px) {
-                .breadcrumb-bar {
-                    padding: 12px 0;
-
-                    .breadcrumb-container {
-                        padding: 0 15px;
-                        gap: 6px;
-
-                        .breadcrumb-home,
-                        .breadcrumb-item {
-                            font-size: 13px;
-                            padding: 6px 8px;
-                        }
-
-                        .breadcrumb-current {
-                            font-size: 14px;
-
-                            .breadcrumb-current-content {
-                                padding: 6px 10px;
+                            p {
+                                color: #7f8c8d;
+                                margin-bottom: 25px;
+                                font-size: 15px;
                             }
                         }
-                    }
-                }
 
-                .group-header {
-                    padding: 25px 15px 15px;
+                        /* Not Found State */
+                        .not-found-state {
+                            text-align: center;
+                            padding: 80px 20px;
 
-                    .group-icon-badge {
-                        width: 50px;
-                        height: 50px;
-                        border-radius: 12px;
+                            .not-found-icon {
+                                font-size: 60px;
+                                margin-bottom: 25px;
+                                opacity: 0.5;
+                            }
 
-                        .group-icon {
-                            width: 25px;
-                            height: 25px;
+                            h2 {
+                                font-size: 28px;
+                                color: #2c3e50;
+                                margin: 0 0 15px 0;
+                            }
+
+                            p {
+                                color: #7f8c8d;
+                                font-size: 16px;
+                                margin-bottom: 30px;
+                                max-width: 500px;
+                                margin-left: auto;
+                                margin-right: auto;
+                            }
                         }
-                    }
 
-                    .group-title {
-                        font-size: 22px;
-                    }
-                }
-
-                .content-area {
-                    padding: 0 15px 30px;
-                }
-
-                .section-header {
-                    flex-direction: column;
-                    align-items: flex-start;
-                    gap: 15px;
-
-                    h3 {
-                        font-size: 20px;
-                    }
-                }
-
-                .groups-grid {
-                    grid-template-columns: 1fr;
-                    gap: 20px;
-                }
-
-                .owner-menu-under {
-                    .owner-menu-content {
-                        flex-direction: column;
-
-                        .menu-item {
-                            width: 100%;
-                            justify-content: flex-start;
-                            padding: 10px 12px;
+                        /* Debug styles to check if owner menu is working */
+                        .debug-info {
+                            position: fixed;
+                            top: 10px;
+                            right: 10px;
+                            background: rgba(0, 0, 0, 0.8);
+                            color: white;
+                            padding: 10px;
+                            border-radius: 5px;
+                            z-index: 1000;
+                            font-size: 12px;
                         }
-                    }
-                }
-            }
+
+                        /* Responsive Design */
+                        @media (max-width: 768px) {
+                            .breadcrumb-bar {
+                                padding: 12px 0;
+
+                                .breadcrumb-container {
+                                    padding: 0 15px;
+                                    gap: 6px;
+
+                                    .breadcrumb-home,
+                                    .breadcrumb-item {
+                                        font-size: 13px;
+                                        padding: 6px 8px;
+                                    }
+
+                                    .breadcrumb-current {
+                                        font-size: 14px;
+
+                                        .breadcrumb-current-content {
+                                            padding: 6px 10px;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .group-header {
+                                padding: 25px 15px 15px;
+
+                                .group-icon-badge {
+                                    width: 50px;
+                                    height: 50px;
+                                    border-radius: 12px;
+
+                                    .group-icon {
+                                        width: 25px;
+                                        height: 25px;
+                                    }
+                                }
+
+                                .group-title {
+                                    font-size: 22px;
+                                }
+                            }
+
+                            .content-area {
+                                padding: 0 15px 30px;
+                            }
+
+                            .section-header {
+                                flex-direction: column;
+                                align-items: flex-start;
+                                gap: 15px;
+
+                                h3 {
+                                    font-size: 20px;
+                                }
+                            }
+
+                            .groups-grid {
+                                grid-template-columns: 1fr;
+                                gap: 20px;
+                            }
+
+                            .owner-menu-under {
+                                .owner-menu-content {
+                                    flex-direction: column;
+
+                                    .menu-item {
+                                        width: 100%;
+                                        justify-content: flex-start;
+                                        padding: 10px 12px;
+                                    }
+                                }
+                            }
+                        }
 </style>
 

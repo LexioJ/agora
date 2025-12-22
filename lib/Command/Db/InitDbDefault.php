@@ -1860,7 +1860,7 @@ class InitDbDefault extends Command
 
         $this->log($output, 'Creating default Nextcloud groups...');
 
-        $groups = ['Agora Users','Agora Moderator', 'Agora Official','Agora Legislative','Agora Administrative','Agora Collective'];
+        $groups = ['Agora Users','Agora Moderator', 'Agora Official','Agora Legislative','Agora Group Editor'];
 
         foreach ($groups as $groupName) {
             $group = $this->groupManager->get($groupName);

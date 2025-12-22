@@ -23,8 +23,7 @@ class Group extends UserBase
     public const TYPE = 'group';
     public const GROUP_MODERATOR = 'Agora Moderator';
     public const GROUP_LEGISLATIVE = 'Agora Legislative';
-    public const GROUP_COLLECTIVE = 'Agora Collective';
-    public const GROUP_ADMINISTRATIVE = 'Agora Administrative';
+    public const GROUP_GROUP_EDITOR = 'Agora Group Editor';
     public const GROUP_OFFICIAL  = 'Agora Official';
     public const GROUP_USERS  = 'Agora Users';
     public const AGORA_FOLDER  = 'AgoraFiles';

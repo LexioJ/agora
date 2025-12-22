@@ -34,6 +34,10 @@ const selectedInquiryGroupTypeForCreation = ref(null)
 const selectedGroups = ref<string[]>([])
 const viewMode = computed(() => preferencesStore.user.defaultDisplayMode || 'create')
 
+defineProps<{
+  slug?: string
+}>()
+
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
   if (typeof groups === 'object' && !Array.isArray(groups)) {

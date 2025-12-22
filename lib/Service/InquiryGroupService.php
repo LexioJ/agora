@@ -79,7 +79,8 @@ public function createGroup(
     ?string $groupStatus = 'draft',
     ?string $titleExt = '',
     ?string $description = '',
-    ?array $miscFields = null
+    ?array $miscFields = null,
+    ?string $access = 'private'
 ): InquiryGroup {
     if (!$this->appSettings->getInquiryCreationAllowed()) {
         throw new ForbiddenException('Inquiry group creation is disabled');
@@ -95,6 +96,7 @@ public function createGroup(
     $inquiryGroup->setOwnedGroup($ownedGroup ?? '');
     $inquiryGroup->setDescription($description ?? '');
     $inquiryGroup->setCreated(time());
+    $inquiryGroup->setAccess($access ?? 'private');
 
     // Set owner from current user session
     $currentUser = $this->userSession->getCurrentUser();
@@ -182,7 +184,8 @@ public function updateGroup(
     ?string $ownedGroup = null,
     ?string $groupStatus = null,
     ?int $expire = null,
-    ?array $miscFields = null
+    ?array $miscFields = null,
+    ?string $access = 'private'
 ): InquiryGroup {
     try {
         $inquiryGroup = $this->inquiryGroupMapper->find($inquiryGroupId);
@@ -198,6 +201,9 @@ public function updateGroup(
         }
         if ($titleExt !== null) {
             $inquiryGroup->setTitleExt($titleExt);
+        }
+        if ($access !== null) {
+            $inquiryGroup->setAccess($access);
         }
         if ($description !== null) {
             $inquiryGroup->setDescription($description);

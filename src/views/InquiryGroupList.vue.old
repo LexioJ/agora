@@ -1,3 +1,196 @@
+<!--
+- SPDX-FileCopyrightText: 2025 Nextcloud contributors
+- SPDX-License-Identifier: AGPL-3.0-or-later
+-->
+
+<template>
+  <NcAppContent class="inquiry-group-archive-page">
+    <div class="inquiry-group-archive-page">
+      <!-- Breadcrumb -->
+      <div class="breadcrumb-bar theme-dark">
+        <div class="breadcrumb-container">
+          <!-- Home Button -->
+          <NcButton 
+            type="tertiary"
+            class="breadcrumb-home"
+            @click="navigateToHome"
+          >
+            <template #icon>
+              <component :is="InquiryGeneralIcons.Home" :size="20"/>
+            </template>
+            <span class="breadcrumb-label">{{ t('agora', 'Home') }}</span>
+          </NcButton>
+          
+          <!-- Archived Groups Label -->
+          <div class="breadcrumb-separator">❯</div>
+          <div class="breadcrumb-current">
+            <div class="breadcrumb-current-content">
+              <component
+                :is="NavigationIcons.Archive"
+                class="breadcrumb-icon"
+              />
+              <span class="breadcrumb-label">{{ t('agora', 'Archived Groups') }}</span>
+              <span class="inquiry-count">
+                ({{ archivedGroups.length }})
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- White Separation Line -->
+      <div class="separation-line"></div>
+
+      <!-- Main Content -->
+      <div class="content-area">
+        <!-- Header Section -->
+        <div class="archive-header">
+          <div class="header-left">
+            <div class="archive-icon-badge">
+              <component
+                :is="NavigationIcons.Archive"
+                class="archive-icon"
+              />
+            </div>
+            <div class="archive-title-section">
+              <h1 class="archive-title">{{ t('agora', 'Archived Groups') }}</h1>
+              <div class="archive-subtitle">
+                <p>{{ t('agora', 'Groups that have been archived. You can restore or delete them.') }}</p>
+                <span class="archive-count-badge">
+                  {{ archivedGroups.length }} {{ t('agora', 'archived groups') }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Loading State -->
+        <div v-if="isLoading" class="loading-state">
+          <div class="spinner"></div>
+          <p>{{ t('agora', 'Loading archived groups...') }}</p>
+        </div>
+
+        <!-- No Archived Groups -->
+        <div v-else-if="archivedGroups.length === 0" class="empty-state">
+          <div class="empty-icon">
+            <component :is="NavigationIcons.Archive" />
+          </div>
+          <h3>{{ t('agora', 'No archived groups') }}</h3>
+          <p>{{ t('agora', 'There are no archived groups at the moment.') }}</p>
+          <NcButton type="primary" @click="navigateToHome">
+            {{ t('agora', 'Back to Home') }}
+          </NcButton>
+        </div>
+
+        <!-- Archived Groups Grid -->
+        <div v-else class="archived-groups-grid">
+          <div 
+            v-for="group in archivedGroups" 
+            :key="group.id"
+            class="group-vignette-wrapper"
+            @mouseenter="hoveredGroupId = group.id"
+            @mouseleave="hoveredGroupId = null"
+          >
+            <div class="vignette-container">
+              <div class="group-vignette archived" @click="selectGroup(group)">
+                <div v-if="group.coverId" class="vignette-cover">
+                  <img :src="getCoverUrl(group.coverId)" :alt="group.title" />
+                  <div class="vignette-cover-overlay"></div>
+                  <div class="archived-overlay">
+                    <component :is="NavigationIcons.Archive" />
+                    <span>{{ t('agora', 'Archived') }}</span>
+                  </div>
+                </div>
+                <div class="vignette-content">
+                  <div class="vignette-icon archived">
+                    <component
+                      :is="getGroupTypeIconComponent(group.type)"
+                    />
+                  </div>
+                  <h4>{{ group.title }}</h4>
+                  <p v-if="group.description" class="vignette-description">
+                    {{ group.description }}
+                  </p>
+                  <div class="vignette-stats">
+                    <div class="stat-item">
+                      <span class="stat-icon">📝</span>
+                      <span class="stat-value">{{ group.inquiryIds?.length || 0 }}</span>
+                    </div>
+                    <div v-if="getGroupChildren(group).length > 0" class="stat-item">
+                      <span class="stat-icon">👥</span>
+                      <span class="stat-value">{{ getGroupChildren(group).length }}</span>
+                    </div>
+                  </div>
+                  <div class="vignette-footer">
+                    <div class="archive-date">
+                      <span class="date-label">{{ t('agora', 'Archived on:') }}</span>
+                      <span class="date-value">{{ formatArchiveDate(group.updated_at) }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Owner menu (appears under the vignette on hover) -->
+              <div 
+                v-if="isOwnerOrAdmin && hoveredGroupId === group.id" 
+                class="owner-menu-under"
+                @mouseenter="hoveredGroupId = group.id"
+                @mouseleave="hoveredGroupId = null"
+              >
+                <div class="owner-menu-content">
+                  <NcButton 
+                    type="tertiary" 
+                    class="menu-item restore"
+                    @click.stop="restoreGroup(group)"
+                  >
+                    <template #icon>
+                      <svg width="14" height="14" viewBox="0 0 24 24">
+                        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
+                      </svg>
+                    </template>
+                    {{ t('agora', 'Restore') }}
+                  </NcButton>
+                  
+                  <NcButton 
+                    type="tertiary" 
+                    class="menu-item delete"
+                    @click.stop="deleteGroup(group)"
+                  >
+                    <template #icon>
+                      <svg width="14" height="14" viewBox="0 0 24 24">
+                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
+                      </svg>
+                    </template>
+                    {{ t('agora', 'Delete') }}
+                  </NcButton>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete Dialog -->
+    <NcDialog
+      v-if="deleteDialogGroup"
+      v-model:open="showDeleteDialog"
+      :name="deleteDialogTitle"
+      :message="deleteDialogMessage"
+      :buttons="deleteDialogButtons"
+    />
+
+    <!-- Restore Dialog -->
+    <NcDialog
+      v-if="restoreDialogGroup"
+      v-model:open="showRestoreDialog"
+      :name="restoreDialogTitle"
+      :message="restoreDialogMessage"
+      :buttons="restoreDialogButtons"
+    />
+
+  </NcAppContent>
+</template>
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
@@ -10,14 +203,6 @@ import NcDialog from '@nextcloud/vue/components/NcDialog'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
 import { useInquiryGroupStore } from '../stores/inquiryGroup.ts'
-import { 
-  createPermissionContextForInquiryGroup, 
-  GroupAccessLevel,
-  canRestore,
-  canDelete,
-  ContentType,
-  InquiryFamily
-} from '../utils/permissions.ts'
 import { InquiryGeneralIcons, NavigationIcons } from '../utils/icons.ts'
 import { getInquiryGroupTypeData } from '../helpers/modules/InquiryHelper.ts'
 import type { InquiryGroup } from '../stores/inquiryGroups.types.ts'
@@ -40,53 +225,16 @@ const deleteDialogGroup = ref<InquiryGroup | null>(null)
 const showRestoreDialog = ref(false)
 const restoreDialogGroup = ref<InquiryGroup | null>(null)
 
-// Get current user info
-const currentUser = computed(() => sessionStore.currentUser)
-const currentUserId = computed(() => currentUser.value?.id || '')
-
 // Get all archived groups
 const archivedGroups = computed(() => inquiryGroupsStore.inquiryGroups.filter(
     group => group.groupStatus === "archived"
   ).sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()))
 
-// Create permission context for a specific group
-function createGroupPermissionContext(group: InquiryGroup) {
-  const currentUser = sessionStore.currentUser
-  const currentUserId = currentUser?.id || ''
-  
-  const isOwner = currentUserId === group.owner.id
-  const isGroupEditor = sessionStore.userStatus.isGroupEditore || group.allowEdit || false
-  const isPublic = group.protected === false || group.protected === 0
-  
-  return createPermissionContextForInquiryGroup(
-    group.owner,           // owner ID
-    isPublic,                 // isPublic (from protected field)
-    group.deleted > 0,        // isDeleted
-    group.groupStatus === 'archived', // isArchived
-    group.ownedGroup !== null, // hasGroupRestrictions
-    group.ownedGroup ? [group.owned_group] : [], // allowedGroups
-    isGroupEditor || isOwner, // isGroupMember (simplified)
-    false,                    // isGroupModerator (not used)
-    isGroupEditor,            // isGroupEditor
-    group.type,               // groupType
-    group.ownedGroup         // ownedGroup
-  )
-}
-
-// Helper functions
-// Then use it for each group
-function canUserRestoreGroup(group: InquiryGroup): boolean {
-  const context = createGroupPermissionContext(group)
-  if (!context) return false
-  return canRestore(context)
-}
-
-function canUserDeleteGroup(group: InquiryGroup): boolean {
-  const context = createGroupPermissionContext(group)
-  if (!context) return false
-  return canDelete(context)
-}
-
+// Check if user is owner or admin
+const isOwnerOrAdmin = computed(() => 
+  // Implement your permission logic here
+   true
+)
 
 // Get icon component for group type
 const getGroupTypeIconComponent = (type: string) => {
@@ -194,23 +342,11 @@ const restoreDialogButtons = computed(() => [
 
 // Owner menu actions
 function restoreGroup(group: InquiryGroup) {
-  // Check permission before showing dialog
-  if (!canUserRestoreGroup(group)) {
-    showError(t('agora', 'You do not have permission to restore this group'))
-    return
-  }
-  
   restoreDialogGroup.value = group
   showRestoreDialog.value = true
 }
 
 function deleteGroup(group: InquiryGroup) {
-  // Check permission before showing dialog
-  if (!canUserDeleteGroup(group)) {
-    showError(t('agora', 'You do not have permission to delete this group'))
-    return
-  }
-  
   deleteDialogGroup.value = group
   showDeleteDialog.value = true
 }
@@ -261,181 +397,6 @@ onMounted(async () => {
   }
 })
 </script>
-
-<template>
-  <NcAppContent class="inquiry-group-archive-page">
-    <div class="inquiry-group-archive-page">
-      <!-- Breadcrumb -->
-      <div class="breadcrumb-bar theme-dark">
-        <div class="breadcrumb-container">
-          <!-- Home Button -->
-          <NcButton 
-            type="tertiary"
-            class="breadcrumb-home"
-            @click="navigateToHome"
-          >
-            <template #icon>
-              <component :is="InquiryGeneralIcons.Home" :size="20"/>
-            </template>
-            <span class="breadcrumb-label">{{ t('agora', 'Home') }}</span>
-          </NcButton>
-          
-          <!-- Archived Groups Label -->
-          <div class="breadcrumb-separator">❯</div>
-          <div class="breadcrumb-current">
-            <div class="breadcrumb-current-content">
-              <component
-                :is="NavigationIcons.Archive"
-                class="breadcrumb-icon"
-              />
-              <span class="breadcrumb-label">{{ t('agora', 'Archived Groups') }}</span>
-              <span class="inquiry-count">
-                ({{ archivedGroups.length }})
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- White Separation Line -->
-      <div class="separation-line"></div>
-
-      <!-- Main Content -->
-      <div class="content-area">
-        <!-- Header Section -->
-        <div class="archive-header">
-          <div class="header-left">
-            <div class="archive-icon-badge">
-              <component
-                :is="NavigationIcons.Archive"
-                class="archive-icon"
-              />
-            </div>
-            <div class="archive-title-section">
-              <h1 class="archive-title">{{ t('agora', 'Archived Groups') }}</h1>
-              <div class="archive-subtitle">
-                <p>{{ t('agora', 'Groups that have been archived. You can restore or delete them.') }}</p>
-                <span class="archive-count-badge">
-                  {{ archivedGroups.length }} {{ t('agora', 'archived groups') }}
-                </span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Loading State -->
-        <div v-if="isLoading" class="loading-state">
-          <div class="spinner"></div>
-          <p>{{ t('agora', 'Loading archived groups...') }}</p>
-        </div>
-
-        <!-- No Archived Groups -->
-        <div v-else-if="archivedGroups.length === 0" class="empty-state">
-          <div class="empty-icon">
-            <component :is="NavigationIcons.Archive" />
-          </div>
-          <h3>{{ t('agora', 'No archived groups') }}</h3>
-          <p>{{ t('agora', 'There are no archived groups at the moment.') }}</p>
-          <NcButton type="primary" @click="navigateToHome">
-            {{ t('agora', 'Back to Home') }}
-          </NcButton>
-        </div>
-
-        <!-- Archived Groups Grid -->
-        <div v-else class="archived-groups-grid">
-          <div 
-            v-for="group in archivedGroups" 
-            :key="group.id"
-            class="group-vignette-wrapper"
-            @mouseenter="hoveredGroupId = group.id"
-            @mouseleave="hoveredGroupId = null"
-          >
-            <div class="vignette-container">
-              <div class="group-vignette archived" @click="selectGroup(group)">
-                <!-- Vignette content here (make sure it's properly closed) -->
-                <!-- If you have content inside, ensure all tags are properly closed -->
-                <div v-if="group.cover_id" class="vignette-cover">
-                  <img :src="getCoverUrl(group.cover_id)" :alt="group.title" />
-                  <div class="vignette-cover-overlay"></div>
-                  <div class="archived-overlay">
-                    <component :is="NavigationIcons.Archive" />
-                    <span>{{ t('agora', 'Archived') }}</span>
-                  </div>
-                </div>
-                <div class="vignette-content">
-                  <div class="vignette-icon archived">
-                    <component :is="getGroupTypeIconComponent(group.type)" />
-                  </div>
-                  <h4>{{ group.title }}</h4>
-                  <p v-if="group.description" class="vignette-description">
-                    {{ group.description }}
-                  </p>
-                  <div class="vignette-stats">
-                    <div class="stat-item">
-                      <span class="stat-icon">📝</span>
-                      <span class="stat-value">{{ group.inquiryIds?.length || 0 }}</span>
-                    </div>
-                  </div>
-                  <div class="vignette-footer">
-                    <div class="archive-date">
-                      <span class="date-label">{{ t('agora', 'Archived on:') }}</span>
-                      <span class="date-value">{{ formatArchiveDate(group.created) }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              <!-- Owner menu (appears under the vignette on hover) -->
-              <div 
-                v-if="(canUserRestoreGroup(group) || canUserDeleteGroup(group)) && hoveredGroupId === group.id" 
-                class="owner-menu-under"
-                @mouseenter="hoveredGroupId = group.id"
-                @mouseleave="hoveredGroupId = null"
-              >
-                <div class="owner-menu-content">
-                  <!-- Restore button - only show if user has permission -->
-                  <NcButton 
-                    v-if="canUserRestoreGroup(group)"
-                    type="tertiary" 
-                    class="menu-item restore"
-                    @click.stop="restoreGroup(group)"
-                  >
-                    <template #icon>
-                      <svg width="14" height="14" viewBox="0 0 24 24">
-                        <path d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/>
-                      </svg>
-                    </template>
-                    {{ t('agora', 'Restore') }}
-                  </NcButton>
-                  
-                  <!-- Delete button - only show if user has permission -->
-                  <NcButton 
-                    v-if="canUserDeleteGroup(group)"
-                    type="tertiary" 
-                    class="menu-item delete"
-                    @click.stop="deleteGroup(group)"
-                  >
-                    <template #icon>
-                      <svg width="14" height="14" viewBox="0 0 24 24">
-                        <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/>
-                      </svg>
-                    </template>
-                    {{ t('agora', 'Delete') }}
-                  </NcButton>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- END: archived-groups-grid -->
-      </div>
-      <!-- END: content-area -->
-    </div>
-    <!-- END: inquiry-group-archive-page -->
-  </NcAppContent>
-</template>
-
-
 
 <style lang="scss" scoped>
 .inquiry-group-archive-page {

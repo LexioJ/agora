@@ -29,8 +29,7 @@ class User extends UserBase
     public const GROUP_MODERATOR = 'agora_moderator';
     public const GROUP_OFFICIAL = 'agora_official';
     public const GROUP_LEGISLATIVE = 'agora_legislative';
-    public const GROUP_ADMINISTRATIVE = 'agora_administrative';
-    public const GROUP_COLLECTIVE = 'agora_collective';
+    public const GROUP_GROUP_EDITOR = 'agora_group_editor';
 
     private IConfig $config;
     private IUser $user;
@@ -71,14 +70,11 @@ class User extends UserBase
         if ($this->getIsInGroup(self::GROUP_OFFICIAL)) {
             return 'official';
         }
-        if ($this->getIsInGroup(self::GROUP_COLLECTIVE)) {
-            return 'collective';
+        if ($this->getIsInGroup(self::GROUP_GROUP_EDITOR)) {
+            return 'groupEditor';
         }
         if ($this->getIsInGroup(self::GROUP_LEGISLATIVE)) {
             return 'legislative';
-        }
-        if ($this->getIsInGroup(self::GROUP_ADMINISTRATIVE)) {
-            return 'administrative';
         }
         return null;
     }
@@ -94,14 +90,11 @@ class User extends UserBase
         if ($this->getIsInGroup(self::GROUP_OFFICIAL)) {
             $roles[] = 'official';
 	}
-	 if ($this->getIsInGroup(self::GROUP_COLLECTIVE)) {
-              $roles[] = 'collective';
+	 if ($this->getIsInGroup(self::GROUP_GROUP_EDITOR)) {
+              $roles[] = 'groupEditor';
           }
           if ($this->getIsInGroup(self::GROUP_LEGISLATIVE)) {
               $roles[] = 'legislative';
-          }
-          if ($this->getIsInGroup(self::GROUP_ADMINISTRATIVE)) {
-              $roles[] = 'administrative';
           }
 
         return $roles;
@@ -132,20 +125,13 @@ class User extends UserBase
     }
 
     /**
-     * Check if user is an collective
+     * Check if user is an group editor
      */
-    public function isCollective(): bool
+    public function isGroupEditor(): bool
     {
-        return $this->getRole() === 'collective';
+        return $this->getRole() === 'groupEditor';
     }
 
-    /**
-     * Check if user is an administrative
-     */
-    public function isAdministrative(): bool
-    {
-        return $this->getRole() === 'administrative';
-    }
 
     /**
      * Check if the user is a member of a specific Nextcloud group
@@ -235,19 +221,11 @@ class User extends UserBase
     /**
      * Return true if the user has the 'Collective' role
      */
-    public function getIsCollective(): bool
+    public function getIsGroupEditor(): bool
     {
-        return $this->groupManager->isInGroup($this->getId(), Group::GROUP_COLLECTIVE); 
+        return $this->groupManager->isInGroup($this->getId(), Group::GROUP_GROUP_EDITOR); 
     }
 
-
-    /**
-     * Return true if the user has the 'administratif' role
-     */
-    public function getIsAdministrative(): bool
-    {
-        return $this->groupManager->isInGroup($this->getId(), Group::GROUP_ADMINISTRATIVE); 
-    }
 
 
     /**

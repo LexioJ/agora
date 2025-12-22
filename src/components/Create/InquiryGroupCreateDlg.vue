@@ -74,8 +74,6 @@ const initialInquiryGroupType = computed(() => {
   return null
 })
 
-// CASE 1: No parentId - use the provided type
-// CASE 2: Has parentId - get parent type and its allowed responses
 const availableInquiryGroupTypes = computed(() => {
   
   // CASE 1: No parent ID, use the provided type
@@ -106,15 +104,11 @@ const availableInquiryGroupTypes = computed(() => {
 })
 
 const selectedInquiryGroupType = computed(() => {
-  // If we have a specific type provided, use it
-  if (initialInquiryGroupType.value) {
-    return initialInquiryGroupType.value.group_type
-  }
-  
-  // Otherwise use local selection or first available
-  const result = localInquiryGroupType.value || availableInquiryGroupTypes.value[0]?.group_type
-  return result
+  return localInquiryGroupType.value
+    || initialInquiryGroupType.value?.group_type
+    || availableInquiryGroupTypes.value[0]?.group_type
 })
+
 
 // Data for display
 const currentInquiryGroupTypeData = computed(() => {
@@ -157,9 +151,10 @@ const selectNextcloudGroup = (group: string | null) => {
 }
 
 // Update local inquiry type
-const updateLocalInquiryGroupType = (newType: string) => {
-  localInquiryGroupType.value = newType
+const updateLocalInquiryGroupType = (newType: string | null) => {
+  localInquiryGroupType.value = newType ?? ''
 }
+
 
 // Initialize local type when component mounts
 onMounted(() => {
@@ -317,108 +312,114 @@ function resetInquiry() {
 
           <!-- Nextcloud Group Selection -->
           <div v-if="accessType === 'groups'" class="nextcloud-groups-selection">
-            <h4 class="groups-title">
-              {{ t('agora', 'Select Nextcloud group') }}
-            </h4>
-            <div class="groups-list">
-              <NcRadioGroup
-                :model-value="selectedNextcloudGroup"
-                :description="t('agora', 'Choose which Nextcloud group can access this inquiry group')"
-                @update:model-value="selectNextcloudGroup($event)"
-              >
-                <div
-                  v-for="group in props.availableGroups"
-                  :key="group"
-                  class="group-item"
-                >
-                  <NcCheckboxRadioSwitch
-                    :value="group"
-                    type="radio"
-                    name="nextcloud-group-selection"
-                  >
-                    {{ group }}
-                  </NcCheckboxRadioSwitch>
-                </div>
-              </NcRadioGroup>
-            </div>
+              <h4 class="groups-title">
+                  {{ t('agora', 'Select Nextcloud group') }}
+              </h4>
+              <div class="groups-list">
+                  <NcRadioGroup>
+                  <div v-for="group in props.availableGroups" :key="group" class="group-item">
+                      <NcCheckboxRadioSwitch
+                              v-model="selectedNextcloudGroup"
+                              :value="group"
+                              type="radio"
+                              name="nextcloud-group-selection"
+                              >
+                              {{ group }}
+                      </NcCheckboxRadioSwitch>
+                  </div>
+                  </NcRadioGroup>
+
+              </div>
           </div>
         </div>
       </ConfigBox>
 
       <!-- Title -->
       <ConfigBox :name="t('agora', 'Title')">
-        <template #icon>
+      <template #icon>
           <Component :is="InquiryGeneralIcons.Bullhorn" />
-        </template>
-        <InputDiv
-          :model-value="inquiryTitle"
-          focus
-          type="text"
-          :placeholder="t('agora', 'Enter group title')"
-          :helper-text="t('agora', 'Choose a meaningful title for your group')"
-          :label="t('agora', 'Group Title')"
-          @update:model-value="inquiryTitle = $event"
-          @submit="addGroupInquiry"
-        />
+      </template>
+      <InputDiv
+              :model-value="inquiryTitle"
+              focus
+              type="text"
+              :placeholder="t('agora', 'Enter group title')"
+              :helper-text="t('agora', 'Choose a meaningful title for your group')"
+              :label="t('agora', 'Group Title')"
+              @update:model-value="inquiryTitle = $event"
+              @submit="addGroupInquiry"
+              />
       </ConfigBox>
 
-      <!-- Group Type Selection (only shown when parentId exists and we have multiple types) -->
+      <!-- Group Type Selection  -->
       <ConfigBox
-        v-if="showGroupTypeSelector"
-        :name="t('agora', 'Group Type')"
-        :label="t('agora', 'Select group type')"
-      >
-        <template #icon>
-          <Component :is="InquiryGeneralIcons.Check" />
-        </template>
-        <RadioGroupDiv
-          :model-value="localInquiryGroupType"
-          :options="availableInquiryGroupTypes"
-          @update:model-value="updateLocalInquiryGroupType($event)"
-        />
-        <div v-if="props.parentGroupId" class="type-help">
-          <small>{{ t('agora', 'You can create the same type as parent or choose from allowed response types') }}</small>
-        </div>
-      </ConfigBox>
+              v-if="showGroupTypeSelector || (!props.parentGroupId && availableInquiryGroupTypes.length === 1)"
+              :name="t('agora', 'Group Type')"
+              :label="t('agora', 'Select group type')"
+              >
+              <template #icon>
+                  <Component :is="InquiryGeneralIcons.Check" />
+              </template>
 
-      <!-- Display selected type when selector is not shown -->
-      <ConfigBox
-        v-else-if="currentInquiryGroupTypeData"
-        :name="t('agora', 'Group Type')"
-        :label="t('agora', 'Group type')"
-      >
-        <template #icon>
-          <Component :is="InquiryGeneralIcons.Check" />
-        </template>
-        <div class="selected-type">
-          <strong>{{ currentInquiryGroupTypeData.label }}</strong>
-          <p v-if="currentInquiryGroupTypeData.description" class="type-description">
-            {{ currentInquiryGroupTypeData.description }}
+      <NcRadioGroup
+              v-if="showGroupTypeSelector"
+              :model-value="localInquiryGroupType"
+              @update:model-value="localInquiryGroupType = $event"
+              >
+              <div
+                      v-for="type in availableInquiryGroupTypes"
+                      :key="type.group_type"
+                      class="type-item"
+                      >
+                      <NcCheckboxRadioSwitch
+                              :value="type.group_type"
+                              type="radio"
+                              name="inquiry-group-type-selection"
+                              >
+                              <div class="type-option">
+                                  <strong>{{ type.label }}</strong>
+                                  <p v-if="type.description" class="type-description-small">
+                                  {{ type.description }}
+                                  </p>
+                              </div>
+                      </NcCheckboxRadioSwitch>
+              </div>
+      </NcRadioGroup>
+      <div v-else class="selected-type">
+          <strong>{{ currentInquiryGroupTypeData?.label }}</strong>
+          <p v-if="currentInquiryGroupTypeData?.description" class="type-description">
+          {{ currentInquiryGroupTypeData.description }}
           </p>
-          <div v-if="props.parentGroupId" class="type-info">
-            <small>{{ t('agora', 'Same type as parent group') }}</small>
+          <div class="type-info">
+              <small>{{ t('agora', 'Creating new {type} group', {
+                  type: currentInquiryGroupTypeData?.label || 'selected'
+                  }) }}</small>
           </div>
-          <div v-else class="type-info">
-            <small>{{ t('agora', 'Creating new {type} group', { type: currentInquiryGroupTypeData.label }) }}</small>
-          </div>
-        </div>
+      </div>
+
+      <div v-if="props.parentGroupId && showGroupTypeSelector" class="type-help">
+          <small>{{ t('agora', 'You can create the same type as parent or choose from allowed response types') }}</small>
+      </div>
+      <div v-else-if="!props.parentGroupId && showGroupTypeSelector" class="type-help">
+          <small>{{ t('agora', 'Select the type of group you want to create') }}</small>
+      </div>
       </ConfigBox>
 
       <!-- Buttons -->
       <div class="create-buttons">
-        <NcButton @click="emit('close')">
+          <NcButton @click="emit('close')">
           {{ t('agora', 'Cancel') }}
-        </NcButton>
-        <NcButton
-          :disabled="disableAddButton"
-          :variant="'primary'"
-          @click="addGroupInquiry"
-        >
-          {{ adding ? t('agora', 'Creating...') : 
-            props.parentGroupId ? 
-            t('agora', 'Add to Parent') : 
-            t('agora', 'Create Group') }}
-        </NcButton>
+          </NcButton>
+          <NcButton
+                  :disabled="disableAddButton"
+                  :variant="'primary'"
+                  @click="addGroupInquiry"
+                  >
+                  {{ adding ? t('agora', 'Creating...') : 
+                  props.parentGroupId ? 
+                  t('agora', 'Add to Parent') : 
+                  t('agora', 'Create Group') }}
+          </NcButton>
       </div>
     </div>
   </div>
@@ -426,153 +427,153 @@ function resetInquiry() {
 
 <style lang="css" scoped>
 .dialog-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
 }
 
 .create-dialog {
-  background-color: var(--color-main-background);
-  padding: 24px;
-  max-width: 500px;
-  width: 90%;
-  max-height: 90vh;
-  overflow-y: auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  margin: 20px;
+    background-color: var(--color-main-background);
+    padding: 24px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    margin: 20px;
 }
 
 .dialog-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
-  padding-bottom: 15px;
-  border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .dialog-header h3 {
-  margin: 0;
-  font-size: 1.2em;
-  color: var(--color-main-text);
+    margin: 0;
+    font-size: 1.2em;
+    color: var(--color-main-text);
 }
 
 .mode-badge {
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 0.8em;
-  font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    font-weight: 600;
 }
 
 .mode-badge.child {
-  background: var(--color-info);
-  color: var(--color-info-text);
+    background: var(--color-info);
+    color: var(--color-info-text);
 }
 
 .mode-badge.creation {
-  background: var(--color-success);
-  color: var(--color-success-text);
+    background: var(--color-success);
+    color: var(--color-success-text);
 }
 
 .context-description {
-  margin-bottom: 20px;
-  padding: 12px;
-  background: var(--color-background-hover);
-  border-radius: 6px;
-  border-left: 3px solid var(--color-primary);
+    margin-bottom: 20px;
+    padding: 12px;
+    background: var(--color-background-hover);
+    border-radius: 6px;
+    border-left: 3px solid var(--color-primary);
 }
 
 .context-description p {
-  margin: 0;
-  color: var(--color-text-lighter);
-  font-size: 0.9em;
-  line-height: 1.4;
+    margin: 0;
+    color: var(--color-text-lighter);
+    font-size: 0.9em;
+    line-height: 1.4;
 }
 
 .create-buttons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-  margin-top: 24px;
-  padding-top: 20px;
-  border-top: 1px solid var(--color-border);
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid var(--color-border);
 }
 
 .selected-type {
-  padding: 12px 0;
+    padding: 12px 0;
 }
 
 .type-description {
-  color: var(--color-text-lighter);
-  font-size: 0.9em;
-  margin-top: 8px;
-  line-height: 1.4;
+    color: var(--color-text-lighter);
+    font-size: 0.9em;
+    margin-top: 8px;
+    line-height: 1.4;
 }
 
 .type-info {
-  margin-top: 8px;
-  color: var(--color-info);
-  font-size: 0.85em;
+    margin-top: 8px;
+    color: var(--color-info);
+    font-size: 0.85em;
 }
 
 .type-help {
-  margin-top: 8px;
-  color: var(--color-text-lighter);
-  font-size: 0.85em;
+    margin-top: 8px;
+    color: var(--color-text-lighter);
+    font-size: 0.85em;
 }
 
 .access-settings {
-  padding: 12px 0;
+    padding: 12px 0;
 }
 
 .access-description {
-  color: var(--color-text-lighter);
-  margin-bottom: 16px;
-  font-size: 0.95em;
+    color: var(--color-text-lighter);
+    margin-bottom: 16px;
+    font-size: 0.95em;
 }
 
 .access-radio-group {
-  margin-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .nextcloud-groups-selection {
-  margin-top: 16px;
-  padding: 16px;
-  background: var(--color-background-dark);
-  border-radius: 8px;
+    margin-top: 16px;
+    padding: 16px;
+    background: var(--color-background-dark);
+    border-radius: 8px;
 }
 
 .groups-title {
-  margin: 0 0 8px 0;
-  font-size: 1em;
-  font-weight: 600;
+    margin: 0 0 8px 0;
+    font-size: 1em;
+    font-weight: 600;
 }
 
 .groups-description {
-  color: var(--color-text-lighter);
-  font-size: 0.9em;
-  margin: 0 0 12px 0;
+    color: var(--color-text-lighter);
+    font-size: 0.9em;
+    margin: 0 0 12px 0;
 }
 
 .groups-list {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  max-height: 200px;
-  overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 .group-item {
-  display: flex;
-  align-items: center;
-  padding: 4px 0;
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
 }
 </style>
