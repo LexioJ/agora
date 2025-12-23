@@ -20,6 +20,7 @@ OC.L10N.register(
     "Undo" : "Bekor qilish",
     "Preview" : "Ko‘rib chiqish",
     "Pending" : "Kutilmoqda",
+    "Rejected" : "Rad etilgan",
     "Save" : "Saqlash",
     "never" : "hech qachon",
     "Type" : "Turi",

@@ -120,6 +120,7 @@ OC.L10N.register(
     "Close" : "Užverti",
     "Invalid email address" : "Neteisingas el. pašto adresas",
     "Email could not be sent to {emailAddress}" : "Nepavyko išsiųsti el. laiško, adresu {emailAddress}",
+    "Remember me for 30 days" : "Prisiminti mane 30 dienų",
     "Privacy policy" : "Privatumo politika",
     "Login" : "Prisijungti",
     "Categories" : "Kategorijos",
