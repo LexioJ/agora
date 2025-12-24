@@ -32,12 +32,6 @@
               :key="typeKey"
               class="type-group"
             >
-              <!-- Simple Type Header 
-              <div v-if="typeGroup.length > 1" class="type-header">
-                <h3 class="type-title">{{ getInquiryTypeLabel(typeKey) }}</h3>
-                <span class="type-count">{{ typeGroup.length }}</span>
-              </div> -->
-
               <!-- Type Inquiries Grid -->
               <div class="type-inquiries">
                 <div class="inquiry-grid main-grid" :class="{ 'single-full-item': typeGroup.length === 1 && isFullInquiry(typeGroup[0]) }">
@@ -139,12 +133,10 @@ import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import NcModal from '@nextcloud/vue/components/NcModal'
 
-import type { InquiryGroup } from '../../stores/inquiryGroups.types.ts'
 import type { Inquiry } from '../../Types/index.ts'
 
 // Import stores
 import { useInquiriesStore } from '../../stores/inquiries.ts'
-import { useAppSettingsStore } from '../../stores/appSettings.ts'
 
 // Import all inquiry display components
 import InquiryCard from './InquiryCard.vue'
@@ -154,7 +146,6 @@ import InquiryRichHTML from './InquiryRichHTML.vue'
 import InquirySummary from './InquirySummary.vue'
 
 interface Props {
-  group: InquiryGroup
   inquiryIds: number[]
 }
 
@@ -166,7 +157,6 @@ const emit = defineEmits<{
 
 // Initialize stores and router
 const inquiriesStore = useInquiriesStore()
-const appSettingsStore = useAppSettingsStore()
 const router = useRouter()
 
 const showModal = ref(false)
@@ -182,13 +172,8 @@ const inquiries = computed(() => {
     .filter(Boolean) as Inquiry[]
 })
 
-// Get inquiry types from appSettings
-const inquiryTypes = computed(() => {
-  return appSettingsStore.inquiryTypeTab || []
-})
-
 // Helper function to get miscField with fallback
-function getMiscField(inquiry: Inquiry, field: string, defaultValue: any = null) {
+function getMiscField(inquiry: Inquiry, field: string, defaultValue: undefined = null) {
   return inquiry.miscFields?.[field] || defaultValue
 }
 
@@ -228,7 +213,7 @@ function getLayoutZone(inquiry: Inquiry): string {
 
   // Find compatible layout
   const compatibleLayouts = Object.entries(layoutCompatibility)
-    .filter(([_, modes]) => modes.includes(renderMode))
+    .filter(([, modes]) => modes.includes(renderMode))
     .map(([layout]) => layout)
 
   // Priority order
@@ -300,12 +285,6 @@ const mainInquiriesByType = computed(() => groupInquiriesByType(mainInquiries.va
 
 // Helper computed properties
 const hasSidebarInquiries = computed(() => sidebarInquiries.value.length > 0)
-
-// Get inquiry type information
-function getInquiryTypeLabel(typeKey: string) {
-  const typeData = inquiryTypes.value.find(type => type.inquiry_type === typeKey)
-  return typeData?.label || typeKey
-}
 
 // Handle inquiry click - with open_mode support
 function handleInquiryClick(inquiry: Inquiry) {

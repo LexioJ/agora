@@ -101,6 +101,12 @@ function deleteInquiry(inquiryId: number) {
   }
 }
 
+// Methods
+function navigateToHome() {
+  router.push({ name: 'menu', 
+  query: {} })
+}
+
 onMounted(() => {
   inquiriesStore.load(false)
 })
@@ -235,122 +241,144 @@ onMounted(() => {
           </ul>
         </NcAppNavigationItem>
       </NcAppNavigationList>
-    </template>
+      <NcAppNavigationSpacer />
 
+      <!-- Quick Actions Section -->
+      <NcAppNavigationList>
+      <h3 class="navigation-caption">
+          {{ t('agora', 'Quick Actions') }}
+      </h3>
+
+      <NcAppNavigationItem
+              :name="t('agora', 'Home')"
+              :to="{
+                   name: 'menu',
+                   }"
+              :exact="true"
+              class="navigation-item"
+              @click="navigateToHome"
+              >
+              <template #icon>
+                  <component :is="NavigationIcons.Home" />
+              </template>
+      </NcAppNavigationItem>
+      </NcAppNavigationList>
+    </template>
   </NcAppNavigation>
 </template>
 
+
 <style lang="scss">
 .agora-navigation {
-  padding: 12px 0;
+    padding: 12px 0;
 }
 
 .navigation-header {
-  padding: 12px;
-  border-bottom: 1px solid var(--color-border);
+    padding: 12px;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .navigation-new-btn {
-  width: 100%;
-  justify-content: center;
+    width: 100%;
+    justify-content: center;
 }
 
 .navigation-caption {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-text-lighter);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  margin: 0 12px 8px 12px;
-  padding: 0;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-text-lighter);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 12px 8px 12px;
+    padding: 0;
 }
 
-.navigation-item {
-  margin: 2px 8px;
-  border-radius: 8px;
+  .navigation-item {
+      margin: 2px 8px;
+      border-radius: 8px;
 
-  &:hover {
-    background-color: var(--color-background-hover);
+      &:hover {
+          background-color: var(--color-background-hover);
+      }
+
+      &.active {
+          background-color: var(--color-primary-light);
+
+          :deep(.app-navigation-entry__title) {
+              font-weight: 600;
+          }
+      }
   }
 
-  &.active {
-    background-color: var(--color-primary-light);
-
-    :deep(.app-navigation-entry__title) {
+  .navigation-counter {
       font-weight: 600;
-    }
   }
-}
 
-.navigation-counter {
-  font-weight: 600;
-}
+  .navigation-sublist {
+      margin-left: 12px;
+      border-left: 1px solid var(--color-border);
+      padding: 0;
 
-.navigation-sublist {
-  margin-left: 12px;
-  border-left: 1px solid var(--color-border);
-  padding: 0;
+      :deep(.app-navigation-entry) {
+          padding-left: 20px;
 
-  :deep(.app-navigation-entry) {
-    padding-left: 20px;
-    
-    .app-navigation-entry__description {
-      font-size: 12px;
-      color: var(--color-text-lighter);
-      margin-top: 2px;
-    }
+          .app-navigation-entry__description {
+              font-size: 12px;
+              color: var(--color-text-lighter);
+              margin-top: 2px;
+          }
+      }
   }
-}
 
-.navigation-empty {
-  opacity: 0.7;
-  font-style: italic;
-}
+  .navigation-empty {
+      opacity: 0.7;
+      font-style: italic;
+  }
 
 
-// Override default navigation styles without :deep() nesting
-:deep(.app-navigation__body) {
-  overflow: revert;
-}
+  // Override default navigation styles without :deep() nesting
+      :deep(.app-navigation__body) {
+      overflow: revert;
+  }
 
-:deep(.app-navigation-entry-icon),
-:deep(.app-navigation-entry__title) {
-  transition: opacity 0.2s ease;
-}
-
-:deep(.app-navigation-entry.active .app-navigation-entry-icon),
-:deep(.app-navigation-entry.active .app-navigation-entry__title) {
-  opacity: 1;
-}
-
-.closed {
   :deep(.app-navigation-entry-icon),
   :deep(.app-navigation-entry__title) {
-    opacity: 0.6;
+      transition: opacity 0.2s ease;
   }
-}
 
-.force-not-active {
-  :deep(.app-navigation-entry.active) {
-    background-color: transparent !important;
-    
-    * {
-      color: unset !important;
-    }
+  :deep(.app-navigation-entry.active .app-navigation-entry-icon),
+  :deep(.app-navigation-entry.active .app-navigation-entry__title) {
+      opacity: 1;
   }
-}
 
-// Responsive adjustments
+  .closed {
+      :deep(.app-navigation-entry-icon),
+      :deep(.app-navigation-entry__title) {
+          opacity: 0.6;
+      }
+  }
+
+  .force-not-active {
+      :deep(.app-navigation-entry.active) {
+          background-color: transparent !important;
+
+          * {
+              color: unset !important;
+          }
+      }
+  }
+
+  // Responsive adjustments
 @media (max-width: 768px) {
-  .agora-navigation {
-    padding: 8px 0;
+      .agora-navigation {
+          padding: 8px 0;
+      }
   }
-}
 
-// Dark theme adjustments
-.theme--dark {
-  .navigation-sublist {
-    background: var(--color-background-darker);
+  // Dark theme adjustments
+      .theme--dark {
+      .navigation-sublist {
+          background: var(--color-background-darker);
+      }
   }
-}
 </style>

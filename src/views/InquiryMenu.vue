@@ -31,7 +31,11 @@ import {
   type InquiryType,
   type InquiryGroupType
 } from '../helpers/modules/InquiryHelper.ts'
-import { accessFamilyMenu } from '../utils/permissions.ts'
+import { accessFamilyMenu,
+  canCreateInquiryGroup,
+  createPermissionContextForContent,
+  ContentType,
+} from '../utils/permissions.ts'
 
 const route = useRoute()
 const router = useRouter()
@@ -43,6 +47,26 @@ const selectedInquiryTypeForCreation = ref<InquiryType | null>(null)
 const selectedInquiryGroupTypeForCreation = ref(null)
 const selectedGroups = ref<string[]>([])
 const preferencesStore = usePreferencesStore()
+
+const canUserCreateInquiryGroup = computed(() => {
+  // Create a basic permission context for checking creation rights
+  const context = createPermissionContextForContent(
+    ContentType.InquiryGroup,
+    '', 
+    true, // isPublic
+    false, // isLocked
+    false, // isExpired
+    false, // isDeleted
+    false, // isArchived
+    false, // hasGroupRestrictions
+    [] // allowedGroups
+  )
+  
+  // Check if user can create inquiry groups in general
+  return canCreateInquiryGroup(context)
+})
+
+
 
 // ViewMode state
 const viewMode = ref<string>((route.query.viewMode as string) || (preferencesStore.user?.defaultDisplayMode || 'view'))
@@ -255,6 +279,18 @@ function getInquiryGroupTypesForCurrentFamily(familyInquiryType: string) {
 }
 
 
+// Function to check if user can create inquiry group for current family
+function canCreateInquiryGroupForFamily(familyType: string): boolean {
+  // First check if user has access to this family
+  if (!accessFamilyMenu(familyType)) {
+    return false
+  }
+  
+  // Then check if user can create inquiry groups in general
+  return canUserCreateInquiryGroup.value
+}
+
+
 // Function to create new inquiry from type
 function createInquiry(inquiryType: InquiryType) {
   selectedInquiryTypeForCreation.value = inquiryType
@@ -263,6 +299,10 @@ function createInquiry(inquiryType: InquiryType) {
 
 // Function to create new inquiry group from type
 function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
+if (!selectedFamily.value || !canCreateInquiryGroupForFamily(selectedFamily.value)) {
+    showError(t('agora', 'You do not have permission to create inquiry groups for this family'))
+    return
+  }
   selectedInquiryGroupTypeForCreation.value = inquiryGroupType.group_type
   createGroupDlgToggle.value = true
 }
@@ -425,7 +465,7 @@ function handleCloseGroupDialog() {
             </div>
         </div>
 
-        <!-- Inquiry Group Types Section -->
+        <!-- Inquiry Group Types Section 
         <div v-if="filteredInquiryGroupTypes.length > 0" class="inquiry-section">
             <h3 class="section-title">{{ t('agora', 'Inquiry Groups') }}</h3>
             <div class="inquiry-types-grid">
@@ -448,7 +488,38 @@ function handleCloseGroupDialog() {
                     </div>
                 </div>
             </div>
+        </div> -->
+        <!-- Inquiry Group Types Section -->
+  <div v-if="filteredInquiryGroupTypes.length > 0" class="inquiry-section">
+    <h3 class="section-title">{{ t('agora', 'Inquiry Groups') }}</h3>
+    <div class="inquiry-types-grid">
+      <div
+        v-for="inquiryGroupType in filteredInquiryGroupTypes"
+        :key="inquiryGroupType.id"
+        class="inquiry-type-card"
+        :class="{ 'disabled-card': !canUserCreateInquiryGroup }"
+        @click="canUserCreateInquiryGroup ? createInquiryGroup(inquiryGroupType) : null"
+      >
+        <div class="inquiry-type-card__icon">
+          <component :is="getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes).icon" />
         </div>
+        <div class="inquiry-type-card__content">
+          <h4 class="inquiry-type-card__title">
+            {{ t('agora', getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes).label) }}
+          </h4>
+          <p v-if="getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes).description" class="inquiry-type-card__description">
+            {{ t('agora', getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes).description) }}
+          </p>
+
+          <!-- Permission warning for users who can't create -->
+          <div v-if="!canUserCreateInquiryGroup" class="permission-warning">
+            <small>{{ t('agora', 'You do not have permission to create inquiry groups') }}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
 
         <NcEmptyContent 
                                                                                                                          v-if="filteredInquiryTypes.length === 0 && filteredInquiryGroupTypes.length === 0" 

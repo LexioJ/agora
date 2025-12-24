@@ -130,7 +130,7 @@ const routes: RouteRecordRaw[] = [
   },
    {
     name: 'group-list',
-    path: '/groups/:slug',
+    path: '/groups/:slug?',
     components: {
       default: Group,  
       navigation: NavigationGroup,

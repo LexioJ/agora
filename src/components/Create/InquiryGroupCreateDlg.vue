@@ -12,7 +12,7 @@ import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwit
 import NcRadioGroup from '@nextcloud/vue/components/NcRadioGroup'
 import type { InquiryGroupType } from '../stores/inquiryGroups.types.ts'
 
-import { ConfigBox, RadioGroupDiv, InputDiv } from '../Base/index.ts'
+import { ConfigBox, InputDiv } from '../Base/index.ts'
 import { InquiryGeneralIcons } from '../../utils/icons.ts'
 
 import { useInquiryGroupStore } from '../../stores/inquiryGroup.ts'
@@ -103,11 +103,9 @@ const availableInquiryGroupTypes = computed(() => {
   return result
 })
 
-const selectedInquiryGroupType = computed(() => {
-  return localInquiryGroupType.value
+const selectedInquiryGroupType = computed(() => localInquiryGroupType.value
     || initialInquiryGroupType.value?.group_type
-    || availableInquiryGroupTypes.value[0]?.group_type
-})
+    || availableInquiryGroupTypes.value[0]?.group_type)
 
 
 // Data for display
@@ -144,17 +142,6 @@ const contextDescription = computed(() => {
     return desc
   
 })
-
-const selectNextcloudGroup = (group: string | null) => {
-  selectedNextcloudGroup.value = group
-  emit('update:selected-groups', group ? [group] : [])
-}
-
-// Update local inquiry type
-const updateLocalInquiryGroupType = (newType: string | null) => {
-  localInquiryGroupType.value = newType ?? ''
-}
-
 
 // Initialize local type when component mounts
 onMounted(() => {

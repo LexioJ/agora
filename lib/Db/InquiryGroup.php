@@ -68,7 +68,6 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
     protected int $created = 0;
     protected int $deleted = 0;
     protected string $title = '';
-    protected string $access = '';
     protected string $owner = '';
     protected string $type = 'default';
     protected string $groupStatus = 'draft';
@@ -103,7 +102,6 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
         $this->addType('expire', 'integer');
         $this->addType('allowEdit', 'integer');
         $this->addType('inquiryIds', 'string');
-        $this->addType('access', 'string');
         $this->addType('miscFields', 'json');
         $this->addType('childs', 'json');
         $this->addType('miscGroupSettingsConcat', 'string');
@@ -240,7 +238,6 @@ class InquiryGroup extends EntityWithUser implements JsonSerializable
             'inquiryIds' => $this->getInquiryIds(),
             'childs' => $this->getChilds(),
             'childs' => $this->getChilds(),
-            'access' => $this->getAccess(),
             'slug' => $this->getSlug(),
             'miscFields' => $this->getMiscArray(),
         ];

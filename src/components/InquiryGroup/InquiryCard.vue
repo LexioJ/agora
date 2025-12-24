@@ -78,7 +78,8 @@
 
         <!-- Counters -->
         <div class="stat-counters">
-          <div v-if="inquiry.status?.countSupports" 
+          <div
+v-if="inquiry.status?.countSupports" 
                class="counter-item supports" 
                :class="{ 'is-supported': isSupported }"
                @click.stop="handleSupportClick">
@@ -107,8 +108,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { t } from '@nextcloud/l10n'
-import { useRouter } from 'vue-router'
-import NcButton from '@nextcloud/vue/components/NcButton'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 
 import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
@@ -116,7 +115,6 @@ import type { Inquiry } from '../../Types/index.ts'
 import { useSessionStore } from '../../stores/session.ts'
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
 import { ThumbIcon, TernarySupportIcon } from '../AppIcons'
-import { BaseEntry } from '../../Types/index.ts'
 
 interface Props {
   inquiry: Inquiry
@@ -137,7 +135,6 @@ const emit = defineEmits<{
   comments: [inquiryId: number]
 }>()
 
-const router = useRouter()
 const sessionStore = useSessionStore()
 
 // Card classes

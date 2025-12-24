@@ -5,10 +5,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { router } from '../../router.ts'
 
-import { NcActionInput } from '@nextcloud/vue'
-import { showError, showInfo } from '@nextcloud/dialogs'
+import { showError } from '@nextcloud/dialogs'
 import { t } from '@nextcloud/l10n'
 import { InquiryGeneralIcons } from '../../utils/icons.ts'
 
@@ -16,20 +14,16 @@ import NcActions from '@nextcloud/vue/components/NcActions'
 import NcActionButton from '@nextcloud/vue/components/NcActionButton'
 
 import { useInquiriesStore } from '../../stores/inquiries.ts'
-import { useInquiryGroupsStore } from '../../stores/inquiryGroups.ts'
-import { useSessionStore } from '../../stores/session.ts'
 import { Inquiry } from '../../stores/inquiry.ts'
 
 import DeleteInquiryDialog from '../Modals/DeleteInquiryDialog.vue'
 import TransferInquiryDialog from '../Modals/TransferInquiryDialog.vue'
 
-import { useRoute } from 'vue-router'
 
 import {
   canArchive,
   canRestore,
   canDelete,
-  canEdit,
   canTransfer,
   createPermissionContextForContent,
   ContentType,
@@ -37,17 +31,11 @@ import {
 
 const { inquiry } = defineProps<{ inquiry: Inquiry }>()
 
-const route = useRoute()
-
 const inquiriesStore = useInquiriesStore()
-const inquiryGroupsStore = useInquiryGroupsStore()
-const sessionStore = useSessionStore()
 
 const showDeleteDialog = ref(false)
 const showTransferDialog = ref(false)
 const subMenu = ref<'addToGroup' | 'removeFromGroup' | null>(null)
-
-const newGroupTitle = ref('')
 
 const context = computed(() =>
   createPermissionContextForContent(
@@ -63,53 +51,6 @@ const context = computed(() =>
     inquiry.type
   )
 )
-
-async function toggleSubMenu(action: 'addToGroup' | 'removeFromGroup' | null = null) {
-  subMenu.value = subMenu.value === action ? null : action
-}
-
-async function removeInquiryFromGroup(inquiryId: number, inquiryGroupId: number) {
-  subMenu.value = null
-  try {
-    await inquiryGroupsStore.removeInquiryFromGroup({
-      inquiryId,
-      inquiryGroupId,
-    })
-    if (!inquiryGroupsStore.currentInquiryGroup) {
-      showInfo(t('agora', 'The inquiry group was deleted by removing the last member'))
-      if (route.name === 'group') {
-        router.push({ name: 'root' })
-      }
-    }
-  } catch {
-    showError(t('agora', 'Error removing inquiry from group'))
-  }
-}
-
-async function addInquiryToInquiryGroup(inquiryId: number, inquiryGroupId: number) {
-  subMenu.value = null
-  inquiryGroupsStore.addInquiryToInquiryGroup({
-    inquiryId,
-    inquiryGroupId,
-  })
-}
-
-async function addInquiryToNewInquiryGroup(inquiryId: number) {
-  if (!newGroupTitle.value.trim()) {
-    return
-  }
-
-  try {
-    await inquiryGroupsStore.addInquiryToInquiryGroup({
-      inquiryId,
-      groupTitle: newGroupTitle.value.trim(),
-    })
-    newGroupTitle.value = ''
-    subMenu.value = null
-  } catch {
-    showError(t('agora', 'Error creating new inquiry group'))
-  }
-}
 
 async function toggleArchive() {
   try {

@@ -76,6 +76,7 @@
       </div>
 
       <!-- Main HTML Content -->
+      <!-- eslint-disable-next-line vue/no-v-html -->
       <div class="rich-content" v-html="sanitizedContent"></div>
 
       <!-- Expiry Warning (only if expired) -->
@@ -97,7 +98,6 @@ import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
 import type { Inquiry } from '../../Types/index.ts'
 import { useSessionStore } from '../../stores/session.ts'
 import { InquiryGeneralIcons } from '../../utils/icons.ts'
-import { BaseEntry } from '../../Types/index.ts'
 
 interface Props {
   inquiry: Inquiry

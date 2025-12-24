@@ -34,9 +34,6 @@ const selectedInquiryGroupTypeForCreation = ref(null)
 const selectedGroups = ref<string[]>([])
 const viewMode = computed(() => preferencesStore.user.defaultDisplayMode || 'create')
 
-defineProps<{
-  slug?: string
-}>()
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -84,7 +81,7 @@ function selectGroupType(inquiryGroupType) {
   // navigate with hidden state
   router.push({
     name: 'group-list',
-    //params: { slug: '' },
+    // params: { slug: '' },
   })
 }
 

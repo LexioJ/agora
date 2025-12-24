@@ -120,6 +120,7 @@
             <component :is="InquiryGeneralIcons.Presentation" class="section-icon" :size="20" />
             <h3 class="section-title">{{ t('agora', 'Description') }}</h3>
           </div>
+          <!-- eslint-disable-next-line vue/no-v-html -->
           <div class="description-content" v-html="sanitizedContent"></div>
         </div>
 
@@ -178,7 +179,8 @@
           </div>
 
           <!-- Ternary Details Button -->
-          <div v-if="canSupportValue && storeInquiry.configuration?.supportMode === 'ternary'" 
+          <div
+v-if="canSupportValue && storeInquiry.configuration?.supportMode === 'ternary'" 
                class="ternary-details-button"
                @click.stop="openTernaryDetails">
             <NcButton
@@ -274,8 +276,8 @@
     <NcModal
       v-if="showSidebar"
       :name="storeInquiry.title"
-      @close="closeSidebar"
       :size="'large'"
+      @close="closeSidebar"
     >
       <template #header>
         <div class="modal-header">
@@ -319,7 +321,6 @@ import { useSessionStore } from '../../stores/session.ts'
 import { useSupportsStore } from '../../stores/supports.ts'
 import { useInquiriesStore } from '../../stores/inquiries.ts'
 import { canSupport, canComment } from '../../utils/permissions.ts'
-import { SupportsAPI, PublicAPI } from '../../Api/index.ts'
 
 interface Props {
   inquiry: Inquiry
@@ -327,9 +328,6 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const emit = defineEmits<{
-  support: [inquiryId: number, value: number]
-}>()
 
 const sessionStore = useSessionStore()
 const supportsStore = useSupportsStore()
@@ -338,18 +336,7 @@ const inquiriesStore = useInquiriesStore()
 // State
 const showSidebar = ref(false)
 const currentSupportValue = ref(props.inquiry.currentUserStatus?.supportValue || null)
-const sidebarActiveTab = ref('comments')
 
-
-// Add handler for sidebar tab changes
-function handleSidebarTabChange(tabId: string) {
-  if (tabId) {
-    sidebarActiveTab.value = tabId
-  } else {
-    // If tabId is empty/null, close the sidebar
-    closeSidebar()
-  }
-}
 
 // Update openComments function
 function openSidebar() {
@@ -755,9 +742,9 @@ async function toggleSupport(value: number) {
     const updatedInquiry = inquiriesStore.inquiries.find(i => i.id === props.inquiry.id)
     
     // Show success messages
-    const newSupportValue = updatedInquiry?.currentUserStatus?.supportValue
+    const newSupportValue = updatedInquiry?.currentUserStatus?.supportValue || value
     const hadSupportedBefore = storeInquiry.value.currentUserStatus?.hasSupported
-
+    
     if (storeInquiry.value.configuration?.supportMode === 'simple') {
       if (newSupportValue === 1) {
         showSuccess(t('agora', 'Inquiry supported, thanks for your support!'), { timeout: 2000 })

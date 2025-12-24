@@ -116,7 +116,6 @@ const isReadonly = computed(() => {
     return true
   }
   const canEditResult = canEdit(context.value)
-  console.log(" CANNNNNNNNNNNN INQUIRY VIEW EDIT RESULT ", canEditResult)
 
   return !canEditResult
 })

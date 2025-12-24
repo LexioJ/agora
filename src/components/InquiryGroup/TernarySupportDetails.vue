@@ -7,7 +7,7 @@
   <NcModal
     :show="show"
     :name="title"
-    @close="$emit('close')"
+    @close="emit('close')"
   >
     <div class="ternary-support-details">
       <h3>{{ title }}</h3>
@@ -84,10 +84,11 @@ import { computed } from 'vue'
 import { t } from '@nextcloud/l10n'
 import NcModal from '@nextcloud/vue/components/NcModal'
 import TernarySupportIcon from '../AppIcons/modules/TernarySupportIcon.vue'
+import type { Inquiry } from '../../Types/index.ts'
 
 interface Props {
   show: boolean
-  inquiry: any
+  inquiry: Inquiry
   title?: string
 }
 
@@ -96,6 +97,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits(['close'])
+
 
 const positiveCount = computed(() => props.inquiry.status?.countPositiveSupports || 0)
 const neutralCount = computed(() => props.inquiry.status?.countNeutralSupports || 0)

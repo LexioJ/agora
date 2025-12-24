@@ -29,10 +29,15 @@ import {
   type InquiryType,
 } from '../helpers/modules/InquiryHelper.ts'
 
-import { accessFamilyMenu } from '../utils/permissions.ts'
+import {
+  accessFamilyMenu,
+  canCreateInquiryGroup,
+  createPermissionContextForContent,
+  createPermissionContextForInquiryGroup,
+  ContentType,
+} from '../utils/permissions.ts'
 
 const preferencesStore = usePreferencesStore()
-
 const router = useRouter()
 const sessionStore = useSessionStore()
 const inquiriesStore = useInquiriesStore()
@@ -40,6 +45,51 @@ const createDlgToggle = ref(false)
 const createGroupDlgToggle = ref(false)
 const selectedInquiryTypeForCreation = ref<InquiryType | null>(null)
 const selectedInquiryGroupTypeForCreation = ref(null)
+
+// Add this computed property to check if user can create groups
+const canUserCreateInquiryGroup = computed(() => {
+  // Create a basic permission context for checking creation rights
+  const context = createPermissionContextForContent(
+    ContentType.InquiryGroup,
+    '', // ownerId not needed for creation check
+    true, // isPublic
+    false, // isLocked
+    false, // isExpired
+    false, // isDeleted
+    false, // isArchived
+    false, // hasGroupRestrictions
+    [] // allowedGroups
+  )
+console.log(" CAN USER CREATE ",canCreateInquiryGroup(context))
+  // Check if user can create inquiry groups in general
+  return canCreateInquiryGroup(context)
+})
+
+// Function to check if user can create inquiry group for current family
+function canCreateInquiryGroupForFamily(familyType: string): boolean {
+  // First check if user has access to this family
+ console.log(" NOT FAMIL ACCESS ? ")
+  if (familyType && !accessFamilyMenu(familyType)) {
+    return false
+  }
+console.log(" AAAAAAAAAAAAAAAAAAAA access to this family alllowed ")
+  // Then check if user can create inquiry groups in general
+  return canUserCreateInquiryGroup.value
+}
+
+// Function to create new inquiry group from type (UPDATED with permission check)
+function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
+  // Check permission before creating
+  console.log(" IIIIIIIIIIIIIIIIIIIII ",selectedFamily.value)
+  if (!canCreateInquiryGroupForFamily(selectedFamily.value)) {
+    showError(t('agora', 'You do not have permission to create inquiry groups for this family'))
+    return false
+  } 
+
+  selectedInquiryGroupTypeForCreation.value = inquiryGroupType.group_type
+  createGroupDlgToggle.value = true
+}
+
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -49,7 +99,36 @@ const availableGroups = computed(() => {
   return groups
 })
 
+// Create permission context for a specific group (WITH NULL CHECK)
+function createGroupPermissionContext(group: InquiryGroup | null) {
+  if (!group || !group.owner) {
+    return null
+  }
+
+  const currentUser = sessionStore.currentUser
+  const currentUserId = currentUser?.id || ''
+
+  const isOwner = currentUserId === group.owner.id
+  const isGroupEditor = sessionStore.userStatus.isGroupEditore || group.allowEdit || false
+  const isPublic = group.protected === false || group.protected === 0
+
+  return createPermissionContextForInquiryGroup(
+    isOwner,
+    isPublic, 
+    group.deleted > 0,
+    group.group_status === 'archived', 
+    group.owned_group !== null, 
+    group.owned_group ? [group.owned_group] : [], 
+    isGroupEditor || isOwner, 
+    false,                    
+    isGroupEditor,        
+    group.type,          
+    group.owned_group   
+  )
+}
+
 // State for selected family
+
 const selectedFamily = ref<string | null>(inquiriesStore.familyType || null)
 // State for expanded/collapsed families
 const expandedFamilies = ref<Set<string>>(new Set())
@@ -177,11 +256,6 @@ function createInquiry(inquiryType: InquiryType) {
   createDlgToggle.value = true
 }
 
-// Function to create new inquiry group from type
-function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
-  selectedInquiryGroupTypeForCreation.value = inquiryGroupType.group_type
-  createGroupDlgToggle.value = true
-}
 
 // Function to handle inquiry added
 function inquiryAdded(payload: { id: number; title: string }) {
@@ -232,165 +306,181 @@ watch(
 </script>
 
 <template>
-    <NcAppNavigation class="agora-navigation" aria-label="Inquiry Navigation">
+  <NcAppNavigation class="agora-navigation" aria-label="Inquiry Navigation">
     <template #list>
-        <!-- Recent Inquiries Section -->
-        <NcAppNavigationList>
+      <!-- Recent Inquiries Section -->
+      <NcAppNavigationList>
         <h3 class="navigation-caption">
-            {{ t('agora', 'Recent Inquiries') }}
+          {{ t('agora', 'Recent Inquiries') }}
         </h3>
         <NcAppNavigationItem
-                v-for="inquiry in recentInquiries"
-                :key="inquiry.id"
-                :name="inquiry.title"
-                :exact="true"
-				:to="{ name: 'inquiry', params: { id: inquiry.id } }"
-                class="navigation-item"
-                >
-                <template #icon>
-                    <component :is="getInquiryIcon(inquiry)" class="nav-icon" />
-                </template>
+          v-for="inquiry in recentInquiries"
+          :key="inquiry.id"
+          :name="inquiry.title"
+          :exact="true"
+          :to="{ name: 'inquiry', params: { id: inquiry.id } }"
+          class="navigation-item"
+        >
+          <template #icon>
+            <component :is="getInquiryIcon(inquiry)" class="nav-icon" />
+          </template>
         </NcAppNavigationItem>
 
         <NcAppNavigationItem
-                v-if="recentInquiries.length === 0"
-                :name="t('agora', 'No recent inquiries')"
-                :disabled="true"
-                class="navigation-empty"
-                />
-        </NcAppNavigationList>
+          v-if="recentInquiries.length === 0"
+          :name="t('agora', 'No recent inquiries')"
+          :disabled="true"
+          class="navigation-empty"
+        />
+      </NcAppNavigationList>
 
-        <!-- Inquiry Families Section -->
-        <NcAppNavigationList>
+      <!-- Inquiry Families Section -->
+      <NcAppNavigationList>
         <h3 class="navigation-caption">
-            {{ t('agora', 'Inquiry Families') }}
+          {{ t('agora', 'Inquiry Families') }}
         </h3>
 
         <NcAppNavigationItem
-                v-for="family in inquiryFamilies"
-                :key="family.id"
-                :name="t('agora', getFamilyData(family).label)"
-                :allow-collapse="true"
-                :open="isFamilyExpanded(family.family_type)"
-                class="navigation-item"
-                @update:open="toggleFamily(family.family_type)"
-                @click="navigateToFamilyInquiries(family.family_type)"
-                >
-                <template #icon>
-                    <component :is="getFamilyData(family).icon" />
-                </template>
+          v-for="family in inquiryFamilies"
+          :key="family.id"
+          :name="t('agora', getFamilyData(family).label)"
+          :allow-collapse="true"
+          :open="isFamilyExpanded(family.family_type)"
+          class="navigation-item"
+          @update:open="toggleFamily(family.family_type)"
+          @click="navigateToFamilyInquiries(family.family_type)"
+        >
+          <template #icon>
+            <component :is="getFamilyData(family).icon" />
+          </template>
 
-        <template #counter>
+          <template #counter>
             <span class="family-counter">
-                {{ getInquiryTypesForCurrentFamily(family.family_type).length + 
-                getInquiryGroupTypesForCurrentFamily(family.family_type).length }}
+              {{ getInquiryTypesForCurrentFamily(family.family_type).length +
+              getInquiryGroupTypesForCurrentFamily(family.family_type).length }}
             </span>
-        </template>
+          </template>
 
-        <!-- Inquiry Types for this family -->
-        <NcAppNavigationList class="navigation-sublist">
-        <h4 v-if="getInquiryGroupTypesForCurrentFamily(family.family_type).length > 0" class="navigation-subcaption">
-            {{ t('agora', 'Inquiries') }}
-        </h4>
-        <NcAppNavigationItem
-                v-for="inquiryType in accessFamilyMenu(family.family_type)
-                        ? getInquiryTypesForCurrentFamily(family.family_type)
-                        : []"
-                :key="inquiryType.id"
-                :name="t('agora', getInquiryTypeDisplayData(inquiryType).label)"
-                class="navigation-subitem"
-                @click="createInquiry(inquiryType)"
+          <!-- Inquiry Types for this family -->
+          <NcAppNavigationList class="navigation-sublist">
+            <h4 v-if="getInquiryGroupTypesForCurrentFamily(family.family_type).length > 0" class="navigation-subcaption">
+              {{ t('agora', 'Inquiries') }}
+            </h4>
+            <NcAppNavigationItem
+              v-for="inquiryType in accessFamilyMenu(family.family_type)
+                      ? getInquiryTypesForCurrentFamily(family.family_type)
+                      : []"
+              :key="inquiryType.id"
+              :name="t('agora', getInquiryTypeDisplayData(inquiryType).label)"
+              class="navigation-subitem"
+              @click="createInquiry(inquiryType)"
+            >
+              <template #icon>
+                <component :is="getInquiryTypeDisplayData(inquiryType).icon" />
+              </template>
+
+              <template v-if="getInquiryTypeDisplayData(inquiryType).description" #description>
+                {{ t('agora', getInquiryTypeDisplayData(inquiryType).description) }}
+              </template>
+            </NcAppNavigationItem>
+
+            <NcAppNavigationItem
+              v-if="getInquiryTypesForCurrentFamily(family.family_type).length === 0"
+              :name="t('agora', 'No inquiry types')"
+              :disabled="true"
+              class="navigation-empty"
+            />
+          </NcAppNavigationList>
+
+          <!-- Inquiry Group Types for this family -->
+          <NcAppNavigationList
+            v-if="getInquiryGroupTypesForCurrentFamily(family.family_type).length > 0"
+            class="navigation-sublist"
+          >
+            <h4 class="navigation-subcaption">
+              {{ t('agora', 'Inquiry Groups') }}
+            </h4>
+
+            <NcAppNavigationItem
+              v-for="inquiryGroupType in accessFamilyMenu(family.family_type)
+                      ? getInquiryGroupTypesForCurrentFamily(family.family_type)
+                      : []"
+              :key="inquiryGroupType.id"
+              :name="t('agora', getInquiryGroupTypeDisplayData(inquiryGroupType).label)"
+              :class="{
+                'navigation-subitem': true,
+                'disabled-item': !canUserCreateInquiryGroup
+              }"
+              @click="canUserCreateInquiryGroup ? createInquiryGroup(inquiryGroupType) : null"
+            >
+              <template #icon>
+                <component :is="getInquiryGroupTypeDisplayData(inquiryGroupType).icon" />
+              </template>
+
+              <template v-if="getInquiryGroupTypeDisplayData(inquiryGroupType).description" #description>
+                {{ t('agora', getInquiryGroupTypeDisplayData(inquiryGroupType).description) }}
+              </template>
+
+              <!-- Permission badge for users who can't create -->
+              <template v-if="!canUserCreateInquiryGroup" #counter>
+                <span
+                  class="permission-badge"
+                  :title="t('agora', 'You do not have permission to create inquiry groups')"
                 >
-                <template #icon>
-                    <component :is="getInquiryTypeDisplayData(inquiryType).icon" />
-                </template>
+                  🔒
+                </span>
+              </template>
+            </NcAppNavigationItem>
 
-        <template v-if="getInquiryTypeDisplayData(inquiryType).description" #description>
-            {{ t('agora', getInquiryTypeDisplayData(inquiryType).description) }}
-        </template>
+            <NcAppNavigationItem
+              v-if="getInquiryGroupTypesForCurrentFamily(family.family_type).length === 0"
+              :name="t('agora', 'No inquiry group types')"
+              :disabled="true"
+              class="navigation-empty"
+            />
+          </NcAppNavigationList>
         </NcAppNavigationItem>
 
         <NcAppNavigationItem
-                v-if="getInquiryTypesForCurrentFamily(family.family_type).length === 0"
-                :name="t('agora', 'No inquiry types')"
-                :disabled="true"
-                class="navigation-empty"
-                />
-        </NcAppNavigationList>
-
-        <!-- Inquiry Group Types for this family -->
-        <NcAppNavigationList v-if="getInquiryGroupTypesForCurrentFamily(family.family_type).length > 0" class="navigation-sublist">
-        <h4 class="navigation-subcaption">
-            {{ t('agora', 'Inquiry Groups') }}
-        </h4>
-        <NcAppNavigationItem
-                v-for="inquiryGroupType in accessFamilyMenu(family.family_type)
-                        ? getInquiryGroupTypesForCurrentFamily(family.family_type)
-                        : []"
-                :key="inquiryGroupType.id"
-                :name="t('agora', getInquiryGroupTypeDisplayData(inquiryGroupType).label)"
-                class="navigation-subitem"
-                @click="createInquiryGroup(inquiryGroupType)"
-                >
-                <template #icon>
-                    <component :is="getInquiryGroupTypeDisplayData(inquiryGroupType).icon" />
-                </template>
-
-        <template v-if="getInquiryGroupTypeDisplayData(inquiryGroupType).description" #description>
-            {{ t('agora', getInquiryGroupTypeDisplayData(inquiryGroupType).description) }}
-        </template>
-        </NcAppNavigationItem>
-
-        <NcAppNavigationItem
-                v-if="getInquiryGroupTypesForCurrentFamily(family.family_type).length === 0"
-                :name="t('agora', 'No inquiry group types')"
-                :disabled="true"
-                class="navigation-empty"
-                />
-        </NcAppNavigationList>
-        </NcAppNavigationItem>
-
-        <NcAppNavigationItem
-                v-if="inquiryFamilies.length === 0"
-                :name="t('agora', 'No families configured')"
-                :disabled="true"
-                class="navigation-empty"
-                />
-        </NcAppNavigationList>
-
+          v-if="inquiryFamilies.length === 0"
+          :name="t('agora', 'No families configured')"
+          :disabled="true"
+          class="navigation-empty"
+        />
+      </NcAppNavigationList>
     </template>
 
     <!-- Footer Section -->
     <template #footer>
-        <NcAppNavigationList class="navigation-footer">
+      <NcAppNavigationList class="navigation-footer">
         <NcAppNavigationItem
-                :name="t('agora', 'Settings')"
-                class="footer-item"
-                @click="showSettings()"
-                >
-                <template #icon>
-                    <Component :is="NavigationIcons.Settings" />
-                </template>
+          :name="t('agora', 'Settings')"
+          class="footer-item"
+          @click="showSettings()"
+        >
+          <template #icon>
+            <Component :is="NavigationIcons.Settings" />
+          </template>
         </NcAppNavigationItem>
-        </NcAppNavigationList>
+      </NcAppNavigationList>
     </template>
-    </NcAppNavigation>
+  </NcAppNavigation>
 
-    <InquiryCreateDlg
-            v-if="createDlgToggle"
-            :inquiry-type="selectedInquiryTypeForCreation"
-            :available-groups="availableGroups"
-            @close="handleCloseDialog"
-            @added="inquiryAdded"
-            />
+  <InquiryCreateDlg
+    v-if="createDlgToggle"
+    :inquiry-type="selectedInquiryTypeForCreation"
+    :available-groups="availableGroups"
+    @close="handleCloseDialog"
+    @added="inquiryAdded"
+  />
 
-    <InquiryGroupCreateDlg
-            v-if="createGroupDlgToggle"
-            :inquiry-group-type="selectedInquiryGroupTypeForCreation"
-            :available-groups="availableGroups"
-            @close="handleCloseGroupDialog"
-            @added="inquiryGroupAdded"
-            />
+  <InquiryGroupCreateDlg
+    v-if="createGroupDlgToggle"
+    :inquiry-group-type="selectedInquiryGroupTypeForCreation"
+    :available-groups="availableGroups"
+    @close="handleCloseGroupDialog"
+    @added="inquiryGroupAdded"
+  />
 </template>
 
 <style lang="scss">
@@ -408,6 +498,21 @@ watch(
     padding: 0;
 }
 
+.navigation-subitem.disabled-item {
+  opacity: 0.6;
+  cursor: not-allowed;
+  
+  &:hover {
+    background-color: transparent !important;
+  }
+}
+
+.permission-badge {
+  font-size: 12px;
+  opacity: 0.7;
+  cursor: help;
+}
+
 .navigation-subcaption {
     font-size: 11px;
     font-weight: 500;
@@ -420,109 +525,109 @@ watch(
     padding-bottom: 4px;
 }
 
-      .navigation-item {
-          margin: 2px 8px;
-          border-radius: 8px;
+          .navigation-item {
+              margin: 2px 8px;
+              border-radius: 8px;
 
-          &:hover {
-              background-color: var(--color-background-hover);
-          }
+              &:hover {
+                  background-color: var(--color-background-hover);
+              }
 
-          &.active {
-              background-color: var(--color-primary-light);
+              &.active {
+                  background-color: var(--color-primary-light);
 
-              :deep(.app-navigation-entry__title) {
-                  font-weight: 600;
+                  :deep(.app-navigation-entry__title) {
+                      font-weight: 600;
+                  }
               }
           }
-      }
 
-      .navigation-subitem {
-          margin: 1px 4px;
-          border-radius: 6px;
-          font-size: 13px;
+          .navigation-subitem {
+              margin: 1px 4px;
+              border-radius: 6px;
+              font-size: 13px;
 
-          &:hover {
-              background-color: var(--color-background-hover);
-          }
-      }
-
-      .navigation-counter {
-          font-weight: 600;
-      }
-
-      .navigation-sublist {
-          margin-left: 8px;
-          border-left: 1px solid var(--color-border);
-          padding: 0;
-
-          :deep(.app-navigation-entry) {
-              padding-left: 16px;
-
-              .app-navigation-entry__description {
-                  font-size: 11px;
-                  color: var(--color-text-lighter);
-                  margin-top: 1px;
+              &:hover {
+                  background-color: var(--color-background-hover);
               }
           }
-      }
 
-      .navigation-empty {
-          opacity: 0.7;
-          font-style: italic;
-      }
-
-      // Override default navigation styles without :deep() nesting
-          :deep(.app-navigation__body) {
-          overflow: revert;
-      }
-
-      :deep(.app-navigation-entry-icon),
-      :deep(.app-navigation-entry__title) {
-          transition: opacity 0.2s ease;
-      }
-
-      :deep(.app-navigation-entry.active .app-navigation-entry-icon),
-      :deep(.app-navigation-entry.active .app-navigation-entry__title) {
-          opacity: 1;
-      }
-
-      .closed {
-          :deep(.app-navigation-entry-icon),
-          :deep(.app-navigation-entry__title) {
-              opacity: 0.6;
-          }
-      }
-
-      .force-not-active {
-          :deep(.app-navigation-entry.active) {
-              background-color: transparent !important;
-
-              * {
-                  color: unset !important;
-              }
-          }
-      }
-
-      // Responsive adjustments
-  @media (max-width: 768px) {
-          .agora-navigation {
-              padding: 8px 0;
+          .navigation-counter {
+              font-weight: 600;
           }
 
           .navigation-sublist {
-              margin-left: 4px;
+              margin-left: 8px;
+              border-left: 1px solid var(--color-border);
+              padding: 0;
 
               :deep(.app-navigation-entry) {
-                  padding-left: 12px;
+                  padding-left: 16px;
+
+                  .app-navigation-entry__description {
+                      font-size: 11px;
+                      color: var(--color-text-lighter);
+                      margin-top: 1px;
+                  }
               }
           }
-      }
 
-      // Dark theme adjustments
-          .theme--dark {
-          .navigation-sublist {
-              background: var(--color-background-darker);
+          .navigation-empty {
+              opacity: 0.7;
+              font-style: italic;
           }
-      }
-</style>
+
+          // Override default navigation styles without :deep() nesting
+              :deep(.app-navigation__body) {
+              overflow: revert;
+          }
+
+          :deep(.app-navigation-entry-icon),
+          :deep(.app-navigation-entry__title) {
+              transition: opacity 0.2s ease;
+          }
+
+          :deep(.app-navigation-entry.active .app-navigation-entry-icon),
+          :deep(.app-navigation-entry.active .app-navigation-entry__title) {
+              opacity: 1;
+          }
+
+          .closed {
+              :deep(.app-navigation-entry-icon),
+              :deep(.app-navigation-entry__title) {
+                  opacity: 0.6;
+              }
+          }
+
+          .force-not-active {
+              :deep(.app-navigation-entry.active) {
+                  background-color: transparent !important;
+
+                  * {
+                      color: unset !important;
+                  }
+              }
+          }
+
+          // Responsive adjustments
+      @media (max-width: 768px) {
+              .agora-navigation {
+                  padding: 8px 0;
+              }
+
+              .navigation-sublist {
+                  margin-left: 4px;
+
+                  :deep(.app-navigation-entry) {
+                      padding-left: 12px;
+                  }
+              }
+          }
+
+          // Dark theme adjustments
+              .theme--dark {
+              .navigation-sublist {
+                  background: var(--color-background-darker);
+              }
+          }
+    </style>

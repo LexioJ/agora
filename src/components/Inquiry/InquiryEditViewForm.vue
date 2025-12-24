@@ -189,7 +189,6 @@ const statusInquiryOptions = computed(() =>
 // Get hierarchy path for location and category display
 function getHierarchyPath(items, targetId) {
   const itemMap = {}
-  console.log(" ITEMMMMMMMMMMMS ",items)
   items.forEach((item) => {
     itemMap[item.id] = item
   })
@@ -548,7 +547,7 @@ const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDat
 				</div>
 				
 				<div class="counters-section">
-					<div v-if="canComment(context)" class="counter-item" @click="$emit('scrollToComments')">
+					<div v-if="canComment(context)" class="counter-item">
 						<div class="counter-icon">
 							<component :is="InquiryGeneralIcons.Comment" :size="20" />
 						</div>

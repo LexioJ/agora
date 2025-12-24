@@ -129,13 +129,11 @@ const setModerationStatus = async (status: string) => {
 // Get available types directly (already filtered by permissions)
 const availableResponseTypes = computed(() => {
   const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-  console.log("GET REPONSE TYPES",getAvailableResponseTypesWithPermissions(props.inquiryStore.type, inquiryTypes, context.value))
   return getAvailableResponseTypesWithPermissions(props.inquiryStore.type, inquiryTypes, context.value)
 })
 
 const availableTransformTypes = computed(() => {
   const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
-  console.log("GET AVA TRANS",getAvailableTransformTypesWithPermissions(props.inquiryStore.type, inquiryTypes, context.value))
   return getAvailableTransformTypesWithPermissions(props.inquiryStore.type, inquiryTypes, context.value)
 })
 
@@ -169,9 +167,6 @@ const enrichedTransformTypes = computed(() => {
   })
 })
 
-console.log("AVAILABLE RESPONSE DDDDDDDDDDDDDDDDDD",availableResponseTypes.value.length)
-console.log("enriche DDDDDDDDDDDDDDDDDD",enrichedResponseTypes.value.length)
-console.log("SHOW ACTION",showActionsMenu.value)
 
 const getStatusLabel = (status: string) => {
   const option = statusOptions.find(opt => opt.value === status)

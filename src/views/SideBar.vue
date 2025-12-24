@@ -31,6 +31,7 @@ import {
   SideBarTabMisc,
 } from '../components/SideBar/index.js'
 
+
 const inquiryStore = useInquiryStore()
 const sessionStore = useSessionStore()
 
@@ -63,7 +64,6 @@ const isReadonly = computed(() => {
     return true
   }
   const canEditResult = canEdit(context.value)
-  console.log(" CANNNNNNNNNNNN EDIT RESULT ", canEditResult)
   return !canEditResult
 })
 
@@ -95,13 +95,6 @@ onUnmounted(() => {
 function closeSideBar() {
   emit(Event.SidebarToggle, { open: false })
 }
-
-// Error handling
-import { onErrorCaptured } from 'vue'
-onErrorCaptured((error) => {
-  console.error('Sidebar component error:', error)
-  return false
-})
 </script>
 
 <template>

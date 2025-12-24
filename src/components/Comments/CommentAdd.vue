@@ -83,14 +83,12 @@ const isConfidentialForced = computed(() => {
  * Write a comment
  */
 async function writeComment() {
-    console.log(" COMMMMMMMMMENT VALUE ",comment.value)
   
   if (!comment.value || !currentInquiry.value) {
     return
   }
 
   try {
-    console.log(" INTOOOOOOOOOOO COMMMENT WRITE ",currentInquiry.value.id)
     const inquiryId = currentInquiry.value.id
     
     await commentsStore.add({

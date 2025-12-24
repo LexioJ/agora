@@ -1,32 +1,22 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcButton from '@nextcloud/vue/components/NcButton'
-import NcDialog from '@nextcloud/vue/components/NcDialog'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
 import { useInquiryGroupStore } from '../stores/inquiryGroup.ts'
 import { 
   createPermissionContextForInquiryGroup, 
-  GroupAccessLevel,
   canRestore,
   canDelete,
-  ContentType,
-  InquiryFamily
 } from '../utils/permissions.ts'
 import { InquiryGeneralIcons, NavigationIcons } from '../utils/icons.ts'
 import { getInquiryGroupTypeData } from '../helpers/modules/InquiryHelper.ts'
 import type { InquiryGroup } from '../stores/inquiryGroups.types.ts'
 
-defineProps<{
-  slug?: string
-}>()
-
-const router = useRouter()
 const sessionStore = useSessionStore()
 const inquiryGroupsStore = useInquiryGroupsStore()
 const inquiryGroupStore = useInquiryGroupStore()
@@ -40,9 +30,6 @@ const deleteDialogGroup = ref<InquiryGroup | null>(null)
 const showRestoreDialog = ref(false)
 const restoreDialogGroup = ref<InquiryGroup | null>(null)
 
-// Get current user info
-const currentUser = computed(() => sessionStore.currentUser)
-const currentUserId = computed(() => currentUser.value?.id || '')
 
 // Get all archived groups
 const archivedGroups = computed(() => inquiryGroupsStore.inquiryGroups.filter(
@@ -92,38 +79,6 @@ function canUserDeleteGroup(group: InquiryGroup): boolean {
 const getGroupTypeIconComponent = (type: string) => {
   const typeData = getInquiryGroupTypeData(type, sessionStore.appSettings.inquiryGroupTypeTab)
   return typeData?.icon || 'div'
-}
-
-// Helper function to get children
-function getGroupChildren(group: InquiryGroup) {
-  if (!group || !group.id) return []
-  const allGroups = inquiryGroupsStore.inquiryGroups || []
-  return allGroups.filter(g => g.parentId === group.id)
-}
-
-// Format archive date
-function formatArchiveDate(dateString: string) {
-  if (!dateString) return t('agora', 'Unknown date')
-  const date = new Date(dateString)
-  return date.toLocaleDateString()
-}
-
-// Get cover URL
-function getCoverUrl(coverId: string) {
-  const baseUrl = window.location.origin
-  return `${baseUrl}/index.php/core/preview?fileId=${coverId}&x=1920&y=1080&a=1`
-}
-
-// Navigation
-function navigateToHome() {
-  router.push({ name: 'group-list', params: { slug: 'none' }, query: {} })
-}
-
-function selectGroup(group: InquiryGroup) {
-  // View group details (read-only mode)
-  if (group.slug) {
-    router.push({ name: 'group-list', params: { slug: group.slug } })
-  }
 }
 
 // Delete dialog properties
@@ -179,7 +134,7 @@ const restoreDialogButtons = computed(() => [
       restoreDialogGroup.value = null
     }
   },
-  {
+  {             
     label: t('agora', 'Restore'),
     type: 'primary',
     callback: async () => {
@@ -188,7 +143,7 @@ const restoreDialogButtons = computed(() => [
       }
       showRestoreDialog.value = false
       restoreDialogGroup.value = null
-    }
+    }       
   }
 ])
 
@@ -427,11 +382,26 @@ onMounted(async () => {
             </div>
           </div>
         </div>
-        <!-- END: archived-groups-grid -->
       </div>
-      <!-- END: content-area -->
     </div>
-    <!-- END: inquiry-group-archive-page -->
+        <!-- Delete Dialog -->
+    <NcDialog
+      v-if="deleteDialogGroup"
+      v-model:open="showDeleteDialog"
+      :name="deleteDialogTitle"
+      :message="deleteDialogMessage"
+      :buttons="deleteDialogButtons"
+    />
+
+    <!-- Restore Dialog -->
+    <NcDialog
+      v-if="restoreDialogGroup"
+      v-model:open="showRestoreDialog"
+      :name="restoreDialogTitle"
+      :message="restoreDialogMessage"
+      :buttons="restoreDialogButtons"
+    />
+
   </NcAppContent>
 </template>
 

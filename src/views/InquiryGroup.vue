@@ -277,17 +277,11 @@ import InquiryGroupViewMiddle from '../components/InquiryGroup/InquiryGroupViewM
 import InquiryGroupViewMain from '../components/InquiryGroup/InquiryGroupViewMain.vue'
 import { 
   createPermissionContextForInquiryGroup, 
-  GroupAccessLevel,
   canArchive,
   canEdit,
   canDelete,
-  ContentType,
-  InquiryFamily
 } from '../utils/permissions.ts'
 
-defineProps<{
-  slug?: string
-}>()
 
 const route = useRoute()
 const router = useRouter()
@@ -452,7 +446,6 @@ const sectionTitle = computed(() => {
 })
 
 // Check if user is owner or admin - FIXED: Ensure this returns boolean
-const isOwnerOrAdmin = computed(() => true)
 
 // Get icon component for group type
 const getGroupTypeIconComponent = (type: string) => {
@@ -549,7 +542,6 @@ const deleteDialogButtons = computed(() => [
 // Methods
 function navigateToHome() {
   router.push({ name: 'group-list', 
- // params: { slug: 'none' }, 
   query: {} })
 }
 

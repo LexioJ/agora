@@ -17,12 +17,13 @@
 		- 🧱 Scalable architecture and modern UX
 		- 🔒 Secure and private — all data stays on your Nextcloud server
 		- 🔗 Integration with Forms, Polls, Deck, Collectives,...
+		- 🏛 Collectives desgin UX
 
 		### 🧭 Coming Next
 		- 🗣 Structured debates and multi-thread replies
 		- 🏛 Collectives and referendums
 		]]></description>
-	<version>1.6.0-beta</version>
+	<version>1.6.0</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author>Vincent TRAPPE</author>
 	<documentation>

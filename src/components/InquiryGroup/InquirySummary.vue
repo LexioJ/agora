@@ -44,7 +44,8 @@
           </div>
 
           <div class="compact-stats">
-            <div v-if="inquiry.status?.countSupports"
+            <div
+v-if="inquiry.status?.countSupports"
                  class="stat-item supports"
                  :class="{ 'is-supported': isSupported }">
               <component :is="supportIconComponent" class="support-icon" :size="10" />
@@ -91,6 +92,7 @@
         </div>
 
         <!-- Safe Description -->
+        <!-- eslint-disable-next-line vue/no-v-html -->
         <div v-if="safeDescription" class="summary-description" v-html="safeDescription">
         </div>
 
@@ -138,7 +140,8 @@
 
         <!-- Stats Icons -->
         <div class="footer-stats">
-          <div v-if="inquiry.status?.countSupports"
+          <div
+v-if="inquiry.status?.countSupports"
                class="stat-item supports"
                :class="{ 'is-supported': isSupported }">
             <component :is="supportIconComponent" class="support-icon" :size="16" />
