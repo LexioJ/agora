@@ -96,10 +96,6 @@ export const useSessionStore = defineStore('session', {
     userStatus: {
       isLoggedin: !!getCurrentUser(),
       isAdmin: !!getCurrentUser()?.isAdmin,
-      isOfficial: !!getCurrentUser()?.isOfficial,
-      isModerator: !!getCurrentUser()?.isModerator,
-      isLegislative: !!getCurrentUser()?.isLegislative,
-      isGroupEditor: !!getCurrentUser()?.isGroupEditor,
     },
     watcher: {
       id: '',

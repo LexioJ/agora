@@ -201,6 +201,9 @@ async function performDeleteGroup(group: InquiryGroup) {
   }
 }
 
+const formatDate = (timestamp: number) =>
+  DateTime.fromMillis(timestamp * 1000).toLocaleString(DateTime.DATE_SHORT)
+
 // Lifecycle
 onMounted(async () => {
   try {
@@ -334,7 +337,7 @@ onMounted(async () => {
                   <div class="vignette-footer">
                     <div class="archive-date">
                       <span class="date-label">{{ t('agora', 'Archived on:') }}</span>
-                      <span class="date-value">{{ formatArchiveDate(group.created) }}</span>
+                      <span class="date-value">{{ formatDate(group.created) }}</span>
                     </div>
                   </div>
                 </div>

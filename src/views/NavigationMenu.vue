@@ -33,7 +33,6 @@ import {
   accessFamilyMenu,
   canCreateInquiryGroup,
   createPermissionContextForContent,
-  createPermissionContextForInquiryGroup,
   ContentType,
 } from '../utils/permissions.ts'
 
@@ -98,34 +97,6 @@ const availableGroups = computed(() => {
   }
   return groups
 })
-
-// Create permission context for a specific group (WITH NULL CHECK)
-function createGroupPermissionContext(group: InquiryGroup | null) {
-  if (!group || !group.owner) {
-    return null
-  }
-
-  const currentUser = sessionStore.currentUser
-  const currentUserId = currentUser?.id || ''
-
-  const isOwner = currentUserId === group.owner.id
-  const isGroupEditor = sessionStore.userStatus.isGroupEditore || group.allowEdit || false
-  const isPublic = group.protected === false || group.protected === 0
-
-  return createPermissionContextForInquiryGroup(
-    isOwner,
-    isPublic, 
-    group.deleted > 0,
-    group.group_status === 'archived', 
-    group.owned_group !== null, 
-    group.owned_group ? [group.owned_group] : [], 
-    isGroupEditor || isOwner, 
-    false,                    
-    isGroupEditor,        
-    group.type,          
-    group.owned_group   
-  )
-}
 
 // State for selected family
 

@@ -726,7 +726,6 @@ export function canComment(context: PermissionContext): boolean {
     return false
   }
 
-  const sessionStore = useSessionStore()
   if (context.userType === UserType.Guest) {
     return context.isPublic && appSettings.allowGuestComments
   }
@@ -756,7 +755,6 @@ export function canSupport(context: PermissionContext): boolean {
     return false
   }
 
-  const sessionStore = useSessionStore()
   if (context.userType === UserType.Guest) {
     return context.isPublic && appSettings.allowGuestSupport
   }
@@ -997,7 +995,6 @@ export function canDeleteInquiryGroup(context: PermissionContext): boolean {
  * @param context
  */
 export function canAddInquiryToGroup(context: PermissionContext): boolean {
-  const groupRights = getCurrentInquiryGroupRights()
   
   // Always allow owners and admins
   if (context.isOwner || context.userType === UserType.Admin) {
@@ -1115,9 +1112,8 @@ export function canCreateTransformationType(transformType: string, context: Perm
 /**
  * Check if user has required group membership for response type
  * @param responseType
- * @param context
  */
-function hasRequiredGroupForResponseType(responseType: string, context?: PermissionContext): boolean {
+function hasRequiredGroupForResponseType(responseType: string): boolean {
   const sessionStore = useSessionStore()
   
   if (!sessionStore.currentUser?.id) return false
@@ -1142,9 +1138,8 @@ function hasRequiredGroupForResponseType(responseType: string, context?: Permiss
 /**
  * Check if user has required group membership for transformation type  
  * @param transformType
- * @param context
  */
-function hasRequiredGroupForTransformationType(transformType: string, context?: PermissionContext): boolean {
+function hasRequiredGroupForTransformationType(transformType: string): boolean {
   const sessionStore = useSessionStore()
   
   if (!sessionStore.currentUser?.id) return false
