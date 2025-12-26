@@ -37,7 +37,9 @@
 	<repository type="git">https://github.com/vinimoz/agora.git</repository>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Family.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/GroupView.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/GroupView2.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/EditInquiry.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/EditGroup.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/CreateInquiryView.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Grid.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Grid2.png</screenshot>
