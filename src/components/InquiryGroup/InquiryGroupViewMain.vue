@@ -305,7 +305,7 @@ function handleInquiryClick(inquiry: Inquiry) {
     default:
       // Navigate to edit page using router
       router.push({
-        name: 'inquiry-edit',
+        name: 'inquiry',
         params: { id: inquiry.id }
       })
       break

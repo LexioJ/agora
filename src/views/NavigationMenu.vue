@@ -59,7 +59,6 @@ const canUserCreateInquiryGroup = computed(() => {
     false, // hasGroupRestrictions
     [] // allowedGroups
   )
-console.log(" CAN USER CREATE ",canCreateInquiryGroup(context))
   // Check if user can create inquiry groups in general
   return canCreateInquiryGroup(context)
 })
@@ -67,11 +66,9 @@ console.log(" CAN USER CREATE ",canCreateInquiryGroup(context))
 // Function to check if user can create inquiry group for current family
 function canCreateInquiryGroupForFamily(familyType: string): boolean {
   // First check if user has access to this family
- console.log(" NOT FAMIL ACCESS ? ")
   if (familyType && !accessFamilyMenu(familyType)) {
     return false
   }
-console.log(" AAAAAAAAAAAAAAAAAAAA access to this family alllowed ")
   // Then check if user can create inquiry groups in general
   return canUserCreateInquiryGroup.value
 }
@@ -79,7 +76,6 @@ console.log(" AAAAAAAAAAAAAAAAAAAA access to this family alllowed ")
 // Function to create new inquiry group from type (UPDATED with permission check)
 function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
   // Check permission before creating
-  console.log(" IIIIIIIIIIIIIIIIIIIII ",selectedFamily.value)
   if (!canCreateInquiryGroupForFamily(selectedFamily.value)) {
     showError(t('agora', 'You do not have permission to create inquiry groups for this family'))
     return false
@@ -267,6 +263,11 @@ function handleCloseGroupDialog() {
   selectedInquiryGroupTypeForCreation.value = null
 }
 
+function navigateToHome() {
+  router.push({ name: 'menu', 
+  query: {} 
+  })
+}
 // Watch for familyType changes in store
 watch(
   () => inquiriesStore.familyType,

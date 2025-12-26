@@ -9504,13 +9504,13 @@ tr.file-picker__row td.row-name[data-v-1f96131b] {
 })();
 const appName = "agora";
 const appVersion = "1.6.0";
-import { at as h$1, B as defineStore, bc as Settings, a as _export_sfc, d as defineComponent, b as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, t as toDisplayString, J as normalizeClass, b9 as NcActionButton, s as translate, _ as _export_sfc$1, f as createBlock, g as withCtx, l as createCommentVNode, h as resolveDynamicComponent, k as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, V as withDirectives, bg as vModelRadio, bh as withKeys, Z as withModifiers, u as useModel, bi as useSlots, e as watch, aw as logger, v as onMounted, aK as onBeforeUnmount, r as renderSlot, af as useCssVars, bj as useIsDarkTheme, n as unref, bk as mdiCreation, j as createVNode, a7 as createSlots, C as createTextVNode, K as NcIconSvgWrapper, Y as NcButton, ba as NcActions, $ as resolveComponent, i as mergeProps, W as vShow, x as normalizeProps, y as guardReactiveProps, bl as userStatus, N as NcAvatar, p as normalizeStyle, m as mergeModels, U as ref, bm as provide, w as warn, a1 as useTemplateRef, a0 as useAttrs, L as isLegacy, a2 as mdiCheck, a3 as mdiAlertCircle, M as Fragment$1, O as renderList, ae as NcLoadingIcon, bn as Teleport, bo as useRouter, b6 as emit, P as DateTime$1, R as RouterLink, b8 as onUnmounted, bp as useRoute, bq as translatePlural, br as TransitionGroup, aL as nextTick, E as _$2, bs as NcModal, b7 as shallowRef, bt as markRaw, bu as watchEffect, bv as getCurrentInstance, bw as customRef, bx as global, by as getAugmentedNamespace, aN as process$1, b5 as commonjsGlobal, bz as Buffer, S as getDefaultExportFromCjs, bA as vModelSelect, bB as toRaw, bC as subscribe, bD as unsubscribe, as as Transition, bE as onBeforeRouteUpdate, aR as getCurrentUser, aT as v, aS as cancelableClient, D as purify, bF as onBeforeRouteLeave, bG as createRouter, bH as createWebHistory, bI as axios, z as createApp, A as pinia } from "./TernarySupportIcon.vue_vue_type_style_index_0_scoped_ef057a6f_lang-Uo9ga7Wd.chunk.mjs";
-import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, o as options, b as useInquiriesStore, i as useInquiryStore, j as orderBy, k as createPermissionContextForContent, C as ContentType, l as canTransfer, m as canDelete, n as canArchive, I as InquiryGeneralIcons, q as useInquiryGroupsStore, r as NavigationIcons, s as showError$1, t as showSuccess, v as useInquiryGroupStore, w as canCreateInquiryGroup, x as accessFamilyMenu, y as createPermissionContextForInquiryGroup, E as Event$1, z as NcEmptyContent, S as StatusIcons, B as BadgeIcons, A as canSupport, D as canComment, F as sortTitlesMapping, G as lodashExports, H as appSettings, J as canRestore, K as getAvailableResponseTypesWithPermissions, M as getAvailableTransformTypesWithPermissions, O as canViewToggle, P as validators, Q as inquiries, R as commonjsRequire, T as useAttachmentsStore, U as useCommentsStore, V as useSharesStore, W as canEdit, d as useAppSettingsStore, X as createDefault, Y as inquiryLinks, Z as ShareIcons, _ as canShare, $ as canUseResource } from "./NcDashboardWidget-Bu7bWoUK-DknMCGOP.chunk.mjs";
-import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-B3wQw7ky.chunk.mjs";
-import { b as NcAppNavigationItem, u as useAppSettingsDialog, _ as _sfc_main$1O, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as find$1, r as registerCustomProtocol, t as tokenize, i as reset, O as Options, j as NcActionInput, P as PlusIcon, k as NcDateTimePickerNative, l as NcAppSidebar, a as NcAppSettingsDialog, m as NcContent } from "./index-DlkmXUJv.chunk.mjs";
-import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getAllowedResponseGroupTypes, d as getAvailableInquiryGroupTypesForCreation, e as getInquiryGroupTypeData, f as getInquiryTypesByFamily, h as getInquiryTypesForFamily, i as getInquiryItemData, j as getInquiryGroupTypesByFamily, k as getInquiryGroupTypesForFamily, l as isInquiryFinalStatus, m as getAvailableFields, n as getAvailableGroupFields } from "./InquiryHelper-BbuoHcHl.chunk.mjs";
+import { at as h$1, B as defineStore, bc as Settings, a as _export_sfc, d as defineComponent, b as computed, bd as getCanonicalLocale, c as createElementBlock, o as openBlock, t as toDisplayString, J as normalizeClass, b9 as NcActionButton, s as translate, _ as _export_sfc$1, f as createBlock, g as withCtx, l as createCommentVNode, h as resolveDynamicComponent, k as createBaseVNode, be as NC_ACTIONS_IS_SEMANTIC_MENU, a4 as createElementId, bf as ActionGlobalMixin, V as withDirectives, bg as vModelRadio, bh as withKeys, Z as withModifiers, u as useModel, bi as useSlots, e as watch, aw as logger, v as onMounted, aK as onBeforeUnmount, r as renderSlot, af as useCssVars, bj as useIsDarkTheme, n as unref, bk as mdiCreation, j as createVNode, a7 as createSlots, C as createTextVNode, K as NcIconSvgWrapper, Y as NcButton, ba as NcActions, $ as resolveComponent, i as mergeProps, W as vShow, x as normalizeProps, y as guardReactiveProps, bl as userStatus, N as NcAvatar, p as normalizeStyle, m as mergeModels, U as ref, bm as provide, w as warn, a1 as useTemplateRef, a0 as useAttrs, L as isLegacy, a2 as mdiCheck, a3 as mdiAlertCircle, M as Fragment$1, O as renderList, ae as NcLoadingIcon, bn as Teleport, bo as useRouter, b6 as emit, P as DateTime, R as RouterLink, b8 as onUnmounted, bp as useRoute, bq as translatePlural, br as TransitionGroup, aL as nextTick, E as _$2, bs as NcModal, b7 as shallowRef, bt as markRaw, bu as watchEffect, bv as getCurrentInstance, bw as customRef, bx as global, by as getAugmentedNamespace, aN as process$1, b5 as commonjsGlobal, bz as Buffer, S as getDefaultExportFromCjs, bA as vModelSelect, bB as toRaw, bC as subscribe, bD as unsubscribe, as as Transition, bE as onBeforeRouteUpdate, aR as getCurrentUser, aT as v, aS as cancelableClient, D as purify, bF as onBeforeRouteLeave, bG as createRouter, bH as createWebHistory, bI as axios, z as createApp, A as pinia } from "./TernarySupportIcon.vue_vue_type_style_index_0_scoped_ef057a6f_lang-Uo9ga7Wd.chunk.mjs";
+import { a as useSessionStore, p as publicInquiry, h as supports, L as Logger, o as options, b as useInquiriesStore, i as useInquiryStore, j as orderBy, k as createPermissionContextForContent, C as ContentType, l as canTransfer, m as canDelete, n as canArchive, I as InquiryGeneralIcons, q as useInquiryGroupsStore, r as NavigationIcons, s as showError$1, t as showSuccess, v as useInquiryGroupStore, w as canCreateInquiryGroup, x as accessFamilyMenu, E as Event$1, y as NcEmptyContent, S as StatusIcons, B as BadgeIcons, z as canSupport, A as canComment, D as sortTitlesMapping, F as lodashExports, G as appSettings, H as canRestore, J as getAvailableResponseTypesWithPermissions, K as getAvailableTransformTypesWithPermissions, M as canViewToggle, O as validators, P as inquiries, Q as commonjsRequire, R as useAttachmentsStore, T as useCommentsStore, U as useSharesStore, V as canEdit, W as createPermissionContextForInquiryGroup, d as useAppSettingsStore, X as createDefault, Y as inquiryLinks, Z as ShareIcons, _ as canShare, $ as canUseResource } from "./NcDashboardWidget-Bu7bWoUK-CZYElx03.chunk.mjs";
+import { u as usePreferencesStore, S as StyleSettings, F as FeatureSettings } from "./StyleSettings-CCS69qS5.chunk.mjs";
+import { b as NcAppNavigationItem, u as useAppSettingsDialog, _ as _sfc_main$1O, c as NcAppNavigationList, d as NcAppNavigation, S as Spinner, Q as QRCode, I as InputDiv, e as NcAppContent, f as NcActionButtonGroup, g as NcDialog, h as find$1, r as registerCustomProtocol, t as tokenize, i as reset, O as Options, j as NcActionInput, P as PlusIcon, k as NcDateTimePickerNative, l as NcAppSidebar, a as NcAppSettingsDialog, m as NcContent } from "./index-Suag1MXn.chunk.mjs";
+import { g as getInquiryTypeData, a as getAvailableInquiryTypesForCreation, b as getInquiryTypeOptions, c as getAllowedResponseGroupTypes, d as getAvailableInquiryGroupTypesForCreation, e as getInquiryGroupTypeData, f as getInquiryTypesByFamily, h as getInquiryTypesForFamily, i as getInquiryItemData, j as getInquiryGroupTypesByFamily, k as getInquiryGroupTypesForFamily, l as isInquiryFinalStatus, m as getAvailableFields, n as getAvailableGroupFields } from "./InquiryHelper-Dd5PdRev.chunk.mjs";
 import { _ as _sfc_main$1P, I as INSIDE_RADIO_GROUP_KEY, a as NcSelect, N as NcCheckboxRadioSwitch, d as _sfc_main$1Q, e as NcRichText, b as NcInputField } from "./NcRichText-CETsOVBU-DXRvZeJB.chunk.mjs";
-import { R as RadioGroupDiv, C as CardDiv, N as NcNoteCard } from "./markdown-DnZxqora.chunk.mjs";
+import { R as RadioGroupDiv, C as CardDiv, N as NcNoteCard } from "./markdown-C9GwIkIm.chunk.mjs";
 import { A as AgoraAppIcon } from "./AgoraAppIcon-CAXuO7yM.chunk.mjs";
 import { N as NcUserBubble } from "./NcUserBubble-CM66IyhS-CPej_buN.chunk.mjs";
 const setCookie = (cookieName, cookieValue = "", cookieExpiration = 360) => {
@@ -13573,19 +13573,15 @@ const _sfc_main$1l = /* @__PURE__ */ defineComponent({
         []
         // allowedGroups
       );
-      console.log(" CAN USER CREATE ", canCreateInquiryGroup(context2));
       return canCreateInquiryGroup(context2);
     });
     function canCreateInquiryGroupForFamily(familyType) {
-      console.log(" NOT FAMIL ACCESS ? ");
       if (familyType && !accessFamilyMenu(familyType)) {
         return false;
       }
-      console.log(" AAAAAAAAAAAAAAAAAAAA access to this family alllowed ");
       return canUserCreateInquiryGroup.value;
     }
     function createInquiryGroup(inquiryGroupType) {
-      console.log(" IIIIIIIIIIIIIIIIIIIII ", selectedFamily.value);
       if (!canCreateInquiryGroupForFamily(selectedFamily.value)) {
         showError$1(translate("agora", "You do not have permission to create inquiry groups for this family"));
         return false;
@@ -13600,29 +13596,6 @@ const _sfc_main$1l = /* @__PURE__ */ defineComponent({
       }
       return groups;
     });
-    function createGroupPermissionContext(group2) {
-      if (!group2 || !group2.owner) {
-        return null;
-      }
-      const currentUser = sessionStore.currentUser;
-      const currentUserId = currentUser?.id || "";
-      const isOwner = currentUserId === group2.owner.id;
-      const isGroupEditor = sessionStore.userStatus.isGroupEditore || group2.allowEdit || false;
-      const isPublic = group2.protected === false || group2.protected === 0;
-      return createPermissionContextForInquiryGroup(
-        isOwner,
-        isPublic,
-        group2.deleted > 0,
-        group2.group_status === "archived",
-        group2.owned_group !== null,
-        group2.owned_group ? [group2.owned_group] : [],
-        isGroupEditor || isOwner,
-        false,
-        isGroupEditor,
-        group2.type,
-        group2.owned_group
-      );
-    }
     const selectedFamily = ref(inquiriesStore.familyType || null);
     const expandedFamilies = ref(/* @__PURE__ */ new Set());
     const inquiryFamilies = computed(() => sessionStore.appSettings.inquiryFamilyTab || []);
@@ -13739,13 +13712,19 @@ const _sfc_main$1l = /* @__PURE__ */ defineComponent({
       createGroupDlgToggle.value = false;
       selectedInquiryGroupTypeForCreation.value = null;
     }
+    function navigateToHome() {
+      router2.push({
+        name: "menu",
+        query: {}
+      });
+    }
     watch(
       () => inquiriesStore.familyType,
       (newFamilyId) => {
         selectedFamily.value = newFamilyId;
       }
     );
-    const __returned__ = { preferencesStore, router: router2, sessionStore, inquiriesStore, createDlgToggle, createGroupDlgToggle, selectedInquiryTypeForCreation, selectedInquiryGroupTypeForCreation, canUserCreateInquiryGroup, canCreateInquiryGroupForFamily, createInquiryGroup, availableGroups, createGroupPermissionContext, selectedFamily, expandedFamilies, inquiryFamilies, recentInquiries, shouldRedirectToGroupView, allInquiryTypes, allInquiryGroupTypes, inquiryTypesByFamily, inquiryGroupTypesByFamily, defaultViewMode, toggleFamily, isFamilyExpanded, getInquiryTypesForCurrentFamily, getInquiryGroupTypesForCurrentFamily, getFamilyData, getInquiryTypeDisplayData, getInquiryGroupTypeDisplayData, showSettings, navigateToFamilyInquiries, createInquiry, inquiryAdded, inquiryGroupAdded, getInquiryIcon, handleCloseDialog, handleCloseGroupDialog, get t() {
+    const __returned__ = { preferencesStore, router: router2, sessionStore, inquiriesStore, createDlgToggle, createGroupDlgToggle, selectedInquiryTypeForCreation, selectedInquiryGroupTypeForCreation, canUserCreateInquiryGroup, canCreateInquiryGroupForFamily, createInquiryGroup, availableGroups, selectedFamily, expandedFamilies, inquiryFamilies, recentInquiries, shouldRedirectToGroupView, allInquiryTypes, allInquiryGroupTypes, inquiryTypesByFamily, inquiryGroupTypesByFamily, defaultViewMode, toggleFamily, isFamilyExpanded, getInquiryTypesForCurrentFamily, getInquiryGroupTypesForCurrentFamily, getFamilyData, getInquiryTypeDisplayData, getInquiryGroupTypeDisplayData, showSettings, navigateToFamilyInquiries, createInquiry, inquiryAdded, inquiryGroupAdded, getInquiryIcon, handleCloseDialog, handleCloseGroupDialog, navigateToHome, get t() {
       return translate;
     }, get NcAppNavigationItem() {
       return NcAppNavigationItem;
@@ -14050,7 +14029,13 @@ function _sfc_render$1l(_ctx, _cache, $props, $setup, $data, $options) {
 }
 const NavigationMenu = /* @__PURE__ */ _export_sfc$1(_sfc_main$1l, [["render", _sfc_render$1l], ["__file", "/var/www/nextcloud/apps/agora/src/views/NavigationMenu.vue"]]);
 const _sfc_main$1k = /* @__PURE__ */ defineComponent({
+  ...{
+    inheritAttrs: false
+  },
   __name: "NavigationGroup",
+  props: {
+    slug: { type: String, required: false }
+  },
   setup(__props, { expose: __expose }) {
     __expose();
     const preferencesStore = usePreferencesStore();
@@ -14512,17 +14497,17 @@ const _sfc_main$1h = /* @__PURE__ */ defineComponent({
     }
     const timeExpirationRelative = computed(() => {
       if (__props.inquiry.configuration.expire) {
-        return DateTime$1.fromMillis(__props.inquiry.configuration.expire * 1e3).toRelative();
+        return DateTime.fromMillis(__props.inquiry.configuration.expire * 1e3).toRelative();
       }
       return translate("agora", "never");
     });
     const timeCreatedRelative = computed(
-      () => DateTime$1.fromMillis(__props.inquiry.status.created * 1e3).toRelative()
+      () => DateTime.fromMillis(__props.inquiry.status.created * 1e3).toRelative()
     );
     const safeDescription = computed(() => {
       if (__props.inquiry.status.isArchived) {
         return translate("agora", "Archived {relativeTime}", {
-          relativeTime: DateTime$1.fromMillis(__props.inquiry.status.archivedDate * 1e3).toRelative()
+          relativeTime: DateTime.fromMillis(__props.inquiry.status.archivedDate * 1e3).toRelative()
         });
       }
       return translate("agora", "Started {relativeTime} from {ownerName}", {
@@ -14530,7 +14515,7 @@ const _sfc_main$1h = /* @__PURE__ */ defineComponent({
         relativeTime: timeCreatedRelative.value
       });
     });
-    const formatDate = (timestamp) => DateTime$1.fromMillis(timestamp * 1e3).toLocaleString(DateTime$1.DATE_SHORT);
+    const formatDate = (timestamp) => DateTime.fromMillis(timestamp * 1e3).toLocaleString(DateTime.DATE_SHORT);
     const formatVoteDate = (dateString, locale = navigator.language) => {
       if (!dateString) return "";
       const cleaned = dateString.replace(/^"+|"+$/g, "");
@@ -16835,7 +16820,17 @@ const _sfc_main$17 = /* @__PURE__ */ defineComponent({
       );
       return canCreateInquiryGroup(context2);
     });
-    const viewMode = ref(route.query.viewMode || (preferencesStore.user?.defaultDisplayMode || "view"));
+    const viewMode = ref(
+      route.query.viewMode || (preferencesStore.user?.defaultDisplayMode || "view")
+    );
+    watch(viewMode, (value) => {
+      router2.replace({
+        query: {
+          ...route.query,
+          viewMode: value
+        }
+      });
+    });
     const availableGroups = computed(() => {
       const groups = sessionStore.currentUser.groups || {};
       if (typeof groups === "object" && !Array.isArray(groups)) {
@@ -64662,7 +64657,7 @@ const _sfc_main$S = /* @__PURE__ */ defineComponent({
     };
     const timeExpirationRelative = computed(() => {
       if (inquiryStore.configuration.expire) {
-        return DateTime$1.fromMillis(inquiryStore.configuration.expire * 1e3).toRelative();
+        return DateTime.fromMillis(inquiryStore.configuration.expire * 1e3).toRelative();
       }
       return translate("agora", "never");
     });
@@ -67428,6 +67423,12 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
       restoreDialogGroup.value = group2;
       showRestoreDialog.value = true;
     }
+    function navigateToHome() {
+      router.push({
+        name: "group-list",
+        query: {}
+      });
+    }
     function deleteGroup(group2) {
       if (!canUserDeleteGroup(group2)) {
         showError$1(translate("agora", "You do not have permission to delete this group"));
@@ -67469,12 +67470,14 @@ const _sfc_main$C = /* @__PURE__ */ defineComponent({
         isLoading.value = false;
       }
     });
-    const __returned__ = { sessionStore, inquiryGroupsStore, inquiryGroupStore, isLoading, hoveredGroupId, showDeleteDialog, deleteDialogGroup, showRestoreDialog, restoreDialogGroup, archivedGroups, createGroupPermissionContext, canUserRestoreGroup, canUserDeleteGroup, getGroupTypeIconComponent, deleteDialogTitle, deleteDialogMessage, deleteDialogButtons, restoreDialogTitle, restoreDialogMessage, restoreDialogButtons, restoreGroup, deleteGroup, performRestoreGroup, performDeleteGroup, formatDate, get t() {
+    const __returned__ = { sessionStore, inquiryGroupsStore, inquiryGroupStore, isLoading, hoveredGroupId, showDeleteDialog, deleteDialogGroup, showRestoreDialog, restoreDialogGroup, archivedGroups, createGroupPermissionContext, canUserRestoreGroup, canUserDeleteGroup, getGroupTypeIconComponent, deleteDialogTitle, deleteDialogMessage, deleteDialogButtons, restoreDialogTitle, restoreDialogMessage, restoreDialogButtons, restoreGroup, navigateToHome, deleteGroup, performRestoreGroup, performDeleteGroup, formatDate, get t() {
       return translate;
     }, get NcAppContent() {
       return NcAppContent;
     }, get NcButton() {
       return NcButton;
+    }, get NcDialog() {
+      return NcDialog;
     }, get InquiryGeneralIcons() {
       return InquiryGeneralIcons;
     }, get NavigationIcons() {
@@ -67532,7 +67535,6 @@ const _hoisted_36$3 = { class: "date-value" };
 const _hoisted_37$3 = ["onMouseenter"];
 const _hoisted_38$3 = { class: "owner-menu-content" };
 function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
-  const _component_NcDialog = resolveComponent("NcDialog");
   return openBlock(), createBlock($setup["NcAppContent"], { class: "inquiry-group-archive-page" }, {
     default: withCtx(() => [
       createBaseVNode("div", _hoisted_1$s, [
@@ -67543,7 +67545,7 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
             createVNode($setup["NcButton"], {
               type: "tertiary",
               class: "breadcrumb-home",
-              onClick: _ctx.navigateToHome
+              onClick: $setup.navigateToHome
             }, {
               icon: withCtx(() => [
                 (openBlock(), createBlock(resolveDynamicComponent($setup.InquiryGeneralIcons.Home), { size: 20 }))
@@ -67559,7 +67561,7 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
               ]),
               _: 1
               /* STABLE */
-            }, 8, ["onClick"]),
+            }),
             createCommentVNode(" Archived Groups Label "),
             _cache[4] || (_cache[4] = createBaseVNode(
               "div",
@@ -67673,7 +67675,7 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
                 ),
                 createVNode($setup["NcButton"], {
                   type: "primary",
-                  onClick: _ctx.navigateToHome
+                  onClick: $setup.navigateToHome
                 }, {
                   default: withCtx(() => [
                     createTextVNode(
@@ -67684,7 +67686,7 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
                   ]),
                   _: 1
                   /* STABLE */
-                }, 8, ["onClick"])
+                })
               ])
             ],
             2112
@@ -67879,7 +67881,7 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
         ])
       ]),
       createCommentVNode(" Delete Dialog "),
-      $setup.deleteDialogGroup ? (openBlock(), createBlock(_component_NcDialog, {
+      $setup.deleteDialogGroup ? (openBlock(), createBlock($setup["NcDialog"], {
         key: 0,
         open: $setup.showDeleteDialog,
         "onUpdate:open": _cache[2] || (_cache[2] = ($event) => $setup.showDeleteDialog = $event),
@@ -67888,7 +67890,7 @@ function _sfc_render$C(_ctx, _cache, $props, $setup, $data, $options) {
         buttons: $setup.deleteDialogButtons
       }, null, 8, ["open", "name", "message", "buttons"])) : createCommentVNode("v-if", true),
       createCommentVNode(" Restore Dialog "),
-      $setup.restoreDialogGroup ? (openBlock(), createBlock(_component_NcDialog, {
+      $setup.restoreDialogGroup ? (openBlock(), createBlock($setup["NcDialog"], {
         key: 1,
         open: $setup.showRestoreDialog,
         "onUpdate:open": _cache[3] || (_cache[3] = ($event) => $setup.showRestoreDialog = $event),
@@ -68803,7 +68805,7 @@ const _sfc_main$z = /* @__PURE__ */ defineComponent({
     const formattedCreationDate = computed(() => {
       if (!props2.inquiry.status?.created) return "";
       try {
-        return DateTime$1.fromMillis(props2.inquiry.status.created * 1e3).toLocaleString(DateTime$1.DATE_MED);
+        return DateTime.fromMillis(props2.inquiry.status.created * 1e3).toLocaleString(DateTime.DATE_MED);
       } catch {
         return "";
       }
@@ -69684,7 +69686,7 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
     const inquiryStore = useInquiryStore();
     const commentsStore = useCommentsStore();
     const preferencesStore = usePreferencesStore();
-    const commentedDateTime = computed(() => DateTime$1.fromSeconds(__props.comment.timestamp));
+    const commentedDateTime = computed(() => DateTime.fromSeconds(__props.comment.timestamp));
     const isCurrentUser = computed(
       () => sessionStore.currentUser?.id === __props.comment.user.id
     );
@@ -69721,7 +69723,7 @@ const _sfc_main$u = /* @__PURE__ */ defineComponent({
       () => __props.comment.user.id === sessionStore.currentUser?.id || inquiryStore.currentUserStatus.isOwner
     );
     const __returned__ = { sessionStore, inquiryStore, commentsStore, preferencesStore, commentedDateTime, isCurrentUser, isConfidential, confidentialRecipient, linkify, deleteComment, restoreComment, deletable, get DateTime() {
-      return DateTime$1;
+      return DateTime;
     }, get t() {
       return translate;
     }, ActionDelete, UserItem, UserBubble };
@@ -72239,7 +72241,7 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
     const formattedCreationDate = computed(() => {
       if (!props2.inquiry.status?.created) return "";
       try {
-        return DateTime$1.fromMillis(props2.inquiry.status.created * 1e3).toLocaleString(DateTime$1.DATE_FULL);
+        return DateTime.fromMillis(props2.inquiry.status.created * 1e3).toLocaleString(DateTime.DATE_FULL);
       } catch {
         return "";
       }
@@ -72247,13 +72249,13 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
     const formattedLastInteraction = computed(() => {
       if (!props2.inquiry.status?.lastInteraction) return "";
       try {
-        const date = DateTime$1.fromMillis(props2.inquiry.status.lastInteraction * 1e3);
-        const now2 = DateTime$1.now();
+        const date = DateTime.fromMillis(props2.inquiry.status.lastInteraction * 1e3);
+        const now2 = DateTime.now();
         if (date.hasSame(now2, "day")) {
-          return `${translate("agora", "Today")} ${date.toLocaleString(DateTime$1.TIME_SIMPLE)}`;
+          return `${translate("agora", "Today")} ${date.toLocaleString(DateTime.TIME_SIMPLE)}`;
         }
         if (date.hasSame(now2.minus({ days: 1 }), "day")) {
-          return `${translate("agora", "Yesterday")} ${date.toLocaleString(DateTime$1.TIME_SIMPLE)}`;
+          return `${translate("agora", "Yesterday")} ${date.toLocaleString(DateTime.TIME_SIMPLE)}`;
         }
         return date.toRelative();
       } catch {
@@ -72262,7 +72264,7 @@ const _sfc_main$q = /* @__PURE__ */ defineComponent({
     });
     const timeExpirationRelative = computed(() => {
       if (props2.inquiry.configuration?.expire) {
-        return DateTime$1.fromMillis(props2.inquiry.configuration.expire * 1e3).toRelative();
+        return DateTime.fromMillis(props2.inquiry.configuration.expire * 1e3).toRelative();
       }
       return "";
     });
@@ -74134,7 +74136,7 @@ const _sfc_main$n = /* @__PURE__ */ defineComponent({
         case "page":
         default:
           router2.push({
-            name: "inquiry-edit",
+            name: "inquiry",
             params: { id: inquiry.id }
           });
           break;
@@ -78848,7 +78850,10 @@ const routes = [
       default: Group,
       navigation: NavigationGroup
     },
-    props: true,
+    props: {
+      default: true,
+      navigation: true
+    },
     meta: {
       groupPage: true
     }

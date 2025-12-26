@@ -135,7 +135,10 @@ const routes: RouteRecordRaw[] = [
       default: Group,  
       navigation: NavigationGroup,
     },
-    props: true,
+     props: {
+       default: true,
+       navigation: true,
+    },
     meta: {
       groupPage: true,
     },

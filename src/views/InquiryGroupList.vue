@@ -1,6 +1,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
@@ -8,6 +9,8 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiryGroupsStore } from '../stores/inquiryGroups.ts'
 import { useInquiryGroupStore } from '../stores/inquiryGroup.ts'
+import { DateTime } from 'luxon'
+import NcDialog from '@nextcloud/vue/components/NcDialog'
 import { 
   createPermissionContextForInquiryGroup, 
   canRestore,
@@ -29,6 +32,7 @@ const showDeleteDialog = ref(false)
 const deleteDialogGroup = ref<InquiryGroup | null>(null)
 const showRestoreDialog = ref(false)
 const restoreDialogGroup = ref<InquiryGroup | null>(null)
+const router = useRouter()
 
 
 // Get all archived groups
@@ -157,6 +161,12 @@ function restoreGroup(group: InquiryGroup) {
   
   restoreDialogGroup.value = group
   showRestoreDialog.value = true
+}
+
+// Methods
+function navigateToHome() {
+  router.push({ name: 'group-list', 
+  query: {} })
 }
 
 function deleteGroup(group: InquiryGroup) {

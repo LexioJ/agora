@@ -68,8 +68,23 @@ const canUserCreateInquiryGroup = computed(() => {
 
 
 
+
 // ViewMode state
-const viewMode = ref<string>((route.query.viewMode as string) || (preferencesStore.user?.defaultDisplayMode || 'view'))
+// const viewMode = ref<string>((route.query.viewMode as string) || (preferencesStore.user?.defaultDisplayMode || 'view'))
+const viewMode = ref<string>(
+  (route.query.viewMode as string) || (preferencesStore.user?.defaultDisplayMode || 'view')
+)
+
+watch(viewMode, (value) => {
+  router.replace({
+    query: {
+      ...route.query,
+      viewMode: value,
+    },
+  })
+})
+
+
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
