@@ -263,11 +263,6 @@ function handleCloseGroupDialog() {
   selectedInquiryGroupTypeForCreation.value = null
 }
 
-function navigateToHome() {
-  router.push({ name: 'menu', 
-  query: {} 
-  })
-}
 // Watch for familyType changes in store
 watch(
   () => inquiriesStore.familyType,

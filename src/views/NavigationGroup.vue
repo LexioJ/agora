@@ -23,15 +23,6 @@ import type { InquiryGroupType } from '../stores/inquiryGroups.types.ts'
 import { 
   getInquiryGroupTypeData,
 } from '../helpers/modules/InquiryHelper.ts'
-/*import { useAttrs } from 'vue'
-
-const attrs = useAttrs()
-console.log('attrs NavigationGroup', attrs)
-*/
-
-defineOptions({
-  inheritAttrs: false,
-})
 
 const preferencesStore = usePreferencesStore()
 const router = useRouter()
@@ -51,11 +42,6 @@ const availableGroups = computed(() => {
   }
   return groups
 })
-
-const { slug } = defineProps<{
-  slug?: string
-}>()
-
 
 // State for selected family
 const selectedFamily = ref<string | null>(inquiriesStore.familyType || null)

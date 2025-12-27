@@ -1,7 +1,7 @@
 
 <script setup lang="ts">
 import { computed, ref, onMounted } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import { showError, showSuccess } from '@nextcloud/dialogs'
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
