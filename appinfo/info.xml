@@ -10,18 +10,20 @@
 		### ✨ Key Features
 		- 💬 Comments and discussions
 		- 👍 Supports (likes/upvotes)
+        - 👍 Supports (likes/neutral/against)
 		- 🧩 Custom inquiry families and types
 		- 🧾 Multiple inquiry formats (proposals, debates, petitions, projects…)
 		- 📂 Categorization and filtering by family or location
 		- 🧱 Scalable architecture and modern UX
 		- 🔒 Secure and private — all data stays on your Nextcloud server
-		- 🔗 Integration with Forms, Polls, Deck, and more
+		- 🔗 Integration with Forms, Polls, Deck, Collectives,...
+		- 🏛 Collectives desgin UX
 
 		### 🧭 Coming Next
 		- 🗣 Structured debates and multi-thread replies
 		- 🏛 Collectives and referendums
 		]]></description>
-	<version>1.5.5</version>
+	<version>1.6.0</version>
 	<licence>AGPL-3.0-or-later</licence>
 	<author>Vincent TRAPPE</author>
 	<documentation>
@@ -34,7 +36,10 @@
 	<bugs>https://github.com/vinimoz/agora/issues</bugs>
 	<repository type="git">https://github.com/vinimoz/agora.git</repository>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Family.png</screenshot>
-	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Creation.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/GroupView.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/GroupView2.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/EditInquiry.png</screenshot>
+	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/EditGroup.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/CreateInquiryView.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Grid.png</screenshot>
 	<screenshot>https://raw.githubusercontent.com/vinimoz/agora/main/screenshots/Grid2.png</screenshot>

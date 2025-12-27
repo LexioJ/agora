@@ -8,9 +8,10 @@ import { AppSettingsAPI } from '../Api/index.ts'
 import { Logger } from '../helpers/index.ts'
 import { BaseEntry, InquiryType, InquiryFamily } from '../Types/index.ts'
 import { AxiosError } from '@nextcloud/axios'
+import type { InquiryGroupType } from './inquiryGroups.types'
 
 import type { InquiryTypeRights, ModeratorRights, OfficialRights } from '../utils/permissions.ts'
-import { DefaultModeratorRights, DefaultOfficialRights } from '../utils/permissions.ts'
+import {  DefaultModeratorRights, DefaultOfficialRights } from '../utils/permissions.ts'
 
 export type UpdateType = 'noInquirying' | 'periodicInquirying' | 'longInquirying'
 
@@ -87,6 +88,7 @@ export type AppSettings = {
 	locationTab: Location[]
 	inquiryStatusTab: InquiryStatus[]
 	inquiryTypeTab: InquiryType[]
+	inquiryGroupTypeTab: InquiryGroupType[]
 	inquiryFamilyTab: InquiryFamily[]
 	groups: Group[]
 	inquiryTypeRights: Record<string, InquiryTypeRights>
@@ -137,6 +139,7 @@ export const useAppSettingsStore = defineStore('appSettings', {
 		unrestrictedOwnerGroups: [],
 		categoryTab: [],
 		inquiryTypeTab: [],
+		inquiryGroupTypeTab: [],
 		inquiryFamilyTab: [],
 		locationTab: [],
 		inquiryStatusTab: [],
@@ -152,7 +155,9 @@ export const useAppSettingsStore = defineStore('appSettings', {
 	getters: {
 		 getInquiryTypeRights: (state) => (inquiryType: string) => state.inquiryTypeRights[inquiryType],
 
-		 getMainInquiryTypes: (state) => state.inquiryTypeTab.filter(type => !type.is_option),
+		 getMainInquiryTypes: (state) => state.inquiryTypeTab,
+		 
+         getMainInquiryGroupTypes: (state) => state.inquiryGroupTypeTab,
 
 
 	},
@@ -250,6 +255,14 @@ export const useAppSettingsStore = defineStore('appSettings', {
 			.filter((status) => status.inquiryType === inquiryType)
 			.sort((a, b) => (a.order || 0) - (b.order || 0))
 		},
+ 
+        // Get specific status details by key
+    getStatusByKey(inquiryType: string, statusKey: string): InquiryStatus | undefined {
+        return this.inquiryStatusTab.find(
+            status => status.inquiryType === inquiryType &&
+                      status.statusKey === statusKey
+        );
+    },
 
 		// Add a new status for an inquiry type
 		async addStatusForInquiryType(
@@ -567,7 +580,6 @@ export const useAppSettingsStore = defineStore('appSettings', {
 			family: string;
 			label: string;
 			icon?: string;
-			is_option?: boolean;
 			description?: string;
 			fields?: string;
 			allowed_response?: string;
@@ -597,7 +609,6 @@ export const useAppSettingsStore = defineStore('appSettings', {
 			family?: string;
 			label?: string;
 			icon?: string;
-			is_option?: boolean;
 			description?: string;
 			fields?: string;
 			allowed_response?: string;

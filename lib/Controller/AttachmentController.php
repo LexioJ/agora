@@ -28,7 +28,29 @@ class AttachmentController extends BaseController
         $this->attachmentService = $attachmentService;
     }
 
+    /**
+       * Handle group file upload
+   *
+       * @param int $group ID of the group
+       */
+    #[NoAdminRequired]
+    #[FrontpageRoute(verb: 'POST', url: '/group/{groupId}/attachment')]
+    public function addGroup(int $groupId): JSONResponse
+    {
+        $uploadedFile = $this->request->getUploadedFile('file');
+        $coverIdParam = $this->request->getParam('coverId', 'false');
+        $coverId = filter_var($coverIdParam, FILTER_VALIDATE_BOOLEAN);
 
+        if (!$uploadedFile || $uploadedFile['error'] !== UPLOAD_ERR_OK) {
+            return new JSONResponse(['error' => 'Fichier invalide'], 400);
+        }
+
+        return $this->response(
+            fn () => [
+                    'attachment' => $this->attachmentService->add($groupId, $uploadedFile, $coverId,true)
+                ]
+        );
+    }
     /**
        * Handle file upload
    *
@@ -48,7 +70,7 @@ class AttachmentController extends BaseController
 
         return $this->response(
             fn () => [
-                    'attachment' => $this->attachmentService->add($inquiryId, $uploadedFile, $coverId)
+                    'attachment' => $this->attachmentService->add($inquiryId, $uploadedFile, $coverId, false)
                 ]
         );
     }
@@ -64,7 +86,7 @@ class AttachmentController extends BaseController
     {
         return $this->response(
             fn () => [
-                    'attachments' => $this->attachmentService->getAll($inquiryId)
+                    'attachments' => $this->attachmentService->getAll($inquiryId,0)
                 ]
         );
     }

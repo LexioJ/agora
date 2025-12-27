@@ -60,6 +60,7 @@ class InquiryLinkService
         string $targetApp,
         string $targetType,
         string $targetId,
+        string $metadata,
         int $sortOrder = 0,
         int $createdBy = 0
     ): InquiryLink {
@@ -68,6 +69,7 @@ class InquiryLinkService
         $inquiryLink->setTargetApp($targetApp);
         $inquiryLink->setTargetType($targetType);
         $inquiryLink->setTargetId($targetId);
+        $inquiryLink->setMetadata($metadata);
         $inquiryLink->setSortOrder($sortOrder);
         $inquiryLink->setCreatedBy($createdBy);
 
@@ -79,12 +81,14 @@ class InquiryLinkService
         string $targetApp,
         string $targetType,
         string $targetId,
+        string $metadata,
         int $sortOrder = 0
     ): InquiryLink {
         $inquiryLink = $this->find($id);
         $inquiryLink->setTargetApp($targetApp);
         $inquiryLink->setTargetType($targetType);
         $inquiryLink->setTargetId($targetId);
+        $inquiryLink->setMetadata($metadata);
         $inquiryLink->setSortOrder($sortOrder);
 
         return $this->inquiryLinkMapper->update($inquiryLink);
@@ -104,6 +108,7 @@ class InquiryLinkService
             $inquiryLink->setTargetApp($linkData['target_app']);
             $inquiryLink->setTargetType($linkData['target_type']);
             $inquiryLink->setTargetId($linkData['target_id']);
+            $inquiryLink->setMetadata($linkData['metadata']);
             $inquiryLink->setSortOrder($linkData['sort_order'] ?? 0);
             $inquiryLink->setCreatedBy($linkData['created_by'] ?? 0);
 

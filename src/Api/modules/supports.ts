@@ -11,15 +11,33 @@ const supports = {
    * Add support for an inquiry
    * @param inquiryId The inquiry ID to support
    * @param userId
+   * @param value
    */
-  addSupport(inquiryId: number, userId: string): Promise<AxiosResponse<{ support: boolean }>> {
+  addSupport(inquiryId: number, userId: string,value: number): Promise<AxiosResponse<{ support: boolean }>> {
     return httpInstance.request({
       method: 'POST',
-      url: `inquiry/support/${inquiryId}/${userId}`,
+      url: `inquiry/support/${inquiryId}/${userId}/${value}`,
       cancelToken: cancelTokenHandlerObject[this.addSupport.name].handleRequestCancellation().token,
     })
   },
 
+  /**
+   * Update support for an inquiry
+   * @param inquiryId The inquiry ID to support
+   * @param userId
+   * @param value
+   */
+  updateSupport(inquiryId: number, userId: string,value: number): Promise<AxiosResponse<{ support: boolean }>> {
+    return httpInstance.request({
+      method: 'PUT',
+      url: `inquiry/support/${inquiryId}/${userId}/${value}`,
+      cancelToken: cancelTokenHandlerObject[this.addSupport.name].handleRequestCancellation().token,
+    })
+  },
+
+  /**
+   * Remove support for an inquiry
+   
   /**
    * Remove support for an inquiry
    * @param inquiryId The inquiry ID to remove support from

@@ -25,7 +25,7 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import NcAvatar from '@nextcloud/vue/components/NcAvatar'
 import { NcTextArea, NcRichText } from '@nextcloud/vue'
 
-import { ThumbIcon } from '../AppIcons'
+import { TernarySupportIcon, ThumbIcon } from '../AppIcons'
 import InquiryEditor from '../Editor/InquiryEditor.vue'
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
 import {
@@ -83,10 +83,10 @@ const context = computed(() => {
 // Form fields
 const selectedCategory = ref(inquiryStore.categoryId || 0)
 const selectedLocation = ref(inquiryStore.locationId || 0)
+const hasQuorum = computed(() => inquiryStore.miscFields?.quorum)
+const quorumValue = computed(() => inquiryStore.miscFields?.quorum || 0)
 
 const isLoaded = ref(false)
-
-const hasSupported = computed(() => inquiryStore.currentUserStatus.hasSupported)
 
 // Get current inquiry type data
 const inquiryTypeData = computed(() => {
@@ -189,7 +189,6 @@ const statusInquiryOptions = computed(() =>
 // Get hierarchy path for location and category display
 function getHierarchyPath(items, targetId) {
   const itemMap = {}
-
   items.forEach((item) => {
     itemMap[item.id] = item
   })
@@ -312,21 +311,44 @@ watch(
   { immediate: true }
 )
 
-// Toggle support
+// Toggle Support
+
 const onToggleSupport = async () => {
-  const supported = supportsStore.toggleSupport(
-    inquiryStore.id,
-    sessionStore.currentUser.id,
-    inquiryStore,
-    inquiriesStore
-  )
-  if (inquiryStore.currentUserStatus.hasSupported) {
-    showSuccess(t('agora', 'Thank you for your support!'), { timeout: 2000 })
-  } else {
-    showSuccess(t('agora', 'Support removed!'), { timeout: 2000 })
+  // Store the current state before toggling
+  const hadSupportedBefore = inquiryStore.currentUserStatus.hasSupported
+
+  try {
+    await supportsStore.toggleSupport(inquiryStore.id, sessionStore.currentUser.id, inquiryStore, inquiriesStore)
+
+    // Get the updated state after toggling
+    const hasSupportedAfter = inquiryStore.currentUserStatus.hasSupported
+    const supportValueAfter = inquiryStore.currentUserStatus.supportValue
+
+    if (inquiryStore.configuration.supportMode === 'simple') {
+      if (hasSupportedAfter && !hadSupportedBefore) {
+        showSuccess(t('agora', 'Inquiry supported, thanks for your support!'), { timeout: 2000 })
+      } else if (!hasSupportedAfter && hadSupportedBefore) {
+        showSuccess(t('agora', 'Inquiry support removed!'), { timeout: 2000 })
+      }
+    }
+    else if (inquiryStore.configuration.supportMode === 'ternary') {
+      if (supportValueAfter === 1) {
+        showSuccess(t('agora', 'Inquiry supported, thanks for your support!'), { timeout: 2000 })
+      } else if (supportValueAfter === 0) {
+        showSuccess(t('agora', 'Neutral position saved!'), { timeout: 2000 })
+      } else if (supportValueAfter === -1) {
+        showSuccess(t('agora', 'Against position saved!'), { timeout: 2000 })
+      } else if (supportValueAfter === null && hadSupportedBefore) {
+        showSuccess(t('agora', 'Participation removed!'), { timeout: 2000 })
+      }
+    }
+
+  } catch (error) {
+    console.error('Failed to toggle support:', error)
+    showError(t('agora', 'Failed to update support status'))
   }
-  return supported
 }
+
 
 // Event subscriptions
 onMounted(() => {
@@ -344,12 +366,12 @@ onUnmounted(() => {
 
 // Determine if category/location should be shown as select or label
 const showCategoryAsLabel = computed(() => {
-  const result = inquiryStore.parentId !== 0 || props.isReadonly
+  const result =  props.isReadonly
   return result
 })
 
 const showLocationAsLabel = computed(() => {
-  const result = inquiryStore.parentId !== 0 || props.isReadonly
+  const result = props.isReadonly
   return result
 })
 
@@ -417,76 +439,8 @@ const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDat
 
 <template>
 	<div v-if="isLoaded" class="inquiry-edit-view">
-		<!-- Debug info -->
 		<!-- Cover Image Section -->
-<div v-if="inquiryStore.currentUserStatus?.isOwner" class="cover-image-section">
-  <input
-    id="cover-upload-input"
-    ref="imageFileInput"
-    type="file"
-    class="hidden"
-    accept="image/*"
-    :aria-label="t('agora', 'Select cover image')"
-    @change="handleImageUpload"
-  />
-
-  <div
-    v-if="currentCoverUrl"
-    class="cover-image-container"
-    @click="triggerImageUpload"
-  >
-    <img
-      :src="currentCoverUrl"
-      :alt="t('agora', 'Inquiry cover image')"
-      class="cover-image"
-    />
-    <div class="cover-image-overlay">
-      <NcButton type="primary" class="change-cover-btn">
-        <template #icon>
-          <component :is="InquiryGeneralIcons.Edit" :size="20" />
-        </template>
-        {{ t('agora', 'Change cover image') }}
-      </NcButton>
-    </div>
-  </div>
-
-  <div
-    v-else
-    class="cover-image-placeholder"
-    @click="triggerImageUpload"
-  >
-    <div class="placeholder-content">
-      <component :is="InquiryGeneralIcons.Image" :size="48" class="placeholder-icon" />
-      <NcButton type="primary" class="add-cover-btn">
-        {{ t('agora', 'Add cover image') }}
-      </NcButton>
-      <p class="placeholder-text">{{ t('agora', 'Click to add a cover image') }}</p>
-    </div>
-  </div>
-</div>
-
-<!-- Cover Image for non-owners (but editable if not readonly) -->
-<div
-  v-else-if="currentCoverUrl"
-  class="cover-image-section"
-  :class="{ 'clickable': !props.isReadonly }"
-  @click="!props.isReadonly && triggerImageUpload()"
->
-  <img
-    :src="currentCoverUrl"
-    :alt="t('agora', 'Inquiry cover image')"
-    class="cover-image"
-  />
-  <div v-if="!props.isReadonly" class="cover-image-overlay">
-    <NcButton type="primary" class="change-cover-btn">
-      <template #icon>
-        <component :is="InquiryGeneralIcons.Edit" :size="20" />
-      </template>
-      {{ t('agora', 'Change cover image') }}
-    </NcButton>
-  </div>
-</div>
-<!--			<div class="cover-image-section" v-if="inquiryStore.currentUserStatus?.isOwner">
+		<div v-if="inquiryStore.currentUserStatus?.isOwner" class="cover-image-section">
 			<input
 				id="cover-upload-input"
 				ref="imageFileInput"
@@ -509,8 +463,8 @@ const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDat
 				/>
 				<div class="cover-image-overlay">
 					<NcButton type="primary" class="change-cover-btn">
-					<template #icon>
-						<component :is="InquiryGeneralIcons.Edit" :size="20" />
+						<template #icon>
+							<component :is="InquiryGeneralIcons.Edit" :size="20" />
 						</template>
 						{{ t('agora', 'Change cover image') }}
 					</NcButton>
@@ -530,198 +484,285 @@ const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDat
 					<p class="placeholder-text">{{ t('agora', 'Click to add a cover image') }}</p>
 				</div>
 			</div>
-</div>
+		</div>
 
-		<div 
-			v-else-if="currentCoverUrl" 
-			class="cover-image-section readonly"
+		<!-- Cover Image for non-owners (but editable if not readonly) -->
+		<div
+			v-else-if="currentCoverUrl"
+			class="cover-image-section"
+			:class="{ 'clickable': !props.isReadonly }"
+			@click="!props.isReadonly && triggerImageUpload()"
 		>
 			<img
 				:src="currentCoverUrl"
 				:alt="t('agora', 'Inquiry cover image')"
 				class="cover-image"
 			/>
-		</div> -->
-		
-		<!-- User info section -->
-		<div class="user-info-section">
-			<div class="header-left-content">
-				<component
-						:is="NcAvatar"
-						v-if="inquiryStore.ownedGroup !== ''"
-						:display-name="inquiryStore.ownedGroup"
-						:show-user-status="false"
-						:size="44"
-						/>
-				<component
-						:is="NcAvatar"
-						v-else
-						:user="inquiryStore.owner.id"
-						:display-name="inquiryStore.owner.displayName"
-						:size="44"
-						/>
+			<div v-if="!props.isReadonly" class="cover-image-overlay">
+				<NcButton type="primary" class="change-cover-btn">
+					<template #icon>
+						<component :is="InquiryGeneralIcons.Edit" :size="20" />
+					</template>
+					{{ t('agora', 'Change cover image') }}
+				</NcButton>
 			</div>
 		</div>
 
 		<!-- Main content section -->
 		<div class="main-content-section">
-			<!-- Title row with counters -->
-			<div class="title-row">
-				<div class="title-content">
-					<h1 class="inquiry-title">{{ inquiryStore.title }}</h1>
+			<!-- User info section -->
+			<div class="user-info-section">
+				<div class="user-avatar">
+					<component
+						:is="NcAvatar"
+						v-if="inquiryStore.ownedGroup !== ''"
+						:display-name="inquiryStore.ownedGroup"
+						:show-user-status="false"
+						:size="56"
+					/>
+					<component
+						:is="NcAvatar"
+						v-else
+						:user="inquiryStore.owner.id"
+						:display-name="inquiryStore.owner.displayName"
+						:size="56"
+					/>
 				</div>
-				<div class="counters">
-					<div v-if="canComment(context)" class="counter-item">
-						<component :is="InquiryGeneralIcons.Comment" :size="20" />
-						<span>{{ commentsStore.comments.length || 0 }}</span>
+				<div class="user-details">
+					<h3 class="user-name">
+						{{ inquiryStore.ownedGroup !== '' ? inquiryStore.ownedGroup : inquiryStore.owner.displayName }}
+					</h3>
+					<div class="inquiry-type-badge">
+						<component :is="inquiryTypeData.icon" :size="16" />
+						<span>{{ t('agora', inquiryTypeData.label) }}</span>
 					</div>
-					<div v-if="canSupport(context)" class="counter-item" @click="onToggleSupport">
-						<ThumbIcon :supported="hasSupported" />
-						<span>{{ inquiryStore.status.countSupports || 0 }}</span>
+				</div>
+			</div>
+
+			<!-- Title row with counters -->
+			<div class="title-section">
+				<div class="title-header">
+					<h1 class="inquiry-title">{{ inquiryStore.title }}</h1>
+					<div class="inquiry-id">[#{{ inquiryStore.id }}]</div>
+				</div>
+				
+				<div class="counters-section">
+					<div v-if="canComment(context)" class="counter-item">
+						<div class="counter-icon">
+							<component :is="InquiryGeneralIcons.Comment" :size="20" />
+						</div>
+						<div class="counter-content">
+							<span class="counter-value">{{ commentsStore.comments.length || 0 }}</span>
+							<span class="counter-label">{{ t('agora', 'Comments') }}</span>
+						</div>
+					</div>
+					
+					<div
+						v-if="canSupport(context)"
+						class="counter-item supports"
+						@click="onToggleSupport"
+					>
+						<div class="counter-icon">
+							<TernarySupportIcon
+								v-if="inquiryStore.configuration.supportMode === 'ternary'"
+								:support-value="inquiryStore.currentUserStatus.supportValue"
+								:size="22"
+							/>
+							<ThumbIcon
+								v-else
+								:supported="inquiryStore.currentUserStatus.hasSupported"
+								:size="22"
+							/>
+						</div>
+						<div class="counter-content">
+							<div class="support-count">
+								<span class="counter-value">{{ inquiryStore.status.countSupports }}</span>
+								<span v-if="hasQuorum" class="quorum-compact">
+									<span class="quorum-separator"> / </span>
+									<span class="quorum-target">{{ quorumValue }}</span>
+								</span>
+							</div>
+							<span class="counter-label">{{ t('agora', 'Supports') }}</span>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<!-- Metadata section -->
 			<div class="metadata-section">
+				<h3 class="section-subtitle">{{ t('agora', 'INQUIRY DETAILS') }}</h3>
 				<div class="metadata-grid">
 					<div class="metadata-item">
-						<component :is="inquiryTypeData.icon" :size="16" />
-						<span class="metadata-label">{{ t('agora', 'Type') }}:</span>
-						<span class="metadata-value">{{ inquiryTypeData.label }}</span>
-					</div>
-
-					<div class="metadata-item">
-						<component :is="InquiryGeneralIcons.Location" :size="16" />
-						<span class="metadata-label">{{ t('agora', 'Location') }}:</span>
-						<NcSelect
-								v-if="!showLocationAsLabel"
-								v-model="selectedLocation"
-								:options="hierarchicalLocation"
-								:clearable="false"
-								:label-outside="true"
-								class="select-field location-select"
-								required
-								/>
-						<span v-else class="metadata-value">
-							{{ getHierarchyPath(sessionStore.appSettings.locationTab, inquiryStore.locationId) || t('agora', 'Inherited from parent') }}
-						</span>
-					</div>
-
-					<div class="metadata-item">
-						<component :is="StatusIcons.Calendar" :size="16" />
-						<span class="metadata-label">{{ t('agora', 'Created') }}:</span>
-						<span class="metadata-value">{{ formatDate(inquiryStore.status.created) }}</span>
-					</div>
-
-					<div class="metadata-item">
-						<component :is="InquiryGeneralIcons.Tag" :size="16" />
-						<span class="metadata-label">{{ t('agora', 'Category') }}:</span>
-						<NcSelect
-								v-if="!showCategoryAsLabel"
-								v-model="selectedCategory"
-								:options="hierarchicalCategory"
-								:clearable="false"
-								:label-outside="true"
-								class="select-field category-select"
-								required
-								/>
-						<span v-else class="metadata-value">
-							{{ getHierarchyPath(sessionStore.appSettings.categoryTab, inquiryStore.categoryId) || t('agora', 'Inherited from parent') }}
-						</span>
-					</div>
-
-					<div class="metadata-item last-interaction-item">
-						<component :is="StatusIcons.Updated" :size="16" />
-						<span class="metadata-label">{{ t('agora', 'Last interaction') }}:</span>
-						<span class="metadata-value">{{ formatDate(inquiryStore.status.lastInteraction) }}</span>
-					</div>
-
-					<div class="metadata-item">
-						<component :is="currentInquiryStatusIcon" :size="16" />
-						<span class="metadata-label">{{ t('agora', 'Status') }}:</span>
-						<template v-if="sessionStore.currentUser.isModerator">
-							<NcSelect
-									v-model="selectedInquiryStatus"
-									:options="statusInquiryOptions"
+						<div class="metadata-icon">
+							<component :is="InquiryGeneralIcons.Location" :size="18" />
+						</div>
+						<div class="metadata-content">
+							<span class="metadata-label">{{ t('agora', 'Location') }}</span>
+							<div v-if="!showLocationAsLabel" class="select-container">
+								<NcSelect
+									v-model="selectedLocation"
+									:options="hierarchicalLocation"
 									:clearable="false"
-									class="status-select"
-									@update:model-value="onStatusChange"
+									class="metadata-select"
+									required
+								/>
+							</div>
+							<span v-else class="metadata-value">
+								{{ getHierarchyPath(sessionStore.appSettings.locationTab, inquiryStore.locationId) || t('agora', 'Inherited from parent') }}
+							</span>
+						</div>
+					</div>
+
+					<div class="metadata-item">
+						<div class="metadata-icon">
+							<component :is="InquiryGeneralIcons.Category" :size="18" />
+						</div>
+						<div class="metadata-content">
+							<span class="metadata-label">{{ t('agora', 'Category') }}</span>
+							<div v-if="!showCategoryAsLabel" class="select-container">
+								<NcSelect
+									v-model="selectedCategory"
+									:options="hierarchicalCategory"
+									:clearable="false"
+									class="metadata-select"
+									required
+								/>
+							</div>
+							<span v-else class="metadata-value">
+								{{ getHierarchyPath(sessionStore.appSettings.categoryTab, inquiryStore.categoryId) || t('agora', 'Inherited from parent') }}
+							</span>
+						</div>
+					</div>
+
+					<div class="metadata-item">
+						<div class="metadata-icon">
+							<component :is="StatusIcons.Calendar" :size="18" />
+						</div>
+						<div class="metadata-content">
+							<span class="metadata-label">{{ t('agora', 'Created') }}</span>
+							<span class="metadata-value">{{ formatDate(inquiryStore.status.created) }}</span>
+						</div>
+					</div>
+
+					<div class="metadata-item">
+						<div class="metadata-icon">
+							<component :is="StatusIcons.Updated" :size="18" />
+						</div>
+						<div class="metadata-content">
+							<span class="metadata-label">{{ t('agora', 'Last interaction') }}</span>
+							<span class="metadata-value">{{ formatDate(inquiryStore.status.lastInteraction) }}</span>
+						</div>
+					</div>
+
+					<div class="metadata-item highlight">
+						<div class="metadata-icon">
+							<component :is="currentInquiryStatusIcon" :size="18" />
+						</div>
+						<div class="metadata-content">
+							<span class="metadata-label">{{ t('agora', 'Status') }}</span>
+							<template v-if="sessionStore.currentUser.isModerator">
+								<div class="select-container">
+									<NcSelect
+										v-model="selectedInquiryStatus"
+										:options="statusInquiryOptions"
+										:clearable="false"
+										class="status-select"
+										@update:model-value="onStatusChange"
 									/>
-						</template>
-						<template v-else>
-							<span class="metadata-value">{{ t('agora', currentInquiryStatusLabel) }}</span>
-						</template>
+								</div>
+							</template>
+							<template v-else>
+								<span class="metadata-value">{{ t('agora', currentInquiryStatusLabel) }}</span>
+							</template>
+						</div>
 					</div>
 
 					<div v-if="inquiryStore.configuration.expire" class="metadata-item">
-						<component :is="InquiryGeneralIcons.Expiration" :size="16" />
-						<span class="metadata-label">{{ t('agora', 'Expires') }}:</span>
-						<span class="metadata-value">{{ timeExpirationRelative }}</span>
+						<div class="metadata-icon">
+							<component :is="InquiryGeneralIcons.Expiration" :size="18" />
+						</div>
+						<div class="metadata-content">
+							<span class="metadata-label">{{ t('agora', 'Expires') }}</span>
+							<span class="metadata-value">{{ timeExpirationRelative }}</span>
+						</div>
 					</div>
 				</div>
 			</div>
 
 			<!-- Description section -->
 			<div class="description-section">
-				<h3 class="section-title">{{ t('agora', 'Description') }}</h3>
+				<div class="section-header-with-icon">
+					<div class="section-icon">
+						<component :is="InquiryGeneralIcons.Description" :size="24" />
+					</div>
+					<div>
+						<h3 class="section-subtitle">{{ t('agora', 'DESCRIPTION') }}</h3>
+						<p class="section-description">{{ t('agora', 'Detailed information about this inquiry') }}</p>
+					</div>
+				</div>
+				
 				<div class="description-content">
 					<div
-							v-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.editorType === 'wysiwyg'"
-							class="editor-container"
-							>
-							<InquiryEditor v-model="inquiryStore.description" :readonly="props.isReadonlyDescription" />
+						v-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.editorType === 'wysiwyg'"
+						class="editor-container"
+					>
+						<InquiryEditor v-model="inquiryStore.description" :readonly="props.isReadonlyDescription" />
 					</div>
 
-						<div
-								v-else-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.editorType === 'texteditor'"
-								class="editor-container"
-								>
-								<NcRichText
-										v-model="inquiryStore.description"
-										:autolink="true"
-										:use-markdown="true"
-										:disabled="props.isReadonlyDescription"
-										class="rich-text-editor"
-										/>
-						</div>
+					<div
+						v-else-if="sessionStore.appSettings.inquiryTypeRights[inquiryStore.type]?.editorType === 'texteditor'"
+						class="editor-container"
+					>
+						<NcRichText
+							v-model="inquiryStore.description"
+							:autolink="true"
+							:use-markdown="true"
+							:disabled="props.isReadonlyDescription"
+							class="rich-text-editor"
+						/>
+					</div>
 
-							<div v-else class="editor-container">
-								<NcTextArea
-										v-model="inquiryStore.description"
-										:disabled="props.isReadonlyDescription"
-										class="text-area-editor"
-										:rows="8"
-										/>
-							</div>
+					<div v-else class="editor-container">
+						<NcTextArea
+							v-model="inquiryStore.description"
+							:disabled="props.isReadonlyDescription"
+							class="text-area-editor"
+							:rows="8"
+						/>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </template>
-
 <style scoped lang="scss">
+.inquiry-edit-view {
+	padding: 24px;
+	max-width: 1400px;
+	margin: 0 auto;
+}
+
+/* Cover Image Section improved */
 .cover-image-section {
 	width: 100%;
-	margin-bottom: 2rem;
-	border-radius: var(--border-radius-large);
+	margin-bottom: 32px;
+	border-radius: 24px;
 	overflow: hidden;
 	position: relative;
+	transition: all 0.3s ease;
 
 	&:not(.readonly) {
 		cursor: pointer;
-		border: 2px dashed var(--color-border);
-		transition: border-color 0.2s ease;
+		border: 3px dashed var(--color-border);
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 
 		&:hover {
 			border-color: var(--color-primary);
+			transform: translateY(-4px);
+			box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 
 			.cover-image-overlay {
 				opacity: 1;
-			}
-
-			.cover-image-placeholder {
-				background: var(--color-background-hover);
 			}
 		}
 	}
@@ -730,7 +771,7 @@ const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDat
 .cover-image-container {
 	position: relative;
 	width: 100%;
-	height: 300px;
+	height: 400px;
 
 	.cover-image {
 		width: 100%;
@@ -744,12 +785,29 @@ const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDat
 		left: 0;
 		right: 0;
 		bottom: 0;
-		background: rgba(0, 0, 0, 0.6);
+		background: linear-gradient(135deg, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.4));
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		opacity: 0;
 		transition: opacity 0.3s ease;
+
+		.change-cover-btn {
+			padding: 12px 24px;
+			border-radius: 12px;
+			font-weight: 600;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			background: var(--color-primary-element);
+			border: 2px solid var(--color-primary-element);
+			
+			&:hover {
+				background: var(--color-primary-element-hover);
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+			}
+		}
 	}
 }
 
@@ -759,281 +817,652 @@ const formatDate = (timestamp: number) => new Date(timestamp * 1000).toLocaleDat
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: var(--color-background-dark);
-	border-radius: var(--border-radius-large);
-	transition: background-color 0.2s ease;
+	background: linear-gradient(135deg, var(--color-background-dark), var(--color-background-darker));
+	border-radius: 24px;
+	transition: background-color 0.3s ease;
+
+	&:hover {
+		background: linear-gradient(135deg, var(--color-primary-light), var(--color-background-dark));
+	}
 
 	.placeholder-content {
 		text-align: center;
 
 		.placeholder-icon {
-			color: var(--color-text-lighter);
-			margin-bottom: 1rem;
+			color: var(--color-primary-element);
+			margin-bottom: 16px;
+		}
+
+		.add-cover-btn {
+			padding: 12px 24px;
+			border-radius: 12px;
+			font-weight: 600;
+			background: var(--color-primary-element);
+			border: 2px solid var(--color-primary-element);
+			margin-bottom: 12px;
+			
+			&:hover {
+				background: var(--color-primary-element-hover);
+				transform: translateY(-2px);
+				box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+			}
 		}
 
 		.placeholder-text {
-			margin-top: 0.5rem;
+			margin-top: 8px;
 			color: var(--color-text-lighter);
-			font-size: 0.9rem;
+			font-size: 14px;
+			font-style: italic;
 		}
 	}
 }
 
 .hidden {
 	display: none;
-
-}
-.inquiry-edit-view {
-	padding: 10px;
-	background: var(--color-main-background);
-	border-radius: var(--border-radius-large);
-}
-
-.cover-image-section {
-	width: 100%;
-	margin-bottom: 1rem;
-	border-radius: var(--border-radius-large);
-	overflow: hidden;
-	position: relative;
-	cursor: pointer;
-	
-	&:hover {
-		.cover-image-overlay {
-			opacity: 1;
-		}
-	}
-}
-
-/* File upload section */
-.attachment-upload {
-	margin-bottom: 1rem;
-	padding: 1rem;
-	background: var(--color-background-dark);
-	border-radius: var(--border-radius-large);
-	z-index: 10;
-	position: relative;
-}
-
-.hidden {
-	display: none;
-}
-
-/* User info section */
-.user-info-section {
-	display: flex;
-	align-items: center;
-	gap: 0.75rem;
-	margin-bottom: 1rem;
-	padding: 1rem;
-	background: var(--color-background-dark);
-	border-radius: var(--border-radius);
-	position: relative;
-	z-index: 5;
-}
-
-.header-left-content {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-}
-
-.user-details {
-	display: flex;
-	flex-direction: column;
-}
-
-.user-name {
-	font-weight: 600;
-	color: var(--color-primary);
 }
 
 /* Main content section */
 .main-content-section {
-	background: var(--color-background-dark);
-	border-radius: var(--border-radius-large);
-	padding: 1.5rem;
-	margin-bottom: 1rem;
+	background: linear-gradient(135deg, var(--color-main-background) 0%, var(--color-background-dark) 100%);
+	border: 2px solid var(--color-border);
+	border-radius: 24px;
+	padding: 32px;
+	margin-bottom: 32px;
+	box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
-/* Title row */
-.title-row {
+/* User info section improved */
+.user-info-section {
 	display: flex;
-	justify-content: space-between;
-	align-items: flex-start;
-	margin-bottom: 1.5rem;
-	gap: 1rem;
-}
-
-.title-content {
-	flex: 1;
-}
-
-.inquiry-title {
-	font-size: 1.5rem;
-	font-weight: 700;
-	color: var(--color-primary-text);
-	margin: 0;
-	line-height: 1.3;
-}
-
-.counters {
-	display: flex;
-	gap: 1.5rem;
 	align-items: center;
+	gap: 20px;
+	margin-bottom: 32px;
+	padding-bottom: 24px;
+	border-bottom: 2px solid var(--color-border);
+
+	.user-avatar {
+		:deep(.avatardiv) {
+			width: 56px;
+			height: 56px;
+			border: 3px solid var(--color-primary-light);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+		}
+	}
+
+	.user-details {
+		flex: 1;
+
+		.user-name {
+			font-size: 20px;
+			font-weight: 700;
+			margin-bottom: 8px;
+			color: var(--color-main-text);
+		}
+
+		.inquiry-type-badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding: 8px 16px;
+			background: linear-gradient(135deg, var(--color-primary-light), var(--color-background-dark));
+			border: 2px solid var(--color-primary-element);
+			border-radius: 16px;
+			font-size: 14px;
+			font-weight: 600;
+			color: var(--color-primary-element);
+		}
+	}
 }
 
-  .counter-item {
-	  display: flex;
-	  align-items: center;
-	  gap: 0.5rem;
-	  cursor: pointer;
-	  padding: 0.5rem;
-	  border-radius: var(--border-radius);
-	  transition: background-color 0.2s;
+/* Title section improved */
+.title-section {
+	margin-bottom: 32px;
+	padding-bottom: 24px;
+	border-bottom: 2px solid var(--color-border);
 
-	  &:hover {
-		  background: var(--color-background-hover);
-	  }
+	.title-header {
+		display: flex;
+		align-items: baseline;
+		gap: 16px;
+		margin-bottom: 24px;
 
-	  span {
-		  font-weight: bold;
-		  color: var(--color-primary-text);
-	  }
-  }
+		.inquiry-title {
+			font-size: 32px;
+			font-weight: 800;
+			color: var(--color-main-text);
+			margin: 0;
+			line-height: 1.2;
+			background: linear-gradient(135deg, var(--color-primary-element), var(--color-primary));
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+		}
 
-  /* Metadata section */
-  .metadata-section {
-	  margin-bottom: 1.5rem;
-	  padding: 1rem;
-	  background: var(--color-background-darker);
-	  border-radius: var(--border-radius);
-  }
+		.inquiry-id {
+			font-family: 'Monaco', 'Consolas', monospace;
+			font-size: 14px;
+			color: var(--color-text-lighter);
+			background: var(--color-background-darker);
+			padding: 6px 12px;
+			border-radius: 12px;
+			font-weight: 500;
+		}
+	}
 
-  .metadata-grid {
-	  display: grid;
-	  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-	  gap: 0.75rem;
-  }
+	.counters-section {
+		display: flex;
+		gap: 24px;
 
-  .metadata-item:nth-child(1),
-  .metadata-item:nth-child(2) {
-	  justify-self: start;
-	  display: flex;
-	  align-items: center;
-	  gap: 0.5rem;
-  }
+		.counter-item {
+			display: flex;
+			align-items: center;
+			gap: 16px;
+			padding: 16px 24px;
+			background: var(--color-background-dark);
+			border: 2px solid var(--color-border);
+			border-radius: 16px;
+			transition: all 0.3s ease;
+			cursor: pointer;
 
-  .metadata-item:nth-child(3),
-  .metadata-item:nth-child(5),
-  .metadata-item:nth-child(6) {
-	  justify-self: end;
-	  display: flex;
-	  align-items: center;
-	  gap: 0.5rem;
-	 
-  }
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+				border-color: var(--color-primary-element);
 
-  .metadata-item {
-	  font-size: 0.9rem;
-	  &.last-interaction-item {
-		  justify-self: start;
-		   padding-left: 40px;
-	  }
-  }
+				&.supports {
+					border-color: var(--color-success);
+				}
+			}
 
-  .metadata-label {
-	  font-weight: 600;
-	  color: var(--color-text-lighter);
-	  white-space: nowrap;
-  }
+			&.supports:hover {
+				background: linear-gradient(135deg, var(--color-success-light), var(--color-background-dark));
+			}
 
-  .metadata-value {
-	  color: var(--color-primary-text);
-	  white-space: nowrap;
-  }
+			.counter-icon {
+				width: 48px;
+				height: 48px;
+				background: linear-gradient(135deg, var(--color-background-darker), var(--color-background-dark));
+				border-radius: 12px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
 
-  .select-field {
-	  width: 100%;
+			.counter-content {
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
 
-	  &.location-select,
-	  &.category-select {
-		  max-width: 250px;
-	  }
-  }
+				.counter-value {
+					font-size: 24px;
+					font-weight: 700;
+					color: var(--color-main-text);
+				}
 
-  .status-select {
-	  min-width: 120px;
-  }
+				.counter-label {
+					font-size: 12px;
+					color: var(--color-text-lighter);
+					text-transform: uppercase;
+					letter-spacing: 0.5px;
+					font-weight: 600;
+				}
 
-  /* Description section */
-  .description-section {
-	  margin-bottom: 1rem;
-  }
+				.support-count {
+					display: flex;
+					align-items: baseline;
+					gap: 4px;
 
-  .section-title {
-	  color: var(--color-primary);
-	  font-size: 1.1rem;
-	  font-weight: 600;
-	  margin-bottom: 1rem;
-  }
+					.quorum-compact {
+						font-size: 16px;
+						color: var(--color-text-lighter);
 
-  .description-content {
-	  border: 1px solid var(--color-border);
-	  border-radius: var(--border-radius);
-	  background: var(--color-main-background);
-	  overflow: hidden;
-  }
+						.quorum-target {
+							color: var(--color-primary-element);
+							font-weight: 600;
+						}
+					}
+				}
+			}
+		}
+	}
+}
 
-  .editor-container {
-	  width: 100%;
-	  
-	  &.rich-text-container {
-		  min-height: 250px;
-	  }
-  }
+/* Metadata section improved - FIXED for dropdowns */
+.metadata-section {
+	margin-bottom: 32px;
 
-  .rich-text-editor,
-  .text-area-editor {
-	  width: 100%;
-	  border: none;
-	  min-height: 200px;
-  }
+	.section-subtitle {
+		font-size: 14px;
+		color: var(--color-text-lighter);
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		margin-bottom: 20px;
+		font-weight: 600;
+	}
 
-  .rich-text-editor {
-	  :deep(.ProseMirror) {
-		  min-height: 200px;
-		  padding: 12px;
-	  }
-  }
+	.metadata-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+		gap: 20px;
 
-  .text-area-editor {
-	  resize: vertical;
-	  padding: 12px;
-  }
+		.metadata-item {
+			display: flex;
+			align-items: flex-start;
+			gap: 16px;
+			padding: 20px;
+			background: var(--color-main-background);
+			border: 2px solid var(--color-border);
+			border-radius: 16px;
+			transition: all 0.3s ease;
 
-  /* Mobile responsive */
-  @media (max-width: 768px) {
-	  .title-row {
-		  flex-direction: column;
-		  align-items: flex-start;
-	  }
+			&:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+				border-color: var(--color-primary-light);
+			}
 
-	  .counters {
-		  width: 100%;
-		  justify-content: space-around;
-	  }
+			&.highlight {
+				background: linear-gradient(135deg, var(--color-primary-light), var(--color-background-dark));
+				border-color: var(--color-primary-element);
+			}
 
-	  .metadata-grid {
-		  grid-template-columns: 1fr;
-	  }
+			.metadata-icon {
+				width: 44px;
+				height: 44px;
+				background: linear-gradient(135deg, var(--color-background-darker), var(--color-background-dark));
+				border-radius: 12px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-shrink: 0;
+				margin-top: 2px;
 
-	  .metadata-item {
-		  flex-wrap: wrap;
-	  }
+				svg {
+					color: var(--color-primary-element);
+				}
+			}
 
-	  .select-field.location-select,
-	  .select-field.category-select {
-		  max-width: 100%;
-	  }
-  }
+			.metadata-content {
+				flex: 1;
+				min-width: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 8px;
+
+				.metadata-label {
+					display: block;
+					font-size: 12px;
+					color: var(--color-text-lighter);
+					text-transform: uppercase;
+					letter-spacing: 0.5px;
+					margin-bottom: 2px;
+					font-weight: 600;
+					white-space: nowrap;
+				}
+
+				.metadata-value {
+					display: block;
+					font-size: 16px;
+					color: var(--color-main-text);
+					font-weight: 600;
+					line-height: 1.4;
+					word-break: break-word;
+				}
+
+				.select-container {
+					width: 100%;
+
+					.metadata-select,
+					.status-select {
+						width: 100%;
+
+						:deep(.v-select) {
+							.vs__dropdown-toggle {
+								border: 2px solid var(--color-border);
+								border-radius: 12px;
+								padding: 8px 12px;
+								background: var(--color-main-background);
+								min-height: 40px;
+								
+								&:hover {
+									border-color: var(--color-primary-element);
+								}
+							}
+
+							.vs__selected {
+								font-weight: 600;
+								color: var(--color-main-text);
+								font-size: 14px;
+								line-height: 1.4;
+								white-space: normal;
+								word-break: break-word;
+							}
+
+							.vs__search,
+							.vs__search:focus {
+								font-size: 14px;
+								padding: 0;
+								margin: 0;
+								line-height: 1.4;
+								min-height: auto;
+							}
+
+							.vs__dropdown-menu {
+								border: 2px solid var(--color-border);
+								border-radius: 12px;
+								margin-top: 4px;
+								max-height: 300px;
+								overflow-y: auto;
+								width: auto;
+								min-width: 100%;
+							}
+
+							.vs__dropdown-option {
+								padding: 8px 12px;
+								font-size: 14px;
+								line-height: 1.4;
+
+								&--highlight {
+									background: var(--color-primary-light);
+									color: var(--color-primary-element);
+								}
+							}
+
+							.vs__actions {
+								align-self: center;
+							}
+						}
+					}
+
+					.status-select {
+						:deep(.v-select) {
+							.vs__dropdown-toggle {
+								min-height: 40px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/* Make dropdown items take more space when in edit mode */
+@media (min-width: 768px) {
+	.metadata-section .metadata-grid {
+		.metadata-item {
+			/* When dropdown is visible (edit mode), make item take more space */
+			&:has(.select-container) {
+				grid-column: span 2;
+				min-height: 100px;
+
+				.metadata-content {
+					.select-container {
+						.metadata-select,
+						.status-select {
+							:deep(.v-select) {
+								.vs__dropdown-toggle {
+									min-width: 100%;
+								}
+
+								.vs__dropdown-menu {
+									min-width: 100%;
+									width: 100%;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/* Description section improved */
+.description-section {
+	.section-header-with-icon {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		margin-bottom: 24px;
+
+		.section-icon {
+			width: 56px;
+			height: 56px;
+			background: linear-gradient(135deg, var(--color-primary-element), var(--color-primary-element-hover));
+			border-radius: 16px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			
+			svg {
+				color: white;
+			}
+		}
+
+		h3.section-subtitle {
+			font-size: 18px;
+			font-weight: 600;
+			margin-bottom: 4px;
+			color: var(--color-main-text);
+		}
+
+		.section-description {
+			font-size: 14px;
+			color: var(--color-text-lighter);
+			margin: 0;
+			font-style: italic;
+		}
+	}
+
+	.description-content {
+		border: 2px solid var(--color-border);
+		border-radius: 20px;
+		background: var(--color-main-background);
+		overflow: hidden;
+		transition: border-color 0.3s ease;
+
+		&:hover {
+			border-color: var(--color-primary-light);
+		}
+
+		.editor-container {
+			width: 100%;
+
+			&:deep(.ProseMirror) {
+				min-height: 300px;
+				padding: 24px;
+			}
+		}
+
+		.rich-text-editor,
+		.text-area-editor {
+			width: 100%;
+			border: none;
+			min-height: 300px;
+			padding: 24px;
+			font-size: 16px;
+			line-height: 1.6;
+			color: var(--color-main-text);
+			background: transparent;
+			font-family: inherit;
+
+			&:focus {
+				outline: none;
+			}
+		}
+
+		.text-area-editor {
+			resize: vertical;
+			font-family: inherit;
+		}
+	}
+}
+
+/* On mobile, make dropdowns full width */
+@media (max-width: 767px) {
+	.metadata-section .metadata-grid {
+		grid-template-columns: 1fr;
+
+		.metadata-item {
+			&:has(.select-container) {
+				min-height: 100px;
+
+				.metadata-content {
+					.select-container {
+						.metadata-select,
+						.status-select {
+							:deep(.v-select) {
+								.vs__dropdown-toggle {
+									min-width: 100%;
+								}
+
+								.vs__dropdown-menu {
+									min-width: calc(100vw - 80px);
+									max-width: calc(100vw - 80px);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/* Ensure the grid layout properly handles dropdowns */
+@media (min-width: 1024px) {
+	.metadata-section .metadata-grid {
+		grid-template-columns: repeat(2, 1fr);
+
+		.metadata-item {
+			&:has(.select-container) {
+				grid-column: span 1;
+				min-height: 100px;
+
+				.metadata-content {
+					.select-container {
+						.metadata-select,
+						.status-select {
+							:deep(.v-select) {
+								.vs__dropdown-toggle {
+									min-width: 100%;
+								}
+
+								.vs__dropdown-menu {
+									min-width: 100%;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/* Adjust for very large screens */
+@media (min-width: 1400px) {
+	.metadata-section .metadata-grid {
+		grid-template-columns: repeat(3, 1fr);
+
+		.metadata-item {
+			&:has(.select-container) {
+				grid-column: span 1;
+
+				.metadata-content {
+					.select-container {
+						.metadata-select,
+						.status-select {
+							:deep(.v-select) {
+								.vs__dropdown-toggle {
+									min-width: 100%;
+								}
+
+								.vs__dropdown-menu {
+									min-width: 100%;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+	.inquiry-edit-view {
+		padding: 16px;
+	}
+	
+	.main-content-section {
+		padding: 24px;
+	}
+	
+	.title-section .counters-section {
+		flex-wrap: wrap;
+	}
+	
+	.metadata-section .metadata-grid {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (max-width: 768px) {
+	.title-section {
+		.title-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 12px;
+			
+			.inquiry-title {
+				font-size: 24px;
+			}
+		}
+	}
+	
+	.user-info-section {
+		flex-direction: column;
+		text-align: center;
+		gap: 16px;
+		
+		.user-details .user-name {
+			text-align: center;
+		}
+	}
+	
+	.cover-image-container {
+		height: 300px;
+	}
+	
+	.cover-image-placeholder {
+		height: 150px;
+	}
+	
+	.counter-item {
+		width: 100%;
+		justify-content: space-between;
+	}
+	
+	.description-content {
+		.rich-text-editor,
+		.text-area-editor,
+		.editor-container:deep(.ProseMirror) {
+			padding: 16px;
+			min-height: 200px;
+		}
+	}
+}
+
+@media (max-width: 480px) {
+	.main-content-section {
+		padding: 20px;
+	}
+	
+	.title-section .counters-section {
+		flex-direction: column;
+	}
+}
 </style>

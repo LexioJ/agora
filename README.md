@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 
-# Agora 1.5.5
+# Agora 1.6.0
 
 [![Dependabot status](https://img.shields.io/badge/Dependabot-enabled-brightgreen.svg?longCache=true&style=flat-square&logo=dependabot)](https://dependabot.com)  
 [![Software License](https://img.shields.io/badge/license-AGPL-brightgreen.svg?style=flat-square)](COPYING)  
@@ -20,14 +20,15 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 - 🆔 **Cover ID for Inquiries** – Visual cover and unique identifiers  
 - 🧩 **Linked Families** – Inquiries are now linked to families; create your own families  
 - ⚙️ **Custom Inquiry Types** – Define reply formats and transformation possibilities  
-- 🧑‍⚖️ **Real Moderation Mode** – Fully functional moderation (can be deactivated)  
+- 🧑⚖️ **Real Moderation Mode** – Fully functional moderation (can be deactivated)  
 
 ---
 
 ## ✨ Features
 
 - 💬 Comments and discussions  
-- 👍 Supports (likes/upvotes)  
+- 👍 Supports (likes/upvotes standard)  
+- 👍 Supports (ternary support)  
 - 🤖 Create your own inquiries family.
 - 🧩 Reply and transform inquiries.  
 - 🔗 Attach files with your inquiries. 
@@ -35,6 +36,7 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 - 📂 Categorization and filtering by location/family  
 - 🔒 Secure and private – all data stays on your Nextcloud server  
 - 🔗 Link with other Nextcloud apps : Forms, Polls, Deck, Cospend and Collectives.  
+- 🏛 Collectives → Organize your inquiry group. 
 
 ---
 
@@ -90,9 +92,9 @@ occ app:enable agora
 
 ## 🖼 Screenshots
 
-| Creation | Edit Inquiry | Inquiry Type | Family | Grid View | Grid 2 | List View |  Settings | Settings Inquiry |
+| Creation | Edit Inquiry | Edit Group | Group view | Group view 2 | Inquiry Type | Family | Grid View | Grid 2 | List View |  Settings | Settings Inquiry |
 | :-------: | :----------: | :-----------: | :-----: | :-------: | :-----: | :-------: | :------: | :---------------: |
-| ![Creation](screenshots/Creation.png) | ![Edit Inquiry](screenshots/Edit.png) | ![Inquiry Type](screenshots/SettingInquiryType.png) | ![Family](screenshots/Family.png) | ![Grid](screenshots/Grid.png) | ![Grid2](screenshots/Grid2.png) | ![List](screenshots/ListView.png)  | ![Settings](screenshots/Settings.png) | ![Settings Inquiry](screenshots/SettingsInquiry.png) |
+| ![Creation](screenshots/Creation.png) | ![Edit Inquiry](screenshots/EditInquiry.png) | ![Edit Group](screenshots/EditGroup.png) | ![Group view](screenshots/GroupView.png) |![Group view](screenshots/GroupView2.png) | ![Inquiry Type](screenshots/SettingInquiryType.png) | ![Family](screenshots/Family.png) | ![Grid](screenshots/Grid.png) | ![Grid2](screenshots/Grid2.png) | ![List](screenshots/ListView.png)  | ![Settings](screenshots/Settings.png) | ![Settings Inquiry](screenshots/SettingsInquiry.png) |
 
 ---
 

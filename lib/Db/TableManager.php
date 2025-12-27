@@ -420,7 +420,6 @@ public function removeObsoleteColumns(): array {
 
 		// Only process essential tables that definitely have inquiry_id
 		$essentialTables = [
-			Option::TABLE,
 			Support::TABLE,
 			Share::TABLE,
 			InquiryGroup::RELATION_TABLE
@@ -516,409 +515,410 @@ public function removeObsoleteColumns(): array {
     }
 
     return $messages;
-}
-
-private function updateSupportHashes(): int {
-    $updatedCount = 0;
-    $supports = $this->supportMapper->getAll();
-
-    foreach ($supports as $support) {
-	try {
-	    // Skip if hash already exists and looks valid
-	    $currentHash = $support->getSupportHash();
-	    if ($currentHash && $this->isValidHash($currentHash)) {
-		continue;
-	    }
-
-	    // Generate new hash
-	    $newHash = $this->generateSupportHash(
-		$support->getUserId(),
-		$support->getOptionId(),
-		$support->getInquiryId()
-	    );
-
-	    $support->setSupportHash($newHash);
-	    $this->supportMapper->update($support);
-	    $updatedCount++;
-
-	} catch (\Exception $e) {
-	    $this->logger->error('Failed to update hash for support ID: ' . $support->getId(), [
-		'exception' => $e
-	    ]);
-	    // Continue with next record
-	}
     }
 
-    return $updatedCount;
-}
 
-private function updateOptionHashes(): int {
-    $updatedCount = 0;
+    private function updateSupportHashes(): int {
+        $updatedCount = 0;
+        $supports = $this->supportMapper->getAll();
 
-    try {
-	// If you have an option mapper, use it here
-	if (method_exists($this, 'getOptionMapper')) {
-	    $options = $this->getOptionMapper()->getAll();
+        foreach ($supports as $support) {
+            try {
+                // Skip if hash already exists and looks valid
+                $currentHash = $support->getSupportHash();
+                if ($currentHash && $this->isValidHash($currentHash)) {
+                    continue;
+                }
 
-	    foreach ($options as $option) {
-		try {
-		    // Skip if hash already exists
-		    if ($option->getOptionHash()) {
-			continue;
-		    }
+                // Generate new hash
+                $newHash = $this->generateSupportHash(
+                    $support->getUserId(),
+                    $support->getOptionId(),
+                    $support->getInquiryId()
+                );
 
-		    // Generate hash based on option text and inquiry ID
-		    $newHash = $this->generateOptionHash(
-			$option->getText(),
-			$option->getInquiryId()
-		    );
+                $support->setSupportHash($newHash);
+                $this->supportMapper->update($support);
+                $updatedCount++;
 
-		    $option->setOptionHash($newHash);
-		    $this->getOptionMapper()->update($option);
-		    $updatedCount++;
+            } catch (\Exception $e) {
+                $this->logger->error('Failed to update hash for support ID: ' . $support->getId(), [
+                    'exception' => $e
+                ]);
+                // Continue with next record
+            }
+        }
 
-		} catch (\Exception $e) {
-		    $this->logger->error('Failed to update hash for option ID: ' . $option->getId());
-		}
-	    }
-	}
-    } catch (\Exception $e) {
-	// Option hash update is optional, just log and continue
-	$this->logger->info('Option hash update skipped: ' . $e->getMessage());
+        return $updatedCount;
     }
 
-    return $updatedCount;
-}
+    private function updateOptionHashes(): int {
+        $updatedCount = 0;
 
-/**
- * Generate support hash without external helper
- */
-private function generateSupportHash(string $userId, int $optionId, int $inquiryId): string {
-    $data = implode('|', [
-	$userId,
-	(string)$optionId,
-	(string)$inquiryId,
-	$this->generateRandomString()
-    ]);
-    return hash('sha256', $data);
-}
+        try {
+            // If you have an option mapper, use it here
+            if (method_exists($this, 'getOptionMapper')) {
+                $options = $this->getOptionMapper()->getAll();
 
-/**
- * Generate option hash without external helper
- */
-private function generateOptionHash(string $text, int $inquiryId): string {
-    $normalizedText = trim(mb_strtolower($text));
-    $data = $normalizedText . '|' . $inquiryId;
-    return hash('sha256', $data);
-}
+                foreach ($options as $option) {
+                    try {
+                        // Skip if hash already exists
+                        if ($option->getOptionHash()) {
+                            continue;
+                        }
 
-/**
- * Check if hash looks valid
- */
-private function isValidHash(string $hash): bool {
-    return preg_match('/^[a-f0-9]{64}$/', $hash) === 1;
-}
+                        // Generate hash based on option text and inquiry ID
+                        $newHash = $this->generateOptionHash(
+                            $option->getText(),
+                            $option->getInquiryId()
+                        );
 
-/**
- * Generate random string for hash salting
- */
-private function generateRandomString(int $length = 16): string {
-    $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $result = '';
-    for ($i = 0; $i < $length; $i++) {
-	$result .= $chars[random_int(0, strlen($chars) - 1)];
+                        $option->setOptionHash($newHash);
+                        $this->getOptionMapper()->update($option);
+                        $updatedCount++;
+
+                    } catch (\Exception $e) {
+                        $this->logger->error('Failed to update hash for option ID: ' . $option->getId());
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            // Option hash update is optional, just log and continue
+            $this->logger->info('Option hash update skipped: ' . $e->getMessage());
+        }
+
+        return $updatedCount;
     }
-    return $result;
-}
-	/**
-	 * Delete all duplicate entries in all tables based on the unique indices defined in TableSchema::UNIQUE_INDICES
-	 *
-	 * @return string[] Messages as array
-	 */
-	public function deleteAllDuplicates(?IOutput $output = null): array {
-		$messages = [];
-		foreach (TableSchema::UNIQUE_INDICES as $tableName => $uniqueIndices) {
-			foreach ($uniqueIndices as $definition) {
 
-				// delete all duplicates based on the unique index definition
-				$count = $this->deleteDuplicates($tableName, $definition['columns']);
+    /**
+     * Generate support hash without external helper
+     */
+    private function generateSupportHash(string $userId, int $optionId, int $inquiryId): string {
+        $data = implode('|', [
+            $userId,
+            (string)$optionId,
+            (string)$inquiryId,
+            $this->generateRandomString()
+        ]);
+        return hash('sha256', $data);
+    }
 
-				if ($count) {
-					$messages[] = 'Removed ' . $count . ' duplicate records from ' . $this->dbPrefix . $tableName;
-					$this->logger->info(end($messages));
-				}
+    /**
+     * Generate option hash without external helper
+     */
+    private function generateOptionHash(string $text, int $inquiryId): string {
+        $normalizedText = trim(mb_strtolower($text));
+        $data = $normalizedText . '|' . $inquiryId;
+        return hash('sha256', $data);
+    }
 
-				if ($output && $count) {
-					$output->info(end($messages));
-				}
-			}
-		}
-		return $messages;
-	}
+    /**
+     * Check if hash looks valid
+     */
+    private function isValidHash(string $hash): bool {
+        return preg_match('/^[a-f0-9]{64}$/', $hash) === 1;
+    }
 
-	/**
-	 * Delete duplicate entries in $table based on $columns
-	 * Keep the entry with the lowest id
-	 *
-	 * @param string $table
-	 * @param array $columns
-	 * @return int number of deleted entries
-	 */
-	private function deleteDuplicates(string $table, array $columns):int {
-		$this->needsSchema();
-		if (!$this->schema->hasTable($this->dbPrefix . $table)) {
-			return 0;
-		}
+    /**
+     * Generate random string for hash salting
+     */
+    private function generateRandomString(int $length = 16): string {
+        $chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $result = '';
+        for ($i = 0; $i < $length; $i++) {
+            $result .= $chars[random_int(0, strlen($chars) - 1)];
+        }
+        return $result;
+    }
+    /**
+     * Delete all duplicate entries in all tables based on the unique indices defined in TableSchema::UNIQUE_INDICES
+     *
+     * @return string[] Messages as array
+     */
+    public function deleteAllDuplicates(?IOutput $output = null): array {
+        $messages = [];
+        foreach (TableSchema::UNIQUE_INDICES as $tableName => $uniqueIndices) {
+            foreach ($uniqueIndices as $definition) {
 
-		$qb = $this->connection->getQueryBuilder();
+                // delete all duplicates based on the unique index definition
+                $count = $this->deleteDuplicates($tableName, $definition['columns']);
 
-		// identify duplicates
-		$selection = $qb->selectDistinct('t1.id')
-		  ->from($table, 't1')
-		  ->innerJoin('t1', $table, 't2', $qb->expr()->lt('t1.id', 't2.id'));
+                if ($count) {
+                    $messages[] = 'Removed ' . $count . ' duplicate records from ' . $this->dbPrefix . $tableName;
+                    $this->logger->info(end($messages));
+                }
 
-		$i = 0;
+                if ($output && $count) {
+                    $output->info(end($messages));
+                }
+            }
+        }
+        return $messages;
+    }
 
-		foreach ($columns as $column) {
-			if ($i > 0) {
-				$selection->andWhere($qb->expr()->eq('t1.' . $column, 't2.' . $column));
-			} else {
-				$selection->where($qb->expr()->eq('t1.' . $column, 't2.' . $column));
-			}
-			$i++;
-		}
+    /**
+     * Delete duplicate entries in $table based on $columns
+     * Keep the entry with the lowest id
+     *
+     * @param string $table
+     * @param array $columns
+     * @return int number of deleted entries
+     */
+    private function deleteDuplicates(string $table, array $columns):int {
+        $this->needsSchema();
+        if (!$this->schema->hasTable($this->dbPrefix . $table)) {
+            return 0;
+        }
 
-		$duplicates = $qb->executeQuery()->fetchAll(PDO::FETCH_COLUMN);
+        $qb = $this->connection->getQueryBuilder();
 
-		$this->connection->getQueryBuilder()
-		   ->delete($table)
-		   ->where('id in (:ids)')
-		   ->setParameter('ids', $duplicates, IQueryBuilder::PARAM_INT_ARRAY)
-		   ->executeStatement();
-		return count($duplicates);
-	}
+        // identify duplicates
+        $selection = $qb->selectDistinct('t1.id')
+                        ->from($table, 't1')
+                        ->innerJoin('t1', $table, 't2', $qb->expr()->lt('t1.id', 't2.id'));
 
-	/**
-	 * Delete entries per timestamp
-	 *
-	 * @return string Message
-	 */
-	public function tidyWatchTable(int $offset): string {
-		$query = $this->connection->getQueryBuilder();
-		$query->delete(Watch::TABLE)
-	->where(
-		$query->expr()->lt('updated', $query->createNamedParameter($offset))
-	);
-		$count = $query->executeStatement();
+        $i = 0;
 
-		if ($count > 0) {
-			$this->logger->info('Removed {number} old watch records', ['number' => $count, 'db' => $this->dbPrefix . Watch::TABLE]);
-			return 'Removed ' . $count . ' old watch records';
-		}
+        foreach ($columns as $column) {
+            if ($i > 0) {
+                $selection->andWhere($qb->expr()->eq('t1.' . $column, 't2.' . $column));
+            } else {
+                $selection->where($qb->expr()->eq('t1.' . $column, 't2.' . $column));
+            }
+            $i++;
+        }
 
-		$this->logger->info('Watch table is clean');
-		return 'Watch table is clean';
-	}
+        $duplicates = $qb->executeQuery()->fetchAll(PDO::FETCH_COLUMN);
 
+        $this->connection->getQueryBuilder()
+                         ->delete($table)
+                         ->where('id in (:ids)')
+                         ->setParameter('ids', $duplicates, IQueryBuilder::PARAM_INT_ARRAY)
+                         ->executeStatement();
+        return count($duplicates);
+    }
 
-	/**
-	 * Fix all shares with nullish group_id or inquiry_id
-	 * Precondition have to be checked before
-	 *
-	 * @return string[] Messages as array
-	 */
-	public function fixNullishShares(): array {
-		$messages = [];
+    /**
+     * Delete entries per timestamp
+     *
+     * @return string Message
+     */
+    public function tidyWatchTable(int $offset): string {
+        $query = $this->connection->getQueryBuilder();
+        $query->delete(Watch::TABLE)
+              ->where(
+                  $query->expr()->lt('updated', $query->createNamedParameter($offset))
+              );
+        $count = $query->executeStatement();
 
-		try {
-			$tableName = Share::TABLE;
-			$affectedColumns = ['group_id', 'inquiry_id'];
-			$this->checkPrecondition($tableName, $affectedColumns);
+        if ($count > 0) {
+            $this->logger->info('Removed {number} old watch records', ['number' => $count, 'db' => $this->dbPrefix . Watch::TABLE]);
+            return 'Removed ' . $count . ' old watch records';
+        }
 
-			// set all nullish group_id and inquiry_id to 0
-			foreach ($affectedColumns as $affectedColumn) {
-				$count = $this->migrateNullishColumnToZero($tableName, $affectedColumn);
-
-				if ($count > 0) {
-					$messages[] = 'Updated ' . $count . ' shares with nullish ' . $affectedColumn . ' to 0';
-				}
-			}
-
-		} catch (PreconditionException $e) {
-			$messages[] = $e->getMessage() . ' - aborted fix nullish shares';
-			return $messages;
-		}
-
-		if (empty($messages)) {
-			$messages[] = 'All shares are valid';
-		}
-
-		return $messages;
-	}
-
-	/**
-	 * Tidy migrations table and remove obsolete migration entries.
-	 *
-	 * @return string[] Messages as array
-	 */
-	public function removeObsoleteMigrations(): array {
-		$messages = [];
-		$query = $this->connection->getQueryBuilder();
-		$messages[] = 'tidy migration entries';
-		foreach (TableSchema::GONE_MIGRATIONS as $version) {
-			$query->delete('migrations')
-	 ->where('app = :appName')
-	 ->andWhere('version = :version')
-	 ->setParameter('appName', AppConstants::APP_ID)
-	 ->setParameter('version', $version)
-	 ->executeStatement();
-		}
-		return $messages;
-	}
-
-	/**
-	 * Fix all inquiry group relations with nullish group_id or inquiry_id
-	 * Precondition have to be checked before
-	 *
-	 * @return string[] Messages as array
-	 */
-	public function fixNullishPollGroupRelations(): array {
-		$messages = [];
-
-		try {
-			$tableName = PollGroup::RELATION_TABLE;
-			$affectedColumns = ['group_id', 'inquiry_id'];
-			$this->checkPrecondition($tableName, $affectedColumns);
-
-			$countAll = 0;
-			// set all nullish group_id and inquiry_id to 0
-			foreach ($affectedColumns as $affectedColumn) {
-				$updateCount = $this->migrateNullishColumnToZero($tableName, $affectedColumn);
-
-				if ($updateCount > 0) {
-					$countAll += $updateCount;
-					$messages[] = 'Updated ' . $updateCount . ' inquirygroup relations and set ' . $affectedColumn . ' to 0 for nullish values';
-				}
-			}
-
-		} catch (PreconditionException $e) {
-			$messages[] = $e->getMessage() . ' - aborted fix nullish inquiry group relations';
-			return $messages;
-		}
-
-		if ($countAll === 0) {
-			$messages[] = 'All inquiry group relations are valid';
-		}
-
-		return $messages;
-	}
-
-	/**
-	 * Migrate all share labels to display_name
-	 *
-	 * @return string[] Messages as array
-	 *
-	 */
-	public function migrateShareLabels(): array {
-		$messages = [];
-
-		$tableName = Share::TABLE;
-		$affectedColumn = 'label';
-
-		try {
-			$this->checkPrecondition($tableName, $affectedColumn);
-		} catch (PreconditionException $e) {
-			$messages[] = $e->getMessage() . ' - aborted migrating labels';
-			return $messages;
-		}
-
-		$prefixedTableName = $this->dbPrefix . $tableName;
-		$qb = $this->connection->getQueryBuilder();
-
-		$qb->update($tableName)
-     ->set('display_name', $affectedColumn)
-     ->andWhere($qb->expr()->isNotNull($prefixedTableName . '.' . $affectedColumn))
-     ->andWhere($qb->expr()->eq($prefixedTableName . '.' . $affectedColumn, $qb->expr()->literal('')));
-		$updated = $qb->executeStatement();
-
-		if ($updated === 0) {
-			$this->logger->info('Verified all share labels in {db}', [
-				'db' => $prefixedTableName
-			]);
-			$messages[] = 'No share labels to update';
-
-		} else {
-			$this->logger->info('Updated {updated} share labels in {db}', [
-				'updated' => $updated,
-				'db' => $prefixedTableName
-			]);
-			$messages[] = 'Updated ' . $updated . ' labels';
-		}
-
-		return $messages;
-	}
+        $this->logger->info('Watch table is clean');
+        return 'Watch table is clean';
+    }
 
 
-	/**
-	 * Migrate all nullish values in $columnName of $tableName to 0
-	 *
-	 * @param string $tableName Unprefixed tablename
-	 * @param string $columnName Column name to update
-	 *
-	 * @return int number of updated entries
-	 */
-	private function migrateNullishColumnToZero(string $tableName, string $columnName): int {
-		$query = $this->connection->getQueryBuilder();
-		$query->update($tableName)
-	->set($columnName, $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
-	->where($query->expr()->isNull($columnName));
+    /**
+     * Fix all shares with nullish group_id or inquiry_id
+     * Precondition have to be checked before
+     *
+     * @return string[] Messages as array
+     */
+    public function fixNullishShares(): array {
+        $messages = [];
 
-		$count = $query->executeStatement();
-		return $count;
-	}
-	/**
-	 * Migrate all agora with access 'public' to access 'open'
-	 *
-	 * @return string[] Messages as array
-	 *
-	 */
-	public function migratePublicToOpen(): array {
-		$messages = [];
+        try {
+            $tableName = Share::TABLE;
+            $affectedColumns = ['group_id', 'inquiry_id'];
+            $this->checkPrecondition($tableName, $affectedColumns);
 
-		$tableName = Inquiry::TABLE;
-		$affectedColumn = 'access';
-		$prefixedTableName = $this->dbPrefix . $tableName;
+            // set all nullish group_id and inquiry_id to 0
+            foreach ($affectedColumns as $affectedColumn) {
+                $count = $this->migrateNullishColumnToZero($tableName, $affectedColumn);
 
-		try {
-			$this->checkPrecondition($tableName, $affectedColumn);
-		} catch (PreconditionException $e) {
-			$messages[] = $e->getMessage() . ' - aborted migrating public to open';
-			return $messages;
-		}
+                if ($count > 0) {
+                    $messages[] = 'Updated ' . $count . ' shares with nullish ' . $affectedColumn . ' to 0';
+                }
+            }
 
-		$qb = $this->connection->getQueryBuilder();
+        } catch (PreconditionException $e) {
+            $messages[] = $e->getMessage() . ' - aborted fix nullish shares';
+            return $messages;
+        }
 
-		$qb->update($tableName)
-     ->set('access', $qb->expr()->literal(Inquiry::ACCESS_OPEN))
-     ->where($qb->expr()->eq($prefixedTableName . '.' . $affectedColumn, $qb->expr()->literal(Inquiry::ACCESS_PUBLIC)));
-		$updated = $qb->executeStatement();
+        if (empty($messages)) {
+            $messages[] = 'All shares are valid';
+        }
 
-		if ($updated === 0) {
-			$this->logger->info('Verified inquiry access to be \'open\' instead of \'public\' in {db}', [
-				'db' => $prefixedTableName
-			]);
-			$messages[] = 'No inquiry access values to update';
+        return $messages;
+    }
 
-		} else {
-			$this->logger->info('Updated {updated} access values in {db}', [
-				'updated' => $updated,
-				'db' => $prefixedTableName
-			]);
-			$messages[] = 'Updated ' . $updated . ' inquiry access value';
+    /**
+     * Tidy migrations table and remove obsolete migration entries.
+     *
+     * @return string[] Messages as array
+     */
+    public function removeObsoleteMigrations(): array {
+        $messages = [];
+        $query = $this->connection->getQueryBuilder();
+        $messages[] = 'tidy migration entries';
+        foreach (TableSchema::GONE_MIGRATIONS as $version) {
+            $query->delete('migrations')
+                  ->where('app = :appName')
+                  ->andWhere('version = :version')
+                  ->setParameter('appName', AppConstants::APP_ID)
+                  ->setParameter('version', $version)
+                  ->executeStatement();
+        }
+        return $messages;
+    }
 
-		}
+    /**
+     * Fix all inquiry group relations with nullish group_id or inquiry_id
+     * Precondition have to be checked before
+     *
+     * @return string[] Messages as array
+     */
+    public function fixNullishPollGroupRelations(): array {
+        $messages = [];
 
-		return $messages;
-	}
+        try {
+            $tableName = PollGroup::RELATION_TABLE;
+            $affectedColumns = ['group_id', 'inquiry_id'];
+            $this->checkPrecondition($tableName, $affectedColumns);
+
+            $countAll = 0;
+            // set all nullish group_id and inquiry_id to 0
+            foreach ($affectedColumns as $affectedColumn) {
+                $updateCount = $this->migrateNullishColumnToZero($tableName, $affectedColumn);
+
+                if ($updateCount > 0) {
+                    $countAll += $updateCount;
+                    $messages[] = 'Updated ' . $updateCount . ' inquirygroup relations and set ' . $affectedColumn . ' to 0 for nullish values';
+                }
+            }
+
+        } catch (PreconditionException $e) {
+            $messages[] = $e->getMessage() . ' - aborted fix nullish inquiry group relations';
+            return $messages;
+        }
+
+        if ($countAll === 0) {
+            $messages[] = 'All inquiry group relations are valid';
+        }
+
+        return $messages;
+    }
+
+    /**
+     * Migrate all share labels to display_name
+     *
+     * @return string[] Messages as array
+     *
+     */
+    public function migrateShareLabels(): array {
+        $messages = [];
+
+        $tableName = Share::TABLE;
+        $affectedColumn = 'label';
+
+        try {
+            $this->checkPrecondition($tableName, $affectedColumn);
+        } catch (PreconditionException $e) {
+            $messages[] = $e->getMessage() . ' - aborted migrating labels';
+            return $messages;
+        }
+
+        $prefixedTableName = $this->dbPrefix . $tableName;
+        $qb = $this->connection->getQueryBuilder();
+
+        $qb->update($tableName)
+           ->set('display_name', $affectedColumn)
+           ->andWhere($qb->expr()->isNotNull($prefixedTableName . '.' . $affectedColumn))
+           ->andWhere($qb->expr()->eq($prefixedTableName . '.' . $affectedColumn, $qb->expr()->literal('')));
+        $updated = $qb->executeStatement();
+
+        if ($updated === 0) {
+            $this->logger->info('Verified all share labels in {db}', [
+                'db' => $prefixedTableName
+            ]);
+            $messages[] = 'No share labels to update';
+
+        } else {
+            $this->logger->info('Updated {updated} share labels in {db}', [
+                'updated' => $updated,
+                'db' => $prefixedTableName
+            ]);
+            $messages[] = 'Updated ' . $updated . ' labels';
+        }
+
+        return $messages;
+    }
+
+
+    /**
+     * Migrate all nullish values in $columnName of $tableName to 0
+     *
+     * @param string $tableName Unprefixed tablename
+     * @param string $columnName Column name to update
+     *
+     * @return int number of updated entries
+     */
+    private function migrateNullishColumnToZero(string $tableName, string $columnName): int {
+        $query = $this->connection->getQueryBuilder();
+        $query->update($tableName)
+              ->set($columnName, $query->createNamedParameter(0, IQueryBuilder::PARAM_INT))
+              ->where($query->expr()->isNull($columnName));
+
+        $count = $query->executeStatement();
+        return $count;
+    }
+    /**
+     * Migrate all agora with access 'public' to access 'open'
+     *
+     * @return string[] Messages as array
+     *
+     */
+    public function migratePublicToOpen(): array {
+        $messages = [];
+
+        $tableName = Inquiry::TABLE;
+        $affectedColumn = 'access';
+        $prefixedTableName = $this->dbPrefix . $tableName;
+
+        try {
+            $this->checkPrecondition($tableName, $affectedColumn);
+        } catch (PreconditionException $e) {
+            $messages[] = $e->getMessage() . ' - aborted migrating public to open';
+            return $messages;
+        }
+
+        $qb = $this->connection->getQueryBuilder();
+
+        $qb->update($tableName)
+           ->set('access', $qb->expr()->literal(Inquiry::ACCESS_OPEN))
+           ->where($qb->expr()->eq($prefixedTableName . '.' . $affectedColumn, $qb->expr()->literal(Inquiry::ACCESS_PUBLIC)));
+        $updated = $qb->executeStatement();
+
+        if ($updated === 0) {
+            $this->logger->info('Verified inquiry access to be \'open\' instead of \'public\' in {db}', [
+                'db' => $prefixedTableName
+            ]);
+            $messages[] = 'No inquiry access values to update';
+
+        } else {
+            $this->logger->info('Updated {updated} access values in {db}', [
+                'updated' => $updated,
+                'db' => $prefixedTableName
+            ]);
+            $messages[] = 'Updated ' . $updated . ' inquiry access value';
+
+        }
+
+        return $messages;
+    }
 }
 

@@ -7,6 +7,9 @@
 import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { emit, subscribe, unsubscribe } from '@nextcloud/event-bus'
 import { t } from '@nextcloud/l10n'
+import { useSessionStore } from '../stores/session.ts'
+import { useInquiryStore } from '../stores/inquiry.ts'
+import type { AccessLevel } from '../utils/permissions.ts'
 
 import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
@@ -17,6 +20,7 @@ import {
   canComment,
   canUseResource,
   canShare,
+  canEdit,
   createPermissionContextForContent,
   ContentType,
 } from '../utils/permissions.ts'
@@ -26,9 +30,10 @@ import {
   SideBarTabResources,
   SideBarTabMisc,
 } from '../components/SideBar/index.js'
-import { useInquiryStore } from '../stores/inquiry.ts'
+
 
 const inquiryStore = useInquiryStore()
+const sessionStore = useSessionStore()
 
 // Context for permissions
 const context = computed(() => {
@@ -51,11 +56,26 @@ const context = computed(() => {
   return ctx
 }) 
 
+// Compute isReadonly
+const isReadonly = computed(() => {
+  const user = sessionStore.currentUser
+  if (inquiryStore.status.moderationStatus === 'rejected' || inquiryStore.status.moderationStatus === 'pending') return true
+  if (!user) {
+    return true
+  }
+  const canEditResult = canEdit(context.value)
+  return !canEditResult
+})
 
 const showSidebar = ref(window.innerWidth > 920)
-const activeTab = ref(t('agora', 'Comments').toLowerCase())
+const activeTab = ref('comments') // Use lowercase string directly
 
-const shouldDisplay = computed(() => inquiryStore.status.forceEditMode)
+const shouldDisplay = computed(() => {
+  if (!inquiryStore || typeof inquiryStore.status !== 'object') {
+    return false
+  }
+  return inquiryStore.status.forceEditMode === true
+})
 
 onMounted(() => {
   subscribe(Event.SidebarToggle, (payload) => {
@@ -68,12 +88,8 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  unsubscribe(Event.SidebarToggle, () => {
-    activeTab.value = 'comments'
-  })
-  unsubscribe(Event.SidebarChangeTab, () => {
-    showSidebar.value = false
-  })
+  unsubscribe(Event.SidebarToggle)
+  unsubscribe(Event.SidebarChangeTab)
 })
 
 function closeSideBar() {
@@ -82,7 +98,7 @@ function closeSideBar() {
 </script>
 
 <template>
-    <aside v-if="shouldDisplay">
+    <aside v-if="shouldDisplay && inquiryStore">
         <NcAppSidebar
                 v-show="showSidebar"
                 v-model="activeTab"
@@ -109,7 +125,7 @@ function closeSideBar() {
                         <template #icon>
                             <component :is="InquiryGeneralIcons.Map" />
                         </template>
-                <SideBarTabMisc />
+                <SideBarTabMisc :is-readonly="isReadonly"/>
         </NcAppSidebarTab>
 
         <NcAppSidebarTab
@@ -121,7 +137,7 @@ function closeSideBar() {
                 <template #icon>
                     <component :is="InquiryGeneralIcons.LinkIcon" />
                 </template>
-        <SideBarTabResources />
+                <SideBarTabResources :inquiry="inquiryStore"/>
         </NcAppSidebarTab>
         
         <NcAppSidebarTab
@@ -133,7 +149,7 @@ function closeSideBar() {
                 <template #icon>
                     <component :is="InquiryGeneralIcons.Share" />
                 </template>
-        <SideBarTabShare />
+                <SideBarTabShare :inquiry="inquiryStore"/>
         </NcAppSidebarTab>
 
         </NcAppSidebar>

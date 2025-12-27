@@ -103,6 +103,7 @@ class InquiryLinkController extends BaseController
      * @param string $targetApp  Target application
      * @param string $targetType Target type
      * @param string $targetId   Target ID
+     * @param string $metadata   Target URL
      * @param int    $sortOrder  Sort order
      * @param int    $createdBy  Created by user ID
      */
@@ -113,6 +114,7 @@ class InquiryLinkController extends BaseController
         string $targetApp,
         string $targetType,
         string $targetId,
+        string $metadata,
         int $sortOrder = 0,
         int $createdBy = 0
     ): JSONResponse {
@@ -123,6 +125,7 @@ class InquiryLinkController extends BaseController
                     $targetApp,
                     $targetType,
                     $targetId,
+                    $metadata,
                     $sortOrder,
                     $createdBy
                 )
@@ -163,6 +166,7 @@ class InquiryLinkController extends BaseController
         string $targetApp,
         string $targetType,
         string $targetId,
+        string $metadata,
         int $sortOrder = 0
     ): JSONResponse {
         return $this->response(
@@ -172,6 +176,7 @@ class InquiryLinkController extends BaseController
                     $targetApp,
                     $targetType,
                     $targetId,
+                    $metadata,
                     $sortOrder
                 )
             ]

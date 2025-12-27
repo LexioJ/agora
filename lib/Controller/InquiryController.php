@@ -145,7 +145,7 @@ class InquiryController extends BaseController
         $timerMicro['start'] = microtime(true);
 
         $inquiry = $this->inquiryService->get($inquiryId, true);
-	$inquiry->setMiscFields($this->inquiryMiscService->findByInquiryId($inquiryId));
+	    $inquiry->setMiscFields($this->inquiryMiscService->findByInquiryId($inquiryId));
 
         $diffMicro['total'] = microtime(true) - $timerMicro['start'];
         $timerMicro['inquiry'] = microtime(true);
@@ -162,7 +162,7 @@ class InquiryController extends BaseController
         $subscribed = $this->subscriptionService->get($inquiryId);
         $timerMicro['subscribed'] = microtime(true);
     
-        $attachments = $this->attachmentService->getAll($inquiryId);
+        $attachments = $this->attachmentService->getAll($inquiryId,0);
         $timerMicro['attachments'] = microtime(true);
 
         $inquiryLink = $this->inquiryLinkService->findByInquiryId($inquiryId);
@@ -246,11 +246,11 @@ class InquiryController extends BaseController
                 ]
 	    );
 
+	  }
 	    return new JSONResponse(
 		    ['error' => 'SERVER_ERROR', 'message' => 'An unexpected error occurred'],
 		    Http::STATUS_INTERNAL_SERVER_ERROR
 	    );
-	}
     }
 
     #[NoAdminRequired]

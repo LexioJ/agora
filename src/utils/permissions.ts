@@ -3,20 +3,20 @@
 
 import { useSessionStore } from '../stores/session.ts'
 import { useAppSettingsStore } from '../stores/appSettings.ts'
-import { InquiryType } from '../helpers/index.ts'
 
 export interface InquiryTypeSettings {
   supportInquiry: boolean
   commentInquiry: boolean
-  attachFileInquiry: boolean
+  useResourceInquiry: boolean
   shareInquiry?: boolean
   editorType: string
 }
 
 export interface InquiryTypeRights {
   supportInquiry: boolean
+  supportMode: string  // Changed from boolean to string based on DefaultInquiryRights
   commentInquiry: boolean
-  attachFileInquiry: boolean
+  useResourceInquiry: boolean
   shareInquiry?: boolean
   editorType: string
 }
@@ -45,21 +45,25 @@ export interface InquiryType {
   inquiry_type: string
   allowed_response?: string | string[]
   allowed_transformation?: string | string[]
-  isOption?: number
 }
 
-export interface InquiryRights {
-  supportInquiry: boolean
-  commentInquiry: boolean
-  attachFileInquiry: boolean
-  shareInquiry?: boolean
-  editorType: string
+export interface InquiryGroupRights {
+  createInquiry?: boolean
+  modifyGroup?: boolean
+  deleteGroup?: boolean
+  addInquiry?: boolean
+  removeInquiry?: boolean
+  manageMembers?: boolean
+  managePermissions?: boolean
+  viewGroup?: boolean
 }
 
-export const DefaultInquiryRights: InquiryRights = {
+// ADD THESE DEFAULT VALUES BACK:
+export const DefaultInquiryRights: InquiryTypeRights = {
   supportInquiry: true, 
+  supportMode: 'simple', 
   commentInquiry: false,
-  attachFileInquiry: false,
+  useResourceInquiry: false,
   shareInquiry: false,
   editorType: 'wysiwyg',
 }
@@ -83,6 +87,17 @@ export const DefaultOfficialRights: OfficialRights = {
   modifyInquiry: false,
 }
 
+export const DefaultInquiryGroupRights: InquiryGroupRights = {
+  createInquiry: true,
+  modifyGroup: true,
+  deleteGroup: true,
+  addInquiry: true,
+  removeInquiry: true,
+  manageMembers: true,
+  managePermissions: true,
+  viewGroup: true,
+}
+
 /**
  * User TYPE
  */
@@ -104,6 +119,7 @@ export enum ContentType {
   Support = 'support',
   Attachment = 'attachment',
   Share = 'share',
+  InquiryGroup = 'inquiry_group',
 }
 
 /**
@@ -125,6 +141,7 @@ export enum InquiryFamily {
   Official = 'official'
 }
 
+
 /**
  * Interface rights permission
  */
@@ -145,6 +162,12 @@ export interface PermissionContext {
   accessLevel?: AccessLevel
   isFinalStatus?: boolean
   moderationStatus?: string
+  // Group-specific properties
+  isGroupMember?: boolean
+  isGroupModerator?: boolean
+  isGroupEditor?: boolean
+  groupType?: string
+  ownedGroup?: string // Group that owns/administers this content
 }
 
 // GET METHODS
@@ -153,10 +176,11 @@ function getCurrentUserType(): UserType {
   const sessionStore = useSessionStore()
   const currentUser = sessionStore.currentUser
 
-  if (!currentUser) return UserType.Guest
-  if (currentUser.isAdmin) return UserType.Admin
-  if (currentUser.isModerator) return UserType.Moderator
-  if (currentUser.isOfficial) return UserType.Official
+  if (!currentUser?.id) return UserType.Guest
+  if (sessionStore.currentUser.isAdmin) return UserType.Admin
+  if (sessionStore.currentUser.isModerator) return UserType.Moderator
+  if (sessionStore.currentUser.isOfficial) return UserType.Official
+  if (sessionStore.currentUser.isGroupEditor) return UserType.User // Group editors are regular users with extra permissions
   return UserType.User
 }
 
@@ -170,14 +194,19 @@ export function getCurrentModeratorRights(): ModeratorRights | null {
   const sessionStore = useSessionStore()
   const appSettings = useAppSettingsStore()
   const currentUser = sessionStore.currentUser
-  return currentUser?.isModerator ? appSettings.moderatorRights : null
+  return currentUser?.id && sessionStore.currentUser.isModerator ? appSettings.moderatorRights : null
 }
 
 export function getCurrentOfficialRights(): OfficialRights | null {
   const sessionStore = useSessionStore()
   const appSettings = useAppSettingsStore()
   const currentUser = sessionStore.currentUser
-  return currentUser?.isOfficial ? appSettings.officialRights : null
+  return currentUser?.id && sessionStore.currentUser.isOfficial ? appSettings.officialRights : null
+}
+
+export function getCurrentInquiryGroupRights(): InquiryGroupRights | null {
+  const appSettings = useAppSettingsStore()
+  return appSettings.inquiryGroupRights || DefaultInquiryGroupRights
 }
 
 function isContentOwner(contentOwnerId: string): boolean {
@@ -191,20 +220,58 @@ export function canInquiryTypePerformAction(
   action: keyof InquiryTypeSettings
 ): boolean {
   const sessionStore = useSessionStore()
-  const typeRights = sessionStore.appSettings.inquiryTypeRights[inquiryType]
+  const typeRights = sessionStore.appSettings.inquiryTypeRights?.[inquiryType]
   return typeRights?.[action] ?? false
 }
 
 function hasGroupAccess(context: PermissionContext): boolean {
-  if (!context.hasGroupRestrictions || context.userType === UserType.Guest) {
+  // Check if user is admin - they have access to everything
+  if (context.userType === UserType.Admin) {
     return true
   }
 
-  if (context.userType === UserType.Admin || context.userType === UserType.Moderator) {
-    return true
+  // For inquiry groups, check if user belongs to ownedGroup or is group editor
+  if (context.contentType === ContentType.InquiryGroup && context.ownedGroup) {
+    const sessionStore = useSessionStore()
+    const currentUser = sessionStore.currentUser
+    
+    // Check if user belongs to the owned group
+    if (currentUser?.groups?.includes(context.ownedGroup)) {
+      return true
+    }
+    
+    // Check if user is a group editor
+    if (sessionStore.currentUser.isGroupEditor) {
+      return true
+    }
+    
+    return false
+  }
+  
+  // For other content types with group restrictions
+  if (context.hasGroupRestrictions) {
+    const sessionStore = useSessionStore()
+    const currentUser = sessionStore.currentUser
+    
+    // Check if user is moderator
+    if (context.userType === UserType.Moderator) {
+      return true
+    }
+    
+    // Check if user belongs to any allowed group
+    if (currentUser?.groups?.some(group => context.allowedGroups.includes(group))) {
+      return true
+    }
+    
+    // Check if user is group editor
+    if (sessionStore.currentUser.isGroupEditor) {
+      return true
+    }
+    
+    return false
   }
 
-  return context.userGroups.some((group) => context.allowedGroups.includes(group))
+  return true
 }
 
 function isContentBlocked(context: PermissionContext): boolean {
@@ -266,21 +333,6 @@ function isAccessRestrictedForSharing(context: PermissionContext): boolean {
   }
 }
 
-function isAccessRestrictedForAttachments(context: PermissionContext): boolean {
-  if (context.isFinalStatus) {
-    return true
-  }
-  
-  switch (context.accessLevel) {
-    case AccessLevel.Moderate:
-      return true
-    case AccessLevel.Private:
-    case AccessLevel.Open:
-    default:
-      return false
-  }
-}
-
 /**
  * Check if user can edit result based on moderation status
  * @param moderationStatus
@@ -317,7 +369,7 @@ export function accessFamilyMenu(selectedFamilyType: InquiryFamily): boolean {
   const sessionStore = useSessionStore()
   const currentUser = sessionStore.currentUser
 
-  if (!currentUser) {
+  if (!currentUser?.id) {
     return false
   }
 
@@ -325,28 +377,17 @@ export function accessFamilyMenu(selectedFamilyType: InquiryFamily): boolean {
 
   switch (selectedFamilyType) {
     case InquiryFamily.Official:
-      hasAccess = currentUser.isOfficial || false
+      hasAccess = sessionStore.currentUser.isOfficial || sessionStore.currentUser.isAdmin
       break
     case InquiryFamily.Legislatif:
-      hasAccess = currentUser.isLegislative || false
-      break
-    case InquiryFamily.Administratif:
-      hasAccess = currentUser.isAdministrative || false
-      break
-    case InquiryFamily.Collective:
-      hasAccess = currentUser.isCollective || false
+      hasAccess = sessionStore.currentUser.isLegislative || sessionStore.currentUser.isAdmin
       break
     default:
       hasAccess = true
   }
 
-  if (!hasAccess) {
-	  return false 
-  }
-
   return hasAccess
 }
-
 
 /**
  * Check if user can create official response
@@ -354,10 +395,9 @@ export function accessFamilyMenu(selectedFamilyType: InquiryFamily): boolean {
  */
 export function canCreateOfficialResponse(context: PermissionContext): boolean {
   const sessionStore = useSessionStore()
-  const currentUser = sessionStore.currentUser
   
   // Check if user is official and moderation status is accepted
-  if (!currentUser?.isOfficial || context.moderationStatus !== 'accepted') {
+  if (!sessionStore.currentUser.isOfficial || context.moderationStatus !== 'accepted') {
     return false
   }
   
@@ -375,7 +415,6 @@ export function canCreateOfficialResponse(context: PermissionContext): boolean {
  */
 export function canCreateTransformation(context: PermissionContext): boolean {
   const sessionStore = useSessionStore()
-  const currentUser = sessionStore.currentUser
   
   // Base check - must be able to edit and have accepted moderation
   if (!canEdit(context) || context.moderationStatus !== 'accepted') {
@@ -383,7 +422,7 @@ export function canCreateTransformation(context: PermissionContext): boolean {
   }
   
   // Check for official user - they can create transformations regardless of family
-  if (currentUser?.isOfficial) {
+  if (sessionStore.currentUser.isOfficial) {
     return true
   }
   
@@ -391,11 +430,10 @@ export function canCreateTransformation(context: PermissionContext): boolean {
   if (context.inquiryFamily) {
     switch (context.inquiryFamily) {
       case InquiryFamily.Legislatif:
-        return currentUser?.isLegislative || false
-      case InquiryFamily.Administratif:
-        return currentUser?.isAdministrative || false
+        return sessionStore.currentUser.isLegislative
       case InquiryFamily.Collective:
-        return currentUser?.isCollective || false
+        // Check if user is group editor
+        return sessionStore.currentUser.isGroupEditor
       default:
         return false
     }
@@ -410,7 +448,6 @@ export function canCreateTransformation(context: PermissionContext): boolean {
  */
 export function canCreateByFamily(context: PermissionContext): boolean {
   const sessionStore = useSessionStore()
-  const currentUser = sessionStore.currentUser
   
   // Base check - must be able to edit and have accepted moderation
   if (!canEdit(context) || context.moderationStatus !== 'accepted') {
@@ -421,11 +458,10 @@ export function canCreateByFamily(context: PermissionContext): boolean {
   if (context.inquiryFamily) {
     switch (context.inquiryFamily) {
       case InquiryFamily.Legislatif:
-        return currentUser?.isLegislative || false
-      case InquiryFamily.Administratif:
-        return currentUser?.isAdministrative || false
+        return sessionStore.currentUser.isLegislative
       case InquiryFamily.Collective:
-        return currentUser?.isCollective || false
+        // Check if user is group editor
+        return sessionStore.currentUser.isGroupEditor
       default:
         return false
     }
@@ -444,6 +480,12 @@ export function canViewToggle(context: PermissionContext): boolean {
  * @param context
  */
 export function canDelete(context: PermissionContext): boolean {
+  // Handle inquiry groups separately
+  if (context.contentType === ContentType.InquiryGroup) {
+    return context.isOwner || context.userType === UserType.Admin
+  }
+  
+  // Original logic for other content types
   if (context.isDeleted) return false
 
   // Check moderation status restrictions
@@ -472,6 +514,29 @@ export function canDelete(context: PermissionContext): boolean {
  * @param context
  */
 export function canRestore(context: PermissionContext): boolean {
+  // Handle inquiry groups: owner, admin, or group editor
+  if (context.contentType === ContentType.InquiryGroup) {
+    if (!(context.isArchived || context.isDeleted)) return false
+    
+    if (context.isOwner || context.userType === UserType.Admin) {
+      return true
+    }
+    
+    // Group editors can restore
+    const sessionStore = useSessionStore()
+    if (sessionStore.currentUser.isGroupEditor) {
+      return true
+    }
+    
+    // Check if user belongs to ownedGroup
+    if (context.ownedGroup && hasGroupAccess(context)) {
+      return true
+    }
+    
+    return false
+  }
+  
+  // Original logic for other content types
   if (!(context.isArchived || context.isDeleted)) return false
 
   if (context.userType === UserType.Admin || context.isOwner) {
@@ -495,6 +560,29 @@ export function canRestore(context: PermissionContext): boolean {
  * @param context
  */
 export function canArchive(context: PermissionContext): boolean {
+  // Handle inquiry groups: owner, admin, or group editor
+  if (context.contentType === ContentType.InquiryGroup) {
+    if (context.isArchived || context.isDeleted) return false
+    
+    if (context.isOwner || context.userType === UserType.Admin) {
+      return true
+    }
+    
+    // Group editors can archive
+    const sessionStore = useSessionStore()
+    if (sessionStore.currentUser.isGroupEditor) {
+      return true
+    }
+    
+    // Check if user belongs to ownedGroup
+    if (context.ownedGroup && hasGroupAccess(context)) {
+      return true
+    }
+    
+    return false
+  }
+  
+  // Original logic for other content types
   if (context.isArchived || context.isDeleted) return false
 
   // Check moderation status restrictions
@@ -570,6 +658,27 @@ export function canModerate(context: PermissionContext): boolean {
  * @param context
  */
 export function canEdit(context: PermissionContext): boolean {
+  // Handle inquiry groups separately
+  if (context.contentType === ContentType.InquiryGroup) {
+    if (context.isOwner || context.userType === UserType.Admin) {
+      return true
+    }
+    
+    // Group editors can modify
+    const sessionStore = useSessionStore()
+    if (sessionStore.currentUser.isGroupEditor) {
+      return true
+    }
+    
+    // Check if user belongs to ownedGroup
+    if (context.ownedGroup && hasGroupAccess(context)) {
+      return true
+    }
+    
+    return false
+  }
+  
+  // Original logic for other content types
   if (context.isLocked || context.isArchived || context.isDeleted) {
     return false
   }
@@ -601,12 +710,10 @@ export function canEdit(context: PermissionContext): boolean {
  */
 export function canComment(context: PermissionContext): boolean {
   const appSettings = useAppSettingsStore()
-
   if (isContentBlocked(context)) {
     return false
   }
 
-  // Vérification des restrictions d'accès et de statut final
   if (isAccessRestrictedForComments(context)) {
     return false
   }
@@ -643,6 +750,7 @@ export function canSupport(context: PermissionContext): boolean {
   if (context.inquiryType && !canInquiryTypePerformAction(context.inquiryType, 'supportInquiry')) {
     return false
   }
+  
   if (!hasGroupAccess(context)) {
     return false
   }
@@ -672,7 +780,7 @@ export function canShare(context: PermissionContext): boolean {
     return false
   }
 
-  if (sessionStore.appPermissions.allowAllAccess) {
+  if (sessionStore.appPermissions.allAccess) {
     return true
   }
 
@@ -703,13 +811,9 @@ export function canUseResource(context: PermissionContext): boolean {
     return false
   }
 
-  if (isAccessRestrictedForAttachments(context)) {
-    return false
-  }
-
   if (
     context.inquiryType &&
-    !canInquiryTypePerformAction(context.inquiryType, 'attachFileInquiry')
+    !canInquiryTypePerformAction(context.inquiryType, 'useResourceInquiry')
   ) {
     return false
   }
@@ -725,6 +829,9 @@ export function canUseResource(context: PermissionContext): boolean {
   return true
 }
 
+/**
+ * @param context
+ */
 export function canView(context: PermissionContext): boolean {
   const appSettings = useAppSettingsStore()
 
@@ -739,11 +846,7 @@ export function canView(context: PermissionContext): boolean {
   }
 
   if (context.hasGroupRestrictions) {
-    if (
-      !hasGroupAccess(context) &&
-      context.userType !== UserType.Admin &&
-      context.userType !== UserType.Moderator
-    ) {
+    if (!hasGroupAccess(context)) {
       return false
     }
   }
@@ -755,6 +858,9 @@ export function canView(context: PermissionContext): boolean {
   return true
 }
 
+/**
+ * @param context
+ */
 export function canCreate(context: PermissionContext): boolean {
   const appSettings = useAppSettingsStore()
 
@@ -764,8 +870,210 @@ export function canCreate(context: PermissionContext): boolean {
   return true
 }
 
+/**
+ * @param context
+ */
 export function canLock(context: PermissionContext): boolean {
   return [UserType.Moderator, UserType.Admin].includes(context.userType)
+}
+
+/**
+ * INQUIRY GROUP SPECIFIC PERMISSIONS
+ */
+
+/**
+ * Check if user can view an inquiry group
+ * @param context
+ */
+export function canViewInquiryGroup(context: PermissionContext): boolean {
+  // Always allow admins and moderators
+  if (context.userType === UserType.Admin || context.userType === UserType.Moderator) {
+    return true
+  }
+  
+  // If group is public, anyone can view
+  if (context.isPublic) {
+    return true
+  }
+
+  // For private groups, check group access
+  const sessionStore = useSessionStore()
+  return context.isOwner || 
+         sessionStore.currentUser.isGroupEditor || 
+         (context.ownedGroup && hasGroupAccess(context))
+}
+
+/**
+ * Check if user can create an inquiry group
+ * @param context
+ */
+export function canCreateInquiryGroup(context: PermissionContext): boolean {
+  const groupRights = getCurrentInquiryGroupRights()
+  
+  if (context.userType === UserType.Guest) {
+    return false
+  }
+
+  if (context.userType === UserType.Admin) {
+    return true
+  }
+
+  const sessionStore = useSessionStore()
+  // Only group editors can create inquiry groups
+  if (!sessionStore.currentUser.isGroupEditor) {
+    return false
+  }
+
+  return groupRights?.createInquiry ?? false
+}
+
+/**
+ * Check if user can modify an inquiry group
+ * @param context
+ */
+export function canModifyInquiryGroup(context: PermissionContext): boolean {
+  // For inquiry groups: check if user is owner, admin, or group editor
+  if (context.contentType === ContentType.InquiryGroup) {
+    if (context.isOwner || context.userType === UserType.Admin) {
+      return true
+    }
+    
+    // Group editors can modify
+    const sessionStore = useSessionStore()
+    if (sessionStore.currentUser.isGroupEditor) {
+      return true
+    }
+    
+    // Check if user belongs to ownedGroup
+    if (context.ownedGroup && hasGroupAccess(context)) {
+      return true
+    }
+    
+    return false
+  }
+  
+  // Original logic for other content types
+  const groupRights = getCurrentInquiryGroupRights()
+  
+  if (context.isOwner || context.userType === UserType.Admin) {
+    return true
+  }
+
+  if (context.userType === UserType.Moderator) {
+    return groupRights?.modifyGroup ?? false
+  }
+
+  return false
+}
+
+/**
+ * Check if user can delete an inquiry group
+ * @param context
+ */
+export function canDeleteInquiryGroup(context: PermissionContext): boolean {
+  // For inquiry groups: only owners and admins can delete
+  if (context.contentType === ContentType.InquiryGroup) {
+    return context.isOwner || context.userType === UserType.Admin
+  }
+  
+  // Original logic for other content types
+  const groupRights = getCurrentInquiryGroupRights()
+  
+  if (context.isOwner || context.userType === UserType.Admin) {
+    return true
+  }
+
+  if (context.userType === UserType.Moderator) {
+    return groupRights?.deleteGroup ?? false
+  }
+
+  return false
+}
+
+/**
+ * Check if user can add inquiries to a group
+ * @param context
+ */
+export function canAddInquiryToGroup(context: PermissionContext): boolean {
+  
+  // Always allow owners and admins
+  if (context.isOwner || context.userType === UserType.Admin) {
+    return true
+  }
+
+  // Check group access level
+     return context.isGroupEditor
+}
+
+/**
+ * Check if user can remove inquiries from a group
+ * @param context
+ */
+export function canRemoveInquiryFromGroup(context: PermissionContext): boolean {
+  const groupRights = getCurrentInquiryGroupRights()
+  
+  // Always allow owners and admins
+  if (context.isOwner || context.userType === UserType.Admin) {
+    return true
+  }
+
+  // Group moderators/editors can remove
+  if (context.isGroupModerator || context.isGroupEditor) {
+    return true
+  }
+
+  // Moderators can remove if they have the right
+  if (context.userType === UserType.Moderator) {
+    return groupRights?.removeInquiry ?? false
+  }
+
+  // Users can only remove their own inquiries from groups
+  return context.isOwner
+}
+
+/**
+ * Check if user can manage group members
+ * @param context
+ */
+export function canManageGroupMembers(context: PermissionContext): boolean {
+  const groupRights = getCurrentInquiryGroupRights()
+  
+  // Always allow owners and admins
+  if (context.isOwner || context.userType === UserType.Admin) {
+    return true
+  }
+
+  // Group moderators/editors can manage members
+  if (context.isGroupModerator || context.isGroupEditor) {
+    return true
+  }
+
+  // Moderators can manage if they have the right
+  if (context.userType === UserType.Moderator) {
+    return groupRights?.manageMembers ?? false
+  }
+
+  return false
+}
+
+/**
+ * Check if user can manage group permissions
+ * @param context
+ */
+export function canManageGroupPermissions(context: PermissionContext): boolean {
+  const groupRights = getCurrentInquiryGroupRights()
+  
+  // Only owners and admins can manage permissions
+  if (context.isOwner || context.userType === UserType.Admin) {
+    return true
+  }
+
+  // Moderators can manage if they have the right
+  if (context.userType === UserType.Moderator) {
+    return groupRights?.managePermissions ?? false
+  }
+
+  return false
 }
 
 /**
@@ -779,13 +1087,12 @@ export function canCreateResponseType(responseType: string, context: PermissionC
   }
 
   // Check if user has required group membership for this response type
-  if (!hasRequiredGroupForResponseType(responseType)) {
+  if (!hasRequiredGroupForResponseType(responseType, context)) {
     return false
   }
 
   // For regular responses: need edit rights AND accepted moderation
-  // const canCreate = canEdit(context) && context.moderationStatus === 'accepted'
-  const canCreate = context.moderationStatus === 'accepted'
+  const canCreate = canEdit(context) && context.moderationStatus === 'accepted'
   return canCreate
 }
 
@@ -796,13 +1103,11 @@ export function canCreateResponseType(responseType: string, context: PermissionC
  */
 export function canCreateTransformationType(transformType: string, context: PermissionContext): boolean {
   // Check if user has required group membership for this transformation type
-  if (!hasRequiredGroupForTransformationType(transformType)) {
+  if (!hasRequiredGroupForTransformationType(transformType, context)) {
     return false
   }
-
   return canCreateTransformation(context)
 }
-
 
 /**
  * Check if user has required group membership for response type
@@ -810,16 +1115,14 @@ export function canCreateTransformationType(transformType: string, context: Perm
  */
 function hasRequiredGroupForResponseType(responseType: string): boolean {
   const sessionStore = useSessionStore()
-  const currentUser = sessionStore.currentUser
   
-  if (!currentUser) return false
+  if (!sessionStore.currentUser?.id) return false
   
   // Only check group membership for specific family-related response types
   const responseTypeRequirements: { [key: string]: boolean } = {
-    'legislative': currentUser.isLegislative || false,
-    'administrative': currentUser.isAdministrative || false, 
-    'collective': currentUser.isCollective || false,
-    'official': currentUser.isOfficial || false
+    'legislative': sessionStore.currentUser.isLegislative,
+    'official': sessionStore.currentUser.isOfficial,
+    'collective': sessionStore.currentUser.isGroupEditor
   }
   
   // If this response type requires specific group membership, check it
@@ -838,16 +1141,14 @@ function hasRequiredGroupForResponseType(responseType: string): boolean {
  */
 function hasRequiredGroupForTransformationType(transformType: string): boolean {
   const sessionStore = useSessionStore()
-  const currentUser = sessionStore.currentUser
   
-  if (!currentUser) return false
+  if (!sessionStore.currentUser?.id) return false
   
   // Only check group membership for specific family-related transformation types
   const transformTypeRequirements: { [key: string]: boolean } = {
-    'legislative': currentUser.isLegislative || false,
-    'administrative': currentUser.isAdministrative || false,
-    'collective': currentUser.isCollective || false, 
-    'official': currentUser.isOfficial || false
+    'legislative': sessionStore.currentUser.isLegislative,
+    'official': sessionStore.currentUser.isOfficial,
+    'collective': sessionStore.currentUser.isGroupEditor
   }
   
   // If this transformation type requires specific group membership, check it
@@ -901,25 +1202,24 @@ export function getAvailableResponseTypesWithPermissions(
   inquiryTypes: InquiryType[],
   context: PermissionContext
 ): InquiryType[] {
-  const availableTypes = inquiryTypes.filter(type => {
-    const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
-    if (!currentType?.allowed_response) return false
-    
-    let allowedResponses: string[] = []
-    if (typeof currentType.allowed_response === 'string') {
-      try {
-        allowedResponses = JSON.parse(currentType.allowed_response)
-      } catch {
-        allowedResponses = []
-      }
-    } else {
-      allowedResponses = currentType.allowed_response
+  const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
+  if (!currentType?.allowed_response) return []
+  
+  let allowedResponses: string[] = []
+  if (typeof currentType.allowed_response === 'string') {
+    try {
+      allowedResponses = JSON.parse(currentType.allowed_response)
+    } catch {
+      allowedResponses = []
     }
-    
-    return allowedResponses.includes(type.inquiry_type) && 
-           type.isOption === 0 &&
-           canCreateResponseType(type.inquiry_type, context)
-  })
+  } else {
+    allowedResponses = currentType.allowed_response
+  }
+  
+  const availableTypes = inquiryTypes.filter(type => 
+    allowedResponses.includes(type.inquiry_type) && 
+    canCreateResponseType(type.inquiry_type, context)
+  )
   
   return availableTypes
 }
@@ -935,29 +1235,96 @@ export function getAvailableTransformTypesWithPermissions(
   inquiryTypes: InquiryType[],
   context: PermissionContext
 ): InquiryType[] {
-  const availableTypes = inquiryTypes.filter(type => {
-    const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
-    if (!currentType?.allowed_transformation) return false
-    
-    let allowedTransforms: string[] = []
-    if (typeof currentType.allowed_transformation === 'string') {
-      try {
-        allowedTransforms = JSON.parse(currentType.allowed_transformation)
-      } catch {
-        allowedTransforms = []
-      }
-    } else {
-      allowedTransforms = currentType.allowed_transformation
+  const currentType = inquiryTypes.find(t => t.inquiry_type === inquiryType)
+  if (!currentType?.allowed_transformation) return []
+  
+  let allowedTransforms: string[] = []
+  if (typeof currentType.allowed_transformation === 'string') {
+    try {
+      allowedTransforms = JSON.parse(currentType.allowed_transformation)
+    } catch {
+      allowedTransforms = []
     }
-    
-    return allowedTransforms.includes(type.inquiry_type) && 
-           type.isOption === 0 &&
-           canCreateTransformationType(type.inquiry_type, context)
-  })
+  } else {
+    allowedTransforms = currentType.allowed_transformation
+  }
+  
+  const availableTypes = inquiryTypes.filter(type => 
+    allowedTransforms.includes(type.inquiry_type) && 
+    canCreateTransformationType(type.inquiry_type, context)
+  )
   
   return availableTypes
 }
 
+/**
+ * Create permission context for inquiry group (SIMPLIFIED - no groupAccessLevel)
+ * @param groupOwnerId
+ * @param isPublic
+ * @param isDeleted
+ * @param isArchived
+ * @param hasGroupRestrictions
+ * @param allowedGroups
+ * @param isGroupMember
+ * @param isGroupModerator
+ * @param isGroupEditor
+ * @param groupType
+ * @param ownedGroup
+ */
+export function createPermissionContextForInquiryGroup(
+  groupOwnerId: string,
+  isPublic: boolean = true,
+  isDeleted: boolean = false,
+  isArchived: boolean = false,
+  hasGroupRestrictions: boolean = false,
+  allowedGroups: string[] = [],
+  isGroupMember?: boolean,
+  isGroupModerator?: boolean,
+  isGroupEditor?: boolean,
+  groupType?: string,
+  ownedGroup?: string
+): PermissionContext {
+  const userType = getCurrentUserType()
+  const userGroups = getCurrentUserGroups()
+  const isOwner = isContentOwner(groupOwnerId)
+
+  return {
+    userType,
+    contentType: ContentType.InquiryGroup,
+    isOwner,
+    isPublic,
+    isLocked: false, // Groups don't have locked state
+    isExpired: false, // Groups don't have expired state
+    isDeleted,
+    isArchived,
+    hasGroupRestrictions,
+    userGroups,
+    allowedGroups,
+    isGroupMember: isGroupMember || false,
+    isGroupModerator: isGroupModerator || false,
+    isGroupEditor: isGroupEditor || false,
+    groupType,
+    ownedGroup,
+  }
+}
+
+/**
+ * Create permission context for content
+ * @param contentType
+ * @param contentOwnerId
+ * @param isPublic
+ * @param isLocked
+ * @param isExpired
+ * @param isDeleted
+ * @param isArchived
+ * @param hasGroupRestrictions
+ * @param allowedGroups
+ * @param inquiryType
+ * @param inquiryFamily
+ * @param accessLevel
+ * @param isFinalStatus
+ * @param moderationStatus
+ */
 export function createPermissionContextForContent(
   contentType: ContentType,
   contentOwnerId: string,
@@ -1009,6 +1376,7 @@ export default {
   DefaultModeratorRights,
   DefaultInquiryRights,
   DefaultOfficialRights,
+  DefaultInquiryGroupRights,
 
   // Permission functions
   canView,
@@ -1039,14 +1407,28 @@ export default {
   canCreateTransformationType,
   shouldShowResponseActions,
   shouldShowTransformationActions,
+  getAvailableResponseTypesWithPermissions,
+  getAvailableTransformTypesWithPermissions,
+
+  // Inquiry Group specific permissions
+  canViewInquiryGroup,
+  canCreateInquiryGroup,
+  canModifyInquiryGroup,
+  canDeleteInquiryGroup,
+  canAddInquiryToGroup,
+  canRemoveInquiryFromGroup,
+  canManageGroupMembers,
+  canManageGroupPermissions,
 
   // Context functions
   createPermissionContextForContent,
+  createPermissionContextForInquiryGroup,
 
   // Helper functions
   getCurrentUserType,
   getCurrentUserGroups,
   getCurrentModeratorRights,
   getCurrentOfficialRights,
+  getCurrentInquiryGroupRights,
   canInquiryTypePerformAction,
 }

@@ -15,6 +15,7 @@ export type Attachment = {
   mimetype: string
   size: number
   inquiryId: number
+  groupId: number
 }
 
 export type AttachmentsState = {
@@ -36,6 +37,18 @@ export const useAttachmentsStore = defineStore('attachments', {
 	      {
 		      try {
 			      const response = await AttachmentsAPI.uploadAttachment(inquiryId, file,coverId)
+			      return response.data.attachment
+		      } catch (error) {
+			      if ((error as AxiosError)?.code === 'ERR_CANCELED') return
+				      Logger.error('Error uploading attachment', { error })
+			      throw error
+		      }
+	      },
+
+	      async uploadGroup(groupId: number, file: File, coverId: boolean): Promise<Attachment | void>
+	      {
+		      try {
+			      const response = await AttachmentsAPI.uploadGroupAttachment(groupId, file,coverId)
 			      return response.data.attachment
 		      } catch (error) {
 			      if ((error as AxiosError)?.code === 'ERR_CANCELED') return

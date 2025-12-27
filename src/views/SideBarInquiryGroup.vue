@@ -12,53 +12,109 @@ import NcAppSidebar from '@nextcloud/vue/components/NcAppSidebar'
 import NcAppSidebarTab from '@nextcloud/vue/components/NcAppSidebarTab'
 import { Event } from '../Types/index.ts'
 
-import SidebarShareIcon from 'vue-material-design-icons/ShareVariant.vue'
+import { InquiryGeneralIcons } from '../utils/icons.ts'
+// import {
+//  canComment,
+//  canUseResource,
+//  canShare,
+//  createPermissionContextForContent,
+//  ContentType,
+// } from '../utils/permissions.ts'
+import {
+  SideBarTabConfigurationInquiryGroup,
+  SideBarTabInquiryGroupShare,
+  SideBarTabGroupMisc,
+} from '../components/SideBar/index.js'
+// import { useInquiryGroupStore } from '../stores/inquiryGroup.ts'
 
-import { SideBarTabInquiryGroupShare } from '../components/SideBar/index.js'
-import SidebarConfigurationIcon from 'vue-material-design-icons/Wrench.vue'
-import SideBarTabConfigurationInquiryGroup from '../components/SideBar/SideBarTabConfigurationInquiryGroup.vue'
+// const inquiryGroupStore = useInquiryGroupStore()
+
+// Context for permissions
+/* const context = computed(() => {
+  const ctx = createPermissionContextForContent(
+    ContentType.InquiryGroup,
+    inquiryGroupStore.owner.id,
+    inquiryGroupStore.configuration.access === 'public',
+    inquiryGroupStore.status.isLocked,
+    inquiryGroupStore.status.isExpired,
+    inquiryGroupStore.status.deletionDate > 0,
+    inquiryGroupStore.status.isArchived,
+    inquiryGroupStore.inquiryGroups,
+    inquiryGroupStore.type,
+    inquiryGroupStore.family, 
+    inquiryGroupStore.configuration.access as AccessLevel,
+    inquiryGroupStore.status.isFinalStatus,
+    inquiryGroupStore.status.moderationStatus 
+  )
+  return ctx
+}) 
+*/
 
 const showSidebar = ref(window.innerWidth > 920)
-const activeTab = ref(t('agora', 'Shares').toLowerCase())
+const activeTab = ref(t('agora', 'Comments').toLowerCase())
+
 
 onMounted(() => {
   subscribe(Event.SidebarToggle, (payload) => {
     showSidebar.value = payload?.open ?? !showSidebar.value
+    activeTab.value = payload?.activeTab ?? activeTab.value
+  })
+  subscribe(Event.SidebarChangeTab, (payload) => {
+    activeTab.value = payload?.activeTab ?? activeTab.value
   })
 })
 
 onUnmounted(() => {
   unsubscribe(Event.SidebarToggle, () => {
-    activeTab.value = 'sharing'
+    activeTab.value = 'comments'
+  })
+  unsubscribe(Event.SidebarChangeTab, () => {
+    showSidebar.value = false
   })
 })
 
-/**
- *
- */
 function closeSideBar() {
   emit(Event.SidebarToggle, { open: false })
 }
 </script>
 
 <template>
-  <NcAppSidebar
-    v-show="showSidebar"
-    v-model="activeTab"
-    :name="t('agora', 'Details')"
-    @close="closeSideBar()"
-  >
-    <NcAppSidebarTab id="configuration" :order="1" :name="t('agora', 'Configuration')">
-      <template #icon>
-        <SidebarConfigurationIcon />
-      </template>
-      <SideBarTabConfigurationInquiryGroup />
-    </NcAppSidebarTab>
-    <NcAppSidebarTab id="sharing" :order="2" :name="t('agora', 'Sharing')">
-      <template #icon>
-        <SidebarShareIcon />
-      </template>
-      <SideBarTabInquiryGroupShare />
-    </NcAppSidebarTab>
-  </NcAppSidebar>
+    <aside>
+        <NcAppSidebar
+                v-show="showSidebar"
+                v-model="activeTab"
+                :name="t('agora', 'Details')"
+                @close="closeSideBar()"
+                >
+                <NcAppSidebarTab id="configuration" :order="1" :name="t('agora', 'Configuration')"> 
+                <template #icon> 
+                    <component :is="InquiryGeneralIcons.Wrench" />
+                </template> 
+                <SideBarTabConfigurationInquiryGroup /> 
+                </NcAppSidebarTab>
+
+                <NcAppSidebarTab
+                        id="misc"
+                        :order="2"
+                        :name="t('agora', 'Settings')"
+                        >
+                        <template #icon>
+                            <component :is="InquiryGeneralIcons.Map" />
+                        </template>
+                 <SideBarTabGroupMisc /> 
+                </NcAppSidebarTab>
+
+                <NcAppSidebarTab
+                        id="sharing"
+                        :order="3"
+                        :name="t('agora', 'Sharing')"
+                        >
+                        <template #icon>
+                            <component :is="InquiryGeneralIcons.Share" />
+                        </template>
+                <SideBarTabInquiryGroupShare />
+                </NcAppSidebarTab>
+
+        </NcAppSidebar>
+    </aside>
 </template>

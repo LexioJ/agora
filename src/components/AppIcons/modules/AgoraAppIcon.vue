@@ -7,8 +7,6 @@
 	import { IconProps } from './types'
 
 const {
-	title = t('agora', 'Agora'),
-	fillColor = 'currentColor',
 	size = 32,
 } = defineProps<IconProps>()
 </script>

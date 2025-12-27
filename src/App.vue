@@ -16,7 +16,7 @@ import { useInquiryWatcher } from './composables/useInquiryWatcher'
 
 import { useSessionStore } from './stores/session.ts'
 import { useInquiryStore } from './stores/inquiry.ts'
-import { useInquiryGroupsStore } from './stores/inquiryGroups.ts'
+import { useInquiryGroupStore } from './stores/inquiryGroup.ts'
 import { showSuccess } from '@nextcloud/dialogs'
 import { Event } from './Types/index.ts'
 
@@ -30,7 +30,7 @@ useInquiryWatcher()
 
 const sessionStore = useSessionStore()
 const inquiryStore = useInquiryStore()
-const inquiryGroupsStore = useInquiryGroupsStore()
+const inquiryGroupStore = useInquiryGroupStore()
 
 const transitionClass = ref('transitions-active')
 
@@ -44,11 +44,8 @@ const appClass = computed(() => [
 const useNavigation = computed(() => sessionStore.userStatus.isLoggedin)
 const useSidebar = computed(
   () =>
-    inquiryStore.permissions.edit ||
-    inquiryStore.permissions.comment ||
-    sessionStore.route.name === 'combo' ||
-    (sessionStore.route.name === 'group' &&
-      inquiryGroupsStore.currentInquiryGroup?.owner.id === sessionStore.currentUser.id)
+    inquiryStore.permissions.edit || (sessionStore.route.name === 'group' &&
+      (inquiryGroupStore.owner === sessionStore.currentUser.id))
 )
 
 /**

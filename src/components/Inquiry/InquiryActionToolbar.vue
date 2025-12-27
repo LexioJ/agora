@@ -156,6 +156,7 @@ const enrichedResponseTypes = computed(() => {
 
 const enrichedTransformTypes = computed(() => {
   const inquiryTypes = props.sessionStore.appSettings.inquiryTypeTab || []
+
   return availableTransformTypes.value.map(transformType => {
     const typeData = getInquiryTypeData(transformType.inquiry_type, inquiryTypes)
     return {
@@ -185,7 +186,6 @@ const getStatusColor = (status: string) => {
   }
 }
 
-
 const canEditInquiry = computed(() => !props.isReadonlyDescription)
 
 // Check if save button should be shown
@@ -213,20 +213,20 @@ const handleAllowedTransformation = (transformType: string) => {
 			<!-- Save and Response buttons -->
 			<div class="primary-actions">
 				<NcButton
-						v-if="showSaveButton"
-						:disabled="isSaving"
-						type="primary"
-						class="save-button"
-						@click.prevent="handleSave"
-						>
-						<template #icon>
-							<component :is="InquiryGeneralIcons.Save" :size="20" />
-						</template>
-				{{ t('agora', 'Save') }}
-				<span v-if="isSaving" class="loading-icon"></span>
+					v-if="showSaveButton"
+					:disabled="isSaving"
+					type="primary"
+					class="save-button"
+					@click.prevent="handleSave"
+				>
+					<template #icon>
+						<component :is="InquiryGeneralIcons.Save" :size="16" />
+					</template>
+					{{ t('agora', 'Save') }}
+					<span v-if="isSaving" class="loading-icon"></span>
 				</NcButton>
 
-				<!-- Allowed Response types menu -->
+                <!-- Allowed Response types menu -->
 				<NcActions
 						v-if="showActionsMenu && enrichedResponseTypes.length > 0"
 						menu-name="Allowed Response"
@@ -252,8 +252,8 @@ const handleAllowedTransformation = (transformType: string) => {
 				</NcActionButton>
 				</NcActions>
 
-				<!-- Allowed Transformation Type -->
-				<NcActions
+                <!-- Allowed Transformation Type -->
+                <NcActions
 						v-if="showTransformActionsMenu && enrichedTransformTypes.length > 0"
 						menu-name="Allowed Transformation"
 						class="transform-actions"
@@ -277,184 +277,521 @@ const handleAllowedTransformation = (transformType: string) => {
 						{{ transformType.label }}
 				</NcActionButton>
 				</NcActions>
-			</div>
-		</div>
 
-		<!-- Right: Access switch and item actions -->
-		<div class="right-actions">
-			<div v-if="inquiryStore.configuration.access === 'private' && inquiryStore.status.moderationStatus !== 'rejected'" class="access-control">
-				<label class="control-label">{{ t('agora', 'Submit to moderation') }}</label>
-				<NcCheckboxRadioSwitch
-						v-model="inquiryAccess"
-						type="switch"
-						/>
+            </div>
+        </div>
 
-			</div>
-			<div v-if="sessionStore.currentUser.isModerator">
-				<div v-if="inquiryStore.configuration.access === 'moderate' && inquiryStore.status.moderationStatus === 'pending'" class="access-control">
-					<label class="control-label">{{ t('agora', 'Moderate') }}</label>
-					<NcSelect
-							v-model="selectedStatus"
-							:options="statusOptions"
-							:clearable="false"
-							:multiple="false"
-							class="status-select"
-							@update:model-value="(selected) => setModerationStatus(selected.value)"
-							/>
-				</div>
-			</div>
-			<div class="access-control">
-				<label class="status-label" :style="getStatusColor(inquiryStore.status.moderationStatus)">
-					{{ getStatusLabel(inquiryStore.status.moderationStatus) }}
-				</label>
-			</div>
-			<div
-					v-if="canViewToggle(context)"
-					class="item-actions"
-					>
-					<InquiryItemActions :key="`actions-${inquiryStore.id}`" :inquiry="inquiryStore" />
-			</div>
-		</div>
-	</div>
+        <!-- Right: Access switch and item actions -->
+        <div class="right-actions">
+            <div class="moderation-controls">
+                <div v-if="inquiryStore.configuration.access === 'private' && inquiryStore.status.moderationStatus !== 'rejected'" class="access-control">
+                    <label class="control-label">{{ t('agora', 'Submit to moderation') }}</label>
+                    <NcCheckboxRadioSwitch
+                            v-model="inquiryAccess"
+                            type="switch"
+                            class="moderation-switch"
+                            />
+                </div>
+
+                <div v-if="sessionStore.currentUser.isModerator">
+                    <div v-if="inquiryStore.configuration.access === 'moderate' && inquiryStore.status.moderationStatus === 'pending'" class="access-control">
+                        <label class="control-label">{{ t('agora', 'Moderate') }}</label>
+                        <NcSelect
+                                v-model="selectedStatus"
+                                :options="statusOptions"
+                                :clearable="false"
+                                :multiple="false"
+                                class="status-select"
+                                @update:model-value="(selected) => setModerationStatus(selected.value)"
+                                />
+                    </div>
+                </div>
+            </div>
+
+            <div class="status-section">
+                <div class="status-badge" :style="getStatusColor(inquiryStore.status.moderationStatus)">
+                    {{ getStatusLabel(inquiryStore.status.moderationStatus) }}
+                </div>
+            </div>
+
+            <div
+                    v-if="canViewToggle(context)"
+                    class="item-actions"
+                    >
+                    <InquiryItemActions :key="`actions-${inquiryStore.id}`" :inquiry="inquiryStore" />
+            </div>
+        </div>
+    </div>
 </template>
-
 <style scoped lang="scss">
 .inquiry-action-toolbar {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 1rem;
-	width: 100%;
-	margin-bottom: 1rem;
-	padding: 1rem 1.5rem;
-	background: var(--color-background-dark);
-	border-radius: var(--border-radius-large);
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--color-background-dark), var(--color-background-darker));
+    border: 2px solid var(--color-border);
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    height: 56px;
 }
 
 .left-actions {
-	display: flex;
-	gap: 1rem;
-	align-items: center;
-	flex: 1;
-	justify-content: flex-start;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
 }
 
 .right-actions {
-	display: flex;
-	gap: 1rem;
-	align-items: center;
-	justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: flex-end;
 }
 
-							  .access-control {
-								  display: flex;
-								  align-items: center;
-								  gap: 0.75rem;
+.primary-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-								  .control-label {
-									  font-weight: 600;
-									  color: var(--color-text-lighter);
-									  white-space: nowrap;
-									  margin: 0;
-									  font-size: 0.875rem;
-								  }
-							  }
-							  .status-label {
-								  font-weight: bold;
-								  padding: 4px 8px;
-								  border-radius: 4px;
-								  background: var(--color-background-darker);
-							  }
-							  .status-select {
-								  width: 160px !important;
-								  min-width: 120px !important;
+.save-button,
+:deep(.response-actions button),
+:deep(.transform-actions button) {
+    padding: 10px 18px;
+    height: 40px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    min-width: 120px;
 
-								  :deep(.nc-select__input) {
-									  font-size: 0.8rem !important;
-									  padding: 4px 8px !important;
-								  }
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+}
 
-								  :deep(.nc-select__toggle) {
-									  min-height: 32px !important;
-								  }
-							  }
+.save-button {
+    background: linear-gradient(135deg, var(--color-primary-element), var(--color-primary-element-hover));
+    border: 2px solid var(--color-primary-element);
+    color: white;
 
-							  .primary-actions {
-								  display: flex;
-								  gap: 0.5rem;
-								  align-items: center;
-							  }
+    &:hover {
+        background: linear-gradient(135deg, var(--color-primary-element-hover), var(--color-primary-element));
+        border-color: var(--color-primary-element-hover);
+    }
 
-							  .save-button {
-								  background-color: var(--color-primary);
-								  color: white;
-								  border: none;
-								  padding: 8px 16px;
-								  border-radius: 20px;
-								  font-weight: 500;
-								  min-width: 100px;
-								  white-space: nowrap;
-							  }
+    &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+}
 
-							  .response-actions,
-							  .transform-actions {
-								  margin: 0 0.25rem;
-							  }
+/* Fix NcActions button styling */
+:deep(.response-actions),
+:deep(.transform-actions) {
+    .action-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        button {
+            padding: 10px 18px;
+            height: 40px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            background: var(--color-main-background);
+            border: 2px solid var(--color-border);
+            color: var(--color-main-text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-width: 140px;
+            
+            &:hover {
+                border-color: var(--color-primary-element);
+                background: var(--color-primary-light);
+            }
+            
+            .action-button__icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-right: 6px;
+            }
+        }
+    }
+    
+    /* Dropdown menu styling */
+    .menu {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 2px solid var(--color-border);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        margin-top: 8px;
+        
+        .action-button {
+            padding: 10px 16px;
+            border-radius: 8px;
+            margin: 4px;
+            font-size: 14px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            
+            &:hover {
+                background: var(--color-primary-light);
+            }
+            
+            .action-button__icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+}
 
-							  .loading-icon {
-								  display: inline-block;
-								  width: 16px;
-								  height: 16px;
-								  border: 2px solid transparent;
-								  border-top: 2px solid currentColor;
-								  border-radius: 50%;
-								  animation: spin 1s linear infinite;
-								  margin-right: 8px;
-							  }
+.moderation-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
 
-							  @keyframes spin {
-								  from {
-									  transform: rotate(0deg);
-								  }
-								  to {
-									  transform: rotate(360deg);
-								  }
-							  }
+.access-control {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: var(--color-main-background);
+    border: 2px solid var(--color-border);
+    border-radius: 12px;
+    transition: all 0.2s ease;
+    
+    &:hover {
+        border-color: var(--color-primary-light);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
 
-							  /* Mobile responsive */
-							  @media (max-width: 768px) {
-								  .inquiry-action-toolbar {
-									  flex-direction: column;
-									  gap: 1rem;
-									  padding: 1rem;
-								  }
+    .control-label {
+        font-weight: 600;
+        color: var(--color-text-lighter);
+        white-space: nowrap;
+        margin: 0;
+        font-size: 13px;
+    }
+}
 
-								  .left-actions {
-									  flex-direction: column;
-									  width: 100%;
-								  }
+.moderation-switch {
+    :deep(.checkbox-radio-switch) {
+        .checkbox-radio-switch__switch {
+            width: 40px;
+            height: 22px;
+            border-radius: 11px;
 
-								  .primary-actions {
-									  flex-wrap: wrap;
-									  justify-content: center;
-									  width: 100%;
-								  }
+            &::after {
+                width: 18px;
+                height: 18px;
+                border-radius: 9px;
+            }
+        }
+    }
+}
 
-								  .right-actions {
-									  width: 100%;
-									  justify-content: center;
-									  flex-wrap: wrap;
-								  }
+.status-section {
+    .status-badge {
+        font-weight: 700;
+        padding: 8px 16px;
+        border-radius: 12px;
+        font-size: 13px;
+        white-space: nowrap;
+        text-transform: uppercase;
+        letter-spacing: 0.3px;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        min-width: 100px;
+        text-align: center;
+        transition: all 0.2s ease;
+        
+        /* Force darker text colors with better contrast */
+        &[style*="color: var(--color-success)"] {
+            color: #0a5228 !important; /* Even darker green for better contrast */
+            background: linear-gradient(135deg, #e6f4ea, #d4eedd);
+            border: 2px solid #2ecc71;
+            font-weight: 800;
+        }
+        
+        &[style*="color: var(--color-error)"] {
+            color: #a83232 !important; /* Darker red */
+            background: linear-gradient(135deg, #fdeaea, #fbd5d5);
+            border: 2px solid #e74c3c;
+            font-weight: 800;
+        }
+        
+        &[style*="color: var(--color-warning)"] {
+            color: #7a5900 !important; /* Darker orange/brown */
+            background: linear-gradient(135deg, #fff8e6, #ffefcc);
+            border: 2px solid #f39c12;
+            font-weight: 800;
+        }
+        
+        /* Fallback for any other status */
+        &:not([style*="color: var(--color-"]) {
+            color: var(--color-main-text) !important;
+            background: linear-gradient(135deg, var(--color-background-darker), var(--color-background-dark));
+            border: 2px solid var(--color-border);
+        }
+    }
+}
 
-								  .access-control {
-									  justify-content: center;
-									  width: 100%;
-								  }
+.status-select {
+    width: 140px;
+    
+    :deep(.v-select) {
+        .vs__dropdown-toggle {
+            border: 2px solid var(--color-border);
+            border-radius: 10px;
+            padding: 6px 12px;
+            background: var(--color-main-background);
+            min-height: 36px;
+            font-size: 13px;
+            
+            &:hover {
+                border-color: var(--color-primary-element);
+            }
+        }
+        
+        .vs__selected {
+            font-weight: 600;
+            color: var(--color-main-text);
+            font-size: 13px;
+        }
+        
+        .vs__actions {
+            padding: 0;
+        }
+        
+        .vs__dropdown-menu {
+            border: 2px solid var(--color-border);
+            border-radius: 10px;
+            margin-top: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            
+            .vs__dropdown-option {
+                padding: 8px 12px;
+                font-size: 13px;
+                
+                &--highlight {
+                    background: var(--color-primary-light);
+                    color: var(--color-primary-element);
+                }
+            }
+        }
+    }
+}
 
-								  .status-select {
-									  width: 100px !important;
-									  min-width: 100px !important;
-								  }
-							  }
+.item-actions {
+    :deep(.nc-actions) {
+        button {
+            padding: 10px 18px;
+            height: 40px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            background: var(--color-background-dark);
+            border: 2px solid var(--color-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            white-space: nowrap;
+            min-width: 120px;
+            
+            &:hover {
+                background: var(--color-primary-light);
+                border-color: var(--color-primary-element);
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            }
+        }
+    }
+}
+
+.loading-icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-left: 8px;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 1024px) {
+    .inquiry-action-toolbar {
+        flex-wrap: wrap;
+        height: auto;
+        padding: 16px;
+        gap: 12px;
+        min-height: auto;
+    }
+    
+    .left-actions,
+    .right-actions {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .primary-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+    
+    .moderation-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 12px;
+    }
+    
+    .status-section {
+        .status-badge {
+            min-width: 80px;
+            padding: 6px 12px;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .inquiry-action-toolbar {
+        padding: 12px;
+    }
+    
+    .save-button,
+    :deep(.response-actions button),
+    :deep(.transform-actions button),
+    .item-actions :deep(.nc-actions button) {
+        font-size: 13px;
+        padding: 8px 14px;
+        height: 36px;
+        min-width: 100px;
+    }
+    
+    :deep(.response-actions),
+    :deep(.transform-actions) {
+        .action-item button {
+            min-width: 120px;
+        }
+    }
+    
+    .access-control {
+        padding: 6px 10px;
+        gap: 8px;
+        
+        .control-label {
+            font-size: 12px;
+        }
+    }
+    
+    .status-select {
+        width: 120px;
+        
+        :deep(.v-select .vs__dropdown-toggle) {
+            padding: 4px 10px;
+            min-height: 34px;
+            font-size: 12px;
+        }
+    }
+    
+    .moderation-switch :deep(.checkbox-radio-switch .checkbox-radio-switch__switch) {
+        width: 36px;
+        height: 20px;
+        
+        &::after {
+            width: 16px;
+            height: 16px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .inquiry-action-toolbar {
+        padding: 10px;
+    }
+    
+    .primary-actions {
+        flex-direction: column;
+        width: 100%;
+        
+        .save-button,
+        :deep(.response-actions),
+        :deep(.transform-actions) {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+    
+    .right-actions {
+        flex-direction: column;
+        width: 100%;
+        gap: 12px;
+    }
+    
+    .moderation-controls {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .access-control {
+        flex: 1;
+        justify-content: space-between;
+    }
+    
+    .status-section {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        
+        .status-badge {
+            width: 100%;
+            max-width: 200px;
+        }
+    }
+    
+    .item-actions {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        
+        :deep(.nc-actions button) {
+            width: 100%;
+            max-width: 200px;
+        }
+    }
+}
 </style>

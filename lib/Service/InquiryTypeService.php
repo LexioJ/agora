@@ -65,7 +65,6 @@ class InquiryTypeService
         string $family = 'deliberative',
         string $icon = '',
         string $label = '',
-        bool $isOption = false,
         ?string $description = null,
         ?string $fields = null,
         ?string $allowedResponse = null,
@@ -79,7 +78,6 @@ class InquiryTypeService
         $type->setFamily($family);
         $type->setIcon($icon);
         $type->setLabel($label);
-        $type->setIsOption($isOption);
         $type->setDescription($description);
         $type->setFields($fields);
         $type->setAllowedResponse($allowedResponse);
@@ -95,7 +93,6 @@ class InquiryTypeService
         string $family = 'deliberative',
         string $icon = '',
         string $label = '',
-        bool $isOption = false,
         ?string $description = null,
         ?string $fields = null,
         ?string $allowedResponse = null,
@@ -106,7 +103,6 @@ class InquiryTypeService
         $type->setFamily($family);
         $type->setIcon($icon);
         $type->setLabel($label);
-        $type->setIsOption($isOption);
         $type->setDescription($description);
         $type->setFields($fields);
         $type->setAllowedResponse($allowedResponse);

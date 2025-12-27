@@ -433,7 +433,9 @@ class UserBase implements JsonSerializable
         }
         return $this->getSimpleUserArray();
     }
-
+    public function isAdmin() {
+         return $this->getIsAdmin();
+    }
     /**
      * Full user array for inquiry owners, delegated inquiry admins and the current user himself
      * without obfuscating/anonymizing
@@ -454,8 +456,7 @@ class UserBase implements JsonSerializable
             'isOfficial' => $this->getIsOfficial(),
             'isModerator' => $this->getIsModerator(),
             'isLegislative' => $this->getIsLegislative(),
-            'isAdministrative' => $this->getIsAdministrative(),
-            'isCollective' => $this->getIsCollective(),
+            'isGroupEditor' => $this->getIsGroupEditor(),
             'isGuest' => $this->getIsGuest(),
             'isUnrestrictedOwner' => $this->getIsUnrestrictedInquiryOwner(),
             'languageCode' => $this->getLanguageCode(),
@@ -496,8 +497,7 @@ class UserBase implements JsonSerializable
             'isOfficial' => false,
             'isModerator' => false,
             'isLegislative' => false,
-            'isAdministrative' => false,
-            'isCollective' => false,
+            'isGroupeEditor' => false,
             'isGuest' => $this->getIsGuest(),
             'isUnrestrictedOwner' => false,
             'languageCode' => '',

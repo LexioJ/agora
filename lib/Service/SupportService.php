@@ -60,14 +60,23 @@ class SupportService
         return $this->supportMapper->findSupport($inquiryId, $userId);
     }
 
-    public function addSupport(int $inquiryId, string $userId): Support
+    public function addSupport(int $inquiryId, string $userId, int $value): Support
     {
         // Check if support already exists
         $existing = $this->supportMapper->findSupport($inquiryId, $userId);
         if ($existing !== null) {
             return $existing;
         }
-        return $this->supportMapper->addSupport($inquiryId, $userId);
+        return $this->supportMapper->addSupport($inquiryId, $userId, $value);
+    }
+    
+    public function updateSupport(int $inquiryId, string $userId, int $value): Support
+    {
+        // Check if support already exists
+        $existing = $this->supportMapper->findSupport($inquiryId, $userId);
+        $existing->setValue($value);
+        return $this->supportMapper->update($existing);
+
     }
 
     public function removeSupport(int $inquiryId, string $userId): bool

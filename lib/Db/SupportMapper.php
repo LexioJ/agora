@@ -84,11 +84,12 @@ class SupportMapper extends QBMapperWithUser
         }
     }
 
-    public function addSupport(int $inquiryId, string $userId): Support
+    public function addSupport(int $inquiryId, string $userId,int $value): Support
     {
         $support = new Support();
         $support->setInquiryId($inquiryId);
         $support->setUserId($userId);
+        $support->setValue($value);
         $support->setCreated(time());
     
         $supportHash = hash('sha256', $inquiryId . '_' . $userId);

@@ -12,12 +12,16 @@ import { AxiosError } from 'axios'
 
 import Navigation from './views/Navigation.vue'
 import NavigationMenu from './views/NavigationMenu.vue'
+import NavigationGroup from './views/NavigationGroup.vue'
 
 import Forbidden from './views/Forbidden.vue'
 import List from './views/InquiryList.vue'
 import Menu from './views/InquiryMenu.vue'
 import NotFound from './views/NotFound.vue'
 import InquiryView from './views/InquiryView.vue'
+import GroupView from './views/InquiryGroupView.vue'
+import GroupList from './views/InquiryGroupList.vue'
+import Group from './views/InquiryGroup.vue'
 
 import SideBar from './views/SideBar.vue'
 import SideBarInquiryGroup from './views/SideBarInquiryGroup.vue'
@@ -28,7 +32,6 @@ import { useSessionStore } from './stores/session.ts'
 async function validateToken(to: RouteLocationNormalized, from: RouteLocationNormalized) {
   const sessionStore = useSessionStore()
   
-  // Vérifier si c'est la même route pour éviter le rechargement
   if (to.name === from.name && sessionStore.isLoaded) {
     return true
   }
@@ -89,6 +92,19 @@ async function validateToken(to: RouteLocationNormalized, from: RouteLocationNor
 
 const routes: RouteRecordRaw[] = [
   {
+    name: 'group-archived',
+    path: '/groups/archived',
+    components: {
+      default: GroupList,
+      navigation: NavigationGroup,
+    },
+    props: true,
+    meta: {
+      listPage: true,
+    },
+  },
+
+  {
     name: 'list',
     path: '/list/:type?',
     components: {
@@ -112,19 +128,20 @@ const routes: RouteRecordRaw[] = [
 	    listPage: true,
     },
   },
-  {
-	  name: 'group',
-	  path: '/group/:slug',
-	  components: {
-		  default: List,
-		  navigation: Navigation,
-		  sidebar: SideBarInquiryGroup,
-	  },
-	  props: true,
-	  meta: {
-		  groupPage: true,
-		  listPage: true,
-	  },
+   {
+    name: 'group-list',
+    path: '/groups/:slug?',
+    components: {
+      default: Group,  
+      navigation: NavigationGroup,
+    },
+     props: {
+       default: true,
+       navigation: true,
+    },
+    meta: {
+      groupPage: true,
+    },
   },
   {
 	  name: 'notfound',
@@ -146,6 +163,20 @@ const routes: RouteRecordRaw[] = [
 	  },
 	  meta: {
 		  errorPage: true,
+	  },
+  },
+  {
+	  name: 'group',
+	  path: '/group/:id',
+	  components: {
+		  default: GroupView,
+		  navigation: NavigationGroup,
+		  sidebar: SideBarInquiryGroup,
+	  },
+	  props: true,
+	  meta: {
+		  groupPage: true,
+		  listPage: true,
 	  },
   },
   {
@@ -193,6 +224,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
 	const sessionStore = useSessionStore()
 	let forceReload = false
 
+
 	// if the previous and the requested routes have the same name and
 	// the watcher is active, we can do a cheap loading
 	const cheapLoading =
@@ -203,7 +235,7 @@ router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormali
 	if (to.name === 'login') {
 		forceReload = true
 	}
-
+     
 	// first load app context -> session and preferences
 	try {
 		await loadContext(to, cheapLoading, forceReload)

@@ -38,9 +38,8 @@ export type UserStatus = {
   isAdmin: boolean
   isOfficial: boolean
   isModerator: boolean
-  isAdministrative: boolean
   isLegislative: boolean
-  isCollective: boolean
+  isGroupEditor: boolean
 }
 
 export type Watcher = {
@@ -97,11 +96,6 @@ export const useSessionStore = defineStore('session', {
     userStatus: {
       isLoggedin: !!getCurrentUser(),
       isAdmin: !!getCurrentUser()?.isAdmin,
-      isOfficial: !!getCurrentUser()?.isOfficial,
-      isModerator: !!getCurrentUser()?.isModerator,
-      isLegislative: !!getCurrentUser()?.isLegislative,
-      isCollective: !!getCurrentUser()?.isCollective,
-      isAdministrative: !!getCurrentUser()?.isAdministrative,
     },
     watcher: {
       id: '',
@@ -201,6 +195,7 @@ export const useSessionStore = defineStore('session', {
 	 appSettingsStore.$patch({
       		inquiryStatusTab: this.appSettings.inquiryStatusTab,
       		inquiryTypeTab: this.appSettings.inquiryTypeTab,
+      		inquiryGroupTypeTab: this.appSettings.inquiryGroupTypeTab,
       		inquiryFamilyTab: this.appSettings.inquiryFamilyTab,
       		categoryTab: this.appSettings.categoryTab,
       		locationTab: this.appSettings.locationTab,

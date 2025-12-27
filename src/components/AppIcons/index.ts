@@ -5,3 +5,4 @@
 export { default as AgoraAppIcon } from './modules/AgoraAppIcon.vue'
 export { default as Spinner } from './modules/Spinner.vue'
 export { default as ThumbIcon } from './modules/ThumbIcon.vue'
+export { default as TernarySupportIcon } from './modules/TernarySupportIcon.vue'

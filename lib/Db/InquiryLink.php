@@ -14,6 +14,8 @@ use JsonSerializable;
  * @psalm-suppress UnusedProperty
  * @method         int getId()
  * @method         void setId(int $value)
+ * @method         string getMetadata()
+ * @method         void setMetadata(string $value)
  * @method         int getInquiryId()
  * @method         void setInquiryId(int $value)
  * @method         string getTargetApp()
@@ -37,6 +39,7 @@ class InquiryLink extends EntityWithUser implements JsonSerializable
     protected string $targetApp = '';
     protected string $targetType = '';
     protected string $targetId = '';
+    protected string $metadata = '';
     protected int $sortOrder = 0;
     protected int $createdBy = 0;
 
@@ -44,8 +47,13 @@ class InquiryLink extends EntityWithUser implements JsonSerializable
     {
         $this->addType('id', 'integer');
         $this->addType('inquiryId', 'integer');
+        $this->addType('targetApp', 'string');
+        $this->addType('targetType', 'string');
+        $this->addType('targetId', 'string');
+        $this->addType('metadata', 'string');
         $this->addType('sortOrder', 'integer');
         $this->addType('createdBy', 'integer');
+
     }
 
     /**
@@ -61,6 +69,7 @@ class InquiryLink extends EntityWithUser implements JsonSerializable
             'target_app' => $this->getTargetApp(),
             'target_type' => $this->getTargetType(),
             'target_id' => $this->getTargetId(),
+            'metadata' => $this->getMetadata(),
             'sort_order' => $this->getSortOrder(),
             'created_by' => $this->getCreatedBy(),
         ];

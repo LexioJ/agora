@@ -11,6 +11,7 @@ import { User } from '../Types/index.ts'
 import { AxiosError } from '@nextcloud/axios'
 import { SentResults } from '../Api/modules/shares.ts'
 import { useInquiryGroupsStore } from './inquiryGroups.ts'
+import { useInquiryGroupStore } from './inquiryGroup.ts'
 
 export type ShareType =
   | 'email'
@@ -96,14 +97,14 @@ export const useSharesStore = defineStore('shares', {
       let inquiryOrInquiryGroupId: number = 0
 
       if (purpose === 'inquiryGroup') {
-        const inquiryGroupsStore = useInquiryGroupsStore()
+        const inquiryGroupStore = useInquiryGroupStore()
         Logger.info('Loading group shares')
         // For group shares, we need to use the current inquiry group ID
 
-        if (!inquiryGroupsStore.currentInquiryGroup) {
+        if (!inquiryGroupStore.id === 0) {
           throw new Error('Current group is not set')
         }
-        inquiryOrInquiryGroupId = inquiryGroupsStore.currentInquiryGroup.id
+        inquiryOrInquiryGroupId = inquiryGroupStore.id
       } else {
         Logger.info('Loading inquiry shares')
         // For regular inquiry shares, we use the current inquiry ID
@@ -128,11 +129,11 @@ export const useSharesStore = defineStore('shares', {
         const inquiryGroupsStore = useInquiryGroupsStore()
         // For group shares, we need to use the current inquiry group ID
 
-        if (!inquiryGroupsStore.currentInquiryGroup) {
+        if (!inquiryGroupsStore.id === 0) {
           throw new Error('Current group is not set')
         }
 
-        inquiryOrInquiryGroupId = inquiryGroupsStore.currentInquiryGroup.id
+        inquiryOrInquiryGroupId = inquiryGroupsStore.id
       } else {
         // For regular inquiry shares, we use the current inquiry ID
         const sessionStore = useSessionStore()

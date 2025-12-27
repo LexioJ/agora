@@ -5,7 +5,6 @@
 
 export { Activity, Activities } from '../stores/activity.ts'
 export { UpdateType, Group, AppSettings } from '../stores/appSettings.ts'
-export { Combo } from '../stores/combo.ts'
 export { Comment, Comments, CommentsGrouped } from '../stores/comments.ts'
 export { Support, Supports, SupportsGrouped } from '../stores/supports.ts'
 
@@ -88,7 +87,6 @@ export interface InquiryType {
   family: string
   icon: string
   label: string
-  is_option: boolean
   description?: string
   fields: string[]
   allowed_response: string[]
@@ -146,7 +144,6 @@ export type AppPermissions = {
   addSharesExternal: boolean
   allAccess: boolean
   changeForeignInquiries: boolean
-  comboView: boolean
   deanonymizeInquiry: boolean
   inquiryCreation: boolean
   inquiryDownload: boolean
@@ -163,8 +160,7 @@ export type User = {
   isOfficial: boolean
   isModerator: boolean
   isLegislative: boolean
-  isAdministrative: boolean
-  isCollective: boolean
+  isGroupEditor: boolean
   isNoUser: boolean
   location: string | null
   type: UserType

@@ -5,6 +5,12 @@
 
 # Changelog
 All notable changes to this project will be documented in this file.
+# [1.6.0] - 2025-12-22
+- Fix: Update and forms in link form.
+- Features: Add ternary support choice
+- Collective group management
+
+
 # [1.5.5] - 2025-11-15
 - Fix: Administration type management popup fixed.
 - Fix: Misc settings type users not handled properly

@@ -20,6 +20,8 @@ use JsonSerializable;
  * @method         void setName(string $value)
  * @method         string getMimeType()
  * @method         void setMimeType(string $value)
+ * @method         int getGroupId()
+ * @method         void setGroupId(int $value)
  * @method         int getInquiryId()
  * @method         void setInquiryId(int $value)
  * @method         int getFileId()
@@ -38,6 +40,7 @@ class Attachment extends Entity implements JsonSerializable
     protected ?string $name = null;
     protected ?string $mimeType = null;
     protected int $inquiryId = 0;
+    protected ?int $groupId = null;
     protected ?int $fileId = 0;
     protected int $size = 0;
     protected int $created = 0;
@@ -49,6 +52,7 @@ class Attachment extends Entity implements JsonSerializable
         $this->addType('name', 'string');
         $this->addType('mimeType', 'string');
         $this->addType('inquiryId', 'integer');
+        $this->addType('groupId', 'integer');
         $this->addType('fileId', 'integer');
         $this->addType('size', 'integer');
         $this->addType('created', 'integer');
@@ -66,6 +70,7 @@ class Attachment extends Entity implements JsonSerializable
             'name' => $this->getName(),
             'mimeType' => $this->getMimeType(),
             'inquiryId' => $this->getInquiryId(),
+            'groupId' => $this->getGroupId(),
             'fileId' => $this->getFileId(),
             'size' => $this->getSize(),
             'created' => $this->getCreated(),
