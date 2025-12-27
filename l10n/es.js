@@ -155,7 +155,7 @@ OC.L10N.register(
     "Never show results" : "No mostrar nunca los resultados",
     "Select groups" : "Seleccionar grupos",
     "Title" : "Título",
-    "Enter title" : "Ingrese título",
+    "Enter title" : "Introduzca título",
     "URL" : "URL",
     "Bold" : "Negrita",
     "Italic" : "Cursiva",
