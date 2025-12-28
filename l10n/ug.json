@@ -235,7 +235,6 @@
     "Events happening inside of a <strong>inquiry</strong>" : "<strong>سوئال</strong> ئىچىدە يۈز بېرىۋاتقان ۋەقەلەر",
     "Someone supported in a <strong>inquiry</strong>" : "بىرەيلەن <strong>سوراق</strong> جەريانىدا قوللىدى",
     "Participatory democracy platform for proposals, debates, petitions, and surveys." : "تەكلىپ، مۇنازىرىلەر، ئىلتىماسلار ۋە تەكشۈرۈشلەر ئۈچۈن قاتنىشىش دېموكراتىيە سۇپىسى.",
-    "**Agora** is a **Nextcloud app for participatory democracy**, inspired by [Decidim](https://decidim.org) and built on [Nextcloud Polls](https://github.com/nextcloud/polls).\n\t\tIt enables communities and organizations to collaborate on **proposals, debates, petitions, and projects** in a transparent and structured way.\n\n\t\t### ✨ Key Features\n\t\t- 💬 Comments and discussions\n\t\t- 👍 Supports (likes/upvotes)\n\t\t- 🧩 Custom inquiry families and types\n\t\t- 🧾 Multiple inquiry formats (proposals, debates, petitions, projects…)\n\t\t- 📂 Categorization and filtering by family or location\n\t\t- 🧱 Scalable architecture and modern UX\n\t\t- 🔒 Secure and private — all data stays on your Nextcloud server\n\t\t- 🔗 Integration with Forms, Polls, Deck, and more\n\n\t\t### 🧭 Coming Next\n\t\t- 🗣 Structured debates and multi-thread replies\n\t\t- 🏛 Collectives and referendums" : "**Agora** بولسا، [Decidim](https://decidim.org) دىن ئىلھام ئالغان ۋە [Nextcloud Polls](https://github.com/nextcloud/polls) ئاساسىدا قۇرۇلغان، ئىشتىراكچى دېموكراتىيە ئۈچۈن لايىھەلەنگەن **Nextcloud ئەپ دېتالى.\n\nئۇ جەمئىيەتلەر ۋە تەشكىلاتلارنىڭ **تەكلىپ، مۇنازىرىلىشىش، ئىلتىماس ۋە تۈرلەر** ئۈستىدە ئوچۇق ۋە قۇرۇلمىلىق ئۇسۇلدا ھەمكارلىشىشىغا شارائىت ھازىرلايدۇ.\n\n### ✨ ئاساسلىق ئالاھىدىلىكلەر\n- 💬 پىكىر ۋە مۇنازىرە\n- 👍 قوللاش (ياقتۇرۇش/قوللاش)\n- 🧩 خاسلاشتۇرۇلغان سوئال ئائىلىسى ۋە تۈرلىرى\n- 🧾 كۆپ خىل سوئال شەكلى (تەكلىپ، مۇنازىرىلەر، ئىلتىماسلار، تۈرلەر…)\n- 📂 ئائىلە ياكى ئورۇن بويىچە تۈرگە ئايرىش ۋە سۈزۈش\n- 🧱 كېڭەيتكىلى بولىدىغان ئارخىتېكتۇرا ۋە زامانىۋى UX\n- 🔒 بىخەتەر ۋە مەخپىي — بارلىق سانلىق مەلۇماتلار Nextcloud مۇلازىمېتىرىڭىزدا ساقلىنىدۇ\n- 🔗 فورمىلار، راي سىناشلار، ئۈستەل ۋە باشقىلار بىلەن بىر گەۋدىلىشىش\n\n### 🧭 كېيىنكىسى\n- 🗣 قۇرۇلمىلىق مۇنازىرىلەر ۋە كۆپ تېمىلىق جاۋابلار\n- 🏛 كوللېكتىپلار ۋە رېفېراندۇملار",
     "Add inquiry" : "سوئال قوشۇش",
     "{inquiryTitle} has been successfully created" : "{inquiryTitle} مۇۋەپپەقىيەتلىك قۇرۇلدى",
     "Inquiry created" : "سوئالنامە قۇرۇلدى",
@@ -257,7 +256,6 @@
     "Reveal them" : "ئۇلارنى ئاشكارىلىغىن",
     "Toggle sidebar" : "يان كۆزنەكنى ئالماشتۇرۇڭ",
     "Loading" : "يۈكلەۋاتىدۇ",
-    "Support status" : "قوللاش ھالىتى",
     "Click" : "چىكىڭ",
     "Previous day" : "ئالدىنقى كۈن",
     "Next day" : "ئەتىسى",
@@ -296,7 +294,6 @@
     "Only visible to me" : "پەقەتلا ئۈزەمگە كۆرۈنىدۇ",
     "Only visible to {displayName}" : "پەقەتلا {displayName} غا كۆرۈنىدۇ",
     "Error while saving comment" : "باھا ساقلىغاندا خاتالىق",
-    "New comment " : "يېڭى ئىنكاس",
     "Confidential with {displayName}" : "{displayName} بىلەن مەخپىي",
     "Confidential" : "مەخپىي",
     "Error while deleting the comment" : "باھانى ئۆچۈرگەندە خاتالىق",
@@ -316,6 +313,7 @@
     "For inquiries created less than 2 days before the expiration." : "مۇددىتى توشۇشتىن 2 كۈن بۇرۇن قۇرۇلغان سوئاللار ئۈچۈن.",
     "If a share already got a reminder (no matter, if the expiration date got changed)." : "ئەگەر بىر ئۈلۈش ئاللىبۇرۇن ئەسكەرتىشكە ئېرىشكەن بولسا (ھېچقىسى يوق ، مۇددىتى توشقان بولسا).",
     "If the inquiry is already closed" : "ئەگەر تەكشۈرۈش ئاللىقاچان ئاخىرلاشقان بولسا",
+    "Allow Comments" : "باھاغا يول قويۇڭ",
     "Once enabled, the anonymous setting cannot be reverted anymore." : "ئەگەر قوزغىتىلسا، نامسىز تەڭشەكلەرنى كەينىگە قايتۇرغىلى بولمايدۇ.",
     "Anonymize inquiry irrevocably" : "سوئالنى قايتۇرۇۋالغىلى بولمايدىغان ھالدا نامسىزلاشتۇرۇڭ",
     "Cancel" : "Cancel",
@@ -416,8 +414,7 @@
     "Submit to moderation" : "باشقۇرۇشقا تاپشۇرۇش",
     "Moderate" : "ئوتتۇراھال",
     "Inquiry status of this inquiry has been updated" : "بۇ تەكشۈرۈشنىڭ تەكشۈرۈش ئەھۋالى يېڭىلاندى",
-    "Thank you for your support!" : "قوللىغانلىقىڭىزغا رەھمەت!",
-    "Support removed!" : "قوللاش ئېلىۋېتىلدى!",
+    "Inquiry support removed!" : "سوئال سوراش مۇلازىمىتى ئۆچۈرۈلدى!",
     "Please select an image file" : "رەسىم ھۆججىتىنى تاللاڭ",
     "Image size should be less than 5MB" : "رەسىم چوڭلۇقى 5MB دىن كىچىك بولۇشى كېرەك",
     "{file} uploaded" : "{file} يۈكلەندى",
@@ -428,15 +425,15 @@
     "Change cover image" : "مۇقاۋا رەسىمىنى ئۆزگەرتىش",
     "Add cover image" : "مۇقاۋا رەسىمىنى قوشۇش",
     "Click to add a cover image" : "مۇقاۋا رەسىمىنى قوشۇش ئۈچۈن چېكىڭ",
-    "Type" : "Type",
+    "Comments" : "باھا",
+    "Supports" : "قوللايدۇ",
     "Location" : "ئورنى",
     "Inherited from parent" : "ئاتا-ئانىسىدىن مىراس قالغان",
-    "Created" : "قۇرۇلدى",
     "Category" : "سەھىپە",
+    "Created" : "قۇرۇلدى",
     "Last interaction" : "ئاخىرقى ھەركەت",
     "Status" : "ھالەت",
     "Expires" : "ۋاقتى توشىدۇ",
-    "Description" : "چۈشەندۈرۈش",
     "All types" : "بارلىق تىپلار",
     "All categories" : "بارلىق تۈرلەر",
     "All locations" : "بارلىق ئورۇنلار",
@@ -450,8 +447,7 @@
     "Filters" : "سۈزگۈچ",
     "Main inquiries" : "ئاساسلىق سوئاللار",
     "Clear all" : "ھەممىنى تازىلاش",
-    "Comments" : "باھا",
-    "Supports" : "قوللايدۇ",
+    "Type" : "Type",
     "Active filters" : "ئاكتىپ سۈزگۈچ",
     "Search" : "ئىزدەش",
     "Archived" : "ئارخىپلاشتۇرۇلغان",
@@ -459,8 +455,6 @@
     "A private inquiry from {name}" : "{name} دىن كەلگەن شەخسىي سوئال",
     "An openly accessible inquiry from {name}" : "{name} دىن ئاشكارا ئېرىشىشكە بولىدىغان سوئال",
     "Inquiry status" : "سوئال سوراش ھالىتى",
-    "Inquiry supported, thanks for her!" : "سوئالىم قوللاپ-قۇۋۋەتلەندى، ئۇنىڭغا رەھمەت!",
-    "Inquiry support removed!" : "سوئال سوراش مۇلازىمىتى ئۆچۈرۈلدى!",
     "Archived {relativeTime}" : "{relativeTime} دا ئارخىپلاندى",
     "Started {relativeTime} from {ownerName}" : "{ownerName} دىن {relativeTime} نى باشلىدى",
     "No description provided" : "ھېچقانداق چۈشەندۈرۈش بېرىلمىدى",
@@ -470,14 +464,9 @@
     "{count} participants" : "{count} قاتناشقۇچىلار",
     "Last interaction on {date}" : "ئەڭ ئاخىرقى ئالاقىلىشىش ۋاقتى: {date}",
     "Created on {date}" : "{date} } قۇرۇلدى",
-    "The inquiry group was deleted by removing the last member" : "سوئال سوراش گۇرۇپپىسى ئەڭ ئاخىرقى ئەزانى چىقىرىۋېتىش ئارقىلىق ئۆچۈرۈلدى.",
-    "Error removing inquiry from group" : "سوئالنى گۇرۇپپىدىن چىقىرىۋېتىشتە خاتالىق كۆرۈلدى",
-    "Error creating new inquiry group" : "يېڭى سوئال گۇرۇپپىسى قۇرۇشتا خاتالىق كۆرۈلدى",
     "Error archivingrestoring inquiry" : "سوئالنى ئارخىپلاشتا خاتالىق كۆرۈلمەكتە",
     "Back" : "قايتىش",
     "Transfer inquiry ownership" : "ئىگىدارلىق ھوقۇقىنى يۆتكەش سوئالى",
-    "Create new group" : "يېڭى گۇرۇپپا قۇر",
-    "New group name" : "يېڭى گۇرۇپپا ئىسمى",
     "Sort by title" : "ماۋزۇ بويىچە تەرتىپلەش",
     "Sort by type" : "تۈرى بويىچە تەرتىپلەش",
     "Sort by comments" : "ئىنكاسلار بويىچە تەرتىپلەش",
@@ -494,15 +483,17 @@
     "Child Inquiries" : "بالىلارنىڭ سوئاللىرى",
     "Grid" : "تور",
     "List" : "تىزىملىك",
-    "Enter a description" : "چۈشەندۈرۈش قوشۇڭ",
-    "Choose a description for the overview page" : "قىسقىچە تونۇشتۇرۇش بېتى ئۈچۈن چۈشەندۈرۈش تاللاڭ",
-    "Choose a brief title for the navigation bar and the slug" : "زىيارەت بالدىقى ھەمدە قىستۇرما ئۈچۈن بىر قىسقا ماۋزۇ تاللا",
-    "Enter extended title" : "ئۇزۇن ماۋزۇ كىرگۈز",
-    "Optionally choose a more meaningful title for the overview page" : "ئىختىيارىي ھالدا قىسقىچە تونۇشتۇرۇش بېتى ئۈچۈن ئەھمىيەتلىك بىر ماۋزۇ تاللاڭ",
-    "Note: Based on the name change, the URL has also changed" : "ئەسكەرتىش: ئىسىم ئۆزگىرىش ئاساسىدا، URL مۇ ئۆزگەردى",
-    "Error updating inquiry group" : "سوئال گۇرۇپپىسىنى يېڭىلاشتا خاتالىق كۆرۈلدى",
-    "Name" : "ئاتى",
-    "Extended title" : "ئۇزۇن ماۋزۇ",
+    "Not defined" : "ئېنىق ئەمەس",
+    "Just now" : "ھازىر",
+    "Expiring soon" : "مۇددىتى تېزلا توشىدۇ",
+    "Yesterday" : "تۈنۈگۈن",
+    "Supported" : "قوللايدۇ",
+    "Description" : "چۈشەندۈرۈش",
+    "Resources" : "بايلىق",
+    "Unknown" : "نامەلۇم",
+    "Remove" : "ئۆچۈرۈڭ",
+    "{hours}h" : "{hours} س",
+    "None" : "يوق",
     "Files" : "ھۆججەتلەر",
     "Upload and share files" : "ھۆججەتلەرنى يۈكلەش ۋە ئورتاقلىشىش",
     "Forms" : "جەدۋەل",
@@ -625,9 +616,6 @@
     "Locations Tree" : "ئورۇنلار دەرىخى",
     "Edit" : "تەھرىر",
     "Select parent" : "ئاتا-ئانا تاللاڭ",
-    "Enable the usage of the combo view globally" : "دۇنيا مىقياسىدا بىرىكمە كۆرۈنۈشنىڭ ئىشلىتىلىشىنى قوزغىتىڭ",
-    "Enable only for the following groups" : "پەقەت تۆۋەندىكى گۇرۇپپىلارنىلا قوزغىتىڭ",
-    "Leave empty to disable globally" : "دۇنيا مىقياسىدا چەكلەش ئۈچۈن بوش قويۇڭ",
     "Enable the automatic deletion of archived inquiries" : "ئارخىپلانغان سوئاللارنى ئاپتوماتىك ئۆچۈرۈشنى قوزغىتىش",
     "Days after which archived inquiries should be finally deleted" : "ئارخىپلانغان سوئاللار ئاخىرى ئۆچۈرۈلۈشى كېرەك بولغان كۈنلەر",
     "Add terms links also to the email footer" : "ئېلېكترونلۇق خەتنىڭ ئاستىغا ئاتالغۇ ئۇلانمىلىرىنى قوشۇڭ",
@@ -657,6 +645,8 @@
     "WYSIWYG" : "WYSIWYG",
     "Inquiry Download Settings" : "سوئال چۈشۈرۈش تەڭشەكلىرى",
     "Enable the spreadsheet download of inquiries globally" : "سوئاللارنىڭ جەدۋەل چۈشۈرۈشىنى دۇنيا مىقياسىدا قوزغىتىش",
+    "Enable only for the following groups" : "پەقەت تۆۋەندىكى گۇرۇپپىلارنىلا قوزغىتىڭ",
+    "Leave empty to disable globally" : "دۇنيا مىقياسىدا چەكلەش ئۈچۈن بوش قويۇڭ",
     "Inquiry Type Settings" : "سوئال تىپى تەڭشەكلىرى",
     "Configure settings for each type of inquiry" : "ھەر بىر سوئال تىپى ئۈچۈن تەڭشەكلەرنى تەڭشەڭ",
     "Inquiry Type" : "سوئال تىپى",
@@ -720,11 +710,8 @@
     "Allow users to support this inquiry type" : "ئىشلەتكۈچىلەرنىڭ بۇ خىل سوئال سوراش تۈرىنى قوللىشىغا يول قويۇش",
     "Allow comments" : "باھاغا يول قويۇڭ",
     "Allow users to comment on this inquiry type" : "ئىشلەتكۈچىلەرنىڭ بۇ سوئال تىپىغا پىكىر بېرىشىگە يول قويۇڭ",
-    "Allow file attachments" : "ھۆججەت قوشۇمچە ھۆججەتلىرىگە رۇخسەت قىلىش",
-    "Allow users to attach files to this inquiry type" : "ئىشلەتكۈچىلەرنىڭ بۇ سوئال تىپىغا ھۆججەت قوشۇشىغا يول قويۇش",
     "Editor type" : "تەھرىرلىگۈچ تىپى",
     "Select the editor type for this inquiry" : "بۇ سوئال ئۈچۈن تەھرىرلىگۈچ تىپىنى تاللاڭ",
-    "Please select an inquiry type to configure its rights" : "ئۇنىڭ ھوقۇقىنى تەڭشەش ئۈچۈن سوئال تىپىنى تاللاڭ",
     "Are you sure you want to delete this status?" : "بۇ ھالەتنى ئۆچۈرمەكچىمۇ؟",
     "Status for {type}" : "{type} نىڭ ھالىتى",
     "Manage statuses for this inquiry type Statuses define the workflow stages" : "بۇ سوئال تىپىنىڭ ھالىتىنى باشقۇرۇش ھالىتى ئىش ئېقىمى باسقۇچلىرىنى بەلگىلەيدۇ",
@@ -751,15 +738,12 @@
     "Types for {family}" : "{family} ئۈچۈن تۈرلەر",
     "Configured Types" : "تەڭشەلگەن تىپلار",
     "Click on a type to configure its rights and status settings" : "بىر تىپنىڭ ھوقۇقىنى ۋە ھالىتىنى تەڭشەش ئۈچۈن ئۇنى چېكىڭ",
-    "Option" : "تاللاش",
     "Configure" : "سەپلەڭ",
     "No types configured for this family yet" : "بۇ ئائىلىگە ھازىرغىچە ھېچقانداق تىپ تەڭشەلمىگەن",
     "Add New Type to {family}" : "{family} غا يېڭى تىپ قوشۇش",
     "Type Key" : "تىپ كۇنۇپكىسى",
     "e.g., petition, survey, poll" : "مەسىلەن، ئىلتىماسنامە، تەكشۈرۈش، راي سىناش",
     "e.g., Public Petition, Survey" : "مەسىلەن، ئاممىۋى ئەرز، تەكشۈرۈش",
-    "Is Option Type" : "تاللاش تىپى",
-    "Option types are used as responses or transformations for other types" : "تاللاش تىپلىرى باشقا تىپلارغا جاۋاب ياكى ئۆزگەرتىش سۈپىتىدە ئىشلىتىلىدۇ.",
     "Fields Configuration (JSON)" : "مەيدانلارنى تەڭشەش (JSON)",
     "Allowed Responses (JSON)" : "رۇخسەت قىلىنغان جاۋابلار (JSON)",
     "Allowed Transformations (JSON)" : "رۇخسەت قىلىنغان ئۆزگەرتىشلەر (JSON)",
@@ -828,7 +812,8 @@
     "Resolve and send all invitations" : "بارلىق تەكلىپلەرنى ھەل قىلىڭ ۋە ئەۋەتىڭ",
     "No activity yet" : "تېخى پائالىيەت يوق",
     "No comments" : "ھېچقانداق باھا يوق",
-    "Be the first" : "بىرىنچى بولۇڭ",
+    "Be the first." : "بىرىنچى بولۇڭ.",
+    "Configuration" : "سەپلىمىسى",
     "Saving..." : "ساقلاۋاتىدۇ…",
     "optional" : "ئىختىيارى",
     "Poll" : "راي سىناش",
@@ -883,13 +868,13 @@
     "Edit Email Address" : "ئېلېكترونلۇق خەت ئادرېسىنى تەھرىرلەڭ",
     "Email address {emailAddress} saved" : "ئېلخەت ئادرېسى {emailAddress} ساقلاندى",
     "Error saving email address {emailAddress}" : "ئېلېكترونلۇق خەت ئادرېسىنى ساقلاشتا خاتالىق {emailAddress}",
+    "Deleted participant" : "ئۆچۈرۈلگەن قاتناشقۇچى",
     "Inquiry group access" : "سوئال سوراش گۇرۇپپىسىغا كىرىش",
     "(deleted)" : "(ئۆچۈرۈلدى)",
     "(locked)" : "(قۇلۇپلانغان)",
     "The participant got removed from this inquiry" : "قاتناشقۇچى بۇ سوئالدىن چىقىرىۋېتىلدى",
     "Administrative rights granted" : "باشقۇرۇش ھوقۇقلىرى بېرىلدى",
     "Anonymized participant" : "نامسىز قاتناشقۇچى",
-    "Deleted participant" : "ئۆچۈرۈلگەن قاتناشقۇچى",
     "Token: {token}" : "Token: {token}",
     "Public link: {token}" : "ئاممىۋى ئۇلىنىش: {token}",
     "Public link" : "ئاممىۋى ئۇلىنىش",
@@ -937,15 +922,13 @@
     "Change moderation settings" : "باشقۇرۇش تەڭشەكلىرىنى ئۆزگەرتىش",
     "Job control" : "خىزمەت كونترول قىلىش",
     "Manually start backgropund jobs independent from the cron schedule" : "cron جەدۋىلىدىن مۇستەقىل ھالدا backgropund خىزمەتلىرىنى قولدا باشلاش",
-    "Combined inquiries" : "بىرلەشتۈرۈلگەن سوئاللار",
-    "Combine multiple date inquiries in a single view" : "بىر كۆرۈنۈشتە كۆپ ۋاقىت سوئاللىرىنى بىرلەشتۈرۈڭ",
-    "No inquiries selected" : "ھېچقانداق سوئال تاللانمىدى",
-    "Select inquiries by clicking on them in the right sidebar!" : "ئوڭ تەرەپتىكى يان بالداقتىكى سوئاللارنى چېكىپ تاللاڭ!",
     "No inquiries found for this category" : "بۇ تۈرگە ئائىت ھېچقانداق سوئال تېپىلمىدى",
     "Relevant inquiries" : "مۇناسىۋەتلىك سوئاللار",
     "Error setting dashboard list" : "باشقۇرۇش تاختىسى تىزىملىكىنى تەڭشەشتە خاتالىق كۆرۈلدى",
     "403 - You are not allowed to access this inquiry" : "403 - بۇ سوئالغا كىرىشىڭىزگە رۇخسەت قىلىنمايدۇ",
     "Contact the owner if you think that this is wrong" : "ئەگەر بۇنىڭ خاتا ئىكەنلىكىنى ئويلىسىڭىز، ئىگىسى بىلەن ئالاقىلىشىڭ",
+    "Loading..." : "يۈكلەۋاتىدۇ…",
+    "Archive" : "ئارخىپ",
     "_{loadedInquiries} of {countInquiries} inquiry loaded._::_{loadedInquiries} of {countInquiries} inquiries loaded._" : ["{countInquiries} دىن {loadedInquiries} تەكشۈرۈش يۈكلەندى.","{countInquiries} دىن {loadedInquiries} تەكشۈرۈش يۈكلەندى."],
     "Loading overview" : "ئومۇمىي ئەھۋال يۈكلەنمەكتە",
     "Fetching inquiries" : "سوئاللارنى ئېلىش",
@@ -955,7 +938,6 @@
     "Please be patient" : "سەۋر قىلىڭ",
     "Add one or change category!" : "بىرنى قوشۇڭ ياكى ئۆزگەرتىڭ!",
     "Error loading more inquiries" : "باشقا سوئاللارنى يۈكلەشتە خاتالىق كۆرۈلدى",
-    "Create" : "قۇر",
     "Click here to load more" : "تېخىمۇ كۆپ يۈكلەش ئۈچۈن بۇ يەرنى چېكىڭ",
     "Inquiry Types" : "سوئال سوراش تۈرلىرى",
     "No inquiry types found for this family" : "بۇ ئائىلىگە ئائىت ھېچقانداق تەكشۈرۈش تىپى تېپىلمىدى",
@@ -977,23 +959,20 @@
     "Failed to archive or restore the inquiry" : "سوئالنى ئارخىپلاش ياكى ئەسلىگە كەلتۈرۈش مەغلۇپ بولدى",
     "No inquiries found" : "ھېچقانداق سوئال تېپىلمىدى",
     "View all" : "ھەممىنى كۆرۈش",
+    "Quick Actions" : "تېز ھەرىكەتلەر",
+    "Create" : "قۇر",
+    "Settings" : "تەڭشەكلەر",
     "Recent Inquiries" : "يېقىنقى سوئاللار",
     "No recent inquiries" : "يېقىنقى سوئاللار يوق",
     "No inquiry types" : "سوئال سوراش تۈرلىرى يوق",
     "No families configured" : "ئائىلە قۇرۇلمىدى",
-    "Quick Actions" : "تېز ھەرىكەتلەر",
-    "All Inquiries" : "بارلىق سوئاللار",
-    "Settings" : "تەڭشەكلەر",
     "404 - inquiry not found" : "404 - سوئال تېپىلمىدى",
     "Enter a inquiry or start a new one" : "سوئال سوراش كىرگۈزۈڭ ياكى يېڭى سوئال باشلاڭ",
     "participated" : "قاتناشتى",
     "closed" : "تاقالدى",
     "By" : "تەرىپىدىن",
     "Details" : "تەپسىلاتى",
-    "Resources" : "بايلىق",
     "Sharing" : "ھەمبەھىر",
-    "Select inquiries to combine" : "بىرلەشتۈرۈش ئۈچۈن سوئاللارنى تاللاڭ",
-    "Configuration" : "سەپلىمىسى",
     "Set your personal preferences for the agora app" : "ئاگورا ئەپ ئۈچۈن شەخسىي تەڭشەكلىرىڭىزنى تەڭشەڭ",
     "Experimental styles" : "تەجرىبە ئۇسلۇبى",
     "Some visual styling options" : "بەزى كۆرۈنۈشلۈك ئۇسلۇب تاللاشلىرى",
@@ -1003,7 +982,6 @@
     "Week" : "ھەپتە",
     "Month" : "ئاي",
     "Year" : "يىل",
-    "Not defined" : "ئېنىق ئەمەس",
     "Not found" : "تېپىلمىدى",
     "No name" : "ئىسمى يوق",
     "Access" : "زىيارەت",
@@ -1025,7 +1003,6 @@
     "All inquiries open and public, where you have access to" : "بارلىق سوئاللار ئوچۇق ۋە ئاشكارا، سىز بۇ يەردە زىيارەت قىلالايسىز",
     "Closed inquiries" : "تاقالغان سوئاللار",
     "All inquiries that are closed have completed their process." : "تاقالغان بارلىق سوئاللار ئۆز جەريانىنى تاماملىدى.",
-    "Archive" : "ئارخىپ",
     "My archived inquiries" : "مېنىڭ ئارخىپلانغان سوئاللىرىم",
     "Your archived inquiries are only accessible to you." : "ئارخىپلانغان سوئاللىرىڭىز پەقەت سىز ئۈچۈنلا ئېچىۋېتىلىدۇ.",
     "Administration" : "Administration",
