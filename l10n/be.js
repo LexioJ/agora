@@ -126,6 +126,7 @@ OC.L10N.register(
     "Switch to list view" : "Пераключыцца ў выгляд спісу",
     "Add links to legal terms, if they exist and add an optional disclaimer to emails." : "Дадайце спасылкі на юрыдычныя тэрміны, калі яны ёсць, і дадайце ў электронныя лісты неабавязковую адмову ад адказнасці.",
     "Home" : "Дадому",
+    "Loading..." : "Загрузка…",
     "Archive" : "Архіў",
     "Restore" : "Аднавіць",
     "Create" : "Ствараць",
