@@ -1,0 +1,237 @@
+{
+  "template_info": {
+    "name": "default_citizen_participation",
+    "version": "1.0.0",
+    "description": "Default template for citizen participation based on Agora's original structure",
+    "author": "Agora Team",
+    "use_case": "citizen_participation",
+    "supports_i18n": true
+  },
+  "inquiry_families": [
+    {
+      "family_type": "deliberative",
+      "label_key": "template.family.deliberative.label",
+      "description_key": "template.family.deliberative.description",
+      "icon": "AccountGroup",
+      "sort_order": 1
+    },
+    {
+      "family_type": "legislative",
+      "label_key": "template.family.legislative.label",
+      "description_key": "template.family.legislative.description",
+      "icon": "Gavel",
+      "sort_order": 2
+    },
+    {
+      "family_type": "administrative",
+      "label_key": "template.family.administrative.label",
+      "description_key": "template.family.administrative.description",
+      "icon": "OfficeBuilding",
+      "sort_order": 3
+    },
+    {
+      "family_type": "service",
+      "label_key": "template.family.service.label",
+      "description_key": "template.family.service.description",
+      "icon": "Offer",
+      "sort_order": 4
+    },
+    {
+      "family_type": "collective",
+      "label_key": "template.family.collective.label",
+      "description_key": "template.family.collective.description",
+      "icon": "AccountMultiple",
+      "sort_order": 5
+    },
+    {
+      "family_type": "social",
+      "label_key": "template.family.social.label",
+      "description_key": "template.family.social.description",
+      "icon": "Heart",
+      "sort_order": 6
+    },
+    {
+      "family_type": "official",
+      "label_key": "template.family.official.label",
+      "description_key": "template.family.official.description",
+      "icon": "Seal",
+      "sort_order": 7
+    }
+  ],
+  "inquiry_types": [
+    {
+      "inquiry_type": "proposal",
+      "family": "deliberative",
+      "icon": "LightbulbOn",
+      "label_key": "template.inquiry_type.proposal.label",
+      "description_key": "template.inquiry_type.proposal.description",
+      "is_root": true,
+      "allowed_response": ["suggestion", "objection", "official"]
+    },
+    {
+      "inquiry_type": "debate",
+      "family": "deliberative",
+      "icon": "Forum",
+      "label_key": "template.inquiry_type.debate.label",
+      "description_key": "template.inquiry_type.debate.description",
+      "is_root": true,
+      "allowed_response": ["suggestion", "official"]
+    },
+    {
+      "inquiry_type": "petition",
+      "family": "deliberative",
+      "icon": "DrawPen",
+      "label_key": "template.inquiry_type.petition.label",
+      "description_key": "template.inquiry_type.petition.description",
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "law_proposal",
+      "family": "legislative",
+      "icon": "BookOpenVariant",
+      "label_key": "template.inquiry_type.law_proposal.label",
+      "description_key": "template.inquiry_type.law_proposal.description",
+      "is_root": true,
+      "allowed_response": ["amendment", "objection", "official"]
+    }
+  ],
+  "inquiry_statuses": [
+    {
+      "inquiry_type": "proposal",
+      "status_key": "draft",
+      "label_key": "template.status.draft.label",
+      "description_key": "template.status.draft.description",
+      "is_final": false,
+      "icon": "FileDocumentEdit",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "proposal",
+      "status_key": "published",
+      "label_key": "template.status.published.label",
+      "description_key": "template.status.published.description",
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "proposal",
+      "status_key": "under_review",
+      "label_key": "template.status.under_review.label",
+      "description_key": "template.status.under_review.description",
+      "is_final": false,
+      "icon": "ClipboardText",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "proposal",
+      "status_key": "accepted",
+      "label_key": "template.status.accepted.label",
+      "description_key": "template.status.accepted.description",
+      "is_final": true,
+      "icon": "CheckCircle",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "proposal",
+      "status_key": "rejected",
+      "label_key": "template.status.rejected.label",
+      "description_key": "template.status.rejected.description",
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 5
+    }
+  ],
+  "option_types": [
+    {
+      "family": "debate",
+      "option_type": "debate_for",
+      "icon": "ThumbUp",
+      "label_key": "template.option_type.debate_for.label",
+      "description_key": "template.option_type.debate_for.description",
+      "allowed_response": ["suggestion", "proposal", "official"]
+    },
+    {
+      "family": "debate",
+      "option_type": "debate_against",
+      "icon": "ThumbDown",
+      "label_key": "template.option_type.debate_against.label",
+      "description_key": "template.option_type.debate_against.description",
+      "allowed_response": ["suggestion", "proposal", "official"]
+    }
+  ],
+  "inquiry_group_types": [
+    {
+      "group_type": "theme",
+      "label_key": "template.group_type.theme.label",
+      "description_key": "template.group_type.theme.description",
+      "icon": "Tag",
+      "sort_order": 1
+    },
+    {
+      "group_type": "project",
+      "label_key": "template.group_type.project.label",
+      "description_key": "template.group_type.project.description",
+      "icon": "FolderMultiple",
+      "sort_order": 2
+    }
+  ],
+  "categories": [
+    {
+      "category_key": "urban_planning",
+      "label_key": "template.category.urban_planning.label",
+      "description_key": "template.category.urban_planning.description",
+      "icon": "City",
+      "sort_order": 1
+    },
+    {
+      "category_key": "environment",
+      "label_key": "template.category.environment.label",
+      "description_key": "template.category.environment.description",
+      "icon": "Leaf",
+      "sort_order": 2
+    },
+    {
+      "category_key": "education",
+      "label_key": "template.category.education.label",
+      "description_key": "template.category.education.description",
+      "icon": "School",
+      "sort_order": 3
+    },
+    {
+      "category_key": "health",
+      "label_key": "template.category.health.label",
+      "description_key": "template.category.health.description",
+      "icon": "Hospital",
+      "sort_order": 4
+    },
+    {
+      "category_key": "culture",
+      "label_key": "template.category.culture.label",
+      "description_key": "template.category.culture.description",
+      "icon": "Palette",
+      "sort_order": 5
+    }
+  ],
+  "locations": [
+    {
+      "location_key": "city_center",
+      "label_key": "template.location.city_center.label",
+      "description_key": "template.location.city_center.description",
+      "sort_order": 1
+    },
+    {
+      "location_key": "district_north",
+      "label_key": "template.location.district_north.label",
+      "description_key": "template.location.district_north.description",
+      "sort_order": 2
+    },
+    {
+      "location_key": "district_south",
+      "label_key": "template.location.district_south.label",
+      "description_key": "template.location.district_south.description",
+      "sort_order": 3
+    }
+  ]
+}

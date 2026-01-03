@@ -81,6 +81,7 @@
 		<command>OCA\Agora\Command\Db\CleanMigrations</command>
 		<command>OCA\Agora\Command\Db\ResetWatch</command>
 		<command>OCA\Agora\Command\Db\InitDbDefault</command>
+		<command>OCA\Agora\Command\Db\LoadTemplate</command>
 		<command>OCA\Agora\Command\Inquiry\TransferOwnership</command>
 	</commands>
 	<settings>
