@@ -153,6 +153,7 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 				return state.templates.filter(t => {
 					const useCase = t.use_case || ''
 					return !useCase.startsWith('citizen_') &&
+						   !useCase.startsWith('default_') &&
 						   !useCase.startsWith('enterprise_') &&
 						   !useCase.startsWith('business_') &&
 						   !useCase.startsWith('education_') &&
@@ -162,7 +163,10 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 
 			// Prefix-based matching for main use cases
 			if (state.selectedUseCase === 'citizen_participation') {
-				return state.templates.filter(t => (t.use_case || '').startsWith('citizen_'))
+				return state.templates.filter(t => {
+					const useCase = t.use_case || ''
+					return useCase.startsWith('citizen_') || useCase.startsWith('default_')
+				})
 			}
 
 			if (state.selectedUseCase === 'enterprise') {

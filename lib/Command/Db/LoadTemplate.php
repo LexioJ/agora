@@ -99,6 +99,24 @@ class LoadTemplate extends Command
 		);
 	}
 
+	protected function execute(InputInterface $input, OutputInterface $output): int
+	{
+		$this->setOutput($output);
+		$this->setInput($input);
+
+		// For --list option, skip confirmation and help text
+		if ($input->getOption('list')) {
+			return $this->runCommands();
+		}
+
+		// Normal flow with confirmation
+		if ($this->requestConfirmation($input, $output)) {
+			return 1;
+		}
+
+		return $this->runCommands();
+	}
+
 	protected function runCommands(): int
 	{
 		$templatePath = $this->input->getArgument('template');
@@ -107,9 +125,9 @@ class LoadTemplate extends Command
 		$skipConfirmation = $this->input->getOption('yes');
 		$listTemplates = $this->input->getOption('list');
 
-		// If --list option is provided, show catalog and exit
+		// If --list option is provided, show catalog and exit (skip help text)
 		if ($listTemplates) {
-			$this->displayTemplateCatalog();
+			$this->displayTemplateCatalog(true);
 			return 0;
 		}
 
@@ -495,9 +513,11 @@ class LoadTemplate extends Command
 	/**
 	 * Display the template catalog
 	 */
-	private function displayTemplateCatalog(): void
+	private function displayTemplateCatalog(bool $skipHeader = false): void
 	{
-		$this->printSectionHeader('TEMPLATE CATALOG');
+		if (!$skipHeader) {
+			$this->printSectionHeader('TEMPLATE CATALOG');
+		}
 
 		$templates = $this->templateCatalog->getAllTemplates();
 
@@ -517,7 +537,7 @@ class LoadTemplate extends Command
 			$this->printInfo("│   Author:      {$template['author']}");
 			$this->printInfo("│   Use Case:    {$template['use_case']}");
 			$this->printInfo("│   File:        {$template['filename']}");
-			$this->printNewLine();
+			$this->printInfo("│");
 
 			// Description
 			if (!empty($template['description'])) {
@@ -527,14 +547,14 @@ class LoadTemplate extends Command
 				foreach ($lines as $line) {
 					$this->printComment("│     " . $line);
 				}
-				$this->printNewLine();
+				$this->printInfo("│");
 			}
 
 			// Languages
 			if (!empty($template['available_languages'])) {
 				$languages = implode(', ', $template['available_languages']);
 				$this->printInfo("│   🌐 Languages: {$languages}");
-				$this->printNewLine();
+				$this->printInfo("│");
 			}
 
 			// Content summary
