@@ -4,16 +4,24 @@
 -->
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { t } from '@nextcloud/l10n'
-import { NcLoadingIcon, NcEmptyContent } from '@nextcloud/vue'
-import { useTemplateWizardStore, type Template } from '../../../stores/templateWizard'
+import { NcLoadingIcon, NcEmptyContent, NcButton, NcNoteCard } from '@nextcloud/vue'
+import { useTemplateWizardStore, type Template, type TemplateContent } from '../../../stores/templateWizard'
 
 const wizardStore = useTemplateWizardStore()
 
 const templates = computed(() => wizardStore.availableTemplates)
-
 const isLoading = computed(() => wizardStore.loadingTemplates)
+const fileInput = ref<HTMLInputElement | null>(null)
+const uploadError = ref<string | null>(null)
+
+onMounted(async () => {
+	// Ensure templates are loaded when component mounts
+	if (wizardStore.templates.length === 0 && !wizardStore.loadingTemplates) {
+		await wizardStore.loadTemplates()
+	}
+})
 
 const selectTemplate = (template: Template) => {
 	wizardStore.selectTemplate(template)
@@ -21,6 +29,39 @@ const selectTemplate = (template: Template) => {
 
 const formatCount = (count: number, label: string) => {
 	return `${count} ${label}${count !== 1 ? 's' : ''}`
+}
+
+const triggerFileUpload = () => {
+	fileInput.value?.click()
+}
+
+const handleFileUpload = async (event: Event) => {
+	const target = event.target as HTMLInputElement
+	const file = target.files?.[0]
+
+	if (!file) return
+
+	uploadError.value = null
+
+	try {
+		const text = await file.text()
+		const template = JSON.parse(text) as TemplateContent
+
+		// Validate template has required structure
+		if (!template.template_info || !template.template_info.name) {
+			throw new Error('Invalid template format: missing template_info')
+		}
+
+		// Optionally validate with backend
+		await wizardStore.validateTemplate(template)
+
+		// Upload successful - store custom template
+		wizardStore.uploadCustomTemplate(template)
+
+	} catch (error) {
+		uploadError.value = error instanceof Error ? error.message : 'Failed to parse template file'
+		console.error('Template upload error:', error)
+	}
 }
 </script>
 
@@ -33,10 +74,40 @@ const formatCount = (count: number, label: string) => {
 			</p>
 		</div>
 
-		<NcLoadingIcon v-if="isLoading" :size="64" />
+		<!-- Custom Template Upload Section -->
+		<div class="upload-section">
+			<NcButton
+				type="secondary"
+				@click="triggerFileUpload">
+				<template #icon>
+					<span class="icon-upload" />
+				</template>
+				{{ t('agora', 'Upload Custom Template') }}
+			</NcButton>
+			<input
+				ref="fileInput"
+				type="file"
+				accept="application/json,.json"
+				style="display: none"
+				@change="handleFileUpload">
+
+			<NcNoteCard v-if="uploadError" type="error" class="upload-error">
+				{{ uploadError }}
+			</NcNoteCard>
+
+			<NcNoteCard v-if="wizardStore.customTemplate" type="success" class="upload-success">
+				{{ t('agora', 'Custom template loaded: {name}', { name: wizardStore.customTemplate.template_info.name }) }}
+			</NcNoteCard>
+		</div>
+
+		<div v-if="!wizardStore.customTemplate" class="divider">
+			<span>{{ t('agora', 'or choose from catalog') }}</span>
+		</div>
+
+		<NcLoadingIcon v-if="isLoading && !wizardStore.customTemplate" :size="64" />
 
 		<NcEmptyContent
-			v-else-if="templates.length === 0"
+			v-else-if="templates.length === 0 && !wizardStore.customTemplate"
 			:name="t('agora', 'No templates available')"
 			:description="t('agora', 'Please check your installation or upload a custom template')">
 			<template #icon>
@@ -44,7 +115,7 @@ const formatCount = (count: number, label: string) => {
 			</template>
 		</NcEmptyContent>
 
-		<div v-else class="template-list">
+		<div v-else-if="!wizardStore.customTemplate" class="template-list">
 			<div
 				v-for="template in templates"
 				:key="template.name"
@@ -117,6 +188,49 @@ const formatCount = (count: number, label: string) => {
 	.subtitle {
 		color: var(--color-text-maxcontrast);
 		font-size: 14px;
+	}
+}
+
+.upload-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 20px;
+	padding: 20px;
+	background: var(--color-background-hover);
+	border-radius: var(--border-radius-large);
+
+	.upload-error,
+	.upload-success {
+		width: 100%;
+		max-width: 600px;
+	}
+}
+
+.divider {
+	text-align: center;
+	margin: 30px 0;
+	position: relative;
+
+	&::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 50%;
+		height: 1px;
+		background: var(--color-border);
+		z-index: 0;
+	}
+
+	span {
+		background: var(--color-main-background);
+		padding: 0 16px;
+		color: var(--color-text-maxcontrast);
+		font-size: 13px;
+		position: relative;
+		z-index: 1;
 	}
 }
 

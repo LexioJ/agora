@@ -56,6 +56,19 @@ const stepTitle = computed(() => {
 	return titles[wizardStore.currentStep] || ''
 })
 
+const getStepTitle = (step: string): string => {
+	const titles = {
+		'use-case': t('agora', 'Use Case'),
+		'template-selection': t('agora', 'Template'),
+		'language': t('agora', 'Language'),
+		'preview': t('agora', 'Preview'),
+		'summary': t('agora', 'Confirm'),
+		'importing': t('agora', 'Importing'),
+		'results': t('agora', 'Results'),
+	}
+	return titles[step] || ''
+}
+
 const canShowNavigation = computed(() => {
 	return !['importing', 'results'].includes(wizardStore.currentStep)
 })
@@ -126,7 +139,7 @@ watch(
 						<span v-else>{{ index + 1 }}</span>
 					</div>
 					<div class="progress-label">
-						{{ stepTitle }}
+						{{ getStepTitle(step) }}
 					</div>
 				</div>
 			</div>
