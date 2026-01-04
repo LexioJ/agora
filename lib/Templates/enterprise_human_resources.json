@@ -1,0 +1,341 @@
+{
+  "template_info": {
+    "name": "enterprise_human_resources",
+    "version": "1.0.0",
+    "description": "Human Resources template for employee feedback, training ideas, and workplace improvements",
+    "author": "Agora Team",
+    "use_case": "enterprise_hr",
+    "available_languages": ["en", "fr", "de", "gsw"]
+  },
+  "inquiry_families": [
+    {
+      "family_type": "hr_services",
+      "label": {
+        "en": "HR Services",
+        "fr": "Services RH",
+        "de": "HR-Dienste",
+        "gsw": "HR-Dienscht"
+      },
+      "description": {
+        "en": "Human resources initiatives for employee development and workplace improvement",
+        "fr": "Initiatives RH pour le développement des employés et l'amélioration du lieu de travail",
+        "de": "HR-Initiativen für Mitarbeiterentwicklung und Arbeitsplatzverbesserung",
+        "gsw": "HR-Initiative für Mitarbeiter-Entwicklig und Arbetsplatz-Verbesserig"
+      },
+      "icon": "AccountGroup",
+      "sort_order": 1
+    },
+    {
+      "family_type": "official",
+      "label": {
+        "en": "Official Response",
+        "fr": "Réponse officielle",
+        "de": "Offizielle Antwort",
+        "gsw": "Offizielle Antwort"
+      },
+      "description": {
+        "en": "Official responses from HR management",
+        "fr": "Réponses officielles de la direction RH",
+        "de": "Offizielle Antworten vom HR-Management",
+        "gsw": "Offizelli Antworte vom HR-Management"
+      },
+      "icon": "Seal",
+      "sort_order": 2
+    }
+  ],
+  "inquiry_types": [
+    {
+      "inquiry_type": "training_development",
+      "family": "hr_services",
+      "icon": "School",
+      "label": {
+        "en": "🎓 Training & Development Ideas",
+        "fr": "🎓 Idées de formation et développement",
+        "de": "🎓 Schulungs- und Entwicklungsideen",
+        "gsw": "🎓 Schuligs- und Entwickligsidee"
+      },
+      "description": {
+        "en": "Suggestions for employee training programs and professional development",
+        "fr": "Suggestions de programmes de formation et développement professionnel",
+        "de": "Vorschläge für Mitarbeiterschulungen und berufliche Entwicklung",
+        "gsw": "Vorschläg für Mitarbeiter-Schulige und berueflichi Entwicklig"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "workplace_improvement",
+      "family": "hr_services",
+      "icon": "OfficeBuilding",
+      "label": {
+        "en": "🏢 Workplace Improvements",
+        "fr": "🏢 Améliorations du lieu de travail",
+        "de": "🏢 Arbeitsplatzverbesserungen",
+        "gsw": "🏢 Arbetsplatz-Verbesserige"
+      },
+      "description": {
+        "en": "Ideas to improve workplace environment and employee experience",
+        "fr": "Idées pour améliorer l'environnement de travail et l'expérience employé",
+        "de": "Ideen zur Verbesserung der Arbeitsumgebung und Mitarbeitererfahrung",
+        "gsw": "Idee zur Verbesserig vo de Arbetsumgäbig und Mitarbeiter-Erfahrig"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "team_building",
+      "family": "hr_services",
+      "icon": "AccountMultiple",
+      "label": {
+        "en": "👥 Team Building Suggestions",
+        "fr": "👥 Suggestions de team building",
+        "de": "👥 Teambuilding-Vorschläge",
+        "gsw": "👥 Teambuilding-Vorschläg"
+      },
+      "description": {
+        "en": "Proposals for team building activities and initiatives",
+        "fr": "Propositions d'activités et initiatives de team building",
+        "de": "Vorschläge für Teambuilding-Aktivitäten und -Initiativen",
+        "gsw": "Vorschläg für Teambuilding-Aktivitäte und -Initiative"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "policy_feedback",
+      "family": "hr_services",
+      "icon": "FileDocument",
+      "label": {
+        "en": "📋 Policy Feedback",
+        "fr": "📋 Retour sur les politiques",
+        "de": "📋 Richtlinien-Feedback",
+        "gsw": "📋 Richtlinie-Feedback"
+      },
+      "description": {
+        "en": "Feedback on HR policies and suggestions for improvements",
+        "fr": "Retours sur les politiques RH et suggestions d'améliorations",
+        "de": "Feedback zu HR-Richtlinien und Verbesserungsvorschläge",
+        "gsw": "Feedback zu HR-Richtlinie und Verbesserig-Vorschläg"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "recognition_program",
+      "family": "hr_services",
+      "icon": "Star",
+      "label": {
+        "en": "🌟 Recognition Programs",
+        "fr": "🌟 Programmes de reconnaissance",
+        "de": "🌟 Anerkennungsprogramme",
+        "gsw": "🌟 Anerkennigsprogramm"
+      },
+      "description": {
+        "en": "Ideas for employee recognition and reward programs",
+        "fr": "Idées de programmes de reconnaissance et récompense des employés",
+        "de": "Ideen für Mitarbeiteranerkennungs- und Belohnungsprogramme",
+        "gsw": "Idee für Mitarbeiter-Anerkennigs- und Belohnigsprogramm"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "official_response",
+      "family": "official",
+      "icon": "MessageReply",
+      "label": {
+        "en": "Official Response",
+        "fr": "Réponse officielle",
+        "de": "Offizielle Antwort",
+        "gsw": "Offizielle Antwort"
+      },
+      "description": {
+        "en": "Official response from HR management",
+        "fr": "Réponse officielle de la direction RH",
+        "de": "Offizielle Antwort vom HR-Management",
+        "gsw": "Offizelli Antwort vom HR-Management"
+      },
+      "is_root": false,
+      "allowed_response": []
+    }
+  ],
+  "inquiry_statuses": [
+    {
+      "inquiry_type": "training_development",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Suggestion submitted and awaiting HR review",
+        "fr": "Suggestion soumise en attente d'examen RH",
+        "de": "Vorschlag eingereicht und wartet auf HR-Prüfung",
+        "gsw": "Vorschlag iigräicht und wartet uf HR-Prüefig"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "training_development",
+      "status_key": "under_review",
+      "label": {
+        "en": "Under Review",
+        "fr": "En cours d'examen",
+        "de": "In Prüfung",
+        "gsw": "In Prüefig"
+      },
+      "description": {
+        "en": "HR team is reviewing the suggestion",
+        "fr": "L'équipe RH examine la suggestion",
+        "de": "HR-Team prüft den Vorschlag",
+        "gsw": "HR-Team prüeft de Vorschlag"
+      },
+      "is_final": false,
+      "icon": "Eye",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "training_development",
+      "status_key": "planned",
+      "label": {
+        "en": "Planned",
+        "fr": "Planifié",
+        "de": "Geplant",
+        "gsw": "Plaant"
+      },
+      "description": {
+        "en": "Initiative planned for implementation",
+        "fr": "Initiative planifiée pour mise en œuvre",
+        "de": "Initiative zur Umsetzung geplant",
+        "gsw": "Initiative zur Umsetzig plaant"
+      },
+      "is_final": false,
+      "icon": "Calendar",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "training_development",
+      "status_key": "implemented",
+      "label": {
+        "en": "Implemented",
+        "fr": "Mis en œuvre",
+        "de": "Umgesetzt",
+        "gsw": "Umgsetzt"
+      },
+      "description": {
+        "en": "Initiative successfully implemented",
+        "fr": "Initiative mise en œuvre avec succès",
+        "de": "Initiative erfolgreich umgesetzt",
+        "gsw": "Initiative erfolgriich umgsetzt"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "training_development",
+      "status_key": "not_feasible",
+      "label": {
+        "en": "Not Feasible",
+        "fr": "Non réalisable",
+        "de": "Nicht machbar",
+        "gsw": "Nöd machbar"
+      },
+      "description": {
+        "en": "Suggestion not feasible at this time",
+        "fr": "Suggestion non réalisable pour le moment",
+        "de": "Vorschlag derzeit nicht machbar",
+        "gsw": "Vorschlag momentan nöd machbar"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 5
+    }
+  ],
+  "categories": [
+    {
+      "category_key": "learning",
+      "label": {
+        "en": "Learning & Development",
+        "fr": "Apprentissage et développement",
+        "de": "Lernen & Entwicklung",
+        "gsw": "Lerne & Entwicklig"
+      },
+      "description": {
+        "en": "Training programs and skill development",
+        "fr": "Programmes de formation et développement des compétences",
+        "de": "Schulungsprogramme und Kompetenzentwicklung",
+        "gsw": "Schuligsprogramm und Kompetenz-Entwicklig"
+      },
+      "sort_order": 1
+    },
+    {
+      "category_key": "wellbeing",
+      "label": {
+        "en": "Employee Wellbeing",
+        "fr": "Bien-être des employés",
+        "de": "Mitarbeiterwohlbefinden",
+        "gsw": "Mitarbeiter-Wohlfühle"
+      },
+      "description": {
+        "en": "Health, wellness, and work-life balance",
+        "fr": "Santé, bien-être et équilibre travail-vie",
+        "de": "Gesundheit, Wellness und Work-Life-Balance",
+        "gsw": "Gsundhäit, Wellness und Work-Life-Balance"
+      },
+      "sort_order": 2
+    },
+    {
+      "category_key": "culture",
+      "label": {
+        "en": "Company Culture",
+        "fr": "Culture d'entreprise",
+        "de": "Unternehmenskultur",
+        "gsw": "Unternehmenskultur"
+      },
+      "description": {
+        "en": "Values, culture, and engagement",
+        "fr": "Valeurs, culture et engagement",
+        "de": "Werte, Kultur und Engagement",
+        "gsw": "Wärt, Kultur und Engagement"
+      },
+      "sort_order": 3
+    },
+    {
+      "category_key": "benefits",
+      "label": {
+        "en": "Benefits & Compensation",
+        "fr": "Avantages et rémunération",
+        "de": "Leistungen & Vergütung",
+        "gsw": "Leistige & Vergüetig"
+      },
+      "description": {
+        "en": "Employee benefits and compensation",
+        "fr": "Avantages sociaux et rémunération",
+        "de": "Mitarbeiterleistungen und Vergütung",
+        "gsw": "Mitarbeiter-Leistige und Vergüetig"
+      },
+      "sort_order": 4
+    },
+    {
+      "category_key": "diversity",
+      "label": {
+        "en": "Diversity & Inclusion",
+        "fr": "Diversité et inclusion",
+        "de": "Vielfalt & Inklusion",
+        "gsw": "Vielfalt & Inklusion"
+      },
+      "description": {
+        "en": "DEI initiatives and programs",
+        "fr": "Initiatives et programmes DEI",
+        "de": "DEI-Initiativen und -Programme",
+        "gsw": "DEI-Initiative und -Programm"
+      },
+      "sort_order": 5
+    }
+  ]
+}

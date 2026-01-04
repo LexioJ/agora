@@ -1,0 +1,360 @@
+{
+  "template_info": {
+    "name": "enterprise_facility_management",
+    "version": "1.0.0",
+    "description": "Facility Management template for infrastructure improvements, sustainability, and workspace optimization",
+    "author": "Agora Team",
+    "use_case": "enterprise_facilities",
+    "available_languages": ["en", "fr", "de", "gsw"]
+  },
+  "inquiry_families": [
+    {
+      "family_type": "facilities",
+      "label": {
+        "en": "Facilities",
+        "fr": "Installations",
+        "de": "Einrichtungen",
+        "gsw": "Iirichtige"
+      },
+      "description": {
+        "en": "Facility management requests for infrastructure, sustainability, and workspace improvements",
+        "fr": "Demandes de gestion des installations pour infrastructure, durabilité et améliorations d'espace",
+        "de": "Facility-Management-Anfragen für Infrastruktur, Nachhaltigkeit und Arbeitsplatzverbesserungen",
+        "gsw": "Facility-Management-Aafraage für Infrastruktur, Nochhaltigkäit und Arbetsplatz-Verbesserige"
+      },
+      "icon": "Domain",
+      "sort_order": 1
+    },
+    {
+      "family_type": "official",
+      "label": {
+        "en": "Official Response",
+        "fr": "Réponse officielle",
+        "de": "Offizielle Antwort",
+        "gsw": "Offizielle Antwort"
+      },
+      "description": {
+        "en": "Official responses from facility management team",
+        "fr": "Réponses officielles de l'équipe de gestion des installations",
+        "de": "Offizielle Antworten vom Facility-Management-Team",
+        "gsw": "Offizelli Antworte vom Facility-Management-Team"
+      },
+      "icon": "Seal",
+      "sort_order": 2
+    }
+  ],
+  "inquiry_types": [
+    {
+      "inquiry_type": "infrastructure_improvement",
+      "family": "facilities",
+      "icon": "OfficeBuildingCog",
+      "label": {
+        "en": "🏗️ Infrastructure Improvements",
+        "fr": "🏗️ Améliorations d'infrastructure",
+        "de": "🏗️ Infrastrukturverbesserungen",
+        "gsw": "🏗️ Infrastruktur-Verbesserige"
+      },
+      "description": {
+        "en": "Proposals for building and infrastructure improvements",
+        "fr": "Propositions d'améliorations de bâtiments et d'infrastructure",
+        "de": "Vorschläge für Gebäude- und Infrastrukturverbesserungen",
+        "gsw": "Vorschläg für Gebäude- und Infrastruktur-Verbesserige"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "sustainability_initiative",
+      "family": "facilities",
+      "icon": "Leaf",
+      "label": {
+        "en": "🌱 Sustainability Initiatives",
+        "fr": "🌱 Initiatives de durabilité",
+        "de": "🌱 Nachhaltigkeitsinitiativen",
+        "gsw": "🌱 Nochhaltigkeits-Initiative"
+      },
+      "description": {
+        "en": "Environmental sustainability and green initiatives",
+        "fr": "Durabilité environnementale et initiatives vertes",
+        "de": "Umweltnachhaltigkeit und grüne Initiativen",
+        "gsw": "Umwält-Nochhaltigkäit und grüeni Initiative"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "workspace_optimization",
+      "family": "facilities",
+      "icon": "Desk",
+      "label": {
+        "en": "🪑 Workspace Optimization",
+        "fr": "🪑 Optimisation de l'espace de travail",
+        "de": "🪑 Arbeitsplatzoptimierung",
+        "gsw": "🪑 Arbetsplatz-Optimierig"
+      },
+      "description": {
+        "en": "Ideas to optimize office space and improve ergonomics",
+        "fr": "Idées pour optimiser l'espace de bureau et améliorer l'ergonomie",
+        "de": "Ideen zur Optimierung von Büroflächen und Verbesserung der Ergonomie",
+        "gsw": "Idee zum Optimiere vo Bürofläche und Verbesserig vo de Ergonomie"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "maintenance_request",
+      "family": "facilities",
+      "icon": "Tools",
+      "label": {
+        "en": "🔧 Maintenance Requests",
+        "fr": "🔧 Demandes de maintenance",
+        "de": "🔧 Wartungsanfragen",
+        "gsw": "🔧 Wartigsaafraage"
+      },
+      "description": {
+        "en": "Maintenance and repair requests for facilities",
+        "fr": "Demandes de maintenance et réparation des installations",
+        "de": "Wartungs- und Reparaturanfragen für Einrichtungen",
+        "gsw": "Wartigs- und Reparatur-Aafraage für Iirichtige"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "parking_transportation",
+      "family": "facilities",
+      "icon": "CarParking",
+      "label": {
+        "en": "🅿️ Parking & Transportation",
+        "fr": "🅿️ Parking et transport",
+        "de": "🅿️ Parken & Verkehr",
+        "gsw": "🅿️ Parkiere & Transport"
+      },
+      "description": {
+        "en": "Parking and transportation improvement suggestions",
+        "fr": "Suggestions d'amélioration du parking et des transports",
+        "de": "Vorschläge zur Verbesserung von Parkplätzen und Verkehr",
+        "gsw": "Vorschläg zur Verbesserig vo Parkplätz und Transport"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "official_response",
+      "family": "official",
+      "icon": "MessageReply",
+      "label": {
+        "en": "Official Response",
+        "fr": "Réponse officielle",
+        "de": "Offizielle Antwort",
+        "gsw": "Offizielle Antwort"
+      },
+      "description": {
+        "en": "Official response from facility management",
+        "fr": "Réponse officielle de la gestion des installations",
+        "de": "Offizielle Antwort vom Facility Management",
+        "gsw": "Offizelli Antwort vom Facility Management"
+      },
+      "is_root": false,
+      "allowed_response": []
+    }
+  ],
+  "inquiry_statuses": [
+    {
+      "inquiry_type": "infrastructure_improvement",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Request submitted and logged",
+        "fr": "Demande soumise et enregistrée",
+        "de": "Anfrage eingereicht und protokolliert",
+        "gsw": "Aafraag iigräicht und protokolliert"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "infrastructure_improvement",
+      "status_key": "assessment",
+      "label": {
+        "en": "Under Assessment",
+        "fr": "En cours d'évaluation",
+        "de": "In Bewertung",
+        "gsw": "In Bewärtig"
+      },
+      "description": {
+        "en": "Facility team is assessing feasibility and cost",
+        "fr": "L'équipe installations évalue la faisabilité et le coût",
+        "de": "Facility-Team bewertet Machbarkeit und Kosten",
+        "gsw": "Facility-Team bewertet Machbarkäit und Koschte"
+      },
+      "is_final": false,
+      "icon": "ClipboardCheck",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "infrastructure_improvement",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Request approved and scheduled",
+        "fr": "Demande approuvée et planifiée",
+        "de": "Anfrage genehmigt und geplant",
+        "gsw": "Aafraag gnehmigt und plaant"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "infrastructure_improvement",
+      "status_key": "in_progress",
+      "label": {
+        "en": "In Progress",
+        "fr": "En cours",
+        "de": "In Bearbeitung",
+        "gsw": "In Bearbeitig"
+      },
+      "description": {
+        "en": "Work is currently in progress",
+        "fr": "Travaux en cours",
+        "de": "Arbeiten laufen",
+        "gsw": "Arbeite laufed"
+      },
+      "is_final": false,
+      "icon": "Progress",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "infrastructure_improvement",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Work completed successfully",
+        "fr": "Travaux terminés avec succès",
+        "de": "Arbeiten erfolgreich abgeschlossen",
+        "gsw": "Arbeite erfolgriich abgschlosse"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "infrastructure_improvement",
+      "status_key": "declined",
+      "label": {
+        "en": "Declined",
+        "fr": "Refusé",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Request declined - not feasible or budget constraints",
+        "fr": "Demande refusée - non réalisable ou contraintes budgétaires",
+        "de": "Anfrage abgelehnt - nicht machbar oder Budgetbeschränkungen",
+        "gsw": "Aafraag abglehnt - nöd machbar oder Budget-Iischränkige"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 6
+    }
+  ],
+  "categories": [
+    {
+      "category_key": "building",
+      "label": {
+        "en": "Building & Structure",
+        "fr": "Bâtiment et structure",
+        "de": "Gebäude & Struktur",
+        "gsw": "Gebäude & Struktur"
+      },
+      "description": {
+        "en": "Building maintenance and structural improvements",
+        "fr": "Maintenance du bâtiment et améliorations structurelles",
+        "de": "Gebäudewartung und strukturelle Verbesserungen",
+        "gsw": "Gebäudewartung und strukturelli Verbesserige"
+      },
+      "sort_order": 1
+    },
+    {
+      "category_key": "energy",
+      "label": {
+        "en": "Energy & Utilities",
+        "fr": "Énergie et services publics",
+        "de": "Energie & Versorgung",
+        "gsw": "Energie & Versorgusg"
+      },
+      "description": {
+        "en": "Energy efficiency and utility management",
+        "fr": "Efficacité énergétique et gestion des services publics",
+        "de": "Energieeffizienz und Versorgungsmanagement",
+        "gsw": "Energieeffizienz und Versorgugs-Management"
+      },
+      "sort_order": 2
+    },
+    {
+      "category_key": "safety",
+      "label": {
+        "en": "Safety & Security",
+        "fr": "Sécurité",
+        "de": "Sicherheit",
+        "gsw": "Sicherhäit"
+      },
+      "description": {
+        "en": "Safety systems and security measures",
+        "fr": "Systèmes de sécurité et mesures de protection",
+        "de": "Sicherheitssysteme und Schutzmaßnahmen",
+        "gsw": "Sicherhäitssystem und Schutzmaßnahme"
+      },
+      "sort_order": 3
+    },
+    {
+      "category_key": "environment",
+      "label": {
+        "en": "Environment",
+        "fr": "Environnement",
+        "de": "Umwelt",
+        "gsw": "Umwält"
+      },
+      "description": {
+        "en": "Environmental and sustainability initiatives",
+        "fr": "Initiatives environnementales et de durabilité",
+        "de": "Umwelt- und Nachhaltigkeitsinitiativen",
+        "gsw": "Umwält- und Nochhaltigkeits-Initiative"
+      },
+      "sort_order": 4
+    },
+    {
+      "category_key": "amenities",
+      "label": {
+        "en": "Amenities",
+        "fr": "Commodités",
+        "de": "Annehmlichkeiten",
+        "gsw": "Annehmlichkäite"
+      },
+      "description": {
+        "en": "Employee amenities and comfort",
+        "fr": "Commodités et confort des employés",
+        "de": "Mitarbeiterannehmlichkeiten und Komfort",
+        "gsw": "Mitarbeiter-Annehmlichkäite und Komfort"
+      },
+      "sort_order": 5
+    }
+  ]
+}

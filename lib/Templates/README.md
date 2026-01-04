@@ -225,7 +225,21 @@ Define location options:
 
 ## Usage
 
-### 1. Clean Instance (Optional but Recommended)
+### 1. Browse Available Templates
+
+View all available templates in the catalog:
+
+```bash
+occ agora:db:load-template --list
+```
+
+This will display detailed information about each template including:
+- Template name, version, and author
+- Description and use case
+- Available languages
+- Content summary (number of families, types, statuses, categories, etc.)
+
+### 2. Clean Instance (Optional but Recommended)
 
 Before loading a new template, clean the existing configuration:
 
@@ -237,7 +251,7 @@ This removes all existing data including user-created content, configuration dat
 
 **Warning**: This operation cannot be undone! Make a backup first.
 
-### 2. Load a Template
+### 3. Load a Template
 
 #### Load the default template with interactive language selection:
 ```bash
@@ -255,7 +269,7 @@ occ agora:db:load-template --default --language=fr
 occ agora:db:load-template /path/to/your/template.json --language=en
 ```
 
-### 3. Verify the Results
+### 4. Verify the Results
 
 The command will output detailed information about:
 - Template name and description

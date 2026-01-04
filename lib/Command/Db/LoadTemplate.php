@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Agora\Command\Db;
 
 use OCA\Agora\Command\Command;
+use OCA\Agora\Service\TemplateCatalog;
 use OCA\Agora\Service\TemplateLoader;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -38,11 +39,13 @@ class LoadTemplate extends Command
 		'You select ONE language to import into the database.',
 		'',
 		'Usage:',
+		'  occ agora:db:load-template --list',
 		'  occ agora:db:load-template --default',
 		'  occ agora:db:load-template /path/to/template.json',
 		'  occ agora:db:load-template --default --language=fr --yes',
 		'',
 		'Options:',
+		'  --list             List all available templates',
 		'  --language=<code>  Skip language selection',
 		'  --yes, -y          Skip confirmation prompts',
 		'',
@@ -52,6 +55,7 @@ class LoadTemplate extends Command
 
 	public function __construct(
 		private TemplateLoader $templateLoader,
+		private TemplateCatalog $templateCatalog,
 	) {
 		parent::__construct();
 	}
@@ -86,6 +90,13 @@ class LoadTemplate extends Command
 			InputOption::VALUE_NONE,
 			'Skip confirmation prompts and proceed automatically'
 		);
+
+		$this->addOption(
+			'list',
+			null,
+			InputOption::VALUE_NONE,
+			'List all available templates in the catalog'
+		);
 	}
 
 	protected function runCommands(): int
@@ -94,6 +105,13 @@ class LoadTemplate extends Command
 		$useDefault = $this->input->getOption('default');
 		$language = $this->input->getOption('language');
 		$skipConfirmation = $this->input->getOption('yes');
+		$listTemplates = $this->input->getOption('list');
+
+		// If --list option is provided, show catalog and exit
+		if ($listTemplates) {
+			$this->displayTemplateCatalog();
+			return 0;
+		}
 
 		$this->printSectionHeader('STEP 1: Template Loading');
 
@@ -472,5 +490,86 @@ class LoadTemplate extends Command
 		$this->printInfo("│  " . str_pad($title, 66) . "│");
 		$this->printInfo("└────────────────────────────────────────────────────────────────────┘");
 		$this->printNewLine();
+	}
+
+	/**
+	 * Display the template catalog
+	 */
+	private function displayTemplateCatalog(): void
+	{
+		$this->printSectionHeader('TEMPLATE CATALOG');
+
+		$templates = $this->templateCatalog->getAllTemplates();
+
+		if (empty($templates)) {
+			$this->printError('No templates found in the catalog.');
+			return;
+		}
+
+		$this->printInfo("📚 Available Templates: " . count($templates));
+		$this->printNewLine();
+
+		foreach ($templates as $template) {
+			$this->printInfo("┌─────────────────────────────────────────────────────────");
+			$this->printInfo("│ 📄 " . $template['name']);
+			$this->printInfo("├─────────────────────────────────────────────────────────");
+			$this->printInfo("│   Version:     {$template['version']}");
+			$this->printInfo("│   Author:      {$template['author']}");
+			$this->printInfo("│   Use Case:    {$template['use_case']}");
+			$this->printInfo("│   File:        {$template['filename']}");
+			$this->printNewLine();
+
+			// Description
+			if (!empty($template['description'])) {
+				$description = wordwrap($template['description'], 60);
+				$lines = explode("\n", $description);
+				$this->printInfo("│   Description:");
+				foreach ($lines as $line) {
+					$this->printComment("│     " . $line);
+				}
+				$this->printNewLine();
+			}
+
+			// Languages
+			if (!empty($template['available_languages'])) {
+				$languages = implode(', ', $template['available_languages']);
+				$this->printInfo("│   🌐 Languages: {$languages}");
+				$this->printNewLine();
+			}
+
+			// Content summary
+			$this->printInfo("│   📊 Content Summary:");
+			if ($template['counts']['inquiry_families'] > 0) {
+				$this->printComment("│      • {$template['counts']['inquiry_families']} Inquiry Families");
+			}
+			if ($template['counts']['inquiry_types'] > 0) {
+				$this->printComment("│      • {$template['counts']['inquiry_types']} Inquiry Types");
+			}
+			if ($template['counts']['inquiry_statuses'] > 0) {
+				$this->printComment("│      • {$template['counts']['inquiry_statuses']} Inquiry Statuses");
+			}
+			if ($template['counts']['option_types'] > 0) {
+				$this->printComment("│      • {$template['counts']['option_types']} Option Types");
+			}
+			if ($template['counts']['inquiry_group_types'] > 0) {
+				$this->printComment("│      • {$template['counts']['inquiry_group_types']} Inquiry Group Types");
+			}
+			if ($template['counts']['categories'] > 0) {
+				$this->printComment("│      • {$template['counts']['categories']} Categories");
+			}
+			if ($template['counts']['locations'] > 0) {
+				$this->printComment("│      • {$template['counts']['locations']} Locations");
+			}
+			$this->printInfo("│      ───────────────────────────");
+			$this->printInfo("│      Total: {$template['total_items']} items");
+
+			$this->printInfo("└─────────────────────────────────────────────────────────");
+			$this->printNewLine();
+		}
+
+		$this->printNewLine();
+		$this->printInfo("💡 To load a template, use:");
+		$this->printInfo("   occ agora:db:load-template <template-file> --language=<code>");
+		$this->printInfo("   occ agora:db:load-template --default --language=en");
 	}
 }

@@ -1,0 +1,398 @@
+{
+  "template_info": {
+    "name": "enterprise_it_services",
+    "version": "1.0.0",
+    "description": "IT Services Department template for managing ideas, automation requests, and service improvements",
+    "author": "Agora Team",
+    "use_case": "enterprise_it",
+    "available_languages": ["en", "fr", "de", "gsw"]
+  },
+  "inquiry_families": [
+    {
+      "family_type": "it_services",
+      "label": {
+        "en": "IT Services",
+        "fr": "Services IT",
+        "de": "IT-Dienste",
+        "gsw": "IT-Dienscht"
+      },
+      "description": {
+        "en": "IT department initiatives including ideas, automation, and service improvements",
+        "fr": "Initiatives du département IT incluant idées, automatisation et améliorations de services",
+        "de": "IT-Abteilungsinitiativen einschließlich Ideen, Automatisierung und Serviceverbesserungen",
+        "gsw": "IT-Abteilig-Initiative inkl. Idee, Automatisierig und Service-Verbesserige"
+      },
+      "icon": "Monitor",
+      "sort_order": 1
+    },
+    {
+      "family_type": "official",
+      "label": {
+        "en": "Official Response",
+        "fr": "Réponse officielle",
+        "de": "Offizielle Antwort",
+        "gsw": "Offizielle Antwort"
+      },
+      "description": {
+        "en": "Official responses from IT management and technical teams",
+        "fr": "Réponses officielles de la direction IT et des équipes techniques",
+        "de": "Offizielle Antworten vom IT-Management und technischen Teams",
+        "gsw": "Offizelli Antworte vom IT-Management und technische Teams"
+      },
+      "icon": "Seal",
+      "sort_order": 2
+    }
+  ],
+  "inquiry_types": [
+    {
+      "inquiry_type": "new_idea",
+      "family": "it_services",
+      "icon": "Lightbulb",
+      "label": {
+        "en": "💡 New Ideas",
+        "fr": "💡 Nouvelles idées",
+        "de": "💡 Neue Ideen",
+        "gsw": "💡 Nöii Idee"
+      },
+      "description": {
+        "en": "Innovative ideas to improve IT services and operations",
+        "fr": "Idées innovantes pour améliorer les services et opérations IT",
+        "de": "Innovative Ideen zur Verbesserung von IT-Services und -Betrieb",
+        "gsw": "Innovativi Idee zur Verbesserig vo IT-Services und -Betrieb"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "ai_use_case",
+      "family": "it_services",
+      "icon": "RobotExcited",
+      "label": {
+        "en": "🤖 AI Use-Cases",
+        "fr": "🤖 Cas d'usage IA",
+        "de": "🤖 KI-Anwendungsfälle",
+        "gsw": "🤖 KI-Aawändigsfäll"
+      },
+      "description": {
+        "en": "Proposals for AI and machine learning implementations",
+        "fr": "Propositions d'implémentations d'IA et d'apprentissage automatique",
+        "de": "Vorschläge für KI- und Machine-Learning-Implementierungen",
+        "gsw": "Vorschläg für KI- und Machine-Learning-Implementierige"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "process_automation",
+      "family": "it_services",
+      "icon": "Cog",
+      "label": {
+        "en": "🔄 Process Automation",
+        "fr": "🔄 Automatisation de processus",
+        "de": "🔄 Prozessautomatisierung",
+        "gsw": "🔄 Prozess-Automatisierig"
+      },
+      "description": {
+        "en": "Requests to automate manual processes and workflows",
+        "fr": "Demandes d'automatisation de processus et flux de travail manuels",
+        "de": "Anfragen zur Automatisierung manueller Prozesse und Workflows",
+        "gsw": "Aafraage zur Automatisierig vo manuelle Prozäss und Workflows"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "new_service",
+      "family": "it_services",
+      "icon": "Plus",
+      "label": {
+        "en": "🆕 New Services",
+        "fr": "🆕 Nouveaux services",
+        "de": "🆕 Neue Dienste",
+        "gsw": "🆕 Nöii Dienscht"
+      },
+      "description": {
+        "en": "Proposals for new IT services or tools",
+        "fr": "Propositions de nouveaux services ou outils IT",
+        "de": "Vorschläge für neue IT-Services oder Tools",
+        "gsw": "Vorschläg für nöii IT-Services oder Tools"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "improve_service",
+      "family": "it_services",
+      "icon": "TrendingUp",
+      "label": {
+        "en": "📈 Improve Existing Services",
+        "fr": "📈 Améliorer les services existants",
+        "de": "📈 Bestehende Dienste verbessern",
+        "gsw": "📈 Bestehendi Dienscht verbessere"
+      },
+      "description": {
+        "en": "Suggestions to enhance current IT services",
+        "fr": "Suggestions pour améliorer les services IT actuels",
+        "de": "Vorschläge zur Verbesserung aktueller IT-Services",
+        "gsw": "Vorschläg zur Verbesserig vo aktuelle IT-Services"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "replace_service",
+      "family": "it_services",
+      "icon": "SwapHorizontal",
+      "label": {
+        "en": "🔁 Replace IT-Services",
+        "fr": "🔁 Remplacer des services IT",
+        "de": "🔁 IT-Services ersetzen",
+        "gsw": "🔁 IT-Services ersetze"
+      },
+      "description": {
+        "en": "Proposals to replace outdated or inefficient services",
+        "fr": "Propositions pour remplacer des services obsolètes ou inefficaces",
+        "de": "Vorschläge zum Ersatz veralteter oder ineffizienter Services",
+        "gsw": "Vorschläg zum Ersatz vo veraltete oder ineffiziente Services"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "business_application",
+      "family": "it_services",
+      "icon": "Application",
+      "label": {
+        "en": "📱 Business Applications",
+        "fr": "📱 Applications métier",
+        "de": "📱 Geschäftsanwendungen",
+        "gsw": "📱 Gschäftsaawändige"
+      },
+      "description": {
+        "en": "Requests for new business applications or integrations",
+        "fr": "Demandes de nouvelles applications métier ou intégrations",
+        "de": "Anfragen für neue Geschäftsanwendungen oder Integrationen",
+        "gsw": "Aafraage für nöii Gschäftsaawändige oder Integratione"
+      },
+      "is_root": true,
+      "allowed_response": ["official"]
+    },
+    {
+      "inquiry_type": "official_response",
+      "family": "official",
+      "icon": "MessageReply",
+      "label": {
+        "en": "Official Response",
+        "fr": "Réponse officielle",
+        "de": "Offizielle Antwort",
+        "gsw": "Offizielle Antwort"
+      },
+      "description": {
+        "en": "Official response from IT management",
+        "fr": "Réponse officielle de la direction IT",
+        "de": "Offizielle Antwort vom IT-Management",
+        "gsw": "Offizelli Antwort vom IT-Management"
+      },
+      "is_root": false,
+      "allowed_response": []
+    }
+  ],
+  "inquiry_statuses": [
+    {
+      "inquiry_type": "new_idea",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Idea has been submitted and is awaiting review",
+        "fr": "L'idée a été soumise et est en attente d'examen",
+        "de": "Idee wurde eingereicht und wartet auf Prüfung",
+        "gsw": "Idee isch iigräicht und wartet uf Prüefig"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "new_idea",
+      "status_key": "under_review",
+      "label": {
+        "en": "Under Review",
+        "fr": "En cours d'examen",
+        "de": "In Prüfung",
+        "gsw": "In Prüefig"
+      },
+      "description": {
+        "en": "IT team is reviewing the idea",
+        "fr": "L'équipe IT examine l'idée",
+        "de": "IT-Team prüft die Idee",
+        "gsw": "IT-Team prüeft d'Idee"
+      },
+      "is_final": false,
+      "icon": "Eye",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "new_idea",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Idea approved for implementation",
+        "fr": "Idée approuvée pour mise en œuvre",
+        "de": "Idee zur Umsetzung genehmigt",
+        "gsw": "Idee zur Umsetzig gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "new_idea",
+      "status_key": "in_progress",
+      "label": {
+        "en": "In Progress",
+        "fr": "En cours",
+        "de": "In Bearbeitung",
+        "gsw": "In Bearbeitig"
+      },
+      "description": {
+        "en": "Implementation is in progress",
+        "fr": "La mise en œuvre est en cours",
+        "de": "Umsetzung läuft",
+        "gsw": "Umsetzig lauft"
+      },
+      "is_final": false,
+      "icon": "Progress",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "new_idea",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Implementation completed successfully",
+        "fr": "Mise en œuvre terminée avec succès",
+        "de": "Umsetzung erfolgreich abgeschlossen",
+        "gsw": "Umsetzig erfolgriich abgschlosse"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "new_idea",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Idea rejected - not feasible or not aligned with strategy",
+        "fr": "Idée rejetée - non réalisable ou non alignée avec la stratégie",
+        "de": "Idee abgelehnt - nicht machbar oder nicht mit Strategie vereinbar",
+        "gsw": "Idee abglehnt - nöd machbar oder nöd mit Strategie vereinbar"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 6
+    }
+  ],
+  "categories": [
+    {
+      "category_key": "infrastructure",
+      "label": {
+        "en": "Infrastructure",
+        "fr": "Infrastructure",
+        "de": "Infrastruktur",
+        "gsw": "Infrastruktur"
+      },
+      "description": {
+        "en": "Servers, networks, and IT infrastructure",
+        "fr": "Serveurs, réseaux et infrastructure IT",
+        "de": "Server, Netzwerke und IT-Infrastruktur",
+        "gsw": "Server, Netzwärch und IT-Infrastruktur"
+      },
+      "sort_order": 1
+    },
+    {
+      "category_key": "security",
+      "label": {
+        "en": "Security",
+        "fr": "Sécurité",
+        "de": "Sicherheit",
+        "gsw": "Sicherhäit"
+      },
+      "description": {
+        "en": "Cybersecurity and data protection",
+        "fr": "Cybersécurité et protection des données",
+        "de": "Cybersicherheit und Datenschutz",
+        "gsw": "Cybersicherhäit und Dateschutz"
+      },
+      "sort_order": 2
+    },
+    {
+      "category_key": "applications",
+      "label": {
+        "en": "Applications",
+        "fr": "Applications",
+        "de": "Anwendungen",
+        "gsw": "Aawändige"
+      },
+      "description": {
+        "en": "Software applications and tools",
+        "fr": "Applications logicielles et outils",
+        "de": "Softwareanwendungen und Tools",
+        "gsw": "Softwareaawändige und Tools"
+      },
+      "sort_order": 3
+    },
+    {
+      "category_key": "data",
+      "label": {
+        "en": "Data & Analytics",
+        "fr": "Données et analytique",
+        "de": "Daten & Analytik",
+        "gsw": "Date & Analytik"
+      },
+      "description": {
+        "en": "Data management and analytics",
+        "fr": "Gestion des données et analytique",
+        "de": "Datenmanagement und Analytik",
+        "gsw": "Date-Management und Analytik"
+      },
+      "sort_order": 4
+    },
+    {
+      "category_key": "user_support",
+      "label": {
+        "en": "User Support",
+        "fr": "Support utilisateur",
+        "de": "Benutzerunterstützung",
+        "gsw": "Benutzerunterstützig"
+      },
+      "description": {
+        "en": "Help desk and user support services",
+        "fr": "Services de help desk et support utilisateur",
+        "de": "Helpdesk und Benutzersupportdienste",
+        "gsw": "Helpdesk und Benutzer-Support-Dienscht"
+      },
+      "sort_order": 5
+    }
+  ]
+}
