@@ -56,55 +56,23 @@ class TemplateController extends BaseApiV2Controller
 	}
 
 	/**
-	 * Get a specific template by name or filename
-	 *
-	 * @param string $identifier Template name or filename
+	 * Check if the database is empty (for auto-launch detection)
 	 */
 	#[CORS]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	#[ApiRoute(verb: 'GET', url: '/api/v1.0/templates/{identifier}', requirements: ['apiVersion' => '(v2)'])]
-	public function show(string $identifier): DataResponse
+	#[ApiRoute(verb: 'GET', url: '/api/v1.0/templates/check-empty', requirements: ['apiVersion' => '(v2)'])]
+	public function checkEmpty(): DataResponse
 	{
 		try {
-			// Try to find by name first
-			$template = $this->templateCatalog->getTemplateByName($identifier);
+			// Check if inquiry_families table is empty
+			$families = $this->familyMapper->findAll();
+			$isEmpty = count($families) === 0;
 
-			// If not found, try by filename
-			if ($template === null) {
-				$template = $this->templateCatalog->getTemplateByFilename($identifier);
-			}
-
-			if ($template === null) {
-				return new DataResponse(
-					['error' => 'Template not found'],
-					Http::STATUS_NOT_FOUND
-				);
-			}
-
-			// Load the full template content
-			$templatePath = $template['path'];
-			if (!file_exists($templatePath)) {
-				return new DataResponse(
-					['error' => 'Template file not found'],
-					Http::STATUS_NOT_FOUND
-				);
-			}
-
-			$jsonContent = file_get_contents($templatePath);
-			$fullTemplate = json_decode($jsonContent, true);
-
-			if (json_last_error() !== JSON_ERROR_NONE) {
-				return new DataResponse(
-					['error' => 'Invalid template JSON: ' . json_last_error_msg()],
-					Http::STATUS_BAD_REQUEST
-				);
-			}
-
-			// Merge metadata with full content
-			$response = array_merge($template, ['content' => $fullTemplate]);
-
-			return new DataResponse($response);
+			return new DataResponse([
+				'empty' => $isEmpty,
+				'family_count' => count($families),
+			]);
 		} catch (\Exception $e) {
 			return new DataResponse(
 				['error' => $e->getMessage()],
@@ -224,23 +192,55 @@ class TemplateController extends BaseApiV2Controller
 	}
 
 	/**
-	 * Check if the database is empty (for auto-launch detection)
+	 * Get a specific template by name or filename
+	 *
+	 * @param string $identifier Template name or filename
 	 */
 	#[CORS]
 	#[NoAdminRequired]
 	#[NoCSRFRequired]
-	#[ApiRoute(verb: 'GET', url: '/api/v1.0/templates/check-empty', requirements: ['apiVersion' => '(v2)'])]
-	public function checkEmpty(): DataResponse
+	#[ApiRoute(verb: 'GET', url: '/api/v1.0/templates/{identifier}', requirements: ['apiVersion' => '(v2)'])]
+	public function show(string $identifier): DataResponse
 	{
 		try {
-			// Check if inquiry_families table is empty
-			$families = $this->familyMapper->findAll();
-			$isEmpty = count($families) === 0;
+			// Try to find by name first
+			$template = $this->templateCatalog->getTemplateByName($identifier);
 
-			return new DataResponse([
-				'empty' => $isEmpty,
-				'family_count' => count($families),
-			]);
+			// If not found, try by filename
+			if ($template === null) {
+				$template = $this->templateCatalog->getTemplateByFilename($identifier);
+			}
+
+			if ($template === null) {
+				return new DataResponse(
+					['error' => 'Template not found'],
+					Http::STATUS_NOT_FOUND
+				);
+			}
+
+			// Load the full template content
+			$templatePath = $template['path'];
+			if (!file_exists($templatePath)) {
+				return new DataResponse(
+					['error' => 'Template file not found'],
+					Http::STATUS_NOT_FOUND
+				);
+			}
+
+			$jsonContent = file_get_contents($templatePath);
+			$fullTemplate = json_decode($jsonContent, true);
+
+			if (json_last_error() !== JSON_ERROR_NONE) {
+				return new DataResponse(
+					['error' => 'Invalid template JSON: ' . json_last_error_msg()],
+					Http::STATUS_BAD_REQUEST
+				);
+			}
+
+			// Merge metadata with full content
+			$response = array_merge($template, ['content' => $fullTemplate]);
+
+			return new DataResponse($response);
 		} catch (\Exception $e) {
 			return new DataResponse(
 				['error' => $e->getMessage()],
