@@ -5,7 +5,7 @@
 
 import { defineStore } from 'pinia'
 import axios from '@nextcloud/axios'
-import { generateUrl } from '@nextcloud/router'
+import { generateOcsUrl } from '@nextcloud/router'
 import { Logger } from '../helpers/index.ts'
 
 export interface TemplateMetadata {
@@ -165,9 +165,9 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 		async loadTemplates() {
 			this.loadingTemplates = true
 			try {
-				const url = generateUrl('/apps/agora/api/v1.0/templates')
+				const url = generateOcsUrl('/apps/agora/api/v1.0/templates')
 				const response = await axios.get(url)
-				this.templates = response.data
+				this.templates = response.data.ocs.data
 				Logger.info('Loaded templates:', this.templates)
 			} catch (error) {
 				Logger.error('Failed to load templates:', error)
@@ -179,9 +179,9 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 
 		async loadTemplateDetails(identifier: string) {
 			try {
-				const url = generateUrl(`/apps/agora/api/v1.0/templates/${identifier}`)
+				const url = generateOcsUrl(`/apps/agora/api/v1.0/templates/${identifier}`)
 				const response = await axios.get(url)
-				this.selectedTemplate = response.data
+				this.selectedTemplate = response.data.ocs.data
 				Logger.info('Loaded template details:', this.selectedTemplate)
 			} catch (error) {
 				Logger.error('Failed to load template details:', error)
@@ -191,9 +191,9 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 
 		async checkDatabaseEmpty() {
 			try {
-				const url = generateUrl('/apps/agora/api/v1.0/templates/check-empty')
+				const url = generateOcsUrl('/apps/agora/api/v1.0/templates/check-empty')
 				const response = await axios.get(url)
-				this.isDatabaseEmpty = response.data.empty
+				this.isDatabaseEmpty = response.data.ocs.data.empty
 				Logger.info('Database empty check:', this.isDatabaseEmpty)
 			} catch (error) {
 				Logger.error('Failed to check database:', error)
@@ -214,7 +214,7 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 			this.currentStep = 'importing'
 
 			try {
-				const url = generateUrl('/apps/agora/api/v1.0/templates/import')
+				const url = generateOcsUrl('/apps/agora/api/v1.0/templates/import')
 				const templatePath = this.selectedTemplate?.path || ''
 
 				const response = await axios.post(url, {
@@ -222,7 +222,7 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 					language: this.selectedLanguage,
 				})
 
-				this.importResult = response.data.results
+				this.importResult = response.data.ocs.data.results
 				this.currentStep = 'results'
 				Logger.info('Import completed:', this.importResult)
 			} catch (error) {
@@ -236,9 +236,9 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 
 		async validateTemplate(template: TemplateContent) {
 			try {
-				const url = generateUrl('/apps/agora/api/v1.0/templates/validate')
+				const url = generateOcsUrl('/apps/agora/api/v1.0/templates/validate')
 				const response = await axios.post(url, { template })
-				return response.data
+				return response.data.ocs.data
 			} catch (error) {
 				Logger.error('Template validation failed:', error)
 				throw error
