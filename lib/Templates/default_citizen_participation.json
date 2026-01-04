@@ -2,58 +2,114 @@
   "template_info": {
     "name": "default_citizen_participation",
     "version": "1.0.0",
-    "description": "Default template for citizen participation based on Agora's original structure",
+    "description": "Default template for citizen participation with multi-language support",
     "author": "Agora Team",
     "use_case": "citizen_participation",
-    "supports_i18n": true
+    "available_languages": ["en", "fr", "de"]
   },
   "inquiry_families": [
     {
       "family_type": "deliberative",
-      "label_key": "template.family.deliberative.label",
-      "description_key": "template.family.deliberative.description",
+      "label": {
+        "en": "Deliberative",
+        "fr": "Délibératif",
+        "de": "Beratend"
+      },
+      "description": {
+        "en": "Citizen-driven processes such as debates, proposals, petitions, projects, and deliberations.",
+        "fr": "Processus citoyens tels que débats, propositions, pétitions, projets et délibérations.",
+        "de": "Bürgergetriebene Prozesse wie Debatten, Vorschläge, Petitionen, Projekte und Beratungen."
+      },
       "icon": "AccountGroup",
       "sort_order": 1
     },
     {
       "family_type": "legislative",
-      "label_key": "template.family.legislative.label",
-      "description_key": "template.family.legislative.description",
+      "label": {
+        "en": "Legislative",
+        "fr": "Législatif",
+        "de": "Legislative"
+      },
+      "description": {
+        "en": "Law proposals, amendments, constitutional workshops, and official legislative responses.",
+        "fr": "Propositions de loi, amendements, ateliers constitutionnels et réponses législatives officielles.",
+        "de": "Gesetzesvorschläge, Änderungsanträge, Verfassungsworkshops und offizielle Gesetzesantworten."
+      },
       "icon": "Gavel",
       "sort_order": 2
     },
     {
       "family_type": "administrative",
-      "label_key": "template.family.administrative.label",
-      "description_key": "template.family.administrative.description",
+      "label": {
+        "en": "Administrative",
+        "fr": "Administratif",
+        "de": "Verwaltung"
+      },
+      "description": {
+        "en": "Administrative requests and grievances addressed to institutions.",
+        "fr": "Demandes administratives et réclamations adressées aux institutions.",
+        "de": "Verwaltungsanfragen und Beschwerden an Institutionen."
+      },
       "icon": "OfficeBuilding",
       "sort_order": 3
     },
     {
       "family_type": "service",
-      "label_key": "template.family.service.label",
-      "description_key": "template.family.service.description",
+      "label": {
+        "en": "Service",
+        "fr": "Service",
+        "de": "Dienst"
+      },
+      "description": {
+        "en": "Social and citizen service requests such as housing, childcare, or scholarships.",
+        "fr": "Demandes de services sociaux et citoyens telles que le logement, la garde d'enfants ou les bourses.",
+        "de": "Sozial- und Bürgerdienstanfragen wie Wohnraum, Kinderbetreuung oder Stipendien."
+      },
       "icon": "Offer",
       "sort_order": 4
     },
     {
       "family_type": "collective",
-      "label_key": "template.family.collective.label",
-      "description_key": "template.family.collective.description",
+      "label": {
+        "en": "Collective",
+        "fr": "Collectif",
+        "de": "Kollektiv"
+      },
+      "description": {
+        "en": "Assemblies and grouped consultations on themes or topics.",
+        "fr": "Assemblées et consultations groupées sur des thèmes ou sujets.",
+        "de": "Versammlungen und gruppierte Beratungen zu Themen oder Themen."
+      },
       "icon": "AccountMultiple",
       "sort_order": 5
     },
     {
       "family_type": "social",
-      "label_key": "template.family.social.label",
-      "description_key": "template.family.social.description",
+      "label": {
+        "en": "Social",
+        "fr": "Social",
+        "de": "Sozial"
+      },
+      "description": {
+        "en": "Social requests by citizens to help them in their daily life.",
+        "fr": "Demandes sociales des citoyens pour les aider dans leur vie quotidienne.",
+        "de": "Soziale Anfragen von Bürgern zur Unterstützung im Alltag."
+      },
       "icon": "Heart",
       "sort_order": 6
     },
     {
       "family_type": "official",
-      "label_key": "template.family.official.label",
-      "description_key": "template.family.official.description",
+      "label": {
+        "en": "Official",
+        "fr": "Officiel",
+        "de": "Offiziell"
+      },
+      "description": {
+        "en": "Responses and contributions from official entities such as city hall, experts, or commissions.",
+        "fr": "Réponses et contributions d'entités officielles telles que la mairie, les experts ou les commissions.",
+        "de": "Antworten und Beiträge offizieller Stellen wie Rathaus, Experten oder Kommissionen."
+      },
       "icon": "Seal",
       "sort_order": 7
     }
@@ -63,8 +119,16 @@
       "inquiry_type": "proposal",
       "family": "deliberative",
       "icon": "LightbulbOn",
-      "label_key": "template.inquiry_type.proposal.label",
-      "description_key": "template.inquiry_type.proposal.description",
+      "label": {
+        "en": "Proposal",
+        "fr": "Proposition",
+        "de": "Vorschlag"
+      },
+      "description": {
+        "en": "A proposal for improving the community or organization.",
+        "fr": "Une proposition pour améliorer la communauté ou l'organisation.",
+        "de": "Ein Vorschlag zur Verbesserung der Gemeinschaft oder Organisation."
+      },
       "is_root": true,
       "allowed_response": ["suggestion", "objection", "official"]
     },
@@ -72,8 +136,16 @@
       "inquiry_type": "debate",
       "family": "deliberative",
       "icon": "Forum",
-      "label_key": "template.inquiry_type.debate.label",
-      "description_key": "template.inquiry_type.debate.description",
+      "label": {
+        "en": "Debate",
+        "fr": "Débat",
+        "de": "Debatte"
+      },
+      "description": {
+        "en": "A structured debate with arguments for and against.",
+        "fr": "Un débat structuré avec des arguments pour et contre.",
+        "de": "Eine strukturierte Debatte mit Argumenten dafür und dagegen."
+      },
       "is_root": true,
       "allowed_response": ["suggestion", "official"]
     },
@@ -81,8 +153,16 @@
       "inquiry_type": "petition",
       "family": "deliberative",
       "icon": "DrawPen",
-      "label_key": "template.inquiry_type.petition.label",
-      "description_key": "template.inquiry_type.petition.description",
+      "label": {
+        "en": "Petition",
+        "fr": "Pétition",
+        "de": "Petition"
+      },
+      "description": {
+        "en": "A petition to gather support for a specific cause or request.",
+        "fr": "Une pétition pour recueillir un soutien pour une cause ou une demande spécifique.",
+        "de": "Eine Petition zur Sammlung von Unterstützung für ein bestimmtes Anliegen."
+      },
       "is_root": true,
       "allowed_response": ["official"]
     },
@@ -90,8 +170,16 @@
       "inquiry_type": "law_proposal",
       "family": "legislative",
       "icon": "BookOpenVariant",
-      "label_key": "template.inquiry_type.law_proposal.label",
-      "description_key": "template.inquiry_type.law_proposal.description",
+      "label": {
+        "en": "Law Proposal",
+        "fr": "Proposition de loi",
+        "de": "Gesetzesvorschlag"
+      },
+      "description": {
+        "en": "Draft or amendment of a law, with mapped articles and status.",
+        "fr": "Projet ou amendement de loi, avec articles et statut cartographiés.",
+        "de": "Entwurf oder Änderung eines Gesetzes mit zugeordneten Artikeln und Status."
+      },
       "is_root": true,
       "allowed_response": ["amendment", "objection", "official"]
     }
@@ -100,8 +188,16 @@
     {
       "inquiry_type": "proposal",
       "status_key": "draft",
-      "label_key": "template.status.draft.label",
-      "description_key": "template.status.draft.description",
+      "label": {
+        "en": "Draft",
+        "fr": "Brouillon",
+        "de": "Entwurf"
+      },
+      "description": {
+        "en": "Work in progress, not yet published.",
+        "fr": "Travail en cours, pas encore publié.",
+        "de": "In Arbeit, noch nicht veröffentlicht."
+      },
       "is_final": false,
       "icon": "FileDocumentEdit",
       "sort_order": 1
@@ -109,8 +205,16 @@
     {
       "inquiry_type": "proposal",
       "status_key": "published",
-      "label_key": "template.status.published.label",
-      "description_key": "template.status.published.description",
+      "label": {
+        "en": "Published",
+        "fr": "Publié",
+        "de": "Veröffentlicht"
+      },
+      "description": {
+        "en": "Published and open for participation.",
+        "fr": "Publié et ouvert à la participation.",
+        "de": "Veröffentlicht und offen für Teilnahme."
+      },
       "is_final": false,
       "icon": "Send",
       "sort_order": 2
@@ -118,8 +222,16 @@
     {
       "inquiry_type": "proposal",
       "status_key": "under_review",
-      "label_key": "template.status.under_review.label",
-      "description_key": "template.status.under_review.description",
+      "label": {
+        "en": "Under Review",
+        "fr": "En cours d'examen",
+        "de": "In Prüfung"
+      },
+      "description": {
+        "en": "Being reviewed by administrators or moderators.",
+        "fr": "En cours d'examen par les administrateurs ou modérateurs.",
+        "de": "Wird von Administratoren oder Moderatoren geprüft."
+      },
       "is_final": false,
       "icon": "ClipboardText",
       "sort_order": 3
@@ -127,8 +239,16 @@
     {
       "inquiry_type": "proposal",
       "status_key": "accepted",
-      "label_key": "template.status.accepted.label",
-      "description_key": "template.status.accepted.description",
+      "label": {
+        "en": "Accepted",
+        "fr": "Accepté",
+        "de": "Akzeptiert"
+      },
+      "description": {
+        "en": "Accepted for implementation or further action.",
+        "fr": "Accepté pour mise en œuvre ou action ultérieure.",
+        "de": "Zur Umsetzung oder weiteren Maßnahmen angenommen."
+      },
       "is_final": true,
       "icon": "CheckCircle",
       "sort_order": 4
@@ -136,8 +256,16 @@
     {
       "inquiry_type": "proposal",
       "status_key": "rejected",
-      "label_key": "template.status.rejected.label",
-      "description_key": "template.status.rejected.description",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt"
+      },
+      "description": {
+        "en": "Rejected and will not be implemented.",
+        "fr": "Rejeté et ne sera pas mis en œuvre.",
+        "de": "Abgelehnt und wird nicht umgesetzt."
+      },
       "is_final": true,
       "icon": "CloseCircle",
       "sort_order": 5
@@ -148,31 +276,63 @@
       "family": "debate",
       "option_type": "debate_for",
       "icon": "ThumbUp",
-      "label_key": "template.option_type.debate_for.label",
-      "description_key": "template.option_type.debate_for.description",
+      "label": {
+        "en": "For",
+        "fr": "Pour",
+        "de": "Dafür"
+      },
+      "description": {
+        "en": "Argument in favour of the debate topic.",
+        "fr": "Argument en faveur du sujet du débat.",
+        "de": "Argument für das Debattenthema."
+      },
       "allowed_response": ["suggestion", "proposal", "official"]
     },
     {
       "family": "debate",
       "option_type": "debate_against",
       "icon": "ThumbDown",
-      "label_key": "template.option_type.debate_against.label",
-      "description_key": "template.option_type.debate_against.description",
+      "label": {
+        "en": "Against",
+        "fr": "Contre",
+        "de": "Dagegen"
+      },
+      "description": {
+        "en": "Argument against the debate topic.",
+        "fr": "Argument contre le sujet du débat.",
+        "de": "Argument gegen das Debattenthema."
+      },
       "allowed_response": ["suggestion", "proposal", "official"]
     }
   ],
   "inquiry_group_types": [
     {
       "group_type": "theme",
-      "label_key": "template.group_type.theme.label",
-      "description_key": "template.group_type.theme.description",
+      "label": {
+        "en": "Theme",
+        "fr": "Thème",
+        "de": "Thema"
+      },
+      "description": {
+        "en": "Group inquiries by theme or topic.",
+        "fr": "Regrouper les demandes par thème ou sujet.",
+        "de": "Anfragen nach Thema oder Thema gruppieren."
+      },
       "icon": "Tag",
       "sort_order": 1
     },
     {
       "group_type": "project",
-      "label_key": "template.group_type.project.label",
-      "description_key": "template.group_type.project.description",
+      "label": {
+        "en": "Project",
+        "fr": "Projet",
+        "de": "Projekt"
+      },
+      "description": {
+        "en": "Group inquiries related to a specific project.",
+        "fr": "Regrouper les demandes liées à un projet spécifique.",
+        "de": "Anfragen zu einem bestimmten Projekt gruppieren."
+      },
       "icon": "FolderMultiple",
       "sort_order": 2
     }
@@ -180,57 +340,116 @@
   "categories": [
     {
       "category_key": "urban_planning",
-      "label_key": "template.category.urban_planning.label",
-      "description_key": "template.category.urban_planning.description",
-      "icon": "City",
+      "label": {
+        "en": "Urban Planning",
+        "fr": "Urbanisme",
+        "de": "Stadtplanung"
+      },
+      "description": {
+        "en": "Urban development, infrastructure, and city planning.",
+        "fr": "Développement urbain, infrastructure et planification urbaine.",
+        "de": "Stadtentwicklung, Infrastruktur und Stadtplanung."
+      },
       "sort_order": 1
     },
     {
       "category_key": "environment",
-      "label_key": "template.category.environment.label",
-      "description_key": "template.category.environment.description",
-      "icon": "Leaf",
+      "label": {
+        "en": "Environment",
+        "fr": "Environnement",
+        "de": "Umwelt"
+      },
+      "description": {
+        "en": "Environmental protection, sustainability, and green initiatives.",
+        "fr": "Protection de l'environnement, durabilité et initiatives vertes.",
+        "de": "Umweltschutz, Nachhaltigkeit und grüne Initiativen."
+      },
       "sort_order": 2
     },
     {
       "category_key": "education",
-      "label_key": "template.category.education.label",
-      "description_key": "template.category.education.description",
-      "icon": "School",
+      "label": {
+        "en": "Education",
+        "fr": "Éducation",
+        "de": "Bildung"
+      },
+      "description": {
+        "en": "Education, schools, and learning programmes.",
+        "fr": "Éducation, écoles et programmes d'apprentissage.",
+        "de": "Bildung, Schulen und Lernprogramme."
+      },
       "sort_order": 3
     },
     {
       "category_key": "health",
-      "label_key": "template.category.health.label",
-      "description_key": "template.category.health.description",
-      "icon": "Hospital",
+      "label": {
+        "en": "Health",
+        "fr": "Santé",
+        "de": "Gesundheit"
+      },
+      "description": {
+        "en": "Healthcare, public health, and wellbeing.",
+        "fr": "Soins de santé, santé publique et bien-être.",
+        "de": "Gesundheitswesen, öffentliche Gesundheit und Wohlbefinden."
+      },
       "sort_order": 4
     },
     {
       "category_key": "culture",
-      "label_key": "template.category.culture.label",
-      "description_key": "template.category.culture.description",
-      "icon": "Palette",
+      "label": {
+        "en": "Culture",
+        "fr": "Culture",
+        "de": "Kultur"
+      },
+      "description": {
+        "en": "Cultural activities, arts, and heritage.",
+        "fr": "Activités culturelles, arts et patrimoine.",
+        "de": "Kulturelle Aktivitäten, Kunst und Kulturerbe."
+      },
       "sort_order": 5
     }
   ],
   "locations": [
     {
       "location_key": "city_center",
-      "label_key": "template.location.city_center.label",
-      "description_key": "template.location.city_center.description",
+      "label": {
+        "en": "City Centre",
+        "fr": "Centre-ville",
+        "de": "Stadtzentrum"
+      },
+      "description": {
+        "en": "Central area of the city.",
+        "fr": "Zone centrale de la ville.",
+        "de": "Zentraler Bereich der Stadt."
+      },
       "sort_order": 1
     },
     {
       "location_key": "district_north",
-      "label_key": "template.location.district_north.label",
-      "description_key": "template.location.district_north.description",
+      "label": {
+        "en": "North District",
+        "fr": "Quartier Nord",
+        "de": "Nordbezirk"
+      },
+      "description": {
+        "en": "Northern part of the city or region.",
+        "fr": "Partie nord de la ville ou de la région.",
+        "de": "Nördlicher Teil der Stadt oder Region."
+      },
       "sort_order": 2
     },
     {
       "location_key": "district_south",
-      "label_key": "template.location.district_south.label",
-      "description_key": "template.location.district_south.description",
+      "label": {
+        "en": "South District",
+        "fr": "Quartier Sud",
+        "de": "Südbezirk"
+      },
+      "description": {
+        "en": "Southern part of the city or region.",
+        "fr": "Partie sud de la ville ou de la région.",
+        "de": "Südlicher Teil der Stadt oder Region."
+      },
       "sort_order": 3
     }
   ]
