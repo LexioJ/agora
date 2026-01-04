@@ -69,13 +69,16 @@ const handleFileUpload = async (event: Event) => {
 	<div class="template-selection">
 		<div class="template-header">
 			<h2>{{ t('agora', 'Select a Template') }}</h2>
-			<p class="subtitle">
+			<p v-if="wizardStore.selectedUseCase === 'custom'" class="subtitle">
 				{{ t('agora', 'Choose a pre-configured template or upload your own') }}
+			</p>
+			<p v-else class="subtitle">
+				{{ t('agora', 'Choose a pre-configured template for your use case') }}
 			</p>
 		</div>
 
-		<!-- Custom Template Upload Section -->
-		<div class="upload-section">
+		<!-- Custom Template Upload Section - Only for Custom Setup -->
+		<div v-if="wizardStore.selectedUseCase === 'custom'" class="upload-section">
 			<NcButton
 				type="secondary"
 				@click="triggerFileUpload">
@@ -100,7 +103,7 @@ const handleFileUpload = async (event: Event) => {
 			</NcNoteCard>
 		</div>
 
-		<div v-if="!wizardStore.customTemplate" class="divider">
+		<div v-if="wizardStore.selectedUseCase === 'custom' && !wizardStore.customTemplate" class="divider">
 			<span>{{ t('agora', 'or choose from catalog') }}</span>
 		</div>
 

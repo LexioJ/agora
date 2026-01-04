@@ -144,10 +144,42 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 		},
 
 		availableTemplates: (state): Template[] => {
-			if (!state.selectedUseCase || state.selectedUseCase === 'custom') {
+			if (!state.selectedUseCase) {
 				return state.templates
 			}
-			return state.templates.filter(t => t.use_case === state.selectedUseCase)
+
+			// Custom shows templates that don't match other use cases
+			if (state.selectedUseCase === 'custom') {
+				return state.templates.filter(t => {
+					const useCase = t.use_case || ''
+					return !useCase.startsWith('citizen_') &&
+						   !useCase.startsWith('enterprise_') &&
+						   !useCase.startsWith('business_') &&
+						   !useCase.startsWith('education_') &&
+						   !useCase.startsWith('research_')
+				})
+			}
+
+			// Prefix-based matching for main use cases
+			if (state.selectedUseCase === 'citizen_participation') {
+				return state.templates.filter(t => (t.use_case || '').startsWith('citizen_'))
+			}
+
+			if (state.selectedUseCase === 'enterprise') {
+				return state.templates.filter(t => {
+					const useCase = t.use_case || ''
+					return useCase.startsWith('enterprise_') || useCase.startsWith('business_')
+				})
+			}
+
+			if (state.selectedUseCase === 'education') {
+				return state.templates.filter(t => {
+					const useCase = t.use_case || ''
+					return useCase.startsWith('education_') || useCase.startsWith('research_')
+				})
+			}
+
+			return state.templates
 		},
 
 		availableLanguages: (state): string[] => {
