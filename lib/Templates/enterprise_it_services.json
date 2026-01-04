@@ -49,10 +49,10 @@
       "family": "it_services",
       "icon": "Lightbulb",
       "label": {
-        "en": "💡 New Ideas",
-        "fr": "💡 Nouvelles idées",
-        "de": "💡 Neue Ideen",
-        "gsw": "💡 Nöii Idee"
+        "en": "New Ideas",
+        "fr": "Nouvelles idées",
+        "de": "Neue Ideen",
+        "gsw": "Nöii Idee"
       },
       "description": {
         "en": "Innovative ideas to improve IT services and operations",
@@ -68,10 +68,10 @@
       "family": "it_services",
       "icon": "RobotExcited",
       "label": {
-        "en": "🤖 AI Use-Cases",
-        "fr": "🤖 Cas d'usage IA",
-        "de": "🤖 KI-Anwendungsfälle",
-        "gsw": "🤖 KI-Aawändigsfäll"
+        "en": "AI Use-Cases",
+        "fr": "Cas d'usage IA",
+        "de": "KI-Anwendungsfälle",
+        "gsw": "KI-Aawändigsfäll"
       },
       "description": {
         "en": "Proposals for AI and machine learning implementations",
@@ -87,10 +87,10 @@
       "family": "it_services",
       "icon": "Cog",
       "label": {
-        "en": "🔄 Process Automation",
-        "fr": "🔄 Automatisation de processus",
-        "de": "🔄 Prozessautomatisierung",
-        "gsw": "🔄 Prozess-Automatisierig"
+        "en": "Process Automation",
+        "fr": "Automatisation de processus",
+        "de": "Prozessautomatisierung",
+        "gsw": "Prozess-Automatisierig"
       },
       "description": {
         "en": "Requests to automate manual processes and workflows",
@@ -106,10 +106,10 @@
       "family": "it_services",
       "icon": "Plus",
       "label": {
-        "en": "🆕 New Services",
-        "fr": "🆕 Nouveaux services",
-        "de": "🆕 Neue Dienste",
-        "gsw": "🆕 Nöii Dienscht"
+        "en": "New Services",
+        "fr": "Nouveaux services",
+        "de": "Neue Dienste",
+        "gsw": "Nöii Dienscht"
       },
       "description": {
         "en": "Proposals for new IT services or tools",
@@ -125,10 +125,10 @@
       "family": "it_services",
       "icon": "TrendingUp",
       "label": {
-        "en": "📈 Improve Existing Services",
-        "fr": "📈 Améliorer les services existants",
-        "de": "📈 Bestehende Dienste verbessern",
-        "gsw": "📈 Bestehendi Dienscht verbessere"
+        "en": "Improve Existing Services",
+        "fr": "Améliorer les services existants",
+        "de": "Bestehende Dienste verbessern",
+        "gsw": "Bestehendi Dienscht verbessere"
       },
       "description": {
         "en": "Suggestions to enhance current IT services",
@@ -144,10 +144,10 @@
       "family": "it_services",
       "icon": "SwapHorizontal",
       "label": {
-        "en": "🔁 Replace IT-Services",
-        "fr": "🔁 Remplacer des services IT",
-        "de": "🔁 IT-Services ersetzen",
-        "gsw": "🔁 IT-Services ersetze"
+        "en": "Replace IT-Services",
+        "fr": "Remplacer des services IT",
+        "de": "IT-Services ersetzen",
+        "gsw": "IT-Services ersetze"
       },
       "description": {
         "en": "Proposals to replace outdated or inefficient services",
@@ -163,10 +163,10 @@
       "family": "it_services",
       "icon": "Application",
       "label": {
-        "en": "📱 Business Applications",
-        "fr": "📱 Applications métier",
-        "de": "📱 Geschäftsanwendungen",
-        "gsw": "📱 Gschäftsaawändige"
+        "en": "Business Applications",
+        "fr": "Applications métier",
+        "de": "Geschäftsanwendungen",
+        "gsw": "Gschäftsaawändige"
       },
       "description": {
         "en": "Requests for new business applications or integrations",

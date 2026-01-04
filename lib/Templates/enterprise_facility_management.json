@@ -49,10 +49,10 @@
       "family": "facilities",
       "icon": "OfficeBuildingCog",
       "label": {
-        "en": "🏗️ Infrastructure Improvements",
-        "fr": "🏗️ Améliorations d'infrastructure",
-        "de": "🏗️ Infrastrukturverbesserungen",
-        "gsw": "🏗️ Infrastruktur-Verbesserige"
+        "en": "Infrastructure Improvements",
+        "fr": "Améliorations d'infrastructure",
+        "de": "Infrastrukturverbesserungen",
+        "gsw": "Infrastruktur-Verbesserige"
       },
       "description": {
         "en": "Proposals for building and infrastructure improvements",
@@ -68,10 +68,10 @@
       "family": "facilities",
       "icon": "Leaf",
       "label": {
-        "en": "🌱 Sustainability Initiatives",
-        "fr": "🌱 Initiatives de durabilité",
-        "de": "🌱 Nachhaltigkeitsinitiativen",
-        "gsw": "🌱 Nochhaltigkeits-Initiative"
+        "en": "Sustainability Initiatives",
+        "fr": "Initiatives de durabilité",
+        "de": "Nachhaltigkeitsinitiativen",
+        "gsw": "Nochhaltigkeits-Initiative"
       },
       "description": {
         "en": "Environmental sustainability and green initiatives",
@@ -87,10 +87,10 @@
       "family": "facilities",
       "icon": "Desk",
       "label": {
-        "en": "🪑 Workspace Optimization",
-        "fr": "🪑 Optimisation de l'espace de travail",
-        "de": "🪑 Arbeitsplatzoptimierung",
-        "gsw": "🪑 Arbetsplatz-Optimierig"
+        "en": "Workspace Optimization",
+        "fr": "Optimisation de l'espace de travail",
+        "de": "Arbeitsplatzoptimierung",
+        "gsw": "Arbetsplatz-Optimierig"
       },
       "description": {
         "en": "Ideas to optimize office space and improve ergonomics",
@@ -106,10 +106,10 @@
       "family": "facilities",
       "icon": "Tools",
       "label": {
-        "en": "🔧 Maintenance Requests",
-        "fr": "🔧 Demandes de maintenance",
-        "de": "🔧 Wartungsanfragen",
-        "gsw": "🔧 Wartigsaafraage"
+        "en": "Maintenance Requests",
+        "fr": "Demandes de maintenance",
+        "de": "Wartungsanfragen",
+        "gsw": "Wartigsaafraage"
       },
       "description": {
         "en": "Maintenance and repair requests for facilities",
@@ -125,10 +125,10 @@
       "family": "facilities",
       "icon": "CarParking",
       "label": {
-        "en": "🅿️ Parking & Transportation",
-        "fr": "🅿️ Parking et transport",
-        "de": "🅿️ Parken & Verkehr",
-        "gsw": "🅿️ Parkiere & Transport"
+        "en": "Parking & Transportation",
+        "fr": "Parking et transport",
+        "de": "Parken & Verkehr",
+        "gsw": "Parkiere & Transport"
       },
       "description": {
         "en": "Parking and transportation improvement suggestions",

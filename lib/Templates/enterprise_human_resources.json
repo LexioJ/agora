@@ -49,10 +49,10 @@
       "family": "hr_services",
       "icon": "School",
       "label": {
-        "en": "🎓 Training & Development Ideas",
-        "fr": "🎓 Idées de formation et développement",
-        "de": "🎓 Schulungs- und Entwicklungsideen",
-        "gsw": "🎓 Schuligs- und Entwickligsidee"
+        "en": "Training & Development Ideas",
+        "fr": "Idées de formation et développement",
+        "de": "Schulungs- und Entwicklungsideen",
+        "gsw": "Schuligs- und Entwickligsidee"
       },
       "description": {
         "en": "Suggestions for employee training programs and professional development",
@@ -68,10 +68,10 @@
       "family": "hr_services",
       "icon": "OfficeBuilding",
       "label": {
-        "en": "🏢 Workplace Improvements",
-        "fr": "🏢 Améliorations du lieu de travail",
-        "de": "🏢 Arbeitsplatzverbesserungen",
-        "gsw": "🏢 Arbetsplatz-Verbesserige"
+        "en": "Workplace Improvements",
+        "fr": "Améliorations du lieu de travail",
+        "de": "Arbeitsplatzverbesserungen",
+        "gsw": "Arbetsplatz-Verbesserige"
       },
       "description": {
         "en": "Ideas to improve workplace environment and employee experience",
@@ -87,10 +87,10 @@
       "family": "hr_services",
       "icon": "AccountMultiple",
       "label": {
-        "en": "👥 Team Building Suggestions",
-        "fr": "👥 Suggestions de team building",
-        "de": "👥 Teambuilding-Vorschläge",
-        "gsw": "👥 Teambuilding-Vorschläg"
+        "en": "Team Building Suggestions",
+        "fr": "Suggestions de team building",
+        "de": "Teambuilding-Vorschläge",
+        "gsw": "Teambuilding-Vorschläg"
       },
       "description": {
         "en": "Proposals for team building activities and initiatives",
@@ -106,10 +106,10 @@
       "family": "hr_services",
       "icon": "FileDocument",
       "label": {
-        "en": "📋 Policy Feedback",
-        "fr": "📋 Retour sur les politiques",
-        "de": "📋 Richtlinien-Feedback",
-        "gsw": "📋 Richtlinie-Feedback"
+        "en": "Policy Feedback",
+        "fr": "Retour sur les politiques",
+        "de": "Richtlinien-Feedback",
+        "gsw": "Richtlinie-Feedback"
       },
       "description": {
         "en": "Feedback on HR policies and suggestions for improvements",
@@ -125,10 +125,10 @@
       "family": "hr_services",
       "icon": "Star",
       "label": {
-        "en": "🌟 Recognition Programs",
-        "fr": "🌟 Programmes de reconnaissance",
-        "de": "🌟 Anerkennungsprogramme",
-        "gsw": "🌟 Anerkennigsprogramm"
+        "en": "Recognition Programs",
+        "fr": "Programmes de reconnaissance",
+        "de": "Anerkennungsprogramme",
+        "gsw": "Anerkennigsprogramm"
       },
       "description": {
         "en": "Ideas for employee recognition and reward programs",
