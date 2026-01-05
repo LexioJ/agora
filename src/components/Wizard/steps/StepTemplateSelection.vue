@@ -8,7 +8,6 @@ import { computed, onMounted, ref } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { NcLoadingIcon, NcEmptyContent, NcButton, NcNoteCard } from '@nextcloud/vue'
 import { useTemplateWizardStore, type Template, type TemplateContent } from '../../../stores/templateWizard'
-import { generateUrl } from '@nextcloud/router'
 
 const wizardStore = useTemplateWizardStore()
 
@@ -66,14 +65,56 @@ const handleFileUpload = async (event: Event) => {
 	}
 }
 
-const downloadSchema = () => {
-	const url = generateUrl('/apps/agora/agora-template-schema.json')
-	window.open(url, '_blank')
+const downloadSchema = async () => {
+	try {
+		const url = wizardStore.generateOcsUrl('/templates/schema')
+		const response = await fetch(url)
+		const data = await response.json()
+
+		if (!response.ok || data.ocs?.data?.error) {
+			throw new Error(data.ocs?.data?.error || 'Failed to download schema')
+		}
+
+		const schema = data.ocs.data
+		const blob = new Blob([JSON.stringify(schema, null, 2)], { type: 'application/json' })
+		const downloadUrl = window.URL.createObjectURL(blob)
+		const a = document.createElement('a')
+		a.href = downloadUrl
+		a.download = 'agora-template-schema.json'
+		document.body.appendChild(a)
+		a.click()
+		window.URL.revokeObjectURL(downloadUrl)
+		document.body.removeChild(a)
+	} catch (error) {
+		console.error('Failed to download schema:', error)
+		uploadError.value = 'Failed to download schema file'
+	}
 }
 
-const downloadInstructions = () => {
-	const url = generateUrl('/apps/agora/agora-template-instructions.md')
-	window.open(url, '_blank')
+const downloadInstructions = async () => {
+	try {
+		const url = wizardStore.generateOcsUrl('/templates/instructions')
+		const response = await fetch(url)
+		const data = await response.json()
+
+		if (!response.ok || data.ocs?.data?.error) {
+			throw new Error(data.ocs?.data?.error || 'Failed to download instructions')
+		}
+
+		const instructions = data.ocs.data.content
+		const blob = new Blob([instructions], { type: 'text/markdown' })
+		const downloadUrl = window.URL.createObjectURL(blob)
+		const a = document.createElement('a')
+		a.href = downloadUrl
+		a.download = data.ocs.data.filename || 'agora-template-instructions.md'
+		document.body.appendChild(a)
+		a.click()
+		window.URL.revokeObjectURL(downloadUrl)
+		document.body.removeChild(a)
+	} catch (error) {
+		console.error('Failed to download instructions:', error)
+		uploadError.value = 'Failed to download instructions file'
+	}
 }
 
 const toggleHelp = () => {

@@ -293,6 +293,77 @@ class TemplateController extends BaseApiV2Controller
 	}
 
 	/**
+	 * Get the template schema JSON file
+	 */
+	#[CORS]
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[ApiRoute(verb: 'GET', url: '/api/v1.0/templates/schema')]
+	public function getSchema(): DataResponse
+	{
+		try {
+			$schemaPath = dirname(__DIR__, 2) . '/public/agora-template-schema.json';
+
+			if (!file_exists($schemaPath)) {
+				return new DataResponse(
+					['error' => 'Schema file not found'],
+					Http::STATUS_NOT_FOUND
+				);
+			}
+
+			$schemaContent = file_get_contents($schemaPath);
+			$schema = json_decode($schemaContent, true);
+
+			if ($schema === null) {
+				return new DataResponse(
+					['error' => 'Invalid schema file'],
+					Http::STATUS_INTERNAL_SERVER_ERROR
+				);
+			}
+
+			return new DataResponse($schema);
+		} catch (\Exception $e) {
+			return new DataResponse(
+				['error' => 'Failed to load schema: ' . $e->getMessage()],
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
+	/**
+	 * Get the template instructions markdown file
+	 */
+	#[CORS]
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[ApiRoute(verb: 'GET', url: '/api/v1.0/templates/instructions')]
+	public function getInstructions(): DataResponse
+	{
+		try {
+			$instructionsPath = dirname(__DIR__, 2) . '/public/agora-template-instructions.md';
+
+			if (!file_exists($instructionsPath)) {
+				return new DataResponse(
+					['error' => 'Instructions file not found'],
+					Http::STATUS_NOT_FOUND
+				);
+			}
+
+			$instructions = file_get_contents($instructionsPath);
+
+			return new DataResponse([
+				'content' => $instructions,
+				'filename' => 'agora-template-instructions.md',
+			]);
+		} catch (\Exception $e) {
+			return new DataResponse(
+				['error' => 'Failed to load instructions: ' . $e->getMessage()],
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
+	/**
 	 * Parse import messages into categorized results
 	 *
 	 * @param array $messages Import messages from TemplateLoader
