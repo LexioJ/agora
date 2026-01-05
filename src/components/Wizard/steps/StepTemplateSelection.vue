@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { t } from '@nextcloud/l10n'
+import axios from '@nextcloud/axios'
 import { generateOcsUrl } from '@nextcloud/router'
 import { NcLoadingIcon, NcEmptyContent, NcButton, NcNoteCard } from '@nextcloud/vue'
 import { useTemplateWizardStore, type Template, type TemplateContent } from '../../../stores/templateWizard'
@@ -69,14 +70,13 @@ const handleFileUpload = async (event: Event) => {
 const downloadSchema = async () => {
 	try {
 		const url = generateOcsUrl('/apps/agora/api/v1.0/templates/schema')
-		const response = await fetch(url)
-		const data = await response.json()
+		const response = await axios.get(url)
 
-		if (!response.ok || data.ocs?.data?.error) {
-			throw new Error(data.ocs?.data?.error || 'Failed to download schema')
+		if (response.data?.ocs?.data?.error) {
+			throw new Error(response.data.ocs.data.error)
 		}
 
-		const schema = data.ocs.data
+		const schema = response.data.ocs.data
 		const blob = new Blob([JSON.stringify(schema, null, 2)], { type: 'application/json' })
 		const downloadUrl = window.URL.createObjectURL(blob)
 		const a = document.createElement('a')
@@ -88,33 +88,32 @@ const downloadSchema = async () => {
 		document.body.removeChild(a)
 	} catch (error) {
 		console.error('Failed to download schema:', error)
-		uploadError.value = 'Failed to download schema file'
+		uploadError.value = error instanceof Error ? error.message : 'Failed to download schema file'
 	}
 }
 
 const downloadInstructions = async () => {
 	try {
 		const url = generateOcsUrl('/apps/agora/api/v1.0/templates/instructions')
-		const response = await fetch(url)
-		const data = await response.json()
+		const response = await axios.get(url)
 
-		if (!response.ok || data.ocs?.data?.error) {
-			throw new Error(data.ocs?.data?.error || 'Failed to download instructions')
+		if (response.data?.ocs?.data?.error) {
+			throw new Error(response.data.ocs.data.error)
 		}
 
-		const instructions = data.ocs.data.content
+		const instructions = response.data.ocs.data.content
 		const blob = new Blob([instructions], { type: 'text/markdown' })
 		const downloadUrl = window.URL.createObjectURL(blob)
 		const a = document.createElement('a')
 		a.href = downloadUrl
-		a.download = data.ocs.data.filename || 'agora-template-instructions.md'
+		a.download = response.data.ocs.data.filename || 'agora-template-instructions.md'
 		document.body.appendChild(a)
 		a.click()
 		window.URL.revokeObjectURL(downloadUrl)
 		document.body.removeChild(a)
 	} catch (error) {
 		console.error('Failed to download instructions:', error)
-		uploadError.value = 'Failed to download instructions file'
+		uploadError.value = error instanceof Error ? error.message : 'Failed to download instructions file'
 	}
 }
 
