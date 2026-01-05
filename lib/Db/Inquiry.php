@@ -49,6 +49,8 @@ use OCP\IURLGenerator;
  * @method    void setAllowComment(int $value)
  * @method    int getAllowSupport()
  * @method    void setAllowSupport(int $value)
+ * @method    string getSupportFeature()
+ * @method    void setSupportFeature(string $value)
  * @method    int getQuorum()
  * @method    void setQuorum(int $value)
  * @method    string getShowResults()
@@ -158,6 +160,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
     protected string $inquiryStatus = self::DEFAULT_STATUS_DRAFT;
     protected int $allowComment = 0;
     protected int $allowSupport = 0;
+    protected string $supportFeature = 'binary';
     protected bool $hasSupported = false; 
     protected ?int $supportValue = null; 
     protected string $supportMode = 'simple'; 
@@ -196,6 +199,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         $this->addType('quorum', 'integer');
         $this->addType('lastInteraction', 'integer');
         $this->addType('parentId', 'integer');
+        $this->addType('supportFeature', 'string');
 
         // joined Attributes
         $this->addType('currentUserSupports', 'integer');
@@ -238,6 +242,7 @@ class Inquiry extends EntityWithUser implements JsonSerializable
         'showResults' => $this->getShowResults(),
         'allowComment' => $this->getAllowComment(),
         'allowSupport' => $this->getAllowSupport(),
+        'supportFeature' => $this->getSupportFeature(),
         'archived' => $this->getArchived(),
         'deleted' => $this->getDeleted(),
         'lastInteraction' => $this->getLastInteraction(),

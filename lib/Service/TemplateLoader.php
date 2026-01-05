@@ -179,6 +179,16 @@ class TemplateLoader
 					$type->setAllowedTransformation(null);
 				}
 
+				// Handle allowed_option_type
+				if (isset($typeData['allowed_option_type']) && is_array($typeData['allowed_option_type'])) {
+					$type->setAllowedOptionType($typeData['allowed_option_type']);
+				} else {
+					$type->setAllowedOptionType(null);
+				}
+
+				// Handle support_feature
+				$type->setSupportFeature($typeData['support_feature'] ?? 'binary');
+
 				// Handle fields if present
 				if (isset($typeData['fields']) && is_array($typeData['fields'])) {
 					$type->setFields($typeData['fields']);

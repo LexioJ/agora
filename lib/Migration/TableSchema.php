@@ -449,6 +449,7 @@ abstract class TableSchema
             'inquiry_status' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'draft', 'length' => 32]],
             'allow_comment' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
             'allow_support' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 1, 'length' => 20]],
+            'support_feature' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'binary', 'length' => 20]],
             'family' => ['type' => Types::STRING, 'options' => ['notnull' => false, 'default' => 'deliberative', 'length' => 64]], // Added missing family column
         ],
 
@@ -515,6 +516,8 @@ abstract class TableSchema
             'fields' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
             'allowed_response' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
             'allowed_transformation' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
+            'allowed_option_type' => ['type' => Types::TEXT, 'options' => ['notnull' => false]],
+            'support_feature' => ['type' => Types::STRING, 'options' => ['notnull' => true, 'default' => 'binary', 'length' => 20]],
             'is_root' => ['type' => Types::BOOLEAN, 'options' => ['notnull' => false, 'default' => true]],
             'created' => ['type' => Types::BIGINT, 'options' => ['notnull' => true, 'default' => 0, 'length' => 20]],
         ],

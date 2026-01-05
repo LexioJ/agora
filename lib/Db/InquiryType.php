@@ -28,6 +28,10 @@ use JsonSerializable;
  * @method         void setAllowedResponse(?array $value)
  * @method         ?array getAllowedTransformation()
  * @method         void setAllowedTransformation(?array $value)
+ * @method         ?array getAllowedOptionType()
+ * @method         void setAllowedOptionType(?array $value)
+ * @method         string getSupportFeature()
+ * @method         void setSupportFeature(string $value)
  * @method         bool getIsRoot()
  * @method         void setIsRoot(bool $value)
  * @method         int getCreated()
@@ -48,6 +52,8 @@ class InquiryType extends EntityWithUser implements JsonSerializable
     protected ?array $fields = null;
     protected ?array $allowedResponse = null;
     protected ?array $allowedTransformation = null;
+    protected ?array $allowedOptionType = null;
+    protected string $supportFeature = 'binary';
     protected bool $isRoot = false;
     protected int $created = 0;
 
@@ -63,6 +69,8 @@ class InquiryType extends EntityWithUser implements JsonSerializable
         $this->addType('allowedResponse', 'json');
         $this->addType('isRoot', 'boolean');
         $this->addType('allowedTransformation', 'json');
+        $this->addType('allowedOptionType', 'json');
+        $this->addType('supportFeature', 'string');
     }
 
     /**
@@ -82,6 +90,8 @@ class InquiryType extends EntityWithUser implements JsonSerializable
             'fields' => $this->getFields(),
             'allowed_response' => $this->getAllowedResponse(),
             'allowed_transformation' => $this->getAllowedTransformation(),
+            'allowed_option_type' => $this->getAllowedOptionType(),
+            'support_feature' => $this->getSupportFeature(),
             'is_root' => $this->getIsRoot(),
             'created' => $this->getCreated(),
         ];
