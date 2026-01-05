@@ -1,0 +1,285 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Agora Template Schema",
+  "description": "Schema for creating custom Agora templates for inquiry types, statuses, and categories",
+  "type": "object",
+  "required": ["template_info", "inquiry_types"],
+  "properties": {
+    "template_info": {
+      "type": "object",
+      "required": ["name", "version", "description", "author", "use_case", "available_languages"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Unique identifier for the template (e.g., 'enterprise_it_services')",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "version": {
+          "type": "string",
+          "description": "Template version (e.g., '1.0.0')",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "description": {
+          "type": "string",
+          "description": "Brief description of the template purpose"
+        },
+        "author": {
+          "type": "string",
+          "description": "Template author or organization"
+        },
+        "use_case": {
+          "type": "string",
+          "description": "Use case category (e.g., 'enterprise_it', 'education_research')",
+          "pattern": "^[a-z0-9_]+$"
+        },
+        "available_languages": {
+          "type": "array",
+          "description": "List of supported language codes (ISO 639-1)",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z]{2,3}$"
+          },
+          "minItems": 1
+        }
+      }
+    },
+    "inquiry_families": {
+      "type": "array",
+      "description": "Categories of inquiry types",
+      "items": {
+        "type": "object",
+        "required": ["family_type", "label", "description", "icon"],
+        "properties": {
+          "family_type": {
+            "type": "string",
+            "description": "Unique identifier for the family",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "label": {
+            "type": "object",
+            "description": "Localized labels for the family",
+            "patternProperties": {
+              "^[a-z]{2,3}$": {
+                "type": "string"
+              }
+            }
+          },
+          "description": {
+            "type": "object",
+            "description": "Localized descriptions for the family",
+            "patternProperties": {
+              "^[a-z]{2,3}$": {
+                "type": "string"
+              }
+            }
+          },
+          "icon": {
+            "type": "string",
+            "description": "Icon name from Nextcloud icon set"
+          },
+          "sort_order": {
+            "type": "integer",
+            "description": "Display order (lower numbers first)"
+          }
+        }
+      }
+    },
+    "inquiry_types": {
+      "type": "array",
+      "description": "Types of inquiries that can be created",
+      "items": {
+        "type": "object",
+        "required": ["inquiry_type", "family", "label", "description", "is_root"],
+        "properties": {
+          "inquiry_type": {
+            "type": "string",
+            "description": "Unique identifier for the inquiry type",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "family": {
+            "type": "string",
+            "description": "Family this type belongs to (matches family_type)"
+          },
+          "icon": {
+            "type": "string",
+            "description": "Icon name from Nextcloud icon set"
+          },
+          "label": {
+            "type": "object",
+            "description": "Localized labels",
+            "patternProperties": {
+              "^[a-z]{2,3}$": {
+                "type": "string"
+              }
+            }
+          },
+          "description": {
+            "type": "object",
+            "description": "Localized descriptions",
+            "patternProperties": {
+              "^[a-z]{2,3}$": {
+                "type": "string"
+              }
+            }
+          },
+          "is_root": {
+            "type": "boolean",
+            "description": "Whether this is a root-level inquiry type (true) or a response type (false)"
+          },
+          "allowed_response": {
+            "type": "array",
+            "description": "List of family types that can respond to this inquiry",
+            "items": {
+              "type": "string"
+            }
+          },
+          "allowed_option_type": {
+            "type": "array",
+            "description": "Types of options allowed for this inquiry type",
+            "items": {
+              "type": "string",
+              "enum": ["position_for", "position_against", "alternative", "official_summary"]
+            }
+          },
+          "support_feature": {
+            "type": "string",
+            "description": "Support/voting mechanism for this inquiry type",
+            "enum": ["none", "binary", "ternary"],
+            "default": "binary"
+          },
+          "fields": {
+            "type": "array",
+            "description": "Custom fields for this inquiry type",
+            "items": {
+              "type": "object"
+            }
+          },
+          "allowed_transformation": {
+            "type": "array",
+            "description": "Allowed transformations to other inquiry types",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "inquiry_statuses": {
+      "type": "array",
+      "description": "Status definitions for inquiry types",
+      "items": {
+        "type": "object",
+        "required": ["inquiry_type", "status_key", "label", "description", "is_final"],
+        "properties": {
+          "inquiry_type": {
+            "type": "string",
+            "description": "Inquiry type this status belongs to"
+          },
+          "status_key": {
+            "type": "string",
+            "description": "Unique identifier for the status",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "label": {
+            "type": "object",
+            "description": "Localized labels",
+            "patternProperties": {
+              "^[a-z]{2,3}$": {
+                "type": "string"
+              }
+            }
+          },
+          "description": {
+            "type": "object",
+            "description": "Localized descriptions",
+            "patternProperties": {
+              "^[a-z]{2,3}$": {
+                "type": "string"
+              }
+            }
+          },
+          "is_final": {
+            "type": "boolean",
+            "description": "Whether this is a terminal status"
+          },
+          "icon": {
+            "type": "string",
+            "description": "Icon name from Nextcloud icon set"
+          },
+          "sort_order": {
+            "type": "integer",
+            "description": "Display order in status progression"
+          }
+        }
+      }
+    },
+    "categories": {
+      "type": "array",
+      "description": "Categories for organizing inquiries",
+      "items": {
+        "type": "object",
+        "required": ["category_key", "label", "description"],
+        "properties": {
+          "category_key": {
+            "type": "string",
+            "description": "Unique identifier for the category",
+            "pattern": "^[a-z0-9_]+$"
+          },
+          "label": {
+            "type": "object",
+            "description": "Localized labels",
+            "patternProperties": {
+              "^[a-z]{2,3}$": {
+                "type": "string"
+              }
+            }
+          },
+          "description": {
+            "type": "object",
+            "description": "Localized descriptions",
+            "patternProperties": {
+              "^[a-z]{2,3}$": {
+                "type": "string"
+              }
+            }
+          },
+          "sort_order": {
+            "type": "integer",
+            "description": "Display order"
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "template_info": {
+        "name": "my_custom_template",
+        "version": "1.0.0",
+        "description": "My custom template for specific use case",
+        "author": "Your Name",
+        "use_case": "custom_category",
+        "available_languages": ["en", "de"]
+      },
+      "inquiry_types": [
+        {
+          "inquiry_type": "my_inquiry_type",
+          "family": "my_family",
+          "icon": "Star",
+          "label": {
+            "en": "My Inquiry Type",
+            "de": "Mein Anfrage-Typ"
+          },
+          "description": {
+            "en": "Description of my inquiry type",
+            "de": "Beschreibung meines Anfrage-Typs"
+          },
+          "is_root": true,
+          "allowed_response": ["official"],
+          "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+          "support_feature": "binary"
+        }
+      ]
+    }
+  ]
+}

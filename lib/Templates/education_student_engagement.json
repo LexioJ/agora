@@ -1,0 +1,374 @@
+{
+  "template_info": {
+    "name": "education_student_engagement",
+    "version": "1.0.0",
+    "description": "Student Engagement template for course feedback, campus improvements, and student initiatives",
+    "author": "Agora Team",
+    "use_case": "education_students",
+    "available_languages": ["en", "fr", "de", "gsw"]
+  },
+  "inquiry_families": [
+    {
+      "family_type": "student_voice",
+      "label": {
+        "en": "Student Voice",
+        "fr": "Voix étudiante",
+        "de": "Studentische Stimme",
+        "gsw": "Studente-Stimm"
+      },
+      "description": {
+        "en": "Student feedback, suggestions, and initiatives for campus improvement",
+        "fr": "Retours, suggestions et initiatives étudiantes pour l'amélioration du campus",
+        "de": "Studentisches Feedback, Vorschläge und Initiativen zur Campus-Verbesserung",
+        "gsw": "Studente-Feedback, Vorschläg und Initiative zur Campus-Verbesserig"
+      },
+      "icon": "School",
+      "sort_order": 1
+    },
+    {
+      "family_type": "official",
+      "label": {
+        "en": "Official Response",
+        "fr": "Réponse officielle",
+        "de": "Offizielle Antwort",
+        "gsw": "Offizielle Antwort"
+      },
+      "description": {
+        "en": "Official responses from administration and faculty",
+        "fr": "Réponses officielles de l'administration et du corps professoral",
+        "de": "Offizielle Antworten von Verwaltung und Fakultät",
+        "gsw": "Offizelli Antworte vo Verwaltung und Fakultät"
+      },
+      "icon": "Seal",
+      "sort_order": 2
+    }
+  ],
+  "inquiry_types": [
+    {
+      "inquiry_type": "course_improvement",
+      "family": "student_voice",
+      "icon": "BookEducation",
+      "label": {
+        "en": "Course Improvements",
+        "fr": "Améliorations de cours",
+        "de": "Kursverbesserungen",
+        "gsw": "Kurs-Verbesserige"
+      },
+      "description": {
+        "en": "Suggestions to improve courses, teaching methods, and learning materials",
+        "fr": "Suggestions pour améliorer les cours, méthodes d'enseignement et supports pédagogiques",
+        "de": "Vorschläge zur Verbesserung von Kursen, Lehrmethoden und Lernmaterialien",
+        "gsw": "Vorschläg zur Verbesserig vo Kurs, Lehrmethode und Lernmaterial"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "campus_facilities",
+      "family": "student_voice",
+      "icon": "Domain",
+      "label": {
+        "en": "Campus Facilities",
+        "fr": "Installations du campus",
+        "de": "Campus-Einrichtungen",
+        "gsw": "Campus-Iirichtige"
+      },
+      "description": {
+        "en": "Feedback on campus facilities, libraries, study spaces, and amenities",
+        "fr": "Retours sur les installations du campus, bibliothèques, espaces d'étude et commodités",
+        "de": "Feedback zu Campus-Einrichtungen, Bibliotheken, Lernräumen und Annehmlichkeiten",
+        "gsw": "Feedback zu Campus-Iirichtige, Bibliotheke, Lernrüüm und Annehmlichkeite"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "student_activities",
+      "family": "student_voice",
+      "icon": "AccountGroup",
+      "label": {
+        "en": "Student Activities",
+        "fr": "Activités étudiantes",
+        "de": "Studentische Aktivitäten",
+        "gsw": "Studente-Aktivitäte"
+      },
+      "description": {
+        "en": "Proposals for new clubs, events, and extracurricular activities",
+        "fr": "Propositions de nouveaux clubs, événements et activités parascolaires",
+        "de": "Vorschläge für neue Vereine, Veranstaltungen und außerschulische Aktivitäten",
+        "gsw": "Vorschläg für nöii Verein, Veraastaltige und usserschuelischi Aktivitäte"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "student_services",
+      "family": "student_voice",
+      "icon": "HandHeart",
+      "label": {
+        "en": "Student Services",
+        "fr": "Services aux étudiants",
+        "de": "Studentische Dienste",
+        "gsw": "Studente-Dienscht"
+      },
+      "description": {
+        "en": "Feedback on counseling, career services, health services, and support programs",
+        "fr": "Retours sur le conseil, services de carrière, services de santé et programmes de soutien",
+        "de": "Feedback zu Beratung, Karrierediensten, Gesundheitsdiensten und Unterstützungsprogrammen",
+        "gsw": "Feedback zu Beratig, Karriere-Dienscht, Gsundhäits-Dienscht und Unterstützig-Programm"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "sustainability_initiatives",
+      "family": "student_voice",
+      "icon": "LeafCircle",
+      "label": {
+        "en": "Sustainability Initiatives",
+        "fr": "Initiatives de durabilité",
+        "de": "Nachhaltigkeitsinitiativen",
+        "gsw": "Nochhaltigkeits-Initiative"
+      },
+      "description": {
+        "en": "Environmental and sustainability proposals for campus operations",
+        "fr": "Propositions environnementales et de durabilité pour les opérations du campus",
+        "de": "Umwelt- und Nachhaltigkeitsvorschläge für Campus-Betrieb",
+        "gsw": "Umwält- und Nochhaltigkeits-Vorschläg für Campus-Betrieb"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "diversity_inclusion",
+      "family": "student_voice",
+      "icon": "AccountMultiplePlus",
+      "label": {
+        "en": "Diversity & Inclusion",
+        "fr": "Diversité et inclusion",
+        "de": "Vielfalt & Inklusion",
+        "gsw": "Vielfalt & Inklusio"
+      },
+      "description": {
+        "en": "Suggestions to improve diversity, equity, and inclusion on campus",
+        "fr": "Suggestions pour améliorer la diversité, l'équité et l'inclusion sur le campus",
+        "de": "Vorschläge zur Verbesserung von Vielfalt, Gerechtigkeit und Inklusion auf dem Campus",
+        "gsw": "Vorschläg zur Verbesserig vo Vielfalt, Grächtigkeit und Inklusio uf em Campus"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "official_response",
+      "family": "official",
+      "icon": "MessageReply",
+      "label": {
+        "en": "Official Response",
+        "fr": "Réponse officielle",
+        "de": "Offizielle Antwort",
+        "gsw": "Offizielle Antwort"
+      },
+      "description": {
+        "en": "Official response from administration",
+        "fr": "Réponse officielle de l'administration",
+        "de": "Offizielle Antwort von der Verwaltung",
+        "gsw": "Offizelli Antwort vo de Verwaltung"
+      },
+      "is_root": false,
+      "allowed_response": [],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "none"
+    }
+  ],
+  "inquiry_statuses": [
+    {
+      "inquiry_type": "course_improvement",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Feedback submitted and awaiting review",
+        "fr": "Retour soumis en attente d'examen",
+        "de": "Feedback eingereicht und wartet auf Prüfung",
+        "gsw": "Feedback iigräicht und wartet uf Prüefig"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "course_improvement",
+      "status_key": "under_review",
+      "label": {
+        "en": "Under Review",
+        "fr": "En cours d'examen",
+        "de": "In Prüfung",
+        "gsw": "In Prüefig"
+      },
+      "description": {
+        "en": "Faculty is reviewing the suggestion",
+        "fr": "Le corps professoral examine la suggestion",
+        "de": "Fakultät prüft den Vorschlag",
+        "gsw": "Fakultät prüeft de Vorschlag"
+      },
+      "is_final": false,
+      "icon": "Eye",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "course_improvement",
+      "status_key": "accepted",
+      "label": {
+        "en": "Accepted",
+        "fr": "Accepté",
+        "de": "Angenommen",
+        "gsw": "Aagnoh"
+      },
+      "description": {
+        "en": "Suggestion accepted for implementation",
+        "fr": "Suggestion acceptée pour mise en œuvre",
+        "de": "Vorschlag zur Umsetzung angenommen",
+        "gsw": "Vorschlag zur Umsetzig aagnoh"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "course_improvement",
+      "status_key": "implemented",
+      "label": {
+        "en": "Implemented",
+        "fr": "Mis en œuvre",
+        "de": "Umgesetzt",
+        "gsw": "Umgsetzt"
+      },
+      "description": {
+        "en": "Changes implemented successfully",
+        "fr": "Changements mis en œuvre avec succès",
+        "de": "Änderungen erfolgreich umgesetzt",
+        "gsw": "Änderige erfolgriich umgsetzt"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "course_improvement",
+      "status_key": "declined",
+      "label": {
+        "en": "Declined",
+        "fr": "Refusé",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Suggestion not feasible at this time",
+        "fr": "Suggestion non réalisable pour le moment",
+        "de": "Vorschlag derzeit nicht machbar",
+        "gsw": "Vorschlag im Momänt nöd machbar"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 5
+    }
+  ],
+  "categories": [
+    {
+      "category_key": "academics",
+      "label": {
+        "en": "Academics",
+        "fr": "Académiques",
+        "de": "Akademisches",
+        "gsw": "Akademisches"
+      },
+      "description": {
+        "en": "Curriculum, courses, teaching quality, and learning resources",
+        "fr": "Curriculum, cours, qualité de l'enseignement et ressources pédagogiques",
+        "de": "Lehrplan, Kurse, Unterrichtsqualität und Lernressourcen",
+        "gsw": "Lehrplan, Kurs, Unterrichtsqualität und Lernressource"
+      },
+      "sort_order": 1
+    },
+    {
+      "category_key": "campus_life",
+      "label": {
+        "en": "Campus Life",
+        "fr": "Vie du campus",
+        "de": "Campus-Leben",
+        "gsw": "Campus-Läbe"
+      },
+      "description": {
+        "en": "Student activities, clubs, events, and social life",
+        "fr": "Activités étudiantes, clubs, événements et vie sociale",
+        "de": "Studentische Aktivitäten, Vereine, Veranstaltungen und soziales Leben",
+        "gsw": "Studente-Aktivitäte, Verein, Veraastaltige und sozials Läbe"
+      },
+      "sort_order": 2
+    },
+    {
+      "category_key": "infrastructure",
+      "label": {
+        "en": "Infrastructure",
+        "fr": "Infrastructure",
+        "de": "Infrastruktur",
+        "gsw": "Infrastruktur"
+      },
+      "description": {
+        "en": "Buildings, classrooms, libraries, study spaces, and facilities",
+        "fr": "Bâtiments, salles de classe, bibliothèques, espaces d'étude et installations",
+        "de": "Gebäude, Klassenzimmer, Bibliotheken, Lernräume und Einrichtungen",
+        "gsw": "Gebäud, Klassezimmer, Bibliotheke, Lernrüüm und Iirichtige"
+      },
+      "sort_order": 3
+    },
+    {
+      "category_key": "wellbeing",
+      "label": {
+        "en": "Health & Wellbeing",
+        "fr": "Santé et bien-être",
+        "de": "Gesundheit & Wohlbefinden",
+        "gsw": "Gsundhäit & Wohlbefinde"
+      },
+      "description": {
+        "en": "Mental health, counseling, health services, and support programs",
+        "fr": "Santé mentale, conseil, services de santé et programmes de soutien",
+        "de": "Psychische Gesundheit, Beratung, Gesundheitsdienste und Unterstützungsprogramme",
+        "gsw": "Psychischi Gsundhäit, Beratig, Gsundhäits-Dienscht und Unterstützig-Programm"
+      },
+      "sort_order": 4
+    },
+    {
+      "category_key": "technology",
+      "label": {
+        "en": "Technology & Digital",
+        "fr": "Technologie et numérique",
+        "de": "Technologie & Digital",
+        "gsw": "Technologii & Digital"
+      },
+      "description": {
+        "en": "IT services, learning platforms, Wi-Fi, and digital resources",
+        "fr": "Services IT, plateformes d'apprentissage, Wi-Fi et ressources numériques",
+        "de": "IT-Dienste, Lernplattformen, WLAN und digitale Ressourcen",
+        "gsw": "IT-Dienscht, Lernplattforme, WLAN und digitali Ressource"
+      },
+      "sort_order": 5
+    }
+  ]
+}

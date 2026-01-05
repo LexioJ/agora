@@ -1,0 +1,393 @@
+{
+  "template_info": {
+    "name": "education_research",
+    "version": "1.0.0",
+    "description": "Academic Research template for research proposals, grant applications, and scientific collaboration",
+    "author": "Agora Team",
+    "use_case": "education_research",
+    "available_languages": ["en", "fr", "de", "gsw"]
+  },
+  "inquiry_families": [
+    {
+      "family_type": "research",
+      "label": {
+        "en": "Research",
+        "fr": "Recherche",
+        "de": "Forschung",
+        "gsw": "Forschig"
+      },
+      "description": {
+        "en": "Academic research proposals, grants, and collaboration requests",
+        "fr": "Propositions de recherche académique, subventions et demandes de collaboration",
+        "de": "Akademische Forschungsanträge, Stipendien und Kooperationsanfragen",
+        "gsw": "Akademischi Forschigs-Aaträg, Stipendie und Kooperations-Aafraage"
+      },
+      "icon": "Microscope",
+      "sort_order": 1
+    },
+    {
+      "family_type": "official",
+      "label": {
+        "en": "Official Response",
+        "fr": "Réponse officielle",
+        "de": "Offizielle Antwort",
+        "gsw": "Offizielle Antwort"
+      },
+      "description": {
+        "en": "Official responses from research administration and review committees",
+        "fr": "Réponses officielles de l'administration de la recherche et des comités d'examen",
+        "de": "Offizielle Antworten von Forschungsverwaltung und Prüfungsausschüssen",
+        "gsw": "Offizelli Antworte vo Forschigsverwaltung und Prüefungsusschüss"
+      },
+      "icon": "Seal",
+      "sort_order": 2
+    }
+  ],
+  "inquiry_types": [
+    {
+      "inquiry_type": "research_proposal",
+      "family": "research",
+      "icon": "FileDocument",
+      "label": {
+        "en": "Research Proposals",
+        "fr": "Propositions de recherche",
+        "de": "Forschungsanträge",
+        "gsw": "Forschigs-Aaträg"
+      },
+      "description": {
+        "en": "Submit research proposals for review and approval",
+        "fr": "Soumettre des propositions de recherche pour examen et approbation",
+        "de": "Forschungsanträge zur Prüfung und Genehmigung einreichen",
+        "gsw": "Forschigs-Aaträg zur Prüefig und Genehmigung iireiche"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "grant_application",
+      "family": "research",
+      "icon": "CashMultiple",
+      "label": {
+        "en": "Grant Applications",
+        "fr": "Demandes de subventions",
+        "de": "Stipendienanträge",
+        "gsw": "Stipendie-Aaträg"
+      },
+      "description": {
+        "en": "Apply for research grants and funding opportunities",
+        "fr": "Demander des subventions et opportunités de financement de recherche",
+        "de": "Forschungsstipendien und Finanzierungsmöglichkeiten beantragen",
+        "gsw": "Forschigs-Stipendie und Finanzierigsmöglichkeite beantrage"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "collaboration_request",
+      "family": "research",
+      "icon": "AccountMultiple",
+      "label": {
+        "en": "Collaboration Requests",
+        "fr": "Demandes de collaboration",
+        "de": "Kooperationsanfragen",
+        "gsw": "Kooperations-Aafraage"
+      },
+      "description": {
+        "en": "Seek collaboration with other researchers or institutions",
+        "fr": "Rechercher une collaboration avec d'autres chercheurs ou institutions",
+        "de": "Zusammenarbeit mit anderen Forschern oder Institutionen suchen",
+        "gsw": "Zämmearbet mit andere Forscher oder Institutione sueche"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "lab_equipment",
+      "family": "research",
+      "icon": "Flask",
+      "label": {
+        "en": "Lab & Equipment Requests",
+        "fr": "Demandes de laboratoire et équipement",
+        "de": "Labor- und Geräteanfragen",
+        "gsw": "Labor- und Grät-Aafraage"
+      },
+      "description": {
+        "en": "Request laboratory space, equipment, or technical resources",
+        "fr": "Demander un espace de laboratoire, de l'équipement ou des ressources techniques",
+        "de": "Laborraum, Ausrüstung oder technische Ressourcen anfordern",
+        "gsw": "Laborruum, Usrüschtig oder technischi Ressource aafordere"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "ethics_review",
+      "family": "research",
+      "icon": "ShieldCheck",
+      "label": {
+        "en": "Ethics Review Requests",
+        "fr": "Demandes d'examen éthique",
+        "de": "Ethikprüfungsanträge",
+        "gsw": "Ethikprüefigs-Aaträg"
+      },
+      "description": {
+        "en": "Submit research for ethics committee review",
+        "fr": "Soumettre une recherche pour examen du comité d'éthique",
+        "de": "Forschung zur Ethikkommission einreichen",
+        "gsw": "Forschig zur Ethikkommission iireiche"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "publication_support",
+      "family": "research",
+      "icon": "BookOpenPageVariant",
+      "label": {
+        "en": "Publication Support",
+        "fr": "Support de publication",
+        "de": "Publikationsunterstützung",
+        "gsw": "Publikations-Unterstützig"
+      },
+      "description": {
+        "en": "Request support for academic publications and open access",
+        "fr": "Demander un soutien pour les publications académiques et l'accès ouvert",
+        "de": "Unterstützung für akademische Publikationen und Open Access beantragen",
+        "gsw": "Unterstützig für akademischi Publikatione und Open Access beantrage"
+      },
+      "is_root": true,
+      "allowed_response": ["official"],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "binary"
+    },
+    {
+      "inquiry_type": "official_response",
+      "family": "official",
+      "icon": "MessageReply",
+      "label": {
+        "en": "Official Response",
+        "fr": "Réponse officielle",
+        "de": "Offizielle Antwort",
+        "gsw": "Offizielle Antwort"
+      },
+      "description": {
+        "en": "Official response from research administration",
+        "fr": "Réponse officielle de l'administration de la recherche",
+        "de": "Offizielle Antwort von der Forschungsverwaltung",
+        "gsw": "Offizelli Antwort vo de Forschigsverwaltung"
+      },
+      "is_root": false,
+      "allowed_response": [],
+      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "support_feature": "none"
+    }
+  ],
+  "inquiry_statuses": [
+    {
+      "inquiry_type": "research_proposal",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Proposal submitted and awaiting review",
+        "fr": "Proposition soumise en attente d'examen",
+        "de": "Antrag eingereicht und wartet auf Prüfung",
+        "gsw": "Aatrag iigräicht und wartet uf Prüefig"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "research_proposal",
+      "status_key": "under_review",
+      "label": {
+        "en": "Under Review",
+        "fr": "En cours d'examen",
+        "de": "In Prüfung",
+        "gsw": "In Prüefig"
+      },
+      "description": {
+        "en": "Proposal is being reviewed by committee",
+        "fr": "La proposition est en cours d'examen par le comité",
+        "de": "Antrag wird vom Ausschuss geprüft",
+        "gsw": "Aatrag wird vom Usschuss prüeft"
+      },
+      "is_final": false,
+      "icon": "Eye",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "research_proposal",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Proposal approved for implementation",
+        "fr": "Proposition approuvée pour mise en œuvre",
+        "de": "Antrag zur Umsetzung genehmigt",
+        "gsw": "Aatrag zur Umsetzig gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "research_proposal",
+      "status_key": "in_progress",
+      "label": {
+        "en": "In Progress",
+        "fr": "En cours",
+        "de": "In Bearbeitung",
+        "gsw": "In Bearbeitig"
+      },
+      "description": {
+        "en": "Research project is in progress",
+        "fr": "Le projet de recherche est en cours",
+        "de": "Forschungsprojekt läuft",
+        "gsw": "Forschigsprojekt lauft"
+      },
+      "is_final": false,
+      "icon": "Progress",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "research_proposal",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Research project completed successfully",
+        "fr": "Projet de recherche terminé avec succès",
+        "de": "Forschungsprojekt erfolgreich abgeschlossen",
+        "gsw": "Forschigsprojekt erfolgriich abgschlosse"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "research_proposal",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Proposal rejected - does not meet requirements",
+        "fr": "Proposition rejetée - ne répond pas aux exigences",
+        "de": "Antrag abgelehnt - erfüllt Anforderungen nicht",
+        "gsw": "Aatrag abglehnt - erfüllt Aaforderige nöd"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 6
+    }
+  ],
+  "categories": [
+    {
+      "category_key": "stem",
+      "label": {
+        "en": "STEM",
+        "fr": "STEM",
+        "de": "MINT",
+        "gsw": "MINT"
+      },
+      "description": {
+        "en": "Science, Technology, Engineering, Mathematics",
+        "fr": "Science, Technologie, Ingénierie, Mathématiques",
+        "de": "Mathematik, Informatik, Naturwissenschaft, Technik",
+        "gsw": "Mathematik, Informatik, Naturwüsseschaft, Technik"
+      },
+      "sort_order": 1
+    },
+    {
+      "category_key": "humanities",
+      "label": {
+        "en": "Humanities",
+        "fr": "Sciences humaines",
+        "de": "Geisteswissenschaften",
+        "gsw": "Gäischtswüsseschafte"
+      },
+      "description": {
+        "en": "Literature, Philosophy, History, Languages",
+        "fr": "Littérature, Philosophie, Histoire, Langues",
+        "de": "Literatur, Philosophie, Geschichte, Sprachen",
+        "gsw": "Literatur, Filosofii, Gschicht, Sproche"
+      },
+      "sort_order": 2
+    },
+    {
+      "category_key": "social_sciences",
+      "label": {
+        "en": "Social Sciences",
+        "fr": "Sciences sociales",
+        "de": "Sozialwissenschaften",
+        "gsw": "Sozialwüsseschafte"
+      },
+      "description": {
+        "en": "Psychology, Sociology, Economics, Political Science",
+        "fr": "Psychologie, Sociologie, Économie, Science politique",
+        "de": "Psychologie, Soziologie, Wirtschaft, Politikwissenschaft",
+        "gsw": "Psychologii, Soziologii, Wirtschaft, Politikwüsseschaft"
+      },
+      "sort_order": 3
+    },
+    {
+      "category_key": "medical",
+      "label": {
+        "en": "Medical & Health Sciences",
+        "fr": "Sciences médicales et de la santé",
+        "de": "Medizin- und Gesundheitswissenschaften",
+        "gsw": "Medizin- und Gsundhäitswüsseschafte"
+      },
+      "description": {
+        "en": "Medicine, Public Health, Biomedical Research",
+        "fr": "Médecine, Santé publique, Recherche biomédicale",
+        "de": "Medizin, Öffentliche Gesundheit, Biomedizinische Forschung",
+        "gsw": "Medizin, Öffentlichi Gsundhäit, Biomedizinischi Forschig"
+      },
+      "sort_order": 4
+    },
+    {
+      "category_key": "interdisciplinary",
+      "label": {
+        "en": "Interdisciplinary",
+        "fr": "Interdisciplinaire",
+        "de": "Interdisziplinär",
+        "gsw": "Interdisziplinär"
+      },
+      "description": {
+        "en": "Cross-disciplinary and collaborative research",
+        "fr": "Recherche interdisciplinaire et collaborative",
+        "de": "Interdisziplinäre und kooperative Forschung",
+        "gsw": "Interdisziplinäri und kooperativi Forschig"
+      },
+      "sort_order": 5
+    }
+  ]
+}

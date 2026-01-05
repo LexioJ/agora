@@ -8,6 +8,7 @@ import { computed, onMounted, ref } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { NcLoadingIcon, NcEmptyContent, NcButton, NcNoteCard } from '@nextcloud/vue'
 import { useTemplateWizardStore, type Template, type TemplateContent } from '../../../stores/templateWizard'
+import { generateUrl } from '@nextcloud/router'
 
 const wizardStore = useTemplateWizardStore()
 
@@ -15,6 +16,7 @@ const templates = computed(() => wizardStore.availableTemplates)
 const isLoading = computed(() => wizardStore.loadingTemplates)
 const fileInput = ref<HTMLInputElement | null>(null)
 const uploadError = ref<string | null>(null)
+const showHelp = ref(false)
 
 onMounted(async () => {
 	// Ensure templates are loaded when component mounts
@@ -63,6 +65,20 @@ const handleFileUpload = async (event: Event) => {
 		console.error('Template upload error:', error)
 	}
 }
+
+const downloadSchema = () => {
+	const url = generateUrl('/apps/agora/agora-template-schema.json')
+	window.open(url, '_blank')
+}
+
+const downloadInstructions = () => {
+	const url = generateUrl('/apps/agora/agora-template-instructions.md')
+	window.open(url, '_blank')
+}
+
+const toggleHelp = () => {
+	showHelp.value = !showHelp.value
+}
 </script>
 
 <template>
@@ -101,6 +117,63 @@ const handleFileUpload = async (event: Event) => {
 			<NcNoteCard v-if="wizardStore.customTemplate" type="success" class="upload-success">
 				{{ t('agora', 'Custom template loaded: {name}', { name: wizardStore.customTemplate.template_info.name }) }}
 			</NcNoteCard>
+
+			<!-- Help Section for Creating Templates -->
+			<div class="help-section">
+				<NcButton
+					type="tertiary"
+					@click="toggleHelp">
+					<template #icon>
+						<span :class="showHelp ? 'icon-triangle-s' : 'icon-triangle-e'" />
+					</template>
+					{{ t('agora', 'Need help creating a template?') }}
+				</NcButton>
+
+				<div v-if="showHelp" class="help-content">
+					<NcNoteCard type="info">
+						<p>{{ t('agora', 'Use AI assistants like ChatGPT, Claude, Gemini, or local LLMs to generate custom templates.') }}</p>
+					</NcNoteCard>
+
+					<div class="help-actions">
+						<NcButton
+							type="primary"
+							@click="downloadSchema">
+							<template #icon>
+								<span class="icon-download" />
+							</template>
+							{{ t('agora', 'Download Schema') }}
+						</NcButton>
+
+						<NcButton
+							type="secondary"
+							@click="downloadInstructions">
+							<template #icon>
+								<span class="icon-info" />
+							</template>
+							{{ t('agora', 'Download Instructions') }}
+						</NcButton>
+					</div>
+
+					<div class="help-instructions">
+						<h4>{{ t('agora', 'Quick Guide:') }}</h4>
+						<ol>
+							<li>{{ t('agora', 'Download the schema and instructions above') }}</li>
+							<li>{{ t('agora', 'Open your preferred AI assistant (ChatGPT, Claude, Gemini, or local LLM)') }}</li>
+							<li>{{ t('agora', 'Provide the schema and describe your use case') }}</li>
+							<li>{{ t('agora', 'Copy the generated JSON and save it as a .json file') }}</li>
+							<li>{{ t('agora', 'Upload the file using the button above') }}</li>
+						</ol>
+
+						<h4>{{ t('agora', 'Recommended AI Tools:') }}</h4>
+						<ul class="ai-list">
+							<li><strong>ChatGPT:</strong> {{ t('agora', 'Best for complex templates with many types') }}</li>
+							<li><strong>Claude:</strong> {{ t('agora', 'Best for detailed, well-structured templates') }}</li>
+							<li><strong>Gemini:</strong> {{ t('agora', 'Best for multilingual templates') }}</li>
+							<li><strong>Local LLMs:</strong> {{ t('agora', 'Best for privacy-sensitive use cases (Ollama, LM Studio)') }}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
 		</div>
 
 		<div v-if="wizardStore.selectedUseCase === 'custom' && !wizardStore.customTemplate" class="divider">
@@ -208,6 +281,64 @@ const handleFileUpload = async (event: Event) => {
 	.upload-success {
 		width: 100%;
 		max-width: 600px;
+	}
+}
+
+.help-section {
+	width: 100%;
+	max-width: 700px;
+	margin-top: 20px;
+}
+
+.help-content {
+	margin-top: 16px;
+	padding: 20px;
+	background: var(--color-main-background);
+	border-radius: var(--border-radius-large);
+	border: 1px solid var(--color-border);
+}
+
+.help-actions {
+	display: flex;
+	gap: 12px;
+	justify-content: center;
+	margin: 16px 0;
+}
+
+.help-instructions {
+	text-align: left;
+	margin-top: 20px;
+
+	h4 {
+		font-size: 14px;
+		font-weight: 600;
+		margin: 16px 0 8px 0;
+		color: var(--color-main-text);
+	}
+
+	ol, ul {
+		margin: 8px 0;
+		padding-left: 24px;
+
+		li {
+			margin: 6px 0;
+			font-size: 13px;
+			color: var(--color-text-maxcontrast);
+		}
+	}
+
+	.ai-list {
+		list-style: none;
+		padding-left: 0;
+
+		li {
+			margin: 10px 0;
+			padding-left: 12px;
+
+			strong {
+				color: var(--color-main-text);
+			}
+		}
 	}
 }
 
