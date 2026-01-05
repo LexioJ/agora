@@ -6,6 +6,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { t } from '@nextcloud/l10n'
+import { generateOcsUrl } from '@nextcloud/router'
 import { NcLoadingIcon, NcEmptyContent, NcButton, NcNoteCard } from '@nextcloud/vue'
 import { useTemplateWizardStore, type Template, type TemplateContent } from '../../../stores/templateWizard'
 
@@ -67,7 +68,7 @@ const handleFileUpload = async (event: Event) => {
 
 const downloadSchema = async () => {
 	try {
-		const url = wizardStore.generateOcsUrl('/templates/schema')
+		const url = generateOcsUrl('/apps/agora/api/v1.0/templates/schema')
 		const response = await fetch(url)
 		const data = await response.json()
 
@@ -93,7 +94,7 @@ const downloadSchema = async () => {
 
 const downloadInstructions = async () => {
 	try {
-		const url = wizardStore.generateOcsUrl('/templates/instructions')
+		const url = generateOcsUrl('/apps/agora/api/v1.0/templates/instructions')
 		const response = await fetch(url)
 		const data = await response.json()
 
