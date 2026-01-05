@@ -192,6 +192,49 @@ class TemplateController extends BaseApiV2Controller
 	}
 
 	/**
+	 * Import template data directly (used by wizard after customization)
+	 *
+	 * @param array $templateData Template data to import
+	 * @param string $language Language code (for logging/context)
+	 */
+	#[CORS]
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[ApiRoute(verb: 'POST', url: '/api/v1.0/templates/import-data', requirements: ['apiVersion' => '(v2)'])]
+	public function importData(array $templateData, string $language): DataResponse
+	{
+		try {
+			// Create a temporary file with the template data
+			$tempFile = tempnam(sys_get_temp_dir(), 'agora_template_');
+			file_put_contents($tempFile, json_encode($templateData));
+
+			try {
+				// Use the existing TemplateLoader with the temp file
+				$messages = $this->templateLoader->loadTemplate($tempFile, $language);
+
+				// Parse messages to categorize results
+				$results = $this->parseImportMessages($messages);
+
+				return new DataResponse([
+					'success' => true,
+					'results' => $results,
+					'messages' => $messages,
+				]);
+			} finally {
+				// Clean up temp file
+				if (file_exists($tempFile)) {
+					unlink($tempFile);
+				}
+			}
+		} catch (\Exception $e) {
+			return new DataResponse(
+				['error' => $e->getMessage()],
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
+	/**
 	 * Get a specific template by name or filename
 	 *
 	 * @param string $identifier Template name or filename

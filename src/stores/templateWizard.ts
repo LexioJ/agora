@@ -89,6 +89,9 @@ export interface WizardState {
 	selectedLanguage: string | null
 	customTemplate: TemplateContent | null
 
+	// Editable template data (Step 4 customization)
+	editableData: TemplateContent | null
+
 	// Import process
 	importing: boolean
 	importResult: ImportResult | null
@@ -112,6 +115,8 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 		selectedLanguage: null,
 		customTemplate: null,
 
+		editableData: null,
+
 		importing: false,
 		importResult: null,
 		importError: null,
@@ -131,7 +136,7 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 				case 'language':
 					return state.selectedLanguage !== null
 				case 'preview':
-					return true
+					return state.editableData !== null
 				case 'summary':
 					return true
 				default:
@@ -238,8 +243,8 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 		},
 
 		async importTemplate() {
-			if (!this.selectedTemplate && !this.customTemplate) {
-				throw new Error('No template selected')
+			if (!this.editableData) {
+				throw new Error('No editable data available')
 			}
 			if (!this.selectedLanguage) {
 				throw new Error('No language selected')
@@ -250,11 +255,10 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 			this.currentStep = 'importing'
 
 			try {
-				const url = generateOcsUrl('/apps/agora/api/v1.0/templates/import')
-				const templatePath = this.selectedTemplate?.path || ''
+				const url = generateOcsUrl('/apps/agora/api/v1.0/templates/import-data')
 
 				const response = await axios.post(url, {
-					templatePath,
+					templateData: this.editableData,
 					language: this.selectedLanguage,
 				})
 
@@ -296,7 +300,14 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 		nextStep() {
 			const currentIndex = this.currentStepIndex
 			if (currentIndex < this.steps.length - 1) {
-				this.currentStep = this.steps[currentIndex + 1]
+				const nextStep = this.steps[currentIndex + 1]
+
+				// Prepare editable data when entering preview step
+				if (nextStep === 'preview' && this.selectedLanguage) {
+					this.prepareEditableData()
+				}
+
+				this.currentStep = nextStep
 			}
 		},
 
@@ -334,12 +345,92 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 			this.selectedTemplate = null
 		},
 
+		prepareEditableData() {
+			const template = this.selectedTemplate?.content || this.customTemplate
+			if (!template || !this.selectedLanguage) {
+				Logger.error('Cannot prepare editable data: missing template or language')
+				return
+			}
+
+			// Deep clone the template to avoid modifying the original
+			const clonedTemplate = JSON.parse(JSON.stringify(template))
+
+			// Extract text for selected language
+			this.editableData = this.extractLanguageText(clonedTemplate, this.selectedLanguage)
+			Logger.info('Prepared editable data:', this.editableData)
+		},
+
+		extractLanguageText(template: TemplateContent, language: string): TemplateContent {
+			const extracted = { ...template }
+
+			const sections = [
+				'inquiry_families',
+				'inquiry_types',
+				'inquiry_statuses',
+				'option_types',
+				'inquiry_group_types',
+				'categories',
+				'locations',
+			]
+
+			sections.forEach(section => {
+				if (extracted[section] && Array.isArray(extracted[section])) {
+					extracted[section] = extracted[section].map((item: any) => {
+						const extractedItem = { ...item }
+
+						// Extract multi-language fields
+						Object.keys(extractedItem).forEach(key => {
+							const value = extractedItem[key]
+							if (value && typeof value === 'object' && !Array.isArray(value)) {
+								// Check if this is a multi-language object
+								if (value[language] !== undefined) {
+									extractedItem[key] = value[language]
+								} else if (value.en !== undefined) {
+									// Fallback to English
+									extractedItem[key] = value.en
+								}
+							}
+						})
+
+						return extractedItem
+					})
+				}
+			})
+
+			return extracted
+		},
+
+		updateEditableItem(section: string, index: number, updatedItem: any) {
+			if (!this.editableData || !this.editableData[section]) {
+				return
+			}
+			this.editableData[section][index] = updatedItem
+		},
+
+		removeEditableItem(section: string, index: number) {
+			if (!this.editableData || !this.editableData[section]) {
+				return
+			}
+			this.editableData[section].splice(index, 1)
+		},
+
+		addEditableItem(section: string, item: any) {
+			if (!this.editableData) {
+				return
+			}
+			if (!this.editableData[section]) {
+				this.editableData[section] = []
+			}
+			this.editableData[section].push(item)
+		},
+
 		reset() {
 			this.currentStep = 'use-case'
 			this.selectedUseCase = null
 			this.selectedTemplate = null
 			this.selectedLanguage = null
 			this.customTemplate = null
+			this.editableData = null
 			this.importing = false
 			this.importResult = null
 			this.importError = null
