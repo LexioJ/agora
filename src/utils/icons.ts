@@ -182,11 +182,24 @@ import LinkVariant from '@iconify-icons/mdi/link-variant'
 import Poll from '@iconify-icons/mdi/poll'
 import CardsPlaying from '@iconify-icons/mdi/cards-playing'
 import Cash from '@iconify-icons/mdi/cash'
+import CashMultiple from '@iconify-icons/mdi/cash-multiple'
 import IdCard from '@iconify-icons/mdi/id-card'
 import DragHorizontal from '@iconify-icons/mdi/drag-horizontal'
 import InboxRemove from '@iconify-icons/mdi/inbox-remove'
-import NoteText from '@iconify-icons/mdi/note-text'  
+import NoteText from '@iconify-icons/mdi/note-text'
 import Presentation from '@iconify-icons/mdi/presentation'
+import Flask from '@iconify-icons/mdi/flask'
+import Microscope from '@iconify-icons/mdi/microscope'
+import ShieldCheck from '@iconify-icons/mdi/shield-check'
+import BookEducation from '@iconify-icons/mdi/book-education'
+import Domain from '@iconify-icons/mdi/domain'
+import AccountMultiplePlus from '@iconify-icons/mdi/account-multiple-plus'
+import LeafCircle from '@iconify-icons/mdi/leaf-circle'
+import RobotExcited from '@iconify-icons/mdi/robot-excited'
+import TrendingUp from '@iconify-icons/mdi/trending-up'
+import SwapHorizontal from '@iconify-icons/mdi/swap-horizontal'
+import Application from '@iconify-icons/mdi/application'
+import MessageReply from '@iconify-icons/mdi/message-reply'
 
 // -------------------------------
 // -------------------------------
@@ -332,6 +345,22 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     Paste: makeIconComponent(ClipboardTextMultiple, '#5D4037'),
     Calendar: makeIconComponent(Calendar, '#3949AB'),
     Updated: makeIconComponent(Update, '#FF8F00'),
+    // Template-specific icons
+    CashMultiple: makeIconComponent(CashMultiple, '#4CAF50'),
+    Flask: makeIconComponent(Flask, '#00897B'),
+    Microscope: makeIconComponent(Microscope, '#1565C0'),
+    ShieldCheck: makeIconComponent(ShieldCheck, '#2E7D32'),
+    BookEducation: makeIconComponent(BookEducation, '#5E35B1'),
+    Domain: makeIconComponent(Domain, '#546E7A'),
+    AccountMultiplePlus: makeIconComponent(AccountMultiplePlus, '#00897B'),
+    LeafCircle: makeIconComponent(LeafCircle, '#388E3C'),
+    RobotExcited: makeIconComponent(RobotExcited, '#7B1FA2'),
+    TrendingUp: makeIconComponent(TrendingUp, '#43A047'),
+    SwapHorizontal: makeIconComponent(SwapHorizontal, '#FF9800'),
+    Application: makeIconComponent(Application, '#1976D2'),
+    MessageReply: makeIconComponent(MessageReply, '#0288D1'),
+    Cog: makeIconComponent(Cog, '#607D8B'),
+    Lightbulb: makeIconComponent(LightbulbOn, '#F57C00'),
 }
 
 export const ShareIcons: Record<string, Component> = {
