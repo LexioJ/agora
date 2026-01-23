@@ -4,14 +4,19 @@
 -->
 
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue'
+import { ref, computed, watch, onMounted } from 'vue'
 import { t } from '@nextcloud/l10n'
-import { NcButton, NcTextField, NcTextArea } from '@nextcloud/vue'
+import axios from '@nextcloud/axios'
+import { generateOcsUrl } from '@nextcloud/router'
+import { NcButton, NcTextField, NcTextArea, NcNoteCard, NcLoadingIcon } from '@nextcloud/vue'
 import { useTemplateWizardStore } from '../../../stores/templateWizard'
 
 const wizardStore = useTemplateWizardStore()
 
 const editableData = computed(() => wizardStore.editableData)
+const duplicateAnalysis = ref<any>(null)
+const isAnalyzing = ref(false)
+const analysisError = ref<string | null>(null)
 
 // Section state management
 const expandedSections = ref<Record<string, boolean>>({
@@ -151,6 +156,68 @@ const totalItems = computed(() => {
 	return sections.value.reduce((sum, section) => sum + section.count, 0)
 })
 
+// Fetch duplicate analysis when component mounts
+onMounted(async () => {
+	await analyzeDuplicates()
+})
+
+// Analyze template for duplicates
+const analyzeDuplicates = async () => {
+	if (!editableData.value) return
+
+	isAnalyzing.value = true
+	analysisError.value = null
+
+	try {
+		const url = generateOcsUrl('/apps/agora/api/v1.0/templates/analyze')
+		const response = await axios.post(url, {
+			templateData: editableData.value,
+			language: wizardStore.selectedLanguage,
+		})
+
+		if (response.data?.ocs?.data) {
+			duplicateAnalysis.value = response.data.ocs.data
+		}
+	} catch (error) {
+		console.error('Failed to analyze template:', error)
+		analysisError.value = error instanceof Error ? error.message : 'Failed to analyze template'
+	} finally {
+		isAnalyzing.value = false
+	}
+}
+
+// Get status indicator for a section
+const getSectionStatus = (sectionKey: string) => {
+	if (!duplicateAnalysis.value?.analysis?.[sectionKey]) {
+		return { new: 0, existing: 0, total: 0 }
+	}
+
+	const data = duplicateAnalysis.value.analysis[sectionKey]
+	const newCount = data.new?.length || 0
+	const existingCount = data.existing?.length || 0
+
+	return {
+		new: newCount,
+		existing: existingCount,
+		total: newCount + existingCount,
+	}
+}
+
+// Get item status (new or existing)
+const getItemStatus = (sectionKey: string, itemType: string) => {
+	if (!duplicateAnalysis.value?.analysis?.[sectionKey]) return 'unknown'
+
+	const data = duplicateAnalysis.value.analysis[sectionKey]
+
+	// Check if item exists in new or existing lists
+	const isNew = data.new?.some((item: any) => item.type === itemType)
+	const isExisting = data.existing?.some((item: any) => item.type === itemType)
+
+	if (isNew) return 'new'
+	if (isExisting) return 'existing'
+	return 'unknown'
+}
+
 // Watch for editable data changes to initialize editing
 watch(() => editableData.value, () => {
 	if (editableData.value) {
@@ -158,6 +225,8 @@ watch(() => editableData.value, () => {
 		if (sections.value.length > 0) {
 			expandedSections.value[sections.value[0].key] = true
 		}
+		// Re-analyze when data changes
+		analyzeDuplicates()
 	}
 })
 </script>
@@ -176,10 +245,43 @@ watch(() => editableData.value, () => {
 		</div>
 
 		<div v-else class="preview-content">
-			<!-- Summary Card -->
+			<!-- Duplicate Analysis Loading -->
+			<div v-if="isAnalyzing" class="analysis-loading">
+				<NcLoadingIcon :size="32" />
+				<p>{{ t('agora', 'Analyzing template for duplicates...') }}</p>
+			</div>
+
+			<!-- Analysis Error -->
+			<NcNoteCard v-if="analysisError" type="error" class="analysis-error">
+				{{ t('agora', 'Failed to analyze template:') }} {{ analysisError }}
+			</NcNoteCard>
+
+			<!-- Summary Card with Duplicate Analysis -->
 			<div class="summary-card">
-				<h3>{{ t('agora', 'Content Summary') }}</h3>
-				<div class="summary-stats">
+				<h3>{{ t('agora', 'Import Preview') }}</h3>
+				<div v-if="duplicateAnalysis" class="summary-stats">
+					<div class="stat-item">
+						<span class="stat-icon">✨</span>
+						<span class="stat-value stat-new">{{ duplicateAnalysis.totals.new }}</span>
+						<span class="stat-label">{{ t('agora', 'New Items') }}</span>
+					</div>
+					<div class="stat-item">
+						<span class="stat-icon">📋</span>
+						<span class="stat-value stat-existing">{{ duplicateAnalysis.totals.existing }}</span>
+						<span class="stat-label">{{ t('agora', 'Existing (Skipped)') }}</span>
+					</div>
+					<div class="stat-item">
+						<span class="stat-icon">📦</span>
+						<span class="stat-value">{{ totalItems }}</span>
+						<span class="stat-label">{{ t('agora', 'Total Items') }}</span>
+					</div>
+					<div class="stat-item">
+						<span class="stat-icon">🌐</span>
+						<span class="stat-value">{{ wizardStore.selectedLanguage }}</span>
+						<span class="stat-label">{{ t('agora', 'Language') }}</span>
+					</div>
+				</div>
+				<div v-else class="summary-stats">
 					<div class="stat-item">
 						<span class="stat-icon">📦</span>
 						<span class="stat-value">{{ totalItems }}</span>
@@ -192,6 +294,11 @@ watch(() => editableData.value, () => {
 					</div>
 				</div>
 			</div>
+
+			<!-- Important Note -->
+			<NcNoteCard v-if="duplicateAnalysis && duplicateAnalysis.totals.existing > 0" type="info" class="duplicate-notice">
+				{{ t('agora', '{count} item(s) already exist in the database and will be skipped during import.', {count: duplicateAnalysis.totals.existing}) }}
+			</NcNoteCard>
 
 			<!-- Sections -->
 			<div class="sections-container">
@@ -206,6 +313,14 @@ watch(() => editableData.value, () => {
 							<span class="section-icon">{{ section.icon }}</span>
 							<h3>{{ section.label }}</h3>
 							<span class="section-count">({{ section.count }})</span>
+							<span v-if="duplicateAnalysis" class="section-status">
+								<span v-if="getSectionStatus(section.key).new > 0" class="status-badge status-new">
+									{{ getSectionStatus(section.key).new }} new
+								</span>
+								<span v-if="getSectionStatus(section.key).existing > 0" class="status-badge status-existing">
+									{{ getSectionStatus(section.key).existing }} exist
+								</span>
+							</span>
 						</div>
 						<span class="expand-icon">
 							{{ expandedSections[section.key] ? '▼' : '▶' }}
@@ -220,7 +335,16 @@ watch(() => editableData.value, () => {
 							<!-- View Mode -->
 							<div v-if="!isEditing(section.key, index)" class="item-view">
 								<div class="item-info">
-									<div class="item-label">{{ getItemLabel(item, section) }}</div>
+									<div class="item-header-row">
+										<div class="item-label">{{ getItemLabel(item, section) }}</div>
+										<span v-if="duplicateAnalysis" class="item-status-badge"
+											:class="{
+												'badge-new': getItemStatus(section.key, getItemType(item, section)) === 'new',
+												'badge-existing': getItemStatus(section.key, getItemType(item, section)) === 'existing'
+											}">
+											{{ getItemStatus(section.key, getItemType(item, section)) === 'new' ? '✨ New' : '📋 Exists' }}
+										</span>
+									</div>
 									<div class="item-type">{{ getItemType(item, section) }}</div>
 									<div v-if="item.description" class="item-description">
 										{{ item.description }}
@@ -310,6 +434,27 @@ watch(() => editableData.value, () => {
 	color: var(--color-text-maxcontrast);
 }
 
+.analysis-loading {
+	text-align: center;
+	padding: 20px;
+	background: var(--color-background-hover);
+	border-radius: var(--border-radius-large);
+	margin-bottom: 20px;
+
+	p {
+		margin-top: 12px;
+		color: var(--color-text-maxcontrast);
+	}
+}
+
+.analysis-error {
+	margin-bottom: 20px;
+}
+
+.duplicate-notice {
+	margin-bottom: 20px;
+}
+
 .summary-card {
 	background: var(--color-primary-element-light);
 	border-radius: var(--border-radius-large);
@@ -345,6 +490,14 @@ watch(() => editableData.value, () => {
 	font-size: 24px;
 	font-weight: 700;
 	color: var(--color-primary-element);
+
+	&.stat-new {
+		color: var(--color-success);
+	}
+
+	&.stat-existing {
+		color: var(--color-warning);
+	}
 }
 
 .stat-label {
@@ -401,6 +554,29 @@ watch(() => editableData.value, () => {
 	font-size: 14px;
 }
 
+.section-status {
+	display: flex;
+	gap: 8px;
+	margin-left: auto;
+}
+
+.status-badge {
+	font-size: 11px;
+	padding: 3px 8px;
+	border-radius: var(--border-radius-pill);
+	font-weight: 600;
+
+	&.status-new {
+		background: var(--color-success-light);
+		color: var(--color-success-text);
+	}
+
+	&.status-existing {
+		background: var(--color-warning-light);
+		color: var(--color-warning-text);
+	}
+}
+
 .expand-icon {
 	color: var(--color-text-maxcontrast);
 	font-size: 12px;
@@ -431,10 +607,34 @@ watch(() => editableData.value, () => {
 	flex: 1;
 }
 
+.item-header-row {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 4px;
+}
+
 .item-label {
 	font-size: 15px;
 	font-weight: 600;
-	margin-bottom: 4px;
+	flex: 1;
+}
+
+.item-status-badge {
+	font-size: 11px;
+	padding: 3px 10px;
+	border-radius: var(--border-radius-pill);
+	font-weight: 600;
+
+	&.badge-new {
+		background: var(--color-success-light);
+		color: var(--color-success-text);
+	}
+
+	&.badge-existing {
+		background: var(--color-warning-light);
+		color: var(--color-warning-text);
+	}
 }
 
 .item-type {

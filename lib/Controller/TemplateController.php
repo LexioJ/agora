@@ -153,6 +153,48 @@ class TemplateController extends BaseApiV2Controller
 	}
 
 	/**
+	 * Analyze a template to detect duplicates before importing
+	 *
+	 * @param array $templateData Template data to analyze
+	 * @param string $language Language code to use for labels
+	 */
+	#[CORS]
+	#[NoAdminRequired]
+	#[NoCSRFRequired]
+	#[ApiRoute(verb: 'POST', url: '/api/v1.0/templates/analyze', requirements: ['apiVersion' => '(v2)'])]
+	public function analyze(array $templateData, string $language = 'en'): DataResponse
+	{
+		try {
+			// Analyze the template for duplicates
+			$analysis = $this->templateLoader->analyzeTemplate($templateData, $language);
+
+			// Calculate totals
+			$totals = [
+				'new' => 0,
+				'existing' => 0,
+				'errors' => 0,
+			];
+
+			foreach ($analysis as $section => $data) {
+				$totals['new'] += count($data['new']);
+				$totals['existing'] += count($data['existing']);
+				$totals['errors'] += count($data['errors']);
+			}
+
+			return new DataResponse([
+				'success' => true,
+				'analysis' => $analysis,
+				'totals' => $totals,
+			]);
+		} catch (\Exception $e) {
+			return new DataResponse(
+				['error' => $e->getMessage()],
+				Http::STATUS_INTERNAL_SERVER_ERROR
+			);
+		}
+	}
+
+	/**
 	 * Import a template with specified language
 	 *
 	 * @param string $templatePath Path to template file

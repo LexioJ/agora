@@ -372,6 +372,173 @@ class TemplateLoader
 	}
 
 	/**
+	 * Analyze a template and return what will be created vs skipped
+	 *
+	 * @param array $template Parsed template array
+	 * @param string $language Language code to extract from multi-language fields
+	 * @return array Analysis results with 'new', 'existing', and 'error' counts for each section
+	 */
+	public function analyzeTemplate(array $template, string $language = 'en'): array
+	{
+		$analysis = [
+			'inquiry_families' => ['new' => [], 'existing' => [], 'errors' => []],
+			'inquiry_types' => ['new' => [], 'existing' => [], 'errors' => []],
+			'inquiry_statuses' => ['new' => [], 'existing' => [], 'errors' => []],
+			'option_types' => ['new' => [], 'existing' => [], 'errors' => []],
+			'inquiry_group_types' => ['new' => [], 'existing' => [], 'errors' => []],
+			'categories' => ['new' => [], 'existing' => [], 'errors' => []],
+			'locations' => ['new' => [], 'existing' => [], 'errors' => []],
+		];
+
+		// Analyze inquiry families
+		if (isset($template['inquiry_families'])) {
+			foreach ($template['inquiry_families'] as $familyData) {
+				$familyType = $familyData['family_type'];
+				$label = $this->extractText($familyData['label'] ?? '', $language);
+
+				if ($this->inquiryFamilyMapper->familyTypeExists($familyType)) {
+					$analysis['inquiry_families']['existing'][] = [
+						'type' => $familyType,
+						'label' => $label,
+					];
+				} else {
+					$analysis['inquiry_families']['new'][] = [
+						'type' => $familyType,
+						'label' => $label,
+					];
+				}
+			}
+		}
+
+		// Analyze inquiry types
+		if (isset($template['inquiry_types'])) {
+			foreach ($template['inquiry_types'] as $typeData) {
+				$inquiryType = $typeData['inquiry_type'];
+				$label = $this->extractText($typeData['label'] ?? '', $language);
+
+				if ($this->inquiryTypeMapper->inquiryTypeExists($inquiryType)) {
+					$analysis['inquiry_types']['existing'][] = [
+						'type' => $inquiryType,
+						'label' => $label,
+					];
+				} else {
+					$analysis['inquiry_types']['new'][] = [
+						'type' => $inquiryType,
+						'label' => $label,
+					];
+				}
+			}
+		}
+
+		// Analyze inquiry statuses
+		if (isset($template['inquiry_statuses'])) {
+			foreach ($template['inquiry_statuses'] as $statusData) {
+				$inquiryType = $statusData['inquiry_type'];
+				$statusKey = $statusData['status_key'];
+				$label = $this->extractText($statusData['label'] ?? '', $language);
+
+				$existing = $this->inquiryStatusMapper->findByStatusKey($inquiryType, $statusKey);
+				if ($existing !== null) {
+					$analysis['inquiry_statuses']['existing'][] = [
+						'type' => "{$inquiryType}:{$statusKey}",
+						'label' => $label,
+					];
+				} else {
+					$analysis['inquiry_statuses']['new'][] = [
+						'type' => "{$inquiryType}:{$statusKey}",
+						'label' => $label,
+					];
+				}
+			}
+		}
+
+		// Analyze option types
+		if (isset($template['option_types'])) {
+			foreach ($template['option_types'] as $optionTypeData) {
+				$optionType = $optionTypeData['option_type'];
+				$label = $this->extractText($optionTypeData['label'] ?? '', $language);
+
+				if ($this->inquiryOptionTypeMapper->optionTypeExists($optionType)) {
+					$analysis['option_types']['existing'][] = [
+						'type' => $optionType,
+						'label' => $label,
+					];
+				} else {
+					$analysis['option_types']['new'][] = [
+						'type' => $optionType,
+						'label' => $label,
+					];
+				}
+			}
+		}
+
+		// Analyze inquiry group types
+		if (isset($template['inquiry_group_types'])) {
+			foreach ($template['inquiry_group_types'] as $groupTypeData) {
+				$groupType = $groupTypeData['group_type'];
+				$label = $this->extractText($groupTypeData['label'] ?? '', $language);
+
+				try {
+					$this->inquiryGroupTypeMapper->findByGroupType($groupType);
+					$analysis['inquiry_group_types']['existing'][] = [
+						'type' => $groupType,
+						'label' => $label,
+					];
+				} catch (\Exception $e) {
+					$analysis['inquiry_group_types']['new'][] = [
+						'type' => $groupType,
+						'label' => $label,
+					];
+				}
+			}
+		}
+
+		// Analyze categories
+		if (isset($template['categories'])) {
+			foreach ($template['categories'] as $categoryData) {
+				$categoryName = $this->extractText($categoryData['label'] ?? $categoryData['category_key'] ?? '', $language);
+				$categoryKey = $categoryData['category_key'] ?? '';
+
+				$existing = $this->categoryMapper->findByName($categoryName);
+				if ($existing !== null) {
+					$analysis['categories']['existing'][] = [
+						'type' => $categoryKey,
+						'label' => $categoryName,
+					];
+				} else {
+					$analysis['categories']['new'][] = [
+						'type' => $categoryKey,
+						'label' => $categoryName,
+					];
+				}
+			}
+		}
+
+		// Analyze locations
+		if (isset($template['locations'])) {
+			foreach ($template['locations'] as $locationData) {
+				$locationName = $this->extractText($locationData['label'] ?? $locationData['location_key'] ?? '', $language);
+				$locationKey = $locationData['location_key'] ?? '';
+
+				try {
+					$this->locationMapper->findByName($locationName);
+					$analysis['locations']['existing'][] = [
+						'type' => $locationKey,
+						'label' => $locationName,
+					];
+				} catch (\Exception $e) {
+					$analysis['locations']['new'][] = [
+						'type' => $locationKey,
+						'label' => $locationName,
+					];
+				}
+			}
+		}
+
+		return $analysis;
+	}
+
+	/**
 	 * Extract text from a multi-language field or return as-is if it's a plain string
 	 *
 	 * @param mixed $field The field value (can be string or array with language keys)
