@@ -129,8 +129,16 @@ class TemplateLoader
 
 		foreach ($families as $familyData) {
 			try {
+				$familyType = $familyData['family_type'];
+
+				// Check if family already exists
+				if ($this->inquiryFamilyMapper->familyTypeExists($familyType)) {
+					$messages[] = "  - Family already exists: {$familyType} (skipped)";
+					continue;
+				}
+
 				$family = new InquiryFamily();
-				$family->setFamilyType($familyData['family_type']);
+				$family->setFamilyType($familyType);
 				$family->setLabel($this->extractText($familyData['label'] ?? '', $language));
 				$family->setDescription($this->extractText($familyData['description'] ?? '', $language));
 				$family->setIcon($familyData['icon'] ?? '');
@@ -138,7 +146,7 @@ class TemplateLoader
 				$family->setCreated(time());
 
 				$this->inquiryFamilyMapper->insert($family);
-				$messages[] = "  - Created family: {$familyData['family_type']}";
+				$messages[] = "  - Created family: {$familyType}";
 			} catch (\Exception $e) {
 				$messages[] = "  - Error creating family {$familyData['family_type']}: " . $e->getMessage();
 			}
