@@ -573,9 +573,9 @@ watch(() => editableData.value, () => {
 	font-weight: 600;
 
 	&.status-new {
-		background: #c6f0c2; // Medium green background for light mode
-		color: #1a7f37; // Dark green text for light mode
-		border: 1px solid #7ec46f;
+		background: #28a745; // Bright green background for light mode
+		color: white; // White text for light mode
+		border: none;
 		@media (prefers-color-scheme: dark) {
 			background: #1a4d2e; // Dark green background for dark mode
 			color: #3fb950; // Bright green text for dark mode
@@ -584,9 +584,9 @@ watch(() => editableData.value, () => {
 	}
 
 	&.status-existing {
-		background: #ffe4b3; // Medium orange background for light mode
-		color: #9a6700; // Dark orange text for light mode
-		border: 1px solid #e09b13;
+		background: #ff9800; // Bright orange background for light mode
+		color: white; // White text for light mode
+		border: none;
 		@media (prefers-color-scheme: dark) {
 			background: #4d3800; // Dark orange background for dark mode
 			color: #e09b13; // Bright orange text for dark mode
@@ -645,9 +645,9 @@ watch(() => editableData.value, () => {
 	font-weight: 600;
 
 	&.badge-new {
-		background: #c6f0c2; // Medium green background for light mode
-		color: #1a7f37; // Dark green text for light mode
-		border: 1px solid #7ec46f;
+		background: #28a745; // Bright green background for light mode
+		color: white; // White text for light mode
+		border: none;
 		@media (prefers-color-scheme: dark) {
 			background: #1a4d2e; // Dark green background for dark mode
 			color: #3fb950; // Bright green text for dark mode
@@ -656,9 +656,9 @@ watch(() => editableData.value, () => {
 	}
 
 	&.badge-existing {
-		background: #ffe4b3; // Medium orange background for light mode
-		color: #9a6700; // Dark orange text for light mode
-		border: 1px solid #e09b13;
+		background: #ff9800; // Bright orange background for light mode
+		color: white; // White text for light mode
+		border: none;
 		@media (prefers-color-scheme: dark) {
 			background: #4d3800; // Dark orange background for dark mode
 			color: #e09b13; // Bright orange text for dark mode
