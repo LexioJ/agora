@@ -409,6 +409,8 @@ class LoadTemplate extends Command
 		$this->printNewLine();
 		$this->printInfo("────────────────────────────────────────────────────────");
 		$this->printInfo("Total items to import: {$totalItems}");
+		$this->printNewLine();
+		$this->printComment("ℹ️  Note: Items that already exist will be skipped during import.");
 	}
 
 	/**

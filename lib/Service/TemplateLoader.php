@@ -315,13 +315,21 @@ class TemplateLoader
 
 		foreach ($categories as $categoryData) {
 			try {
-				$category = new Category();
 				$categoryName = $this->extractText($categoryData['label'] ?? $categoryData['category_key'] ?? '', $language);
+
+				// Check if category already exists
+				$existingCategory = $this->categoryMapper->findByName($categoryName);
+				if ($existingCategory !== null) {
+					$messages[] = "  - Category already exists: {$categoryName} (skipped)";
+					continue;
+				}
+
+				$category = new Category();
 				$category->setName($categoryName);
 				$category->setParentId($categoryData['parent_id'] ?? 0);
 
 				$this->categoryMapper->insert($category);
-				$messages[] = "  - Created category: {$categoryData['category_key']}";
+				$messages[] = "  - Created category: {$categoryName}";
 			} catch (\Exception $e) {
 				$messages[] = "  - Error creating category {$categoryData['category_key']}: " . $e->getMessage();
 			}
