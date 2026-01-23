@@ -123,13 +123,19 @@ const closeWizard = () => {
 	}
 
 	.success-icon {
-		background: var(--color-success);
+		background: #1a7f37; // Dark green for light mode
 		color: white;
+		@media (prefers-color-scheme: dark) {
+			background: #3fb950; // Bright green for dark mode
+		}
 	}
 
 	.warning-icon {
-		background: var(--color-warning);
+		background: #9a6700; // Dark orange for light mode
 		color: white;
+		@media (prefers-color-scheme: dark) {
+			background: #e09b13; // Bright orange for dark mode
+		}
 	}
 
 	h2 {
