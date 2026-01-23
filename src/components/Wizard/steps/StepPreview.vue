@@ -492,11 +492,17 @@ watch(() => editableData.value, () => {
 	color: var(--color-primary-element);
 
 	&.stat-new {
-		color: var(--color-success);
+		color: #1a7f37; // Dark green for light mode
+		@media (prefers-color-scheme: dark) {
+			color: #3fb950; // Bright green for dark mode
+		}
 	}
 
 	&.stat-existing {
-		color: var(--color-warning);
+		color: #9a6700; // Dark orange for light mode
+		@media (prefers-color-scheme: dark) {
+			color: #e09b13; // Bright orange for dark mode
+		}
 	}
 }
 
@@ -567,13 +573,21 @@ watch(() => editableData.value, () => {
 	font-weight: 600;
 
 	&.status-new {
-		background: var(--color-success-light);
-		color: var(--color-success-text);
+		background: #dff6dd; // Light green background for light mode
+		color: #1a7f37; // Dark green text for light mode
+		@media (prefers-color-scheme: dark) {
+			background: #1a4d2e; // Dark green background for dark mode
+			color: #3fb950; // Bright green text for dark mode
+		}
 	}
 
 	&.status-existing {
-		background: var(--color-warning-light);
-		color: var(--color-warning-text);
+		background: #fff4e5; // Light orange background for light mode
+		color: #9a6700; // Dark orange text for light mode
+		@media (prefers-color-scheme: dark) {
+			background: #4d3800; // Dark orange background for dark mode
+			color: #e09b13; // Bright orange text for dark mode
+		}
 	}
 }
 
@@ -627,13 +641,21 @@ watch(() => editableData.value, () => {
 	font-weight: 600;
 
 	&.badge-new {
-		background: var(--color-success-light);
-		color: var(--color-success-text);
+		background: #dff6dd; // Light green background for light mode
+		color: #1a7f37; // Dark green text for light mode
+		@media (prefers-color-scheme: dark) {
+			background: #1a4d2e; // Dark green background for dark mode
+			color: #3fb950; // Bright green text for dark mode
+		}
 	}
 
 	&.badge-existing {
-		background: var(--color-warning-light);
-		color: var(--color-warning-text);
+		background: #fff4e5; // Light orange background for light mode
+		color: #9a6700; // Dark orange text for light mode
+		@media (prefers-color-scheme: dark) {
+			background: #4d3800; // Dark orange background for dark mode
+			color: #e09b13; // Bright orange text for dark mode
+		}
 	}
 }
 

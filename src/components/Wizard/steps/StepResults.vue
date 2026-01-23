@@ -152,26 +152,44 @@ const closeWizard = () => {
 	}
 
 	&.success-section {
-		border-color: var(--color-success);
+		border-color: #1a7f37; // Dark green for light mode
+		@media (prefers-color-scheme: dark) {
+			border-color: #3fb950; // Bright green for dark mode
+		}
 
 		h3 {
-			color: var(--color-success);
+			color: #1a7f37; // Dark green for light mode
+			@media (prefers-color-scheme: dark) {
+				color: #3fb950; // Bright green for dark mode
+			}
 		}
 	}
 
 	&.skipped-section {
-		border-color: var(--color-warning);
+		border-color: #9a6700; // Dark orange for light mode
+		@media (prefers-color-scheme: dark) {
+			border-color: #e09b13; // Bright orange for dark mode
+		}
 
 		h3 {
-			color: var(--color-warning);
+			color: #9a6700; // Dark orange for light mode
+			@media (prefers-color-scheme: dark) {
+				color: #e09b13; // Bright orange for dark mode
+			}
 		}
 	}
 
 	&.error-section {
-		border-color: var(--color-error);
+		border-color: #d73a49; // Dark red for light mode
+		@media (prefers-color-scheme: dark) {
+			border-color: #f85149; // Bright red for dark mode
+		}
 
 		h3 {
-			color: var(--color-error);
+			color: #d73a49; // Dark red for light mode
+			@media (prefers-color-scheme: dark) {
+				color: #f85149; // Bright red for dark mode
+			}
 		}
 	}
 }
