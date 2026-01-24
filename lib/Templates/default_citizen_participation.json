@@ -5,7 +5,7 @@
     "description": "Default template for citizen participation with multi-language support",
     "author": "Agora Team",
     "use_case": "citizen_participation",
-    "available_languages": ["en", "fr", "de"]
+    "available_languages": ["en", "fr", "de", "gsw"]
   },
   "inquiry_families": [
     {
@@ -13,12 +13,14 @@
       "label": {
         "en": "Deliberative",
         "fr": "Délibératif",
-        "de": "Beratend"
+        "de": "Beratend",
+        "gsw": "Berotend"
       },
       "description": {
         "en": "Citizen-driven processes such as debates, proposals, petitions, projects, and deliberations.",
         "fr": "Processus citoyens tels que débats, propositions, pétitions, projets et délibérations.",
-        "de": "Bürgergetriebene Prozesse wie Debatten, Vorschläge, Petitionen, Projekte und Beratungen."
+        "de": "Bürgergetriebene Prozesse wie Debatten, Vorschläge, Petitionen, Projekte und Beratungen.",
+        "gsw": "Bürger-tribeeni Prozäss wie Debatte, Vorschläg, Petitione, Projäkt und Berotige"
       },
       "icon": "AccountGroup",
       "sort_order": 1
@@ -28,12 +30,14 @@
       "label": {
         "en": "Legislative",
         "fr": "Législatif",
-        "de": "Legislative"
+        "de": "Legislative",
+        "gsw": "Gsetzgebend"
       },
       "description": {
         "en": "Law proposals, amendments, constitutional workshops, and official legislative responses.",
         "fr": "Propositions de loi, amendements, ateliers constitutionnels et réponses législatives officielles.",
-        "de": "Gesetzesvorschläge, Änderungsanträge, Verfassungsworkshops und offizielle Gesetzesantworten."
+        "de": "Gesetzesvorschläge, Änderungsanträge, Verfassungsworkshops und offizielle Gesetzesantworten.",
+        "gsw": "Gsetzesvorschläg, Änderigsdräg, Verfassigs-Workshops und offizelli gsetzgeberisch Antworte"
       },
       "icon": "Gavel",
       "sort_order": 2
@@ -43,12 +47,14 @@
       "label": {
         "en": "Administrative",
         "fr": "Administratif",
-        "de": "Verwaltung"
+        "de": "Verwaltung",
+        "gsw": "Verwautig"
       },
       "description": {
         "en": "Administrative requests and grievances addressed to institutions.",
         "fr": "Demandes administratives et réclamations adressées aux institutions.",
-        "de": "Verwaltungsanfragen und Beschwerden an Institutionen."
+        "de": "Verwaltungsanfragen und Beschwerden an Institutionen.",
+        "gsw": "Verwautigsaafrage und Beschweärde a Institutione"
       },
       "icon": "OfficeBuilding",
       "sort_order": 3
@@ -58,12 +64,14 @@
       "label": {
         "en": "Service",
         "fr": "Service",
-        "de": "Dienst"
+        "de": "Dienst",
+        "gsw": "Dienscht"
       },
       "description": {
         "en": "Social and citizen service requests such as housing, childcare, or scholarships.",
         "fr": "Demandes de services sociaux et citoyens telles que le logement, la garde d'enfants ou les bourses.",
-        "de": "Sozial- und Bürgerdienstanfragen wie Wohnraum, Kinderbetreuung oder Stipendien."
+        "de": "Sozial- und Bürgerdienstanfragen wie Wohnraum, Kinderbetreuung oder Stipendien.",
+        "gsw": "Sozial- und Bürger-Dienschtaafrage wie Wohnruum, Chinderbetreuig oder Stipendie"
       },
       "icon": "Offer",
       "sort_order": 4
@@ -73,12 +81,14 @@
       "label": {
         "en": "Collective",
         "fr": "Collectif",
-        "de": "Kollektiv"
+        "de": "Kollektiv",
+        "gsw": "Kollektiv"
       },
       "description": {
         "en": "Assemblies and grouped consultations on themes or topics.",
         "fr": "Assemblées et consultations groupées sur des thèmes ou sujets.",
-        "de": "Versammlungen und gruppierte Beratungen zu Themen oder Themen."
+        "de": "Versammlungen und gruppierte Beratungen zu Themen oder Themen.",
+        "gsw": "Versammlige und gruppierti Berotige zu Themen oder Themene"
       },
       "icon": "AccountMultiple",
       "sort_order": 5
@@ -88,12 +98,14 @@
       "label": {
         "en": "Social",
         "fr": "Social",
-        "de": "Sozial"
+        "de": "Sozial",
+        "gsw": "Sozial"
       },
       "description": {
         "en": "Social requests by citizens to help them in their daily life.",
         "fr": "Demandes sociales des citoyens pour les aider dans leur vie quotidienne.",
-        "de": "Soziale Anfragen von Bürgern zur Unterstützung im Alltag."
+        "de": "Soziale Anfragen von Bürgern zur Unterstützung im Alltag.",
+        "gsw": "Soziali Aafrage vo Bürger zur Understützig im Alltag"
       },
       "icon": "Heart",
       "sort_order": 6
@@ -103,12 +115,14 @@
       "label": {
         "en": "Official",
         "fr": "Officiel",
-        "de": "Offiziell"
+        "de": "Offiziell",
+        "gsw": "Offiziell"
       },
       "description": {
         "en": "Responses and contributions from official entities such as city hall, experts, or commissions.",
         "fr": "Réponses et contributions d'entités officielles telles que la mairie, les experts ou les commissions.",
-        "de": "Antworten und Beiträge offizieller Stellen wie Rathaus, Experten oder Kommissionen."
+        "de": "Antworten und Beiträge offizieller Stellen wie Rathaus, Experten oder Kommissionen.",
+        "gsw": "Antworte und Biiträg vo offizielle Stelle wie Roothuus, Experte oder Kommissione"
       },
       "icon": "Seal",
       "sort_order": 7
@@ -122,12 +136,14 @@
       "label": {
         "en": "Proposal",
         "fr": "Proposition",
-        "de": "Vorschlag"
+        "de": "Vorschlag",
+        "gsw": "Vorschlag"
       },
       "description": {
         "en": "A proposal for improving the community or organization.",
         "fr": "Une proposition pour améliorer la communauté ou l'organisation.",
-        "de": "Ein Vorschlag zur Verbesserung der Gemeinschaft oder Organisation."
+        "de": "Ein Vorschlag zur Verbesserung der Gemeinschaft oder Organisation.",
+        "gsw": "En Vorschlag zur Verbesserig vo de Gmeinschaft oder Organisation"
       },
       "is_root": true,
       "allowed_response": ["suggestion", "objection", "official"]
@@ -139,12 +155,14 @@
       "label": {
         "en": "Debate",
         "fr": "Débat",
-        "de": "Debatte"
+        "de": "Debatte",
+        "gsw": "Debatte"
       },
       "description": {
         "en": "A structured debate with arguments for and against.",
         "fr": "Un débat structuré avec des arguments pour et contre.",
-        "de": "Eine strukturierte Debatte mit Argumenten dafür und dagegen."
+        "de": "Eine strukturierte Debatte mit Argumenten dafür und dagegen.",
+        "gsw": "Ä strukturierti Debatte mit Argumänt defür und dergege"
       },
       "is_root": true,
       "allowed_response": ["suggestion", "official"]
@@ -156,12 +174,14 @@
       "label": {
         "en": "Petition",
         "fr": "Pétition",
-        "de": "Petition"
+        "de": "Petition",
+        "gsw": "Petition"
       },
       "description": {
         "en": "A petition to gather support for a specific cause or request.",
         "fr": "Une pétition pour recueillir un soutien pour une cause ou une demande spécifique.",
-        "de": "Eine Petition zur Sammlung von Unterstützung für ein bestimmtes Anliegen."
+        "de": "Eine Petition zur Sammlung von Unterstützung für ein bestimmtes Anliegen.",
+        "gsw": "Ä Petition zum Sammle vo Understützig für es bestimmts Aalige"
       },
       "is_root": true,
       "allowed_response": ["official"]
@@ -173,12 +193,14 @@
       "label": {
         "en": "Law Proposal",
         "fr": "Proposition de loi",
-        "de": "Gesetzesvorschlag"
+        "de": "Gesetzesvorschlag",
+        "gsw": "Gsetzesvorschlag"
       },
       "description": {
         "en": "Draft or amendment of a law, with mapped articles and status.",
         "fr": "Projet ou amendement de loi, avec articles et statut cartographiés.",
-        "de": "Entwurf oder Änderung eines Gesetzes mit zugeordneten Artikeln und Status."
+        "de": "Entwurf oder Änderung eines Gesetzes mit zugeordneten Artikeln und Status.",
+        "gsw": "Entwurf oder Änderig vomene Gsetz mit zuegordnete Artikel und Status"
       },
       "is_root": true,
       "allowed_response": ["amendment", "objection", "official"]
@@ -191,12 +213,14 @@
       "label": {
         "en": "Draft",
         "fr": "Brouillon",
-        "de": "Entwurf"
+        "de": "Entwurf",
+        "gsw": "Entwurf"
       },
       "description": {
         "en": "Work in progress, not yet published.",
         "fr": "Travail en cours, pas encore publié.",
-        "de": "In Arbeit, noch nicht veröffentlicht."
+        "de": "In Arbeit, noch nicht veröffentlicht.",
+        "gsw": "In Arbeit, non nöd veröffentlicht"
       },
       "is_final": false,
       "icon": "FileDocumentEdit",
@@ -208,12 +232,14 @@
       "label": {
         "en": "Published",
         "fr": "Publié",
-        "de": "Veröffentlicht"
+        "de": "Veröffentlicht",
+        "gsw": "Veröffentlicht"
       },
       "description": {
         "en": "Published and open for participation.",
         "fr": "Publié et ouvert à la participation.",
-        "de": "Veröffentlicht und offen für Teilnahme."
+        "de": "Veröffentlicht und offen für Teilnahme.",
+        "gsw": "Veröffentlicht und offe für Teilnahm"
       },
       "is_final": false,
       "icon": "Send",
@@ -225,12 +251,14 @@
       "label": {
         "en": "Under Review",
         "fr": "En cours d'examen",
-        "de": "In Prüfung"
+        "de": "In Prüfung",
+        "gsw": "In Prüefig"
       },
       "description": {
         "en": "Being reviewed by administrators or moderators.",
         "fr": "En cours d'examen par les administrateurs ou modérateurs.",
-        "de": "Wird von Administratoren oder Moderatoren geprüft."
+        "de": "Wird von Administratoren oder Moderatoren geprüft.",
+        "gsw": "Wird vo Administratore oder Moderatore gprüeft"
       },
       "is_final": false,
       "icon": "ClipboardText",
@@ -242,12 +270,14 @@
       "label": {
         "en": "Accepted",
         "fr": "Accepté",
-        "de": "Akzeptiert"
+        "de": "Akzeptiert",
+        "gsw": "Akzeptiert"
       },
       "description": {
         "en": "Accepted for implementation or further action.",
         "fr": "Accepté pour mise en œuvre ou action ultérieure.",
-        "de": "Zur Umsetzung oder weiteren Maßnahmen angenommen."
+        "de": "Zur Umsetzung oder weiteren Maßnahmen angenommen.",
+        "gsw": "Zur Umsetzig oder wiitere Massnahme agnoh"
       },
       "is_final": true,
       "icon": "CheckCircle",
@@ -259,12 +289,14 @@
       "label": {
         "en": "Rejected",
         "fr": "Rejeté",
-        "de": "Abgelehnt"
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
       },
       "description": {
         "en": "Rejected and will not be implemented.",
         "fr": "Rejeté et ne sera pas mis en œuvre.",
-        "de": "Abgelehnt und wird nicht umgesetzt."
+        "de": "Abgelehnt und wird nicht umgesetzt.",
+        "gsw": "Abglehnt und wird nöd umgsetzt"
       },
       "is_final": true,
       "icon": "CloseCircle",
@@ -279,12 +311,14 @@
       "label": {
         "en": "For",
         "fr": "Pour",
-        "de": "Dafür"
+        "de": "Dafür",
+        "gsw": "Defür"
       },
       "description": {
         "en": "Argument in favour of the debate topic.",
         "fr": "Argument en faveur du sujet du débat.",
-        "de": "Argument für das Debattenthema."
+        "de": "Argument für das Debattenthema.",
+        "gsw": "Argumänt für s Debatte-Thema"
       },
       "allowed_response": ["suggestion", "proposal", "official"]
     },
@@ -295,12 +329,14 @@
       "label": {
         "en": "Against",
         "fr": "Contre",
-        "de": "Dagegen"
+        "de": "Dagegen",
+        "gsw": "Dergege"
       },
       "description": {
         "en": "Argument against the debate topic.",
         "fr": "Argument contre le sujet du débat.",
-        "de": "Argument gegen das Debattenthema."
+        "de": "Argument gegen das Debattenthema.",
+        "gsw": "Argumänt gege s Debatte-Thema"
       },
       "allowed_response": ["suggestion", "proposal", "official"]
     }
@@ -311,12 +347,14 @@
       "label": {
         "en": "Theme",
         "fr": "Thème",
-        "de": "Thema"
+        "de": "Thema",
+        "gsw": "Thema"
       },
       "description": {
         "en": "Group inquiries by theme or topic.",
         "fr": "Regrouper les demandes par thème ou sujet.",
-        "de": "Anfragen nach Thema oder Thema gruppieren."
+        "de": "Anfragen nach Thema oder Thema gruppieren.",
+        "gsw": "Aafrage nach Thema oder Themene gruppiere"
       },
       "icon": "Tag",
       "sort_order": 1
@@ -326,12 +364,14 @@
       "label": {
         "en": "Project",
         "fr": "Projet",
-        "de": "Projekt"
+        "de": "Projekt",
+        "gsw": "Projäkt"
       },
       "description": {
         "en": "Group inquiries related to a specific project.",
         "fr": "Regrouper les demandes liées à un projet spécifique.",
-        "de": "Anfragen zu einem bestimmten Projekt gruppieren."
+        "de": "Anfragen zu einem bestimmten Projekt gruppieren.",
+        "gsw": "Aafrage zu eme bestimmte Projäkt gruppiere"
       },
       "icon": "FolderMultiple",
       "sort_order": 2
@@ -343,12 +383,14 @@
       "label": {
         "en": "Urban Planning",
         "fr": "Urbanisme",
-        "de": "Stadtplanung"
+        "de": "Stadtplanung",
+        "gsw": "Stadtplanig"
       },
       "description": {
         "en": "Urban development, infrastructure, and city planning.",
         "fr": "Développement urbain, infrastructure et planification urbaine.",
-        "de": "Stadtentwicklung, Infrastruktur und Stadtplanung."
+        "de": "Stadtentwicklung, Infrastruktur und Stadtplanung.",
+        "gsw": "Stadtentwicklig, Infrastruktur und Stadtplanig"
       },
       "sort_order": 1
     },
@@ -357,12 +399,14 @@
       "label": {
         "en": "Environment",
         "fr": "Environnement",
-        "de": "Umwelt"
+        "de": "Umwelt",
+        "gsw": "Umwält"
       },
       "description": {
         "en": "Environmental protection, sustainability, and green initiatives.",
         "fr": "Protection de l'environnement, durabilité et initiatives vertes.",
-        "de": "Umweltschutz, Nachhaltigkeit und grüne Initiativen."
+        "de": "Umweltschutz, Nachhaltigkeit und grüne Initiativen.",
+        "gsw": "Umwältschutz, Nochhaltikeit und grüeni Initiative"
       },
       "sort_order": 2
     },
@@ -371,12 +415,14 @@
       "label": {
         "en": "Education",
         "fr": "Éducation",
-        "de": "Bildung"
+        "de": "Bildung",
+        "gsw": "Bildig"
       },
       "description": {
         "en": "Education, schools, and learning programmes.",
         "fr": "Éducation, écoles et programmes d'apprentissage.",
-        "de": "Bildung, Schulen und Lernprogramme."
+        "de": "Bildung, Schulen und Lernprogramme.",
+        "gsw": "Bildig, Schuele und Lernprogramm"
       },
       "sort_order": 3
     },
@@ -385,12 +431,14 @@
       "label": {
         "en": "Health",
         "fr": "Santé",
-        "de": "Gesundheit"
+        "de": "Gesundheit",
+        "gsw": "Gsundheit"
       },
       "description": {
         "en": "Healthcare, public health, and wellbeing.",
         "fr": "Soins de santé, santé publique et bien-être.",
-        "de": "Gesundheitswesen, öffentliche Gesundheit und Wohlbefinden."
+        "de": "Gesundheitswesen, öffentliche Gesundheit und Wohlbefinden.",
+        "gsw": "Gsundheitswese, öffentlichi Gsundheit und Wohlbefinde"
       },
       "sort_order": 4
     },
@@ -399,12 +447,14 @@
       "label": {
         "en": "Culture",
         "fr": "Culture",
-        "de": "Kultur"
+        "de": "Kultur",
+        "gsw": "Kultur"
       },
       "description": {
         "en": "Cultural activities, arts, and heritage.",
         "fr": "Activités culturelles, arts et patrimoine.",
-        "de": "Kulturelle Aktivitäten, Kunst und Kulturerbe."
+        "de": "Kulturelle Aktivitäten, Kunst und Kulturerbe.",
+        "gsw": "Kulturelli Aktivitäte, Kunscht und Kulturerbe"
       },
       "sort_order": 5
     }
@@ -415,12 +465,14 @@
       "label": {
         "en": "City Centre",
         "fr": "Centre-ville",
-        "de": "Stadtzentrum"
+        "de": "Stadtzentrum",
+        "gsw": "Stadtzentrum"
       },
       "description": {
         "en": "Central area of the city.",
         "fr": "Zone centrale de la ville.",
-        "de": "Zentraler Bereich der Stadt."
+        "de": "Zentraler Bereich der Stadt.",
+        "gsw": "Zentrale Bereich vo de Stadt"
       },
       "sort_order": 1
     },
@@ -429,12 +481,14 @@
       "label": {
         "en": "North District",
         "fr": "Quartier Nord",
-        "de": "Nordbezirk"
+        "de": "Nordbezirk",
+        "gsw": "Nordbezirk"
       },
       "description": {
         "en": "Northern part of the city or region.",
         "fr": "Partie nord de la ville ou de la région.",
-        "de": "Nördlicher Teil der Stadt oder Region."
+        "de": "Nördlicher Teil der Stadt oder Region.",
+        "gsw": "Nördliche Teil vo de Stadt oder Region"
       },
       "sort_order": 2
     },
@@ -443,12 +497,14 @@
       "label": {
         "en": "South District",
         "fr": "Quartier Sud",
-        "de": "Südbezirk"
+        "de": "Südbezirk",
+        "gsw": "Südbezirk"
       },
       "description": {
         "en": "Southern part of the city or region.",
         "fr": "Partie sud de la ville ou de la région.",
-        "de": "Südlicher Teil der Stadt oder Region."
+        "de": "Südlicher Teil der Stadt oder Region.",
+        "gsw": "Südliche Teil vo de Stadt oder Region"
       },
       "sort_order": 3
     }
