@@ -2,10 +2,20 @@
   "template_info": {
     "name": "enterprise_human_resources",
     "version": "1.0.0",
-    "description": "Human Resources template for employee feedback, training ideas, and workplace improvements",
+    "description": {
+      "en": "Template for enterprise human resources supporting workplace improvements, policy feedback, training programs, team building, and employee wellbeing with advanced capabilities including voting, hierarchies, and collaborative workflows",
+      "fr": "Modèle pour les ressources humaines d'entreprise soutenant les améliorations du lieu de travail, retours sur les politiques, programmes de formation, team building et bien-être des employés avec des capacités avancées incluant le vote, les hiérarchies et les flux de travail collaboratifs",
+      "de": "Vorlage für Unternehmens-HR zur Unterstützung von Arbeitsplatzverbesserungen, Richtlinien-Feedback, Schulungsprogrammen, Teambuilding und Mitarbeiterwohlbefinden mit erweiterten Funktionen einschließlich Abstimmung, Hierarchien und kollaborativen Arbeitsabläufen",
+      "gsw": "Vorlag für Unternehmens-HR zur Unterstützig vo Arbeitsplatz-Verbesserige, Richtlinie-Feedback, Schuligs-Programm, Teambuilding und Mitarbeiter-Wohlfüehle mit erwiitereti Funktione iischliesslich Abstimmig, Hierarchie und kollaborativi Arbeits-Abläuf"
+    },
     "author": "Agora Team",
     "use_case": "enterprise_hr",
-    "available_languages": ["en", "fr", "de", "gsw"]
+    "available_languages": [
+      "en",
+      "fr",
+      "de",
+      "gsw"
+    ]
   },
   "inquiry_families": [
     {
@@ -61,8 +71,15 @@
         "gsw": "Vorschläg für Mitarbeiter-Schulige und berueflichi Entwicklig"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "binary"
     },
     {
@@ -82,9 +99,90 @@
         "gsw": "Idee zur Verbesserig vo de Arbetsumgäbig und Mitarbeiter-Erfahrig"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
-      "support_feature": "binary"
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
+      "support_feature": "binary",
+      "allowed_transformation": [
+        "policy_feedback"
+      ],
+      "fields": [
+        {
+          "key": "type_of_vote",
+          "label": {
+            "en": "Type of Vote",
+            "fr": "Type de vote",
+            "de": "Abstimmungstyp",
+            "gsw": "Abstimmigs-Typ"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "approval",
+            "majority_judgement_beneficial"
+          ]
+        },
+        {
+          "key": "anonymous_voting",
+          "label": {
+            "en": "Anonymous Voting",
+            "fr": "Vote anonyme",
+            "de": "Anonyme Abstimmung",
+            "gsw": "Anonymi Abstimmig"
+          },
+          "type": "boolean",
+          "required": false,
+          "default": true
+        },
+        {
+          "key": "quorum",
+          "label": {
+            "en": "Required Votes",
+            "fr": "Votes requis",
+            "de": "Erforderliche Stimmen",
+            "gsw": "Erforderlich Stimme"
+          },
+          "type": "integer",
+          "required": false,
+          "default": 100
+        },
+        {
+          "key": "voting_deadline",
+          "label": {
+            "en": "Voting Deadline",
+            "fr": "Date limite de vote",
+            "de": "Abstimmungsfrist",
+            "gsw": "Abstimmigs-Frischt"
+          },
+          "type": "date",
+          "required": false
+        },
+        {
+          "key": "poll_method",
+          "label": {
+            "en": "Poll Method",
+            "fr": "Méthode de sondage",
+            "de": "Umfragemethode",
+            "gsw": "Umfraag-Method"
+          },
+          "type": "enum",
+          "required": false,
+          "allowed_values": [
+            "single_choice",
+            "multiple_choice",
+            "ranking",
+            "rating"
+          ]
+        }
+      ]
     },
     {
       "inquiry_type": "team_building",
@@ -103,8 +201,15 @@
         "gsw": "Vorschläg für Teambuilding-Aktivitäte und -Initiative"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "binary"
     },
     {
@@ -124,9 +229,87 @@
         "gsw": "Feedback zu HR-Richtlinie und Verbesserig-Vorschläg"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
-      "support_feature": "binary"
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "type_of_vote",
+          "label": {
+            "en": "Type of Vote",
+            "fr": "Type de vote",
+            "de": "Abstimmungstyp",
+            "gsw": "Abstimmigs-Typ"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "approval",
+            "majority_judgement_beneficial"
+          ]
+        },
+        {
+          "key": "anonymous_voting",
+          "label": {
+            "en": "Anonymous Voting",
+            "fr": "Vote anonyme",
+            "de": "Anonyme Abstimmung",
+            "gsw": "Anonymi Abstimmig"
+          },
+          "type": "boolean",
+          "required": false,
+          "default": true
+        },
+        {
+          "key": "quorum",
+          "label": {
+            "en": "Required Votes",
+            "fr": "Votes requis",
+            "de": "Erforderliche Stimmen",
+            "gsw": "Erforderlich Stimme"
+          },
+          "type": "integer",
+          "required": false,
+          "default": 100
+        },
+        {
+          "key": "voting_deadline",
+          "label": {
+            "en": "Voting Deadline",
+            "fr": "Date limite de vote",
+            "de": "Abstimmungsfrist",
+            "gsw": "Abstimmigs-Frischt"
+          },
+          "type": "date",
+          "required": false
+        },
+        {
+          "key": "poll_method",
+          "label": {
+            "en": "Poll Method",
+            "fr": "Méthode de sondage",
+            "de": "Umfragemethode",
+            "gsw": "Umfraag-Method"
+          },
+          "type": "enum",
+          "required": false,
+          "allowed_values": [
+            "single_choice",
+            "multiple_choice",
+            "ranking",
+            "rating"
+          ]
+        }
+      ]
     },
     {
       "inquiry_type": "recognition_program",
@@ -145,8 +328,15 @@
         "gsw": "Idee für Mitarbeiter-Anerkennigs- und Belohnigsprogramm"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "binary"
     },
     {
@@ -167,7 +357,12 @@
       },
       "is_root": false,
       "allowed_response": [],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "none"
     }
   ],
@@ -266,88 +461,725 @@
       "is_final": true,
       "icon": "CloseCircle",
       "sort_order": 5
+    },
+    {
+      "inquiry_type": "workplace_improvement",
+      "status_key": "employee_vote",
+      "label": {
+        "en": "Employee-Wide Vote",
+        "fr": "Vote de tous les employés",
+        "de": "Unternehmensweite Abstimmung",
+        "gsw": "Unternehmenswyti Abstimmig"
+      },
+      "description": {
+        "en": "All employees voting on workplace improvement",
+        "fr": "Tous les employés votent sur l'amélioration du lieu de travail",
+        "de": "Alle Mitarbeiter stimmen über Arbeitsplatzverbesserung ab",
+        "gsw": "Alli Mitarbeiter stimme über Arbetsplatz-Verbesserig ab"
+      },
+      "is_final": false,
+      "icon": "VoteOutline",
+      "sort_order": 2.5
+    },
+    {
+      "inquiry_type": "workplace_improvement",
+      "status_key": "management_vote",
+      "label": {
+        "en": "Management Approval Vote",
+        "fr": "Vote d'approbation de la direction",
+        "de": "Management-Genehmigungsabstimmung",
+        "gsw": "Management-Genehmigigs-Abstimmig"
+      },
+      "description": {
+        "en": "Management voting on budget approval",
+        "fr": "La direction vote sur l'approbation budgétaire",
+        "de": "Management stimmt über Budgetgenehmigung ab",
+        "gsw": "Management stimmt über Budget-Genehmigung ab"
+      },
+      "is_final": false,
+      "icon": "AccountTie",
+      "sort_order": 3.5
+    },
+    {
+      "inquiry_type": "workplace_improvement",
+      "status_key": "pilot_program",
+      "label": {
+        "en": "Pilot Program",
+        "fr": "Programme pilote",
+        "de": "Pilotprogramm",
+        "gsw": "Pilot-Programm"
+      },
+      "description": {
+        "en": "Testing initiative as pilot program",
+        "fr": "Test de l'initiative en programme pilote",
+        "de": "Initiative als Pilotprogramm testen",
+        "gsw": "Initiative als Pilot-Programm teste"
+      },
+      "is_final": false,
+      "icon": "FlaskOutline",
+      "sort_order": 3.8
+    },
+    {
+      "inquiry_type": "training_development",
+      "status_key": "department_poll",
+      "label": {
+        "en": "Department Poll",
+        "fr": "Sondage départemental",
+        "de": "Abteilungsumfrage",
+        "gsw": "Abteiligs-Umfraag"
+      },
+      "description": {
+        "en": "Department-wide survey for training needs",
+        "fr": "Sondage départemental sur les besoins de formation",
+        "de": "Abteilungsweite Umfrage zu Schulungsbedarf",
+        "gsw": "Abteiliswyti Umfraag zu Schuligs-Bedarf"
+      },
+      "is_final": false,
+      "icon": "Poll",
+      "sort_order": 2.5
+    },
+    {
+      "inquiry_type": "policy_feedback",
+      "status_key": "hr_committee_vote",
+      "label": {
+        "en": "HR Committee Vote",
+        "fr": "Vote du comité RH",
+        "de": "HR-Komitee-Abstimmung",
+        "gsw": "HR-Komitee-Abstimmig"
+      },
+      "description": {
+        "en": "HR committee voting on policy changes",
+        "fr": "Le comité RH vote sur les changements de politique",
+        "de": "HR-Komitee stimmt über Richtlinienänderungen ab",
+        "gsw": "HR-Komitee stimmt über Richtlinie-Änderige ab"
+      },
+      "is_final": false,
+      "icon": "AccountGroup",
+      "sort_order": 2.5
+    },
+    {
+      "inquiry_type": "policy_feedback",
+      "status_key": "anonymous_survey",
+      "label": {
+        "en": "Anonymous Employee Survey",
+        "fr": "Sondage anonyme des employés",
+        "de": "Anonyme Mitarbeiterumfrage",
+        "gsw": "Anonymi Mitarbeiter-Umfraag"
+      },
+      "description": {
+        "en": "Gathering anonymous feedback on sensitive topics",
+        "fr": "Collecte de retours anonymes sur des sujets sensibles",
+        "de": "Sammeln anonymer Rückmeldungen zu sensiblen Themen",
+        "gsw": "Sammle vo anonyme Rückmeldige zu sensible Thema"
+      },
+      "is_final": false,
+      "icon": "EyeOff",
+      "sort_order": 2.8
+    },
+    {
+      "inquiry_type": "team_building",
+      "status_key": "team_vote",
+      "label": {
+        "en": "Team Vote",
+        "fr": "Vote d'équipe",
+        "de": "Team-Abstimmung",
+        "gsw": "Team-Abstimmig"
+      },
+      "description": {
+        "en": "Team members voting on activity preferences",
+        "fr": "Les membres de l'équipe votent sur les préférences d'activité",
+        "de": "Teammitglieder stimmen über Aktivitätspräferenzen ab",
+        "gsw": "Team-Mitglieder stimme über Aktivitäts-Präferenze ab"
+      },
+      "is_final": false,
+      "icon": "AccountGroupOutline",
+      "sort_order": 2.5
     }
   ],
   "categories": [
     {
-      "category_key": "learning",
-      "label": {
+      "category_id": "learning_development",
+      "name": {
         "en": "Learning & Development",
         "fr": "Apprentissage et développement",
         "de": "Lernen & Entwicklung",
         "gsw": "Lerne & Entwicklig"
       },
-      "description": {
-        "en": "Training programs and skill development",
-        "fr": "Programmes de formation et développement des compétences",
-        "de": "Schulungsprogramme und Kompetenzentwicklung",
-        "gsw": "Schuligsprogramm und Kompetenz-Entwicklig"
-      },
-      "sort_order": 1
+      "parent": null
     },
     {
-      "category_key": "wellbeing",
-      "label": {
-        "en": "Employee Wellbeing",
-        "fr": "Bien-être des employés",
-        "de": "Mitarbeiterwohlbefinden",
-        "gsw": "Mitarbeiter-Wohlfühle"
+      "category_id": "technical_skills",
+      "name": {
+        "en": "Technical Skills",
+        "fr": "Compétences techniques",
+        "de": "Technische Fähigkeiten",
+        "gsw": "Technischi Fähigkeite"
       },
-      "description": {
-        "en": "Health, wellness, and work-life balance",
-        "fr": "Santé, bien-être et équilibre travail-vie",
-        "de": "Gesundheit, Wellness und Work-Life-Balance",
-        "gsw": "Gsundhäit, Wellness und Work-Life-Balance"
-      },
-      "sort_order": 2
+      "parent": "learning_development"
     },
     {
-      "category_key": "culture",
-      "label": {
-        "en": "Company Culture",
-        "fr": "Culture d'entreprise",
-        "de": "Unternehmenskultur",
-        "gsw": "Unternehmenskultur"
+      "category_id": "leadership",
+      "name": {
+        "en": "Leadership",
+        "fr": "Leadership",
+        "de": "Führung",
+        "gsw": "Füehrig"
       },
-      "description": {
-        "en": "Values, culture, and engagement",
-        "fr": "Valeurs, culture et engagement",
-        "de": "Werte, Kultur und Engagement",
-        "gsw": "Wärt, Kultur und Engagement"
-      },
-      "sort_order": 3
+      "parent": "learning_development"
     },
     {
-      "category_key": "benefits",
-      "label": {
-        "en": "Benefits & Compensation",
-        "fr": "Avantages et rémunération",
-        "de": "Leistungen & Vergütung",
-        "gsw": "Leistige & Vergüetig"
+      "category_id": "compliance_training",
+      "name": {
+        "en": "Compliance Training",
+        "fr": "Formation à la conformité",
+        "de": "Compliance-Schulung",
+        "gsw": "Compliance-Schulig"
       },
-      "description": {
-        "en": "Employee benefits and compensation",
-        "fr": "Avantages sociaux et rémunération",
-        "de": "Mitarbeiterleistungen und Vergütung",
-        "gsw": "Mitarbeiter-Leistige und Vergüetig"
-      },
-      "sort_order": 4
+      "parent": "learning_development"
     },
     {
-      "category_key": "diversity",
-      "label": {
+      "category_id": "wellbeing",
+      "name": {
+        "en": "Wellbeing",
+        "fr": "Bien-être",
+        "de": "Wohlbefinden",
+        "gsw": "Wohlfüehle"
+      },
+      "parent": null
+    },
+    {
+      "category_id": "physical_health",
+      "name": {
+        "en": "Physical Health",
+        "fr": "Santé physique",
+        "de": "Körperliche Gesundheit",
+        "gsw": "Körperlichi Gsundheit"
+      },
+      "parent": "wellbeing"
+    },
+    {
+      "category_id": "mental_health",
+      "name": {
+        "en": "Mental Health",
+        "fr": "Santé mentale",
+        "de": "Psychische Gesundheit",
+        "gsw": "Psychischi Gsundheit"
+      },
+      "parent": "wellbeing"
+    },
+    {
+      "category_id": "work_life_balance",
+      "name": {
+        "en": "Work-Life Balance",
+        "fr": "Équilibre travail-vie",
+        "de": "Work-Life-Balance",
+        "gsw": "Work-Life-Balance"
+      },
+      "parent": "wellbeing"
+    },
+    {
+      "category_id": "culture",
+      "name": {
+        "en": "Culture",
+        "fr": "Culture",
+        "de": "Kultur",
+        "gsw": "Kultur"
+      },
+      "parent": null
+    },
+    {
+      "category_id": "values",
+      "name": {
+        "en": "Values",
+        "fr": "Valeurs",
+        "de": "Werte",
+        "gsw": "Wärt"
+      },
+      "parent": "culture"
+    },
+    {
+      "category_id": "engagement",
+      "name": {
+        "en": "Engagement",
+        "fr": "Engagement",
+        "de": "Engagement",
+        "gsw": "Engagement"
+      },
+      "parent": "culture"
+    },
+    {
+      "category_id": "recognition",
+      "name": {
+        "en": "Recognition",
+        "fr": "Reconnaissance",
+        "de": "Anerkennung",
+        "gsw": "Aanerkennig"
+      },
+      "parent": "culture"
+    },
+    {
+      "category_id": "benefits",
+      "name": {
+        "en": "Benefits",
+        "fr": "Avantages",
+        "de": "Leistungen",
+        "gsw": "Leischtige"
+      },
+      "parent": null
+    },
+    {
+      "category_id": "health_insurance",
+      "name": {
+        "en": "Health Insurance",
+        "fr": "Assurance santé",
+        "de": "Krankenversicherung",
+        "gsw": "Krank heits-Versicherig"
+      },
+      "parent": "benefits"
+    },
+    {
+      "category_id": "retirement",
+      "name": {
+        "en": "Retirement",
+        "fr": "Retraite",
+        "de": "Ruhestand",
+        "gsw": "Ruehstand"
+      },
+      "parent": "benefits"
+    },
+    {
+      "category_id": "time_off",
+      "name": {
+        "en": "Time Off",
+        "fr": "Congés",
+        "de": "Freizeit",
+        "gsw": "Freizit"
+      },
+      "parent": "benefits"
+    },
+    {
+      "category_id": "perks",
+      "name": {
+        "en": "Perks",
+        "fr": "Avantages",
+        "de": "Vergünstigungen",
+        "gsw": "Vergünstigige"
+      },
+      "parent": "benefits"
+    },
+    {
+      "category_id": "diversity_inclusion",
+      "name": {
         "en": "Diversity & Inclusion",
         "fr": "Diversité et inclusion",
         "de": "Vielfalt & Inklusion",
         "gsw": "Vielfalt & Inklusion"
       },
-      "description": {
-        "en": "DEI initiatives and programs",
-        "fr": "Initiatives et programmes DEI",
-        "de": "DEI-Initiativen und -Programme",
-        "gsw": "DEI-Initiative und -Programm"
+      "parent": null
+    },
+    {
+      "category_id": "recruitment",
+      "name": {
+        "en": "Recruitment",
+        "fr": "Recrutement",
+        "de": "Rekrutierung",
+        "gsw": "Rekrutierig"
       },
-      "sort_order": 5
+      "parent": "diversity_inclusion"
+    },
+    {
+      "category_id": "retention",
+      "name": {
+        "en": "Retention",
+        "fr": "Rétention",
+        "de": "Bindung",
+        "gsw": "Bindig"
+      },
+      "parent": "diversity_inclusion"
+    },
+    {
+      "category_id": "community_building",
+      "name": {
+        "en": "Community Building",
+        "fr": "Construction communautaire",
+        "de": "Gemeinschaftsaufbau",
+        "gsw": "Gmeinschafts-Ufbau"
+      },
+      "parent": "diversity_inclusion"
+    }
+  ],
+  "option_types": [
+    {
+      "option_type": "policy_section",
+      "label": {
+        "en": "Policy Section",
+        "fr": "Section de politique",
+        "de": "Richtlinienabschnitt",
+        "gsw": "Richtlinie-Abschnitt"
+      },
+      "description": {
+        "en": "Sections or clauses for policy proposals",
+        "fr": "Sections ou clauses pour les propositions de politique",
+        "de": "Abschnitte oder Klauseln für Richtlinienvorschläge",
+        "gsw": "Abschnitt oder Klausle für Richtlinie-Vorschläg"
+      },
+      "fields": [
+        {
+          "key": "section_title",
+          "label": {
+            "en": "Section Title",
+            "fr": "Titre de section",
+            "de": "Abschnittstitel",
+            "gsw": "Abschnitt-Titel"
+          },
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "current_text",
+          "label": {
+            "en": "Current Text",
+            "fr": "Texte actuel",
+            "de": "Aktueller Text",
+            "gsw": "Aktuälle Täxt"
+          },
+          "type": "text",
+          "required": false
+        },
+        {
+          "key": "proposed_text",
+          "label": {
+            "en": "Proposed Text",
+            "fr": "Texte proposé",
+            "de": "Vorgeschlagener Text",
+            "gsw": "Vorgeschlagene Täxt"
+          },
+          "type": "text",
+          "required": true
+        },
+        {
+          "key": "rationale",
+          "label": {
+            "en": "Rationale",
+            "fr": "Justification",
+            "de": "Begründung",
+            "gsw": "Begründig"
+          },
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "option_type": "training_module",
+      "label": {
+        "en": "Training Module",
+        "fr": "Module de formation",
+        "de": "Schulungsmodul",
+        "gsw": "Schuligs-Modul"
+      },
+      "description": {
+        "en": "Training program breakdown",
+        "fr": "Décomposition du programme de formation",
+        "de": "Aufschlüsselung des Schulungsprogramms",
+        "gsw": "Ufschlüsselig vom Schuligs-Programm"
+      },
+      "fields": [
+        {
+          "key": "module_name",
+          "label": {
+            "en": "Module Name",
+            "fr": "Nom du module",
+            "de": "Modulname",
+            "gsw": "Modul-Name"
+          },
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "duration",
+          "label": {
+            "en": "Duration (hours)",
+            "fr": "Durée (heures)",
+            "de": "Dauer (Stunden)",
+            "gsw": "Duur (Stunde)"
+          },
+          "type": "integer",
+          "required": true
+        },
+        {
+          "key": "format",
+          "label": {
+            "en": "Format",
+            "fr": "Format",
+            "de": "Format",
+            "gsw": "Format"
+          },
+          "type": "enum",
+          "required": false,
+          "allowed_values": [
+            "online",
+            "in_person",
+            "hybrid"
+          ]
+        },
+        {
+          "key": "target_audience",
+          "label": {
+            "en": "Target Audience",
+            "fr": "Public cible",
+            "de": "Zielgruppe",
+            "gsw": "Ziil-Grupp"
+          },
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "option_type": "benefit_option",
+      "label": {
+        "en": "Benefit Option",
+        "fr": "Option d'avantage",
+        "de": "Leistungsoption",
+        "gsw": "Leischtigs-Option"
+      },
+      "description": {
+        "en": "Employee benefit choices",
+        "fr": "Choix d'avantages pour les employés",
+        "de": "Mitarbeiterleistungsoptionen",
+        "gsw": "Mitarbeiter-Leischtigs-Optione"
+      },
+      "fields": [
+        {
+          "key": "benefit_type",
+          "label": {
+            "en": "Benefit Type",
+            "fr": "Type d'avantage",
+            "de": "Leistungstyp",
+            "gsw": "Leischtigs-Typ"
+          },
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "cost",
+          "label": {
+            "en": "Cost",
+            "fr": "Coût",
+            "de": "Kosten",
+            "gsw": "Koste"
+          },
+          "type": "float",
+          "required": false
+        },
+        {
+          "key": "eligibility",
+          "label": {
+            "en": "Eligibility",
+            "fr": "Éligibilité",
+            "de": "Berechtigung",
+            "gsw": "Berechtiging"
+          },
+          "type": "string",
+          "required": false
+        },
+        {
+          "key": "enrollment_period",
+          "label": {
+            "en": "Enrollment Period",
+            "fr": "Période d'inscription",
+            "de": "Anmeldezeitraum",
+            "gsw": "Aameldezit-Ruum"
+          },
+          "type": "string",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "inquiry_group_types": [
+    {
+      "group_type": "company_division",
+      "label": {
+        "en": "Company Division",
+        "fr": "Division de l'entreprise",
+        "de": "Unternehmensbereich",
+        "gsw": "Unternehmens-Bereich"
+      },
+      "description": {
+        "en": "Top-level organizational divisions",
+        "fr": "Divisions organisationnelles de haut niveau",
+        "de": "Organisationsbereiche auf oberster Ebene",
+        "gsw": "Organisations-Bereich uf oberster Ebeni"
+      },
+      "is_root": true
+    },
+    {
+      "group_type": "department",
+      "label": {
+        "en": "Department",
+        "fr": "Département",
+        "de": "Abteilung",
+        "gsw": "Abteilig"
+      },
+      "description": {
+        "en": "Department-level groupings",
+        "fr": "Regroupements au niveau départemental",
+        "de": "Abteilungsebene-Gruppierungen",
+        "gsw": "Abteiligs-Ebeni-Gruppierige"
+      },
+      "is_root": false
+    },
+    {
+      "group_type": "team",
+      "label": {
+        "en": "Team",
+        "fr": "Équipe",
+        "de": "Team",
+        "gsw": "Team"
+      },
+      "description": {
+        "en": "Team-level initiatives",
+        "fr": "Initiatives au niveau de l'équipe",
+        "de": "Initiativen auf Teamebene",
+        "gsw": "Initiative uf Team-Ebeni"
+      },
+      "is_root": false
+    },
+    {
+      "group_type": "employee_network",
+      "label": {
+        "en": "Employee Network",
+        "fr": "Réseau d'employés",
+        "de": "Mitarbeiternetzwerk",
+        "gsw": "Mitarbeiter-Netzwärch"
+      },
+      "description": {
+        "en": "Employee resource groups and affinity groups",
+        "fr": "Groupes de ressources pour employés et groupes d'affinité",
+        "de": "Mitarbeiterressourcengruppen und Interessengruppen",
+        "gsw": "Mitarbeiter-Ressource-Gruppe und Interesse-Gruppe"
+      },
+      "is_root": false
+    },
+    {
+      "group_type": "location_group",
+      "label": {
+        "en": "Location Group",
+        "fr": "Groupe de localisation",
+        "de": "Standortgruppe",
+        "gsw": "Standort-Grupp"
+      },
+      "description": {
+        "en": "Office or site-based groups",
+        "fr": "Groupes basés sur les bureaux ou les sites",
+        "de": "Büro- oder standortbasierte Gruppen",
+        "gsw": "Büro- oder standort-basierti Gruppe"
+      },
+      "is_root": false
+    }
+  ],
+  "locations": [
+    {
+      "location_id": "global_hq",
+      "name": {
+        "en": "Global HQ",
+        "fr": "Siège mondial",
+        "de": "Globale Zentrale",
+        "gsw": "Globali Zentral"
+      },
+      "parent_id": null
+    },
+    {
+      "location_id": "emea",
+      "name": {
+        "en": "EMEA Region",
+        "fr": "Région EMEA",
+        "de": "EMEA-Region",
+        "gsw": "EMEA-Region"
+      },
+      "parent_id": null
+    },
+    {
+      "location_id": "americas",
+      "name": {
+        "en": "Americas Region",
+        "fr": "Région Amériques",
+        "de": "Amerika-Region",
+        "gsw": "Amerika-Region"
+      },
+      "parent_id": null
+    },
+    {
+      "location_id": "apac",
+      "name": {
+        "en": "APAC Region",
+        "fr": "Région APAC",
+        "de": "APAC-Region",
+        "gsw": "APAC-Region"
+      },
+      "parent_id": null
+    },
+    {
+      "location_id": "uk",
+      "name": {
+        "en": "United Kingdom",
+        "fr": "Royaume-Uni",
+        "de": "Vereinigtes Königreich",
+        "gsw": "Vereinigts Königriich"
+      },
+      "parent_id": "emea"
+    },
+    {
+      "location_id": "germany",
+      "name": {
+        "en": "Germany",
+        "fr": "Allemagne",
+        "de": "Deutschland",
+        "gsw": "Dütschland"
+      },
+      "parent_id": "emea"
+    },
+    {
+      "location_id": "usa",
+      "name": {
+        "en": "United States",
+        "fr": "États-Unis",
+        "de": "Vereinigte Staaten",
+        "gsw": "Vereinigti Staate"
+      },
+      "parent_id": "americas"
+    },
+    {
+      "location_id": "london_office",
+      "name": {
+        "en": "London Office",
+        "fr": "Bureau de Londres",
+        "de": "Büro London",
+        "gsw": "Büro London"
+      },
+      "parent_id": "uk"
+    },
+    {
+      "location_id": "berlin_office",
+      "name": {
+        "en": "Berlin Office",
+        "fr": "Bureau de Berlin",
+        "de": "Büro Berlin",
+        "gsw": "Büro Berlin"
+      },
+      "parent_id": "germany"
+    },
+    {
+      "location_id": "ny_office",
+      "name": {
+        "en": "New York Office",
+        "fr": "Bureau de New York",
+        "de": "Büro New York",
+        "gsw": "Büro New York"
+      },
+      "parent_id": "usa"
     }
   ]
 }

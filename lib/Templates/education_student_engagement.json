@@ -2,10 +2,20 @@
   "template_info": {
     "name": "education_student_engagement",
     "version": "1.0.0",
-    "description": "Student Engagement template for course feedback, campus improvements, and student initiatives",
+    "description": {
+      "en": "Template for student engagement in higher education supporting course feedback, campus improvements, student activities, and wellbeing initiatives with extensive voting workflows including student body votes, council decisions, and anonymous surveys",
+      "fr": "Modèle pour l'engagement étudiant dans l'enseignement supérieur soutenant les retours de cours, les améliorations du campus, les activités étudiantes et les initiatives de bien-être avec des flux de travail de vote étendus incluant les votes du corps étudiant, les décisions du conseil et les sondages anonymes",
+      "de": "Vorlage für studentisches Engagement in der Hochschulbildung zur Unterstützung von Kursfeedback, Campus-Verbesserungen, studentischen Aktivitäten und Wohlfühlinitiativen mit umfangreichen Abstimmungsabläufen einschließlich studentischer Abstimmungen, Ratsbeschlüssen und anonymen Umfragen",
+      "gsw": "Vorlag für studentischs Engagement in dr Hochschuel-Bildig zur Unterstützig vo Kurs-Feedback, Campus-Verbesserige, studentische Aktivitäte und Wohlfühl-Initiative mit umfangriiche Abstimmigs-Abläuf iischliesslich studentischi Abstimmige, Rats-Beschlüss und anonymi Umfraage"
+    },
     "author": "Agora Team",
     "use_case": "education_students",
-    "available_languages": ["en", "fr", "de", "gsw"]
+    "available_languages": [
+      "en",
+      "fr",
+      "de",
+      "gsw"
+    ]
   },
   "inquiry_families": [
     {
@@ -61,9 +71,77 @@
         "gsw": "Vorschläg zur Verbesserig vo Kurs, Lehrmethode und Lernmaterial"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
-      "support_feature": "binary"
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
+      "support_feature": "binary",
+      "allowed_transformation": [
+        "student_activities"
+      ],
+      "fields": [
+        {
+          "key": "type_of_vote",
+          "label": {
+            "en": "Type of Vote",
+            "fr": "Type de vote",
+            "de": "Abstimmungstyp",
+            "gsw": "Abstimmigs-Typ"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "approval",
+            "ranking"
+          ]
+        },
+        {
+          "key": "eligible_voters",
+          "label": {
+            "en": "Eligible Voters",
+            "fr": "Électeurs éligibles",
+            "de": "Wahlberechtigte",
+            "gsw": "Wahlberechtigti"
+          },
+          "type": "enum",
+          "required": false,
+          "allowed_values": [
+            "all_students",
+            "class_cohort",
+            "program_students"
+          ]
+        },
+        {
+          "key": "quorum",
+          "label": {
+            "en": "Required Votes",
+            "fr": "Votes requis",
+            "de": "Erforderliche Stimmen",
+            "gsw": "Erforderlich Stimme"
+          },
+          "type": "integer",
+          "required": false,
+          "default": 100
+        },
+        {
+          "key": "voting_deadline",
+          "label": {
+            "en": "Voting Deadline",
+            "fr": "Date limite de vote",
+            "de": "Abstimmungsfrist",
+            "gsw": "Abstimmigs-Frischt"
+          },
+          "type": "date",
+          "required": false
+        }
+      ]
     },
     {
       "inquiry_type": "campus_facilities",
@@ -82,8 +160,15 @@
         "gsw": "Feedback zu Campus-Iirichtige, Bibliotheke, Lernrüüm und Annehmlichkeite"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "binary"
     },
     {
@@ -103,9 +188,61 @@
         "gsw": "Vorschläg für nöii Verein, Veraastaltige und usserschuelischi Aktivitäte"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
-      "support_feature": "binary"
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
+      "support_feature": "binary",
+      "allowed_transformation": [
+        "wellness_mental_health"
+      ],
+      "fields": [
+        {
+          "key": "type_of_vote",
+          "label": {
+            "en": "Type of Vote",
+            "fr": "Type de vote",
+            "de": "Abstimmungstyp",
+            "gsw": "Abstimmigs-Typ"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "approval",
+          "allowed_values": [
+            "simple",
+            "approval"
+          ]
+        },
+        {
+          "key": "quorum",
+          "label": {
+            "en": "Council Quorum",
+            "fr": "Quorum du conseil",
+            "de": "Ratsquorum",
+            "gsw": "Rats-Quorum"
+          },
+          "type": "integer",
+          "required": false,
+          "default": 10
+        },
+        {
+          "key": "approval_threshold",
+          "label": {
+            "en": "Approval Threshold (%)",
+            "fr": "Seuil d'approbation (%)",
+            "de": "Genehmigungsschwelle (%)",
+            "gsw": "Genehmigigs-Schwelle (%)"
+          },
+          "type": "integer",
+          "required": false,
+          "default": 50
+        }
+      ]
     },
     {
       "inquiry_type": "student_services",
@@ -124,8 +261,15 @@
         "gsw": "Feedback zu Beratig, Karriere-Dienscht, Gsundhäits-Dienscht und Unterstützig-Programm"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "binary"
     },
     {
@@ -145,8 +289,15 @@
         "gsw": "Umwält- und Nochhaltigkeits-Vorschläg für Campus-Betrieb"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "binary"
     },
     {
@@ -166,8 +317,15 @@
         "gsw": "Vorschläg zur Verbesserig vo Vielfalt, Grächtigkeit und Inklusio uf em Campus"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "binary"
     },
     {
@@ -188,7 +346,12 @@
       },
       "is_root": false,
       "allowed_response": [],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "none"
     }
   ],
@@ -287,88 +450,827 @@
       "is_final": true,
       "icon": "CloseCircle",
       "sort_order": 5
+    },
+    {
+      "inquiry_type": "course_improvement",
+      "status_key": "class_cohort_poll",
+      "label": {
+        "en": "Class Cohort Poll",
+        "fr": "Sondage de cohorte",
+        "de": "Klassenjahrgangs-Umfrage",
+        "gsw": "Klasse-Jahrgangs-Umfraag"
+      },
+      "description": {
+        "en": "Polling students in the class cohort",
+        "fr": "Sondage des étudiants de la cohorte",
+        "de": "Befragung von Studenten im Klassenjahrgang",
+        "gsw": "Befraagig vo Student im Klasse-Jahrgang"
+      },
+      "is_final": false,
+      "icon": "Poll",
+      "sort_order": 2.5
+    },
+    {
+      "inquiry_type": "course_improvement",
+      "status_key": "faculty_senate_vote",
+      "label": {
+        "en": "Faculty Senate Vote",
+        "fr": "Vote du sénat de la faculté",
+        "de": "Fakultätssenats-Abstimmung",
+        "gsw": "Fakultäts-Senats-Abstimmig"
+      },
+      "description": {
+        "en": "Faculty senate voting on curriculum change",
+        "fr": "Vote du sénat de la faculté sur le changement de programme",
+        "de": "Fakultätssenat stimmt über Lehrplanänderung ab",
+        "gsw": "Fakultäts-Senat stimmt über Lehrplan-Änderig ab"
+      },
+      "is_final": false,
+      "icon": "AccountTie",
+      "sort_order": 3.5
+    },
+    {
+      "inquiry_type": "student_activities",
+      "status_key": "student_council_vote",
+      "label": {
+        "en": "Student Council Vote",
+        "fr": "Vote du conseil étudiant",
+        "de": "Studentenrats-Abstimmung",
+        "gsw": "Student-Rats-Abstimmig"
+      },
+      "description": {
+        "en": "Student council voting on activity proposal",
+        "fr": "Le conseil étudiant vote sur la proposition d'activité",
+        "de": "Studentenrat stimmt über Aktivitätsvorschlag ab",
+        "gsw": "Student-Rat stimmt über Aktivitäts-Vorschlag ab"
+      },
+      "is_final": false,
+      "icon": "VoteOutline",
+      "sort_order": 2.5
+    },
+    {
+      "inquiry_type": "student_activities",
+      "status_key": "club_member_vote",
+      "label": {
+        "en": "Club Member Vote",
+        "fr": "Vote des membres du club",
+        "de": "Clubmitglieder-Abstimmung",
+        "gsw": "Club-Mitglieder-Abstimmig"
+      },
+      "description": {
+        "en": "Club members voting on event proposal",
+        "fr": "Les membres du club votent sur la proposition d'événement",
+        "de": "Clubmitglieder stimmen über Veranstaltungsvorschlag ab",
+        "gsw": "Club-Mitglieder stimme über Veraastaltig-Vorschlag ab"
+      },
+      "is_final": false,
+      "icon": "AccountGroup",
+      "sort_order": 3.5
+    },
+    {
+      "inquiry_type": "student_activities",
+      "status_key": "administration_approval",
+      "label": {
+        "en": "Administration Approval Vote",
+        "fr": "Vote d'approbation de l'administration",
+        "de": "Verwaltungs-Genehmigungsabstimmung",
+        "gsw": "Verwaltig-Genehmigiigs-Abstimmig"
+      },
+      "description": {
+        "en": "Administration voting on budget allocation",
+        "fr": "L'administration vote sur l'allocation budgétaire",
+        "de": "Verwaltung stimmt über Budgetzuweisung ab",
+        "gsw": "Verwaltig stimmt über Budget-Zuewisig ab"
+      },
+      "is_final": false,
+      "icon": "ShieldAccount",
+      "sort_order": 4.5
+    },
+    {
+      "inquiry_type": "wellness_mental_health",
+      "status_key": "anonymous_student_survey",
+      "label": {
+        "en": "Anonymous Student Survey",
+        "fr": "Sondage étudiant anonyme",
+        "de": "Anonyme Studentenumfrage",
+        "gsw": "Anonymi Student-Umfraag"
+      },
+      "description": {
+        "en": "Conducting anonymous student survey",
+        "fr": "Réalisation d'un sondage étudiant anonyme",
+        "de": "Durchführung einer anonymen Studentenumfrage",
+        "gsw": "Durchfüehrig vo-nere anonyme Student-Umfraag"
+      },
+      "is_final": false,
+      "icon": "CommentQuestionOutline",
+      "sort_order": 2.5
+    },
+    {
+      "inquiry_type": "wellness_mental_health",
+      "status_key": "student_body_vote",
+      "label": {
+        "en": "Student Body-Wide Vote",
+        "fr": "Vote de l'ensemble du corps étudiant",
+        "de": "Studentenschafts-weite Abstimmung",
+        "gsw": "Studenteschaft-witi Abstimmig"
+      },
+      "description": {
+        "en": "All students voting on wellbeing initiative",
+        "fr": "Tous les étudiants votent sur l'initiative de bien-être",
+        "de": "Alle Studenten stimmen über Wohlfühlinitiative ab",
+        "gsw": "Alli Student stimme über Wohlfühl-Initiative ab"
+      },
+      "is_final": false,
+      "icon": "AccountMultiple",
+      "sort_order": 3.5
+    },
+    {
+      "inquiry_type": "campus_infrastructure",
+      "status_key": "campus_referendum",
+      "label": {
+        "en": "Campus-Wide Referendum",
+        "fr": "Référendum à l'échelle du campus",
+        "de": "Campus-weites Referendum",
+        "gsw": "Campus-wits Referendum"
+      },
+      "description": {
+        "en": "Campus-wide referendum on major infrastructure",
+        "fr": "Référendum à l'échelle du campus sur une infrastructure majeure",
+        "de": "Campus-weites Referendum über große Infrastruktur",
+        "gsw": "Campus-wits Referendum über grossi Infrastruktur"
+      },
+      "is_final": false,
+      "icon": "VoteOutline",
+      "sort_order": 2.5
+    },
+    {
+      "inquiry_type": "campus_infrastructure",
+      "status_key": "residence_hall_poll",
+      "label": {
+        "en": "Residence Hall Poll",
+        "fr": "Sondage de résidence",
+        "de": "Wohnheim-Umfrage",
+        "gsw": "Wohnheim-Umfraag"
+      },
+      "description": {
+        "en": "Polling residence hall students",
+        "fr": "Sondage des étudiants en résidence",
+        "de": "Befragung von Wohnheimstudenten",
+        "gsw": "Befraagig vo Wohnheim-Student"
+      },
+      "is_final": false,
+      "icon": "HomeGroup",
+      "sort_order": 3.5
+    },
+    {
+      "inquiry_type": "diversity_inclusion",
+      "status_key": "dei_committee_vote",
+      "label": {
+        "en": "DEI Committee Vote",
+        "fr": "Vote du comité DEI",
+        "de": "DEI-Komitee-Abstimmung",
+        "gsw": "DEI-Komitee-Abstimmig"
+      },
+      "description": {
+        "en": "Diversity, Equity & Inclusion committee voting",
+        "fr": "Vote du comité Diversité, Équité et Inclusion",
+        "de": "Abstimmung des Diversitäts-, Gerechtigkeits- und Inklusionskomitees",
+        "gsw": "Abstimmig vom Diversitäts-, Gerechtigkeit- und Inklusions-Komitee"
+      },
+      "is_final": false,
+      "icon": "AccountGroupOutline",
+      "sort_order": 2.5
     }
   ],
   "categories": [
     {
-      "category_key": "academics",
-      "label": {
+      "category_id": "academics",
+      "name": {
         "en": "Academics",
-        "fr": "Académiques",
+        "fr": "Académique",
         "de": "Akademisches",
-        "gsw": "Akademisches"
+        "gsw": "Akademischs"
       },
-      "description": {
-        "en": "Curriculum, courses, teaching quality, and learning resources",
-        "fr": "Curriculum, cours, qualité de l'enseignement et ressources pédagogiques",
-        "de": "Lehrplan, Kurse, Unterrichtsqualität und Lernressourcen",
-        "gsw": "Lehrplan, Kurs, Unterrichtsqualität und Lernressource"
-      },
-      "sort_order": 1
+      "parent": null
     },
     {
-      "category_key": "campus_life",
-      "label": {
+      "category_id": "curriculum",
+      "name": {
+        "en": "Curriculum",
+        "fr": "Programme d'études",
+        "de": "Lehrplan",
+        "gsw": "Lehrplan"
+      },
+      "parent": "academics"
+    },
+    {
+      "category_id": "teaching",
+      "name": {
+        "en": "Teaching Quality",
+        "fr": "Qualité de l'enseignement",
+        "de": "Lehrqualität",
+        "gsw": "Lehr-Qualitäät"
+      },
+      "parent": "academics"
+    },
+    {
+      "category_id": "grading",
+      "name": {
+        "en": "Grading & Assessment",
+        "fr": "Notation et évaluation",
+        "de": "Bewertung & Prüfung",
+        "gsw": "Bewertig & Prüefig"
+      },
+      "parent": "academics"
+    },
+    {
+      "category_id": "advising",
+      "name": {
+        "en": "Academic Advising",
+        "fr": "Conseil académique",
+        "de": "Akademische Beratung",
+        "gsw": "Akademischi Beratig"
+      },
+      "parent": "academics"
+    },
+    {
+      "category_id": "campus_life",
+      "name": {
         "en": "Campus Life",
         "fr": "Vie du campus",
-        "de": "Campus-Leben",
+        "de": "Campusleben",
         "gsw": "Campus-Läbe"
       },
-      "description": {
-        "en": "Student activities, clubs, events, and social life",
-        "fr": "Activités étudiantes, clubs, événements et vie sociale",
-        "de": "Studentische Aktivitäten, Vereine, Veranstaltungen und soziales Leben",
-        "gsw": "Studente-Aktivitäte, Verein, Veraastaltige und sozials Läbe"
-      },
-      "sort_order": 2
+      "parent": null
     },
     {
-      "category_key": "infrastructure",
-      "label": {
+      "category_id": "events",
+      "name": {
+        "en": "Events",
+        "fr": "Événements",
+        "de": "Veranstaltungen",
+        "gsw": "Veraastaltige"
+      },
+      "parent": "campus_life"
+    },
+    {
+      "category_id": "clubs",
+      "name": {
+        "en": "Clubs & Organizations",
+        "fr": "Clubs et organisations",
+        "de": "Clubs & Organisationen",
+        "gsw": "Club & Organisatione"
+      },
+      "parent": "campus_life"
+    },
+    {
+      "category_id": "social",
+      "name": {
+        "en": "Social Activities",
+        "fr": "Activités sociales",
+        "de": "Soziale Aktivitäten",
+        "gsw": "Soziali Aktivitäte"
+      },
+      "parent": "campus_life"
+    },
+    {
+      "category_id": "infrastructure",
+      "name": {
         "en": "Infrastructure",
         "fr": "Infrastructure",
         "de": "Infrastruktur",
         "gsw": "Infrastruktur"
       },
-      "description": {
-        "en": "Buildings, classrooms, libraries, study spaces, and facilities",
-        "fr": "Bâtiments, salles de classe, bibliothèques, espaces d'étude et installations",
-        "de": "Gebäude, Klassenzimmer, Bibliotheken, Lernräume und Einrichtungen",
-        "gsw": "Gebäud, Klassezimmer, Bibliotheke, Lernrüüm und Iirichtige"
-      },
-      "sort_order": 3
+      "parent": null
     },
     {
-      "category_key": "wellbeing",
-      "label": {
+      "category_id": "classrooms",
+      "name": {
+        "en": "Classrooms",
+        "fr": "Salles de classe",
+        "de": "Klassenzimmer",
+        "gsw": "Klassezimmer"
+      },
+      "parent": "infrastructure"
+    },
+    {
+      "category_id": "library_facilities",
+      "name": {
+        "en": "Library Facilities",
+        "fr": "Installations de bibliothèque",
+        "de": "Bibliothekseinrichtungen",
+        "gsw": "Bibliotheks-Iirichtige"
+      },
+      "parent": "infrastructure"
+    },
+    {
+      "category_id": "study_spaces",
+      "name": {
+        "en": "Study Spaces",
+        "fr": "Espaces d'étude",
+        "de": "Lernräume",
+        "gsw": "Lernrüüm"
+      },
+      "parent": "infrastructure"
+    },
+    {
+      "category_id": "health_wellbeing",
+      "name": {
         "en": "Health & Wellbeing",
         "fr": "Santé et bien-être",
         "de": "Gesundheit & Wohlbefinden",
-        "gsw": "Gsundhäit & Wohlbefinde"
+        "gsw": "Gsundheit & Wohlbefinde"
       },
-      "description": {
-        "en": "Mental health, counseling, health services, and support programs",
-        "fr": "Santé mentale, conseil, services de santé et programmes de soutien",
-        "de": "Psychische Gesundheit, Beratung, Gesundheitsdienste und Unterstützungsprogramme",
-        "gsw": "Psychischi Gsundhäit, Beratig, Gsundhäits-Dienscht und Unterstützig-Programm"
-      },
-      "sort_order": 4
+      "parent": null
     },
     {
-      "category_key": "technology",
-      "label": {
+      "category_id": "mental_health",
+      "name": {
+        "en": "Mental Health",
+        "fr": "Santé mentale",
+        "de": "Psychische Gesundheit",
+        "gsw": "Psychischi Gsundheit"
+      },
+      "parent": "health_wellbeing"
+    },
+    {
+      "category_id": "counseling",
+      "name": {
+        "en": "Counseling Services",
+        "fr": "Services de conseil",
+        "de": "Beratungsdienste",
+        "gsw": "Beratigs-Dienscht"
+      },
+      "parent": "health_wellbeing"
+    },
+    {
+      "category_id": "fitness",
+      "name": {
+        "en": "Fitness & Recreation",
+        "fr": "Fitness et loisirs",
+        "de": "Fitness & Erholung",
+        "gsw": "Fitness & Erholig"
+      },
+      "parent": "health_wellbeing"
+    },
+    {
+      "category_id": "technology",
+      "name": {
         "en": "Technology & Digital",
         "fr": "Technologie et numérique",
         "de": "Technologie & Digital",
         "gsw": "Technologii & Digital"
       },
-      "description": {
-        "en": "IT services, learning platforms, Wi-Fi, and digital resources",
-        "fr": "Services IT, plateformes d'apprentissage, Wi-Fi et ressources numériques",
-        "de": "IT-Dienste, Lernplattformen, WLAN und digitale Ressourcen",
-        "gsw": "IT-Dienscht, Lernplattforme, WLAN und digitali Ressource"
+      "parent": null
+    },
+    {
+      "category_id": "lms",
+      "name": {
+        "en": "Learning Management System",
+        "fr": "Système de gestion de l'apprentissage",
+        "de": "Lernmanagementsystem",
+        "gsw": "Lern-Management-System"
       },
-      "sort_order": 5
+      "parent": "technology"
+    },
+    {
+      "category_id": "it_support",
+      "name": {
+        "en": "IT Support",
+        "fr": "Support informatique",
+        "de": "IT-Support",
+        "gsw": "IT-Support"
+      },
+      "parent": "technology"
+    },
+    {
+      "category_id": "wifi",
+      "name": {
+        "en": "Wi-Fi & Connectivity",
+        "fr": "Wi-Fi et connectivité",
+        "de": "WLAN & Konnektivität",
+        "gsw": "WLAN & Konnektivitäät"
+      },
+      "parent": "technology"
+    }
+  ],
+  "option_types": [
+    {
+      "option_type": "course_module_feedback",
+      "label": {
+        "en": "Course Module Feedback",
+        "fr": "Retour sur le module de cours",
+        "de": "Kursmodul-Feedback",
+        "gsw": "Kurs-Modul-Feedback"
+      },
+      "description": {
+        "en": "Feedback on specific course modules",
+        "fr": "Retour sur des modules de cours spécifiques",
+        "de": "Feedback zu bestimmten Kursmodulen",
+        "gsw": "Feedback zu bestimmte Kurs-Module"
+      },
+      "fields": [
+        {
+          "key": "module_name",
+          "label": {
+            "en": "Module Name",
+            "fr": "Nom du module",
+            "de": "Modulname",
+            "gsw": "Modul-Name"
+          },
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "rating",
+          "label": {
+            "en": "Rating (1-5)",
+            "fr": "Note (1-5)",
+            "de": "Bewertung (1-5)",
+            "gsw": "Bewertig (1-5)"
+          },
+          "type": "integer",
+          "required": true
+        },
+        {
+          "key": "strengths",
+          "label": {
+            "en": "Strengths",
+            "fr": "Points forts",
+            "de": "Stärken",
+            "gsw": "Stärke"
+          },
+          "type": "text",
+          "required": false
+        },
+        {
+          "key": "improvements",
+          "label": {
+            "en": "Suggested Improvements",
+            "fr": "Améliorations suggérées",
+            "de": "Verbesserungsvorschläge",
+            "gsw": "Verbesserigs-Vorschläg"
+          },
+          "type": "text",
+          "required": false
+        },
+        {
+          "key": "workload",
+          "label": {
+            "en": "Workload",
+            "fr": "Charge de travail",
+            "de": "Arbeitsaufwand",
+            "gsw": "Arbeits-Ufwand"
+          },
+          "type": "enum",
+          "required": false,
+          "allowed_values": [
+            "light",
+            "moderate",
+            "heavy"
+          ]
+        }
+      ]
+    },
+    {
+      "option_type": "facility_improvement_option",
+      "label": {
+        "en": "Facility Improvement Option",
+        "fr": "Option d'amélioration des installations",
+        "de": "Einrichtungsverbesserungsoption",
+        "gsw": "Iirichtig-Verbesserigs-Option"
+      },
+      "description": {
+        "en": "Specific facility improvement proposals",
+        "fr": "Propositions spécifiques d'amélioration des installations",
+        "de": "Spezifische Vorschläge zur Verbesserung der Einrichtungen",
+        "gsw": "Spezifischi Vorschläg zur Verbesserig vo dr Iirichtige"
+      },
+      "fields": [
+        {
+          "key": "area",
+          "label": {
+            "en": "Area",
+            "fr": "Zone",
+            "de": "Bereich",
+            "gsw": "Bereich"
+          },
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "improvement_type",
+          "label": {
+            "en": "Improvement Type",
+            "fr": "Type d'amélioration",
+            "de": "Verbesserungstyp",
+            "gsw": "Verbesserigs-Typ"
+          },
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "estimated_cost",
+          "label": {
+            "en": "Estimated Cost",
+            "fr": "Coût estimé",
+            "de": "Geschätzte Kosten",
+            "gsw": "Gschätzt Koste"
+          },
+          "type": "float",
+          "required": false
+        },
+        {
+          "key": "priority",
+          "label": {
+            "en": "Priority",
+            "fr": "Priorité",
+            "de": "Priorität",
+            "gsw": "Prioritäät"
+          },
+          "type": "enum",
+          "required": false,
+          "allowed_values": [
+            "low",
+            "medium",
+            "high",
+            "critical"
+          ]
+        },
+        {
+          "key": "accessibility_impact",
+          "label": {
+            "en": "Accessibility Impact",
+            "fr": "Impact sur l'accessibilité",
+            "de": "Auswirkungen auf die Zugänglichkeit",
+            "gsw": "Uuswirkige uf d Zuegängligkeit"
+          },
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "option_type": "event_proposal",
+      "label": {
+        "en": "Event Proposal",
+        "fr": "Proposition d'événement",
+        "de": "Veranstaltungsvorschlag",
+        "gsw": "Veraastaltig-Vorschlag"
+      },
+      "description": {
+        "en": "Event details for student activities",
+        "fr": "Détails de l'événement pour les activités étudiantes",
+        "de": "Veranstaltungsdetails für studentische Aktivitäten",
+        "gsw": "Veraastaltig-Details für studentischi Aktivitäte"
+      },
+      "fields": [
+        {
+          "key": "event_name",
+          "label": {
+            "en": "Event Name",
+            "fr": "Nom de l'événement",
+            "de": "Veranstaltungsname",
+            "gsw": "Veraastaltig-Name"
+          },
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "event_date",
+          "label": {
+            "en": "Event Date",
+            "fr": "Date de l'événement",
+            "de": "Veranstaltungsdatum",
+            "gsw": "Veraastaltig-Datum"
+          },
+          "type": "date",
+          "required": true
+        },
+        {
+          "key": "budget",
+          "label": {
+            "en": "Budget",
+            "fr": "Budget",
+            "de": "Budget",
+            "gsw": "Budget"
+          },
+          "type": "float",
+          "required": false
+        },
+        {
+          "key": "expected_attendance",
+          "label": {
+            "en": "Expected Attendance",
+            "fr": "Participation attendue",
+            "de": "Erwartete Teilnehmerzahl",
+            "gsw": "Erwartet Teilnehmer-Zahl"
+          },
+          "type": "integer",
+          "required": false
+        },
+        {
+          "key": "venue",
+          "label": {
+            "en": "Venue",
+            "fr": "Lieu",
+            "de": "Veranstaltungsort",
+            "gsw": "Veraastaltig-Ort"
+          },
+          "type": "string",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "inquiry_group_types": [
+    {
+      "group_type": "university_council",
+      "label": {
+        "en": "University Council",
+        "fr": "Conseil universitaire",
+        "de": "Universitätsrat",
+        "gsw": "Universitäts-Rat"
+      },
+      "description": {
+        "en": "University-wide student governance",
+        "fr": "Gouvernance étudiante à l'échelle de l'université",
+        "de": "Universitätsweite Studentenvertretung",
+        "gsw": "Universitätswiti Student-Vertretig"
+      },
+      "is_root": true
+    },
+    {
+      "group_type": "student_government",
+      "label": {
+        "en": "Student Government",
+        "fr": "Gouvernement étudiant",
+        "de": "Studentenregierung",
+        "gsw": "Student-Regierig"
+      },
+      "description": {
+        "en": "Student government bodies",
+        "fr": "Organes du gouvernement étudiant",
+        "de": "Studentenregierungsgremien",
+        "gsw": "Student-Regierigs-Gremie"
+      },
+      "is_root": false
+    },
+    {
+      "group_type": "academic_program",
+      "label": {
+        "en": "Academic Program",
+        "fr": "Programme académique",
+        "de": "Akademisches Programm",
+        "gsw": "Akademischs Programm"
+      },
+      "description": {
+        "en": "Program-specific student groups",
+        "fr": "Groupes d'étudiants spécifiques au programme",
+        "de": "Programmspezifische Studentengruppen",
+        "gsw": "Programm-spezifischi Student-Gruppe"
+      },
+      "is_root": false
+    },
+    {
+      "group_type": "student_club",
+      "label": {
+        "en": "Student Club",
+        "fr": "Club étudiant",
+        "de": "Studentenclub",
+        "gsw": "Student-Club"
+      },
+      "description": {
+        "en": "Student clubs and organizations",
+        "fr": "Clubs et organisations d'étudiants",
+        "de": "Studentenclubs und -organisationen",
+        "gsw": "Student-Club und -Organisatione"
+      },
+      "is_root": false
+    },
+    {
+      "group_type": "residence_hall",
+      "label": {
+        "en": "Residence Hall",
+        "fr": "Résidence universitaire",
+        "de": "Wohnheim",
+        "gsw": "Wohnheim"
+      },
+      "description": {
+        "en": "Dormitory and residence communities",
+        "fr": "Communautés de dortoirs et de résidences",
+        "de": "Wohnheim- und Residenzgemeinschaften",
+        "gsw": "Wohnheim- und Residänz-Gmeinschafte"
+      },
+      "is_root": false
+    },
+    {
+      "group_type": "class_cohort",
+      "label": {
+        "en": "Class Cohort",
+        "fr": "Cohorte de classe",
+        "de": "Klassenjahrgang",
+        "gsw": "Klasse-Jahrgang"
+      },
+      "description": {
+        "en": "Year or class-based groups",
+        "fr": "Groupes basés sur l'année ou la classe",
+        "de": "Jahr- oder klassenbasierte Gruppen",
+        "gsw": "Jahr- oder klasse-basierti Gruppe"
+      },
+      "is_root": false
+    }
+  ],
+  "locations": [
+    {
+      "location_id": "main_campus",
+      "name": {
+        "en": "Main Campus",
+        "fr": "Campus principal",
+        "de": "Hauptcampus",
+        "gsw": "Hauptcampus"
+      },
+      "parent_id": null
+    },
+    {
+      "location_id": "east_campus",
+      "name": {
+        "en": "East Campus",
+        "fr": "Campus est",
+        "de": "Ostcampus",
+        "gsw": "Ost-Campus"
+      },
+      "parent_id": null
+    },
+    {
+      "location_id": "student_center",
+      "name": {
+        "en": "Student Center",
+        "fr": "Centre étudiant",
+        "de": "Studentenzentrum",
+        "gsw": "Student-Zentrum"
+      },
+      "parent_id": "main_campus"
+    },
+    {
+      "location_id": "library",
+      "name": {
+        "en": "Main Library",
+        "fr": "Bibliothèque principale",
+        "de": "Hauptbibliothek",
+        "gsw": "Haupt-Bibliothek"
+      },
+      "parent_id": "main_campus"
+    },
+    {
+      "location_id": "gym_complex",
+      "name": {
+        "en": "Gym & Sports Complex",
+        "fr": "Complexe sportif et gymnase",
+        "de": "Sport- und Fitnesskomplex",
+        "gsw": "Sport- und Fitness-Komplex"
+      },
+      "parent_id": "main_campus"
+    },
+    {
+      "location_id": "residence_north",
+      "name": {
+        "en": "North Residence Hall",
+        "fr": "Résidence nord",
+        "de": "Nordwohnheim",
+        "gsw": "Nord-Wohnheim"
+      },
+      "parent_id": "east_campus"
+    },
+    {
+      "location_id": "residence_south",
+      "name": {
+        "en": "South Residence Hall",
+        "fr": "Résidence sud",
+        "de": "Südwohnheim",
+        "gsw": "Süd-Wohnheim"
+      },
+      "parent_id": "east_campus"
+    },
+    {
+      "location_id": "study_room_a",
+      "name": {
+        "en": "Study Room A (Library Floor 2)",
+        "fr": "Salle d'étude A (Bibliothèque étage 2)",
+        "de": "Lernraum A (Bibliothek Etage 2)",
+        "gsw": "Lernruum A (Bibliothek Stock 2)"
+      },
+      "parent_id": "library"
+    },
+    {
+      "location_id": "cafeteria",
+      "name": {
+        "en": "Main Cafeteria",
+        "fr": "Cafétéria principale",
+        "de": "Hauptcafeteria",
+        "gsw": "Haupt-Cafeteria"
+      },
+      "parent_id": "student_center"
     }
   ]
 }

@@ -2,10 +2,20 @@
   "template_info": {
     "name": "enterprise_facility_management",
     "version": "1.0.0",
-    "description": "Facility Management template for infrastructure improvements, sustainability, and workspace optimization",
+    "description": {
+      "en": "Template for enterprise facility management supporting maintenance requests, infrastructure improvements, sustainability initiatives, workspace optimization, and safety concerns with advanced capabilities including voting, hierarchies, and collaborative workflows",
+      "fr": "Modèle pour la gestion des installations d'entreprise soutenant les demandes de maintenance, améliorations d'infrastructure, initiatives de durabilité, optimisation de l'espace de travail et préoccupations de sécurité avec des capacités avancées incluant le vote, les hiérarchies et les flux de travail collaboratifs",
+      "de": "Vorlage für Unternehmens-Facility-Management zur Unterstützung von Wartungsanfragen, Infrastrukturverbesserungen, Nachhaltigkeitsinitiativen, Arbeitsplatzoptimierung und Sicherheitsbedenken mit erweiterten Funktionen einschließlich Abstimmung, Hierarchien und kollaborativen Arbeitsabläufen",
+      "gsw": "Vorlag für Unternehmens-Facility-Management zur Unterstützig vo Wartigs-Aafraage, Infrastruktur-Verbesserige, Nachhaltigkeits-Initiative, Arbeitsplatz-Optimierig und Sicherhäits-Bedenke mit erwiitereti Funktione iischliesslich Abstimmig, Hierarchie und kollaborativi Arbeits-Abläuf"
+    },
     "author": "Agora Team",
     "use_case": "enterprise_facilities",
-    "available_languages": ["en", "fr", "de", "gsw"]
+    "available_languages": [
+      "en",
+      "fr",
+      "de",
+      "gsw"
+    ]
   },
   "inquiry_families": [
     {
@@ -61,9 +71,68 @@
         "gsw": "Vorschläg für Gebäude- und Infrastruktur-Verbesserige"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
-      "support_feature": "binary"
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "type_of_vote",
+          "label": {
+            "en": "Type of Vote",
+            "fr": "Type de vote",
+            "de": "Abstimmungstyp",
+            "gsw": "Abstimmigs-Typ"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "approval"
+          ]
+        },
+        {
+          "key": "quorum",
+          "label": {
+            "en": "Required Votes",
+            "fr": "Votes requis",
+            "de": "Erforderliche Stimmen",
+            "gsw": "Erforderlich Stimme"
+          },
+          "type": "integer",
+          "required": false,
+          "default": 50
+        },
+        {
+          "key": "voting_deadline",
+          "label": {
+            "en": "Voting Deadline",
+            "fr": "Date limite",
+            "de": "Frist",
+            "gsw": "Frischt"
+          },
+          "type": "date",
+          "required": false
+        },
+        {
+          "key": "cost_threshold",
+          "label": {
+            "en": "Cost Threshold",
+            "fr": "Seuil de coût",
+            "de": "Kostenschwelle",
+            "gsw": "Koste-Schwelle"
+          },
+          "type": "float",
+          "required": false
+        }
+      ]
     },
     {
       "inquiry_type": "sustainability_initiative",
@@ -82,9 +151,68 @@
         "gsw": "Umwält-Nochhaltigkäit und grüeni Initiative"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
-      "support_feature": "binary"
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "type_of_vote",
+          "label": {
+            "en": "Type of Vote",
+            "fr": "Type de vote",
+            "de": "Abstimmungstyp",
+            "gsw": "Abstimmigs-Typ"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "approval"
+          ]
+        },
+        {
+          "key": "quorum",
+          "label": {
+            "en": "Required Votes",
+            "fr": "Votes requis",
+            "de": "Erforderliche Stimmen",
+            "gsw": "Erforderlich Stimme"
+          },
+          "type": "integer",
+          "required": false,
+          "default": 50
+        },
+        {
+          "key": "voting_deadline",
+          "label": {
+            "en": "Voting Deadline",
+            "fr": "Date limite",
+            "de": "Frist",
+            "gsw": "Frischt"
+          },
+          "type": "date",
+          "required": false
+        },
+        {
+          "key": "cost_threshold",
+          "label": {
+            "en": "Cost Threshold",
+            "fr": "Seuil de coût",
+            "de": "Kostenschwelle",
+            "gsw": "Koste-Schwelle"
+          },
+          "type": "float",
+          "required": false
+        }
+      ]
     },
     {
       "inquiry_type": "workspace_optimization",
@@ -103,8 +231,15 @@
         "gsw": "Idee zum Optimiere vo Bürofläche und Verbesserig vo de Ergonomie"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "binary"
     },
     {
@@ -124,9 +259,19 @@
         "gsw": "Wartigs- und Reparatur-Aafraage für Iirichtige"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
-      "support_feature": "binary"
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
+      "support_feature": "binary",
+      "allowed_transformation": [
+        "infrastructure_improvement"
+      ]
     },
     {
       "inquiry_type": "parking_transportation",
@@ -145,8 +290,15 @@
         "gsw": "Vorschläg zur Verbesserig vo Parkplätz und Transport"
       },
       "is_root": true,
-      "allowed_response": ["official"],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_response": [
+        "official"
+      ],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "binary"
     },
     {
@@ -167,7 +319,12 @@
       },
       "is_root": false,
       "allowed_response": [],
-      "allowed_option_type": ["position_for", "position_against", "alternative", "official_summary"],
+      "allowed_option_type": [
+        "position_for",
+        "position_against",
+        "alternative",
+        "official_summary"
+      ],
       "support_feature": "none"
     }
   ],
@@ -285,88 +442,670 @@
       "is_final": true,
       "icon": "CloseCircle",
       "sort_order": 6
+    },
+    {
+      "inquiry_type": "infrastructure_improvement",
+      "status_key": "occupant_vote",
+      "label": {
+        "en": "Occupant Vote",
+        "fr": "Vote des occupants",
+        "de": "Bewohnerabstimmung",
+        "gsw": "Bewohner-Abstimmig"
+      },
+      "description": {
+        "en": "Building occupants voting on shared space improvements",
+        "fr": "Les occupants du bâtiment votent sur les améliorations d'espaces partagés",
+        "de": "Gebäudebewohner stimmen über Verbesserungen gemeinsamer Räume ab",
+        "gsw": "Gebäude-Bewohner stimme über Verbesserige vo gmeinschaftliche Rüüm ab"
+      },
+      "is_final": false,
+      "icon": "VoteOutline",
+      "sort_order": 2.5
+    },
+    {
+      "inquiry_type": "infrastructure_improvement",
+      "status_key": "cost_approval",
+      "label": {
+        "en": "Cost Approval Vote",
+        "fr": "Vote d'approbation des coûts",
+        "de": "Kostengenehmigungsabstimmung",
+        "gsw": "Koste-Genehmigigs-Abstimmig"
+      },
+      "description": {
+        "en": "Facility board approval for budget",
+        "fr": "Approbation du conseil des installations pour le budget",
+        "de": "Facility-Board-Genehmigung für Budget",
+        "gsw": "Facility-Board-Genehmigung für Budget"
+      },
+      "is_final": false,
+      "icon": "CashCheck",
+      "sort_order": 3.5
+    },
+    {
+      "inquiry_type": "infrastructure_improvement",
+      "status_key": "vendor_bidding",
+      "label": {
+        "en": "Vendor Bidding",
+        "fr": "Appel d'offres",
+        "de": "Anbieterausschreibung",
+        "gsw": "Aabieter-Usschribig"
+      },
+      "description": {
+        "en": "Collecting vendor bids",
+        "fr": "Collecte des offres des fournisseurs",
+        "de": "Sammeln von Anbieterangeboten",
+        "gsw": "Sammle vo Aabieter-Aagebote"
+      },
+      "is_final": false,
+      "icon": "Briefcase",
+      "sort_order": 3.8
+    },
+    {
+      "inquiry_type": "sustainability_initiative",
+      "status_key": "committee_vote",
+      "label": {
+        "en": "Sustainability Committee Vote",
+        "fr": "Vote du comité de durabilité",
+        "de": "Nachhaltigkeitskomitee-Abstimmung",
+        "gsw": "Nochhaltigkeits-Komitee-Abstimmig"
+      },
+      "description": {
+        "en": "Sustainability committee voting on green initiatives",
+        "fr": "Le comité de durabilité vote sur les initiatives vertes",
+        "de": "Nachhaltigkeitskomitee stimmt über grüne Initiativen ab",
+        "gsw": "Nochhaltigkeits-Komitee stimmt über grüeni Initiative ab"
+      },
+      "is_final": false,
+      "icon": "AccountGroup",
+      "sort_order": 2.5
+    },
+    {
+      "inquiry_type": "workspace_optimization",
+      "status_key": "team_poll",
+      "label": {
+        "en": "Team Poll",
+        "fr": "Sondage d'équipe",
+        "de": "Team-Umfrage",
+        "gsw": "Team-Umfraag"
+      },
+      "description": {
+        "en": "Team members voting on workspace preferences",
+        "fr": "Les membres de l'équipe votent sur les préférences d'espace de travail",
+        "de": "Teammitglieder stimmen über Arbeitsplatzpräferenzen ab",
+        "gsw": "Team-Mitglieder stimme über Arbetsplatz-Präferenze ab"
+      },
+      "is_final": false,
+      "icon": "Poll",
+      "sort_order": 2.5
     }
   ],
   "categories": [
     {
-      "category_key": "building",
-      "label": {
+      "category_id": "building_structure",
+      "name": {
         "en": "Building & Structure",
         "fr": "Bâtiment et structure",
         "de": "Gebäude & Struktur",
         "gsw": "Gebäude & Struktur"
       },
-      "description": {
-        "en": "Building maintenance and structural improvements",
-        "fr": "Maintenance du bâtiment et améliorations structurelles",
-        "de": "Gebäudewartung und strukturelle Verbesserungen",
-        "gsw": "Gebäudewartung und strukturelli Verbesserige"
-      },
-      "sort_order": 1
+      "parent": null
     },
     {
-      "category_key": "energy",
-      "label": {
+      "category_id": "hvac",
+      "name": {
+        "en": "HVAC",
+        "fr": "CVC",
+        "de": "HLK",
+        "gsw": "HLK"
+      },
+      "parent": "building_structure"
+    },
+    {
+      "category_id": "electrical",
+      "name": {
+        "en": "Electrical",
+        "fr": "Électrique",
+        "de": "Elektrik",
+        "gsw": "Elektrik"
+      },
+      "parent": "building_structure"
+    },
+    {
+      "category_id": "plumbing",
+      "name": {
+        "en": "Plumbing",
+        "fr": "Plomberie",
+        "de": "Sanitär",
+        "gsw": "Sanitär"
+      },
+      "parent": "building_structure"
+    },
+    {
+      "category_id": "structural",
+      "name": {
+        "en": "Structural",
+        "fr": "Structurel",
+        "de": "Strukturell",
+        "gsw": "Strukturell"
+      },
+      "parent": "building_structure"
+    },
+    {
+      "category_id": "energy_utilities",
+      "name": {
         "en": "Energy & Utilities",
         "fr": "Énergie et services publics",
         "de": "Energie & Versorgung",
-        "gsw": "Energie & Versorgusg"
+        "gsw": "Energii & Versorgig"
       },
-      "description": {
-        "en": "Energy efficiency and utility management",
-        "fr": "Efficacité énergétique et gestion des services publics",
-        "de": "Energieeffizienz und Versorgungsmanagement",
-        "gsw": "Energieeffizienz und Versorgugs-Management"
-      },
-      "sort_order": 2
+      "parent": null
     },
     {
-      "category_key": "safety",
-      "label": {
+      "category_id": "electricity",
+      "name": {
+        "en": "Electricity",
+        "fr": "Électricité",
+        "de": "Strom",
+        "gsw": "Strom"
+      },
+      "parent": "energy_utilities"
+    },
+    {
+      "category_id": "gas",
+      "name": {
+        "en": "Gas",
+        "fr": "Gaz",
+        "de": "Gas",
+        "gsw": "Gas"
+      },
+      "parent": "energy_utilities"
+    },
+    {
+      "category_id": "water",
+      "name": {
+        "en": "Water",
+        "fr": "Eau",
+        "de": "Wasser",
+        "gsw": "Wasser"
+      },
+      "parent": "energy_utilities"
+    },
+    {
+      "category_id": "renewable_energy",
+      "name": {
+        "en": "Renewable Energy",
+        "fr": "Énergie renouvelable",
+        "de": "Erneuerbare Energie",
+        "gsw": "Ernöierbari Energii"
+      },
+      "parent": "energy_utilities"
+    },
+    {
+      "category_id": "safety_security",
+      "name": {
         "en": "Safety & Security",
-        "fr": "Sécurité",
-        "de": "Sicherheit",
-        "gsw": "Sicherhäit"
+        "fr": "Sécurité et sûreté",
+        "de": "Sicherheit & Schutz",
+        "gsw": "Sicherhäit & Schutz"
       },
-      "description": {
-        "en": "Safety systems and security measures",
-        "fr": "Systèmes de sécurité et mesures de protection",
-        "de": "Sicherheitssysteme und Schutzmaßnahmen",
-        "gsw": "Sicherhäitssystem und Schutzmaßnahme"
-      },
-      "sort_order": 3
+      "parent": null
     },
     {
-      "category_key": "environment",
-      "label": {
+      "category_id": "fire_safety",
+      "name": {
+        "en": "Fire Safety",
+        "fr": "Sécurité incendie",
+        "de": "Brandschutz",
+        "gsw": "Brand-Schutz"
+      },
+      "parent": "safety_security"
+    },
+    {
+      "category_id": "access_control_facility",
+      "name": {
+        "en": "Access Control",
+        "fr": "Contrôle d'accès",
+        "de": "Zutrittskontrolle",
+        "gsw": "Zutritts-Kontroll"
+      },
+      "parent": "safety_security"
+    },
+    {
+      "category_id": "emergency_systems",
+      "name": {
+        "en": "Emergency Systems",
+        "fr": "Systèmes d'urgence",
+        "de": "Notfallsysteme",
+        "gsw": "Notfall-System"
+      },
+      "parent": "safety_security"
+    },
+    {
+      "category_id": "environment",
+      "name": {
         "en": "Environment",
         "fr": "Environnement",
         "de": "Umwelt",
         "gsw": "Umwält"
       },
-      "description": {
-        "en": "Environmental and sustainability initiatives",
-        "fr": "Initiatives environnementales et de durabilité",
-        "de": "Umwelt- und Nachhaltigkeitsinitiativen",
-        "gsw": "Umwält- und Nochhaltigkeits-Initiative"
-      },
-      "sort_order": 4
+      "parent": null
     },
     {
-      "category_key": "amenities",
-      "label": {
+      "category_id": "waste_management",
+      "name": {
+        "en": "Waste Management",
+        "fr": "Gestion des déchets",
+        "de": "Abfallwirtschaft",
+        "gsw": "Abfall-Wirtschaft"
+      },
+      "parent": "environment"
+    },
+    {
+      "category_id": "energy_efficiency",
+      "name": {
+        "en": "Energy Efficiency",
+        "fr": "Efficacité énergétique",
+        "de": "Energieeffizienz",
+        "gsw": "Energii-Effiziänz"
+      },
+      "parent": "environment"
+    },
+    {
+      "category_id": "green_spaces",
+      "name": {
+        "en": "Green Spaces",
+        "fr": "Espaces verts",
+        "de": "Grünflächen",
+        "gsw": "Grünfläche"
+      },
+      "parent": "environment"
+    },
+    {
+      "category_id": "amenities",
+      "name": {
         "en": "Amenities",
         "fr": "Commodités",
         "de": "Annehmlichkeiten",
-        "gsw": "Annehmlichkäite"
+        "gsw": "Annehmlichkeite"
+      },
+      "parent": null
+    }
+  ],
+  "option_types": [
+    {
+      "option_type": "cost_breakdown",
+      "label": {
+        "en": "Cost Breakdown",
+        "fr": "Répartition des coûts",
+        "de": "Kostenaufschlüsselung",
+        "gsw": "Koste-Ufschlüsselig"
       },
       "description": {
-        "en": "Employee amenities and comfort",
-        "fr": "Commodités et confort des employés",
-        "de": "Mitarbeiterannehmlichkeiten und Komfort",
-        "gsw": "Mitarbeiter-Annehmlichkäite und Komfort"
+        "en": "Detailed cost estimates for improvements",
+        "fr": "Estimations détaillées des coûts pour les améliorations",
+        "de": "Detaillierte Kostenschätzungen für Verbesserungen",
+        "gsw": "Detaillierti Koste-Schätzige für Verbesserige"
       },
-      "sort_order": 5
+      "fields": [
+        {
+          "key": "item",
+          "label": {
+            "en": "Item",
+            "fr": "Article",
+            "de": "Artikel",
+            "gsw": "Artikel"
+          },
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "quantity",
+          "label": {
+            "en": "Quantity",
+            "fr": "Quantité",
+            "de": "Menge",
+            "gsw": "Mängi"
+          },
+          "type": "integer",
+          "required": true
+        },
+        {
+          "key": "unit_cost",
+          "label": {
+            "en": "Unit Cost",
+            "fr": "Coût unitaire",
+            "de": "Stückkosten",
+            "gsw": "Stück-Koste"
+          },
+          "type": "float",
+          "required": true
+        },
+        {
+          "key": "vendor",
+          "label": {
+            "en": "Vendor",
+            "fr": "Fournisseur",
+            "de": "Anbieter",
+            "gsw": "Aabieter"
+          },
+          "type": "string",
+          "required": false
+        },
+        {
+          "key": "timeline",
+          "label": {
+            "en": "Timeline",
+            "fr": "Calendrier",
+            "de": "Zeitplan",
+            "gsw": "Zitplan"
+          },
+          "type": "string",
+          "required": false
+        }
+      ]
+    },
+    {
+      "option_type": "sustainability_metric",
+      "label": {
+        "en": "Sustainability Metric",
+        "fr": "Métrique de durabilité",
+        "de": "Nachhaltigkeitsmetrik",
+        "gsw": "Nachhaltigkeits-Metrik"
+      },
+      "description": {
+        "en": "Environmental impact measurements",
+        "fr": "Mesures d'impact environnemental",
+        "de": "Umweltauswirkungsmessungen",
+        "gsw": "Umwält-Uuswirkigs-Messige"
+      },
+      "fields": [
+        {
+          "key": "metric_type",
+          "label": {
+            "en": "Metric Type",
+            "fr": "Type de métrique",
+            "de": "Metriktyp",
+            "gsw": "Metrik-Typ"
+          },
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "baseline",
+          "label": {
+            "en": "Baseline Value",
+            "fr": "Valeur de référence",
+            "de": "Basiswert",
+            "gsw": "Basis-Wärt"
+          },
+          "type": "float",
+          "required": true
+        },
+        {
+          "key": "target",
+          "label": {
+            "en": "Target Value",
+            "fr": "Valeur cible",
+            "de": "Zielwert",
+            "gsw": "Ziil-Wärt"
+          },
+          "type": "float",
+          "required": true
+        },
+        {
+          "key": "measurement_method",
+          "label": {
+            "en": "Measurement Method",
+            "fr": "Méthode de mesure",
+            "de": "Messmethode",
+            "gsw": "Mess-Method"
+          },
+          "type": "text",
+          "required": false
+        }
+      ]
+    },
+    {
+      "option_type": "maintenance_schedule",
+      "label": {
+        "en": "Maintenance Schedule",
+        "fr": "Programme de maintenance",
+        "de": "Wartungsplan",
+        "gsw": "Wartigs-Plan"
+      },
+      "description": {
+        "en": "Recurring maintenance plans",
+        "fr": "Plans de maintenance récurrents",
+        "de": "Wiederkehrende Wartungspläne",
+        "gsw": "Widerkehrendi Wartigs-Plän"
+      },
+      "fields": [
+        {
+          "key": "task",
+          "label": {
+            "en": "Task",
+            "fr": "Tâche",
+            "de": "Aufgabe",
+            "gsw": "Ufgab"
+          },
+          "type": "string",
+          "required": true
+        },
+        {
+          "key": "frequency",
+          "label": {
+            "en": "Frequency",
+            "fr": "Fréquence",
+            "de": "Häufigkeit",
+            "gsw": "Häufigkeit"
+          },
+          "type": "enum",
+          "required": true,
+          "allowed_values": [
+            "daily",
+            "weekly",
+            "monthly",
+            "quarterly",
+            "annually"
+          ]
+        },
+        {
+          "key": "responsible_party",
+          "label": {
+            "en": "Responsible Party",
+            "fr": "Partie responsable",
+            "de": "Verantwortliche Partei",
+            "gsw": "Verantwortlichi Partei"
+          },
+          "type": "string",
+          "required": false
+        },
+        {
+          "key": "estimated_downtime",
+          "label": {
+            "en": "Estimated Downtime (hours)",
+            "fr": "Temps d'arrêt estimé (heures)",
+            "de": "Geschätzte Ausfallzeit (Stunden)",
+            "gsw": "Gschätzti Usfall-Zit (Stunde)"
+          },
+          "type": "float",
+          "required": false
+        }
+      ]
+    }
+  ],
+  "inquiry_group_types": [
+    {
+      "group_type": "facility_region",
+      "label": {
+        "en": "Facility Region",
+        "fr": "Région des installations",
+        "de": "Anlagenregion",
+        "gsw": "Aalage-Region"
+      },
+      "description": {
+        "en": "Geographic regions for facilities",
+        "fr": "Régions géographiques pour les installations",
+        "de": "Geografische Regionen für Anlagen",
+        "gsw": "Geografischi Regione für Aalage"
+      },
+      "is_root": true
+    },
+    {
+      "group_type": "campus",
+      "label": {
+        "en": "Campus",
+        "fr": "Campus",
+        "de": "Campus",
+        "gsw": "Campus"
+      },
+      "description": {
+        "en": "Office campus or building complex",
+        "fr": "Campus de bureaux ou complexe de bâtiments",
+        "de": "Büro-Campus oder Gebäudekomplex",
+        "gsw": "Büro-Campus oder Gebäude-Komplex"
+      },
+      "is_root": false
+    },
+    {
+      "group_type": "building",
+      "label": {
+        "en": "Building",
+        "fr": "Bâtiment",
+        "de": "Gebäude",
+        "gsw": "Gebäude"
+      },
+      "description": {
+        "en": "Individual buildings",
+        "fr": "Bâtiments individuels",
+        "de": "Einzelne Gebäude",
+        "gsw": "Einzelni Gebäude"
+      },
+      "is_root": false
+    },
+    {
+      "group_type": "floor_zone",
+      "label": {
+        "en": "Floor/Zone",
+        "fr": "Étage/Zone",
+        "de": "Etage/Zone",
+        "gsw": "Stock/Zone"
+      },
+      "description": {
+        "en": "Building floors or zones",
+        "fr": "Étages ou zones de bâtiment",
+        "de": "Gebäudeetagen oder -zonen",
+        "gsw": "Gebäude-Stock oder -Zone"
+      },
+      "is_root": false
+    },
+    {
+      "group_type": "sustainability_program",
+      "label": {
+        "en": "Sustainability Program",
+        "fr": "Programme de durabilité",
+        "de": "Nachhaltigkeitsprogramm",
+        "gsw": "Nachhaltigkeits-Programm"
+      },
+      "description": {
+        "en": "Green initiative portfolios",
+        "fr": "Portefeuilles d'initiatives vertes",
+        "de": "Grüne Initiativenportfolios",
+        "gsw": "Grüeni Initiative-Portfolio"
+      },
+      "is_root": false
+    }
+  ],
+  "locations": [
+    {
+      "location_id": "corporate_hq",
+      "name": {
+        "en": "Corporate HQ",
+        "fr": "Siège social",
+        "de": "Unternehmenszentrale",
+        "gsw": "Unternehmens-Zentral"
+      },
+      "parent_id": null
+    },
+    {
+      "location_id": "emea_region",
+      "name": {
+        "en": "EMEA Region",
+        "fr": "Région EMEA",
+        "de": "EMEA-Region",
+        "gsw": "EMEA-Region"
+      },
+      "parent_id": null
+    },
+    {
+      "location_id": "americas_region",
+      "name": {
+        "en": "Americas Region",
+        "fr": "Région Amériques",
+        "de": "Amerika-Region",
+        "gsw": "Amerika-Region"
+      },
+      "parent_id": null
+    },
+    {
+      "location_id": "london_campus",
+      "name": {
+        "en": "London Campus",
+        "fr": "Campus de Londres",
+        "de": "Campus London",
+        "gsw": "Campus London"
+      },
+      "parent_id": "emea_region"
+    },
+    {
+      "location_id": "ny_campus",
+      "name": {
+        "en": "New York Campus",
+        "fr": "Campus de New York",
+        "de": "Campus New York",
+        "gsw": "Campus New York"
+      },
+      "parent_id": "americas_region"
+    },
+    {
+      "location_id": "hq_building_a",
+      "name": {
+        "en": "HQ Building A",
+        "fr": "Bâtiment A du siège",
+        "de": "Zentrale Gebäude A",
+        "gsw": "Zentral Gebäude A"
+      },
+      "parent_id": "corporate_hq"
+    },
+    {
+      "location_id": "hq_building_b",
+      "name": {
+        "en": "HQ Building B",
+        "fr": "Bâtiment B du siège",
+        "de": "Zentrale Gebäude B",
+        "gsw": "Zentral Gebäude B"
+      },
+      "parent_id": "corporate_hq"
+    },
+    {
+      "location_id": "building_a_floor_1",
+      "name": {
+        "en": "Building A - Floor 1",
+        "fr": "Bâtiment A - Étage 1",
+        "de": "Gebäude A - Etage 1",
+        "gsw": "Gebäude A - Stock 1"
+      },
+      "parent_id": "hq_building_a"
+    },
+    {
+      "location_id": "building_a_floor_2",
+      "name": {
+        "en": "Building A - Floor 2",
+        "fr": "Bâtiment A - Étage 2",
+        "de": "Gebäude A - Etage 2",
+        "gsw": "Gebäude A - Stock 2"
+      },
+      "parent_id": "hq_building_a"
     }
   ]
 }
