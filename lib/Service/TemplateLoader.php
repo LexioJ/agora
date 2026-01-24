@@ -478,13 +478,12 @@ class TemplateLoader
 				$groupType = $groupTypeData['group_type'];
 				$label = $this->extractText($groupTypeData['label'] ?? '', $language);
 
-				try {
-					$this->inquiryGroupTypeMapper->findByGroupType($groupType);
+				if ($this->inquiryGroupTypeMapper->groupTypeExists($groupType)) {
 					$analysis['inquiry_group_types']['existing'][] = [
 						'type' => $groupType,
 						'label' => $label,
 					];
-				} catch (\Exception $e) {
+				} else {
 					$analysis['inquiry_group_types']['new'][] = [
 						'type' => $groupType,
 						'label' => $label,
@@ -520,13 +519,13 @@ class TemplateLoader
 				$locationName = $this->extractText($locationData['label'] ?? $locationData['location_key'] ?? '', $language);
 				$locationKey = $locationData['location_key'] ?? '';
 
-				try {
-					$this->locationMapper->findByName($locationName);
+				$existing = $this->locationMapper->findByName($locationName);
+				if ($existing !== null) {
 					$analysis['locations']['existing'][] = [
 						'type' => $locationKey,
 						'label' => $locationName,
 					];
-				} catch (\Exception $e) {
+				} else {
 					$analysis['locations']['new'][] = [
 						'type' => $locationKey,
 						'label' => $locationName,
