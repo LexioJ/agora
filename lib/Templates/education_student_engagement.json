@@ -2,12 +2,7 @@
   "template_info": {
     "name": "education_student_engagement",
     "version": "1.0.0",
-    "description": {
-      "en": "Template for student engagement in higher education supporting course feedback, campus improvements, student activities, and wellbeing initiatives with extensive voting workflows including student body votes, council decisions, and anonymous surveys",
-      "fr": "Modèle pour l'engagement étudiant dans l'enseignement supérieur soutenant les retours de cours, les améliorations du campus, les activités étudiantes et les initiatives de bien-être avec des flux de travail de vote étendus incluant les votes du corps étudiant, les décisions du conseil et les sondages anonymes",
-      "de": "Vorlage für studentisches Engagement in der Hochschulbildung zur Unterstützung von Kursfeedback, Campus-Verbesserungen, studentischen Aktivitäten und Wohlfühlinitiativen mit umfangreichen Abstimmungsabläufen einschließlich studentischer Abstimmungen, Ratsbeschlüssen und anonymen Umfragen",
-      "gsw": "Vorlag für studentischs Engagement in dr Hochschuel-Bildig zur Unterstützig vo Kurs-Feedback, Campus-Verbesserige, studentische Aktivitäte und Wohlfühl-Initiative mit umfangriiche Abstimmigs-Abläuf iischliesslich studentischi Abstimmige, Rats-Beschlüss und anonymi Umfraage"
-    },
+    "description": "Template for student engagement in higher education supporting course feedback, campus improvements, student activities, and wellbeing initiatives with extensive voting workflows including student body votes, council decisions, and anonymous surveys",
     "author": "Agora Team",
     "use_case": "education_students",
     "available_languages": [

@@ -573,9 +573,9 @@ watch(() => editableData.value, () => {
 	font-weight: 600;
 
 	&.status-new {
-		background: #28a745; // Bright green background for light mode
-		color: white; // White text for light mode
-		border: none;
+		background: #d1f0d9; // Light green background for light mode
+		color: #1a7f37; // Dark green text for light mode
+		border: 1px solid #1a7f37;
 		@media (prefers-color-scheme: dark) {
 			background: #1a4d2e; // Dark green background for dark mode
 			color: #3fb950; // Bright green text for dark mode
@@ -645,9 +645,9 @@ watch(() => editableData.value, () => {
 	font-weight: 600;
 
 	&.badge-new {
-		background: #28a745; // Bright green background for light mode
-		color: white; // White text for light mode
-		border: none;
+		background: #d1f0d9; // Light green background for light mode
+		color: #1a7f37; // Dark green text for light mode
+		border: 1px solid #1a7f37;
 		@media (prefers-color-scheme: dark) {
 			background: #1a4d2e; // Dark green background for dark mode
 			color: #3fb950; // Bright green text for dark mode

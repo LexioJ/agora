@@ -2,12 +2,7 @@
   "template_info": {
     "name": "enterprise_it_services",
     "version": "1.0.0",
-    "description": {
-      "en": "Template for enterprise IT services supporting new service requests, improvement suggestions, automation proposals, AI use cases, and business applications with advanced capabilities including voting, hierarchies, and collaborative workflows",
-      "fr": "Modèle pour les services IT d'entreprise soutenant les demandes de nouveaux services, suggestions d'amélioration, propositions d'automatisation, cas d'usage IA et applications métier avec des capacités avancées incluant le vote, les hiérarchies et les flux de travail collaboratifs",
-      "de": "Vorlage für Unternehmens-IT-Services zur Unterstützung neuer Serviceanfragen, Verbesserungsvorschläge, Automatisierungsvorschläge, KI-Anwendungsfälle und Geschäftsanwendungen mit erweiterten Funktionen einschließlich Abstimmung, Hierarchien und kollaborativen Arbeitsabläufen",
-      "gsw": "Vorlag für Unternehmens-IT-Services zur Unterstützig vo nöie Service-Aafraage, Verbesserigs-Vorschläg, Automatisierigs-Vorschläg, KI-Awändigsfäll und Gschäfts-Awändige mit erwiitereti Funktione iischliesslich Abstimmig, Hierarchie und kollaborativi Arbeits-Abläuf"
-    },
+    "description": "Template for enterprise IT services supporting new service requests, improvement suggestions, automation proposals, AI use cases, and business applications with advanced capabilities including voting, hierarchies, and collaborative workflows",
     "author": "Agora Team",
     "use_case": "enterprise_it",
     "available_languages": [

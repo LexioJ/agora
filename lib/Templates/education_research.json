@@ -2,12 +2,7 @@
   "template_info": {
     "name": "education_research",
     "version": "1.0.0",
-    "description": {
-      "en": "Template for academic research institutions supporting research proposals, grant applications, ethics reviews, and collaborative research with extensive voting workflows for ethics committees, peer review, and funding decisions",
-      "fr": "Modèle pour les institutions de recherche académique soutenant les propositions de recherche, demandes de subventions, examens éthiques et recherche collaborative avec des flux de travail de vote étendus pour les comités d'éthique, l'examen par les pairs et les décisions de financement",
-      "de": "Vorlage für akademische Forschungseinrichtungen zur Unterstützung von Forschungsanträgen, Förderanträgen, Ethikprüfungen und kooperativer Forschung mit umfangreichen Abstimmungsabläufen für Ethikkommissionen, Peer-Review und Finanzierungsentscheidungen",
-      "gsw": "Vorlag für akademischi Forschigs-Institutione zur Unterstützig vo Forschigs-Aaträg, Förder-Aaträg, Ethik-Prüefige und kooperativi Forschig mit umfangriiche Abstimmigs-Abläuf für Ethik-Kommissione, Peer-Review und Finanzierigs-Entscheidige"
-    },
+    "description": "Template for academic research institutions supporting research proposals, grant applications, ethics reviews, and collaborative research with extensive voting workflows for ethics committees, peer review, and funding decisions",
     "author": "Agora Team",
     "use_case": "education_research",
     "available_languages": [

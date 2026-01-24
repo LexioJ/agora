@@ -2,12 +2,7 @@
   "template_info": {
     "name": "enterprise_human_resources",
     "version": "1.0.0",
-    "description": {
-      "en": "Template for enterprise human resources supporting workplace improvements, policy feedback, training programs, team building, and employee wellbeing with advanced capabilities including voting, hierarchies, and collaborative workflows",
-      "fr": "Modèle pour les ressources humaines d'entreprise soutenant les améliorations du lieu de travail, retours sur les politiques, programmes de formation, team building et bien-être des employés avec des capacités avancées incluant le vote, les hiérarchies et les flux de travail collaboratifs",
-      "de": "Vorlage für Unternehmens-HR zur Unterstützung von Arbeitsplatzverbesserungen, Richtlinien-Feedback, Schulungsprogrammen, Teambuilding und Mitarbeiterwohlbefinden mit erweiterten Funktionen einschließlich Abstimmung, Hierarchien und kollaborativen Arbeitsabläufen",
-      "gsw": "Vorlag für Unternehmens-HR zur Unterstützig vo Arbeitsplatz-Verbesserige, Richtlinie-Feedback, Schuligs-Programm, Teambuilding und Mitarbeiter-Wohlfüehle mit erwiitereti Funktione iischliesslich Abstimmig, Hierarchie und kollaborativi Arbeits-Abläuf"
-    },
+    "description": "Template for enterprise human resources supporting workplace improvements, policy feedback, training programs, team building, and employee wellbeing with advanced capabilities including voting, hierarchies, and collaborative workflows",
     "author": "Agora Team",
     "use_case": "enterprise_hr",
     "available_languages": [
