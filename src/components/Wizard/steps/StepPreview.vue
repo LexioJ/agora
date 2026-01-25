@@ -584,9 +584,9 @@ watch(() => editableData.value, () => {
 	}
 
 	&.status-existing {
-		background: #ff9800; // Bright orange background for light mode
-		color: white; // White text for light mode
-		border: none;
+		background: #ffe4cc; // Light orange background for light mode
+		color: #b35900; // Dark orange text for light mode
+		border: 1px solid #b35900;
 		@media (prefers-color-scheme: dark) {
 			background: #4d3800; // Dark orange background for dark mode
 			color: #e09b13; // Bright orange text for dark mode
@@ -656,9 +656,9 @@ watch(() => editableData.value, () => {
 	}
 
 	&.badge-existing {
-		background: #ff9800; // Bright orange background for light mode
-		color: white; // White text for light mode
-		border: none;
+		background: #ffe4cc; // Light orange background for light mode
+		color: #b35900; // Dark orange text for light mode
+		border: 1px solid #b35900;
 		@media (prefers-color-scheme: dark) {
 			background: #4d3800; // Dark orange background for dark mode
 			color: #e09b13; // Bright orange text for dark mode
