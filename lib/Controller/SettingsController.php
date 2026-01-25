@@ -27,7 +27,7 @@ class SettingsController extends BaseController
         string $appName,
         IRequest $request,
         private SettingsService $settingsService,
-        LoggerInterface $logger,
+        ?LoggerInterface $logger = null,
     ) {
         parent::__construct($appName, $request, $logger);
     }
