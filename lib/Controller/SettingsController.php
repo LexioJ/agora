@@ -16,6 +16,7 @@ use OCP\AppFramework\Http\Attribute\PublicPage;
 use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
+use Psr\Log\LoggerInterface;
 
 /**
  * @psalm-api
@@ -26,8 +27,9 @@ class SettingsController extends BaseController
         string $appName,
         IRequest $request,
         private SettingsService $settingsService,
+        LoggerInterface $logger,
     ) {
-        parent::__construct($appName, $request);
+        parent::__construct($appName, $request, $logger);
     }
 
     /**
