@@ -53,7 +53,7 @@ class InquiryGroupType extends Entity implements JsonSerializable
     protected ?array $fields = null;
     protected ?array $allowedInquiryTypes = null;
     protected ?array $allowedResponse = null;
-    protected bool $isRoot = false;
+    protected ?bool $isRoot = false;
     protected int $created = 0;
     protected int $sortOrder= 0;
 
@@ -91,7 +91,7 @@ class InquiryGroupType extends Entity implements JsonSerializable
             'allowedInquiryTypes' => $this->getAllowedInquiryTypes(),
             'allowed_response' => $this->getAllowedResponse(),
             'sort_order' => $this->getSortOrder(),
-            'is_root' => $this->getIsRoot(),
+            'is_root' => $this->getIsRoot() ?? false,
             'created' => $this->getCreated(),
         ];
     }

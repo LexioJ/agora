@@ -283,9 +283,14 @@ class TemplateLoader
 			try {
 				$groupType = new InquiryGroupType();
 				$groupType->setGroupType($groupTypeData['group_type']);
+				$groupType->setFamily($groupTypeData['family'] ?? 'deliberative');
 				$groupType->setLabel($this->extractText($groupTypeData['label'] ?? '', $language));
 				$groupType->setDescription($this->extractText($groupTypeData['description'] ?? '', $language));
 				$groupType->setIcon($groupTypeData['icon'] ?? '');
+				$groupType->setFields($groupTypeData['fields'] ?? []);
+				$groupType->setAllowedInquiryTypes($groupTypeData['allowed_inquiry_types'] ?? []);
+				$groupType->setAllowedResponse($groupTypeData['allowed_response'] ?? []);
+				$groupType->setIsRoot($groupTypeData['is_root'] ?? false);
 				$groupType->setSortOrder($groupTypeData['sort_order'] ?? 0);
 				$groupType->setCreated(time());
 

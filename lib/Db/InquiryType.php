@@ -55,7 +55,7 @@ class InquiryType extends Entity implements JsonSerializable
     protected ?array $allowedTransformation = null;
     protected ?array $allowedOptionType = null;
     protected string $supportFeature = 'binary';
-    protected bool $isRoot = false;
+    protected ?bool $isRoot = false;
     protected int $created = 0;
 
     public function __construct()
@@ -93,7 +93,7 @@ class InquiryType extends Entity implements JsonSerializable
             'allowed_transformation' => $this->getAllowedTransformation(),
             'allowed_option_type' => $this->getAllowedOptionType(),
             'support_feature' => $this->getSupportFeature(),
-            'is_root' => $this->getIsRoot(),
+            'is_root' => $this->getIsRoot() ?? false,
             'created' => $this->getCreated(),
         ];
     }
