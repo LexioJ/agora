@@ -1803,448 +1803,266 @@
   ],
   "categories": [
     {
-      "category_key": "ecology",
-      "label": {
+      "category_id": "ecology",
+      "name": {
         "en": "Ecology & Resources",
         "fr": "Écologie & Ressources",
         "de": "Ökologie & Ressourcen",
         "gsw": "Ökologie & Ressurce"
       },
-      "description": {
-        "en": "Environmental and resource management",
-        "fr": "Gestion environnementale et des ressources",
-        "de": "Umwelt- und Ressourcenmanagement",
-        "gsw": "Umwält- und Ressurce-Management"
-      },
-      "parent_id": 0,
-      "sort_order": 1
+      "parent": null
     },
     {
-      "category_key": "biodiversity",
-      "label": {
+      "category_id": "biodiversity",
+      "name": {
         "en": "Biodiversity",
         "fr": "Biodiversité",
         "de": "Biodiversität",
         "gsw": "Biodiversität"
       },
-      "description": {
-        "en": "Species protection",
-        "fr": "Protection des espèces",
-        "de": "Artenschutz",
-        "gsw": "Arteschutz"
-      },
-      "parent": "ecology",
-      "sort_order": 2
+      "parent": null
     },
     {
-      "category_key": "water",
-      "label": {
+      "category_id": "water",
+      "name": {
         "en": "Water & Lagoon",
         "fr": "Eau & Lagune",
         "de": "Wasser & Lagune",
         "gsw": "Wasser & Lagun"
       },
-      "description": {
-        "en": "Water management",
-        "fr": "Gestion de l'eau",
-        "de": "Wasserwirtschaft",
-        "gsw": "Wasserwirtschaft"
-      },
-      "parent": "ecology",
-      "sort_order": 3
+      "parent": null
     },
     {
-      "category_key": "energy",
-      "label": {
+      "category_id": "energy",
+      "name": {
         "en": "Energy",
         "fr": "Énergie",
         "de": "Energie",
         "gsw": "Energie"
       },
-      "description": {
-        "en": "Energy and renewables",
-        "fr": "Énergie et renouvelables",
-        "de": "Energie und Erneuerbare",
-        "gsw": "Energie und Ernöierbar"
-      },
-      "parent": "ecology",
-      "sort_order": 4
+      "parent": null
     },
     {
-      "category_key": "planning",
-      "label": {
+      "category_id": "planning",
+      "name": {
         "en": "Planning & Development",
         "fr": "Planification & Développement",
         "de": "Planung & Entwicklung",
         "gsw": "Planig & Entwicklig"
       },
-      "description": {
-        "en": "Urban planning and development",
-        "fr": "Planification et développement urbain",
-        "de": "Stadtplanung und Entwicklung",
-        "gsw": "Stadtplanig und Entwicklig"
-      },
-      "parent_id": 0,
-      "sort_order": 10
+      "parent": null
     },
     {
-      "category_key": "housing",
-      "label": {
+      "category_id": "housing",
+      "name": {
         "en": "Housing & Urbanism",
         "fr": "Logement & Urbanisme",
         "de": "Wohnen & Städtebau",
         "gsw": "Wohne & Städtebau"
       },
-      "description": {
-        "en": "Housing and urban development",
-        "fr": "Logement et développement urbain",
-        "de": "Wohnungsbau und Stadtentwicklung",
-        "gsw": "Wohnigsbau und Stadtentwicklig"
-      },
-      "parent": "planning",
-      "sort_order": 11
+      "parent": null
     },
     {
-      "category_key": "transport",
-      "label": {
+      "category_id": "transport",
+      "name": {
         "en": "Transport",
         "fr": "Transport",
         "de": "Verkehr",
         "gsw": "Verchehr"
       },
-      "description": {
-        "en": "Transportation and mobility",
-        "fr": "Transport et mobilité",
-        "de": "Verkehr und Mobilität",
-        "gsw": "Verchehr und Mobilität"
-      },
-      "parent": "planning",
-      "sort_order": 12
+      "parent": null
     },
     {
-      "category_key": "health",
-      "label": {
+      "category_id": "health",
+      "name": {
         "en": "Health & Wellbeing",
         "fr": "Santé & Bien-être",
         "de": "Gesundheit & Wohlbefinden",
         "gsw": "Gsundheit & Wohlbefinde"
       },
-      "description": {
-        "en": "Health and wellbeing",
-        "fr": "Santé et bien-être",
-        "de": "Gesundheit und Wohlbefinden",
-        "gsw": "Gsundheit und Wohlbefinde"
-      },
-      "parent_id": 0,
-      "sort_order": 20
+      "parent": null
     },
     {
-      "category_key": "healthcare",
-      "label": {
+      "category_id": "healthcare",
+      "name": {
         "en": "Healthcare",
         "fr": "Soins de santé",
         "de": "Gesundheitswesen",
         "gsw": "Gsundheitswese"
       },
-      "description": {
-        "en": "Healthcare services",
-        "fr": "Services de santé",
-        "de": "Gesundheitsdienste",
-        "gsw": "Gsundheitsdienscht"
-      },
-      "parent": "health",
-      "sort_order": 21
+      "parent": null
     },
     {
-      "category_key": "sports",
-      "label": {
+      "category_id": "sports",
+      "name": {
         "en": "Sports",
         "fr": "Sports",
         "de": "Sport",
         "gsw": "Sport"
       },
-      "description": {
-        "en": "Sports and recreation",
-        "fr": "Sports et loisirs",
-        "de": "Sport und Freizeit",
-        "gsw": "Sport und Freiziit"
-      },
-      "parent": "health",
-      "sort_order": 22
+      "parent": null
     },
     {
-      "category_key": "citizenship",
-      "label": {
+      "category_id": "citizenship",
+      "name": {
         "en": "Citizenship & Society",
         "fr": "Citoyenneté & Société",
         "de": "Staatsbürgerschaft & Gesellschaft",
         "gsw": "Staatsbürgerschaft & Gsellschaft"
       },
-      "description": {
-        "en": "Citizenship and social matters",
-        "fr": "Citoyenneté et affaires sociales",
-        "de": "Staatsbürgerschaft und soziale Angelegenheiten",
-        "gsw": "Staatsbürgerschaft und soziali Aalägeheite"
-      },
-      "parent_id": 0,
-      "sort_order": 30
+      "parent": null
     },
     {
-      "category_key": "participation",
-      "label": {
+      "category_id": "participation",
+      "name": {
         "en": "Participation",
         "fr": "Participation",
         "de": "Teilnahme",
         "gsw": "Teilnahm"
       },
-      "description": {
-        "en": "Citizen participation",
-        "fr": "Participation citoyenne",
-        "de": "Bürgerbeteiligung",
-        "gsw": "Bürgerbeteiligung"
-      },
-      "parent": "citizenship",
-      "sort_order": 31
+      "parent": null
     },
     {
-      "category_key": "culture",
-      "label": {
+      "category_id": "culture",
+      "name": {
         "en": "Culture & Heritage",
         "fr": "Culture & Patrimoine",
         "de": "Kultur & Erbe",
         "gsw": "Kultur & Erb"
       },
-      "description": {
-        "en": "Cultural activities",
-        "fr": "Activités culturelles",
-        "de": "Kulturelle Aktivitäten",
-        "gsw": "Kulturelli Aktivitäte"
-      },
-      "parent": "citizenship",
-      "sort_order": 32
+      "parent": null
     },
     {
-      "category_key": "education",
-      "label": {
+      "category_id": "education",
+      "name": {
         "en": "Education & Spirituality",
         "fr": "Éducation & Spiritualité",
         "de": "Bildung & Spiritualität",
         "gsw": "Bildig & Spiritualität"
       },
-      "description": {
-        "en": "Education and learning",
-        "fr": "Éducation et apprentissage",
-        "de": "Bildung und Lernen",
-        "gsw": "Bildig und Lerne"
-      },
-      "parent_id": 0,
-      "sort_order": 40
+      "parent": null
     },
     {
-      "category_key": "school",
-      "label": {
+      "category_id": "school",
+      "name": {
         "en": "School",
         "fr": "École",
         "de": "Schule",
         "gsw": "Schuell"
       },
-      "description": {
-        "en": "School education",
-        "fr": "Éducation scolaire",
-        "de": "Schulbildung",
-        "gsw": "Schulbildig"
-      },
-      "parent": "education",
-      "sort_order": 41
+      "parent": null
     },
     {
-      "category_key": "training",
-      "label": {
+      "category_id": "training",
+      "name": {
         "en": "Training",
         "fr": "Formation",
         "de": "Ausbildung",
         "gsw": "Uusbildig"
       },
-      "description": {
-        "en": "Professional training",
-        "fr": "Formation professionnelle",
-        "de": "Berufsausbildung",
-        "gsw": "Beruefsbildig"
-      },
-      "parent": "education",
-      "sort_order": 42
+      "parent": null
     }
   ],
   "locations": [
     {
-      "location_key": "switzerland",
-      "label": {
+      "location_id": "switzerland",
+      "name": {
         "en": "Switzerland",
         "fr": "Suisse",
         "de": "Schweiz",
         "gsw": "Schwiz"
       },
-      "description": {
-        "en": "Switzerland",
-        "fr": "Suisse",
-        "de": "Schweiz",
-        "gsw": "Schwiz"
-      },
-      "parent_id": 0,
-      "sort_order": 1
+      "parent_id": null
     },
     {
-      "location_key": "geneva_canton",
-      "label": {
+      "location_id": "geneva_canton",
+      "name": {
         "en": "Geneva",
         "fr": "Genève",
         "de": "Genf",
         "gsw": "Gämf"
       },
-      "description": {
-        "en": "Canton of Geneva",
-        "fr": "Canton de Genève",
-        "de": "Kanton Genf",
-        "gsw": "Kanton Gämf"
-      },
-      "parent": "switzerland",
-      "sort_order": 2
+      "parent_id": null
     },
     {
-      "location_key": "city_geneva",
-      "label": {
+      "location_id": "city_geneva",
+      "name": {
         "en": "City of Geneva",
         "fr": "Ville de Genève",
         "de": "Stadt Genf",
         "gsw": "Stadt Gämf"
       },
-      "description": {
-        "en": "City",
-        "fr": "Ville",
-        "de": "Stadt",
-        "gsw": "Stadt"
-      },
-      "parent": "geneva_canton",
-      "sort_order": 3
+      "parent_id": null
     },
     {
-      "location_key": "vaud_canton",
-      "label": {
+      "location_id": "vaud_canton",
+      "name": {
         "en": "Vaud",
         "fr": "Vaud",
         "de": "Waadt",
         "gsw": "Waadt"
       },
-      "description": {
-        "en": "Canton of Vaud",
-        "fr": "Canton de Vaud",
-        "de": "Kanton Waadt",
-        "gsw": "Kanton Waadt"
-      },
-      "parent": "switzerland",
-      "sort_order": 4
+      "parent_id": null
     },
     {
-      "location_key": "nyon_district",
-      "label": {
+      "location_id": "nyon_district",
+      "name": {
         "en": "Nyon District",
         "fr": "District de Nyon",
         "de": "Bezirk Nyon",
         "gsw": "Bezirk Nyon"
       },
-      "description": {
-        "en": "District",
-        "fr": "District",
-        "de": "Bezirk",
-        "gsw": "Bezirk"
-      },
-      "parent": "vaud_canton",
-      "sort_order": 5
+      "parent_id": null
     },
     {
-      "location_key": "nyon_city",
-      "label": {
+      "location_id": "nyon_city",
+      "name": {
         "en": "Nyon",
         "fr": "Nyon",
         "de": "Nyon",
         "gsw": "Nyon"
       },
-      "description": {
-        "en": "City of Nyon",
-        "fr": "Ville de Nyon",
-        "de": "Stadt Nyon",
-        "gsw": "Stadt Nyon"
-      },
-      "parent": "nyon_district",
-      "sort_order": 6
+      "parent_id": null
     },
     {
-      "location_key": "bern_canton",
-      "label": {
+      "location_id": "bern_canton",
+      "name": {
         "en": "Bern",
         "fr": "Berne",
         "de": "Bern",
         "gsw": "Bärn"
       },
-      "description": {
-        "en": "Canton of Bern",
-        "fr": "Canton de Berne",
-        "de": "Kanton Bern",
-        "gsw": "Kanton Bärn"
-      },
-      "parent": "switzerland",
-      "sort_order": 7
+      "parent_id": null
     },
     {
-      "location_key": "bern_city",
-      "label": {
+      "location_id": "bern_city",
+      "name": {
         "en": "City of Bern",
         "fr": "Ville de Berne",
         "de": "Stadt Bern",
         "gsw": "Stadt Bärn"
       },
-      "description": {
-        "en": "Capital city",
-        "fr": "Capitale",
-        "de": "Hauptstadt",
-        "gsw": "Hauptstadt"
-      },
-      "parent": "bern_canton",
-      "sort_order": 8
+      "parent_id": null
     },
     {
-      "location_key": "zurich_canton",
-      "label": {
+      "location_id": "zurich_canton",
+      "name": {
         "en": "Zürich",
         "fr": "Zurich",
         "de": "Zürich",
         "gsw": "Züri"
       },
-      "description": {
-        "en": "Canton of Zürich",
-        "fr": "Canton de Zurich",
-        "de": "Kanton Zürich",
-        "gsw": "Kanton Züri"
-      },
-      "parent": "switzerland",
-      "sort_order": 9
+      "parent_id": null
     },
     {
-      "location_key": "zurich_city",
-      "label": {
+      "location_id": "zurich_city",
+      "name": {
         "en": "City of Zürich",
         "fr": "Ville de Zurich",
         "de": "Stadt Zürich",
         "gsw": "Stadt Züri"
       },
-      "description": {
-        "en": "City",
-        "fr": "Ville",
-        "de": "Stadt",
-        "gsw": "Stadt"
-      },
-      "parent": "zurich_canton",
-      "sort_order": 10
+      "parent_id": null
     }
   ]
 }

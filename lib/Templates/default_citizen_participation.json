@@ -5,7 +5,12 @@
     "description": "Default template for citizen participation with multi-language support",
     "author": "Agora Team",
     "use_case": "citizen_participation",
-    "available_languages": ["en", "fr", "de", "gsw"]
+    "available_languages": [
+      "en",
+      "fr",
+      "de",
+      "gsw"
+    ]
   },
   "inquiry_families": [
     {
@@ -146,7 +151,11 @@
         "gsw": "En Vorschlag zur Verbesserig vo de Gmeinschaft oder Organisation"
       },
       "is_root": true,
-      "allowed_response": ["suggestion", "objection", "official"]
+      "allowed_response": [
+        "suggestion",
+        "objection",
+        "official"
+      ]
     },
     {
       "inquiry_type": "debate",
@@ -165,7 +174,10 @@
         "gsw": "Ä strukturierti Debatte mit Argumänt defür und dergege"
       },
       "is_root": true,
-      "allowed_response": ["suggestion", "official"]
+      "allowed_response": [
+        "suggestion",
+        "official"
+      ]
     },
     {
       "inquiry_type": "petition",
@@ -184,7 +196,9 @@
         "gsw": "Ä Petition zum Sammle vo Understützig für es bestimmts Aalige"
       },
       "is_root": true,
-      "allowed_response": ["official"]
+      "allowed_response": [
+        "official"
+      ]
     },
     {
       "inquiry_type": "law_proposal",
@@ -203,7 +217,11 @@
         "gsw": "Entwurf oder Änderig vomene Gsetz mit zuegordnete Artikel und Status"
       },
       "is_root": true,
-      "allowed_response": ["amendment", "objection", "official"]
+      "allowed_response": [
+        "amendment",
+        "objection",
+        "official"
+      ]
     }
   ],
   "inquiry_statuses": [
@@ -320,7 +338,11 @@
         "de": "Argument für das Debattenthema.",
         "gsw": "Argumänt für s Debatte-Thema"
       },
-      "allowed_response": ["suggestion", "proposal", "official"]
+      "allowed_response": [
+        "suggestion",
+        "proposal",
+        "official"
+      ]
     },
     {
       "family": "debate",
@@ -338,7 +360,11 @@
         "de": "Argument gegen das Debattenthema.",
         "gsw": "Argumänt gege s Debatte-Thema"
       },
-      "allowed_response": ["suggestion", "proposal", "official"]
+      "allowed_response": [
+        "suggestion",
+        "proposal",
+        "official"
+      ]
     }
   ],
   "inquiry_group_types": [
@@ -357,7 +383,8 @@
         "gsw": "Aafrage nach Thema oder Themene gruppiere"
       },
       "icon": "Tag",
-      "sort_order": 1
+      "sort_order": 1,
+      "is_root": true
     },
     {
       "group_type": "project",
@@ -374,139 +401,92 @@
         "gsw": "Aafrage zu eme bestimmte Projäkt gruppiere"
       },
       "icon": "FolderMultiple",
-      "sort_order": 2
+      "sort_order": 2,
+      "is_root": true
     }
   ],
   "categories": [
     {
-      "category_key": "urban_planning",
-      "label": {
+      "category_id": "urban_planning",
+      "name": {
         "en": "Urban Planning",
         "fr": "Urbanisme",
         "de": "Stadtplanung",
         "gsw": "Stadtplanig"
       },
-      "description": {
-        "en": "Urban development, infrastructure, and city planning.",
-        "fr": "Développement urbain, infrastructure et planification urbaine.",
-        "de": "Stadtentwicklung, Infrastruktur und Stadtplanung.",
-        "gsw": "Stadtentwicklig, Infrastruktur und Stadtplanig"
-      },
-      "sort_order": 1
+      "parent": null
     },
     {
-      "category_key": "environment",
-      "label": {
+      "category_id": "environment",
+      "name": {
         "en": "Environment",
         "fr": "Environnement",
         "de": "Umwelt",
         "gsw": "Umwält"
       },
-      "description": {
-        "en": "Environmental protection, sustainability, and green initiatives.",
-        "fr": "Protection de l'environnement, durabilité et initiatives vertes.",
-        "de": "Umweltschutz, Nachhaltigkeit und grüne Initiativen.",
-        "gsw": "Umwältschutz, Nochhaltikeit und grüeni Initiative"
-      },
-      "sort_order": 2
+      "parent": null
     },
     {
-      "category_key": "education",
-      "label": {
+      "category_id": "education",
+      "name": {
         "en": "Education",
         "fr": "Éducation",
         "de": "Bildung",
         "gsw": "Bildig"
       },
-      "description": {
-        "en": "Education, schools, and learning programmes.",
-        "fr": "Éducation, écoles et programmes d'apprentissage.",
-        "de": "Bildung, Schulen und Lernprogramme.",
-        "gsw": "Bildig, Schuele und Lernprogramm"
-      },
-      "sort_order": 3
+      "parent": null
     },
     {
-      "category_key": "health",
-      "label": {
+      "category_id": "health",
+      "name": {
         "en": "Health",
         "fr": "Santé",
         "de": "Gesundheit",
         "gsw": "Gsundheit"
       },
-      "description": {
-        "en": "Healthcare, public health, and wellbeing.",
-        "fr": "Soins de santé, santé publique et bien-être.",
-        "de": "Gesundheitswesen, öffentliche Gesundheit und Wohlbefinden.",
-        "gsw": "Gsundheitswese, öffentlichi Gsundheit und Wohlbefinde"
-      },
-      "sort_order": 4
+      "parent": null
     },
     {
-      "category_key": "culture",
-      "label": {
+      "category_id": "culture",
+      "name": {
         "en": "Culture",
         "fr": "Culture",
         "de": "Kultur",
         "gsw": "Kultur"
       },
-      "description": {
-        "en": "Cultural activities, arts, and heritage.",
-        "fr": "Activités culturelles, arts et patrimoine.",
-        "de": "Kulturelle Aktivitäten, Kunst und Kulturerbe.",
-        "gsw": "Kulturelli Aktivitäte, Kunscht und Kulturerbe"
-      },
-      "sort_order": 5
+      "parent": null
     }
   ],
   "locations": [
     {
-      "location_key": "city_center",
-      "label": {
+      "location_id": "city_center",
+      "name": {
         "en": "City Centre",
         "fr": "Centre-ville",
         "de": "Stadtzentrum",
         "gsw": "Stadtzentrum"
       },
-      "description": {
-        "en": "Central area of the city.",
-        "fr": "Zone centrale de la ville.",
-        "de": "Zentraler Bereich der Stadt.",
-        "gsw": "Zentrale Bereich vo de Stadt"
-      },
-      "sort_order": 1
+      "parent_id": null
     },
     {
-      "location_key": "district_north",
-      "label": {
+      "location_id": "district_north",
+      "name": {
         "en": "North District",
         "fr": "Quartier Nord",
         "de": "Nordbezirk",
         "gsw": "Nordbezirk"
       },
-      "description": {
-        "en": "Northern part of the city or region.",
-        "fr": "Partie nord de la ville ou de la région.",
-        "de": "Nördlicher Teil der Stadt oder Region.",
-        "gsw": "Nördliche Teil vo de Stadt oder Region"
-      },
-      "sort_order": 2
+      "parent_id": null
     },
     {
-      "location_key": "district_south",
-      "label": {
+      "location_id": "district_south",
+      "name": {
         "en": "South District",
         "fr": "Quartier Sud",
         "de": "Südbezirk",
         "gsw": "Südbezirk"
       },
-      "description": {
-        "en": "Southern part of the city or region.",
-        "fr": "Partie sud de la ville ou de la région.",
-        "de": "Südlicher Teil der Stadt oder Region.",
-        "gsw": "Südliche Teil vo de Stadt oder Region"
-      },
-      "sort_order": 3
+      "parent_id": null
     }
   ]
 }

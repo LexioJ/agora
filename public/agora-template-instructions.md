@@ -833,7 +833,10 @@ Categories can be nested to create multi-level taxonomies.
 
 ### Structure
 
-Categories use a `parent_id` field to create hierarchies (omitted from the JSON - handled by the system based on order).
+Categories use:
+- `category_id`: Unique identifier (string)
+- `name`: Multi-language object with category names
+- `parent`: String reference to parent `category_id`, or `null` for root categories
 
 ### Example: Comprehensive Categorical System
 
@@ -841,66 +844,64 @@ Categories use a `parent_id` field to create hierarchies (omitted from the JSON 
 {
   "categories": [
     {
-      "category_key": "ecology",
-      "label": {
+      "category_id": "ecology",
+      "name": {
         "en": "Ecology & Resources",
-        "de": "Ökologie & Ressourcen"
+        "fr": "Écologie & Ressources",
+        "de": "Ökologie & Ressourcen",
+        "gsw": "Ökologii & Ressource"
       },
-      "description": {
-        "en": "Environmental and resource management",
-        "de": "Umwelt- und Ressourcenmanagement"
-      },
-      "parent_id": 0,
-      "sort_order": 1
+      "parent": null
     },
     {
-      "category_key": "biodiversity",
-      "label": {
+      "category_id": "biodiversity",
+      "name": {
         "en": "Biodiversity",
-        "de": "Biodiversität"
+        "fr": "Biodiversité",
+        "de": "Biodiversität",
+        "gsw": "Biodiversitäät"
       },
-      "description": {
-        "en": "Species and ecosystem protection",
-        "de": "Arten- und Ökosystemschutz"
-      },
-      "parent": "ecology",
-      "sort_order": 2
+      "parent": "ecology"
     },
     {
-      "category_key": "water",
-      "label": {
+      "category_id": "water",
+      "name": {
         "en": "Water & Lagoon",
-        "de": "Wasser & Lagune"
+        "fr": "Eau & Lagune",
+        "de": "Wasser & Lagune",
+        "gsw": "Wasser & Laguune"
       },
-      "parent": "ecology",
-      "sort_order": 3
+      "parent": "ecology"
     },
     {
-      "category_key": "planning",
-      "label": {
+      "category_id": "planning",
+      "name": {
         "en": "Planning & Development",
-        "de": "Planung & Entwicklung"
+        "fr": "Planification & Développement",
+        "de": "Planung & Entwicklung",
+        "gsw": "Planig & Entwicklig"
       },
-      "parent_id": 0,
-      "sort_order": 10
+      "parent": null
     },
     {
-      "category_key": "housing",
-      "label": {
+      "category_id": "housing",
+      "name": {
         "en": "Housing & Urbanism",
-        "de": "Wohnen & Städtebau"
+        "fr": "Logement & Urbanisme",
+        "de": "Wohnen & Städtebau",
+        "gsw": "Wohne & Städtebau"
       },
-      "parent": "planning",
-      "sort_order": 11
+      "parent": "planning"
     },
     {
-      "category_key": "transport",
-      "label": {
+      "category_id": "transport",
+      "name": {
         "en": "Transport",
-        "de": "Verkehr"
+        "fr": "Transport",
+        "de": "Verkehr",
+        "gsw": "Verkehr"
       },
-      "parent": "planning",
-      "sort_order": 12
+      "parent": "planning"
     }
   ]
 }
@@ -908,11 +909,11 @@ Categories use a `parent_id` field to create hierarchies (omitted from the JSON 
 
 ### Best Practices
 
-- Use descriptive category_key values
+- Use descriptive `category_id` values (lowercase, underscores)
 - Limit to 3-4 levels maximum
 - Keep main categories broad (5-7 main categories)
 - Use 3-5 subcategories per main category
-- Set logical sort_order values
+- Always include all 4 languages (en, fr, de, gsw) in `name` objects
 
 ---
 
@@ -922,7 +923,10 @@ Locations support geographic hierarchies (country → region → city).
 
 ### Structure
 
-Locations use a `parent` field referencing the parent location's name, or `parent_id: 0` for root locations.
+Locations use:
+- `location_id`: Unique identifier (string)
+- `name`: Multi-language object with location names
+- `parent_id`: String reference to parent `location_id`, or `null` for root locations
 
 ### Example: Swiss Geographic Hierarchy
 
@@ -930,69 +934,64 @@ Locations use a `parent` field referencing the parent location's name, or `paren
 {
   "locations": [
     {
-      "location_key": "switzerland",
-      "label": {
+      "location_id": "switzerland",
+      "name": {
         "en": "Switzerland",
-        "de": "Schweiz",
         "fr": "Suisse",
+        "de": "Schweiz",
         "gsw": "Schwiz"
       },
-      "parent_id": 0,
-      "sort_order": 1
+      "parent_id": null
     },
     {
-      "location_key": "geneva_canton",
-      "label": {
+      "location_id": "geneva_canton",
+      "name": {
         "en": "Geneva",
-        "de": "Genf",
         "fr": "Genève",
+        "de": "Genf",
         "gsw": "Gämf"
       },
-      "parent": "switzerland",
-      "sort_order": 2
+      "parent_id": "switzerland"
     },
     {
-      "location_key": "city_geneva",
-      "label": {
+      "location_id": "city_geneva",
+      "name": {
         "en": "City of Geneva",
-        "de": "Stadt Genf",
         "fr": "Ville de Genève",
+        "de": "Stadt Genf",
         "gsw": "Stadt Gämf"
       },
-      "parent": "geneva_canton",
-      "sort_order": 3
+      "parent_id": "geneva_canton"
     },
     {
-      "location_key": "vaud_canton",
-      "label": {
+      "location_id": "vaud_canton",
+      "name": {
         "en": "Vaud",
-        "de": "Waadt",
         "fr": "Vaud",
+        "de": "Waadt",
         "gsw": "Waadt"
       },
-      "parent": "switzerland",
-      "sort_order": 4
+      "parent_id": "switzerland"
     },
     {
-      "location_key": "nyon_district",
-      "label": {
+      "location_id": "nyon_district",
+      "name": {
         "en": "Nyon District",
-        "de": "Bezirk Nyon",
         "fr": "District de Nyon",
+        "de": "Bezirk Nyon",
         "gsw": "Bezirk Nyon"
       },
-      "parent": "vaud_canton",
-      "sort_order": 5
+      "parent_id": "vaud_canton"
     },
     {
-      "location_key": "nyon_city",
-      "label": {
+      "location_id": "nyon_city",
+      "name": {
         "en": "Nyon",
-        "de": "Nyon",
         "fr": "Nyon",
+        "de": "Nyon",
         "gsw": "Nyon"
       },
-      "parent": "nyon_district",
+      "parent_id": "nyon_district",
       "sort_order": 6
     }
   ]

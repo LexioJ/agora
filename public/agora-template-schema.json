@@ -378,25 +378,16 @@
       "description": "Hierarchical categories for organizing inquiries",
       "items": {
         "type": "object",
-        "required": ["category_key", "label", "description"],
+        "required": ["category_id", "name"],
         "properties": {
-          "category_key": {
+          "category_id": {
             "type": "string",
             "description": "Unique identifier for the category",
             "pattern": "^[a-z0-9_]+$"
           },
-          "label": {
+          "name": {
             "type": "object",
-            "description": "Localized labels",
-            "patternProperties": {
-              "^[a-z]{2,3}$": {
-                "type": "string"
-              }
-            }
-          },
-          "description": {
-            "type": "object",
-            "description": "Localized descriptions",
+            "description": "Localized category names",
             "patternProperties": {
               "^[a-z]{2,3}$": {
                 "type": "string"
@@ -404,18 +395,9 @@
             }
           },
           "parent": {
-            "type": "string",
-            "description": "Parent category_key for hierarchical structure (omit or use 0 for root categories)"
-          },
-          "parent_id": {
-            "type": "integer",
-            "description": "Alternative: 0 for root categories",
-            "minimum": 0
-          },
-          "sort_order": {
-            "type": "integer",
-            "description": "Display order within parent level",
-            "minimum": 1
+            "type": ["string", "null"],
+            "description": "Parent category_id for hierarchical structure (use null for root categories)",
+            "pattern": "^[a-z0-9_]+$"
           }
         }
       }
@@ -425,14 +407,14 @@
       "description": "Hierarchical geographic locations",
       "items": {
         "type": "object",
-        "required": ["location_key", "label"],
+        "required": ["location_id", "name"],
         "properties": {
-          "location_key": {
+          "location_id": {
             "type": "string",
             "description": "Unique identifier for the location",
             "pattern": "^[a-z0-9_]+$"
           },
-          "label": {
+          "name": {
             "type": "object",
             "description": "Localized location names",
             "patternProperties": {
@@ -441,23 +423,10 @@
               }
             }
           },
-          "description": {
-            "type": "object",
-            "description": "Localized location descriptions",
-            "patternProperties": {
-              "^[a-z]{2,3}$": {
-                "type": "string"
-              }
-            }
-          },
-          "parent": {
-            "type": "string",
-            "description": "Parent location_key for hierarchical structure (e.g., 'switzerland' → 'geneva_canton' → 'city_geneva')"
-          },
           "parent_id": {
-            "type": "integer",
-            "description": "Alternative: 0 for root locations (countries)",
-            "minimum": 0
+            "type": ["string", "null"],
+            "description": "Parent location_id for hierarchical structure (e.g., 'switzerland' → 'geneva_canton' → 'city_geneva'), use null for root locations",
+            "pattern": "^[a-z0-9_]+$"
           },
           "sort_order": {
             "type": "integer",
