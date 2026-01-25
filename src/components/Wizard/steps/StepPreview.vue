@@ -412,7 +412,7 @@ watch(() => editableData.value, () => {
 									<NcTextField
 										v-model="editingItemData[section.itemTypeKey]"
 										:label="t('agora', 'Type Key')"
-										:disabled="true"
+										:placeholder="t('agora', 'Change to avoid duplicates')"
 										class="edit-field" />
 
 									<NcTextField
