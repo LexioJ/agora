@@ -15,8 +15,6 @@ use OCP\AppFramework\Http;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\JSONResponse;
 use OCP\IRequest;
-use Psr\Log\LoggerInterface;
-use Throwable;
 
 /**
  * @psalm-api
@@ -24,15 +22,11 @@ use Throwable;
  */
 class BaseController extends Controller
 {
-    protected ?LoggerInterface $logger = null;
-
     public function __construct(
         string $appName,
         IRequest $request,
-        ?LoggerInterface $logger = null,
     ) {
         parent::__construct($appName, $request);
-        $this->logger = $logger;
     }
 
     /**
@@ -59,25 +53,6 @@ class BaseController extends Controller
 */
             $status = $e->getStatus();
             return new JSONResponse(['message' => $e->getMessage()], $status);
-        } catch (Throwable $e) {
-            // Log unexpected exceptions
-            if ($this->logger) {
-                $this->logger->error(
-                    'Unexpected exception in controller: ' . $e->getMessage(),
-                    [
-                        'exception' => get_class($e),
-                        'message' => $e->getMessage(),
-                        'file' => $e->getFile(),
-                        'line' => $e->getLine(),
-                        'trace' => $e->getTraceAsString(),
-                    ]
-                );
-            }
-
-            return new JSONResponse(
-                ['message' => 'Internal server error: ' . $e->getMessage()],
-                Http::STATUS_INTERNAL_SERVER_ERROR
-            );
         }
     }
 
