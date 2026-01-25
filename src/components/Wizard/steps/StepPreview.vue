@@ -90,16 +90,16 @@ const sections = computed((): Section[] => {
 			label: t('agora', 'Categories'),
 			icon: '🏷️',
 			count: editableData.value.categories?.length || 0,
-			itemLabelKey: 'label',
-			itemTypeKey: 'category_key',
+			itemLabelKey: 'name',
+			itemTypeKey: 'category_id',
 		},
 		{
 			key: 'locations',
 			label: t('agora', 'Locations'),
 			icon: '📍',
 			count: editableData.value.locations?.length || 0,
-			itemLabelKey: 'label',
-			itemTypeKey: 'location_key',
+			itemLabelKey: 'name',
+			itemTypeKey: 'location_id',
 		},
 	].filter(section => section.count > 0)
 })
@@ -143,8 +143,50 @@ const isEditing = (section: string, index: number) => {
 	return editingItem.value?.section === section && editingItem.value?.index === index
 }
 
+// Helper to get editable label value (handles multi-language objects)
+const getEditableLabelValue = (section: Section) => {
+	if (!editingItemData.value) return ''
+	const labelValue = editingItemData.value[section.itemLabelKey]
+
+	// Handle multi-language objects
+	if (labelValue && typeof labelValue === 'object' && !Array.isArray(labelValue)) {
+		const lang = wizardStore.selectedLanguage || 'en'
+		return labelValue[lang] || labelValue.en || ''
+	}
+
+	// Handle plain string
+	return labelValue || ''
+}
+
+// Helper to set editable label value (handles multi-language objects)
+const setEditableLabelValue = (section: Section, newValue: string) => {
+	if (!editingItemData.value) return
+	const labelValue = editingItemData.value[section.itemLabelKey]
+
+	// If it's a multi-language object, update only the current language
+	if (labelValue && typeof labelValue === 'object' && !Array.isArray(labelValue)) {
+		const lang = wizardStore.selectedLanguage || 'en'
+		editingItemData.value[section.itemLabelKey] = {
+			...labelValue,
+			[lang]: newValue
+		}
+	} else {
+		// Plain string value
+		editingItemData.value[section.itemLabelKey] = newValue
+	}
+}
+
 const getItemLabel = (item: any, section: Section) => {
-	return item[section.itemLabelKey] || item[section.itemTypeKey] || t('agora', 'Unnamed')
+	const labelValue = item[section.itemLabelKey]
+
+	// Handle multi-language objects (e.g., {en: "...", fr: "...", de: "...", gsw: "..."})
+	if (labelValue && typeof labelValue === 'object' && !Array.isArray(labelValue)) {
+		const lang = wizardStore.selectedLanguage || 'en'
+		return labelValue[lang] || labelValue.en || labelValue[Object.keys(labelValue)[0]] || item[section.itemTypeKey] || t('agora', 'Unnamed')
+	}
+
+	// Handle plain string values
+	return labelValue || item[section.itemTypeKey] || t('agora', 'Unnamed')
 }
 
 const getItemType = (item: any, section: Section) => {
@@ -374,7 +416,8 @@ watch(() => editableData.value, () => {
 										class="edit-field" />
 
 									<NcTextField
-										v-model="editingItemData[section.itemLabelKey]"
+										:value="getEditableLabelValue(section)"
+										@update:value="setEditableLabelValue(section, $event)"
 										:label="t('agora', 'Label')"
 										class="edit-field" />
 
