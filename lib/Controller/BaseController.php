@@ -24,12 +24,15 @@ use Throwable;
  */
 class BaseController extends Controller
 {
+    protected ?LoggerInterface $logger = null;
+
     public function __construct(
         string $appName,
         IRequest $request,
-        protected ?LoggerInterface $logger = null,
+        ?LoggerInterface $logger = null,
     ) {
         parent::__construct($appName, $request);
+        $this->logger = $logger;
     }
 
     /**
