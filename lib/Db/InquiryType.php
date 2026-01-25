@@ -9,6 +9,7 @@ declare(strict_types=1);
 namespace OCA\Agora\Db;
 
 use JsonSerializable;
+use OCP\AppFramework\Db\Entity;
 
 /**
  * @psalm-suppress UnusedProperty
@@ -38,7 +39,7 @@ use JsonSerializable;
  * @method         void setCreated(int $value)
  */
 
-class InquiryType extends EntityWithUser implements JsonSerializable
+class InquiryType extends Entity implements JsonSerializable
 {
     public const TABLE = 'agora_inq_type';
 
