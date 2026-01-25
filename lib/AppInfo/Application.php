@@ -198,7 +198,6 @@ class Application extends App implements IBootstrap
                     $c->get(InquiryGroupTypeService::class),
                     $c->get(InquiryOptionTypeService::class),
                     $c->get(InquiryFamilyService::class),
-                    $c->get(InquiryLinkService::class),
                 );
             }
         );
