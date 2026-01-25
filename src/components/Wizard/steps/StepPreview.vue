@@ -573,25 +573,15 @@ watch(() => editableData.value, () => {
 	font-weight: 600;
 
 	&.status-new {
-		background: #d1f0d9; // Light green background for light mode
-		color: #1a7f37; // Dark green text for light mode
-		border: 1px solid #1a7f37;
-		@media (prefers-color-scheme: dark) {
-			background: #1a4d2e; // Dark green background for dark mode
-			color: #3fb950; // Bright green text for dark mode
-			border: 1px solid #3fb950;
-		}
+		background-color: rgba(var(--color-success-rgb), 0.15);
+		color: var(--color-success-text);
+		border: 1px solid var(--color-success);
 	}
 
 	&.status-existing {
-		background: #ffe4cc; // Light orange background for light mode
-		color: #b35900; // Dark orange text for light mode
-		border: 1px solid #b35900;
-		@media (prefers-color-scheme: dark) {
-			background: #4d3800; // Dark orange background for dark mode
-			color: #e09b13; // Bright orange text for dark mode
-			border: 1px solid #e09b13;
-		}
+		background-color: rgba(var(--color-warning-rgb), 0.15);
+		color: var(--color-warning-text);
+		border: 1px solid var(--color-warning);
 	}
 }
 
@@ -645,25 +635,15 @@ watch(() => editableData.value, () => {
 	font-weight: 600;
 
 	&.badge-new {
-		background: #d1f0d9; // Light green background for light mode
-		color: #1a7f37; // Dark green text for light mode
-		border: 1px solid #1a7f37;
-		@media (prefers-color-scheme: dark) {
-			background: #1a4d2e; // Dark green background for dark mode
-			color: #3fb950; // Bright green text for dark mode
-			border: 1px solid #3fb950;
-		}
+		background-color: rgba(var(--color-success-rgb), 0.15);
+		color: var(--color-success-text);
+		border: 1px solid var(--color-success);
 	}
 
 	&.badge-existing {
-		background: #ffe4cc; // Light orange background for light mode
-		color: #b35900; // Dark orange text for light mode
-		border: 1px solid #b35900;
-		@media (prefers-color-scheme: dark) {
-			background: #4d3800; // Dark orange background for dark mode
-			color: #e09b13; // Bright orange text for dark mode
-			border: 1px solid #e09b13;
-		}
+		background-color: rgba(var(--color-warning-rgb), 0.15);
+		color: var(--color-warning-text);
+		border: 1px solid var(--color-warning);
 	}
 }
 
