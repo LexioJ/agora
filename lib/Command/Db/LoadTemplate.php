@@ -362,8 +362,9 @@ class LoadTemplate extends Command
 	 */
 	private function extractPreviewLabel(array $item, string $language): string
 	{
-		// Try to find label field
-		$labelField = $item['label'] ?? null;
+		// Try to find label field (families, types, statuses use 'label')
+		// Categories and locations use 'name'
+		$labelField = $item['label'] ?? $item['name'] ?? null;
 
 		if (is_array($labelField)) {
 			// Multi-language field
@@ -375,7 +376,7 @@ class LoadTemplate extends Command
 		}
 
 		// Fallback to type/key fields
-		return $item['family_type'] ?? $item['inquiry_type'] ?? $item['group_type'] ?? $item['option_type'] ?? $item['status_key'] ?? $item['category_key'] ?? $item['location_key'] ?? 'Unknown';
+		return $item['family_type'] ?? $item['inquiry_type'] ?? $item['group_type'] ?? $item['option_type'] ?? $item['status_key'] ?? $item['category_id'] ?? $item['location_id'] ?? $item['category_key'] ?? $item['location_key'] ?? 'Unknown';
 	}
 
 	/**
