@@ -43,6 +43,10 @@ class InquiryFamily extends EntityWithUser implements JsonSerializable
     public function __construct()
     {
         $this->addType('id', 'integer');
+        $this->addType('familyType', 'string');
+        $this->addType('label', 'string');
+        $this->addType('description', 'string');
+        $this->addType('icon', 'string');
         $this->addType('sortOrder', 'integer');
         $this->addType('created', 'integer');
     }
