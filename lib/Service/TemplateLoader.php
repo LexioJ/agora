@@ -315,31 +315,90 @@ class TemplateLoader
 
 	/**
 	 * Load categories from template
+	 * Supports hierarchical categories with string-based parent references
 	 */
 	private function loadCategories(array $categories, string $language): array
 	{
 		$messages = [];
 		$messages[] = 'Loading categories...';
 
+		// First pass: Create all categories without parent relationships
+		// Build a lookup map of category_id -> database ID
+		$categoryIdMap = [];
+
 		foreach ($categories as $categoryData) {
 			try {
-				$categoryName = $this->extractText($categoryData['label'] ?? $categoryData['category_key'] ?? '', $language);
+				// Support both old format (label/category_key) and new format (name/category_id)
+				$categoryName = $this->extractText(
+					$categoryData['name'] ?? $categoryData['label'] ?? $categoryData['category_key'] ?? '',
+					$language
+				);
 
 				// Check if category already exists
 				$existingCategory = $this->categoryMapper->findByName($categoryName);
 				if ($existingCategory !== null) {
 					$messages[] = "  - Category already exists: {$categoryName} (skipped)";
+					// Store in map for parent resolution
+					if (isset($categoryData['category_id'])) {
+						$categoryIdMap[$categoryData['category_id']] = $existingCategory->getId();
+					}
 					continue;
 				}
 
 				$category = new Category();
 				$category->setName($categoryName);
-				$category->setParentId($categoryData['parent_id'] ?? 0);
+				$category->setParentId(0); // Set parent to 0 initially
 
-				$this->categoryMapper->insert($category);
+				$insertedCategory = $this->categoryMapper->insert($category);
 				$messages[] = "  - Created category: {$categoryName}";
+
+				// Store category_id -> database ID mapping for parent resolution
+				if (isset($categoryData['category_id'])) {
+					$categoryIdMap[$categoryData['category_id']] = $insertedCategory->getId();
+				}
 			} catch (\Exception $e) {
-				$messages[] = "  - Error creating category {$categoryData['category_key']}: " . $e->getMessage();
+				$categoryKey = $categoryData['category_id'] ?? $categoryData['category_key'] ?? 'unknown';
+				$messages[] = "  - Error creating category {$categoryKey}: " . $e->getMessage();
+			}
+		}
+
+		// Second pass: Update parent relationships using string references
+		foreach ($categories as $categoryData) {
+			try {
+				// Skip if no category_id or parent reference
+				if (!isset($categoryData['category_id'])) {
+					continue;
+				}
+
+				$categoryId = $categoryData['category_id'];
+				$parentRef = $categoryData['parent'] ?? null;
+
+				// Skip if no parent or parent is null/0
+				if ($parentRef === null || $parentRef === 0) {
+					continue;
+				}
+
+				// Resolve parent string reference to database ID
+				if (isset($categoryIdMap[$parentRef])) {
+					$parentDatabaseId = $categoryIdMap[$parentRef];
+
+					// Get the category by its database ID and update parent
+					if (isset($categoryIdMap[$categoryId])) {
+						$databaseId = $categoryIdMap[$categoryId];
+						$category = $this->categoryMapper->find($databaseId);
+
+						if ($category !== null) {
+							$category->setParentId($parentDatabaseId);
+							$this->categoryMapper->update($category);
+							$messages[] = "  - Set parent for '{$category->getName()}' -> parent ID {$parentDatabaseId}";
+						}
+					}
+				} else {
+					$messages[] = "  - Warning: Parent category '{$parentRef}' not found for '{$categoryId}'";
+				}
+			} catch (\Exception $e) {
+				$categoryKey = $categoryData['category_id'] ?? 'unknown';
+				$messages[] = "  - Error setting parent for category {$categoryKey}: " . $e->getMessage();
 			}
 		}
 
@@ -348,23 +407,91 @@ class TemplateLoader
 
 	/**
 	 * Load locations from template
+	 * Supports hierarchical locations with string-based parent references
 	 */
 	private function loadLocations(array $locations, string $language): array
 	{
 		$messages = [];
 		$messages[] = 'Loading locations...';
 
+		// First pass: Create all locations without parent relationships
+		// Build a lookup map of location_id -> database ID
+		$locationIdMap = [];
+
 		foreach ($locations as $locationData) {
 			try {
-				$location = new Location();
-				$locationName = $this->extractText($locationData['label'] ?? $locationData['location_key'] ?? '', $language);
-				$location->setName($locationName);
-				$location->setParentId($locationData['parent_id'] ?? 0);
+				// Support both old format (label/location_key) and new format (name/location_id)
+				$locationName = $this->extractText(
+					$locationData['name'] ?? $locationData['label'] ?? $locationData['location_key'] ?? '',
+					$language
+				);
 
-				$this->locationMapper->insert($location);
-				$messages[] = "  - Created location: {$locationData['location_key']}";
+				// Check if location already exists
+				$existingLocation = $this->locationMapper->findByName($locationName);
+				if ($existingLocation !== null) {
+					$messages[] = "  - Location already exists: {$locationName} (skipped)";
+					// Store in map for parent resolution
+					if (isset($locationData['location_id'])) {
+						$locationIdMap[$locationData['location_id']] = $existingLocation->getId();
+					}
+					continue;
+				}
+
+				$location = new Location();
+				$location->setName($locationName);
+				$location->setParentId(0); // Set parent to 0 initially
+
+				$insertedLocation = $this->locationMapper->insert($location);
+				$locationKey = $locationData['location_id'] ?? $locationData['location_key'] ?? $locationName;
+				$messages[] = "  - Created location: {$locationKey}";
+
+				// Store location_id -> database ID mapping for parent resolution
+				if (isset($locationData['location_id'])) {
+					$locationIdMap[$locationData['location_id']] = $insertedLocation->getId();
+				}
 			} catch (\Exception $e) {
-				$messages[] = "  - Error creating location {$locationData['location_key']}: " . $e->getMessage();
+				$locationKey = $locationData['location_id'] ?? $locationData['location_key'] ?? 'unknown';
+				$messages[] = "  - Error creating location {$locationKey}: " . $e->getMessage();
+			}
+		}
+
+		// Second pass: Update parent relationships using string references
+		foreach ($locations as $locationData) {
+			try {
+				// Skip if no location_id
+				if (!isset($locationData['location_id'])) {
+					continue;
+				}
+
+				$locationId = $locationData['location_id'];
+				$parentRef = $locationData['parent_id'] ?? null;
+
+				// Skip if no parent or parent is null
+				if ($parentRef === null) {
+					continue;
+				}
+
+				// Resolve parent string reference to database ID
+				if (isset($locationIdMap[$parentRef])) {
+					$parentDatabaseId = $locationIdMap[$parentRef];
+
+					// Get the location by its database ID and update parent
+					if (isset($locationIdMap[$locationId])) {
+						$databaseId = $locationIdMap[$locationId];
+						$location = $this->locationMapper->find($databaseId);
+
+						if ($location !== null) {
+							$location->setParentId($parentDatabaseId);
+							$this->locationMapper->update($location);
+							$messages[] = "  - Set parent for '{$location->getName()}' -> parent ID {$parentDatabaseId}";
+						}
+					}
+				} else {
+					$messages[] = "  - Warning: Parent location '{$parentRef}' not found for '{$locationId}'";
+				}
+			} catch (\Exception $e) {
+				$locationKey = $locationData['location_id'] ?? 'unknown';
+				$messages[] = "  - Error setting parent for location {$locationKey}: " . $e->getMessage();
 			}
 		}
 
@@ -495,8 +622,12 @@ class TemplateLoader
 		// Analyze categories
 		if (isset($template['categories'])) {
 			foreach ($template['categories'] as $categoryData) {
-				$categoryName = $this->extractText($categoryData['label'] ?? $categoryData['category_key'] ?? '', $language);
-				$categoryKey = $categoryData['category_key'] ?? '';
+				// Support both old format (label/category_key) and new format (name/category_id)
+				$categoryName = $this->extractText(
+					$categoryData['name'] ?? $categoryData['label'] ?? $categoryData['category_key'] ?? '',
+					$language
+				);
+				$categoryKey = $categoryData['category_id'] ?? $categoryData['category_key'] ?? '';
 
 				$existing = $this->categoryMapper->findByName($categoryName);
 				if ($existing !== null) {
@@ -516,8 +647,12 @@ class TemplateLoader
 		// Analyze locations
 		if (isset($template['locations'])) {
 			foreach ($template['locations'] as $locationData) {
-				$locationName = $this->extractText($locationData['label'] ?? $locationData['location_key'] ?? '', $language);
-				$locationKey = $locationData['location_key'] ?? '';
+				// Support both old format (label/location_key) and new format (name/location_id)
+				$locationName = $this->extractText(
+					$locationData['name'] ?? $locationData['label'] ?? $locationData['location_key'] ?? '',
+					$language
+				);
+				$locationKey = $locationData['location_id'] ?? $locationData['location_key'] ?? '';
 
 				$existing = $this->locationMapper->findByName($locationName);
 				if ($existing !== null) {
