@@ -309,7 +309,6 @@ class AppSettings implements JsonSerializable
         'officialRights' => $this->getOfficialRights(),
         ];
     }
-/*
     private function checkSettingType(string $key, int $expectedType, string $app = AppConstants::APP_ID): bool
     {
         try {
@@ -317,7 +316,6 @@ class AppSettings implements JsonSerializable
             if ($actualType === $expectedType || $actualType === IAppConfig::VALUE_MIXED) {
                 return true;
             }
-
 
         } catch (\Exception $e) {
             $this->logger->debug(
@@ -331,38 +329,6 @@ class AppSettings implements JsonSerializable
             );
         }
         return false;
-    } */
-
-    private function checkSettingType(string $key, $value) {
-        $expectedType = $this->settingsSchema[$key]['type'] ?? null;
-        if ($expectedType === null) {
-            return; // or throw your own exception
-        }
-
-        switch ($expectedType) {
-        case 'boolean':
-            if (!is_bool($value)) {
-                throw new \InvalidArgumentException("Invalid boolean value for $key");
-            }
-            break;
-
-        case 'integer':
-            if (!is_int($value)) {
-                throw new \InvalidArgumentException("Invalid integer value for $key");
-            }
-            break;
-
-        case 'string':
-            if (!is_string($value)) {
-                throw new \InvalidArgumentException("Invalid string value for $key");
-            }
-            break;
-
-            // ... etc
-
-        default:
-            throw new \Exception("Unknown type for setting $key");
-        }
     }
 
 
