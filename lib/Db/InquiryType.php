@@ -49,7 +49,7 @@ class InquiryType extends Entity implements JsonSerializable
     protected string $family = 'deliberative';
     protected string $label = '';
     protected string $icon = '';
-    protected ?string $description = null;
+    protected string $description = '';
     protected ?array $fields = null;
     protected ?array $allowedResponse = null;
     protected ?array $allowedTransformation = null;

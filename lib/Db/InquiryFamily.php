@@ -36,7 +36,7 @@ class InquiryFamily extends Entity implements JsonSerializable
     public $id = null;
     protected string $familyType = '';
     protected string $label = '';
-    protected ?string $description = '';
+    protected string $description = '';
     protected string $icon = '';
     protected int $sortOrder = 0;
     protected int $created = 0;

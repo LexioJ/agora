@@ -173,34 +173,20 @@ class TemplateLoader
 				$type->setDescription($this->extractText($typeData['description'] ?? '', $language));
 				$type->setIsRoot($typeData['is_root'] ?? false);
 
-				// Handle allowed_response (could be array or null)
-				if (isset($typeData['allowed_response']) && is_array($typeData['allowed_response'])) {
-					$type->setAllowedResponse($typeData['allowed_response']);
-				} else {
-					$type->setAllowedResponse(null);
-				}
+				// Handle allowed_response (use empty array instead of null for consistency)
+				$type->setAllowedResponse($typeData['allowed_response'] ?? []);
 
 				// Handle allowed_transformation
-				if (isset($typeData['allowed_transformation']) && is_array($typeData['allowed_transformation'])) {
-					$type->setAllowedTransformation($typeData['allowed_transformation']);
-				} else {
-					$type->setAllowedTransformation(null);
-				}
+				$type->setAllowedTransformation($typeData['allowed_transformation'] ?? []);
 
 				// Handle allowed_option_type
-				if (isset($typeData['allowed_option_type']) && is_array($typeData['allowed_option_type'])) {
-					$type->setAllowedOptionType($typeData['allowed_option_type']);
-				} else {
-					$type->setAllowedOptionType(null);
-				}
+				$type->setAllowedOptionType($typeData['allowed_option_type'] ?? []);
 
 				// Handle support_feature
 				$type->setSupportFeature($typeData['support_feature'] ?? 'binary');
 
-				// Handle fields if present
-				if (isset($typeData['fields']) && is_array($typeData['fields'])) {
-					$type->setFields($typeData['fields']);
-				}
+				// Handle fields (use empty array instead of null)
+				$type->setFields($typeData['fields'] ?? []);
 
 				$type->setCreated(time());
 
@@ -388,7 +374,7 @@ class TemplateLoader
 						$category = $this->categoryMapper->find($databaseId);
 
 						if ($category !== null) {
-							$category->setParentId($parentDatabaseId);
+							$category->setParentId((int)$parentDatabaseId);
 							$this->categoryMapper->update($category);
 							$messages[] = "  - Set parent for '{$category->getName()}' -> parent ID {$parentDatabaseId}";
 						}
@@ -481,7 +467,7 @@ class TemplateLoader
 						$location = $this->locationMapper->find($databaseId);
 
 						if ($location !== null) {
-							$location->setParentId($parentDatabaseId);
+							$location->setParentId((int)$parentDatabaseId);
 							$this->locationMapper->update($location);
 							$messages[] = "  - Set parent for '{$location->getName()}' -> parent ID {$parentDatabaseId}";
 						}
