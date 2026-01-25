@@ -57,6 +57,7 @@ use OCA\Agora\Listener\CommentListener;
 use OCA\Agora\Listener\SupportListener;
 use OCA\Agora\Listener\AttachmentListener;
 use OCA\Agora\Listener\GroupDeletedListener;
+use OCA\Agora\Listener\InquiryLinkListener;
 use OCA\Agora\Listener\OptionListener;
 use OCA\Agora\Listener\InquiryListener;
 use OCA\Agora\Listener\AgoraReferenceListener;
