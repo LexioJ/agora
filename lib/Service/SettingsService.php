@@ -16,6 +16,7 @@ use OCA\Agora\Service\InquiryGroupTypeService;
 use OCA\Agora\Service\InquiryOptionTypeService;
 use OCA\Agora\Service\InquiryStatusService;
 use OCA\Agora\Service\InquiryFamilyService;
+use OCA\Agora\Service\ModerationStatusService;
 use OCP\IConfig;
 use Psr\Log\LoggerInterface;
 
@@ -28,6 +29,7 @@ class SettingsService
     private InquiryTypeService $inquiryTypeService;
     private InquiryGroupTypeService $inquiryGroupTypeService;
     private InquiryOptionTypeService $inquiryOptionTypeService;
+    private ModerationStatusService $moderationStatusService;
     private AppSettings $appSettings;
 
     /**
@@ -42,6 +44,7 @@ class SettingsService
         InquiryTypeService $inquiryTypeService,
         InquiryGroupTypeService $inquiryGroupTypeService,
         InquiryOptionTypeService $inquiryOptionTypeService,
+        ModerationStatusService $moderationStatusService,
         IConfig $iConfig,
     ) {
         $this->appSettings = $appSettings;
@@ -52,6 +55,7 @@ class SettingsService
         $this->inquiryTypeService = $inquiryTypeService;
         $this->inquiryGroupTypeService = $inquiryGroupTypeService;
         $this->inquiryOptionTypeService = $inquiryOptionTypeService;
+        $this->moderationStatusService = $moderationStatusService;
         $this->iConfig = $iConfig;
     }
 

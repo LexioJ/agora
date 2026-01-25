@@ -316,7 +316,6 @@ class AppSettings implements JsonSerializable
             if ($actualType === $expectedType || $actualType === IAppConfig::VALUE_MIXED) {
                 return true;
             }
-
         } catch (\Exception $e) {
             $this->logger->debug(
                 'Could not get setting type', [
