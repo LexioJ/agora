@@ -50,11 +50,14 @@ class InquiryOptionType extends EntityWithUser implements JsonSerializable
     public function __construct()
     {
         $this->addType('id', 'integer');
-        $this->addType('created', 'integer');
+        $this->addType('optionType', 'string');
+        $this->addType('label', 'string');
+        $this->addType('icon', 'string');
+        $this->addType('family', 'string');
         $this->addType('description', 'string');
         $this->addType('fields', 'json');
-        $this->addType('family', 'string');
         $this->addType('allowedResponse', 'json');
+        $this->addType('created', 'integer');
     }
 
     /**

@@ -59,11 +59,12 @@ class InquiryGroupType extends EntityWithUser implements JsonSerializable
     public function __construct()
     {
         $this->addType('id', 'integer');
-        $this->addType('description', 'string');
+        $this->addType('groupType', 'string');
         $this->addType('label', 'string');
-        $this->addType('group_type', 'string');
-        $this->addType('fields', 'json');
+        $this->addType('icon', 'string');
         $this->addType('family', 'string');
+        $this->addType('description', 'string');
+        $this->addType('fields', 'json');
         $this->addType('isRoot', 'boolean');
         $this->addType('allowedInquiryTypes', 'json');
         $this->addType('allowedResponse', 'json');
