@@ -53,13 +53,6 @@ class BaseController extends Controller
 */
             $status = $e->getStatus();
             return new JSONResponse(['message' => $e->getMessage()], $status);
-        } catch (\Throwable $e) {
-            // Catch all other exceptions and return error details in response
-            return new JSONResponse([
-                'message' => 'Internal server error: ' . $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ], Http::STATUS_INTERNAL_SERVER_ERROR);
         }
     }
 
