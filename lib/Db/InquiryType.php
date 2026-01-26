@@ -64,6 +64,7 @@ class InquiryType extends Entity implements JsonSerializable
         $this->addType('created', 'integer');
         $this->addType('icon', 'string');
         $this->addType('family', 'string');
+        $this->addType('label', 'string');
         $this->addType('description', 'string');
         $this->addType('inquiryType', 'string');
         $this->addType('fields', 'json');

@@ -766,8 +766,12 @@ class AppSettings implements JsonSerializable
 
     private function isMember(array $groups): bool
     {
+        $user = $this->userSession?->getCurrentUser();
+        if ($user === null) {
+            return false;
+        }
         foreach ($groups as $GID) {
-            if ($this->userSession->getCurrentUser()->getIsInGroup($GID)) {
+            if ($user->getIsInGroup($GID)) {
                 return true;
             }
         }

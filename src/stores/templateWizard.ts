@@ -326,13 +326,13 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 			this.selectedUseCase = useCase
 		},
 
-		selectTemplate(template: Template) {
+		async selectTemplate(template: Template) {
 			this.selectedTemplate = template
 			this.customTemplate = null
 
 			// Load full template details if not already loaded
 			if (!template.content) {
-				this.loadTemplateDetails(template.name)
+				await this.loadTemplateDetails(template.name)
 			}
 		},
 
@@ -382,12 +382,23 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 						Object.keys(extractedItem).forEach(key => {
 							const value = extractedItem[key]
 							if (value && typeof value === 'object' && !Array.isArray(value)) {
-								// Check if this is a multi-language object
-								if (value[language] !== undefined) {
-									extractedItem[key] = value[language]
-								} else if (value.en !== undefined) {
-									// Fallback to English
-									extractedItem[key] = value.en
+								// Check if this looks like a multi-language object (has language keys)
+								const keys = Object.keys(value)
+								const isMultiLang = keys.some(k => ['en', 'fr', 'de', 'gsw', 'it', 'es'].includes(k))
+								if (isMultiLang) {
+									// Try selected language first (non-empty)
+									if (value[language] !== undefined && value[language] !== '') {
+										extractedItem[key] = value[language]
+									} else if (value.en !== undefined && value.en !== '') {
+										// Fallback to English
+										extractedItem[key] = value.en
+									} else {
+										// Use first available non-empty translation
+										const firstKey = keys.find(k => value[k] !== undefined && value[k] !== '')
+										if (firstKey) {
+											extractedItem[key] = value[firstKey]
+										}
+									}
 								}
 							}
 						})
