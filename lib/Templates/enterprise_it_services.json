@@ -31,7 +31,7 @@
       "sort_order": 1
     },
     {
-      "family_type": "official",
+      "family_type": "official_it_services",
       "label": {
         "en": "Official Response",
         "fr": "Réponse officielle",
@@ -67,7 +67,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_it_services"
       ],
       "allowed_option_type": [
         "position_for",
@@ -191,7 +191,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_it_services"
       ],
       "allowed_option_type": [
         "position_for",
@@ -286,7 +286,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_it_services"
       ],
       "allowed_option_type": [
         "position_for",
@@ -380,7 +380,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_it_services"
       ],
       "allowed_option_type": [
         "position_for",
@@ -474,7 +474,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_it_services"
       ],
       "allowed_option_type": [
         "position_for",
@@ -568,7 +568,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_it_services"
       ],
       "allowed_option_type": [
         "position_for",
@@ -662,7 +662,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_it_services"
       ],
       "allowed_option_type": [
         "position_for",
@@ -739,8 +739,8 @@
       ]
     },
     {
-      "inquiry_type": "official_response",
-      "family": "official",
+      "inquiry_type": "official_response_it_services",
+      "family": "official_it_services",
       "icon": "MessageReply",
       "label": {
         "en": "Official Response",

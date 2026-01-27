@@ -116,7 +116,7 @@
       "sort_order": 6
     },
     {
-      "family_type": "official",
+      "family_type": "official_citizen_participation",
       "label": {
         "en": "Official",
         "fr": "Officiel",
@@ -167,7 +167,7 @@
       "allowed_response": [
         "objection",
         "suggestion",
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": [
         "law_proposal"
@@ -202,7 +202,7 @@
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": [
         "initiative"
@@ -242,7 +242,7 @@
         "proposal",
         "objection",
         "suggestion",
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": [
         "law_proposal"
@@ -282,7 +282,7 @@
         "suggestion",
         "proposal",
         "petition",
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": [
         "law_proposal",
@@ -316,7 +316,7 @@
       "allowed_response": [
         "proposal",
         "suggestion",
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
@@ -410,7 +410,7 @@
         "project_review",
         "suggestion",
         "objection",
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": []
     },
@@ -537,7 +537,7 @@
       "allowed_response": [
         "amendment",
         "objection",
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": []
     },
@@ -629,7 +629,7 @@
       "allowed_response": [
         "law_proposal",
         "suggestion",
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
@@ -662,7 +662,7 @@
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
@@ -694,7 +694,7 @@
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
@@ -725,7 +725,7 @@
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []}
       ],
       "allowed_response": [
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
@@ -792,7 +792,7 @@
       "allowed_response": [
         "proposal",
         "law_proposal",
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
@@ -827,7 +827,7 @@
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
@@ -1021,7 +1021,7 @@
       "allowed_response": [
         "proposal",
         "law_proposal",
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
@@ -1050,7 +1050,7 @@
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []}
       ],
       "allowed_response": [
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
@@ -1078,7 +1078,7 @@
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []}
       ],
       "allowed_response": [
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
@@ -1107,13 +1107,13 @@
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []}
       ],
       "allowed_response": [
-        "official"
+        "official_citizen_participation"
       ],
       "allowed_transformation": null
     },
     {
-      "inquiry_type": "official",
-      "family": "official",
+      "inquiry_type": "official_citizen_participation",
+      "family": "official_citizen_participation",
       "icon": "ClipboardCheck",
       "label": {
         "en": "Official Response",
@@ -2091,7 +2091,7 @@
       "sort_order": 2
     },
     {
-      "inquiry_type": "official",
+      "inquiry_type": "official_citizen_participation",
       "status_key": "open",
       "label": {
         "en": "Open",
@@ -2110,7 +2110,7 @@
       "sort_order": 1
     },
     {
-      "inquiry_type": "official",
+      "inquiry_type": "official_citizen_participation",
       "status_key": "closed",
       "label": {
         "en": "Closed",
@@ -2149,7 +2149,7 @@
       "allowed_response": [
         "suggestion",
         "proposal",
-        "official"
+        "official_citizen_participation"
       ]
     },
     {
@@ -2171,7 +2171,7 @@
       "allowed_response": [
         "suggestion",
         "proposal",
-        "official"
+        "official_citizen_participation"
       ]
     },
     {
@@ -2210,7 +2210,7 @@
       },
       "allowed_response": [
         "article",
-        "official"
+        "official_citizen_participation"
       ]
     },
     {
@@ -2231,7 +2231,7 @@
       },
       "allowed_response": [
         "amendment",
-        "official"
+        "official_citizen_participation"
       ]
     }
   ],

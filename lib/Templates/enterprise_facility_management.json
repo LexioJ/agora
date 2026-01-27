@@ -31,7 +31,7 @@
       "sort_order": 1
     },
     {
-      "family_type": "official",
+      "family_type": "official_facility_management",
       "label": {
         "en": "Official Response",
         "fr": "Réponse officielle",
@@ -67,7 +67,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_facility_management"
       ],
       "allowed_option_type": [
         "position_for",
@@ -186,7 +186,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_facility_management"
       ],
       "allowed_option_type": [
         "position_for",
@@ -305,7 +305,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_facility_management"
       ],
       "allowed_option_type": [
         "position_for",
@@ -399,7 +399,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_facility_management"
       ],
       "allowed_option_type": [
         "position_for",
@@ -497,7 +497,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_facility_management"
       ],
       "allowed_option_type": [
         "position_for",
@@ -562,8 +562,8 @@
       ]
     },
     {
-      "inquiry_type": "official_response",
-      "family": "official",
+      "inquiry_type": "official_response_facility_management",
+      "family": "official_facility_management",
       "icon": "MessageReply",
       "label": {
         "en": "Official Response",

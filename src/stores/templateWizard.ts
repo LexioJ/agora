@@ -373,38 +373,71 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 				'locations',
 			]
 
+			// Helper function to check if object is a multi-language object
+			const isMultiLangObject = (obj: any): boolean => {
+				if (!obj || typeof obj !== 'object' || Array.isArray(obj)) {
+					return false
+				}
+				const keys = Object.keys(obj)
+				// Must have at least one known language key and all values should be strings or undefined
+				const hasLangKey = keys.some(k => ['en', 'fr', 'de', 'gsw', 'it', 'es'].includes(k))
+				const allStringsOrEmpty = keys.every(k =>
+					obj[k] === undefined || obj[k] === null || typeof obj[k] === 'string'
+				)
+				return hasLangKey && allStringsOrEmpty
+			}
+
+			// Helper function to extract language string from multi-language object
+			const extractLangString = (obj: any): string => {
+				// Try selected language first (non-empty)
+				if (obj[language] !== undefined && obj[language] !== '') {
+					return obj[language]
+				}
+				// Fallback to English
+				if (obj.en !== undefined && obj.en !== '') {
+					return obj.en
+				}
+				// Use first available non-empty translation
+				const keys = Object.keys(obj)
+				const firstKey = keys.find(k => obj[k] !== undefined && obj[k] !== '')
+				if (firstKey) {
+					return obj[firstKey]
+				}
+				return ''
+			}
+
+			// Recursive function to process any value
+			const processValue = (value: any): any => {
+				if (value === null || value === undefined) {
+					return value
+				}
+
+				// Check if this is a multi-language object
+				if (isMultiLangObject(value)) {
+					return extractLangString(value)
+				}
+
+				// Process arrays recursively
+				if (Array.isArray(value)) {
+					return value.map(item => processValue(item))
+				}
+
+				// Process objects recursively
+				if (typeof value === 'object') {
+					const processedObj: any = {}
+					Object.keys(value).forEach(key => {
+						processedObj[key] = processValue(value[key])
+					})
+					return processedObj
+				}
+
+				// Return primitives as-is
+				return value
+			}
+
 			sections.forEach(section => {
 				if (extracted[section] && Array.isArray(extracted[section])) {
-					extracted[section] = extracted[section].map((item: any) => {
-						const extractedItem = { ...item }
-
-						// Extract multi-language fields
-						Object.keys(extractedItem).forEach(key => {
-							const value = extractedItem[key]
-							if (value && typeof value === 'object' && !Array.isArray(value)) {
-								// Check if this looks like a multi-language object (has language keys)
-								const keys = Object.keys(value)
-								const isMultiLang = keys.some(k => ['en', 'fr', 'de', 'gsw', 'it', 'es'].includes(k))
-								if (isMultiLang) {
-									// Try selected language first (non-empty)
-									if (value[language] !== undefined && value[language] !== '') {
-										extractedItem[key] = value[language]
-									} else if (value.en !== undefined && value.en !== '') {
-										// Fallback to English
-										extractedItem[key] = value.en
-									} else {
-										// Use first available non-empty translation
-										const firstKey = keys.find(k => value[k] !== undefined && value[k] !== '')
-										if (firstKey) {
-											extractedItem[key] = value[firstKey]
-										}
-									}
-								}
-							}
-						})
-
-						return extractedItem
-					})
+					extracted[section] = extracted[section].map((item: any) => processValue(item))
 				}
 			})
 

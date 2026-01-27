@@ -31,7 +31,7 @@
       "sort_order": 1
     },
     {
-      "family_type": "official",
+      "family_type": "official_student_engagement",
       "label": {
         "en": "Official Response",
         "fr": "Réponse officielle",
@@ -67,7 +67,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_student_engagement"
       ],
       "allowed_option_type": [
         "position_for",
@@ -156,7 +156,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_student_engagement"
       ],
       "allowed_option_type": [
         "position_for",
@@ -263,7 +263,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_student_engagement"
       ],
       "allowed_option_type": [
         "position_for",
@@ -336,7 +336,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_student_engagement"
       ],
       "allowed_option_type": [
         "position_for",
@@ -430,7 +430,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_student_engagement"
       ],
       "allowed_option_type": [
         "position_for",
@@ -525,7 +525,7 @@
       },
       "is_root": true,
       "allowed_response": [
-        "official"
+        "official_response_student_engagement"
       ],
       "allowed_option_type": [
         "position_for",
@@ -603,8 +603,8 @@
       ]
     },
     {
-      "inquiry_type": "official_response",
-      "family": "official",
+      "inquiry_type": "official_response_student_engagement",
+      "family": "official_student_engagement",
       "icon": "MessageReply",
       "label": {
         "en": "Official Response",
