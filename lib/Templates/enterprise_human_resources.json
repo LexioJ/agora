@@ -75,7 +75,74 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "training_category",
+          "label": {
+            "en": "Training Category",
+            "fr": "Catégorie de formation",
+            "de": "Schulungskategorie",
+            "gsw": "Schuligs-Kategorie"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "professional",
+          "allowed_values": ["technical", "professional", "leadership", "compliance", "soft_skills"]
+        },
+        {
+          "key": "delivery_method",
+          "label": {
+            "en": "Delivery Method",
+            "fr": "Méthode de livraison",
+            "de": "Bereitstellungsmethode",
+            "gsw": "Bereitstelligs-Method"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "hybrid",
+          "allowed_values": ["online", "in_person", "hybrid"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "workplace_improvement",
@@ -176,6 +243,45 @@
             "ranking",
             "rating"
           ]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
         }
       ]
     },
@@ -205,7 +311,73 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "activity_type",
+          "label": {
+            "en": "Activity Type",
+            "fr": "Type d'activité",
+            "de": "Aktivitätstyp",
+            "gsw": "Aktivitäts-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "team_event",
+          "allowed_values": ["team_event", "offsite", "workshop", "social", "volunteer", "sports"]
+        },
+        {
+          "key": "estimated_budget",
+          "label": {
+            "en": "Estimated Budget",
+            "fr": "Budget estimé",
+            "de": "Geschätztes Budget",
+            "gsw": "Gschätzts Budget"
+          },
+          "type": "integer",
+          "required": false,
+          "default": null
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "policy_feedback",
@@ -303,6 +475,45 @@
             "ranking",
             "rating"
           ]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
         }
       ]
     },
@@ -332,7 +543,61 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "recognition_type",
+          "label": {
+            "en": "Recognition Type",
+            "fr": "Type de reconnaissance",
+            "de": "Anerkennungstyp",
+            "gsw": "Anerkennigs-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "peer_recognition",
+          "allowed_values": ["peer_recognition", "manager_recognition", "milestone", "performance", "innovation", "service_anniversary"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "official_response",
@@ -358,7 +623,61 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "none"
+      "support_feature": "none",
+      "fields": [
+        {
+          "key": "response_type",
+          "label": {
+            "en": "Response Type",
+            "fr": "Type de réponse",
+            "de": "Antworttyp",
+            "gsw": "Antwort-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "acknowledgment",
+          "allowed_values": ["acknowledgment", "clarification", "decision", "action_plan", "rejection"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     }
   ],
   "inquiry_statuses": [

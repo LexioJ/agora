@@ -126,6 +126,45 @@
           },
           "type": "float",
           "required": false
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
         }
       ]
     },
@@ -206,6 +245,45 @@
           },
           "type": "float",
           "required": false
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
         }
       ]
     },
@@ -235,7 +313,73 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "optimization_type",
+          "label": {
+            "en": "Optimization Type",
+            "fr": "Type d'optimisation",
+            "de": "Optimierungstyp",
+            "gsw": "Optimierigs-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "layout",
+          "allowed_values": ["layout", "furniture", "lighting", "acoustics", "storage", "accessibility"]
+        },
+        {
+          "key": "affected_area_sqm",
+          "label": {
+            "en": "Affected Area (sq m)",
+            "fr": "Zone affectée (m²)",
+            "de": "Betroffene Fläche (m²)",
+            "gsw": "Betroffeni Flächi (m²)"
+          },
+          "type": "integer",
+          "required": false,
+          "default": null
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "maintenance_request",
@@ -266,6 +410,73 @@
       "support_feature": "binary",
       "allowed_transformation": [
         "infrastructure_improvement"
+      ],
+      "fields": [
+        {
+          "key": "maintenance_type",
+          "label": {
+            "en": "Maintenance Type",
+            "fr": "Type de maintenance",
+            "de": "Wartungstyp",
+            "gsw": "Wartigs-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "repair",
+          "allowed_values": ["repair", "replacement", "inspection", "cleaning", "preventive"]
+        },
+        {
+          "key": "priority",
+          "label": {
+            "en": "Priority",
+            "fr": "Priorité",
+            "de": "Priorität",
+            "gsw": "Prioritäät"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "normal",
+          "allowed_values": ["low", "normal", "high", "emergency"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
       ]
     },
     {
@@ -294,7 +505,61 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "transport_type",
+          "label": {
+            "en": "Transport Type",
+            "fr": "Type de transport",
+            "de": "Transporttyp",
+            "gsw": "Transport-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "parking",
+          "allowed_values": ["parking", "shuttle", "bike_facilities", "ev_charging", "public_transit", "carpool"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "official_response",
@@ -320,7 +585,61 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "none"
+      "support_feature": "none",
+      "fields": [
+        {
+          "key": "response_type",
+          "label": {
+            "en": "Response Type",
+            "fr": "Type de réponse",
+            "de": "Antworttyp",
+            "gsw": "Antwort-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "acknowledgment",
+          "allowed_values": ["acknowledgment", "clarification", "decision", "action_plan", "rejection"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     }
   ],
   "inquiry_statuses": [

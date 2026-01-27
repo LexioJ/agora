@@ -164,7 +164,86 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "facility_type",
+          "label": {
+            "en": "Facility Type",
+            "fr": "Type d'installation",
+            "de": "Einrichtungstyp",
+            "gsw": "Iirichtig-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "study_space",
+          "allowed_values": ["classroom", "library", "study_space", "lab", "recreation", "dining", "housing"]
+        },
+        {
+          "key": "building_name",
+          "label": {
+            "en": "Building Name",
+            "fr": "Nom du bâtiment",
+            "de": "Gebäudename",
+            "gsw": "Gebäud-Name"
+          },
+          "type": "string",
+          "required": false,
+          "default": null
+        },
+        {
+          "key": "urgency",
+          "label": {
+            "en": "Urgency",
+            "fr": "Urgence",
+            "de": "Dringlichkeit",
+            "gsw": "Dringlichkeit"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "normal",
+          "allowed_values": ["low", "normal", "high", "critical"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "student_activities",
@@ -265,7 +344,73 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "service_type",
+          "label": {
+            "en": "Service Type",
+            "fr": "Type de service",
+            "de": "Diensttyp",
+            "gsw": "Dienscht-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "general",
+          "allowed_values": ["counseling", "career", "health", "financial_aid", "academic_support", "housing", "general"]
+        },
+        {
+          "key": "anonymity_preferred",
+          "label": {
+            "en": "Prefer Anonymous Feedback",
+            "fr": "Préférer un retour anonyme",
+            "de": "Anonymes Feedback bevorzugen",
+            "gsw": "Anonyms Feedback bevorzuge"
+          },
+          "type": "boolean",
+          "required": false,
+          "default": false
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "sustainability_initiatives",
@@ -293,7 +438,74 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "initiative_area",
+          "label": {
+            "en": "Initiative Area",
+            "fr": "Domaine d'initiative",
+            "de": "Initiativbereich",
+            "gsw": "Initiativ-Bereich"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "recycling",
+          "allowed_values": ["recycling", "energy", "water", "transportation", "food", "buildings", "awareness"]
+        },
+        {
+          "key": "estimated_impact",
+          "label": {
+            "en": "Estimated Environmental Impact",
+            "fr": "Impact environnemental estimé",
+            "de": "Geschätzte Umweltauswirkung",
+            "gsw": "Gschätzt Umwält-Uuswirkig"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "medium",
+          "allowed_values": ["low", "medium", "high", "transformative"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "diversity_inclusion",
@@ -321,7 +533,74 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "dei_focus",
+          "label": {
+            "en": "DEI Focus Area",
+            "fr": "Domaine DEI",
+            "de": "DEI-Schwerpunkt",
+            "gsw": "DEI-Schwerpunkt"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "general",
+          "allowed_values": ["racial_equity", "gender_equity", "lgbtq_inclusion", "disability_access", "socioeconomic", "international", "general"]
+        },
+        {
+          "key": "scope",
+          "label": {
+            "en": "Scope",
+            "fr": "Portée",
+            "de": "Umfang",
+            "gsw": "Umfang"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "campus_wide",
+          "allowed_values": ["department", "program", "campus_wide", "system_wide"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "official_response",
@@ -347,7 +626,73 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "none"
+      "support_feature": "none",
+      "fields": [
+        {
+          "key": "response_type",
+          "label": {
+            "en": "Response Type",
+            "fr": "Type de réponse",
+            "de": "Antworttyp",
+            "gsw": "Antwort-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "acknowledgment",
+          "allowed_values": ["acknowledgment", "clarification", "decision", "action_plan", "rejection"]
+        },
+        {
+          "key": "responding_office",
+          "label": {
+            "en": "Responding Office",
+            "fr": "Bureau répondant",
+            "de": "Antwortende Stelle",
+            "gsw": "Antwortendi Stell"
+          },
+          "type": "string",
+          "required": false,
+          "default": null
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     }
   ],
   "inquiry_statuses": [

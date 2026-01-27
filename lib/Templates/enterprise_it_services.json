@@ -131,6 +131,45 @@
           "type": "integer",
           "required": false,
           "default": 50
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
         }
       ]
     },
@@ -160,7 +199,74 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "ai_category",
+          "label": {
+            "en": "AI Category",
+            "fr": "Catégorie IA",
+            "de": "KI-Kategorie",
+            "gsw": "KI-Kategorie"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "generative",
+          "allowed_values": ["generative", "predictive", "classification", "nlp", "computer_vision", "recommendation"]
+        },
+        {
+          "key": "data_sensitivity",
+          "label": {
+            "en": "Data Sensitivity",
+            "fr": "Sensibilité des données",
+            "de": "Datensensibilität",
+            "gsw": "Date-Sensibilität"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "internal",
+          "allowed_values": ["public", "internal", "confidential", "restricted"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "process_automation",
@@ -188,7 +294,73 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "automation_type",
+          "label": {
+            "en": "Automation Type",
+            "fr": "Type d'automatisation",
+            "de": "Automatisierungstyp",
+            "gsw": "Automatisierigs-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "workflow",
+          "allowed_values": ["workflow", "data_processing", "reporting", "integration", "scheduling", "monitoring"]
+        },
+        {
+          "key": "estimated_time_savings_hours",
+          "label": {
+            "en": "Estimated Time Savings (hours/month)",
+            "fr": "Économie de temps estimée (heures/mois)",
+            "de": "Geschätzte Zeitersparnis (Stunden/Monat)",
+            "gsw": "Gschätzt Zit-Ersparnis (Stunde/Monat)"
+          },
+          "type": "integer",
+          "required": false,
+          "default": null
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "new_service",
@@ -216,7 +388,73 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "service_category",
+          "label": {
+            "en": "Service Category",
+            "fr": "Catégorie de service",
+            "de": "Servicekategorie",
+            "gsw": "Service-Kategorie"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "application",
+          "allowed_values": ["infrastructure", "application", "security", "support", "collaboration", "analytics"]
+        },
+        {
+          "key": "estimated_users",
+          "label": {
+            "en": "Estimated Users",
+            "fr": "Utilisateurs estimés",
+            "de": "Geschätzte Benutzer",
+            "gsw": "Gschätzt Benutzer"
+          },
+          "type": "integer",
+          "required": false,
+          "default": null
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "improve_service",
@@ -244,7 +482,73 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "improvement_type",
+          "label": {
+            "en": "Improvement Type",
+            "fr": "Type d'amélioration",
+            "de": "Verbesserungstyp",
+            "gsw": "Verbesserigs-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "performance",
+          "allowed_values": ["performance", "usability", "security", "reliability", "scalability", "integration"]
+        },
+        {
+          "key": "affected_service",
+          "label": {
+            "en": "Affected Service",
+            "fr": "Service concerné",
+            "de": "Betroffener Service",
+            "gsw": "Betroffene Service"
+          },
+          "type": "string",
+          "required": true,
+          "default": null
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "replace_service",
@@ -272,7 +576,73 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "current_service",
+          "label": {
+            "en": "Current Service",
+            "fr": "Service actuel",
+            "de": "Aktueller Service",
+            "gsw": "Aktuelle Service"
+          },
+          "type": "string",
+          "required": true,
+          "default": null
+        },
+        {
+          "key": "replacement_reason",
+          "label": {
+            "en": "Replacement Reason",
+            "fr": "Raison du remplacement",
+            "de": "Ersatzgrund",
+            "gsw": "Ersatz-Grund"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "obsolete",
+          "allowed_values": ["obsolete", "cost", "functionality", "security", "support_ended", "better_alternative"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "business_application",
@@ -300,7 +670,73 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "binary"
+      "support_feature": "binary",
+      "fields": [
+        {
+          "key": "application_type",
+          "label": {
+            "en": "Application Type",
+            "fr": "Type d'application",
+            "de": "Anwendungstyp",
+            "gsw": "Awändigs-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "saas",
+          "allowed_values": ["saas", "on_premise", "hybrid", "custom", "integration", "mobile"]
+        },
+        {
+          "key": "business_unit",
+          "label": {
+            "en": "Business Unit",
+            "fr": "Unité commerciale",
+            "de": "Geschäftseinheit",
+            "gsw": "Gschäfts-Einheit"
+          },
+          "type": "string",
+          "required": false,
+          "default": null
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     },
     {
       "inquiry_type": "official_response",
@@ -326,7 +762,61 @@
         "alternative",
         "official_summary"
       ],
-      "support_feature": "none"
+      "support_feature": "none",
+      "fields": [
+        {
+          "key": "response_type",
+          "label": {
+            "en": "Response Type",
+            "fr": "Type de réponse",
+            "de": "Antworttyp",
+            "gsw": "Antwort-Typ"
+          },
+          "type": "enum",
+          "required": true,
+          "default": "acknowledgment",
+          "allowed_values": ["acknowledgment", "clarification", "decision", "action_plan", "rejection"]
+        },
+        {
+          "key": "layout_zone",
+          "label": {
+            "en": "Layout Zone",
+            "fr": "Zone de mise en page",
+            "de": "Layout-Zone",
+            "gsw": "Layout-Zone"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "main",
+          "allowed_values": ["sidebar", "main", "footer", "header"]
+        },
+        {
+          "key": "render_mode",
+          "label": {
+            "en": "Render Mode",
+            "fr": "Mode de rendu",
+            "de": "Darstellungsmodus",
+            "gsw": "Darstelligs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "cards",
+          "allowed_values": ["cards", "list", "full", "summary"]
+        },
+        {
+          "key": "open_mode",
+          "label": {
+            "en": "Open Mode",
+            "fr": "Mode d'ouverture",
+            "de": "Öffnungsmodus",
+            "gsw": "Öffnigs-Modus"
+          },
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"]
+        }
+      ]
     }
   ],
   "inquiry_statuses": [
