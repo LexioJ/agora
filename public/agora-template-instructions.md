@@ -491,7 +491,7 @@ Each inquiry type can have custom fields defined in a `fields` array. This enabl
       "label": "Render Mode",
       "type": "enum",
       "required": false,
-      "default": "cards",
+      "default": "rich_html",
       "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
       "rules": []
     },
@@ -503,10 +503,31 @@ Each inquiry type can have custom fields defined in a `fields` array. This enabl
       "default": "page",
       "allowed_values": ["page", "modal", "popup"],
       "rules": []
+    },
+    {
+      "key": "allow_anonymous",
+      "label": "Allow Anonymous Feedback",
+      "type": "boolean",
+      "required": false,
+      "default": false,
+      "rules": []
     }
   ]
 }
 ```
+
+**Note on render_mode**: The default value should be `"rich_html"` to enable the full-featured TipTap rich text editor for inquiry descriptions. This provides users with formatting capabilities including:
+- Bold, italic, underline, strikethrough
+- Headings (H1, H2, H3)
+- Bullet lists, numbered lists, task lists
+- Text alignment
+- Blockquotes and code blocks
+- Links and images with alignment
+- Tables
+- Word document import
+- AI-assisted content generation
+
+**Note on allow_anonymous**: When set to `true`, users can submit feedback anonymously. This is useful for sensitive topics like HR feedback, student evaluations, or whistleblower scenarios.
 
 #### Custom Form Schema
 ```json
@@ -523,6 +544,30 @@ Each inquiry type can have custom fields defined in a `fields` array. This enabl
   ]
 }
 ```
+
+### Standard Fields (Required for All Inquiry Types)
+
+Every inquiry type should include these standard fields at the end of the `fields` array to ensure consistent behavior across the application:
+
+```json
+{
+  "fields": [
+    // ... domain-specific fields first ...
+
+    // Standard fields (always include these):
+    {"key": "layout_zone", "label": "Layout Zone", "type": "enum", "required": false, "default": "main", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
+    {"key": "render_mode", "label": "Render Mode", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+    {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
+    {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+  ]
+}
+```
+
+**Why these fields are important:**
+- `layout_zone`: Controls where responses appear in the UI layout
+- `render_mode`: **Must default to `rich_html`** to enable the TipTap rich text editor
+- `open_mode`: Controls how inquiry details are displayed (full page, modal, or popup)
+- `allow_anonymous`: Enables anonymous feedback for sensitive use cases
 
 ### Complete Example: Law Proposal
 
@@ -1577,6 +1622,8 @@ locations              (optional)
 - Voting: `type_of_vote`, `poll_method`, `tie_break_rule`
 - Timeline: `support_start`, `support_end`, `voting_start`, `voting_end`
 - People: `facilitator_id`, `co_owners`, `sponsor_ids`
+- Display: `layout_zone`, `render_mode` (default: `rich_html`), `open_mode`
+- Privacy: `allow_anonymous` (default: `false`)
 
 ### Voting Types
 - `simple`, `majority_judgement_beneficial`, `majority_judgement_number`
