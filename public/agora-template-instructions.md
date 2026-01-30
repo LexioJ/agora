@@ -545,6 +545,55 @@ Each inquiry type can have custom fields defined in a `fields` array. This enabl
 }
 ```
 
+### Multi-Language Field Labels
+
+Field definitions within inquiry types can include multi-language labels, just like other translatable content. The template import system recursively extracts the selected language from all nested structures, including field labels.
+
+**Example with multi-language field labels:**
+```json
+{
+  "inquiry_type": "proposal",
+  "fields": [
+    {
+      "key": "priority",
+      "label": {
+        "en": "Priority Level",
+        "fr": "Niveau de priorité",
+        "de": "Prioritätsstufe",
+        "gsw": "Prioritäts-Stufe"
+      },
+      "type": "enum",
+      "required": true,
+      "default": "normal",
+      "allowed_values": ["low", "normal", "high", "critical"]
+    },
+    {
+      "key": "department",
+      "label": {
+        "en": "Department",
+        "fr": "Département",
+        "de": "Abteilung",
+        "gsw": "Abteilig"
+      },
+      "type": "string",
+      "required": false,
+      "default": null
+    }
+  ]
+}
+```
+
+**Simplified format (English only):**
+```json
+{
+  "fields": [
+    {"key": "priority", "label": "Priority Level", "type": "enum", "required": true, "default": "normal", "allowed_values": ["low", "normal", "high", "critical"]}
+  ]
+}
+```
+
+Both formats are supported. When a multi-language object is detected, the system extracts the selected language (with fallback to English, then first available).
+
 ### Standard Fields (Required for All Inquiry Types)
 
 Every inquiry type should include these standard fields at the end of the `fields` array to ensure consistent behavior across the application:
