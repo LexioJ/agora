@@ -28,6 +28,7 @@ This comprehensive guide explains how to create powerful custom templates for Ag
 13. [Multi-Language Best Practices](#multi-language-best-practices)
 14. [Complete Examples](#complete-examples)
 15. [Troubleshooting](#troubleshooting)
+16. [Available Icons](#available-icons)
 
 ---
 
@@ -1649,6 +1650,229 @@ Browse the Templates directory for examples:
 
 - **Template Schema**: `agora-template-schema.json`
 - **This Guide**: `agora-template-instructions.md`
+
+---
+
+## 16. Available Icons
+
+Agora uses Material Design Icons (MDI) for visual elements throughout templates. Icon names are specified in **PascalCase** format.
+
+### Icon Naming Convention
+
+- Use PascalCase: `AccountGroup`, not `account-group`
+- Icons must exist in the MDI library
+- Choose icons that clearly represent the concept
+
+### Icons by Category
+
+#### Inquiry Family Icons
+| Icon | Description | Use For |
+|------|-------------|---------|
+| `AccountGroup` | Group of people | Deliberative, collective processes |
+| `Gavel` | Judge's gavel | Legislative, legal processes |
+| `OfficeBuilding` | Building | Administrative, official |
+| `Offer` | Handshake | Service requests |
+| `Heart` | Heart symbol | Social support |
+| `Seal` | Official seal | Official responses |
+| `School` | School building | Education |
+| `Microscope` | Microscope | Research |
+| `Monitor` | Computer monitor | IT services |
+| `Hammer` | Hammer | Facility management |
+| `AccountTie` | Person in tie | Human resources |
+
+#### Inquiry Type Icons
+| Icon | Description | Use For |
+|------|-------------|---------|
+| `LightbulbOn` | Light bulb on | Proposals, ideas |
+| `Lightbulb` | Light bulb | Suggestions |
+| `ClipboardText` | Clipboard with text | Petitions, requests |
+| `RocketLaunch` | Rocket | Initiatives, projects |
+| `Forum` | Speech bubbles | Debates, discussions |
+| `AlertCircle` | Alert | Objections, warnings |
+| `BookOpenVariant` | Open book | Law proposals, documents |
+| `FileDocument` | Document | Amendments, reports |
+| `FileDocumentEdit` | Document with pencil | Draft documents |
+| `FileDocumentOutline` | Document outline | Generic documents |
+| `MessageReply` | Reply message | Responses |
+| `CommentText` | Comment bubble | Feedback, comments |
+| `AccountMultiple` | Multiple people | Assemblies, gatherings |
+| `ChartBox` | Chart | Polls, statistics |
+| `ClipboardCheck` | Checked clipboard | Reviews, evaluations |
+| `HelpCircle` | Question mark | Consultations, questions |
+| `Bullhorn` | Megaphone | Announcements |
+| `Newspaper` | Newspaper | News, bulletins |
+| `CalendarClock` | Calendar with clock | Meetings, events |
+| `AccountVoice` | Speaking person | Hearings |
+| `Star` | Star | Vision, goals |
+| `Email` | Envelope | Grievances, complaints |
+| `HandHeart` | Hand with heart | Social support requests |
+| `GraduationCap` | Graduation cap | Scholarships |
+| `HomeGroup` | House with people | Housing requests |
+| `HumanChild` | Parent with child | Childcare requests |
+
+#### Status Icons
+| Icon | Description | Use For |
+|------|-------------|---------|
+| `FileDocumentEdit` | Document with pencil | Draft status |
+| `FileOutline` | Document outline | Draft alternative |
+| `Send` | Paper plane | Published, submitted |
+| `Eye` | Eye | Under review, visible |
+| `ClockOutline` | Clock outline | Pending, waiting |
+| `Progress` | Progress indicator | In progress |
+| `CheckCircle` | Check in circle | Accepted, approved |
+| `CloseCircle` | X in circle | Rejected, denied |
+| `Check` | Checkmark | Completed, done |
+| `CheckAll` | Double checkmark | Fully completed |
+| `Cancel` | Cancel icon | Cancelled |
+| `Archive` | Archive box | Archived |
+| `PackageDown` | Package down | Archived alternative |
+| `Offer` | Handshake | Collecting support |
+| `HandHeart` | Hand with heart | Collecting signatures |
+| `Flag` | Flag | Milestone reached |
+| `AlertCircle` | Alert | Requires attention |
+| `Lock` | Lock | Locked, closed |
+| `LockOpen` | Open lock | Open, unlocked |
+
+#### Option Type Icons
+| Icon | Description | Use For |
+|------|-------------|---------|
+| `ThumbUp` | Thumbs up | For, support, positive |
+| `ThumbDown` | Thumbs down | Against, oppose, negative |
+| `CheckboxMarked` | Checked checkbox | Selected choice |
+| `CheckboxMultiple` | Multiple checkboxes | Multiple choices |
+| `Check` | Checkmark | Accepted option |
+| `HelpCircle` | Question mark | Question options |
+| `BookOpenVariant` | Open book | Chapters |
+| `FileDocument` | Document | Articles |
+| `FileDocumentEdit` | Document edit | Amendments |
+
+#### Group Type Icons
+| Icon | Description | Use For |
+|------|-------------|---------|
+| `Flag` | Flag | Initiatives |
+| `CheckCircle` | Check circle | Referendums |
+| `AccountMultiple` | Multiple people | Assemblies |
+| `BookMultiple` | Multiple books | Programs |
+| `MapMarker` | Map marker | Geographic (canton) |
+| `MapMarkerRadius` | Map marker radius | Geographic (district) |
+| `HomeCity` | City | Geographic (commune) |
+| `AccountGroup` | Group | Working groups |
+| `Gavel` | Gavel | Commissions |
+| `AccountMultipleCheck` | People with check | Citizen juries |
+| `Tag` | Tag | Themes |
+| `FolderMultiple` | Multiple folders | Projects |
+
+#### Domain-Specific Icons
+
+**Education/Research:**
+| Icon | Description |
+|------|-------------|
+| `Microscope` | Research, studies |
+| `Flask` | Laboratory, experiments |
+| `School` | Educational institutions |
+| `BookEducation` | Educational materials |
+| `GraduationCap` | Degrees, graduation |
+| `Certificate` | Certifications |
+| `Teach` | Teaching, instruction |
+
+**IT/Technology:**
+| Icon | Description |
+|------|-------------|
+| `Monitor` | Computers, screens |
+| `Cog` | Settings, configuration |
+| `Server` | Servers, infrastructure |
+| `Security` | Security requests |
+| `Database` | Data management |
+| `Wifi` | Network issues |
+| `LaptopAccount` | User accounts |
+| `Bug` | Bug reports |
+| `Wrench` | Maintenance |
+| `Sync` | Updates, sync |
+
+**Facility Management:**
+| Icon | Description |
+|------|-------------|
+| `Hammer` | Maintenance, repairs |
+| `WrenchOutline` | Tools, maintenance |
+| `Lightbulb` | Electrical, lighting |
+| `Thermometer` | HVAC, temperature |
+| `Water` | Plumbing, water |
+| `LockReset` | Access, security |
+| `PackageUp` | Moving, relocation |
+| `CleaningBrush` | Cleaning |
+| `Fire` | Emergency |
+| `Calendar` | Scheduling |
+
+**Human Resources:**
+| Icon | Description |
+|------|-------------|
+| `AccountTie` | HR, professional |
+| `CardAccountDetails` | Personal info |
+| `CalendarOff` | Leave requests |
+| `ClockCheck` | Time tracking |
+| `FileSign` | Contracts |
+| `School` | Training |
+| `AccountAlert` | Concerns, issues |
+| `FileDocumentMultiple` | Documentation |
+| `AccountClock` | Scheduling |
+
+### Usage Examples
+
+**Inquiry Family:**
+```json
+{
+  "family_type": "deliberative",
+  "icon": "AccountGroup",
+  "label": {"en": "Deliberative"}
+}
+```
+
+**Inquiry Type:**
+```json
+{
+  "inquiry_type": "proposal",
+  "icon": "LightbulbOn",
+  "label": {"en": "Proposal"}
+}
+```
+
+**Status:**
+```json
+{
+  "status_key": "accepted",
+  "icon": "CheckCircle",
+  "label": {"en": "Accepted"}
+}
+```
+
+**Option Type:**
+```json
+{
+  "option_type": "debate_for",
+  "icon": "ThumbUp",
+  "label": {"en": "For"}
+}
+```
+
+### Icon Best Practices
+
+1. **Consistency**: Use the same icon for the same concept across the template
+2. **Clarity**: Choose icons that clearly represent the action or state
+3. **Familiarity**: Prefer commonly understood icons (checkmark for success, X for rejection)
+4. **Hierarchy**: Use bolder icons for families, detailed icons for specific types
+5. **Color context**: Icons are colored by the application based on context (status colors, family colors)
+
+### Finding More Icons
+
+Browse the complete Material Design Icons library:
+- **Official MDI site**: https://materialdesignicons.com/
+- **Search by keyword**: Type concepts like "document", "check", "user" to find related icons
+- **Preview icons**: Test how icons look before adding to templates
+
+When using icons from MDI:
+1. Find the icon on materialdesignicons.com
+2. Note the PascalCase name (e.g., `account-group` → `AccountGroup`)
+3. Use the PascalCase version in your template
 
 ---
 
