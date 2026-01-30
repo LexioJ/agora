@@ -170,6 +170,18 @@
           "required": false,
           "default": "page",
           "allowed_values": ["page", "modal", "popup"]
+        },
+        {
+          "key": "allow_anonymous",
+          "label": {
+            "en": "Allow Anonymous Feedback",
+            "fr": "Autoriser les retours anonymes",
+            "de": "Anonymes Feedback erlauben",
+            "gsw": "Anonyms Feedback erlaube"
+          },
+          "type": "boolean",
+          "required": false,
+          "default": false
         }
       ]
     },
@@ -265,6 +277,18 @@
           "required": false,
           "default": "page",
           "allowed_values": ["page", "modal", "popup"]
+        },
+        {
+          "key": "allow_anonymous",
+          "label": {
+            "en": "Allow Anonymous Feedback",
+            "fr": "Autoriser les retours anonymes",
+            "de": "Anonymes Feedback erlauben",
+            "gsw": "Anonyms Feedback erlaube"
+          },
+          "type": "boolean",
+          "required": false,
+          "default": false
         }
       ]
     },
@@ -359,6 +383,18 @@
           "required": false,
           "default": "page",
           "allowed_values": ["page", "modal", "popup"]
+        },
+        {
+          "key": "allow_anonymous",
+          "label": {
+            "en": "Allow Anonymous Feedback",
+            "fr": "Autoriser les retours anonymes",
+            "de": "Anonymes Feedback erlauben",
+            "gsw": "Anonyms Feedback erlaube"
+          },
+          "type": "boolean",
+          "required": false,
+          "default": false
         }
       ]
     },
@@ -453,6 +489,18 @@
           "required": false,
           "default": "page",
           "allowed_values": ["page", "modal", "popup"]
+        },
+        {
+          "key": "allow_anonymous",
+          "label": {
+            "en": "Allow Anonymous Feedback",
+            "fr": "Autoriser les retours anonymes",
+            "de": "Anonymes Feedback erlauben",
+            "gsw": "Anonyms Feedback erlaube"
+          },
+          "type": "boolean",
+          "required": false,
+          "default": false
         }
       ]
     },
@@ -547,6 +595,18 @@
           "required": false,
           "default": "page",
           "allowed_values": ["page", "modal", "popup"]
+        },
+        {
+          "key": "allow_anonymous",
+          "label": {
+            "en": "Allow Anonymous Feedback",
+            "fr": "Autoriser les retours anonymes",
+            "de": "Anonymes Feedback erlauben",
+            "gsw": "Anonyms Feedback erlaube"
+          },
+          "type": "boolean",
+          "required": false,
+          "default": false
         }
       ]
     },
@@ -641,6 +701,18 @@
           "required": false,
           "default": "page",
           "allowed_values": ["page", "modal", "popup"]
+        },
+        {
+          "key": "allow_anonymous",
+          "label": {
+            "en": "Allow Anonymous Feedback",
+            "fr": "Autoriser les retours anonymes",
+            "de": "Anonymes Feedback erlauben",
+            "gsw": "Anonyms Feedback erlaube"
+          },
+          "type": "boolean",
+          "required": false,
+          "default": false
         }
       ]
     },
@@ -735,6 +807,18 @@
           "required": false,
           "default": "page",
           "allowed_values": ["page", "modal", "popup"]
+        },
+        {
+          "key": "allow_anonymous",
+          "label": {
+            "en": "Allow Anonymous Feedback",
+            "fr": "Autoriser les retours anonymes",
+            "de": "Anonymes Feedback erlauben",
+            "gsw": "Anonyms Feedback erlaube"
+          },
+          "type": "boolean",
+          "required": false,
+          "default": false
         }
       ]
     },

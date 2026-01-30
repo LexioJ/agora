@@ -240,7 +240,8 @@
         {"key": "duration_months", "label": "Duration (months)", "type": "integer", "required": false, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Layout Zone", "type": "enum", "required": false, "default": "main", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
         {"key": "render_mode", "label": "Render Mode", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
+        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
+        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
       ]
     },
     {
@@ -277,7 +278,8 @@
         {"key": "urgency", "label": "Urgency", "type": "enum", "required": false, "default": "normal", "allowed_values": ["low", "normal", "high", "critical"], "rules": []},
         {"key": "layout_zone", "label": "Layout Zone", "type": "enum", "required": false, "default": "main", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
         {"key": "render_mode", "label": "Render Mode", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
+        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
+        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
       ]
     },
     {
@@ -384,7 +386,8 @@
         {"key": "estimated_apc", "label": "Estimated APC", "type": "integer", "required": false, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Layout Zone", "type": "enum", "required": false, "default": "main", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
         {"key": "render_mode", "label": "Render Mode", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
+        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
+        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
       ]
     },
     {
