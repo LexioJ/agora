@@ -161,7 +161,7 @@
         {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -198,7 +198,7 @@
         {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -235,7 +235,7 @@
         {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -275,7 +275,7 @@
         {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -310,7 +310,7 @@
         {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
         {"key": "participants_list", "label": "Participants List", "type": "groups", "required": true, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -339,7 +339,7 @@
       "is_root": false,
       "fields": [
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -366,7 +366,7 @@
       "is_root": false,
       "fields": [
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": null,
@@ -403,7 +403,7 @@
         {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -434,7 +434,7 @@
       "fields": [
         {"key": "horizon_year", "label": "Horizon Year", "type": "integer", "required": false, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -464,7 +464,7 @@
       "fields": [
         {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -494,7 +494,7 @@
         {"key": "project_id", "label": "Project ID", "type": "integer", "required": true, "default": null, "rules": []},
         {"key": "evaluation", "label": "Evaluation", "type": "text", "required": false, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -531,7 +531,7 @@
         {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -564,7 +564,7 @@
         {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
         {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": null,
@@ -593,7 +593,7 @@
         {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
         {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -623,7 +623,7 @@
         {"key": "impact_assessment", "label": "Impact Assessment", "type": "text", "required": false, "default": null, "rules": []},
         {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -658,7 +658,7 @@
         {"key": "auto_load", "label": "Auto load forms", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -690,7 +690,7 @@
         {"key": "auto_load", "label": "Auto load forms", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -754,7 +754,7 @@
         {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
         {"key": "location", "label": "Location", "type": "location", "required": false, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -786,7 +786,7 @@
         {"key": "mandate", "label": "Mandate", "type": "text", "required": false, "default": null, "rules": []},
         {"key": "deadline", "label": "Deadline", "type": "date", "required": false, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -823,7 +823,7 @@
         {"key": "result_visibility", "label": "Result Visibility", "type": "enum", "required": true, "default": "after_close", "allowed_values": ["always", "after_close", "partial"], "rules": []},
         {"key": "vote_secret", "label": "Secret Vote", "type": "boolean", "required": true, "default": true, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -850,7 +850,7 @@
       "is_root": true,
       "fields": [
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [],
@@ -875,7 +875,7 @@
       "is_root": true,
       "fields": [
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [],
@@ -900,7 +900,7 @@
       "is_root": true,
       "fields": [
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [],
@@ -927,7 +927,7 @@
         {"key": "location", "label": "Location", "type": "string", "required": false, "default": null, "rules": []},
         {"key": "meeting_date", "label": "Meeting Date", "type": "datetime", "required": true, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -956,7 +956,7 @@
         {"key": "location", "label": "Location", "type": "string", "required": false, "default": null, "rules": []},
         {"key": "start", "label": "Start Date", "type": "datetime", "required": true, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -985,7 +985,7 @@
         {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
         {"key": "speakers", "label": "Speakers", "type": "json", "required": false, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -1015,7 +1015,7 @@
         {"key": "mandate", "label": "Mandate", "type": "text", "required": false, "default": null, "rules": []},
         {"key": "jury_id", "label": "Jury ID", "type": "users", "required": true, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": [
@@ -1132,7 +1132,7 @@
         {"key": "responder_id", "label": "Responder", "type": "users", "required": true, "default": null, "rules": []},
         {"key": "resolution_status", "label": "Resolution Status", "type": "enum", "required": true, "default": "pending", "allowed_values": ["pending", "accepted", "rejected"], "rules": []},
         {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "cards", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
+        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []}
       ],
       "allowed_response": null,

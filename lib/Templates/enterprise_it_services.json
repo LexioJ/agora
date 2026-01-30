@@ -155,8 +155,8 @@
           },
           "type": "enum",
           "required": false,
-          "default": "cards",
-          "allowed_values": ["cards", "list", "full", "summary"]
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"]
         },
         {
           "key": "open_mode",
@@ -250,8 +250,8 @@
           },
           "type": "enum",
           "required": false,
-          "default": "cards",
-          "allowed_values": ["cards", "list", "full", "summary"]
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"]
         },
         {
           "key": "open_mode",
@@ -344,8 +344,8 @@
           },
           "type": "enum",
           "required": false,
-          "default": "cards",
-          "allowed_values": ["cards", "list", "full", "summary"]
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"]
         },
         {
           "key": "open_mode",
@@ -438,8 +438,8 @@
           },
           "type": "enum",
           "required": false,
-          "default": "cards",
-          "allowed_values": ["cards", "list", "full", "summary"]
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"]
         },
         {
           "key": "open_mode",
@@ -532,8 +532,8 @@
           },
           "type": "enum",
           "required": false,
-          "default": "cards",
-          "allowed_values": ["cards", "list", "full", "summary"]
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"]
         },
         {
           "key": "open_mode",
@@ -626,8 +626,8 @@
           },
           "type": "enum",
           "required": false,
-          "default": "cards",
-          "allowed_values": ["cards", "list", "full", "summary"]
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"]
         },
         {
           "key": "open_mode",
@@ -720,8 +720,8 @@
           },
           "type": "enum",
           "required": false,
-          "default": "cards",
-          "allowed_values": ["cards", "list", "full", "summary"]
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"]
         },
         {
           "key": "open_mode",
@@ -800,8 +800,8 @@
           },
           "type": "enum",
           "required": false,
-          "default": "cards",
-          "allowed_values": ["cards", "list", "full", "summary"]
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"]
         },
         {
           "key": "open_mode",
