@@ -77,6 +77,11 @@
       ],
       "support_feature": "binary",
       "allowed_transformation": [
+        "ai_use_case",
+        "process_automation",
+        "new_service",
+        "improve_service",
+        "replace_service",
         "business_application"
       ],
       "fields": [
