@@ -164,18 +164,31 @@ const getDisplayValue = (value: MiscValue, field: Field) => {
       case 'integer':
 	return String(value)
       case 'enum': {
+        // Handle case where value is already an object with label (stored as full option)
+        if (typeof value === 'object' && value !== null && 'label' in value) {
+          const label = (value as any).label
+          if (typeof label === 'string') return label
+          return extractLangString(label, currentLanguage.value)
+        }
+
         // Look up the label from allowed_values
         const allowedValues = field.allowed_values || []
 
+        // Extract value key if value is an object with 'value' property
+        const valueKey = typeof value === 'object' && value !== null && 'value' in value
+          ? (value as any).value
+          : value
+
         // Find matching option
         const option = allowedValues.find((opt: any) => {
-          if (typeof opt === 'string') return opt === value
-          return opt.value === value
+          if (typeof opt === 'string') return opt === valueKey
+          return opt.value === valueKey
         })
 
         if (!option) {
-          // Fallback: capitalize raw value
-          return String(value).charAt(0).toUpperCase() + String(value).slice(1)
+          // Fallback: capitalize raw value (or value key if extracted from object)
+          const displayVal = String(valueKey)
+          return displayVal.charAt(0).toUpperCase() + displayVal.slice(1)
         }
 
         // Handle string option
@@ -206,10 +219,15 @@ const getEnumModelValue = (field: Field) => {
   const value = getMiscValue(field.key) || field.default
   const options = field.allowed_values || []
 
+  // Extract value key if stored value is an object with 'value' property
+  const valueKey = typeof value === 'object' && value !== null && 'value' in value
+    ? (value as any).value
+    : value
+
   // Find matching option object for NcSelect
   return options.find((opt: any) => {
-    if (typeof opt === 'string') return opt === value
-    return opt.value === value
+    if (typeof opt === 'string') return opt === valueKey
+    return opt.value === valueKey
   }) || value
 }
 
