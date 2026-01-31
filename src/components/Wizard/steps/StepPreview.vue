@@ -259,14 +259,29 @@ const getSectionStatus = (sectionKey: string) => {
 }
 
 // Get item status (new or existing)
-const getItemStatus = (sectionKey: string, itemType: string) => {
+const getItemStatus = (sectionKey: string, itemType: string): 'new' | 'existing' | 'unknown' => {
 	if (!duplicateAnalysis.value?.analysis?.[sectionKey]) return 'unknown'
+	if (!itemType) return 'unknown'
 
 	const data = duplicateAnalysis.value.analysis[sectionKey]
 
 	// Check if item exists in new or existing lists
-	const isNew = data.new?.some((item: any) => item.type === itemType)
-	const isExisting = data.existing?.some((item: any) => item.type === itemType)
+	// The backend returns items with a 'type' property that matches the item's type key value
+	// Also check 'identifier' as fallback for different section types
+	const matchItem = (item: any) => {
+		return item.type === itemType ||
+			item.identifier === itemType ||
+			item.key === itemType ||
+			item.id === itemType
+	}
+
+	const isNew = data.new?.some(matchItem)
+	const isExisting = data.existing?.some(matchItem)
+
+	console.log(`[getItemStatus] ${sectionKey}/${itemType}: new=${isNew}, existing=${isExisting}`, {
+		newItems: data.new?.map((i: any) => i.type || i.identifier || i.key),
+		existingItems: data.existing?.map((i: any) => i.type || i.identifier || i.key)
+	})
 
 	if (isNew) return 'new'
 	if (isExisting) return 'existing'
@@ -392,13 +407,14 @@ watch(() => editableData.value, () => {
 								<div class="item-info">
 									<div class="item-header-row">
 										<div class="item-label">{{ getItemLabel(item, section) }}</div>
-										<span v-if="duplicateAnalysis" class="item-status-badge"
-											:class="{
-												'badge-new': getItemStatus(section.key, getItemType(item, section)) === 'new',
-												'badge-existing': getItemStatus(section.key, getItemType(item, section)) === 'existing'
-											}">
-											{{ getItemStatus(section.key, getItemType(item, section)) === 'new' ? '✨ New' : '📋 Exists' }}
-										</span>
+										<span v-if="duplicateAnalysis && getItemStatus(section.key, getItemType(item, section)) !== 'unknown'"
+										class="item-status-badge"
+										:class="{
+											'badge-new': getItemStatus(section.key, getItemType(item, section)) === 'new',
+											'badge-existing': getItemStatus(section.key, getItemType(item, section)) === 'existing'
+										}">
+										{{ getItemStatus(section.key, getItemType(item, section)) === 'new' ? '✨ New' : '📋 Exists' }}
+									</span>
 									</div>
 									<div class="item-type">{{ getItemType(item, section) }}</div>
 									<div v-if="item.description" class="item-description">
