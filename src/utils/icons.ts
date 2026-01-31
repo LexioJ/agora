@@ -200,6 +200,8 @@ import TrendingUp from '@iconify-icons/mdi/trending-up'
 import SwapHorizontal from '@iconify-icons/mdi/swap-horizontal'
 import Application from '@iconify-icons/mdi/application'
 import MessageReply from '@iconify-icons/mdi/message-reply'
+import Monitor from '@iconify-icons/mdi/monitor'
+import LaptopAccount from '@iconify-icons/mdi/laptop-account'
 
 // -------------------------------
 // -------------------------------
@@ -361,6 +363,8 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     MessageReply: makeIconComponent(MessageReply, '#0288D1'),
     Cog: makeIconComponent(Cog, '#607D8B'),
     Lightbulb: makeIconComponent(LightbulbOn, '#F57C00'),
+    Monitor: makeIconComponent(Monitor, '#1565C0'),
+    LaptopAccount: makeIconComponent(LaptopAccount, '#0288D1'),
 }
 
 export const ShareIcons: Record<string, Component> = {
