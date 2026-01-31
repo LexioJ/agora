@@ -144,36 +144,49 @@ const isEditing = (section: string, index: number) => {
 }
 
 // Helper to get editable label value (handles multi-language objects)
-const getEditableLabelValue = (section: Section) => {
-	if (!editingItemData.value) return ''
-	const labelValue = editingItemData.value[section.itemLabelKey]
-
-	// Handle multi-language objects
-	if (labelValue && typeof labelValue === 'object' && !Array.isArray(labelValue)) {
-		const lang = wizardStore.selectedLanguage || 'en'
-		return labelValue[lang] || labelValue.en || ''
+const getEditableLabelValue = (section: Section): string => {
+	if (!editingItemData.value) {
+		console.warn('[TemplateWizard] getEditableLabelValue: editingItemData is null')
+		return ''
 	}
 
-	// Handle plain string
-	return labelValue || ''
+	const labelKey = section.itemLabelKey
+	const labelValue = editingItemData.value[labelKey]
+
+	console.log('[TemplateWizard] getEditableLabelValue:', {
+		labelKey,
+		labelValue,
+		typeofLabel: typeof labelValue,
+		editingItemData: editingItemData.value
+	})
+
+	// Handle null/undefined
+	if (labelValue === null || labelValue === undefined) {
+		console.warn('[TemplateWizard] Label value is null/undefined for key:', labelKey)
+		return ''
+	}
+
+	// Handle multi-language objects (shouldn't happen after extraction, but handle as fallback)
+	if (typeof labelValue === 'object' && !Array.isArray(labelValue)) {
+		const lang = wizardStore.selectedLanguage || 'en'
+		const extracted = labelValue[lang] || labelValue.en || Object.values(labelValue).find(v => typeof v === 'string' && v !== '') || ''
+		console.log('[TemplateWizard] Extracted from multi-lang object:', extracted)
+		return String(extracted)
+	}
+
+	// Handle plain string (expected case after extraction)
+	return String(labelValue)
 }
 
-// Helper to set editable label value (handles multi-language objects)
+// Helper to set editable label value
 const setEditableLabelValue = (section: Section, newValue: string) => {
 	if (!editingItemData.value) return
-	const labelValue = editingItemData.value[section.itemLabelKey]
 
-	// If it's a multi-language object, update only the current language
-	if (labelValue && typeof labelValue === 'object' && !Array.isArray(labelValue)) {
-		const lang = wizardStore.selectedLanguage || 'en'
-		editingItemData.value[section.itemLabelKey] = {
-			...labelValue,
-			[lang]: newValue
-		}
-	} else {
-		// Plain string value
-		editingItemData.value[section.itemLabelKey] = newValue
-	}
+	const labelKey = section.itemLabelKey
+	console.log('[TemplateWizard] setEditableLabelValue:', { labelKey, newValue })
+
+	// After extraction, values should be plain strings, so just set directly
+	editingItemData.value[labelKey] = newValue
 }
 
 const getItemLabel = (item: any, section: Section) => {

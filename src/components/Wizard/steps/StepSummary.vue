@@ -13,6 +13,28 @@ const wizardStore = useTemplateWizardStore()
 
 const template = computed(() => wizardStore.selectedTemplate)
 const language = computed(() => wizardStore.selectedLanguage)
+const editableData = computed(() => wizardStore.editableData)
+
+// Compute counts from editableData (reflects user modifications) instead of original template.counts
+const counts = computed(() => ({
+	inquiry_families: editableData.value?.inquiry_families?.length || 0,
+	inquiry_types: editableData.value?.inquiry_types?.length || 0,
+	inquiry_statuses: editableData.value?.inquiry_statuses?.length || 0,
+	option_types: editableData.value?.option_types?.length || 0,
+	inquiry_group_types: editableData.value?.inquiry_group_types?.length || 0,
+	categories: editableData.value?.categories?.length || 0,
+	locations: editableData.value?.locations?.length || 0,
+}))
+
+const totalItems = computed(() => {
+	return counts.value.inquiry_families +
+		counts.value.inquiry_types +
+		counts.value.inquiry_statuses +
+		counts.value.option_types +
+		counts.value.inquiry_group_types +
+		counts.value.categories +
+		counts.value.locations
+})
 </script>
 
 <template>
@@ -48,34 +70,44 @@ const language = computed(() => wizardStore.selectedLanguage)
 
 				<div class="summary-item">
 					<span class="label">{{ t('agora', 'Families:') }}</span>
-					<span class="value">{{ template.counts.inquiry_families }} {{ t('agora', 'items') }}</span>
+					<span class="value">{{ counts.inquiry_families }} {{ t('agora', 'items') }}</span>
 				</div>
 
 				<div class="summary-item">
 					<span class="label">{{ t('agora', 'Inquiry Types:') }}</span>
-					<span class="value">{{ template.counts.inquiry_types }} {{ t('agora', 'items') }}</span>
+					<span class="value">{{ counts.inquiry_types }} {{ t('agora', 'items') }}</span>
 				</div>
 
 				<div class="summary-item">
 					<span class="label">{{ t('agora', 'Statuses:') }}</span>
-					<span class="value">{{ template.counts.inquiry_statuses }} {{ t('agora', 'items') }}</span>
+					<span class="value">{{ counts.inquiry_statuses }} {{ t('agora', 'items') }}</span>
+				</div>
+
+				<div v-if="counts.option_types > 0" class="summary-item">
+					<span class="label">{{ t('agora', 'Option Types:') }}</span>
+					<span class="value">{{ counts.option_types }} {{ t('agora', 'items') }}</span>
+				</div>
+
+				<div v-if="counts.inquiry_group_types > 0" class="summary-item">
+					<span class="label">{{ t('agora', 'Group Types:') }}</span>
+					<span class="value">{{ counts.inquiry_group_types }} {{ t('agora', 'items') }}</span>
 				</div>
 
 				<div class="summary-item">
 					<span class="label">{{ t('agora', 'Categories:') }}</span>
-					<span class="value">{{ template.counts.categories }} {{ t('agora', 'items') }}</span>
+					<span class="value">{{ counts.categories }} {{ t('agora', 'items') }}</span>
 				</div>
 
-				<div v-if="template.counts.locations > 0" class="summary-item">
+				<div v-if="counts.locations > 0" class="summary-item">
 					<span class="label">{{ t('agora', 'Locations:') }}</span>
-					<span class="value">{{ template.counts.locations }} {{ t('agora', 'items') }}</span>
+					<span class="value">{{ counts.locations }} {{ t('agora', 'items') }}</span>
 				</div>
 
 				<div class="summary-divider" />
 
 				<div class="summary-total">
 					<span class="label">{{ t('agora', 'Total Items:') }}</span>
-					<span class="value">{{ template.total_items }}</span>
+					<span class="value">{{ totalItems }}</span>
 				</div>
 			</div>
 		</div>

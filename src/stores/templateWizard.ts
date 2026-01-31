@@ -363,6 +363,8 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 		extractLanguageText(template: TemplateContent, language: string): TemplateContent {
 			const extracted = { ...template }
 
+			Logger.info('[extractLanguageText] Starting extraction with language:', language)
+
 			const sections = [
 				'inquiry_families',
 				'inquiry_types',
@@ -380,7 +382,8 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 				}
 				const keys = Object.keys(obj)
 				// Must have at least one known language key and all values should be strings or undefined
-				const hasLangKey = keys.some(k => ['en', 'fr', 'de', 'gsw', 'it', 'es'].includes(k))
+				const langKeys = ['en', 'fr', 'de', 'gsw', 'it', 'es', 'pt', 'nl', 'ru', 'zh', 'ja', 'ko']
+				const hasLangKey = keys.some(k => langKeys.includes(k))
 				const allStringsOrEmpty = keys.every(k =>
 					obj[k] === undefined || obj[k] === null || typeof obj[k] === 'string'
 				)
@@ -403,30 +406,33 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 				if (firstKey) {
 					return obj[firstKey]
 				}
+				Logger.warn('[extractLangString] No valid translation found in object:', obj)
 				return ''
 			}
 
 			// Recursive function to process any value
-			const processValue = (value: any): any => {
+			const processValue = (value: any, path: string = ''): any => {
 				if (value === null || value === undefined) {
 					return value
 				}
 
 				// Check if this is a multi-language object
 				if (isMultiLangObject(value)) {
-					return extractLangString(value)
+					const extracted = extractLangString(value)
+					Logger.debug(`[processValue] Extracted "${extracted}" from multi-lang at ${path}`)
+					return extracted
 				}
 
 				// Process arrays recursively
 				if (Array.isArray(value)) {
-					return value.map(item => processValue(item))
+					return value.map((item, idx) => processValue(item, `${path}[${idx}]`))
 				}
 
 				// Process objects recursively
 				if (typeof value === 'object') {
 					const processedObj: any = {}
 					Object.keys(value).forEach(key => {
-						processedObj[key] = processValue(value[key])
+						processedObj[key] = processValue(value[key], `${path}.${key}`)
 					})
 					return processedObj
 				}
@@ -437,10 +443,19 @@ export const useTemplateWizardStore = defineStore('templateWizard', {
 
 			sections.forEach(section => {
 				if (extracted[section] && Array.isArray(extracted[section])) {
-					extracted[section] = extracted[section].map((item: any) => processValue(item))
+					Logger.info(`[extractLanguageText] Processing section: ${section} (${extracted[section].length} items)`)
+					extracted[section] = extracted[section].map((item: any, idx: number) => {
+						const processed = processValue(item, `${section}[${idx}]`)
+						// Log first item's label for debugging
+						if (idx === 0 && processed.label !== undefined) {
+							Logger.info(`[extractLanguageText] First ${section} item label:`, processed.label)
+						}
+						return processed
+					})
 				}
 			})
 
+			Logger.info('[extractLanguageText] Extraction complete')
 			return extracted
 		},
 
