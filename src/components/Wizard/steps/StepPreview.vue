@@ -445,8 +445,8 @@ watch(() => editableData.value, () => {
 										class="edit-field" />
 
 									<NcTextField
-										:value="getEditableLabelValue(section)"
-										@update:value="setEditableLabelValue(section, $event)"
+										:model-value="getEditableLabelValue(section)"
+										@update:model-value="setEditableLabelValue(section, $event)"
 										:label="t('agora', 'Label')"
 										class="edit-field" />
 
