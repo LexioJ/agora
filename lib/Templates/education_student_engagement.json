@@ -108,9 +108,9 @@
           "type": "enum",
           "required": false,
           "allowed_values": [
-            "all_students",
-            "class_cohort",
-            "program_students"
+            {"value": "all_students", "label": {"en": "All Students", "fr": "Tous les étudiants", "de": "Alle Studierenden", "gsw": "Alli Studierendi"}},
+            {"value": "class_cohort", "label": {"en": "Class Cohort", "fr": "Cohorte de classe", "de": "Klassenjahrgang", "gsw": "Klasse-Jahrgang"}},
+            {"value": "program_students", "label": {"en": "Program Students", "fr": "Étudiants du programme", "de": "Programmstudierende", "gsw": "Programm-Studierendi"}}
           ]
         },
         {
@@ -177,7 +177,15 @@
           "type": "enum",
           "required": true,
           "default": "study_space",
-          "allowed_values": ["classroom", "library", "study_space", "lab", "recreation", "dining", "housing"]
+          "allowed_values": [
+            {"value": "classroom", "label": {"en": "Classroom", "fr": "Salle de classe", "de": "Klassenzimmer", "gsw": "Klassezimmer"}},
+            {"value": "library", "label": {"en": "Library", "fr": "Bibliothèque", "de": "Bibliothek", "gsw": "Bibliothek"}},
+            {"value": "study_space", "label": {"en": "Study Space", "fr": "Espace d'étude", "de": "Lernraum", "gsw": "Lernruum"}},
+            {"value": "lab", "label": {"en": "Laboratory", "fr": "Laboratoire", "de": "Labor", "gsw": "Labor"}},
+            {"value": "recreation", "label": {"en": "Recreation", "fr": "Loisirs", "de": "Freizeit", "gsw": "Freizit"}},
+            {"value": "dining", "label": {"en": "Dining", "fr": "Restauration", "de": "Gastronomie", "gsw": "Gastronomie"}},
+            {"value": "housing", "label": {"en": "Housing", "fr": "Logement", "de": "Wohnen", "gsw": "Wohne"}}
+          ]
         },
         {
           "key": "building_name",
@@ -202,7 +210,12 @@
           "type": "enum",
           "required": false,
           "default": "normal",
-          "allowed_values": ["low", "normal", "high", "critical"]
+          "allowed_values": [
+            {"value": "low", "label": {"en": "Low", "fr": "Basse", "de": "Niedrig", "gsw": "Niidrig"}},
+            {"value": "normal", "label": {"en": "Normal", "fr": "Normale", "de": "Normal", "gsw": "Normal"}},
+            {"value": "high", "label": {"en": "High", "fr": "Haute", "de": "Hoch", "gsw": "Hoch"}},
+            {"value": "critical", "label": {"en": "Critical", "fr": "Critique", "de": "Kritisch", "gsw": "Kritisch"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -357,7 +370,15 @@
           "type": "enum",
           "required": true,
           "default": "general",
-          "allowed_values": ["counseling", "career", "health", "financial_aid", "academic_support", "housing", "general"]
+          "allowed_values": [
+            {"value": "counseling", "label": {"en": "Counseling", "fr": "Conseil", "de": "Beratung", "gsw": "Beratig"}},
+            {"value": "career", "label": {"en": "Career Services", "fr": "Services de carrière", "de": "Karrieredienste", "gsw": "Karriere-Dienscht"}},
+            {"value": "health", "label": {"en": "Health Services", "fr": "Services de santé", "de": "Gesundheitsdienste", "gsw": "Gsundheits-Dienscht"}},
+            {"value": "financial_aid", "label": {"en": "Financial Aid", "fr": "Aide financière", "de": "Finanzhilfe", "gsw": "Finanzhilf"}},
+            {"value": "academic_support", "label": {"en": "Academic Support", "fr": "Soutien académique", "de": "Akademische Unterstützung", "gsw": "Akademischi Unterstützig"}},
+            {"value": "housing", "label": {"en": "Housing", "fr": "Logement", "de": "Wohnen", "gsw": "Wohne"}},
+            {"value": "general", "label": {"en": "General", "fr": "Général", "de": "Allgemein", "gsw": "Allgemein"}}
+          ]
         },
         {
           "key": "anonymity_preferred",
@@ -451,7 +472,15 @@
           "type": "enum",
           "required": true,
           "default": "recycling",
-          "allowed_values": ["recycling", "energy", "water", "transportation", "food", "buildings", "awareness"]
+          "allowed_values": [
+            {"value": "recycling", "label": {"en": "Recycling", "fr": "Recyclage", "de": "Recycling", "gsw": "Recycling"}},
+            {"value": "energy", "label": {"en": "Energy", "fr": "Énergie", "de": "Energie", "gsw": "Energie"}},
+            {"value": "water", "label": {"en": "Water Conservation", "fr": "Conservation de l'eau", "de": "Wassereinsparung", "gsw": "Wasser-Iisparig"}},
+            {"value": "transportation", "label": {"en": "Transportation", "fr": "Transport", "de": "Transport", "gsw": "Transport"}},
+            {"value": "food", "label": {"en": "Sustainable Food", "fr": "Alimentation durable", "de": "Nachhaltige Ernährung", "gsw": "Nachhaltige Ernährig"}},
+            {"value": "buildings", "label": {"en": "Green Buildings", "fr": "Bâtiments verts", "de": "Grüne Gebäude", "gsw": "Grüeni Gebäud"}},
+            {"value": "awareness", "label": {"en": "Awareness", "fr": "Sensibilisation", "de": "Bewusstseinsbildung", "gsw": "Bewusstseins-Bildig"}}
+          ]
         },
         {
           "key": "estimated_impact",
@@ -464,7 +493,12 @@
           "type": "enum",
           "required": false,
           "default": "medium",
-          "allowed_values": ["low", "medium", "high", "transformative"]
+          "allowed_values": [
+            {"value": "low", "label": {"en": "Low Impact", "fr": "Faible impact", "de": "Geringe Auswirkung", "gsw": "Geringe Uuswirkig"}},
+            {"value": "medium", "label": {"en": "Medium Impact", "fr": "Impact moyen", "de": "Mittlere Auswirkung", "gsw": "Mittleri Uuswirkig"}},
+            {"value": "high", "label": {"en": "High Impact", "fr": "Fort impact", "de": "Hohe Auswirkung", "gsw": "Hohi Uuswirkig"}},
+            {"value": "transformative", "label": {"en": "Transformative", "fr": "Transformatif", "de": "Transformativ", "gsw": "Transformativ"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -546,7 +580,15 @@
           "type": "enum",
           "required": true,
           "default": "general",
-          "allowed_values": ["racial_equity", "gender_equity", "lgbtq_inclusion", "disability_access", "socioeconomic", "international", "general"]
+          "allowed_values": [
+            {"value": "racial_equity", "label": {"en": "Racial Equity", "fr": "Équité raciale", "de": "Rassengerechtigkeit", "gsw": "Rasse-Grächtigkeit"}},
+            {"value": "gender_equity", "label": {"en": "Gender Equity", "fr": "Équité de genre", "de": "Geschlechtergerechtigkeit", "gsw": "Gschlechter-Grächtigkeit"}},
+            {"value": "lgbtq_inclusion", "label": {"en": "LGBTQ+ Inclusion", "fr": "Inclusion LGBTQ+", "de": "LGBTQ+ Inklusion", "gsw": "LGBTQ+ Inklusio"}},
+            {"value": "disability_access", "label": {"en": "Disability Access", "fr": "Accessibilité handicap", "de": "Barrierefreiheit", "gsw": "Barrierefräiheit"}},
+            {"value": "socioeconomic", "label": {"en": "Socioeconomic", "fr": "Socio-économique", "de": "Sozioökonomisch", "gsw": "Sozioökonoomisch"}},
+            {"value": "international", "label": {"en": "International Students", "fr": "Étudiants internationaux", "de": "Internationale Studierende", "gsw": "Internationali Studierendi"}},
+            {"value": "general", "label": {"en": "General", "fr": "Général", "de": "Allgemein", "gsw": "Allgemein"}}
+          ]
         },
         {
           "key": "scope",
@@ -559,7 +601,12 @@
           "type": "enum",
           "required": false,
           "default": "campus_wide",
-          "allowed_values": ["department", "program", "campus_wide", "system_wide"]
+          "allowed_values": [
+            {"value": "department", "label": {"en": "Department", "fr": "Département", "de": "Abteilung", "gsw": "Abteilig"}},
+            {"value": "program", "label": {"en": "Program", "fr": "Programme", "de": "Programm", "gsw": "Programm"}},
+            {"value": "campus_wide", "label": {"en": "Campus-Wide", "fr": "À l'échelle du campus", "de": "Campusweit", "gsw": "Campuswit"}},
+            {"value": "system_wide", "label": {"en": "System-Wide", "fr": "À l'échelle du système", "de": "Systemweit", "gsw": "Systemwit"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -639,7 +686,13 @@
           "type": "enum",
           "required": true,
           "default": "acknowledgment",
-          "allowed_values": ["acknowledgment", "clarification", "decision", "action_plan", "rejection"]
+          "allowed_values": [
+            {"value": "acknowledgment", "label": {"en": "Acknowledgment", "fr": "Accusé de réception", "de": "Bestätigung", "gsw": "Bestätigung"}},
+            {"value": "clarification", "label": {"en": "Clarification", "fr": "Clarification", "de": "Klärung", "gsw": "Klärig"}},
+            {"value": "decision", "label": {"en": "Decision", "fr": "Décision", "de": "Entscheidung", "gsw": "Entscheidig"}},
+            {"value": "action_plan", "label": {"en": "Action Plan", "fr": "Plan d'action", "de": "Aktionsplan", "gsw": "Aktions-Plan"}},
+            {"value": "rejection", "label": {"en": "Rejection", "fr": "Rejet", "de": "Ablehnung", "gsw": "Ablehning"}}
+          ]
         },
         {
           "key": "responding_office",
@@ -1265,9 +1318,9 @@
           "type": "enum",
           "required": false,
           "allowed_values": [
-            "light",
-            "moderate",
-            "heavy"
+            {"value": "light", "label": {"en": "Light", "fr": "Léger", "de": "Leicht", "gsw": "Liicht"}},
+            {"value": "moderate", "label": {"en": "Moderate", "fr": "Modéré", "de": "Moderat", "gsw": "Moderat"}},
+            {"value": "heavy", "label": {"en": "Heavy", "fr": "Lourd", "de": "Schwer", "gsw": "Schwär"}}
           ]
         }
       ]
@@ -1331,10 +1384,10 @@
           "type": "enum",
           "required": false,
           "allowed_values": [
-            "low",
-            "medium",
-            "high",
-            "critical"
+            {"value": "low", "label": {"en": "Low", "fr": "Basse", "de": "Niedrig", "gsw": "Niidrig"}},
+            {"value": "medium", "label": {"en": "Medium", "fr": "Moyenne", "de": "Mittel", "gsw": "Mittel"}},
+            {"value": "high", "label": {"en": "High", "fr": "Haute", "de": "Hoch", "gsw": "Hoch"}},
+            {"value": "critical", "label": {"en": "Critical", "fr": "Critique", "de": "Kritisch", "gsw": "Kritisch"}}
           ]
         },
         {

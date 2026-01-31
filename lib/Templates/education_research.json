@@ -236,7 +236,7 @@
       "support_feature": "binary",
       "fields": [
         {"key": "partner_institutions", "label": "Partner Institutions", "type": "text", "required": false, "default": null, "rules": []},
-        {"key": "collaboration_type", "label": "Collaboration Type", "type": "enum", "required": true, "default": "research", "allowed_values": ["research", "teaching", "joint_program", "data_sharing"], "rules": []},
+        {"key": "collaboration_type", "label": {"en": "Collaboration Type", "fr": "Type de collaboration", "de": "Kooperationstyp", "gsw": "Kooperations-Typ"}, "type": "enum", "required": true, "default": "research", "allowed_values": [{"value": "research", "label": {"en": "Research", "fr": "Recherche", "de": "Forschung", "gsw": "Forschig"}}, {"value": "teaching", "label": {"en": "Teaching", "fr": "Enseignement", "de": "Lehre", "gsw": "Lehr"}}, {"value": "joint_program", "label": {"en": "Joint Program", "fr": "Programme conjoint", "de": "Gemeinsames Programm", "gsw": "Gmeinsams Programm"}}, {"value": "data_sharing", "label": {"en": "Data Sharing", "fr": "Partage de données", "de": "Datenaustausch", "gsw": "Date-Uustausch"}}], "rules": []},
         {"key": "duration_months", "label": "Duration (months)", "type": "integer", "required": false, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Layout Zone", "type": "enum", "required": false, "default": "main", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
         {"key": "render_mode", "label": "Render Mode", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
@@ -275,7 +275,7 @@
         {"key": "equipment_type", "label": "Equipment Type", "type": "string", "required": true, "default": null, "rules": []},
         {"key": "estimated_cost", "label": "Estimated Cost", "type": "integer", "required": false, "default": null, "rules": []},
         {"key": "space_required", "label": "Space Required (sq m)", "type": "integer", "required": false, "default": null, "rules": []},
-        {"key": "urgency", "label": "Urgency", "type": "enum", "required": false, "default": "normal", "allowed_values": ["low", "normal", "high", "critical"], "rules": []},
+        {"key": "urgency", "label": {"en": "Urgency", "fr": "Urgence", "de": "Dringlichkeit", "gsw": "Dringlichkeit"}, "type": "enum", "required": false, "default": "normal", "allowed_values": [{"value": "low", "label": {"en": "Low", "fr": "Basse", "de": "Niedrig", "gsw": "Niidrig"}}, {"value": "normal", "label": {"en": "Normal", "fr": "Normale", "de": "Normal", "gsw": "Normal"}}, {"value": "high", "label": {"en": "High", "fr": "Haute", "de": "Hoch", "gsw": "Hoch"}}, {"value": "critical", "label": {"en": "Critical", "fr": "Critique", "de": "Kritisch", "gsw": "Kritisch"}}], "rules": []},
         {"key": "layout_zone", "label": "Layout Zone", "type": "enum", "required": false, "default": "main", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
         {"key": "render_mode", "label": "Render Mode", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
         {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
@@ -381,7 +381,7 @@
       "support_feature": "binary",
       "fields": [
         {"key": "journal_name", "label": "Journal Name", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "publication_type", "label": "Publication Type", "type": "enum", "required": true, "default": "article", "allowed_values": ["article", "conference", "book_chapter", "monograph"], "rules": []},
+        {"key": "publication_type", "label": {"en": "Publication Type", "fr": "Type de publication", "de": "Publikationstyp", "gsw": "Publikations-Typ"}, "type": "enum", "required": true, "default": "article", "allowed_values": [{"value": "article", "label": {"en": "Journal Article", "fr": "Article de revue", "de": "Zeitschriftenartikel", "gsw": "Zitschrifte-Artikel"}}, {"value": "conference", "label": {"en": "Conference Paper", "fr": "Acte de conférence", "de": "Konferenzbeitrag", "gsw": "Konferenz-Biitrag"}}, {"value": "book_chapter", "label": {"en": "Book Chapter", "fr": "Chapitre de livre", "de": "Buchkapitel", "gsw": "Buech-Kapitel"}}, {"value": "monograph", "label": {"en": "Monograph", "fr": "Monographie", "de": "Monographie", "gsw": "Monographie"}}], "rules": []},
         {"key": "open_access", "label": "Open Access Required", "type": "boolean", "required": false, "default": false, "rules": []},
         {"key": "estimated_apc", "label": "Estimated APC", "type": "integer", "required": false, "default": null, "rules": []},
         {"key": "layout_zone", "label": "Layout Zone", "type": "enum", "required": false, "default": "main", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
@@ -1069,9 +1069,9 @@
           "type": "enum",
           "required": false,
           "allowed_values": [
-            "pending",
-            "signed",
-            "in_negotiation"
+            {"value": "pending", "label": {"en": "Pending", "fr": "En attente", "de": "Ausstehend", "gsw": "Usstehend"}},
+            {"value": "signed", "label": {"en": "Signed", "fr": "Signé", "de": "Unterzeichnet", "gsw": "Unterzeichnet"}},
+            {"value": "in_negotiation", "label": {"en": "In Negotiation", "fr": "En négociation", "de": "In Verhandlung", "gsw": "In Verhandlig"}}
           ]
         }
       ]
@@ -1135,11 +1135,11 @@
           "type": "enum",
           "required": false,
           "allowed_values": [
-            "draft",
-            "submitted",
-            "under_review",
-            "accepted",
-            "published"
+            {"value": "draft", "label": {"en": "Draft", "fr": "Brouillon", "de": "Entwurf", "gsw": "Entwurf"}},
+            {"value": "submitted", "label": {"en": "Submitted", "fr": "Soumis", "de": "Eingereicht", "gsw": "Iigräicht"}},
+            {"value": "under_review", "label": {"en": "Under Review", "fr": "En cours d'examen", "de": "In Prüfung", "gsw": "In Prüefig"}},
+            {"value": "accepted", "label": {"en": "Accepted", "fr": "Accepté", "de": "Angenommen", "gsw": "Aagnoh"}},
+            {"value": "published", "label": {"en": "Published", "fr": "Publié", "de": "Veröffentlicht", "gsw": "Veröffentlicht"}}
           ]
         }
       ]

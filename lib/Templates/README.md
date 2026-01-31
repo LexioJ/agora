@@ -339,6 +339,56 @@ If a requested language is not available in a field, the system falls back to:
 2. The first available language
 3. Empty string if no languages are defined
 
+### Localized Enum Values
+
+For user-facing enum fields (e.g., priority, category selectors), you can provide localized labels for each enum value. This ensures users see translated labels instead of raw identifiers like `"low"` or `"critical"`.
+
+**Simple enum (technical values, not user-facing):**
+```json
+{
+  "key": "layout_zone",
+  "type": "enum",
+  "allowed_values": ["sidebar", "main", "footer", "header"]
+}
+```
+
+**Localized enum (user-facing values):**
+```json
+{
+  "key": "priority",
+  "label": {
+    "en": "Priority",
+    "de": "Priorität"
+  },
+  "type": "enum",
+  "required": true,
+  "allowed_values": [
+    {"value": "low", "label": {"en": "Low", "de": "Niedrig", "fr": "Basse"}},
+    {"value": "medium", "label": {"en": "Medium", "de": "Mittel", "fr": "Moyenne"}},
+    {"value": "high", "label": {"en": "High", "de": "Hoch", "fr": "Haute"}},
+    {"value": "critical", "label": {"en": "Critical", "de": "Kritisch", "fr": "Critique"}}
+  ]
+}
+```
+
+When the template is loaded with a specific language:
+- The `value` field is stored as the internal identifier (used in database/code)
+- The `label` field is extracted for the selected language (shown to users)
+
+**Example:** Loading with `--language=de` stores:
+- Internal value: `"high"`
+- Displayed label: `"Hoch"`
+
+**When to use localized enums:**
+- Priority selectors (low, medium, high, critical)
+- Status types (pending, approved, rejected)
+- Category types (public, internal, confidential)
+- Any dropdown where users see and select values
+
+**When to keep simple enums:**
+- Technical configuration options (render_mode, layout_zone, open_mode)
+- System identifiers that administrators configure
+
 ## Creating Custom Templates
 
 ### For Specific Use Cases

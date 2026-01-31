@@ -350,7 +350,14 @@
           "type": "enum",
           "required": true,
           "default": "layout",
-          "allowed_values": ["layout", "furniture", "lighting", "acoustics", "storage", "accessibility"]
+          "allowed_values": [
+            {"value": "layout", "label": {"en": "Layout", "fr": "Aménagement", "de": "Layout", "gsw": "Layout"}},
+            {"value": "furniture", "label": {"en": "Furniture", "fr": "Mobilier", "de": "Möblierung", "gsw": "Möblierig"}},
+            {"value": "lighting", "label": {"en": "Lighting", "fr": "Éclairage", "de": "Beleuchtung", "gsw": "Belüechtig"}},
+            {"value": "acoustics", "label": {"en": "Acoustics", "fr": "Acoustique", "de": "Akustik", "gsw": "Akustik"}},
+            {"value": "storage", "label": {"en": "Storage", "fr": "Rangement", "de": "Lagerung", "gsw": "Lagerig"}},
+            {"value": "accessibility", "label": {"en": "Accessibility", "fr": "Accessibilité", "de": "Barrierefreiheit", "gsw": "Barrierefräiheit"}}
+          ]
         },
         {
           "key": "affected_area_sqm",
@@ -459,7 +466,13 @@
           "type": "enum",
           "required": true,
           "default": "repair",
-          "allowed_values": ["repair", "replacement", "inspection", "cleaning", "preventive"]
+          "allowed_values": [
+            {"value": "repair", "label": {"en": "Repair", "fr": "Réparation", "de": "Reparatur", "gsw": "Reparatur"}},
+            {"value": "replacement", "label": {"en": "Replacement", "fr": "Remplacement", "de": "Ersatz", "gsw": "Ersatz"}},
+            {"value": "inspection", "label": {"en": "Inspection", "fr": "Inspection", "de": "Inspektion", "gsw": "Inspäktion"}},
+            {"value": "cleaning", "label": {"en": "Cleaning", "fr": "Nettoyage", "de": "Reinigung", "gsw": "Reinigung"}},
+            {"value": "preventive", "label": {"en": "Preventive Maintenance", "fr": "Maintenance préventive", "de": "Vorbeugende Wartung", "gsw": "Vorbeugendi Wartig"}}
+          ]
         },
         {
           "key": "priority",
@@ -472,7 +485,12 @@
           "type": "enum",
           "required": false,
           "default": "normal",
-          "allowed_values": ["low", "normal", "high", "emergency"]
+          "allowed_values": [
+            {"value": "low", "label": {"en": "Low", "fr": "Basse", "de": "Niedrig", "gsw": "Niidrig"}},
+            {"value": "normal", "label": {"en": "Normal", "fr": "Normale", "de": "Normal", "gsw": "Normal"}},
+            {"value": "high", "label": {"en": "High", "fr": "Haute", "de": "Hoch", "gsw": "Hoch"}},
+            {"value": "emergency", "label": {"en": "Emergency", "fr": "Urgence", "de": "Notfall", "gsw": "Notfall"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -566,7 +584,14 @@
           "type": "enum",
           "required": true,
           "default": "parking",
-          "allowed_values": ["parking", "shuttle", "bike_facilities", "ev_charging", "public_transit", "carpool"]
+          "allowed_values": [
+            {"value": "parking", "label": {"en": "Parking", "fr": "Parking", "de": "Parkplatz", "gsw": "Parkplatz"}},
+            {"value": "shuttle", "label": {"en": "Shuttle Service", "fr": "Service de navette", "de": "Shuttle-Service", "gsw": "Shuttle-Service"}},
+            {"value": "bike_facilities", "label": {"en": "Bike Facilities", "fr": "Installations vélo", "de": "Fahrradeinrichtungen", "gsw": "Velo-Iirichtige"}},
+            {"value": "ev_charging", "label": {"en": "EV Charging", "fr": "Recharge électrique", "de": "E-Ladestation", "gsw": "E-Ladestation"}},
+            {"value": "public_transit", "label": {"en": "Public Transit", "fr": "Transports publics", "de": "Öffentlicher Nahverkehr", "gsw": "Öffentlichi Verkehrsmittel"}},
+            {"value": "carpool", "label": {"en": "Carpool", "fr": "Covoiturage", "de": "Fahrgemeinschaft", "gsw": "Fahrgmeinschaft"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -658,7 +683,13 @@
           "type": "enum",
           "required": true,
           "default": "acknowledgment",
-          "allowed_values": ["acknowledgment", "clarification", "decision", "action_plan", "rejection"]
+          "allowed_values": [
+            {"value": "acknowledgment", "label": {"en": "Acknowledgment", "fr": "Accusé de réception", "de": "Bestätigung", "gsw": "Bestätigung"}},
+            {"value": "clarification", "label": {"en": "Clarification", "fr": "Clarification", "de": "Klärung", "gsw": "Klärig"}},
+            {"value": "decision", "label": {"en": "Decision", "fr": "Décision", "de": "Entscheidung", "gsw": "Entscheidig"}},
+            {"value": "action_plan", "label": {"en": "Action Plan", "fr": "Plan d'action", "de": "Aktionsplan", "gsw": "Aktions-Plan"}},
+            {"value": "rejection", "label": {"en": "Rejection", "fr": "Rejet", "de": "Ablehnung", "gsw": "Ablehning"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -1276,11 +1307,11 @@
           "type": "enum",
           "required": true,
           "allowed_values": [
-            "daily",
-            "weekly",
-            "monthly",
-            "quarterly",
-            "annually"
+            {"value": "daily", "label": {"en": "Daily", "fr": "Quotidien", "de": "Täglich", "gsw": "Täglich"}},
+            {"value": "weekly", "label": {"en": "Weekly", "fr": "Hebdomadaire", "de": "Wöchentlich", "gsw": "Wöchentlich"}},
+            {"value": "monthly", "label": {"en": "Monthly", "fr": "Mensuel", "de": "Monatlich", "gsw": "Monatlich"}},
+            {"value": "quarterly", "label": {"en": "Quarterly", "fr": "Trimestriel", "de": "Vierteljährlich", "gsw": "Vierteljährlich"}},
+            {"value": "annually", "label": {"en": "Annually", "fr": "Annuel", "de": "Jährlich", "gsw": "Jährlich"}}
           ]
         },
         {

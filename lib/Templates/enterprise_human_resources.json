@@ -88,7 +88,13 @@
           "type": "enum",
           "required": true,
           "default": "professional",
-          "allowed_values": ["technical", "professional", "leadership", "compliance", "soft_skills"]
+          "allowed_values": [
+            {"value": "technical", "label": {"en": "Technical Skills", "fr": "Compétences techniques", "de": "Technische Fähigkeiten", "gsw": "Technischi Fähigkeite"}},
+            {"value": "professional", "label": {"en": "Professional Development", "fr": "Développement professionnel", "de": "Berufliche Entwicklung", "gsw": "Berueflichi Entwicklig"}},
+            {"value": "leadership", "label": {"en": "Leadership", "fr": "Leadership", "de": "Führung", "gsw": "Füehrig"}},
+            {"value": "compliance", "label": {"en": "Compliance", "fr": "Conformité", "de": "Compliance", "gsw": "Compliance"}},
+            {"value": "soft_skills", "label": {"en": "Soft Skills", "fr": "Compétences interpersonnelles", "de": "Soft Skills", "gsw": "Soft Skills"}}
+          ]
         },
         {
           "key": "delivery_method",
@@ -101,7 +107,11 @@
           "type": "enum",
           "required": false,
           "default": "hybrid",
-          "allowed_values": ["online", "in_person", "hybrid"]
+          "allowed_values": [
+            {"value": "online", "label": {"en": "Online", "fr": "En ligne", "de": "Online", "gsw": "Online"}},
+            {"value": "in_person", "label": {"en": "In Person", "fr": "En personne", "de": "Vor Ort", "gsw": "Vor Ort"}},
+            {"value": "hybrid", "label": {"en": "Hybrid", "fr": "Hybride", "de": "Hybrid", "gsw": "Hybrid"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -238,10 +248,10 @@
           "type": "enum",
           "required": false,
           "allowed_values": [
-            "single_choice",
-            "multiple_choice",
-            "ranking",
-            "rating"
+            {"value": "single_choice", "label": {"en": "Single Choice", "fr": "Choix unique", "de": "Einzelauswahl", "gsw": "Einzeluswahl"}},
+            {"value": "multiple_choice", "label": {"en": "Multiple Choice", "fr": "Choix multiples", "de": "Mehrfachauswahl", "gsw": "Mehrfach-Uswahl"}},
+            {"value": "ranking", "label": {"en": "Ranking", "fr": "Classement", "de": "Rangfolge", "gsw": "Rangfolg"}},
+            {"value": "rating", "label": {"en": "Rating", "fr": "Évaluation", "de": "Bewertung", "gsw": "Bewertig"}}
           ]
         },
         {
@@ -324,7 +334,14 @@
           "type": "enum",
           "required": true,
           "default": "team_event",
-          "allowed_values": ["team_event", "offsite", "workshop", "social", "volunteer", "sports"]
+          "allowed_values": [
+            {"value": "team_event", "label": {"en": "Team Event", "fr": "Événement d'équipe", "de": "Team-Event", "gsw": "Team-Event"}},
+            {"value": "offsite", "label": {"en": "Offsite", "fr": "Hors site", "de": "Offsite", "gsw": "Offsite"}},
+            {"value": "workshop", "label": {"en": "Workshop", "fr": "Atelier", "de": "Workshop", "gsw": "Workshop"}},
+            {"value": "social", "label": {"en": "Social Event", "fr": "Événement social", "de": "Soziales Event", "gsw": "Sozials Event"}},
+            {"value": "volunteer", "label": {"en": "Volunteering", "fr": "Bénévolat", "de": "Freiwilligenarbeit", "gsw": "Freiwilligearbeit"}},
+            {"value": "sports", "label": {"en": "Sports", "fr": "Sports", "de": "Sport", "gsw": "Sport"}}
+          ]
         },
         {
           "key": "estimated_budget",
@@ -470,10 +487,10 @@
           "type": "enum",
           "required": false,
           "allowed_values": [
-            "single_choice",
-            "multiple_choice",
-            "ranking",
-            "rating"
+            {"value": "single_choice", "label": {"en": "Single Choice", "fr": "Choix unique", "de": "Einzelauswahl", "gsw": "Einzeluswahl"}},
+            {"value": "multiple_choice", "label": {"en": "Multiple Choice", "fr": "Choix multiples", "de": "Mehrfachauswahl", "gsw": "Mehrfach-Uswahl"}},
+            {"value": "ranking", "label": {"en": "Ranking", "fr": "Classement", "de": "Rangfolge", "gsw": "Rangfolg"}},
+            {"value": "rating", "label": {"en": "Rating", "fr": "Évaluation", "de": "Bewertung", "gsw": "Bewertig"}}
           ]
         },
         {
@@ -556,7 +573,14 @@
           "type": "enum",
           "required": true,
           "default": "peer_recognition",
-          "allowed_values": ["peer_recognition", "manager_recognition", "milestone", "performance", "innovation", "service_anniversary"]
+          "allowed_values": [
+            {"value": "peer_recognition", "label": {"en": "Peer Recognition", "fr": "Reconnaissance par les pairs", "de": "Kollegiale Anerkennung", "gsw": "Kollegialli Anerkennig"}},
+            {"value": "manager_recognition", "label": {"en": "Manager Recognition", "fr": "Reconnaissance du manager", "de": "Anerkennung durch Vorgesetzte", "gsw": "Anerkennig dür Vorgsetzti"}},
+            {"value": "milestone", "label": {"en": "Milestone Achievement", "fr": "Réalisation d'un jalon", "de": "Meilenstein-Erreichung", "gsw": "Meilestei-Erreichig"}},
+            {"value": "performance", "label": {"en": "Outstanding Performance", "fr": "Performance exceptionnelle", "de": "Herausragende Leistung", "gsw": "Usserordetlichi Leistig"}},
+            {"value": "innovation", "label": {"en": "Innovation", "fr": "Innovation", "de": "Innovation", "gsw": "Innovation"}},
+            {"value": "service_anniversary", "label": {"en": "Service Anniversary", "fr": "Anniversaire de service", "de": "Dienstjubiläum", "gsw": "Dienscht-Jubiläum"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -636,7 +660,13 @@
           "type": "enum",
           "required": true,
           "default": "acknowledgment",
-          "allowed_values": ["acknowledgment", "clarification", "decision", "action_plan", "rejection"]
+          "allowed_values": [
+            {"value": "acknowledgment", "label": {"en": "Acknowledgment", "fr": "Accusé de réception", "de": "Bestätigung", "gsw": "Bestätigung"}},
+            {"value": "clarification", "label": {"en": "Clarification", "fr": "Clarification", "de": "Klärung", "gsw": "Klärig"}},
+            {"value": "decision", "label": {"en": "Decision", "fr": "Décision", "de": "Entscheidung", "gsw": "Entscheidig"}},
+            {"value": "action_plan", "label": {"en": "Action Plan", "fr": "Plan d'action", "de": "Aktionsplan", "gsw": "Aktions-Plan"}},
+            {"value": "rejection", "label": {"en": "Rejection", "fr": "Rejet", "de": "Ablehnung", "gsw": "Ablehning"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -1232,9 +1262,9 @@
           "type": "enum",
           "required": false,
           "allowed_values": [
-            "online",
-            "in_person",
-            "hybrid"
+            {"value": "online", "label": {"en": "Online", "fr": "En ligne", "de": "Online", "gsw": "Online"}},
+            {"value": "in_person", "label": {"en": "In Person", "fr": "En personne", "de": "Vor Ort", "gsw": "Vor Ort"}},
+            {"value": "hybrid", "label": {"en": "Hybrid", "fr": "Hybride", "de": "Hybrid", "gsw": "Hybrid"}}
           ]
         },
         {

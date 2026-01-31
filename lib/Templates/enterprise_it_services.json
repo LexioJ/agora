@@ -224,7 +224,14 @@
           "type": "enum",
           "required": true,
           "default": "generative",
-          "allowed_values": ["generative", "predictive", "classification", "nlp", "computer_vision", "recommendation"]
+          "allowed_values": [
+            {"value": "generative", "label": {"en": "Generative AI", "fr": "IA générative", "de": "Generative KI", "gsw": "Generativi KI"}},
+            {"value": "predictive", "label": {"en": "Predictive AI", "fr": "IA prédictive", "de": "Prädiktive KI", "gsw": "Prädiktivi KI"}},
+            {"value": "classification", "label": {"en": "Classification", "fr": "Classification", "de": "Klassifikation", "gsw": "Klassifikation"}},
+            {"value": "nlp", "label": {"en": "Natural Language Processing", "fr": "Traitement du langage naturel", "de": "Sprachverarbeitung", "gsw": "Spraachverarbeitig"}},
+            {"value": "computer_vision", "label": {"en": "Computer Vision", "fr": "Vision par ordinateur", "de": "Bildverarbeitung", "gsw": "Bildverarbeitig"}},
+            {"value": "recommendation", "label": {"en": "Recommendation", "fr": "Recommandation", "de": "Empfehlung", "gsw": "Empfählig"}}
+          ]
         },
         {
           "key": "data_sensitivity",
@@ -237,7 +244,12 @@
           "type": "enum",
           "required": false,
           "default": "internal",
-          "allowed_values": ["public", "internal", "confidential", "restricted"]
+          "allowed_values": [
+            {"value": "public", "label": {"en": "Public", "fr": "Public", "de": "Öffentlich", "gsw": "Öffentlich"}},
+            {"value": "internal", "label": {"en": "Internal", "fr": "Interne", "de": "Intern", "gsw": "Intern"}},
+            {"value": "confidential", "label": {"en": "Confidential", "fr": "Confidentiel", "de": "Vertraulich", "gsw": "Vertraulich"}},
+            {"value": "restricted", "label": {"en": "Restricted", "fr": "Restreint", "de": "Eingeschränkt", "gsw": "Iigschränkt"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -331,7 +343,14 @@
           "type": "enum",
           "required": true,
           "default": "workflow",
-          "allowed_values": ["workflow", "data_processing", "reporting", "integration", "scheduling", "monitoring"]
+          "allowed_values": [
+            {"value": "workflow", "label": {"en": "Workflow Automation", "fr": "Automatisation de flux", "de": "Workflow-Automatisierung", "gsw": "Workflow-Automatisierig"}},
+            {"value": "data_processing", "label": {"en": "Data Processing", "fr": "Traitement des données", "de": "Datenverarbeitung", "gsw": "Dateverarbeitig"}},
+            {"value": "reporting", "label": {"en": "Reporting", "fr": "Rapports", "de": "Berichtswesen", "gsw": "Berichtswäse"}},
+            {"value": "integration", "label": {"en": "System Integration", "fr": "Intégration système", "de": "Systemintegration", "gsw": "Systemintegration"}},
+            {"value": "scheduling", "label": {"en": "Task Scheduling", "fr": "Planification des tâches", "de": "Aufgabenplanung", "gsw": "Ufgabe-Planig"}},
+            {"value": "monitoring", "label": {"en": "Monitoring", "fr": "Surveillance", "de": "Überwachung", "gsw": "Überwachig"}}
+          ]
         },
         {
           "key": "estimated_time_savings_hours",
@@ -437,7 +456,14 @@
           "type": "enum",
           "required": true,
           "default": "application",
-          "allowed_values": ["infrastructure", "application", "security", "support", "collaboration", "analytics"]
+          "allowed_values": [
+            {"value": "infrastructure", "label": {"en": "Infrastructure", "fr": "Infrastructure", "de": "Infrastruktur", "gsw": "Infrastruktur"}},
+            {"value": "application", "label": {"en": "Application", "fr": "Application", "de": "Anwendung", "gsw": "Awändig"}},
+            {"value": "security", "label": {"en": "Security", "fr": "Sécurité", "de": "Sicherheit", "gsw": "Sicherhäit"}},
+            {"value": "support", "label": {"en": "Support", "fr": "Support", "de": "Support", "gsw": "Support"}},
+            {"value": "collaboration", "label": {"en": "Collaboration", "fr": "Collaboration", "de": "Zusammenarbeit", "gsw": "Zämearbeit"}},
+            {"value": "analytics", "label": {"en": "Analytics", "fr": "Analytique", "de": "Analytik", "gsw": "Analytik"}}
+          ]
         },
         {
           "key": "estimated_users",
@@ -543,7 +569,14 @@
           "type": "enum",
           "required": true,
           "default": "performance",
-          "allowed_values": ["performance", "usability", "security", "reliability", "scalability", "integration"]
+          "allowed_values": [
+            {"value": "performance", "label": {"en": "Performance", "fr": "Performance", "de": "Leistung", "gsw": "Leistig"}},
+            {"value": "usability", "label": {"en": "Usability", "fr": "Ergonomie", "de": "Benutzerfreundlichkeit", "gsw": "Benutzerfrüündlichkeit"}},
+            {"value": "security", "label": {"en": "Security", "fr": "Sécurité", "de": "Sicherheit", "gsw": "Sicherhäit"}},
+            {"value": "reliability", "label": {"en": "Reliability", "fr": "Fiabilité", "de": "Zuverlässigkeit", "gsw": "Zuverlässigkeit"}},
+            {"value": "scalability", "label": {"en": "Scalability", "fr": "Évolutivité", "de": "Skalierbarkeit", "gsw": "Skalierbarkeit"}},
+            {"value": "integration", "label": {"en": "Integration", "fr": "Intégration", "de": "Integration", "gsw": "Integration"}}
+          ]
         },
         {
           "key": "affected_service",
@@ -661,7 +694,14 @@
           "type": "enum",
           "required": true,
           "default": "obsolete",
-          "allowed_values": ["obsolete", "cost", "functionality", "security", "support_ended", "better_alternative"]
+          "allowed_values": [
+            {"value": "obsolete", "label": {"en": "Obsolete", "fr": "Obsolète", "de": "Veraltet", "gsw": "Veraltet"}},
+            {"value": "cost", "label": {"en": "Cost Reduction", "fr": "Réduction des coûts", "de": "Kostenreduzierung", "gsw": "Kostereduzierig"}},
+            {"value": "functionality", "label": {"en": "Missing Functionality", "fr": "Fonctionnalité manquante", "de": "Fehlende Funktionalität", "gsw": "Fählendi Funktionalität"}},
+            {"value": "security", "label": {"en": "Security Concerns", "fr": "Problèmes de sécurité", "de": "Sicherheitsbedenken", "gsw": "Sicherhäitsbedenke"}},
+            {"value": "support_ended", "label": {"en": "Support Ended", "fr": "Fin du support", "de": "Support beendet", "gsw": "Support beändet"}},
+            {"value": "better_alternative", "label": {"en": "Better Alternative", "fr": "Meilleure alternative", "de": "Bessere Alternative", "gsw": "Besseri Alternative"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -755,7 +795,14 @@
           "type": "enum",
           "required": true,
           "default": "saas",
-          "allowed_values": ["saas", "on_premise", "hybrid", "custom", "integration", "mobile"]
+          "allowed_values": [
+            {"value": "saas", "label": {"en": "SaaS (Cloud)", "fr": "SaaS (Cloud)", "de": "SaaS (Cloud)", "gsw": "SaaS (Cloud)"}},
+            {"value": "on_premise", "label": {"en": "On-Premise", "fr": "Sur site", "de": "On-Premise", "gsw": "On-Premise"}},
+            {"value": "hybrid", "label": {"en": "Hybrid", "fr": "Hybride", "de": "Hybrid", "gsw": "Hybrid"}},
+            {"value": "custom", "label": {"en": "Custom Development", "fr": "Développement sur mesure", "de": "Eigenentwicklung", "gsw": "Eigenentwicklig"}},
+            {"value": "integration", "label": {"en": "Integration", "fr": "Intégration", "de": "Integration", "gsw": "Integration"}},
+            {"value": "mobile", "label": {"en": "Mobile App", "fr": "Application mobile", "de": "Mobile App", "gsw": "Mobile App"}}
+          ]
         },
         {
           "key": "business_unit",
@@ -859,7 +906,13 @@
           "type": "enum",
           "required": true,
           "default": "acknowledgment",
-          "allowed_values": ["acknowledgment", "clarification", "decision", "action_plan", "rejection"]
+          "allowed_values": [
+            {"value": "acknowledgment", "label": {"en": "Acknowledgment", "fr": "Accusé de réception", "de": "Bestätigung", "gsw": "Bestätigung"}},
+            {"value": "clarification", "label": {"en": "Clarification", "fr": "Clarification", "de": "Klärung", "gsw": "Klärig"}},
+            {"value": "decision", "label": {"en": "Decision", "fr": "Décision", "de": "Entscheidung", "gsw": "Entscheidig"}},
+            {"value": "action_plan", "label": {"en": "Action Plan", "fr": "Plan d'action", "de": "Aktionsplan", "gsw": "Aktions-Plan"}},
+            {"value": "rejection", "label": {"en": "Rejection", "fr": "Rejet", "de": "Ablehnung", "gsw": "Ablehning"}}
+          ]
         },
         {
           "key": "layout_zone",
@@ -1391,10 +1444,10 @@
           "type": "enum",
           "required": true,
           "allowed_values": [
-            "low",
-            "medium",
-            "high",
-            "critical"
+            {"value": "low", "label": {"en": "Low", "fr": "Basse", "de": "Niedrig", "gsw": "Niidrig"}},
+            {"value": "medium", "label": {"en": "Medium", "fr": "Moyenne", "de": "Mittel", "gsw": "Mittel"}},
+            {"value": "high", "label": {"en": "High", "fr": "Haute", "de": "Hoch", "gsw": "Hoch"}},
+            {"value": "critical", "label": {"en": "Critical", "fr": "Critique", "de": "Kritisch", "gsw": "Kritisch"}}
           ]
         },
         {
@@ -1408,9 +1461,9 @@
           "type": "enum",
           "required": false,
           "allowed_values": [
-            "easy",
-            "moderate",
-            "complex"
+            {"value": "easy", "label": {"en": "Easy", "fr": "Facile", "de": "Einfach", "gsw": "Eifach"}},
+            {"value": "moderate", "label": {"en": "Moderate", "fr": "Modéré", "de": "Moderat", "gsw": "Moderat"}},
+            {"value": "complex", "label": {"en": "Complex", "fr": "Complexe", "de": "Komplex", "gsw": "Komplex"}}
           ]
         },
         {
