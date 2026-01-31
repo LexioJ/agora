@@ -203,6 +203,21 @@ import MessageReply from '@iconify-icons/mdi/message-reply'
 import Monitor from '@iconify-icons/mdi/monitor'
 import LaptopAccount from '@iconify-icons/mdi/laptop-account'
 
+// Facility Management icons
+import Leaf from '@iconify-icons/mdi/leaf'
+import Desk from '@iconify-icons/mdi/desk'
+import Tools from '@iconify-icons/mdi/tools'
+import OfficeBuildingCog from '@iconify-icons/mdi/office-building-cog'
+import Parking from '@iconify-icons/mdi/parking'
+import Hammer from '@iconify-icons/mdi/hammer'
+import Thermometer from '@iconify-icons/mdi/thermometer'
+import Water from '@iconify-icons/mdi/water'
+import Fire from '@iconify-icons/mdi/fire'
+import Bike from '@iconify-icons/mdi/bike'
+import EvStation from '@iconify-icons/mdi/ev-station'
+import Bus from '@iconify-icons/mdi/bus'
+import CarMultiple from '@iconify-icons/mdi/car-multiple'
+
 // -------------------------------
 // -------------------------------
 export const makeIconComponent = (icon: Component, color = '#000', size = 24) => ({
@@ -365,6 +380,21 @@ export const InquiryGeneralIcons: Record<string, Component> = {
     Lightbulb: makeIconComponent(LightbulbOn, '#F57C00'),
     Monitor: makeIconComponent(Monitor, '#1565C0'),
     LaptopAccount: makeIconComponent(LaptopAccount, '#0288D1'),
+    // Facility Management icons
+    Leaf: makeIconComponent(Leaf, '#4CAF50'),
+    Desk: makeIconComponent(Desk, '#795548'),
+    Tools: makeIconComponent(Tools, '#607D8B'),
+    OfficeBuildingCog: makeIconComponent(OfficeBuildingCog, '#546E7A'),
+    Parking: makeIconComponent(Parking, '#1976D2'),
+    CarParking: makeIconComponent(Parking, '#1976D2'),
+    Hammer: makeIconComponent(Hammer, '#795548'),
+    Thermometer: makeIconComponent(Thermometer, '#F44336'),
+    Water: makeIconComponent(Water, '#2196F3'),
+    Fire: makeIconComponent(Fire, '#FF5722'),
+    Bike: makeIconComponent(Bike, '#4CAF50'),
+    EvStation: makeIconComponent(EvStation, '#4CAF50'),
+    Bus: makeIconComponent(Bus, '#FF9800'),
+    CarMultiple: makeIconComponent(CarMultiple, '#607D8B'),
 }
 
 export const ShareIcons: Record<string, Component> = {
