@@ -595,6 +595,54 @@ Field definitions within inquiry types can include multi-language labels, just l
 
 Both formats are supported. When a multi-language object is detected, the system extracts the selected language (with fallback to English, then first available).
 
+### Localized Enum Values
+
+For user-facing enum fields (e.g., priority selectors, category dropdowns), you can provide localized labels for each enum option. This ensures users see translated labels instead of raw identifiers like `"low"` or `"critical"`.
+
+**Simple enum (technical values, not user-facing):**
+```json
+{
+  "key": "layout_zone",
+  "type": "enum",
+  "allowed_values": ["sidebar", "main", "footer", "header"]
+}
+```
+
+**Localized enum (user-facing values):**
+```json
+{
+  "key": "priority",
+  "label": {
+    "en": "Priority",
+    "de": "Priorität"
+  },
+  "type": "enum",
+  "required": true,
+  "default": "low",
+  "allowed_values": [
+    {"value": "low", "label": {"en": "Low", "de": "Niedrig", "fr": "Basse"}},
+    {"value": "medium", "label": {"en": "Medium", "de": "Mittel", "fr": "Moyenne"}},
+    {"value": "high", "label": {"en": "High", "de": "Hoch", "fr": "Haute"}},
+    {"value": "critical", "label": {"en": "Critical", "de": "Kritisch", "fr": "Critique"}}
+  ]
+}
+```
+
+**How it works:**
+- The `value` field is stored as the internal identifier (used in database/code)
+- The `label` field is displayed to users in their selected language
+- The system falls back to English, then first available translation
+
+**When to use localized enums:**
+- Priority selectors (low, medium, high, critical)
+- Status types (pending, approved, rejected)
+- Category types (public, internal, confidential)
+- Any dropdown where end-users see and select values
+
+**When to keep simple enums:**
+- Technical configuration options (render_mode, layout_zone, open_mode)
+- System identifiers that only administrators configure
+
 ### Standard Fields (Required for All Inquiry Types)
 
 Every inquiry type should include these standard fields at the end of the `fields` array to ensure consistent behavior across the application:
