@@ -26,6 +26,30 @@ const props = withDefaults(defineProps<{
 const inquiryStore = useInquiryStore()
 const sessionStore = useSessionStore()
 
+// Get current language from session
+const currentLanguage = computed(() => sessionStore.language || 'en')
+
+// Helper to check if object is multi-language
+const isMultiLangObject = (obj: any): boolean => {
+  if (!obj || typeof obj !== 'object' || Array.isArray(obj)) return false
+  const keys = Object.keys(obj)
+  const langKeys = ['en', 'fr', 'de', 'gsw', 'it', 'es', 'pt']
+  return keys.some(k => langKeys.includes(k)) &&
+         keys.every(k => typeof obj[k] === 'string' || obj[k] === undefined)
+}
+
+// Extract language string from multi-language object
+const extractLangString = (obj: any, lang: string = 'en'): string => {
+  if (typeof obj === 'string') return obj
+  if (!obj || typeof obj !== 'object') return String(obj)
+
+  // Try current language, then English, then first available
+  if (obj[lang]) return obj[lang]
+  if (obj.en) return obj.en
+  const firstKey = Object.keys(obj).find(k => obj[k])
+  return firstKey ? obj[firstKey] : ''
+}
+
 // Reactive state
 const isLoading = ref(true)
 const error = ref<string | null>(null)
@@ -46,7 +70,7 @@ interface Field {
   required?: boolean
   default?: MiscValue
   description?: string
-  allowed_values?: string[]
+  allowed_values?: any[]
 }
 
 
@@ -139,8 +163,33 @@ const getDisplayValue = (value: MiscValue, field: Field) => {
 	}
       case 'integer':
 	return String(value)
-      case 'enum':
-	return String(value).charAt(0).toUpperCase() + String(value).slice(1)
+      case 'enum': {
+        // Look up the label from allowed_values
+        const allowedValues = field.allowed_values || []
+
+        // Find matching option
+        const option = allowedValues.find((opt: any) => {
+          if (typeof opt === 'string') return opt === value
+          return opt.value === value
+        })
+
+        if (!option) {
+          // Fallback: capitalize raw value
+          return String(value).charAt(0).toUpperCase() + String(value).slice(1)
+        }
+
+        // Handle string option
+        if (typeof option === 'string') {
+          return option.charAt(0).toUpperCase() + option.slice(1)
+        }
+
+        // Handle localized label
+        const label = option.label
+        if (typeof label === 'string') return label
+
+        // Extract from multi-language object
+        return extractLangString(label, currentLanguage.value)
+      }
       case 'users':
       case 'groups':
 	return Array.isArray(value) ? value.join(', ') : String(value)
@@ -150,6 +199,30 @@ const getDisplayValue = (value: MiscValue, field: Field) => {
   } catch {
     return String(value)
   }
+}
+
+// Get the current model value for NcSelect enum
+const getEnumModelValue = (field: Field) => {
+  const value = getMiscValue(field.key) || field.default
+  const options = field.allowed_values || []
+
+  // Find matching option object for NcSelect
+  return options.find((opt: any) => {
+    if (typeof opt === 'string') return opt === value
+    return opt.value === value
+  }) || value
+}
+
+// Get display label for an enum option
+const getEnumLabel = (option: any): string => {
+  if (typeof option === 'string') {
+    return option.charAt(0).toUpperCase() + option.slice(1)
+  }
+  if (option?.label) {
+    if (typeof option.label === 'string') return option.label
+    return extractLangString(option.label, currentLanguage.value)
+  }
+  return String(option?.value || option)
 }
 
 // Check if field should be displayed (has value or has default)
@@ -213,7 +286,7 @@ const loadMiscData = () => {
     })
 
   } catch (e) {
-    console.error('❌ Error loading misc data:', e)
+    console.error('Error loading misc data:', e)
     error.value = t('Error loading settings data')
   } finally {
     isLoading.value = false
@@ -242,7 +315,7 @@ const saveFieldToDatabase = async (fieldKey: string, value: Field) => {
     await inquiryStore.updateMiscField(fieldKey,stringValue)
 
   } catch (e) {
-    console.error(`❌ Error saving field ${fieldKey}:`, e)
+    console.error(`Error saving field ${fieldKey}:`, e)
   } finally {
     isSaving.value = false
   }
@@ -424,9 +497,10 @@ onMounted(() => {
 								<!-- Enum field -->
 								<NcSelect
 										v-if="field.type === 'enum'"
-										:model-value="getMiscValue(field.key) || field.default"
+										:model-value="getEnumModelValue(field)"
 										:options="field.allowed_values || []"
-										:reduce="(option: string) => option"
+										:reduce="(option: any) => typeof option === 'string' ? option : option.value"
+										:get-option-label="getEnumLabel"
 										:clearable="!field.required"
 										:label-outside="true"
 										:input-label="field.label"
