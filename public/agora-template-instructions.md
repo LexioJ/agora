@@ -1840,15 +1840,22 @@ Agora uses Material Design Icons (MDI) for visual elements throughout templates.
 **Facility Management:**
 | Icon | Description |
 |------|-------------|
+| `OfficeBuildingCog` | Building management, facilities |
 | `Hammer` | Maintenance, repairs |
-| `WrenchOutline` | Tools, maintenance |
-| `Lightbulb` | Electrical, lighting |
+| `Tools` | General maintenance, tools |
+| `WrenchOutline` | Wrench, maintenance |
+| `Desk` | Workspace, furniture |
+| `Leaf` | Sustainability, environmental |
 | `Thermometer` | HVAC, temperature |
 | `Water` | Plumbing, water |
-| `LockReset` | Access, security |
-| `PackageUp` | Moving, relocation |
-| `CleaningBrush` | Cleaning |
-| `Fire` | Emergency |
+| `Fire` | Emergency, fire safety |
+| `Parking` | Parking facilities |
+| `CarParking` | Parking (alias) |
+| `Bike` | Bicycle facilities |
+| `EvStation` | Electric vehicle charging |
+| `Bus` | Public transportation |
+| `CarMultiple` | Fleet, vehicles |
+| `Lightbulb` | Electrical, lighting |
 | `Calendar` | Scheduling |
 
 **Human Resources:**
