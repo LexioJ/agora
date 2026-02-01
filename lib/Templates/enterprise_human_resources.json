@@ -938,6 +938,408 @@
       "is_final": false,
       "icon": "AccountGroupOutline",
       "sort_order": 2.5
+    },
+
+    {
+      "inquiry_type": "team_building",
+      "status_key": "proposed",
+      "label": {
+        "en": "Proposed",
+        "fr": "Proposé",
+        "de": "Vorgeschlagen",
+        "gsw": "Vorgschlage"
+      },
+      "description": {
+        "en": "Team building activity has been proposed",
+        "fr": "Une activité de team building a été proposée",
+        "de": "Team-Building-Aktivität wurde vorgeschlagen",
+        "gsw": "Team-Building-Aktivitäät isch vorgschlage"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "team_building",
+      "status_key": "team_interest_poll",
+      "label": {
+        "en": "Team Interest Poll",
+        "fr": "Sondage d'intérêt de l'équipe",
+        "de": "Team-Interessensumfrage",
+        "gsw": "Team-Interesse-Umfraag"
+      },
+      "description": {
+        "en": "Polling team members for interest and availability",
+        "fr": "Sondage des membres de l'équipe pour l'intérêt et la disponibilité",
+        "de": "Befragung der Teammitglieder zu Interesse und Verfügbarkeit",
+        "gsw": "Befraagig vo Team-Mitglieder zu Interesse und Verfügbarkeit"
+      },
+      "is_final": false,
+      "icon": "Poll",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "team_building",
+      "status_key": "budget_check",
+      "label": {
+        "en": "Budget Check",
+        "fr": "Vérification du budget",
+        "de": "Budgetprüfung",
+        "gsw": "Budget-Prüefig"
+      },
+      "description": {
+        "en": "Verifying budget availability",
+        "fr": "Vérification de la disponibilité du budget",
+        "de": "Überprüfung der Budgetverfügbarkeit",
+        "gsw": "Überprüefig vo dr Budget-Verfügbarkeit"
+      },
+      "is_final": false,
+      "icon": "CashCheck",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "team_building",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Team building activity approved",
+        "fr": "Activité de team building approuvée",
+        "de": "Team-Building-Aktivität genehmigt",
+        "gsw": "Team-Building-Aktivitäät gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "team_building",
+      "status_key": "scheduled",
+      "label": {
+        "en": "Scheduled",
+        "fr": "Planifié",
+        "de": "Geplant",
+        "gsw": "Gplant"
+      },
+      "description": {
+        "en": "Activity has been scheduled",
+        "fr": "L'activité a été planifiée",
+        "de": "Aktivität wurde geplant",
+        "gsw": "Aktivitäät isch gplant"
+      },
+      "is_final": false,
+      "icon": "CalendarCheck",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "team_building",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Team building activity completed successfully",
+        "fr": "Activité de team building terminée avec succès",
+        "de": "Team-Building-Aktivität erfolgreich abgeschlossen",
+        "gsw": "Team-Building-Aktivitäät erfolgriich abgschlosse"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "team_building",
+      "status_key": "cancelled",
+      "label": {
+        "en": "Cancelled",
+        "fr": "Annulé",
+        "de": "Abgesagt",
+        "gsw": "Abgsäit"
+      },
+      "description": {
+        "en": "Team building activity cancelled",
+        "fr": "Activité de team building annulée",
+        "de": "Team-Building-Aktivität abgesagt",
+        "gsw": "Team-Building-Aktivitäät abgsäit"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 7
+    },
+
+    {
+      "inquiry_type": "policy_feedback",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Policy feedback has been submitted",
+        "fr": "Le retour sur la politique a été soumis",
+        "de": "Richtlinien-Feedback wurde eingereicht",
+        "gsw": "Richtlinie-Feedback isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "policy_feedback",
+      "status_key": "hr_review",
+      "label": {
+        "en": "HR Review",
+        "fr": "Examen RH",
+        "de": "HR-Prüfung",
+        "gsw": "HR-Prüefig"
+      },
+      "description": {
+        "en": "HR team reviewing the feedback",
+        "fr": "L'équipe RH examine le retour",
+        "de": "HR-Team prüft das Feedback",
+        "gsw": "HR-Team prüeft s'Feedback"
+      },
+      "is_final": false,
+      "icon": "AccountSearch",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "policy_feedback",
+      "status_key": "legal_review",
+      "label": {
+        "en": "Legal Review",
+        "fr": "Examen juridique",
+        "de": "Rechtsprüfung",
+        "gsw": "Rächt-Prüefig"
+      },
+      "description": {
+        "en": "Legal team reviewing policy implications",
+        "fr": "L'équipe juridique examine les implications de la politique",
+        "de": "Rechtsteam prüft Richtlinienauswirkungen",
+        "gsw": "Rächt-Team prüeft Richtlinie-Uswirkige"
+      },
+      "is_final": false,
+      "icon": "ScaleBalance",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "policy_feedback",
+      "status_key": "management_discussion",
+      "label": {
+        "en": "Management Discussion",
+        "fr": "Discussion de la direction",
+        "de": "Managementdiskussion",
+        "gsw": "Management-Diskussion"
+      },
+      "description": {
+        "en": "Management discussing proposed policy changes",
+        "fr": "La direction discute des changements de politique proposés",
+        "de": "Management bespricht vorgeschlagene Richtlinienänderungen",
+        "gsw": "Management bespricht vorgschlagneni Richtlinie-Änderige"
+      },
+      "is_final": false,
+      "icon": "AccountTie",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "policy_feedback",
+      "status_key": "policy_updated",
+      "label": {
+        "en": "Policy Updated",
+        "fr": "Politique mise à jour",
+        "de": "Richtlinie aktualisiert",
+        "gsw": "Richtlinie aktualisiert"
+      },
+      "description": {
+        "en": "Policy has been updated based on feedback",
+        "fr": "La politique a été mise à jour suite au retour",
+        "de": "Richtlinie wurde basierend auf Feedback aktualisiert",
+        "gsw": "Richtlinie isch basierend uf Feedback aktualisiert"
+      },
+      "is_final": false,
+      "icon": "FileDocumentEdit",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "policy_feedback",
+      "status_key": "communicated",
+      "label": {
+        "en": "Communicated",
+        "fr": "Communiqué",
+        "de": "Kommuniziert",
+        "gsw": "Kommuniziert"
+      },
+      "description": {
+        "en": "Policy changes communicated to employees",
+        "fr": "Changements de politique communiqués aux employés",
+        "de": "Richtlinienänderungen an Mitarbeiter kommuniziert",
+        "gsw": "Richtlinie-Änderige an Mitarbeiter kommuniziert"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "policy_feedback",
+      "status_key": "no_change",
+      "label": {
+        "en": "No Change Required",
+        "fr": "Aucun changement requis",
+        "de": "Keine Änderung erforderlich",
+        "gsw": "Kei Änderig erforderlich"
+      },
+      "description": {
+        "en": "Current policy remains unchanged after review",
+        "fr": "La politique actuelle reste inchangée après examen",
+        "de": "Aktuelle Richtlinie bleibt nach Prüfung unverändert",
+        "gsw": "Aktuelli Richtlinie bliibt nach Prüefig unveränderit"
+      },
+      "is_final": true,
+      "icon": "CheckCircle",
+      "sort_order": 7
+    },
+
+    {
+      "inquiry_type": "recognition_program",
+      "status_key": "nominated",
+      "label": {
+        "en": "Nominated",
+        "fr": "Nominé",
+        "de": "Nominiert",
+        "gsw": "Nominiert"
+      },
+      "description": {
+        "en": "Employee has been nominated for recognition",
+        "fr": "L'employé a été nominé pour une reconnaissance",
+        "de": "Mitarbeiter wurde für Anerkennung nominiert",
+        "gsw": "Mitarbeiter isch für Aanerkennig nominiert"
+      },
+      "is_final": false,
+      "icon": "StarOutline",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "recognition_program",
+      "status_key": "validation",
+      "label": {
+        "en": "Validation",
+        "fr": "Validation",
+        "de": "Validierung",
+        "gsw": "Validierig"
+      },
+      "description": {
+        "en": "Nomination being validated by management",
+        "fr": "Nomination en cours de validation par la direction",
+        "de": "Nominierung wird vom Management validiert",
+        "gsw": "Nominierig wird vom Management validiert"
+      },
+      "is_final": false,
+      "icon": "CheckboxMarked",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "recognition_program",
+      "status_key": "committee_vote",
+      "label": {
+        "en": "Committee Vote",
+        "fr": "Vote du comité",
+        "de": "Komitee-Abstimmung",
+        "gsw": "Komitee-Abstimmig"
+      },
+      "description": {
+        "en": "Recognition committee reviewing and voting",
+        "fr": "Le comité de reconnaissance examine et vote",
+        "de": "Anerkennungskomitee prüft und stimmt ab",
+        "gsw": "Aanerkennings-Komitee prüeft und stimmt ab"
+      },
+      "is_final": false,
+      "icon": "VoteOutline",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "recognition_program",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Recognition has been approved",
+        "fr": "La reconnaissance a été approuvée",
+        "de": "Anerkennung wurde genehmigt",
+        "gsw": "Aanerkennig isch gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "recognition_program",
+      "status_key": "award_scheduled",
+      "label": {
+        "en": "Award Scheduled",
+        "fr": "Récompense planifiée",
+        "de": "Auszeichnung geplant",
+        "gsw": "Uszeichnig gplant"
+      },
+      "description": {
+        "en": "Award ceremony or presentation scheduled",
+        "fr": "Cérémonie ou présentation de récompense planifiée",
+        "de": "Preisverleihung oder Präsentation geplant",
+        "gsw": "Priisverleihig oder Präsentation gplant"
+      },
+      "is_final": false,
+      "icon": "CalendarStar",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "recognition_program",
+      "status_key": "presented",
+      "label": {
+        "en": "Presented",
+        "fr": "Présenté",
+        "de": "Verliehen",
+        "gsw": "Verliehe"
+      },
+      "description": {
+        "en": "Recognition award has been presented",
+        "fr": "La récompense de reconnaissance a été présentée",
+        "de": "Anerkennungsauszeichnung wurde verliehen",
+        "gsw": "Aanerkennings-Uszeichnig isch verliehe"
+      },
+      "is_final": true,
+      "icon": "Trophy",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "recognition_program",
+      "status_key": "not_selected",
+      "label": {
+        "en": "Not Selected",
+        "fr": "Non sélectionné",
+        "de": "Nicht ausgewählt",
+        "gsw": "Nöd usgwählt"
+      },
+      "description": {
+        "en": "Nominee not selected for this recognition cycle",
+        "fr": "Nominé non sélectionné pour ce cycle de reconnaissance",
+        "de": "Nominierter nicht für diesen Anerkennungszyklus ausgewählt",
+        "gsw": "Nominierti nöd für dä Aanerkennings-Zyklus usgwählt"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 7
     }
   ],
   "categories": [

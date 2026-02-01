@@ -1033,6 +1033,599 @@
       "is_final": false,
       "icon": "AccountGroupOutline",
       "sort_order": 2.5
+    },
+
+    {
+      "inquiry_type": "campus_facilities",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Facility request has been submitted",
+        "fr": "La demande d'installation a été soumise",
+        "de": "Einrichtungsanfrage wurde eingereicht",
+        "gsw": "Iichrichtig-Aafraag isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "campus_facilities",
+      "status_key": "facility_assessment",
+      "label": {
+        "en": "Facility Assessment",
+        "fr": "Évaluation de l'installation",
+        "de": "Einrichtungsbewertung",
+        "gsw": "Iichrichtig-Bewertig"
+      },
+      "description": {
+        "en": "Technical and feasibility assessment in progress",
+        "fr": "Évaluation technique et de faisabilité en cours",
+        "de": "Technische und Machbarkeitsbewertung läuft",
+        "gsw": "Technischi und Machbarkeits-Bewertig lauft"
+      },
+      "is_final": false,
+      "icon": "ClipboardCheck",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "campus_facilities",
+      "status_key": "student_survey",
+      "label": {
+        "en": "Student Survey",
+        "fr": "Sondage étudiant",
+        "de": "Studentenumfrage",
+        "gsw": "Student-Umfraag"
+      },
+      "description": {
+        "en": "Gathering student feedback on facility needs",
+        "fr": "Collecte des retours étudiants sur les besoins en installations",
+        "de": "Sammlung von Studentenfeedback zu Einrichtungsbedarf",
+        "gsw": "Sammlig vo Student-Feedback zu Iichrichtig-Bedarf"
+      },
+      "is_final": false,
+      "icon": "Poll",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "campus_facilities",
+      "status_key": "budget_allocation",
+      "label": {
+        "en": "Budget Allocation",
+        "fr": "Allocation budgétaire",
+        "de": "Budgetzuweisung",
+        "gsw": "Budget-Zuewisig"
+      },
+      "description": {
+        "en": "Determining budget allocation for facility",
+        "fr": "Détermination de l'allocation budgétaire pour l'installation",
+        "de": "Festlegung der Budgetzuweisung für Einrichtung",
+        "gsw": "Festlegig vo dr Budget-Zuewisig für Iichrichtig"
+      },
+      "is_final": false,
+      "icon": "CashCheck",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "campus_facilities",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Facility project has been approved",
+        "fr": "Le projet d'installation a été approuvé",
+        "de": "Einrichtungsprojekt wurde genehmigt",
+        "gsw": "Iichrichtig-Projäkt isch gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "campus_facilities",
+      "status_key": "construction",
+      "label": {
+        "en": "Construction/Renovation",
+        "fr": "Construction/Rénovation",
+        "de": "Bau/Renovierung",
+        "gsw": "Bau/Renovierig"
+      },
+      "description": {
+        "en": "Construction or renovation work in progress",
+        "fr": "Travaux de construction ou de rénovation en cours",
+        "de": "Bau- oder Renovierungsarbeiten laufen",
+        "gsw": "Bau- oder Renovierigs-Arbeite laufe"
+      },
+      "is_final": false,
+      "icon": "HardHat",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "campus_facilities",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Facility project successfully completed",
+        "fr": "Projet d'installation terminé avec succès",
+        "de": "Einrichtungsprojekt erfolgreich abgeschlossen",
+        "gsw": "Iichrichtig-Projäkt erfolgriich abgschlosse"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "campus_facilities",
+      "status_key": "deferred",
+      "label": {
+        "en": "Deferred",
+        "fr": "Reporté",
+        "de": "Zurückgestellt",
+        "gsw": "Zruggstellt"
+      },
+      "description": {
+        "en": "Project deferred due to budget or priority constraints",
+        "fr": "Projet reporté en raison de contraintes budgétaires ou de priorité",
+        "de": "Projekt aufgrund von Budget- oder Prioritätsbeschränkungen zurückgestellt",
+        "gsw": "Projäkt wäge Budget- oder Prioritäts-Beschränkige zruggstellt"
+      },
+      "is_final": true,
+      "icon": "ClockOutline",
+      "sort_order": 8
+    },
+
+    {
+      "inquiry_type": "student_services",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Student service request has been submitted",
+        "fr": "La demande de service étudiant a été soumise",
+        "de": "Studentenservice-Anfrage wurde eingereicht",
+        "gsw": "Student-Service-Aafraag isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "student_services",
+      "status_key": "needs_analysis",
+      "label": {
+        "en": "Needs Analysis",
+        "fr": "Analyse des besoins",
+        "de": "Bedarfsanalyse",
+        "gsw": "Bedarfs-Analys"
+      },
+      "description": {
+        "en": "Analyzing student needs and service requirements",
+        "fr": "Analyse des besoins étudiants et des exigences de service",
+        "de": "Analyse von Studentenbedürfnissen und Serviceanforderungen",
+        "gsw": "Analys vo Student-Bedürfnis und Service-Aforderige"
+      },
+      "is_final": false,
+      "icon": "ChartBubble",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "student_services",
+      "status_key": "student_council_vote",
+      "label": {
+        "en": "Student Council Vote",
+        "fr": "Vote du conseil étudiant",
+        "de": "Studentenrats-Abstimmung",
+        "gsw": "Student-Rats-Abstimmig"
+      },
+      "description": {
+        "en": "Student council reviewing and voting",
+        "fr": "Le conseil étudiant examine et vote",
+        "de": "Studentenrat prüft und stimmt ab",
+        "gsw": "Student-Rat prüeft und stimmt ab"
+      },
+      "is_final": false,
+      "icon": "VoteOutline",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "student_services",
+      "status_key": "administration_review",
+      "label": {
+        "en": "Administration Review",
+        "fr": "Examen de l'administration",
+        "de": "Verwaltungsprüfung",
+        "gsw": "Verwaltig-Prüefig"
+      },
+      "description": {
+        "en": "University administration reviewing the request",
+        "fr": "L'administration universitaire examine la demande",
+        "de": "Universitätsverwaltung prüft die Anfrage",
+        "gsw": "Uni-Verwaltig prüeft d'Aafraag"
+      },
+      "is_final": false,
+      "icon": "AccountTie",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "student_services",
+      "status_key": "pilot_program",
+      "label": {
+        "en": "Pilot Program",
+        "fr": "Programme pilote",
+        "de": "Pilotprogramm",
+        "gsw": "Pilot-Programm"
+      },
+      "description": {
+        "en": "Service being piloted with select student groups",
+        "fr": "Service en pilote avec des groupes d'étudiants sélectionnés",
+        "de": "Service wird mit ausgewählten Studentengruppen pilotiert",
+        "gsw": "Service wird mit usgwählte Student-Gruppe pilotiert"
+      },
+      "is_final": false,
+      "icon": "TestTube",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "student_services",
+      "status_key": "full_implementation",
+      "label": {
+        "en": "Full Implementation",
+        "fr": "Mise en œuvre complète",
+        "de": "Vollständige Umsetzung",
+        "gsw": "Vollständigi Umsetzig"
+      },
+      "description": {
+        "en": "Service fully implemented and available to all students",
+        "fr": "Service entièrement mis en œuvre et disponible pour tous les étudiants",
+        "de": "Service vollständig umgesetzt und für alle Studenten verfügbar",
+        "gsw": "Service vollständig umgsetzt und für alli Student verfüegbar"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "student_services",
+      "status_key": "declined",
+      "label": {
+        "en": "Declined",
+        "fr": "Refusé",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Service request declined - not feasible or low priority",
+        "fr": "Demande de service refusée - non réalisable ou faible priorité",
+        "de": "Serviceanfrage abgelehnt - nicht machbar oder niedrige Priorität",
+        "gsw": "Service-Aafraag abglehnt - nöd machbar oder niidrig Prioritäät"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 7
+    },
+
+    {
+      "inquiry_type": "sustainability_initiatives",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Sustainability initiative has been submitted",
+        "fr": "L'initiative de durabilité a été soumise",
+        "de": "Nachhaltigkeitsinitiative wurde eingereicht",
+        "gsw": "Nachhaltigkeits-Initiative isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "sustainability_initiatives",
+      "status_key": "environmental_impact_study",
+      "label": {
+        "en": "Environmental Impact Study",
+        "fr": "Étude d'impact environnemental",
+        "de": "Umweltauswirkungsstudie",
+        "gsw": "Umwelt-Uswirkigs-Studie"
+      },
+      "description": {
+        "en": "Assessing environmental impact and benefits",
+        "fr": "Évaluation de l'impact et des avantages environnementaux",
+        "de": "Bewertung von Umweltauswirkungen und Vorteilen",
+        "gsw": "Bewertig vo Umwelt-Uswirkige und Vorteil"
+      },
+      "is_final": false,
+      "icon": "LeafCircle",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "sustainability_initiatives",
+      "status_key": "student_vote",
+      "label": {
+        "en": "Student Vote",
+        "fr": "Vote étudiant",
+        "de": "Studentenabstimmung",
+        "gsw": "Student-Abstimmig"
+      },
+      "description": {
+        "en": "Students voting on the sustainability initiative",
+        "fr": "Les étudiants votent sur l'initiative de durabilité",
+        "de": "Studenten stimmen über Nachhaltigkeitsinitiative ab",
+        "gsw": "Student stimme über Nachhaltigkeits-Initiative ab"
+      },
+      "is_final": false,
+      "icon": "VoteOutline",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "sustainability_initiatives",
+      "status_key": "administration_approval",
+      "label": {
+        "en": "Administration Approval",
+        "fr": "Approbation de l'administration",
+        "de": "Verwaltungsgenehmigung",
+        "gsw": "Verwaltig-Genehmiging"
+      },
+      "description": {
+        "en": "Administration reviewing and approving initiative",
+        "fr": "L'administration examine et approuve l'initiative",
+        "de": "Verwaltung prüft und genehmigt Initiative",
+        "gsw": "Verwaltig prüeft und gnehmigt Initiative"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "sustainability_initiatives",
+      "status_key": "funding_secured",
+      "label": {
+        "en": "Funding Secured",
+        "fr": "Financement sécurisé",
+        "de": "Finanzierung gesichert",
+        "gsw": "Finanzierig gsicheret"
+      },
+      "description": {
+        "en": "Funding has been secured for the initiative",
+        "fr": "Le financement a été sécurisé pour l'initiative",
+        "de": "Finanzierung für Initiative wurde gesichert",
+        "gsw": "Finanzierig für Initiative isch gsicheret"
+      },
+      "is_final": false,
+      "icon": "CashCheck",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "sustainability_initiatives",
+      "status_key": "in_progress",
+      "label": {
+        "en": "In Progress",
+        "fr": "En cours",
+        "de": "In Bearbeitung",
+        "gsw": "In Bearbeitig"
+      },
+      "description": {
+        "en": "Sustainability initiative is being implemented",
+        "fr": "L'initiative de durabilité est en cours de mise en œuvre",
+        "de": "Nachhaltigkeitsinitiative wird umgesetzt",
+        "gsw": "Nachhaltigkeits-Initiative wird umgsetzt"
+      },
+      "is_final": false,
+      "icon": "Progress",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "sustainability_initiatives",
+      "status_key": "achieved",
+      "label": {
+        "en": "Achieved",
+        "fr": "Réalisé",
+        "de": "Erreicht",
+        "gsw": "Erreicht"
+      },
+      "description": {
+        "en": "Sustainability goals achieved",
+        "fr": "Objectifs de durabilité atteints",
+        "de": "Nachhaltigkeitsziele erreicht",
+        "gsw": "Nachhaltigkeits-Ziel erreicht"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "sustainability_initiatives",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Sustainability initiative not approved",
+        "fr": "Initiative de durabilité non approuvée",
+        "de": "Nachhaltigkeitsinitiative nicht genehmigt",
+        "gsw": "Nachhaltigkeits-Initiative nöd gnehmigt"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 8
+    },
+
+    {
+      "inquiry_type": "diversity_inclusion",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Diversity & inclusion initiative submitted",
+        "fr": "Initiative de diversité et d'inclusion soumise",
+        "de": "Diversitäts- und Inklusionsinitiative eingereicht",
+        "gsw": "Diversitäts- und Inklusions-Initiative iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "diversity_inclusion",
+      "status_key": "community_input",
+      "label": {
+        "en": "Community Input",
+        "fr": "Contribution de la communauté",
+        "de": "Gemeinschaftsbeitrag",
+        "gsw": "Gmeinschafts-Bitrag"
+      },
+      "description": {
+        "en": "Gathering input from diverse community groups",
+        "fr": "Collecte des contributions de groupes communautaires divers",
+        "de": "Sammeln von Beiträgen aus diversen Gemeinschaftsgruppen",
+        "gsw": "Sammle vo Biträg us diverse Gmeinschafts-Gruppe"
+      },
+      "is_final": false,
+      "icon": "AccountMultiple",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "diversity_inclusion",
+      "status_key": "diversity_committee_review",
+      "label": {
+        "en": "Diversity Committee Review",
+        "fr": "Examen du comité de diversité",
+        "de": "Diversitätsausschuss-Prüfung",
+        "gsw": "Diversitäts-Usschuss-Prüefig"
+      },
+      "description": {
+        "en": "DEI committee reviewing the initiative",
+        "fr": "Le comité DEI examine l'initiative",
+        "de": "DEI-Ausschuss prüft die Initiative",
+        "gsw": "DEI-Usschuss prüeft d'Initiative"
+      },
+      "is_final": false,
+      "icon": "AccountGroup",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "diversity_inclusion",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Initiative approved for implementation",
+        "fr": "Initiative approuvée pour mise en œuvre",
+        "de": "Initiative zur Umsetzung genehmigt",
+        "gsw": "Initiative zur Umsetzig gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "diversity_inclusion",
+      "status_key": "implementation_plan",
+      "label": {
+        "en": "Implementation Plan",
+        "fr": "Plan de mise en œuvre",
+        "de": "Umsetzungsplan",
+        "gsw": "Umsetzig-Plan"
+      },
+      "description": {
+        "en": "Developing implementation plan and timeline",
+        "fr": "Développement du plan de mise en œuvre et du calendrier",
+        "de": "Entwicklung von Umsetzungsplan und Zeitplan",
+        "gsw": "Entwicklig vo Umsetzig-Plan und Zitplan"
+      },
+      "is_final": false,
+      "icon": "CalendarCheck",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "diversity_inclusion",
+      "status_key": "in_progress",
+      "label": {
+        "en": "In Progress",
+        "fr": "En cours",
+        "de": "In Bearbeitung",
+        "gsw": "In Bearbeitig"
+      },
+      "description": {
+        "en": "Initiative implementation in progress",
+        "fr": "Mise en œuvre de l'initiative en cours",
+        "de": "Initiativumsetzung läuft",
+        "gsw": "Initiative-Umsetzig lauft"
+      },
+      "is_final": false,
+      "icon": "Progress",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "diversity_inclusion",
+      "status_key": "ongoing_program",
+      "label": {
+        "en": "Ongoing Program",
+        "fr": "Programme en cours",
+        "de": "Laufendes Programm",
+        "gsw": "Laufends Programm"
+      },
+      "description": {
+        "en": "Initiative established as ongoing program",
+        "fr": "Initiative établie comme programme en cours",
+        "de": "Initiative als laufendes Programm etabliert",
+        "gsw": "Initiative als laufends Programm etabliert"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "diversity_inclusion",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Initiative not approved at this time",
+        "fr": "Initiative non approuvée pour le moment",
+        "de": "Initiative derzeit nicht genehmigt",
+        "gsw": "Initiative im Momänt nöd gnehmigt"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 8
     }
   ],
   "categories": [

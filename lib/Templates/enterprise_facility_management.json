@@ -942,6 +942,580 @@
       "is_final": false,
       "icon": "Poll",
       "sort_order": 2.5
+    },
+
+    {
+      "inquiry_type": "sustainability_initiative",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Sustainability initiative has been submitted",
+        "fr": "L'initiative de durabilité a été soumise",
+        "de": "Nachhaltigkeitsinitiative wurde eingereicht",
+        "gsw": "Nochhaltigkeits-Initiative isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "sustainability_initiative",
+      "status_key": "environmental_assessment",
+      "label": {
+        "en": "Environmental Assessment",
+        "fr": "Évaluation environnementale",
+        "de": "Umweltbewertung",
+        "gsw": "Umwält-Bewertig"
+      },
+      "description": {
+        "en": "Assessing environmental impact and benefits",
+        "fr": "Évaluation de l'impact et des avantages environnementaux",
+        "de": "Bewertung von Umweltauswirkungen und -vorteilen",
+        "gsw": "Bewertig vo Umwält-Uswirkige und -Vorteil"
+      },
+      "is_final": false,
+      "icon": "LeafCircle",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "sustainability_initiative",
+      "status_key": "budget_approval",
+      "label": {
+        "en": "Budget Approval",
+        "fr": "Approbation du budget",
+        "de": "Budgetgenehmigung",
+        "gsw": "Budget-Genehmigung"
+      },
+      "description": {
+        "en": "Budget approval for sustainability initiative",
+        "fr": "Approbation du budget pour l'initiative de durabilité",
+        "de": "Budgetgenehmigung für Nachhaltigkeitsinitiative",
+        "gsw": "Budget-Genehmigung für Nochhaltigkeits-Initiative"
+      },
+      "is_final": false,
+      "icon": "CashCheck",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "sustainability_initiative",
+      "status_key": "vendor_selection",
+      "label": {
+        "en": "Vendor Selection",
+        "fr": "Sélection du fournisseur",
+        "de": "Anbieterauswahl",
+        "gsw": "Aabieter-Uswahl"
+      },
+      "description": {
+        "en": "Selecting vendors for implementation",
+        "fr": "Sélection des fournisseurs pour la mise en œuvre",
+        "de": "Auswahl von Anbietern für die Umsetzung",
+        "gsw": "Uswahl vo Aabieter für d'Umsetzig"
+      },
+      "is_final": false,
+      "icon": "AccountSearch",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "sustainability_initiative",
+      "status_key": "implementation",
+      "label": {
+        "en": "Implementation",
+        "fr": "Mise en œuvre",
+        "de": "Implementierung",
+        "gsw": "Implementierig"
+      },
+      "description": {
+        "en": "Sustainability initiative being implemented",
+        "fr": "Initiative de durabilité en cours de mise en œuvre",
+        "de": "Nachhaltigkeitsinitiative wird implementiert",
+        "gsw": "Nochhaltigkeits-Initiative wird implementiert"
+      },
+      "is_final": false,
+      "icon": "Wrench",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "sustainability_initiative",
+      "status_key": "monitoring",
+      "label": {
+        "en": "Monitoring",
+        "fr": "Surveillance",
+        "de": "Überwachung",
+        "gsw": "Überwachig"
+      },
+      "description": {
+        "en": "Monitoring initiative performance and impact",
+        "fr": "Surveillance des performances et de l'impact de l'initiative",
+        "de": "Überwachung der Initiativleistung und -auswirkungen",
+        "gsw": "Überwachig vo Initiative-Leistig und -Uswirkige"
+      },
+      "is_final": false,
+      "icon": "ChartLine",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "sustainability_initiative",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Sustainability initiative completed successfully",
+        "fr": "Initiative de durabilité terminée avec succès",
+        "de": "Nachhaltigkeitsinitiative erfolgreich abgeschlossen",
+        "gsw": "Nochhaltigkeits-Initiative erfolgriich abgschlosse"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 8
+    },
+    {
+      "inquiry_type": "sustainability_initiative",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Sustainability initiative not approved",
+        "fr": "Initiative de durabilité non approuvée",
+        "de": "Nachhaltigkeitsinitiative nicht genehmigt",
+        "gsw": "Nochhaltigkeits-Initiative nöd gnehmigt"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 9
+    },
+
+    {
+      "inquiry_type": "workspace_optimization",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Workspace optimization request submitted",
+        "fr": "Demande d'optimisation de l'espace de travail soumise",
+        "de": "Arbeitsplatzoptimierungsanfrage eingereicht",
+        "gsw": "Arbetsplatz-Optimierigs-Aafraag iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "workspace_optimization",
+      "status_key": "space_audit",
+      "label": {
+        "en": "Space Audit",
+        "fr": "Audit de l'espace",
+        "de": "Raumprüfung",
+        "gsw": "Ruum-Prüefig"
+      },
+      "description": {
+        "en": "Auditing current space utilization",
+        "fr": "Audit de l'utilisation actuelle de l'espace",
+        "de": "Prüfung der aktuellen Raumnutzung",
+        "gsw": "Prüefig vo dr aktuälle Ruum-Nutzig"
+      },
+      "is_final": false,
+      "icon": "FloorPlan",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "workspace_optimization",
+      "status_key": "design_proposal",
+      "label": {
+        "en": "Design Proposal",
+        "fr": "Proposition de design",
+        "de": "Designvorschlag",
+        "gsw": "Design-Vorschlag"
+      },
+      "description": {
+        "en": "Workspace design proposal being developed",
+        "fr": "Proposition de design d'espace de travail en cours de développement",
+        "de": "Arbeitsplatzdesignvorschlag wird entwickelt",
+        "gsw": "Arbetsplatz-Design-Vorschlag wird entwicklet"
+      },
+      "is_final": false,
+      "icon": "Pencil",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "workspace_optimization",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Workspace optimization plan approved",
+        "fr": "Plan d'optimisation de l'espace de travail approuvé",
+        "de": "Arbeitsplatzoptimierungsplan genehmigt",
+        "gsw": "Arbetsplatz-Optimierigs-Plan gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "workspace_optimization",
+      "status_key": "renovation",
+      "label": {
+        "en": "Renovation",
+        "fr": "Rénovation",
+        "de": "Renovierung",
+        "gsw": "Renovierig"
+      },
+      "description": {
+        "en": "Workspace renovation in progress",
+        "fr": "Rénovation de l'espace de travail en cours",
+        "de": "Arbeitsplatzrenovierung läuft",
+        "gsw": "Arbetsplatz-Renovierig lauft"
+      },
+      "is_final": false,
+      "icon": "HardHat",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "workspace_optimization",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Workspace optimization completed successfully",
+        "fr": "Optimisation de l'espace de travail terminée avec succès",
+        "de": "Arbeitsplatzoptimierung erfolgreich abgeschlossen",
+        "gsw": "Arbetsplatz-Optimierig erfolgriich abgschlosse"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "workspace_optimization",
+      "status_key": "deferred",
+      "label": {
+        "en": "Deferred",
+        "fr": "Reporté",
+        "de": "Zurückgestellt",
+        "gsw": "Zruggstellt"
+      },
+      "description": {
+        "en": "Optimization deferred to future period",
+        "fr": "Optimisation reportée à une période future",
+        "de": "Optimierung auf zukünftigen Zeitraum verschoben",
+        "gsw": "Optimierig uf zukünftige Ziitruum verschobe"
+      },
+      "is_final": true,
+      "icon": "ClockOutline",
+      "sort_order": 8
+    },
+
+    {
+      "inquiry_type": "maintenance_request",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Maintenance request has been submitted",
+        "fr": "La demande de maintenance a été soumise",
+        "de": "Wartungsanfrage wurde eingereicht",
+        "gsw": "Wartigs-Aafraag isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "maintenance_request",
+      "status_key": "priority_assessment",
+      "label": {
+        "en": "Priority Assessment",
+        "fr": "Évaluation de la priorité",
+        "de": "Prioritätsbewertung",
+        "gsw": "Prioritäts-Bewertig"
+      },
+      "description": {
+        "en": "Assessing maintenance request priority",
+        "fr": "Évaluation de la priorité de la demande de maintenance",
+        "de": "Bewertung der Wartungsanfragenpriorität",
+        "gsw": "Bewertig vo dr Wartigs-Aafraag-Prioritäät"
+      },
+      "is_final": false,
+      "icon": "ClipboardAlert",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "maintenance_request",
+      "status_key": "assigned",
+      "label": {
+        "en": "Assigned",
+        "fr": "Assigné",
+        "de": "Zugewiesen",
+        "gsw": "Zuegwise"
+      },
+      "description": {
+        "en": "Request assigned to maintenance team",
+        "fr": "Demande assignée à l'équipe de maintenance",
+        "de": "Anfrage dem Wartungsteam zugewiesen",
+        "gsw": "Aafraag em Wartigs-Team zuegwise"
+      },
+      "is_final": false,
+      "icon": "AccountHardHat",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "maintenance_request",
+      "status_key": "in_progress",
+      "label": {
+        "en": "In Progress",
+        "fr": "En cours",
+        "de": "In Bearbeitung",
+        "gsw": "In Bearbeitig"
+      },
+      "description": {
+        "en": "Maintenance work in progress",
+        "fr": "Travaux de maintenance en cours",
+        "de": "Wartungsarbeiten laufen",
+        "gsw": "Wartigs-Arbeite laufe"
+      },
+      "is_final": false,
+      "icon": "Progress",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "maintenance_request",
+      "status_key": "quality_check",
+      "label": {
+        "en": "Quality Check",
+        "fr": "Contrôle qualité",
+        "de": "Qualitätsprüfung",
+        "gsw": "Qualitäts-Prüefig"
+      },
+      "description": {
+        "en": "Quality check of completed maintenance",
+        "fr": "Contrôle qualité de la maintenance effectuée",
+        "de": "Qualitätsprüfung der abgeschlossenen Wartung",
+        "gsw": "Qualitäts-Prüefig vo dr abgschlossnig Wartig"
+      },
+      "is_final": false,
+      "icon": "CheckDecagram",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "maintenance_request",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Maintenance completed successfully",
+        "fr": "Maintenance terminée avec succès",
+        "de": "Wartung erfolgreich abgeschlossen",
+        "gsw": "Wartig erfolgriich abgschlosse"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "maintenance_request",
+      "status_key": "escalated",
+      "label": {
+        "en": "Escalated",
+        "fr": "Escaladé",
+        "de": "Eskaliert",
+        "gsw": "Eskaliert"
+      },
+      "description": {
+        "en": "Request escalated to specialized contractor",
+        "fr": "Demande escaladée à un entrepreneur spécialisé",
+        "de": "Anfrage an spezialisierten Auftragnehmer eskaliert",
+        "gsw": "Aafraag an spezialisierte Uftraggnähmer eskaliert"
+      },
+      "is_final": false,
+      "icon": "AlertCircle",
+      "sort_order": 7
+    },
+
+    {
+      "inquiry_type": "parking_transportation",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Parking/transportation request submitted",
+        "fr": "Demande de stationnement/transport soumise",
+        "de": "Parkplatz-/Transportanfrage eingereicht",
+        "gsw": "Parkplatz-/Transport-Aafraag iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "parking_transportation",
+      "status_key": "feasibility_study",
+      "label": {
+        "en": "Feasibility Study",
+        "fr": "Étude de faisabilité",
+        "de": "Machbarkeitsstudie",
+        "gsw": "Machbarkeits-Studie"
+      },
+      "description": {
+        "en": "Studying feasibility of parking/transportation proposal",
+        "fr": "Étude de faisabilité de la proposition de stationnement/transport",
+        "de": "Machbarkeitsstudie des Parkplatz-/Transportvorschlags",
+        "gsw": "Machbarkeits-Studie vom Parkplatz-/Transport-Vorschlag"
+      },
+      "is_final": false,
+      "icon": "FileSearch",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "parking_transportation",
+      "status_key": "occupant_survey",
+      "label": {
+        "en": "Occupant Survey",
+        "fr": "Sondage des occupants",
+        "de": "Bewohnerumfrage",
+        "gsw": "Bewohner-Umfraag"
+      },
+      "description": {
+        "en": "Surveying building occupants for input",
+        "fr": "Sondage des occupants du bâtiment pour avis",
+        "de": "Befragung der Gebäudebewohner",
+        "gsw": "Befraagig vo de Gebäude-Bewohner"
+      },
+      "is_final": false,
+      "icon": "Poll",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "parking_transportation",
+      "status_key": "budget_review",
+      "label": {
+        "en": "Budget Review",
+        "fr": "Examen du budget",
+        "de": "Budgetprüfung",
+        "gsw": "Budget-Prüefig"
+      },
+      "description": {
+        "en": "Reviewing budget requirements",
+        "fr": "Examen des exigences budgétaires",
+        "de": "Prüfung der Budgetanforderungen",
+        "gsw": "Prüefig vo de Budget-Aforderige"
+      },
+      "is_final": false,
+      "icon": "CashCheck",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "parking_transportation",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Parking/transportation proposal approved",
+        "fr": "Proposition de stationnement/transport approuvée",
+        "de": "Parkplatz-/Transportvorschlag genehmigt",
+        "gsw": "Parkplatz-/Transport-Vorschlag gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "parking_transportation",
+      "status_key": "implementation",
+      "label": {
+        "en": "Implementation",
+        "fr": "Mise en œuvre",
+        "de": "Implementierung",
+        "gsw": "Implementierig"
+      },
+      "description": {
+        "en": "Implementing parking/transportation changes",
+        "fr": "Mise en œuvre des changements de stationnement/transport",
+        "de": "Umsetzung der Parkplatz-/Transportänderungen",
+        "gsw": "Umsetzig vo de Parkplatz-/Transport-Änderige"
+      },
+      "is_final": false,
+      "icon": "Wrench",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "parking_transportation",
+      "status_key": "operational",
+      "label": {
+        "en": "Operational",
+        "fr": "Opérationnel",
+        "de": "Betriebsbereit",
+        "gsw": "Betriebsbereit"
+      },
+      "description": {
+        "en": "Parking/transportation solution operational",
+        "fr": "Solution de stationnement/transport opérationnelle",
+        "de": "Parkplatz-/Transportlösung betriebsbereit",
+        "gsw": "Parkplatz-/Transport-Lösig betriebsbereit"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "parking_transportation",
+      "status_key": "declined",
+      "label": {
+        "en": "Declined",
+        "fr": "Refusé",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Parking/transportation request declined",
+        "fr": "Demande de stationnement/transport refusée",
+        "de": "Parkplatz-/Transportanfrage abgelehnt",
+        "gsw": "Parkplatz-/Transport-Aafraag abglehnt"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 8
     }
   ],
   "categories": [

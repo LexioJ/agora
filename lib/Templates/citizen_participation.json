@@ -1292,10 +1292,10 @@
         "gsw": "Entwurf"
       },
       "description": {
-        "en": "Being prepared",
-        "fr": "Being prepared",
-        "de": "Being prepared",
-        "gsw": "Being prepared"
+        "en": "Petition is being prepared",
+        "fr": "La pétition est en cours de préparation",
+        "de": "Petition wird vorbereitet",
+        "gsw": "Petition wird vorbereitet"
       },
       "is_final": false,
       "icon": "FileDocumentEdit",
@@ -1311,10 +1311,10 @@
         "gsw": "Veröffentlicht"
       },
       "description": {
-        "en": "Published",
-        "fr": "Published",
-        "de": "Published",
-        "gsw": "Published"
+        "en": "Petition has been published",
+        "fr": "La pétition a été publiée",
+        "de": "Petition wurde veröffentlicht",
+        "gsw": "Petition isch veröffentlicht"
       },
       "is_final": false,
       "icon": "Send",
@@ -1322,22 +1322,98 @@
     },
     {
       "inquiry_type": "petition",
-      "status_key": "completed",
+      "status_key": "collecting_signatures",
       "label": {
-        "en": "Completed",
-        "fr": "Terminé",
-        "de": "Abgeschlossen",
-        "gsw": "Abgschlosse"
+        "en": "Collecting Signatures",
+        "fr": "Collecte de signatures",
+        "de": "Sammelt Unterschriften",
+        "gsw": "Sammlet Unterschrifte"
       },
       "description": {
-        "en": "Completed",
-        "fr": "Completed",
-        "de": "Completed",
-        "gsw": "Completed"
+        "en": "Petition is actively collecting citizen signatures",
+        "fr": "La pétition collecte activement les signatures des citoyens",
+        "de": "Petition sammelt aktiv Bürgerunterschriften",
+        "gsw": "Petition sammlet aktiv Bürger-Unterschrifte"
+      },
+      "is_final": false,
+      "icon": "AccountMultiplePlus",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "petition",
+      "status_key": "threshold_check",
+      "label": {
+        "en": "Threshold Check",
+        "fr": "Vérification du seuil",
+        "de": "Schwellenprüfung",
+        "gsw": "Schwelle-Prüefig"
+      },
+      "description": {
+        "en": "Verifying if signature threshold has been met",
+        "fr": "Vérification si le seuil de signatures est atteint",
+        "de": "Überprüfung ob Unterschriftenschwelle erreicht wurde",
+        "gsw": "Überprüefig ob Unterschrifte-Schwelle erreicht isch"
+      },
+      "is_final": false,
+      "icon": "CheckboxMarked",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "petition",
+      "status_key": "under_official_review",
+      "label": {
+        "en": "Under Official Review",
+        "fr": "En examen officiel",
+        "de": "In offizieller Prüfung",
+        "gsw": "In offizieller Prüefig"
+      },
+      "description": {
+        "en": "Government officials are reviewing the petition",
+        "fr": "Les responsables gouvernementaux examinent la pétition",
+        "de": "Regierungsbeamte prüfen die Petition",
+        "gsw": "Regierigs-Beamti prüefe d'Petition"
+      },
+      "is_final": false,
+      "icon": "AccountTie",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "petition",
+      "status_key": "response_issued",
+      "label": {
+        "en": "Response Issued",
+        "fr": "Réponse émise",
+        "de": "Antwort erteilt",
+        "gsw": "Antwort erteilt"
+      },
+      "description": {
+        "en": "Official response has been issued to the petition",
+        "fr": "Une réponse officielle a été émise à la pétition",
+        "de": "Offizielle Antwort auf die Petition wurde erteilt",
+        "gsw": "Offizielli Antwort uf d'Petition isch erteilt"
       },
       "is_final": true,
       "icon": "CheckCircle",
-      "sort_order": 3
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "petition",
+      "status_key": "insufficient_signatures",
+      "label": {
+        "en": "Insufficient Signatures",
+        "fr": "Signatures insuffisantes",
+        "de": "Unzureichende Unterschriften",
+        "gsw": "Unzureichendi Unterschrifte"
+      },
+      "description": {
+        "en": "Petition did not reach required signature threshold",
+        "fr": "La pétition n'a pas atteint le seuil de signatures requis",
+        "de": "Petition hat erforderliche Unterschriftenschwelle nicht erreicht",
+        "gsw": "Petition het erforderlich Unterschrifte-Schwelle nöd erreicht"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 7
     },
     {
       "inquiry_type": "initiative",
@@ -1349,10 +1425,10 @@
         "gsw": "Entwurf"
       },
       "description": {
-        "en": "Being prepared",
-        "fr": "Being prepared",
-        "de": "Being prepared",
-        "gsw": "Being prepared"
+        "en": "Initiative is being drafted",
+        "fr": "L'initiative est en cours de rédaction",
+        "de": "Initiative wird entworfen",
+        "gsw": "Initiative wird entworfe"
       },
       "is_final": false,
       "icon": "FileDocumentEdit",
@@ -1368,10 +1444,10 @@
         "gsw": "Veröffentlicht"
       },
       "description": {
-        "en": "Published",
-        "fr": "Published",
-        "de": "Published",
-        "gsw": "Published"
+        "en": "Initiative has been published for public viewing",
+        "fr": "L'initiative a été publiée pour consultation publique",
+        "de": "Initiative wurde zur öffentlichen Einsicht veröffentlicht",
+        "gsw": "Initiative isch zur öffentliche Iisicht veröffentlicht"
       },
       "is_final": false,
       "icon": "Send",
@@ -1379,60 +1455,193 @@
     },
     {
       "inquiry_type": "initiative",
-      "status_key": "completed",
+      "status_key": "support_gathering",
       "label": {
-        "en": "Completed",
-        "fr": "Terminé",
-        "de": "Abgeschlossen",
-        "gsw": "Abgschlosse"
+        "en": "Support Gathering",
+        "fr": "Collecte de soutien",
+        "de": "Unterstützungssammlung",
+        "gsw": "Understützig-Sammlig"
       },
       "description": {
-        "en": "Completed",
-        "fr": "Completed",
-        "de": "Completed",
-        "gsw": "Completed"
+        "en": "Gathering citizen support for the initiative",
+        "fr": "Collecte du soutien citoyen pour l'initiative",
+        "de": "Bürgerunterstützung für die Initiative wird gesammelt",
+        "gsw": "Bürger-Understützig für d'Initiative wird gsammlet"
+      },
+      "is_final": false,
+      "icon": "AccountMultiplePlus",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "initiative",
+      "status_key": "qualification",
+      "label": {
+        "en": "Qualification",
+        "fr": "Qualification",
+        "de": "Qualifikation",
+        "gsw": "Qualifikation"
+      },
+      "description": {
+        "en": "Verifying initiative meets all legal requirements",
+        "fr": "Vérification que l'initiative remplit toutes les exigences légales",
+        "de": "Überprüfung ob Initiative alle rechtlichen Anforderungen erfüllt",
+        "gsw": "Überprüefig ob Initiative alli rächtliche Aforderige erfüllt"
+      },
+      "is_final": false,
+      "icon": "ScaleBalance",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "initiative",
+      "status_key": "committee_review",
+      "label": {
+        "en": "Committee Review",
+        "fr": "Examen du comité",
+        "de": "Ausschussprüfung",
+        "gsw": "Usschuss-Prüefig"
+      },
+      "description": {
+        "en": "Parliamentary or civic committee reviewing the initiative",
+        "fr": "Comité parlementaire ou civique examine l'initiative",
+        "de": "Parlamentarischer oder bürgerlicher Ausschuss prüft die Initiative",
+        "gsw": "Parlamentarische oder bürgerliche Usschuss prüeft d'Initiative"
+      },
+      "is_final": false,
+      "icon": "AccountGroup",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "initiative",
+      "status_key": "ballot_scheduled",
+      "label": {
+        "en": "Ballot Scheduled",
+        "fr": "Vote programmé",
+        "de": "Abstimmung geplant",
+        "gsw": "Abstimmig plant"
+      },
+      "description": {
+        "en": "Initiative qualified and scheduled for public vote",
+        "fr": "Initiative qualifiée et programmée pour vote public",
+        "de": "Initiative qualifiziert und zur öffentlichen Abstimmung geplant",
+        "gsw": "Initiative qualifiziert und zur öffentliche Abstimmig plant"
       },
       "is_final": true,
-      "icon": "CheckCircle",
+      "icon": "VoteOutline",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "initiative",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Initiative did not qualify or was rejected",
+        "fr": "L'initiative n'a pas été qualifiée ou a été rejetée",
+        "de": "Initiative wurde nicht qualifiziert oder abgelehnt",
+        "gsw": "Initiative isch nöd qualifiziert oder abglehnt worde"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "debate",
+      "status_key": "open",
+      "label": {
+        "en": "Open",
+        "fr": "Ouvert",
+        "de": "Offen",
+        "gsw": "Offe"
+      },
+      "description": {
+        "en": "Debate has been opened for discussion",
+        "fr": "Le débat a été ouvert pour discussion",
+        "de": "Debatte wurde zur Diskussion eröffnet",
+        "gsw": "Debatte isch zur Diskussion eröffnet"
+      },
+      "is_final": false,
+      "icon": "ForumOutline",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "debate",
+      "status_key": "contributions_welcome",
+      "label": {
+        "en": "Contributions Welcome",
+        "fr": "Contributions bienvenues",
+        "de": "Beiträge willkommen",
+        "gsw": "Biträg willkomme"
+      },
+      "description": {
+        "en": "Actively seeking citizen contributions and arguments",
+        "fr": "Recherche active de contributions et arguments citoyens",
+        "de": "Aktiv auf der Suche nach Bürgerbeiträgen und Argumenten",
+        "gsw": "Aktiv uf de Suechi nach Bürger-Biträg und Argumänt"
+      },
+      "is_final": false,
+      "icon": "CommentPlus",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "debate",
+      "status_key": "synthesis_phase",
+      "label": {
+        "en": "Synthesis Phase",
+        "fr": "Phase de synthèse",
+        "de": "Synthesephase",
+        "gsw": "Synthese-Phas"
+      },
+      "description": {
+        "en": "Key arguments being synthesized and organized",
+        "fr": "Arguments clés en cours de synthèse et d'organisation",
+        "de": "Hauptargumente werden zusammengefasst und organisiert",
+        "gsw": "Hauptargumänt wärde zämegfasst und organisiert"
+      },
+      "is_final": false,
+      "icon": "TextBoxMultiple",
       "sort_order": 3
     },
     {
       "inquiry_type": "debate",
-      "status_key": "open",
+      "status_key": "moderator_summary",
       "label": {
-        "en": "Open",
-        "fr": "Ouvert",
-        "de": "Offen",
-        "gsw": "Offe"
+        "en": "Moderator Summary",
+        "fr": "Résumé du modérateur",
+        "de": "Moderatorzusammenfassung",
+        "gsw": "Moderator-Zämefassig"
       },
       "description": {
-        "en": "Open",
-        "fr": "Open",
-        "de": "Open",
-        "gsw": "Open"
+        "en": "Moderator is preparing final summary of the debate",
+        "fr": "Le modérateur prépare le résumé final du débat",
+        "de": "Moderator bereitet finale Zusammenfassung der Debatte vor",
+        "gsw": "Moderator bereitet finali Zämefassig vo dr Debatte vor"
       },
       "is_final": false,
-      "icon": "ForumOutline",
-      "sort_order": 1
+      "icon": "AccountEdit",
+      "sort_order": 4
     },
     {
       "inquiry_type": "debate",
-      "status_key": "closed",
+      "status_key": "concluded",
       "label": {
-        "en": "Closed",
-        "fr": "Fermé",
-        "de": "Geschlossen",
-        "gsw": "Gschlosse"
+        "en": "Concluded",
+        "fr": "Conclu",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
       },
       "description": {
-        "en": "Closed",
-        "fr": "Closed",
-        "de": "Closed",
-        "gsw": "Closed"
+        "en": "Debate has concluded with final summary available",
+        "fr": "Le débat est conclu avec le résumé final disponible",
+        "de": "Debatte wurde mit verfügbarer Endzusammenfassung abgeschlossen",
+        "gsw": "Debatte isch mit verfüegbarer Ändzämefassig abgschlosse"
       },
       "is_final": true,
-      "icon": "Check",
-      "sort_order": 2
+      "icon": "CheckCircle",
+      "sort_order": 5
     },
     {
       "inquiry_type": "deliberation",
@@ -1444,10 +1653,10 @@
         "gsw": "Offe"
       },
       "description": {
-        "en": "Open",
-        "fr": "Open",
-        "de": "Open",
-        "gsw": "Open"
+        "en": "Deliberation has been opened",
+        "fr": "La délibération a été ouverte",
+        "de": "Beratung wurde eröffnet",
+        "gsw": "Beratig isch eröffnet"
       },
       "is_final": false,
       "icon": "ForumOutline",
@@ -1455,22 +1664,98 @@
     },
     {
       "inquiry_type": "deliberation",
-      "status_key": "closed",
+      "status_key": "evidence_gathering",
       "label": {
-        "en": "Closed",
-        "fr": "Fermé",
-        "de": "Geschlossen",
-        "gsw": "Gschlosse"
+        "en": "Evidence Gathering",
+        "fr": "Collecte de preuves",
+        "de": "Beweissammlung",
+        "gsw": "Bewiis-Sammlig"
       },
       "description": {
-        "en": "Closed",
-        "fr": "Closed",
-        "de": "Closed",
-        "gsw": "Closed"
+        "en": "Collecting evidence and expert input",
+        "fr": "Collecte de preuves et d'avis d'experts",
+        "de": "Sammeln von Beweisen und Expertenmeinungen",
+        "gsw": "Sammle vo Bewiis und Experte-Meinige"
+      },
+      "is_final": false,
+      "icon": "FileDocumentMultiple",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "deliberation",
+      "status_key": "structured_discussion",
+      "label": {
+        "en": "Structured Discussion",
+        "fr": "Discussion structurée",
+        "de": "Strukturierte Diskussion",
+        "gsw": "Strukturierti Diskussion"
+      },
+      "description": {
+        "en": "Participants engaging in structured deliberation",
+        "fr": "Les participants s'engagent dans une délibération structurée",
+        "de": "Teilnehmer führen strukturierte Beratung durch",
+        "gsw": "Teilnähmer füehre strukturierti Beratig durch"
+      },
+      "is_final": false,
+      "icon": "AccountGroup",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "deliberation",
+      "status_key": "consensus_building",
+      "label": {
+        "en": "Consensus Building",
+        "fr": "Construction du consensus",
+        "de": "Konsensbildung",
+        "gsw": "Konsens-Bildig"
+      },
+      "description": {
+        "en": "Working towards consensus among participants",
+        "fr": "Travail vers un consensus entre les participants",
+        "de": "Arbeiten an Konsens unter den Teilnehmern",
+        "gsw": "Arbeite a Konsens under de Teilnähmer"
+      },
+      "is_final": false,
+      "icon": "Handshake",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "deliberation",
+      "status_key": "recommendation_formed",
+      "label": {
+        "en": "Recommendation Formed",
+        "fr": "Recommandation formée",
+        "de": "Empfehlung gebildet",
+        "gsw": "Empfählig bildet"
+      },
+      "description": {
+        "en": "Deliberation has produced a formal recommendation",
+        "fr": "La délibération a produit une recommandation formelle",
+        "de": "Beratung hat eine formale Empfehlung hervorgebracht",
+        "gsw": "Beratig het e formali Empfählig hervorbracht"
+      },
+      "is_final": false,
+      "icon": "ClipboardCheck",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "deliberation",
+      "status_key": "concluded",
+      "label": {
+        "en": "Concluded",
+        "fr": "Conclu",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Deliberation has concluded with final recommendation",
+        "fr": "La délibération est conclue avec une recommandation finale",
+        "de": "Beratung wurde mit finaler Empfehlung abgeschlossen",
+        "gsw": "Beratig isch mit finaler Empfählig abgschlosse"
       },
       "is_final": true,
-      "icon": "Check",
-      "sort_order": 2
+      "icon": "CheckCircle",
+      "sort_order": 6
     },
     {
       "inquiry_type": "objection",

@@ -1227,6 +1227,943 @@
       "is_final": false,
       "icon": "AccountGroupOutline",
       "sort_order": 3.5
+    },
+
+    {
+      "inquiry_type": "ai_use_case",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "AI use case has been submitted for review",
+        "fr": "Le cas d'usage IA a été soumis pour examen",
+        "de": "KI-Anwendungsfall wurde zur Prüfung eingereicht",
+        "gsw": "KI-Aawändigsfall isch zur Prüefig iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "ai_use_case",
+      "status_key": "feasibility_study",
+      "label": {
+        "en": "Feasibility Study",
+        "fr": "Étude de faisabilité",
+        "de": "Machbarkeitsstudie",
+        "gsw": "Machbarkeitsstudie"
+      },
+      "description": {
+        "en": "Technical and business feasibility being evaluated",
+        "fr": "Faisabilité technique et commerciale en cours d'évaluation",
+        "de": "Technische und geschäftliche Machbarkeit wird bewertet",
+        "gsw": "Technischi und gschäftlichi Machbarkeit wird bewertet"
+      },
+      "is_final": false,
+      "icon": "FileSearch",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "ai_use_case",
+      "status_key": "ethics_review",
+      "label": {
+        "en": "Ethics Review",
+        "fr": "Examen éthique",
+        "de": "Ethikprüfung",
+        "gsw": "Ethik-Prüefig"
+      },
+      "description": {
+        "en": "AI ethics and compliance review in progress",
+        "fr": "Examen éthique et conformité IA en cours",
+        "de": "KI-Ethik- und Compliance-Prüfung läuft",
+        "gsw": "KI-Ethik- und Compliance-Prüefig lauft"
+      },
+      "is_final": false,
+      "icon": "ScaleBalance",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "ai_use_case",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "AI use case approved for implementation",
+        "fr": "Cas d'usage IA approuvé pour mise en œuvre",
+        "de": "KI-Anwendungsfall zur Umsetzung genehmigt",
+        "gsw": "KI-Aawändigsfall zur Umsetzig gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "ai_use_case",
+      "status_key": "pilot",
+      "label": {
+        "en": "Pilot Phase",
+        "fr": "Phase pilote",
+        "de": "Pilotphase",
+        "gsw": "Pilot-Phas"
+      },
+      "description": {
+        "en": "AI solution in pilot testing",
+        "fr": "Solution IA en test pilote",
+        "de": "KI-Lösung im Pilottest",
+        "gsw": "KI-Lösig im Pilot-Test"
+      },
+      "is_final": false,
+      "icon": "TestTube",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "ai_use_case",
+      "status_key": "in_progress",
+      "label": {
+        "en": "In Progress",
+        "fr": "En cours",
+        "de": "In Bearbeitung",
+        "gsw": "In Bearbeitig"
+      },
+      "description": {
+        "en": "Full implementation in progress",
+        "fr": "Mise en œuvre complète en cours",
+        "de": "Vollständige Umsetzung läuft",
+        "gsw": "Vollständigi Umsetzig lauft"
+      },
+      "is_final": false,
+      "icon": "Progress",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "ai_use_case",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "AI use case successfully implemented",
+        "fr": "Cas d'usage IA mis en œuvre avec succès",
+        "de": "KI-Anwendungsfall erfolgreich umgesetzt",
+        "gsw": "KI-Aawändigsfall erfolgriich umgsetzt"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 8
+    },
+    {
+      "inquiry_type": "ai_use_case",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "AI use case rejected - not feasible or ethical concerns",
+        "fr": "Cas d'usage IA rejeté - non réalisable ou préoccupations éthiques",
+        "de": "KI-Anwendungsfall abgelehnt - nicht machbar oder ethische Bedenken",
+        "gsw": "KI-Aawändigsfall abglehnt - nöd machbar oder ethischi Bedenke"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 9
+    },
+
+    {
+      "inquiry_type": "process_automation",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Automation request has been submitted",
+        "fr": "La demande d'automatisation a été soumise",
+        "de": "Automatisierungsanfrage wurde eingereicht",
+        "gsw": "Automatisierigs-Aafraag isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "process_automation",
+      "status_key": "process_mapping",
+      "label": {
+        "en": "Process Mapping",
+        "fr": "Cartographie du processus",
+        "de": "Prozessabbildung",
+        "gsw": "Prozess-Abbillig"
+      },
+      "description": {
+        "en": "Current process being documented and analyzed",
+        "fr": "Processus actuel en cours de documentation et d'analyse",
+        "de": "Aktueller Prozess wird dokumentiert und analysiert",
+        "gsw": "Aktuelle Prozäss wird dokumentiert und analysiert"
+      },
+      "is_final": false,
+      "icon": "MapSearch",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "process_automation",
+      "status_key": "roi_analysis",
+      "label": {
+        "en": "ROI Analysis",
+        "fr": "Analyse du ROI",
+        "de": "ROI-Analyse",
+        "gsw": "ROI-Analys"
+      },
+      "description": {
+        "en": "Return on investment being calculated",
+        "fr": "Retour sur investissement en cours de calcul",
+        "de": "Kapitalrendite wird berechnet",
+        "gsw": "Kapitalrendite wird berechnet"
+      },
+      "is_final": false,
+      "icon": "ChartLine",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "process_automation",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Automation approved for development",
+        "fr": "Automatisation approuvée pour développement",
+        "de": "Automatisierung für Entwicklung genehmigt",
+        "gsw": "Automatisierig für Entwicklig gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "process_automation",
+      "status_key": "development",
+      "label": {
+        "en": "Development",
+        "fr": "Développement",
+        "de": "Entwicklung",
+        "gsw": "Entwicklig"
+      },
+      "description": {
+        "en": "Automation solution being developed",
+        "fr": "Solution d'automatisation en cours de développement",
+        "de": "Automatisierungslösung wird entwickelt",
+        "gsw": "Automatisierigs-Lösig wird entwicklet"
+      },
+      "is_final": false,
+      "icon": "CodeBraces",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "process_automation",
+      "status_key": "testing",
+      "label": {
+        "en": "Testing",
+        "fr": "Test",
+        "de": "Test",
+        "gsw": "Test"
+      },
+      "description": {
+        "en": "Automation being tested and validated",
+        "fr": "Automatisation en cours de test et validation",
+        "de": "Automatisierung wird getestet und validiert",
+        "gsw": "Automatisierig wird testet und validiert"
+      },
+      "is_final": false,
+      "icon": "TestTube",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "process_automation",
+      "status_key": "deployed",
+      "label": {
+        "en": "Deployed",
+        "fr": "Déployé",
+        "de": "Bereitgestellt",
+        "gsw": "Bereitgstellt"
+      },
+      "description": {
+        "en": "Automation successfully deployed to production",
+        "fr": "Automatisation déployée avec succès en production",
+        "de": "Automatisierung erfolgreich in Produktion bereitgestellt",
+        "gsw": "Automatisierig erfolgriich in Produktion bereitgstellt"
+      },
+      "is_final": true,
+      "icon": "RocketLaunch",
+      "sort_order": 8
+    },
+    {
+      "inquiry_type": "process_automation",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Automation request rejected - not viable",
+        "fr": "Demande d'automatisation rejetée - non viable",
+        "de": "Automatisierungsanfrage abgelehnt - nicht durchführbar",
+        "gsw": "Automatisierigs-Aafraag abglehnt - nöd durchfüehrbar"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 9
+    },
+
+    {
+      "inquiry_type": "new_service",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "New service request has been submitted",
+        "fr": "La demande de nouveau service a été soumise",
+        "de": "Neue Service-Anfrage wurde eingereicht",
+        "gsw": "Nöii Service-Aafraag isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "new_service",
+      "status_key": "needs_assessment",
+      "label": {
+        "en": "Needs Assessment",
+        "fr": "Évaluation des besoins",
+        "de": "Bedarfsanalyse",
+        "gsw": "Bedarfs-Analys"
+      },
+      "description": {
+        "en": "Business needs and requirements being assessed",
+        "fr": "Besoins métier et exigences en cours d'évaluation",
+        "de": "Geschäftsanforderungen werden bewertet",
+        "gsw": "Gschäfts-Aforderige wärde bewertet"
+      },
+      "is_final": false,
+      "icon": "ClipboardCheck",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "new_service",
+      "status_key": "vendor_evaluation",
+      "label": {
+        "en": "Vendor Evaluation",
+        "fr": "Évaluation des fournisseurs",
+        "de": "Anbieterbewertung",
+        "gsw": "Aabieter-Bewertig"
+      },
+      "description": {
+        "en": "Potential vendors being evaluated",
+        "fr": "Fournisseurs potentiels en cours d'évaluation",
+        "de": "Potenzielle Anbieter werden bewertet",
+        "gsw": "Potenzielle Aabieter wärde bewertet"
+      },
+      "is_final": false,
+      "icon": "AccountSearch",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "new_service",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "New service approved for procurement",
+        "fr": "Nouveau service approuvé pour acquisition",
+        "de": "Neuer Service zur Beschaffung genehmigt",
+        "gsw": "Nöie Service zur Beschaffig gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "new_service",
+      "status_key": "procurement",
+      "label": {
+        "en": "Procurement",
+        "fr": "Acquisition",
+        "de": "Beschaffung",
+        "gsw": "Beschaffig"
+      },
+      "description": {
+        "en": "Service procurement in progress",
+        "fr": "Acquisition du service en cours",
+        "de": "Service-Beschaffung läuft",
+        "gsw": "Service-Beschaffig lauft"
+      },
+      "is_final": false,
+      "icon": "CartPlus",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "new_service",
+      "status_key": "implementation",
+      "label": {
+        "en": "Implementation",
+        "fr": "Mise en œuvre",
+        "de": "Implementierung",
+        "gsw": "Implementierig"
+      },
+      "description": {
+        "en": "Service being implemented and configured",
+        "fr": "Service en cours de mise en œuvre et configuration",
+        "de": "Service wird implementiert und konfiguriert",
+        "gsw": "Service wird implementiert und konfiguriert"
+      },
+      "is_final": false,
+      "icon": "Wrench",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "new_service",
+      "status_key": "go_live",
+      "label": {
+        "en": "Go Live",
+        "fr": "Mise en service",
+        "de": "Go-Live",
+        "gsw": "Go-Live"
+      },
+      "description": {
+        "en": "Service successfully launched and operational",
+        "fr": "Service lancé avec succès et opérationnel",
+        "de": "Service erfolgreich gestartet und betriebsbereit",
+        "gsw": "Service erfolgriich gstartet und betriebsbereit"
+      },
+      "is_final": true,
+      "icon": "RocketLaunch",
+      "sort_order": 8
+    },
+    {
+      "inquiry_type": "new_service",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "New service request rejected",
+        "fr": "Demande de nouveau service rejetée",
+        "de": "Neue Service-Anfrage abgelehnt",
+        "gsw": "Nöii Service-Aafraag abglehnt"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 9
+    },
+
+    {
+      "inquiry_type": "improve_service",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Improvement suggestion has been submitted",
+        "fr": "La suggestion d'amélioration a été soumise",
+        "de": "Verbesserungsvorschlag wurde eingereicht",
+        "gsw": "Verbesserigs-Vorschlag isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "improve_service",
+      "status_key": "impact_analysis",
+      "label": {
+        "en": "Impact Analysis",
+        "fr": "Analyse d'impact",
+        "de": "Auswirkungsanalyse",
+        "gsw": "Uswirkigs-Analys"
+      },
+      "description": {
+        "en": "Analyzing impact of proposed improvement",
+        "fr": "Analyse de l'impact de l'amélioration proposée",
+        "de": "Auswirkung der vorgeschlagenen Verbesserung wird analysiert",
+        "gsw": "Uswirkig vo dr vorgschlagne Verbesserig wird analysiert"
+      },
+      "is_final": false,
+      "icon": "ChartBubble",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "improve_service",
+      "status_key": "user_feedback",
+      "label": {
+        "en": "User Feedback",
+        "fr": "Retours utilisateurs",
+        "de": "Benutzerfeedback",
+        "gsw": "Benutzer-Feedback"
+      },
+      "description": {
+        "en": "Gathering feedback from service users",
+        "fr": "Collecte de retours des utilisateurs du service",
+        "de": "Feedback von Service-Nutzern wird gesammelt",
+        "gsw": "Feedback vo Service-Nutzer wird gsammlet"
+      },
+      "is_final": false,
+      "icon": "CommentAccount",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "improve_service",
+      "status_key": "prioritized",
+      "label": {
+        "en": "Prioritized",
+        "fr": "Priorisé",
+        "de": "Priorisiert",
+        "gsw": "Priorisiert"
+      },
+      "description": {
+        "en": "Improvement prioritized for development",
+        "fr": "Amélioration priorisée pour développement",
+        "de": "Verbesserung für Entwicklung priorisiert",
+        "gsw": "Verbesserig für Entwicklig priorisiert"
+      },
+      "is_final": false,
+      "icon": "FormatListNumbered",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "improve_service",
+      "status_key": "in_development",
+      "label": {
+        "en": "In Development",
+        "fr": "En développement",
+        "de": "In Entwicklung",
+        "gsw": "In Entwicklig"
+      },
+      "description": {
+        "en": "Improvement being developed",
+        "fr": "Amélioration en cours de développement",
+        "de": "Verbesserung wird entwickelt",
+        "gsw": "Verbesserig wird entwicklet"
+      },
+      "is_final": false,
+      "icon": "CodeBraces",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "improve_service",
+      "status_key": "testing",
+      "label": {
+        "en": "Testing",
+        "fr": "Test",
+        "de": "Test",
+        "gsw": "Test"
+      },
+      "description": {
+        "en": "Improvement being tested",
+        "fr": "Amélioration en cours de test",
+        "de": "Verbesserung wird getestet",
+        "gsw": "Verbesserig wird testet"
+      },
+      "is_final": false,
+      "icon": "TestTube",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "improve_service",
+      "status_key": "released",
+      "label": {
+        "en": "Released",
+        "fr": "Publié",
+        "de": "Veröffentlicht",
+        "gsw": "Veröffentlicht"
+      },
+      "description": {
+        "en": "Improvement successfully released",
+        "fr": "Amélioration publiée avec succès",
+        "de": "Verbesserung erfolgreich veröffentlicht",
+        "gsw": "Verbesserig erfolgriich veröffentlicht"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "improve_service",
+      "status_key": "deferred",
+      "label": {
+        "en": "Deferred",
+        "fr": "Reporté",
+        "de": "Zurückgestellt",
+        "gsw": "Zruggstellt"
+      },
+      "description": {
+        "en": "Improvement deferred to future release",
+        "fr": "Amélioration reportée à une version future",
+        "de": "Verbesserung auf zukünftige Version verschoben",
+        "gsw": "Verbesserig uf zukünftigi Version verschobe"
+      },
+      "is_final": true,
+      "icon": "ClockOutline",
+      "sort_order": 8
+    },
+
+    {
+      "inquiry_type": "replace_service",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Service replacement request has been submitted",
+        "fr": "La demande de remplacement de service a été soumise",
+        "de": "Service-Ersatzanfrage wurde eingereicht",
+        "gsw": "Service-Ersatz-Aafraag isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "replace_service",
+      "status_key": "comparison_analysis",
+      "label": {
+        "en": "Comparison Analysis",
+        "fr": "Analyse comparative",
+        "de": "Vergleichsanalyse",
+        "gsw": "Verglichs-Analys"
+      },
+      "description": {
+        "en": "Comparing current service with proposed replacement",
+        "fr": "Comparaison du service actuel avec le remplacement proposé",
+        "de": "Vergleich des aktuellen Services mit dem vorgeschlagenen Ersatz",
+        "gsw": "Vergliich vom aktuelle Service mit em vorgschlagne Ersatz"
+      },
+      "is_final": false,
+      "icon": "CompareHorizontal",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "replace_service",
+      "status_key": "migration_planning",
+      "label": {
+        "en": "Migration Planning",
+        "fr": "Planification de migration",
+        "de": "Migrationsplanung",
+        "gsw": "Migrations-Planig"
+      },
+      "description": {
+        "en": "Planning the migration strategy",
+        "fr": "Planification de la stratégie de migration",
+        "de": "Migrationsstrategie wird geplant",
+        "gsw": "Migrations-Strategie wird plant"
+      },
+      "is_final": false,
+      "icon": "MapMarkerPath",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "replace_service",
+      "status_key": "stakeholder_approval",
+      "label": {
+        "en": "Stakeholder Approval",
+        "fr": "Approbation des parties prenantes",
+        "de": "Stakeholder-Genehmigung",
+        "gsw": "Stakeholder-Genehmigung"
+      },
+      "description": {
+        "en": "Stakeholders reviewing and approving replacement",
+        "fr": "Les parties prenantes examinent et approuvent le remplacement",
+        "de": "Stakeholder prüfen und genehmigen den Ersatz",
+        "gsw": "Stakeholder prüefe und gnehmige de Ersatz"
+      },
+      "is_final": false,
+      "icon": "AccountGroupOutline",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "replace_service",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Service replacement approved",
+        "fr": "Remplacement de service approuvé",
+        "de": "Service-Ersatz genehmigt",
+        "gsw": "Service-Ersatz gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "replace_service",
+      "status_key": "migration",
+      "label": {
+        "en": "Migration",
+        "fr": "Migration",
+        "de": "Migration",
+        "gsw": "Migration"
+      },
+      "description": {
+        "en": "Migration to new service in progress",
+        "fr": "Migration vers le nouveau service en cours",
+        "de": "Migration zum neuen Service läuft",
+        "gsw": "Migration zum nöie Service lauft"
+      },
+      "is_final": false,
+      "icon": "DatabaseExport",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "replace_service",
+      "status_key": "validation",
+      "label": {
+        "en": "Validation",
+        "fr": "Validation",
+        "de": "Validierung",
+        "gsw": "Validierig"
+      },
+      "description": {
+        "en": "Validating new service functionality",
+        "fr": "Validation de la fonctionnalité du nouveau service",
+        "de": "Funktionalität des neuen Services wird validiert",
+        "gsw": "Funktionalität vom nöie Service wird validiert"
+      },
+      "is_final": false,
+      "icon": "CheckDecagram",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "replace_service",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Service replacement completed successfully",
+        "fr": "Remplacement de service terminé avec succès",
+        "de": "Service-Ersatz erfolgreich abgeschlossen",
+        "gsw": "Service-Ersatz erfolgriich abgschlosse"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 8
+    },
+    {
+      "inquiry_type": "replace_service",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Service replacement request rejected",
+        "fr": "Demande de remplacement de service rejetée",
+        "de": "Service-Ersatzanfrage abgelehnt",
+        "gsw": "Service-Ersatz-Aafraag abglehnt"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 9
+    },
+
+    {
+      "inquiry_type": "business_application",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Business application request has been submitted",
+        "fr": "La demande d'application métier a été soumise",
+        "de": "Geschäftsanwendungsanfrage wurde eingereicht",
+        "gsw": "Gschäftsaawändigs-Aafraag isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "business_application",
+      "status_key": "requirements_review",
+      "label": {
+        "en": "Requirements Review",
+        "fr": "Examen des exigences",
+        "de": "Anforderungsprüfung",
+        "gsw": "Aforderigs-Prüefig"
+      },
+      "description": {
+        "en": "Business requirements being reviewed",
+        "fr": "Exigences métier en cours d'examen",
+        "de": "Geschäftsanforderungen werden geprüft",
+        "gsw": "Gschäfts-Aforderige wärde prüeft"
+      },
+      "is_final": false,
+      "icon": "FileDocumentEdit",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "business_application",
+      "status_key": "vendor_selection",
+      "label": {
+        "en": "Vendor Selection",
+        "fr": "Sélection du fournisseur",
+        "de": "Anbieterauswahl",
+        "gsw": "Aabieter-Uswahl"
+      },
+      "description": {
+        "en": "Selecting vendor for business application",
+        "fr": "Sélection du fournisseur pour l'application métier",
+        "de": "Anbieter für Geschäftsanwendung wird ausgewählt",
+        "gsw": "Aabieter für Gschäftsaawändig wird usgwählt"
+      },
+      "is_final": false,
+      "icon": "AccountSearch",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "business_application",
+      "status_key": "contract_negotiation",
+      "label": {
+        "en": "Contract Negotiation",
+        "fr": "Négociation du contrat",
+        "de": "Vertragsverhandlung",
+        "gsw": "Vertrags-Verhandlig"
+      },
+      "description": {
+        "en": "Negotiating contract terms with vendor",
+        "fr": "Négociation des termes du contrat avec le fournisseur",
+        "de": "Vertragsbedingungen mit Anbieter werden verhandelt",
+        "gsw": "Vertrags-Bedingige mit Aabieter wärde verhandlet"
+      },
+      "is_final": false,
+      "icon": "FileSign",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "business_application",
+      "status_key": "implementation",
+      "label": {
+        "en": "Implementation",
+        "fr": "Mise en œuvre",
+        "de": "Implementierung",
+        "gsw": "Implementierig"
+      },
+      "description": {
+        "en": "Business application being implemented",
+        "fr": "Application métier en cours de mise en œuvre",
+        "de": "Geschäftsanwendung wird implementiert",
+        "gsw": "Gschäftsaawändig wird implementiert"
+      },
+      "is_final": false,
+      "icon": "Wrench",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "business_application",
+      "status_key": "training",
+      "label": {
+        "en": "Training",
+        "fr": "Formation",
+        "de": "Schulung",
+        "gsw": "Schulig"
+      },
+      "description": {
+        "en": "User training being conducted",
+        "fr": "Formation des utilisateurs en cours",
+        "de": "Benutzerschulung wird durchgeführt",
+        "gsw": "Benutzer-Schulig wird durchgfüehrt"
+      },
+      "is_final": false,
+      "icon": "School",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "business_application",
+      "status_key": "live",
+      "label": {
+        "en": "Live",
+        "fr": "En service",
+        "de": "Live",
+        "gsw": "Live"
+      },
+      "description": {
+        "en": "Business application live and operational",
+        "fr": "Application métier en service et opérationnelle",
+        "de": "Geschäftsanwendung live und betriebsbereit",
+        "gsw": "Gschäftsaawändig live und betriebsbereit"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 8
+    },
+    {
+      "inquiry_type": "business_application",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Business application request rejected",
+        "fr": "Demande d'application métier rejetée",
+        "de": "Geschäftsanwendungsanfrage abgelehnt",
+        "gsw": "Gschäftsaawändigs-Aafraag abglehnt"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 9
     }
   ],
   "categories": [

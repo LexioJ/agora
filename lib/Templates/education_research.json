@@ -683,6 +683,427 @@
       "is_final": false,
       "icon": "AccountGroup",
       "sort_order": 2.5
+    },
+
+    {
+      "inquiry_type": "collaboration_request",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Collaboration request has been submitted",
+        "fr": "La demande de collaboration a été soumise",
+        "de": "Kooperationsanfrage wurde eingereicht",
+        "gsw": "Kooperations-Aafraag isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "collaboration_request",
+      "status_key": "partner_review",
+      "label": {
+        "en": "Partner Review",
+        "fr": "Examen du partenaire",
+        "de": "Partnerprüfung",
+        "gsw": "Partner-Prüefig"
+      },
+      "description": {
+        "en": "Potential partners reviewing the request",
+        "fr": "Les partenaires potentiels examinent la demande",
+        "de": "Potenzielle Partner prüfen die Anfrage",
+        "gsw": "Potenzielle Partner prüefe d'Aafraag"
+      },
+      "is_final": false,
+      "icon": "AccountSearch",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "collaboration_request",
+      "status_key": "terms_negotiation",
+      "label": {
+        "en": "Terms Negotiation",
+        "fr": "Négociation des termes",
+        "de": "Verhandlung der Bedingungen",
+        "gsw": "Verhandlig vo de Bedingige"
+      },
+      "description": {
+        "en": "Negotiating collaboration terms and agreements",
+        "fr": "Négociation des termes et accords de collaboration",
+        "de": "Verhandlung von Kooperationsbedingungen und Vereinbarungen",
+        "gsw": "Verhandlig vo Kooperations-Bedingige und Vereinbarige"
+      },
+      "is_final": false,
+      "icon": "FileSign",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "collaboration_request",
+      "status_key": "agreement_signed",
+      "label": {
+        "en": "Agreement Signed",
+        "fr": "Accord signé",
+        "de": "Vereinbarung unterzeichnet",
+        "gsw": "Vereinbarig unterzeichnet"
+      },
+      "description": {
+        "en": "Collaboration agreement has been signed by all parties",
+        "fr": "L'accord de collaboration a été signé par toutes les parties",
+        "de": "Kooperationsvereinbarung wurde von allen Parteien unterzeichnet",
+        "gsw": "Kooperations-Vereinbarig isch vo alle Parteie unterzeichnet"
+      },
+      "is_final": false,
+      "icon": "CheckDecagram",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "collaboration_request",
+      "status_key": "active",
+      "label": {
+        "en": "Active",
+        "fr": "Actif",
+        "de": "Aktiv",
+        "gsw": "Aktiv"
+      },
+      "description": {
+        "en": "Collaboration is actively underway",
+        "fr": "La collaboration est en cours",
+        "de": "Kooperation ist aktiv im Gange",
+        "gsw": "Kooperation isch aktiv am Laufe"
+      },
+      "is_final": false,
+      "icon": "AccountMultiple",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "collaboration_request",
+      "status_key": "completed",
+      "label": {
+        "en": "Completed",
+        "fr": "Terminé",
+        "de": "Abgeschlossen",
+        "gsw": "Abgschlosse"
+      },
+      "description": {
+        "en": "Collaboration has been successfully completed",
+        "fr": "La collaboration a été terminée avec succès",
+        "de": "Kooperation wurde erfolgreich abgeschlossen",
+        "gsw": "Kooperation isch erfolgriich abgschlosse"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "collaboration_request",
+      "status_key": "declined",
+      "label": {
+        "en": "Declined",
+        "fr": "Refusé",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Collaboration request was declined by partners",
+        "fr": "La demande de collaboration a été refusée par les partenaires",
+        "de": "Kooperationsanfrage wurde von Partnern abgelehnt",
+        "gsw": "Kooperations-Aafraag isch vo Partner abglehnt worde"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 7
+    },
+
+    {
+      "inquiry_type": "lab_equipment",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Equipment request has been submitted",
+        "fr": "La demande d'équipement a été soumise",
+        "de": "Geräteanfrage wurde eingereicht",
+        "gsw": "Geräät-Aafraag isch iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "lab_equipment",
+      "status_key": "needs_justification",
+      "label": {
+        "en": "Needs Justification",
+        "fr": "Justification requise",
+        "de": "Begründung erforderlich",
+        "gsw": "Begründig erforderlich"
+      },
+      "description": {
+        "en": "Research justification being evaluated",
+        "fr": "Justification de recherche en cours d'évaluation",
+        "de": "Forschungsbegründung wird bewertet",
+        "gsw": "Forschigs-Begründig wird bewertet"
+      },
+      "is_final": false,
+      "icon": "FileDocumentEdit",
+      "sort_order": 2
+    },
+    {
+      "inquiry_type": "lab_equipment",
+      "status_key": "budget_review",
+      "label": {
+        "en": "Budget Review",
+        "fr": "Examen du budget",
+        "de": "Budgetprüfung",
+        "gsw": "Budget-Prüefig"
+      },
+      "description": {
+        "en": "Budget availability being reviewed",
+        "fr": "Disponibilité budgétaire en cours d'examen",
+        "de": "Budgetverfügbarkeit wird geprüft",
+        "gsw": "Budget-Verfügbarkeit wird prüeft"
+      },
+      "is_final": false,
+      "icon": "CashCheck",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "lab_equipment",
+      "status_key": "procurement_approved",
+      "label": {
+        "en": "Procurement Approved",
+        "fr": "Acquisition approuvée",
+        "de": "Beschaffung genehmigt",
+        "gsw": "Beschaffig gnehmigt"
+      },
+      "description": {
+        "en": "Equipment procurement has been approved",
+        "fr": "L'acquisition de l'équipement a été approuvée",
+        "de": "Gerätebeschaffung wurde genehmigt",
+        "gsw": "Geräät-Beschaffig isch gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "lab_equipment",
+      "status_key": "ordered",
+      "label": {
+        "en": "Ordered",
+        "fr": "Commandé",
+        "de": "Bestellt",
+        "gsw": "Bestellt"
+      },
+      "description": {
+        "en": "Equipment has been ordered from vendor",
+        "fr": "L'équipement a été commandé auprès du fournisseur",
+        "de": "Gerät wurde beim Anbieter bestellt",
+        "gsw": "Geräät isch bim Aabieter bestellt"
+      },
+      "is_final": false,
+      "icon": "CartCheck",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "lab_equipment",
+      "status_key": "delivered",
+      "label": {
+        "en": "Delivered",
+        "fr": "Livré",
+        "de": "Geliefert",
+        "gsw": "Gliiferet"
+      },
+      "description": {
+        "en": "Equipment has been delivered",
+        "fr": "L'équipement a été livré",
+        "de": "Gerät wurde geliefert",
+        "gsw": "Geräät isch gliiferet"
+      },
+      "is_final": false,
+      "icon": "TruckDelivery",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "lab_equipment",
+      "status_key": "operational",
+      "label": {
+        "en": "Operational",
+        "fr": "Opérationnel",
+        "de": "Betriebsbereit",
+        "gsw": "Betriebsbereit"
+      },
+      "description": {
+        "en": "Equipment installed and operational",
+        "fr": "Équipement installé et opérationnel",
+        "de": "Gerät installiert und betriebsbereit",
+        "gsw": "Geräät installiert und betriebsbereit"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "lab_equipment",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Equipment request rejected - budget or justification issues",
+        "fr": "Demande d'équipement rejetée - problèmes de budget ou de justification",
+        "de": "Geräteanfrage abgelehnt - Budget- oder Begründungsprobleme",
+        "gsw": "Geräät-Aafraag abglehnt - Budget- oder Begründigs-Probleem"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 8
+    },
+
+    {
+      "inquiry_type": "publication_support",
+      "status_key": "submitted",
+      "label": {
+        "en": "Submitted",
+        "fr": "Soumis",
+        "de": "Eingereicht",
+        "gsw": "Iigräicht"
+      },
+      "description": {
+        "en": "Publication support request submitted",
+        "fr": "Demande de support de publication soumise",
+        "de": "Publikationsunterstützungsanfrage eingereicht",
+        "gsw": "Publikations-Understützig-Aafraag iigräicht"
+      },
+      "is_final": false,
+      "icon": "Send",
+      "sort_order": 1
+    },
+    {
+      "inquiry_type": "publication_support",
+      "status_key": "revision_requested",
+      "label": {
+        "en": "Revision Requested",
+        "fr": "Révision demandée",
+        "de": "Überarbeitung angefordert",
+        "gsw": "Überarbeitig aagforderet"
+      },
+      "description": {
+        "en": "Manuscript revisions requested by reviewers",
+        "fr": "Révisions du manuscrit demandées par les examinateurs",
+        "de": "Manuskriptüberarbeitungen von Gutachtern angefordert",
+        "gsw": "Manuskript-Überarbeitige vo Gutachter aagforderet"
+      },
+      "is_final": false,
+      "icon": "FileDocumentEdit",
+      "sort_order": 3
+    },
+    {
+      "inquiry_type": "publication_support",
+      "status_key": "approved",
+      "label": {
+        "en": "Approved",
+        "fr": "Approuvé",
+        "de": "Genehmigt",
+        "gsw": "Gnehmigt"
+      },
+      "description": {
+        "en": "Publication support approved",
+        "fr": "Support de publication approuvé",
+        "de": "Publikationsunterstützung genehmigt",
+        "gsw": "Publikations-Understützig gnehmigt"
+      },
+      "is_final": false,
+      "icon": "CheckCircle",
+      "sort_order": 4
+    },
+    {
+      "inquiry_type": "publication_support",
+      "status_key": "in_preparation",
+      "label": {
+        "en": "In Preparation",
+        "fr": "En préparation",
+        "de": "In Vorbereitung",
+        "gsw": "In Vorbereitung"
+      },
+      "description": {
+        "en": "Publication being prepared for submission",
+        "fr": "Publication en cours de préparation pour soumission",
+        "de": "Publikation wird für Einreichung vorbereitet",
+        "gsw": "Publikation wird für Iiriichig vorbereitet"
+      },
+      "is_final": false,
+      "icon": "FileEdit",
+      "sort_order": 5
+    },
+    {
+      "inquiry_type": "publication_support",
+      "status_key": "submitted_to_journal",
+      "label": {
+        "en": "Submitted to Journal",
+        "fr": "Soumis à la revue",
+        "de": "Bei Zeitschrift eingereicht",
+        "gsw": "Bi Zitschrift iigräicht"
+      },
+      "description": {
+        "en": "Manuscript submitted to academic journal",
+        "fr": "Manuscrit soumis à une revue académique",
+        "de": "Manuskript bei wissenschaftlicher Zeitschrift eingereicht",
+        "gsw": "Manuskript bi wüsseschaftliche Zitschrift iigräicht"
+      },
+      "is_final": false,
+      "icon": "BookOpenVariant",
+      "sort_order": 6
+    },
+    {
+      "inquiry_type": "publication_support",
+      "status_key": "published",
+      "label": {
+        "en": "Published",
+        "fr": "Publié",
+        "de": "Veröffentlicht",
+        "gsw": "Veröffentlicht"
+      },
+      "description": {
+        "en": "Research successfully published",
+        "fr": "Recherche publiée avec succès",
+        "de": "Forschung erfolgreich veröffentlicht",
+        "gsw": "Forschig erfolgriich veröffentlicht"
+      },
+      "is_final": true,
+      "icon": "CheckAll",
+      "sort_order": 7
+    },
+    {
+      "inquiry_type": "publication_support",
+      "status_key": "rejected",
+      "label": {
+        "en": "Rejected",
+        "fr": "Rejeté",
+        "de": "Abgelehnt",
+        "gsw": "Abglehnt"
+      },
+      "description": {
+        "en": "Publication support request rejected",
+        "fr": "Demande de support de publication rejetée",
+        "de": "Publikationsunterstützungsanfrage abgelehnt",
+        "gsw": "Publikations-Understützig-Aafraag abglehnt"
+      },
+      "is_final": true,
+      "icon": "CloseCircle",
+      "sort_order": 8
     }
   ],
   "categories": [
