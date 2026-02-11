@@ -79,6 +79,7 @@ occ app:enable agora
 
 | Command | Description |
 | ------- | ----------- |
+| `agora:db:clean-instance` | Remove all Agora data to start with a clean instance |
 | `agora:db:clean-migrations` | Remove obsolete migrations |
 | `agora:db:purge` | Drop all Agora tables & config |
 | `agora:db:rebuild` | Rebuild database including indices |
