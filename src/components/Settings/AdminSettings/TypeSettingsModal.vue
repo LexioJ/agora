@@ -19,24 +19,23 @@ defineEmits(['close'])
 const props = defineProps({
   selectedType: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 })
-
 
 const activeSettingsTab = ref('user-rights')
 
 const getIconComponent = (iconName) => InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
 
 const settingsTabs = [
-  { 
-    id: 'user-rights', 
-    label: t('agora', 'Inquiry Features'), 
+  {
+    id: 'user-rights',
+    label: t('agora', 'Inquiry Features'),
     component: AdminTypeRights,
   },
-  { 
-    id: 'status', 
-    label: t('agora', 'Inquiry Status'), 
+  {
+    id: 'status',
+    label: t('agora', 'Inquiry Status'),
     component: AdminTypeStatus,
   },
 ]
@@ -77,8 +76,8 @@ const updateTypeRights = (typeKey, rights) => {
     </div>
 
     <div class="settings-content">
-      <component 
-        :is="settingsTabs.find(t => t.id === activeSettingsTab)?.component"
+      <component
+        :is="settingsTabs.find((t) => t.id === activeSettingsTab)?.component"
         :selected-type="props.selectedType"
         @update-rights="updateTypeRights"
       />

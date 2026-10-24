@@ -13,7 +13,11 @@ const supports = {
    * @param userId
    * @param value
    */
-  addSupport(inquiryId: number, userId: string,value: number): Promise<AxiosResponse<{ support: boolean }>> {
+  addSupport(
+    inquiryId: number,
+    userId: string,
+    value: number
+  ): Promise<AxiosResponse<{ support: boolean }>> {
     return httpInstance.request({
       method: 'POST',
       url: `inquiry/support/${inquiryId}/${userId}/${value}`,
@@ -27,7 +31,11 @@ const supports = {
    * @param userId
    * @param value
    */
-  updateSupport(inquiryId: number, userId: string,value: number): Promise<AxiosResponse<{ support: boolean }>> {
+  updateSupport(
+    inquiryId: number,
+    userId: string,
+    value: number
+  ): Promise<AxiosResponse<{ support: boolean }>> {
     return httpInstance.request({
       method: 'PUT',
       url: `inquiry/support/${inquiryId}/${userId}/${value}`,

@@ -4,14 +4,10 @@
 -->
 
 <template>
-  <NcModal
-    :show="show"
-    :name="title"
-    @close="emit('close')"
-  >
+  <NcModal :show="show" :name="title" @close="emit('close')">
     <div class="ternary-support-details">
       <h3>{{ title }}</h3>
-      
+
       <div class="support-breakdown">
         <div class="breakdown-item positive">
           <div class="breakdown-header">
@@ -23,13 +19,10 @@
             <span class="percentage">({{ positivePercentage }}%)</span>
           </div>
           <div class="breakdown-bar">
-            <div 
-              class="bar-fill" 
-              :style="{ width: `${positivePercentage}%` }"
-            ></div>
+            <div class="bar-fill" :style="{ width: `${positivePercentage}%` }"></div>
           </div>
         </div>
-        
+
         <div class="breakdown-item neutral">
           <div class="breakdown-header">
             <TernarySupportIcon :support-value="0" :size="20" />
@@ -40,13 +33,10 @@
             <span class="percentage">({{ neutralPercentage }}%)</span>
           </div>
           <div class="breakdown-bar">
-            <div 
-              class="bar-fill" 
-              :style="{ width: `${neutralPercentage}%` }"
-            ></div>
+            <div class="bar-fill" :style="{ width: `${neutralPercentage}%` }"></div>
           </div>
         </div>
-        
+
         <div class="breakdown-item negative">
           <div class="breakdown-header">
             <TernarySupportIcon :support-value="-1" :size="20" />
@@ -57,14 +47,11 @@
             <span class="percentage">({{ negativePercentage }}%)</span>
           </div>
           <div class="breakdown-bar">
-            <div 
-              class="bar-fill" 
-              :style="{ width: `${negativePercentage}%` }"
-            ></div>
+            <div class="bar-fill" :style="{ width: `${negativePercentage}%` }"></div>
           </div>
         </div>
       </div>
-      
+
       <div class="support-summary">
         <div class="summary-item">
           <span class="summary-label">{{ t('agora', 'Total Participants') }}</span>
@@ -93,11 +80,10 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: t('agora', 'Support Breakdown')
+  title: t('agora', 'Support Breakdown'),
 })
 
 const emit = defineEmits(['close'])
-
 
 const positiveCount = computed(() => props.inquiry.status?.countPositiveSupports || 0)
 const neutralCount = computed(() => props.inquiry.status?.countNeutralSupports || 0)
@@ -124,106 +110,106 @@ const negativePercentage = computed(() => {
 <style lang="scss" scoped>
 .ternary-support-details {
   padding: 20px;
-  
+
   h3 {
     margin-top: 0;
     margin-bottom: 20px;
     color: var(--color-main-text);
   }
-  
+
   .support-breakdown {
     display: flex;
     flex-direction: column;
     gap: 16px;
     margin-bottom: 24px;
   }
-  
+
   .breakdown-item {
     padding: 12px;
     border-radius: 8px;
     background: var(--color-background-dark);
-    
+
     &.positive {
       border-left: 4px solid #10b981;
     }
-    
+
     &.neutral {
       border-left: 4px solid #6b7280;
     }
-    
+
     &.negative {
       border-left: 4px solid #ef4444;
     }
   }
-  
+
   .breakdown-header {
     display: flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 8px;
-    
+
     .breakdown-label {
       font-weight: 600;
       color: var(--color-main-text);
     }
   }
-  
+
   .breakdown-counts {
     display: flex;
     justify-content: space-between;
     margin-bottom: 6px;
-    
+
     .count {
       font-size: 18px;
       font-weight: 700;
     }
-    
+
     .percentage {
       color: var(--color-text-lighter);
       font-size: 14px;
     }
   }
-  
+
   .breakdown-bar {
     height: 6px;
     background: var(--color-border);
     border-radius: 3px;
     overflow: hidden;
-    
+
     .bar-fill {
       height: 100%;
       transition: width 0.3s ease;
-      
+
       .positive & {
         background: #10b981;
       }
-      
+
       .neutral & {
         background: #6b7280;
       }
-      
+
       .negative & {
         background: #ef4444;
       }
     }
   }
-  
+
   .support-summary {
     display: flex;
     justify-content: space-between;
     padding-top: 16px;
     border-top: 1px solid var(--color-border);
-    
+
     .summary-item {
       display: flex;
       flex-direction: column;
       gap: 4px;
-      
+
       .summary-label {
         font-size: 12px;
         color: var(--color-text-lighter);
       }
-      
+
       .summary-value {
         font-size: 16px;
         font-weight: 700;

@@ -8,8 +8,8 @@
     <!-- Left Column: Description (70%) -->
     <div class="left-column">
       <div class="description-section">
-          <h1 class="section-title">{{ t('agora','Presentation') }}</h1>
-        
+        <h1 class="section-title">{{ t('agora', 'Presentation') }}</h1>
+
         <div v-if="group.description" class="description-container">
           <div class="description-content" :class="{ expanded: isDescriptionExpanded }">
             <div ref="descriptionText" class="description-text">
@@ -17,9 +17,9 @@
                 <p>{{ group.description }}</p>
               </div>
             </div>
-            
-            <button 
-              v-if="isTruncated" 
+
+            <button
+              v-if="isTruncated"
               class="expand-button"
               :aria-expanded="isDescriptionExpanded"
               @click="isDescriptionExpanded = !isDescriptionExpanded"
@@ -27,7 +27,12 @@
               <span class="button-text">
                 {{ isDescriptionExpanded ? t('agora', 'Show less') : t('agora', 'Read more') }}
               </span>
-              <svg width="16" height="16" viewBox="0 0 24 24" :class="{ rotated: isDescriptionExpanded }">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                :class="{ rotated: isDescriptionExpanded }"
+              >
                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
               </svg>
             </button>
@@ -45,12 +50,12 @@
 
       <!-- Grouped Inquiries -->
       <div v-if="Object.keys(groupedInquiries).length > 0" class="inquiries-container">
-        <div 
-          v-for="(typeGroup, typeKey) in groupedInquiries" 
-          :key="typeKey" 
+        <div
+          v-for="(typeGroup, typeKey) in groupedInquiries"
+          :key="typeKey"
           class="inquiry-type-group"
         >
-        <!-- Type Header -->
+          <!-- Type Header -->
           <div class="type-header" @click="toggleType(typeKey)">
             <div class="type-info">
               <div class="type-icon">
@@ -64,8 +69,8 @@
                 <path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z" />
               </svg>
             </div>
-          </div> 
-          
+          </div>
+
           <!-- Inquiries List -->
           <div v-show="expandedTypes.includes(typeKey)" class="type-inquiries">
             <NcAppNavigationList class="inquiries-list">
@@ -82,7 +87,7 @@
                     <component :is="getInquiryIcon(inquiry)" />
                   </div>
                 </template>
-                
+
                 <template v-if="inquiry.responsesCount" #counter>
                   {{ inquiry.responsesCount }}
                 </template>
@@ -127,7 +132,6 @@ const emit = defineEmits<{
   viewInquiry: [id: number]
 }>()
 
-
 // Initialize stores
 const inquiriesStore = useInquiriesStore()
 const appSettingsStore = useAppSettingsStore()
@@ -140,9 +144,7 @@ const descriptionText = ref<HTMLElement>()
 // Get inquiries from store using the IDs
 const inquiries = computed(() => {
   const allInquiries = inquiriesStore.inquiries || []
-  return allInquiries.filter(inquiry =>
-    props.inquiryIds.includes(inquiry.id)
-  )
+  return allInquiries.filter((inquiry) => props.inquiryIds.includes(inquiry.id))
 })
 
 // Get inquiry types from appSettings
@@ -151,13 +153,13 @@ const inquiryTypes = computed(() => appSettingsStore.inquiryTypeTab || [])
 // Group inquiries by type
 const groupedInquiries = computed(() => {
   const grouped: Record<string, Inquiry[]> = {}
-  
-  inquiries.value.forEach(inquiry => {
+
+  inquiries.value.forEach((inquiry) => {
     const type = inquiry.type || 'default'
     if (!grouped[type]) grouped[type] = []
     grouped[type].push(inquiry)
   })
-  
+
   return grouped
 })
 
@@ -191,7 +193,7 @@ function getInquiryIcon(inquiry: Inquiry) {
 function getInquiryRoute(inquiryId: number) {
   return {
     name: 'inquiry',
-    params: { id: inquiryId }
+    params: { id: inquiryId },
   }
 }
 
@@ -237,13 +239,13 @@ onMounted(() => {
   height: 100%;
   display: flex;
   flex-direction: column;
-  
+
   .description-section {
     width: 100%;
     flex: 1;
     display: flex;
     flex-direction: column;
-    
+
     .section-title {
       font-size: 36px;
       font-weight: 800;
@@ -274,12 +276,12 @@ onMounted(() => {
   flex: 1;
   display: flex;
   flex-direction: column;
-  
+
   &.expanded {
     .description-text {
       max-height: none;
     }
-    
+
     .expand-button svg {
       transform: rotate(180deg);
     }
@@ -295,15 +297,15 @@ onMounted(() => {
   transition: max-height 0.3s ease;
   width: 100%;
   flex: 1;
-  
+
   p {
     margin: 0 0 16px 0;
-    
+
     &:last-child {
       margin-bottom: 0;
     }
   }
-  
+
   strong {
     font-weight: 600;
     color: var(--color-main-text);
@@ -325,16 +327,16 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.2s ease;
   align-self: flex-start;
-  
+
   &:hover {
     background: var(--color-background-hover);
     border-color: var(--color-primary-element);
   }
-  
+
   svg {
     transition: transform 0.2s ease;
     fill: currentColor;
-    
+
     &.rotated {
       transform: rotate(180deg);
     }
@@ -351,7 +353,7 @@ onMounted(() => {
   height: fit-content;
   display: flex;
   flex-direction: column;
-  
+
   .sidebar-header {
     display: flex;
     align-items: center;
@@ -361,14 +363,14 @@ onMounted(() => {
     border-bottom: 2px solid var(--color-border);
     width: 100%;
   }
-  
+
   .sidebar-title {
     font-size: 20px;
     font-weight: 700;
     color: var(--color-main-text);
     margin: 0;
   }
-  
+
   .inquiry-count {
     background: var(--color-primary-element);
     color: white;
@@ -381,7 +383,6 @@ onMounted(() => {
   }
 }
 
-
 /* Responsive Design */
 @media (max-width: 1200px) {
   .consultation-layout {
@@ -390,14 +391,14 @@ onMounted(() => {
     padding: 24px;
     width: 100%;
   }
-  
+
   .left-column {
     flex: 1;
     width: 100%;
     min-width: 100%;
     max-width: 100%;
   }
-  
+
   .right-sidebar {
     flex: 1;
     width: 100%;
@@ -411,7 +412,7 @@ onMounted(() => {
 .inquiry-type-group {
   margin-bottom: 16px;
   width: 100%;
-  
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -427,7 +428,7 @@ onMounted(() => {
   cursor: pointer;
   transition: all 0.2s ease;
   width: 100%;
-  
+
   &:hover {
     background: var(--color-background-hover);
   }
@@ -450,7 +451,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   :deep(svg) {
     width: 100%;
     height: 100%;
@@ -482,11 +483,11 @@ onMounted(() => {
 .type-toggle {
   color: var(--color-text-lighter);
   transition: transform 0.2s ease;
-  
+
   svg {
     fill: currentColor;
   }
-  
+
   &.rotated {
     transform: rotate(180deg);
   }
@@ -505,15 +506,15 @@ onMounted(() => {
   margin: 0;
   padding: 0;
   width: 100%;
-  
+
   :deep(.app-navigation-entry) {
     margin-bottom: 4px;
     width: 100%;
-    
+
     &:last-child {
       margin-bottom: 0;
     }
-    
+
     .app-navigation-entry__content {
       background: white;
       border-radius: 6px;
@@ -521,14 +522,14 @@ onMounted(() => {
       transition: all 0.2s ease;
       width: 100%;
       box-sizing: border-box;
-      
+
       &:hover {
         background: var(--color-background-hover);
         border-color: var(--color-primary-element);
         transform: translateX(4px);
       }
     }
-    
+
     .app-navigation-entry__counter {
       background: var(--color-primary-element);
       color: white;
@@ -545,7 +546,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   color: var(--color-primary-element);
-  
+
   :deep(svg) {
     width: 100%;
     height: 100%;
@@ -560,20 +561,20 @@ onMounted(() => {
   border-radius: 12px;
   border: 1px dashed var(--color-border);
   width: 100%;
-  
+
   .empty-icon {
     font-size: 40px;
     margin-bottom: 16px;
     opacity: 0.3;
   }
-  
+
   h3 {
     font-size: 16px;
     font-weight: 600;
     color: var(--color-main-text);
     margin: 0 0 8px 0;
   }
-  
+
   p {
     color: var(--color-text-lighter);
     font-size: 14px;
@@ -588,13 +589,13 @@ onMounted(() => {
     gap: 32px;
     padding: 24px;
   }
-  
+
   .left-column {
     flex: 1;
     max-width: 100%;
     width: 100%;
   }
-  
+
   .right-sidebar {
     flex: 1;
     max-width: 100%;
@@ -608,7 +609,7 @@ onMounted(() => {
     padding: 16px;
     gap: 24px;
   }
-  
+
   .left-column {
     .description-section {
       .section-title {
@@ -617,32 +618,32 @@ onMounted(() => {
       }
     }
   }
-  
+
   .description-content {
     padding: 24px;
   }
-  
+
   .description-text {
     font-size: 15px;
   }
-  
+
   .type-header {
     padding: 14px;
   }
-  
+
   .type-info {
     gap: 10px;
   }
-  
+
   .type-icon {
     width: 18px;
     height: 18px;
   }
-  
+
   .type-name {
     font-size: 14px;
   }
-  
+
   .type-inquiries {
     margin-left: 24px;
   }
@@ -652,20 +653,20 @@ onMounted(() => {
   .description-content {
     padding: 20px;
   }
-  
+
   .type-header {
     padding: 12px;
   }
-  
+
   .type-info {
     gap: 8px;
   }
-  
+
   .type-icon {
     width: 16px;
     height: 16px;
   }
-  
+
   .type-inquiries {
     margin-left: 20px;
   }

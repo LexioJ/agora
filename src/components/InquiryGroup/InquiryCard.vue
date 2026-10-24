@@ -19,7 +19,7 @@
           <component :is="typeIconComponent" class="type-icon" :size="14" />
           <span class="type-label">{{ typeLabel }}</span>
         </div>
-        
+
         <div v-if="currentInquiryStatus" class="status-badge">
           <component :is="statusIconComponent" class="status-icon" :size="12" />
           {{ statusText }}
@@ -37,12 +37,12 @@
       </div>
 
       <!-- Metadata - Location & Category -->
-      <div  class="card-meta-info">
+      <div class="card-meta-info">
         <div class="meta-item location">
           <component :is="InquiryGeneralIcons.Location" class="meta-icon" :size="12" />
           <span class="location-text">{{ truncatedLocation }}</span>
         </div>
-        
+
         <div class="meta-item category">
           <component :is="InquiryGeneralIcons.Category" class="meta-icon" :size="12" />
           <span class="meta-text">{{ truncatedCategory }}</span>
@@ -79,15 +79,20 @@
         <!-- Counters -->
         <div class="stat-counters">
           <div
-v-if="inquiry.status?.countSupports" 
-               class="counter-item supports" 
-               :class="{ 'is-supported': isSupported }"
-               @click.stop="handleSupportClick">
+            v-if="inquiry.status?.countSupports"
+            class="counter-item supports"
+            :class="{ 'is-supported': isSupported }"
+            @click.stop="handleSupportClick"
+          >
             <component :is="supportIconComponent" class="counter-icon" :size="14" />
             <span class="counter-value">{{ inquiry.status.countSupports }}</span>
           </div>
-          
-          <div v-if="inquiry.status?.countComments" class="counter-item comments" @click.stop="handleCommentsClick">
+
+          <div
+            v-if="inquiry.status?.countComments"
+            class="counter-item comments"
+            @click.stop="handleCommentsClick"
+          >
             <component :is="InquiryGeneralIcons.Comment" class="counter-icon" :size="14" />
             <span class="counter-value">{{ inquiry.status.countComments }}</span>
           </div>
@@ -126,7 +131,7 @@ interface Props {
 const props = withDefaults(defineProps<Props>(), {
   isActive: false,
   dense: false,
-  interactive: true
+  interactive: true,
 })
 
 const emit = defineEmits<{
@@ -142,7 +147,7 @@ const cardClasses = computed(() => ({
   'is-active': props.isActive,
   'is-dense': props.dense,
   'is-interactive': props.interactive,
-  'has-cover': !!coverUrl.value
+  'has-cover': !!coverUrl.value,
 }))
 
 // Get inquiry types
@@ -164,21 +169,21 @@ const typeIconComponent = computed(() => {
       return iconName
     }
   }
-  
+
   const iconMap = {
-    'survey': 'ClipboardList',
-    'poll': 'CheckCircle',
-    'question': 'Question',
-    'discussion': 'MessageSquare',
-    'news': 'Newspaper',
-    'announcement': 'Megaphone',
-    'meeting': 'Users',
-    'document': 'Document',
-    'proposal': 'Scale',
-    'general': 'FolderMultiple',
-    'draft': 'Empty',
+    survey: 'ClipboardList',
+    poll: 'CheckCircle',
+    question: 'Question',
+    discussion: 'MessageSquare',
+    news: 'Newspaper',
+    announcement: 'Megaphone',
+    meeting: 'Users',
+    document: 'Document',
+    proposal: 'Scale',
+    general: 'FolderMultiple',
+    draft: 'Empty',
   }
-  
+
   const iconName = iconMap[props.inquiry.type?.toLowerCase()] || 'FolderMultiple'
   return InquiryGeneralIcons[iconName] || InquiryGeneralIcons.FolderMultiple
 })
@@ -186,22 +191,22 @@ const typeIconComponent = computed(() => {
 // Get current status
 const currentInquiryStatus = computed(() => {
   if (!props.inquiry.status?.inquiryStatus) return null
-  
+
   const specialStatuses = {
-    'draft': {
+    draft: {
       statusKey: 'draft',
       label: 'Draft',
       icon: 'draft',
       inquiryType: props.inquiry.type,
       order: 0,
     },
-    'waiting_approval': {
+    waiting_approval: {
       statusKey: 'waiting_approval',
       label: 'Waiting Approval',
       icon: 'waitingapproval',
       inquiryType: props.inquiry.type,
       order: 1,
-    }
+    },
   }
 
   const currentStatus = props.inquiry.status.inquiryStatus
@@ -209,15 +214,20 @@ const currentInquiryStatus = computed(() => {
     return specialStatuses[currentStatus]
   }
 
-  const statusesFromSettings = sessionStore.appSettings?.inquiryStatusTab
-    ?.filter((status) => status.inquiryType === props.inquiry.type) || []
-    
-  return statusesFromSettings.find(
-    (status) => status.statusKey === currentStatus
-  ) || specialStatuses.draft
+  const statusesFromSettings =
+    sessionStore.appSettings?.inquiryStatusTab?.filter(
+      (status) => status.inquiryType === props.inquiry.type
+    ) || []
+
+  return (
+    statusesFromSettings.find((status) => status.statusKey === currentStatus) ||
+    specialStatuses.draft
+  )
 })
 
-const statusText = computed(() => currentInquiryStatus.value?.label ? t('agora', currentInquiryStatus.value.label) : '')
+const statusText = computed(() =>
+  currentInquiryStatus.value?.label ? t('agora', currentInquiryStatus.value.label) : ''
+)
 
 const statusIconComponent = computed(() => {
   if (!currentInquiryStatus.value?.icon) return StatusIcons.Default
@@ -239,13 +249,13 @@ function getNextcloudPreviewUrl(fileId: number, x = 400, y = 200, autoScale = tr
 // Short Description
 const shortDescription = computed(() => {
   if (!props.inquiry.description) return ''
-  
+
   const plainText = props.inquiry.description.replace(/<[^>]*>/g, '')
-  
+
   if (plainText.length > 100) {
     return `${plainText.substring(0, 100)}…`
   }
-  
+
   return plainText
 })
 
@@ -262,7 +272,7 @@ const supportIconComponent = computed(() => {
 // Get hierarchy path for location and category display
 function getHierarchyPath(items, targetId) {
   if (!items || !Array.isArray(items)) return ''
-  
+
   const itemMap = {}
 
   items.forEach((item) => {
@@ -288,82 +298,90 @@ function getHierarchyPath(items, targetId) {
 }
 
 // Location and Category paths
-const locationPath = computed(() => getHierarchyPath(sessionStore.appSettings?.locationTab, props.inquiry.locationId))
-const categoryPath = computed(() => getHierarchyPath(sessionStore.appSettings?.categoryTab, props.inquiry.categoryId))
+const locationPath = computed(() =>
+  getHierarchyPath(sessionStore.appSettings?.locationTab, props.inquiry.locationId)
+)
+const categoryPath = computed(() =>
+  getHierarchyPath(sessionStore.appSettings?.categoryTab, props.inquiry.categoryId)
+)
 
 const truncatedLocation = computed(() => {
   if (!locationPath.value) return ''
-  return locationPath.value.length > 15 
-    ? `${locationPath.value.substring(0, 15)}…` 
+  return locationPath.value.length > 15
+    ? `${locationPath.value.substring(0, 15)}…`
     : locationPath.value
 })
 
 const truncatedCategory = computed(() => {
   if (!categoryPath.value) return ''
-  return categoryPath.value.length > 15 
-    ? `${categoryPath.value.substring(0, 15)}…` 
+  return categoryPath.value.length > 15
+    ? `${categoryPath.value.substring(0, 15)}…`
     : categoryPath.value
 })
 
 // Truncated text
 const truncatedAuthorName = computed(() => {
   const name = props.inquiry.ownedGroup || props.inquiry.owner?.displayName || ''
-  return name.length > 20 
-    ? `${name.substring(0, 20)}…` 
-    : name
+  return name.length > 20 ? `${name.substring(0, 20)}…` : name
 })
 
 // Time formatting
 const formattedTime = computed(() => {
   if (!props.inquiry.status?.created) return ''
-  
+
   const created = new Date(props.inquiry.status.created * 1000)
   const now = new Date()
   const diff = now.getTime() - created.getTime()
   const days = Math.floor(diff / (1000 * 60 * 60 * 24))
   const hours = Math.floor(diff / (1000 * 60 * 60))
   const minutes = Math.floor(diff / (1000 * 60))
-  
+
   if (days > 30) {
     return created.toLocaleDateString()
-  } if (days > 0) {
+  }
+  if (days > 0) {
     return t('agora', '{days}d ago', { days })
-  } if (hours > 0) {
+  }
+  if (hours > 0) {
     return t('agora', '{hours}h ago', { hours })
-  } if (minutes > 0) {
+  }
+  if (minutes > 0) {
     return t('agora', '{minutes}m ago', { minutes })
-  } 
-    return t('agora', 'Just now')
+  }
+  return t('agora', 'Just now')
 })
 
 // Expiry
-const showExpiryBadge = computed(() => !!props.inquiry.configuration?.expire && props.inquiry.configuration.expire > 0)
+const showExpiryBadge = computed(
+  () => !!props.inquiry.configuration?.expire && props.inquiry.configuration.expire > 0
+)
 
 const expiryText = computed(() => {
   if (!props.inquiry.configuration?.expire) return ''
-  
+
   const expiryDate = new Date(props.inquiry.configuration.expire * 1000)
   const now = new Date()
   const diff = expiryDate.getTime() - now.getTime()
   const days = Math.floor(diff / (1000 * 60 * 60 * 24))
   const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-  
+
   if (days > 0) {
     return t('agora', '{days} days left', { days })
-  } if (hours > 0) {
+  }
+  if (hours > 0) {
     return t('agora', '{hours} hours left', { hours })
-  } 
-    return t('agora', 'Expiring soon')
+  }
+  return t('agora', 'Expiring soon')
 })
 
 const expiryBadgeClass = computed(() => {
   if (!props.inquiry.configuration?.expire) return ''
-  
+
   const expiryDate = new Date(props.inquiry.configuration.expire * 1000)
   const now = new Date()
   const diff = expiryDate.getTime() - now.getTime()
   const hours = diff / (1000 * 60 * 60)
-  
+
   if (hours < 24) return 'expiry-soon'
   if (hours < 72) return 'expiry-warning'
   return 'expiry-normal'
@@ -397,43 +415,43 @@ function handleCommentsClick() {
   display: flex;
   flex-direction: column;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  
+
   &.is-interactive {
     cursor: pointer;
-    
+
     &:hover {
       transform: translateY(-4px);
       box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
       border-color: var(--color-primary-element);
       background: var(--color-background-dark);
-      
+
       .card-cover .cover-overlay {
         opacity: 0.2;
       }
     }
   }
-  
+
   &.is-active {
     border-color: var(--color-primary-element);
     box-shadow: 0 0 0 3px rgba(var(--color-primary-rgb), 0.1);
   }
-  
+
   &.is-dense {
     border-radius: 12px;
-    
+
     .card-content {
       padding: 16px;
     }
-    
+
     .card-title {
       font-size: 15px;
     }
-    
+
     .card-description {
       -webkit-line-clamp: 1;
     }
   }
-  
+
   &.has-cover {
     .card-header {
       margin-top: 8px;
@@ -445,14 +463,14 @@ function handleCommentsClick() {
   position: relative;
   height: 160px;
   overflow: hidden;
-  
+
   .cover-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
   }
-  
+
   .cover-overlay {
     position: absolute;
     top: 0;
@@ -463,7 +481,7 @@ function handleCommentsClick() {
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-  
+
   .inquiry-card:hover & {
     .cover-image {
       transform: scale(1.05);
@@ -492,13 +510,17 @@ function handleCommentsClick() {
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  background: linear-gradient(135deg, var(--color-primary-element-light), rgba(var(--color-primary-rgb), 0.1));
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-element-light),
+    rgba(var(--color-primary-rgb), 0.1)
+  );
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
   color: var(--color-primary-element);
   border: 1px solid rgba(var(--color-primary-rgb), 0.2);
-  
+
   .type-icon {
     color: var(--color-primary-element);
   }
@@ -514,31 +536,31 @@ function handleCommentsClick() {
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  
+
   &.status-open {
     background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(34, 197, 94, 0.05));
     color: #16a34a;
     border: 1px solid rgba(34, 197, 94, 0.2);
   }
-  
+
   &.status-closed {
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
     color: #dc2626;
     border: 1px solid rgba(239, 68, 68, 0.2);
   }
-  
+
   &.status-draft {
     background: linear-gradient(135deg, rgba(148, 163, 184, 0.1), rgba(148, 163, 184, 0.05));
     color: #64748b;
     border: 1px solid rgba(148, 163, 184, 0.2);
   }
-  
+
   &.status-waiting {
     background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
     color: #f59e0b;
     border: 1px solid rgba(245, 158, 11, 0.2);
   }
-  
+
   &.status-unknown {
     background: var(--color-background-hover);
     color: var(--color-text-lighter);
@@ -574,7 +596,7 @@ function handleCommentsClick() {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 4px;
-  
+
   .meta-item {
     display: inline-flex;
     align-items: center;
@@ -585,19 +607,19 @@ function handleCommentsClick() {
     background: var(--color-background-dark);
     border-radius: 12px;
     border: 1px solid var(--color-border);
-    
+
     .meta-icon {
       opacity: 0.7;
     }
-    
+
     &.location .meta-icon {
       color: #3b82f6;
     }
-    
+
     &.category .meta-icon {
       color: #8b5cf6;
     }
-    
+
     .meta-text {
       max-width: 120px;
       white-space: nowrap;
@@ -620,17 +642,17 @@ function handleCommentsClick() {
   display: flex;
   align-items: center;
   gap: 8px;
-  
+
   .author-avatar {
     border: 2px solid var(--color-main-background);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   }
-  
+
   .author-info {
     display: flex;
     flex-direction: column;
     gap: 2px;
-    
+
     .author-name {
       font-size: 13px;
       font-weight: 500;
@@ -640,14 +662,14 @@ function handleCommentsClick() {
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    
+
     .post-time {
       display: flex;
       align-items: center;
       gap: 4px;
       font-size: 11px;
       color: var(--color-text-maxcontrast);
-      
+
       .calendar-icon {
         opacity: 0.7;
       }
@@ -659,7 +681,7 @@ function handleCommentsClick() {
   display: flex;
   align-items: center;
   gap: 16px;
-  
+
   .counter-item {
     display: inline-flex;
     align-items: center;
@@ -668,43 +690,43 @@ function handleCommentsClick() {
     color: var(--color-text-lighter);
     transition: all 0.2s ease;
     cursor: pointer;
-    
+
     &.supports {
       &:hover {
         color: var(--color-primary-element);
-        
+
         .counter-icon {
           opacity: 0.9;
         }
       }
-      
+
       &.is-supported {
         color: var(--color-primary-element);
       }
-      
+
       .counter-icon {
         transition: transform 0.2s ease;
       }
-      
+
       &:hover .counter-icon {
         transform: scale(1.1);
       }
     }
-    
+
     &.comments {
       &:hover {
         color: #3b82f6;
-        
+
         .counter-icon {
           opacity: 0.9;
         }
       }
-      
+
       .counter-icon {
         color: var(--color-text-maxcontrast);
       }
     }
-    
+
     .counter-value {
       font-weight: 600;
     }
@@ -720,26 +742,26 @@ function handleCommentsClick() {
     border-radius: 12px;
     font-size: 12px;
     font-weight: 600;
-    
+
     &.expiry {
       &.expiry-soon {
         background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.05));
         color: #ef4444;
         border: 1px solid rgba(239, 68, 68, 0.2);
       }
-      
+
       &.expiry-warning {
         background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05));
         color: #f59e0b;
         border: 1px solid rgba(245, 158, 11, 0.2);
       }
-      
+
       &.expiry-normal {
         background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
         color: #10b981;
         border: 1px solid rgba(16, 185, 129, 0.2);
       }
-      
+
       .date-icon {
         opacity: 0.9;
       }
@@ -752,38 +774,38 @@ function handleCommentsClick() {
   .inquiry-card {
     border-radius: 12px;
   }
-  
+
   .card-cover {
     height: 140px;
   }
-  
+
   .card-content {
     padding: 16px;
     gap: 10px;
   }
-  
+
   .card-title {
     font-size: 16px;
   }
-  
+
   .card-description {
     font-size: 13px;
   }
-  
+
   .card-meta-info {
     gap: 8px;
-    
+
     .meta-item {
       .meta-text {
         max-width: 80px;
       }
     }
   }
-  
+
   .stat-counters {
     gap: 12px;
   }
-  
+
   .stat-author .author-info .author-name {
     max-width: 80px;
   }

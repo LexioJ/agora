@@ -13,7 +13,6 @@ import { useAppSettingsStore } from '../../../stores/appSettings.ts'
 import { InquiryGeneralIcons } from '../../../utils/icons.ts'
 import { showError } from '@nextcloud/dialogs'
 
-
 interface Props {
   selectedFamily?: {
     family_type: string
@@ -34,11 +33,10 @@ const newType = ref({
   description: '',
   fields: '[]',
   allowed_response: '[]',
-  allowed_transformation: '[]'
+  allowed_transformation: '[]',
 })
 
 const getIconComponent = (iconName) => InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
-
 
 // Get statuses for the selected inquiry type
 const availableIcons = computed(() =>
@@ -58,9 +56,9 @@ const extractIconId = (icon) => {
 }
 
 // Filter types for selected family
-const familyTypes = computed(() => 
+const familyTypes = computed(() =>
   appSettingsStore.inquiryTypeTab.filter(
-    type => type.family === props.selectedFamily?.family_type
+    (type) => type.family === props.selectedFamily?.family_type
   )
 )
 
@@ -70,9 +68,9 @@ const convertToJsonString = (value) => {
 }
 
 const addType = async () => {
-  if (!newType.value.inquiry_type ) {
-  	showError(t('agora', 'Inquiry type is mandatory'), { timeout: 2000 })
-  	return
+  if (!newType.value.inquiry_type) {
+    showError(t('agora', 'Inquiry type is mandatory'), { timeout: 2000 })
+    return
   }
 
   await appSettingsStore.addInquiryType({
@@ -83,9 +81,9 @@ const addType = async () => {
     description: newType.value.description || '',
     fields: convertToJsonString(newType.value.fields),
     allowed_response: convertToJsonString(newType.value.allowed_response),
-    allowed_transformation: convertToJsonString(newType.value.allowed_transformation)
+    allowed_transformation: convertToJsonString(newType.value.allowed_transformation),
   })
-  
+
   // Reset form
   newType.value = {
     inquiry_type: '',
@@ -95,14 +93,14 @@ const addType = async () => {
     description: '',
     fields: '[]',
     allowed_response: '[]',
-    allowed_transformation: '[]'
+    allowed_transformation: '[]',
   }
 }
 
 const updateType = async (type) => {
-  if (!type.inquiry_type ){
-  	showError(t('agora', 'Inquiry type is mandatory'), { timeout: 2000 })
-  	return
+  if (!type.inquiry_type) {
+    showError(t('agora', 'Inquiry type is mandatory'), { timeout: 2000 })
+    return
   }
 
   await appSettingsStore.updateInquiryType(type.id, {
@@ -110,7 +108,7 @@ const updateType = async (type) => {
     icon: extractIconId(type.icon),
     fields: convertToJsonString(type.fields),
     allowed_response: convertToJsonString(type.allowed_response),
-    allowed_transformation: convertToJsonString(type.allowed_transformation)
+    allowed_transformation: convertToJsonString(type.allowed_transformation),
   })
   editingType.value = null
 }
@@ -129,9 +127,7 @@ const openTypeSettings = (type) => {
 <template>
   <div class="types-manager">
     <div class="header">
-      <NcButton @click="emit('backToFamilies')">
-        ← {{ t('agora', 'Back to Families') }}
-      </NcButton>
+      <NcButton @click="emit('backToFamilies')"> ← {{ t('agora', 'Back to Families') }} </NcButton>
       <h2>
         {{ t('agora', 'Types for {family}', { family: selectedFamily?.label }) }}
       </h2>
@@ -143,17 +139,17 @@ const openTypeSettings = (type) => {
       <p class="list-description">
         {{ t('agora', 'Click on a type to configure its rights and status settings') }}
       </p>
-      
+
       <div class="types-grid">
-        <div 
-          v-for="type in familyTypes" 
-          :key="type.id" 
+        <div
+          v-for="type in familyTypes"
+          :key="type.id"
           class="type-card"
           @click="openTypeSettings(type)"
         >
           <div class="type-card-content">
             <div class="type-icon">
-		    <component :is="getIconComponent(type.icon)" :size="20" />
+              <component :is="getIconComponent(type.icon)" :size="20" />
             </div>
             <div class="type-info">
               <h4>{{ type.label }}</h4>
@@ -164,22 +160,20 @@ const openTypeSettings = (type) => {
             </div>
           </div>
           <div class="type-actions">
-            <NcButton 
-              type="primary"
-              class="configure-btn"
-              @click.stop="openTypeSettings(type)"
-            >
+            <NcButton type="primary" class="configure-btn" @click.stop="openTypeSettings(type)">
               {{ t('agora', 'Configure') }}
             </NcButton>
             <div class="secondary-actions">
-              <NcButton 
+              <NcButton
                 class="edit-btn"
-                @click.stop="editingType = { 
-                  ...type, 
-                  fields: JSON.stringify(type.fields || []), 
-                  allowed_response: JSON.stringify(type.allowed_response || []), 
-                  allowed_transformation: JSON.stringify(type.allowed_transformation || []) 
-                }"
+                @click.stop="
+                  editingType = {
+                    ...type,
+                    fields: JSON.stringify(type.fields || []),
+                    allowed_response: JSON.stringify(type.allowed_response || []),
+                    allowed_transformation: JSON.stringify(type.allowed_transformation || []),
+                  }
+                "
               >
                 {{ t('agora', 'Edit') }}
               </NcButton>
@@ -208,7 +202,7 @@ const openTypeSettings = (type) => {
             required
             class="form-field"
           />
-          
+
           <NcInputField
             v-model="newType.label"
             :label="t('agora', 'Display Label')"
@@ -216,53 +210,53 @@ const openTypeSettings = (type) => {
             required
             class="form-field"
           />
-          
+
           <NcSelect
             v-model="newType.icon"
             :options="availableIcons"
-	    :clearable="false"
+            :clearable="false"
             :placeholder="t('agora', 'Select an icon')"
-	    label="label"
+            label="label"
             class="form-field"
           />
         </div>
-        
+
         <NcInputField
           v-model="newType.description"
           :label="t('agora', 'Description')"
           type="textarea"
           class="full-width"
         />
-        
+
         <div class="form-row">
           <NcInputField
             v-model="newType.fields"
             :label="t('agora', 'Fields Configuration (JSON)')"
             type="textarea"
-            :placeholder='`e.g., ["title", "description", "deadline"]`'
+            :placeholder="`e.g., [&quot;title&quot;, &quot;description&quot;, &quot;deadline&quot;]`"
             class="form-field"
           />
-          
+
           <NcInputField
             v-model="newType.allowed_response"
             :label="t('agora', 'Allowed Responses (JSON)')"
             type="textarea"
-            :placeholder='`e.g., ["vote_yes_no", "comment"]`'
+            :placeholder="`e.g., [&quot;vote_yes_no&quot;, &quot;comment&quot;]`"
             class="form-field"
           />
-          
+
           <NcInputField
             v-model="newType.allowed_transformation"
             :label="t('agora', 'Allowed Transformations (JSON)')"
             type="textarea"
-            :placeholder='`e.g., ["official_proposal"]`'
+            :placeholder="`e.g., [&quot;official_proposal&quot;]`"
             class="form-field"
           />
         </div>
-        
+
         <div class="form-actions">
-          <NcButton 
-            type="primary" 
+          <NcButton
+            type="primary"
             :disabled="!newType.inquiry_type || !newType.label"
             @click="addType"
           >
@@ -293,7 +287,7 @@ const openTypeSettings = (type) => {
             <NcSelect
               v-model="editingType.icon"
               :options="availableIcons"
-	      :clearable="false"
+              :clearable="false"
               :placeholder="t('agora', 'Select an icon')"
               class="form-field"
             />
@@ -328,10 +322,7 @@ const openTypeSettings = (type) => {
             <NcButton @click="editingType = null">
               {{ t('agora', 'Cancel') }}
             </NcButton>
-            <NcButton 
-              type="primary" 
-              @click="updateType(editingType)"
-            >
+            <NcButton type="primary" @click="updateType(editingType)">
               {{ t('agora', 'Save') }}
             </NcButton>
           </div>
@@ -469,7 +460,8 @@ const openTypeSettings = (type) => {
   gap: 8px;
 }
 
-.edit-btn, .delete-btn {
+.edit-btn,
+.delete-btn {
   flex: 1;
 }
 

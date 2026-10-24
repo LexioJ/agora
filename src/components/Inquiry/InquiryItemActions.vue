@@ -20,7 +20,6 @@ import { Inquiry } from '../../stores/inquiry.ts'
 import DeleteInquiryDialog from '../Modals/DeleteInquiryDialog.vue'
 import TransferInquiryDialog from '../Modals/TransferInquiryDialog.vue'
 
-
 import {
   canArchive,
   canRestore,
@@ -29,7 +28,7 @@ import {
   createInquiryContext,
 } from '../../utils/permissions.ts'
 
-const sessionStore= useSessionStore
+const sessionStore = useSessionStore
 
 const { inquiry } = defineProps<{ inquiry: Inquiry }>()
 
@@ -40,10 +39,7 @@ const showTransferDialog = ref(false)
 const subMenu = ref<'addToGroup' | 'removeFromGroup' | null>(null)
 
 // Context for permissions
-const context = computed(() => {
-  return createInquiryContext(inquiry, sessionStore.appSettings)
-})
-
+const context = computed(() => createInquiryContext(inquiry, sessionStore.appSettings))
 
 async function toggleArchive() {
   try {

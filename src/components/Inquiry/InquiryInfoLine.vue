@@ -14,26 +14,23 @@ import { useSessionStore } from '../../stores/session.ts'
 import { showSuccess } from '@nextcloud/dialogs'
 import { InquiryGeneralIcons, StatusIcons } from '../../utils/icons.ts'
 import { NcSelect } from '@nextcloud/vue'
-import {
-  getInquiryTypeData,
-} from '../../helpers/modules/InquiryHelper.ts'
-
+import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
 
 // Store initialization
 const inquiryStore = useInquiryStore()
 const sessionStore = useSessionStore()
 const sharesStore = useSharesStore()
 
-
-const inquiryTypeData = computed(() => 
+const inquiryTypeData = computed(() =>
   getInquiryTypeData(inquiryStore.type, sessionStore.appSettings.inquiryTypeTab || [])
 )
 
 // Inquiry status displayed to be move to helpers ?
-const availableInquiryStatuses = computed(() =>
-  sessionStore.appSettings.inquiryStatusTab
-    ?.filter((status) => status.inquiryType === inquiryStore.type)
-    ?.sort((a, b) => a.order - b.order) || []
+const availableInquiryStatuses = computed(
+  () =>
+    sessionStore.appSettings.inquiryStatusTab
+      ?.filter((status) => status.inquiryType === inquiryStore.type)
+      ?.sort((a, b) => a.order - b.order) || []
 )
 
 const currentInquiryStatus = computed(
@@ -50,12 +47,12 @@ const currentInquiryStatus = computed(
 )
 
 const selectedInquiryStatus = computed({
-  get: () => statusOptions.value.find(option => option.id === selectedInquiryStatusKey.value),
+  get: () => statusOptions.value.find((option) => option.id === selectedInquiryStatusKey.value),
   set: (newValue) => {
     if (newValue) {
       selectedInquiryStatusKey.value = newValue.id
     }
-  }
+  },
 })
 
 const selectedInquiryStatusKey = ref(currentInquiryStatus.value?.statusKey)
@@ -65,10 +62,9 @@ const currentInquiryStatusIcon = computed(() => {
   return StatusIcons[iconName] || StatusIcons.Draft
 })
 
-
 const onStatusChange = async (newStatus: string) => {
   try {
-   const statusId = newStatus?.id || newStatus
+    const statusId = newStatus?.id || newStatus
 
     await inquiryStore.setInquiryStatus(statusId)
     showSuccess(t('agora', 'Inquiry status of this inquiry has been updated'))
@@ -158,15 +154,15 @@ const timeExpirationRelative = computed(() => {
   return t('agora', 'never')
 })
 
-const statusInquiryOptions = computed(() => 
-  availableInquiryStatuses.value.map(status => ({
+const statusInquiryOptions = computed(() =>
+  availableInquiryStatuses.value.map((status) => ({
     id: status.statusKey,
     label: t('agora', status.label),
   }))
 )
 
-const statusOptions = computed(() => 
-  availableStatuses.value.map(status => ({
+const statusOptions = computed(() =>
+  availableStatuses.value.map((status) => ({
     id: status.statusKey,
     label: t('agora', status.label),
   }))
@@ -176,10 +172,7 @@ const statusOptions = computed(() =>
 <template>
   <div class="inquiry-info-line">
     <div class="subtexts-left">
-      <component
-        :is="inquiryTypeData.icon"
-        :size="20"
-      />
+      <component :is="inquiryTypeData.icon" :size="20" />
       <span class="type-label">
         {{ inquiryTypeData.label }}
       </span>

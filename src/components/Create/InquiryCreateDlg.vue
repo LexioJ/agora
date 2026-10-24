@@ -21,7 +21,7 @@ import {
   getAvailableInquiryTypesForCreation,
   getInquiryTypeOptions,
   getInquiryTypeData,
-  type InquiryType
+  type InquiryType,
 } from '../../helpers/modules/InquiryHelper.ts'
 
 // Define props
@@ -40,7 +40,7 @@ const props = withDefaults(defineProps<Props>(), {
   selectedMode: null,
   availableGroups: () => [],
   parentInquiryId: null,
-  defaultTitle: null
+  defaultTitle: null,
 })
 
 const emit = defineEmits<{
@@ -62,7 +62,9 @@ const selectedGroup = ref<string | null>(null)
 const inquiryTypes = computed(() => sessionStore.appSettings.inquiryTypeTab || [])
 
 // Filter out official and suggestion types for creation
-const availableInquiryTypes = computed(() => getAvailableInquiryTypesForCreation(inquiryTypes.value))
+const availableInquiryTypes = computed(() =>
+  getAvailableInquiryTypesForCreation(inquiryTypes.value)
+)
 
 // Inquiry type options for radio group
 const inquiryTypeOptions = computed(() => getInquiryTypeOptions(availableInquiryTypes.value))
@@ -82,7 +84,9 @@ const selectedType = computed(() => {
 })
 
 // Data for display
-const currentInquiryTypeData = computed(() => getInquiryTypeData(selectedType.value, inquiryTypes.value))
+const currentInquiryTypeData = computed(() =>
+  getInquiryTypeData(selectedType.value, inquiryTypes.value)
+)
 
 // Check if type is predefined (don't show selector)
 const hasPredefinedType = computed(() => !!(props.inquiryType || props.responseType))
@@ -98,18 +102,26 @@ const updateLocalInquiryType = (newType: string) => {
 }
 
 // Watch to pre-fill type when prop changes
-watch(() => props.inquiryType, (newType) => {
-  if (newType && newType.inquiry_type) {
-    localInquiryType.value = newType.inquiry_type
-  }
-}, { immediate: true })
+watch(
+  () => props.inquiryType,
+  (newType) => {
+    if (newType && newType.inquiry_type) {
+      localInquiryType.value = newType.inquiry_type
+    }
+  },
+  { immediate: true }
+)
 
 // Watch to pre-fill title
-watch(() => props.defaultTitle, (newTitle) => {
-  if (newTitle) {
-    inquiryTitle.value = newTitle
-  }
-}, { immediate: true })
+watch(
+  () => props.defaultTitle,
+  (newTitle) => {
+    if (newTitle) {
+      inquiryTitle.value = newTitle
+    }
+  },
+  { immediate: true }
+)
 
 const titleIsEmpty = computed(() => inquiryTitle.value.trim() === '')
 const disableAddButton = computed(() => titleIsEmpty.value || adding.value)
@@ -136,11 +148,11 @@ async function addInquiry() {
     if (props.parentInquiryId) {
       inquiryData.parentId = props.parentInquiryId
     }
-    
+
     if (inquiryStore.locationId) {
       inquiryData.locationId = inquiryStore.locationId
     }
-    
+
     if (inquiryStore.categoryId) {
       inquiryData.categoryId = inquiryStore.categoryId
     }
@@ -149,13 +161,13 @@ async function addInquiry() {
     if (accessType.value === 'groups' && selectedGroup.value) {
       inquiryData.ownedGroup = selectedGroup.value
     }
-    
+
     if (props.selectedMode === 'transform') {
       inquiryData.description = inquiryStore.description
       // Clone the inquiry with the new mode.
       // Archive the old one
     }
-    
+
     // Add the inquiry
     const inquiry = await inquiryStore.add(inquiryData)
 
@@ -172,7 +184,7 @@ async function addInquiry() {
       })
       resetInquiry()
     }
-  } catch  {
+  } catch {
     showError(
       t('agora', 'Error while creating Inquiry "{inquiryTitle}"', {
         inquiryTitle: inquiryTitle.value,
@@ -198,10 +210,7 @@ function resetInquiry() {
     <!-- Dialog container -->
     <div class="create-dialog" @click.stop>
       <!-- Access Configuration -->
-      <ConfigBox
-        v-if="availableGroups.length > 0"
-        :name="t('agora', 'Access Settings')"
-      >
+      <ConfigBox v-if="availableGroups.length > 0" :name="t('agora', 'Access Settings')">
         <template #icon>
           <Component :is="InquiryGeneralIcons.AccountGroup" />
         </template>
@@ -232,16 +241,8 @@ function resetInquiry() {
                 :description="t('agora', 'Choose which of your groups can access this inquiry')"
                 @update:model-value="selectGroup($event)"
               >
-                <div
-                  v-for="group in availableGroups"
-                  :key="group"
-                  class="group-item"
-                >
-                  <NcCheckboxRadioSwitch
-                    :value="group"
-                    type="radio"
-                    name="group-selection"
-                  >
+                <div v-for="group in availableGroups" :key="group" class="group-item">
+                  <NcCheckboxRadioSwitch :value="group" type="radio" name="group-selection">
                     {{ group }}
                   </NcCheckboxRadioSwitch>
                 </div>
@@ -285,11 +286,7 @@ function resetInquiry() {
       </ConfigBox>
 
       <!-- Selected Type Display -->
-      <ConfigBox
-        v-else
-        :name="t('agora', 'Inquiry type')"
-        :label="t('agora', 'Inquiry type')"
-      >
+      <ConfigBox v-else :name="t('agora', 'Inquiry type')" :label="t('agora', 'Inquiry type')">
         <template #icon>
           <Component :is="InquiryGeneralIcons.Check" />
         </template>
@@ -306,11 +303,7 @@ function resetInquiry() {
         <NcButton @click="emit('close')">
           {{ t('agora', 'Cancel') }}
         </NcButton>
-        <NcButton
-          :disabled="disableAddButton"
-          :variant="'primary'"
-          @click="addInquiry"
-        >
+        <NcButton :disabled="disableAddButton" :variant="'primary'" @click="addInquiry">
           {{ adding ? t('agora', 'Creating...') : t('agora', 'Create Inquiry') }}
         </NcButton>
       </div>

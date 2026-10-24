@@ -54,7 +54,7 @@ export const usePreferencesStore = defineStore('preferences', {
       useCommentsAlternativeStyling: false,
       useAlternativeStyling: false,
       verboseInquiriesList: false,
-      defaultDisplayMode: 'view'
+      defaultDisplayMode: 'view',
     },
     session: {
       manualViewInquiry: '',

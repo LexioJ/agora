@@ -25,12 +25,7 @@ export {
   CurrentUserStatus,
 } from '../stores/inquiry.ts'
 
-export {
-  ModeratorRights,
-  OfficialRights,
-  Category,
-  Location,
-} from '../stores/appSettings.ts'
+export { ModeratorRights, OfficialRights, Category, Location } from '../stores/appSettings.ts'
 
 export { SortType, FilterType, InquiryCategory, Meta, InquiryList } from '../stores/inquiries.ts'
 
@@ -71,15 +66,14 @@ export enum Event {
 }
 
 export interface InquiryFamily {
-  id: number;
-  family_type: string;
-  label: string;
-  description?: string;
-  icon: string;
-  sort_order: number;
-  created: number;
+  id: number
+  family_type: string
+  label: string
+  description?: string
+  icon: string
+  sort_order: number
+  created: number
 }
-
 
 export interface InquiryType {
   id: number
@@ -111,9 +105,6 @@ export interface InquiryOptionType {
   statuses: string[]
   use_title: bool
 }
-
-
-
 
 export type ButtonMode = 'navigation' | 'actionMenu' | 'native'
 

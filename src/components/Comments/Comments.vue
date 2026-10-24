@@ -23,24 +23,23 @@ const props = defineProps<{
 
 // Computed property to get filtered comments
 const filteredComments = computed(() => {
-  console.log(" INTO COMMMENT ",props.optionId)
-  console.log(" INTO COMMMENT ",props.inquiryOnly)
-  console.log(" FILTER COMMMENT ",commentsStore.groupedComments.filter( comment => comment.optionId === 0))
-  console.log(" FILTER COMMMENT ",commentsStore.groupedComments.length)
+  console.log(' INTO COMMMENT ', props.optionId)
+  console.log(' INTO COMMMENT ', props.inquiryOnly)
+  console.log(
+    ' FILTER COMMMENT ',
+    commentsStore.groupedComments.filter((comment) => comment.optionId === 0)
+  )
+  console.log(' FILTER COMMMENT ', commentsStore.groupedComments.length)
   if (props.optionId) {
     // Show only comments for specific option
-    return commentsStore.groupedComments.filter(
-      comment => comment.optionId === props.optionId
-    )
+    return commentsStore.groupedComments.filter((comment) => comment.optionId === props.optionId)
   }
-  
+
   if (props.inquiryOnly) {
     // Show only inquiry-level comments (optionId = 0)
-    return commentsStore.groupedComments.filter(
-      comment => comment.optionId === 0
-    )
+    return commentsStore.groupedComments.filter((comment) => comment.optionId === 0)
   }
-  
+
   // Default: show all comments (original behavior)
   return commentsStore.groupedComments
 })

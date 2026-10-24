@@ -15,10 +15,7 @@ import { useSessionStore } from '../stores/session.ts'
 import { AgoraAppIcon } from '../components/AppIcons/index.ts'
 import { Logger } from '../helpers/index.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
-import { 
-  getInquiryTypeData,
-  type InquiryType
-} from '../helpers/modules/InquiryHelper.ts'
+import { getInquiryTypeData, type InquiryType } from '../helpers/modules/InquiryHelper.ts'
 
 const sessionStore = useSessionStore()
 

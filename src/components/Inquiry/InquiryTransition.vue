@@ -13,9 +13,7 @@ import { useSessionStore } from '../../stores/session.ts'
 import NcCheckboxRadioSwitch from '@nextcloud/vue/components/NcCheckboxRadioSwitch'
 import { useCommentsStore } from '../../stores/comments'
 import { usePreferencesStore } from '../..//stores/preferences.ts'
-import {
-  getInquiryTypeData
-} from '../../helpers/modules/InquiryHelper.ts'
+import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
 import { InquiryGeneralIcons } from '../../utils/icons.ts'
 
 const props = defineProps({
@@ -69,46 +67,46 @@ const inquiryTypes = computed(() => sessionStore.appSettings.inquiryTypeTab || [
 // Group children by their inquiry type with official preference order
 const childrenByType = computed(() => {
   const grouped: Record<string, Inquiry[]> = {}
-  
+
   // Get official preference types first, then others
-  const officialTypes = inquiryTypes.value.filter(type => type.official).map(type => type.label)
-  const otherTypes = inquiryTypes.value.filter(type => !type.official).map(type => type.label)
+  const officialTypes = inquiryTypes.value.filter((type) => type.official).map((type) => type.label)
+  const otherTypes = inquiryTypes.value.filter((type) => !type.official).map((type) => type.label)
   const orderedTypes = [...officialTypes, ...otherTypes]
-  
+
   // Initialize all groups
-  orderedTypes.forEach(typeLabel => {
+  orderedTypes.forEach((typeLabel) => {
     grouped[typeLabel] = []
   })
-  
+
   // Group children by type
-  inquiryStore.childs.forEach(child => {
+  inquiryStore.childs.forEach((child) => {
     const typeLabel = getInquiryTypeData(
-      child.type, 
-      sessionStore.appSettings.inquiryTypeTab || [], 
+      child.type,
+      sessionStore.appSettings.inquiryTypeTab || [],
       child.type
     ).label
-    
+
     if (!grouped[typeLabel]) {
       grouped[typeLabel] = []
     }
     grouped[typeLabel].push(child)
   })
-  
+
   // Filter out empty groups and maintain order
   const result: Record<string, Inquiry[]> = {}
-  orderedTypes.forEach(typeLabel => {
+  orderedTypes.forEach((typeLabel) => {
     if (grouped[typeLabel] && grouped[typeLabel].length > 0) {
       result[typeLabel] = grouped[typeLabel]
     }
   })
-  
+
   // Add any remaining types not in the ordered list
-  Object.keys(grouped).forEach(typeLabel => {
+  Object.keys(grouped).forEach((typeLabel) => {
     if (!result[typeLabel] && grouped[typeLabel].length > 0) {
       result[typeLabel] = grouped[typeLabel]
     }
   })
-  
+
   return result
 })
 
@@ -178,7 +176,7 @@ function transformOwner(obj) {
       displayName: obj.owner,
     }
   }
-  
+
   // Ensure coverId and inquiryStatus are present
   if (!Object.prototype.hasOwnProperty.call(obj, 'coverId')) {
     obj.coverId = null
@@ -186,7 +184,7 @@ function transformOwner(obj) {
 
   if (!Object.prototype.hasOwnProperty.call(obj, 'inquiryStatus')) {
     obj.inquiryStatus = 'active'
-  } 
+  }
   return obj
 }
 
@@ -230,7 +228,7 @@ const loadInquiryData = async () => {
       <h2 class="children-title">
         {{ t('agora', 'Child Inquiries') }}
       </h2>
-      
+
       <!-- View Mode Switcher for Children -->
       <div class="view-mode-controls">
         <div class="mode-switcher">
@@ -249,7 +247,7 @@ const loadInquiryData = async () => {
             </template>
             {{ !isMobile ? t('agora', 'Grid') : '' }}
           </NcCheckboxRadioSwitch>
-          
+
           <NcCheckboxRadioSwitch
             :button-variant="true"
             :model-value="subMode"
@@ -271,11 +269,7 @@ const loadInquiryData = async () => {
 
     <!-- Children Sections - Grouped by type with official preference first -->
     <TransitionGroup name="slide-fade" tag="div" class="children-sections">
-      <div 
-        v-for="type in childTypes" 
-        :key="type" 
-        class="child-section"
-      >
+      <div v-for="type in childTypes" :key="type" class="child-section">
         <div class="section-header">
           <h3 class="section-title">
             {{ type }}
@@ -284,13 +278,9 @@ const loadInquiryData = async () => {
             {{ childrenByType[type].length }}
           </span>
         </div>
-        
+
         <!-- Children displayed in grid or list based on subMode -->
-        <div
-:class="[
-          'children-container',
-          isGridView ? 'children-grid' : 'children-list'
-        ]">
+        <div :class="['children-container', isGridView ? 'children-grid' : 'children-list']">
           <InquiryItem
             v-for="child in childrenByType[type]"
             :key="child.id"
@@ -399,10 +389,10 @@ const loadInquiryData = async () => {
       border-radius: 10px;
       padding: 4px;
       border: 1px solid var(--color-border);
-      
+
       .mode-switch {
         margin: 0;
-        
+
         :deep(.checkbox-radio-switch__label) {
           display: flex;
           align-items: center;
@@ -412,18 +402,18 @@ const loadInquiryData = async () => {
           font-weight: 500;
           font-size: 13px;
           transition: all 0.2s ease;
-          
+
           &:hover {
             background: var(--color-background-hover);
           }
         }
-        
+
         :deep(input:checked + .checkbox-radio-switch__label) {
           background: var(--color-primary-element);
           color: var(--color-primary-text);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
-        
+
         :deep(.material-design-icon) {
           width: 16px;
           height: 16px;
@@ -461,20 +451,20 @@ const loadInquiryData = async () => {
 /* Parent section - takes full width and is clearly distinguished */
 .parent-section {
   margin-bottom: 3rem;
-  
+
   .parent-inquiry-wrapper {
     background: var(--color-main-background);
     border-radius: 12px;
     padding: 24px;
     border: 2px solid var(--color-primary-element);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    
+
     /* Make parent stand out */
     :deep(.inquiry-item) {
       background: transparent;
       border: none;
       padding: 0;
-      
+
       .inquiry-item__header {
         .inquiry-item__title {
           font-size: 1.4rem;
@@ -521,20 +511,20 @@ const loadInquiryData = async () => {
   .transition-container {
     padding: 16px;
   }
-  
+
   .child-section .children-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 16px;
   }
-  
+
   .section-header .section-title {
     font-size: 1.2rem;
   }
-  
+
   .children-header .children-title {
     font-size: 1.3rem;
   }
-  
+
   .parent-section .parent-inquiry-wrapper {
     padding: 20px;
   }
@@ -544,38 +534,38 @@ const loadInquiryData = async () => {
   .transition-container {
     padding: 12px;
   }
-  
+
   .children-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
     margin: 1.5rem 0 1rem 0;
-    
+
     .view-mode-controls {
       align-self: flex-end;
     }
   }
-  
+
   .child-section .children-grid {
     grid-template-columns: 1fr;
     gap: 12px;
   }
-  
+
   .parent-section {
     margin-bottom: 2rem;
-    
+
     .parent-inquiry-wrapper {
       padding: 16px;
     }
   }
-  
+
   .children-sections {
     gap: 2rem;
   }
-  
+
   .section-header {
     margin-bottom: 1rem;
-    
+
     .section-title {
       font-size: 1.1rem;
     }
@@ -586,31 +576,31 @@ const loadInquiryData = async () => {
   .transition-container {
     padding: 8px;
   }
-  
+
   .section-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    
+
     .section-count {
       align-self: flex-end;
     }
   }
-  
+
   .parent-section .parent-inquiry-wrapper {
     padding: 12px;
   }
-  
+
   .children-header .view-mode-controls .mode-switcher {
     width: 100%;
     justify-content: center;
-    
+
     .mode-switch :deep(.checkbox-radio-switch__label) {
       flex: 1;
       justify-content: center;
       padding: 8px 10px;
       font-size: 12px;
-      
+
       .material-design-icon {
         width: 14px;
         height: 14px;

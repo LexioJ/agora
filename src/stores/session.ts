@@ -8,7 +8,7 @@ import { getCurrentUser } from '@nextcloud/auth'
 import { PublicAPI, SessionAPI } from '../Api/index.ts'
 import { createDefault, User, AppPermissions } from '../Types/index.ts'
 import { useAppSettingsStore, AppSettings, UpdateType } from './appSettings.ts'
-import {  SessionSettings } from './preferences.ts'
+import { SessionSettings } from './preferences.ts'
 import { FilterType, useInquiriesStore } from './inquiries.ts'
 import { Share } from './shares.ts'
 import { RouteLocationNormalized, RouteRecordNameGeneric } from 'vue-router'
@@ -62,7 +62,6 @@ export type Session = {
   userStatus: UserStatus
   watcher: Watcher
 }
-
 
 let lastLoadedUserId: string | null = null
 
@@ -122,7 +121,6 @@ export const useSessionStore = defineStore('session', {
       }
       return 0
     },
-
 
     currentInquiryId(state): number {
       if (state.route.name === 'inquiry') {
@@ -197,17 +195,17 @@ export const useSessionStore = defineStore('session', {
         })()
 
         this.$patch(response.data)
-	// We store the appSettingsStore
-	const appSettingsStore = useAppSettingsStore()
-	 appSettingsStore.$patch({
-      		inquiryStatusTab: this.appSettings.inquiryStatusTab,
-      		inquiryTypeTab: this.appSettings.inquiryTypeTab,
-      		inquiryOptionTypeTab: this.appSettings.inquiryOptionTypeTab,
-      		inquiryGroupTypeTab: this.appSettings.inquiryGroupTypeTab,
-      		inquiryFamilyTab: this.appSettings.inquiryFamilyTab,
-      		categoryTab: this.appSettings.categoryTab,
-      		locationTab: this.appSettings.locationTab,
-    	})
+        // We store the appSettingsStore
+        const appSettingsStore = useAppSettingsStore()
+        appSettingsStore.$patch({
+          inquiryStatusTab: this.appSettings.inquiryStatusTab,
+          inquiryTypeTab: this.appSettings.inquiryTypeTab,
+          inquiryOptionTypeTab: this.appSettings.inquiryOptionTypeTab,
+          inquiryGroupTypeTab: this.appSettings.inquiryGroupTypeTab,
+          inquiryFamilyTab: this.appSettings.inquiryFamilyTab,
+          categoryTab: this.appSettings.categoryTab,
+          locationTab: this.appSettings.locationTab,
+        })
 
         this.isLoaded = true
         lastLoadedUserId = this.currentUser.id

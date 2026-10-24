@@ -9,11 +9,11 @@
       <h3 class="sidebar-card__title">
         {{ t('agora', 'Inquiry types in this group') }}
       </h3>
-      
+
       <!-- Inquiry Types List -->
       <div v-if="Object.keys(inquiriesByType).length > 0" class="inquiry-types-list">
-        <div 
-          v-for="(typeKey) in Object.keys(inquiriesByType)" 
+        <div
+          v-for="typeKey in Object.keys(inquiriesByType)"
           :key="typeKey"
           class="inquiry-type-item"
           :class="{ 'has-inquiries': inquiriesByType[typeKey].length > 0 }"
@@ -25,17 +25,15 @@
           <div class="inquiry-type-item__label">
             {{ t('agora', getTypeData(typeKey)?.label || typeKey) }}
           </div>
-          <div class="inquiry-type-item__count">
-            ({{ inquiriesByType[typeKey]?.length || 0 }})
-          </div>
+          <div class="inquiry-type-item__count">({{ inquiriesByType[typeKey]?.length || 0 }})</div>
         </div>
       </div>
-      
+
       <!-- Empty state -->
       <div v-else class="empty-sidebar">
         <p>{{ t('agora', 'No inquiries in this group yet') }}</p>
       </div>
-      
+
       <!-- Add Inquiry Button -->
       <div v-if="isOwnerOrAdmin" class="sidebar-card__actions">
         <NcButton class="add-inquiry-button" @click="emit('addInquiry')">
@@ -64,18 +62,21 @@ const sessionStore = useSessionStore()
 const router = useRouter()
 
 const props = defineProps<{
-  inquiryGroup?: InquiryGroupType 
+  inquiryGroup?: InquiryGroupType
   inquiriesByType?: Record<string, Inquiry[]>
   inquiryTypes?: InquiryType[]
 }>()
 
 const emit = defineEmits(['addInquiry'])
 
-const safeInquiryTypes = computed(() => props.inquiryTypes || sessionStore.appSettings.inquiryTypeTab || [])
+const safeInquiryTypes = computed(
+  () => props.inquiryTypes || sessionStore.appSettings.inquiryTypeTab || []
+)
 
-const isOwnerOrAdmin = computed(() => 
-  // Implement ownership check
-   false
+const isOwnerOrAdmin = computed(
+  () =>
+    // Implement ownership check
+    false
 )
 
 function getTypeData(typeKey: string) {
@@ -87,7 +88,7 @@ function filterByType(typeKey: string) {
     router.push({
       name: 'group-list',
       params: { slug: props.inquiryGroup.slug },
-      query: { type: typeKey }
+      query: { type: typeKey },
     })
   }
 }
@@ -100,7 +101,7 @@ function filterByType(typeKey: string) {
     border: 1px solid var(--color-border);
     border-radius: 16px;
     padding: 24px;
-    
+
     &__title {
       font-size: 16px;
       font-weight: 600;
@@ -134,11 +135,11 @@ function filterByType(typeKey: string) {
   border-radius: 8px;
   transition: all 0.2s ease;
   cursor: pointer;
-  
+
   &.has-inquiries:hover {
     background: var(--color-background-hover);
   }
-  
+
   &__icon {
     width: 24px;
     height: 24px;
@@ -146,20 +147,20 @@ function filterByType(typeKey: string) {
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    
+
     :deep(svg) {
       width: 18px;
       height: 18px;
       color: var(--color-text-lighter);
     }
   }
-  
+
   &__label {
     flex: 1;
     font-size: 14px;
     color: var(--color-main-text);
   }
-  
+
   &__count {
     font-size: 14px;
     font-weight: 600;
@@ -175,7 +176,7 @@ function filterByType(typeKey: string) {
 .add-inquiry-button {
   width: 100%;
   justify-content: center;
-  
+
   :deep(.button-vue__icon) {
     margin-right: 8px;
   }
@@ -185,10 +186,10 @@ function filterByType(typeKey: string) {
   .sidebar-card {
     padding: 20px;
   }
-  
+
   .inquiry-type-item {
     padding: 10px;
-    
+
     &__label {
       font-size: 13px;
     }

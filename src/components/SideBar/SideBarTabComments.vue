@@ -23,51 +23,45 @@ const inquiryStore = useInquiryStore()
 const commentsStore = useCommentsStore()
 
 const emptyContentProps = {
-	name: t('agora', 'No comments'),
-	description: t('agora', 'Be the first.'),
+  name: t('agora', 'No comments'),
+  description: t('agora', 'Be the first.'),
 }
 
 const showEmptyContent = computed(() => commentsStore.comments.length === 0)
 
 onMounted(() => {
-	commentsStore.load(inquiryStore.id)
+  commentsStore.load(inquiryStore.id)
 })
 
 onBeforeRouteUpdate(async () => {
-	commentsStore.load(inquriyStore.id)
+  commentsStore.load(inquriyStore.id)
 })
 
 onBeforeRouteLeave(() => {
-	commentsStore.$reset()
+  commentsStore.$reset()
 })
 
-watch(
-	[() => inquiryStore.permissions.comment, () => inquiryStore.permissions.seeUsernames],
-	() => {
-		commentsStore.load(inquiryStore.id)
-	},
-)
+watch([() => inquiryStore.permissions.comment, () => inquiryStore.permissions.seeUsernames], () => {
+  commentsStore.load(inquiryStore.id)
+})
 </script>
 
 <template>
-	<ConfigBox v-if="inquiryStore.permissions.edit" :name="t('agora', 'Configuration')">
-	<!--	<ConfigAllowComment @change="inquiryStore.write" />
+  <ConfigBox v-if="inquiryStore.permissions.edit" :name="t('agora', 'Configuration')">
+    <!--	<ConfigAllowComment @change="inquiryStore.write" />
     <ConfigForceConfidentialComments @change="inquiryStore.write" /> -->
-		<CardDiv v-if="!inquiryStore.configuration.allowComment" type="warning">
-			{{
-				t(
-					'agora',
-					'Comments are disabled, except for owner and delegated inquiry administration.',
-				)
-			}}
-		</CardDiv>
-	</ConfigBox>
+    <CardDiv v-if="!inquiryStore.configuration.allowComment" type="warning">
+      {{
+        t('agora', 'Comments are disabled, except for owner and delegated inquiry administration.')
+      }}
+    </CardDiv>
+  </ConfigBox>
 
-	<CommentAdd />
-	<Comments :inquiry-only='true' v-if="!showEmptyContent" />
-	<NcEmptyContent v-else v-bind="emptyContentProps">
-		<template #icon>
-			<CommentsIcon />
-		</template>
-	</NcEmptyContent>
+  <CommentAdd />
+  <Comments v-if="!showEmptyContent" :inquiry-only="true" />
+  <NcEmptyContent v-else v-bind="emptyContentProps">
+    <template #icon>
+      <CommentsIcon />
+    </template>
+  </NcEmptyContent>
 </template>

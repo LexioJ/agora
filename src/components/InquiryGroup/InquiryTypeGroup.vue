@@ -7,11 +7,7 @@
   <div class="inquiry-type-group">
     <!-- Grouped by Type -->
     <div v-if="groupByType" class="type-groups">
-      <div 
-        v-for="(typeGroup, typeKey) in groupedInquiries" 
-        :key="typeKey" 
-        class="type-group"
-      >
+      <div v-for="(typeGroup, typeKey) in groupedInquiries" :key="typeKey" class="type-group">
         <div class="type-header" @click="toggleType(typeKey)">
           <div class="type-info">
             <div class="type-icon">
@@ -26,7 +22,7 @@
             </svg>
           </div>
         </div>
-        
+
         <div v-show="expandedTypes.includes(typeKey)" class="type-content">
           <div class="inquiry-items" :class="`layout-${layoutZone}`">
             <InquiryItem
@@ -40,7 +36,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Not Grouped -->
     <div v-else class="ungrouped-inquiries">
       <div class="inquiry-items" :class="`layout-${layoutZone}`">
@@ -70,7 +66,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  defaultExpanded: false
+  defaultExpanded: false,
 })
 
 const emit = defineEmits<{
@@ -82,13 +78,13 @@ const expandedTypes = ref<string[]>([])
 // Group inquiries by type
 const groupedInquiries = computed(() => {
   const grouped: Record<string, Inquiry[]> = {}
-  
-  props.inquiries.forEach(inquiry => {
+
+  props.inquiries.forEach((inquiry) => {
     const type = inquiry.type || 'default'
     if (!grouped[type]) grouped[type] = []
     grouped[type].push(inquiry)
   })
-  
+
   return grouped
 })
 
@@ -101,12 +97,12 @@ function getRenderMode(inquiry: Inquiry): string {
 
 // Get inquiry type icon/label
 function getInquiryTypeIcon(typeKey: string) {
-  const typeData = props.inquiryTypes.find(t => t.inquiry_type === typeKey)
+  const typeData = props.inquiryTypes.find((t) => t.inquiry_type === typeKey)
   return typeData?.icon || '📝'
 }
 
 function getInquiryTypeLabel(typeKey: string) {
-  const typeData = props.inquiryTypes.find(t => t.inquiry_type === typeKey)
+  const typeData = props.inquiryTypes.find((t) => t.inquiry_type === typeKey)
   return typeData?.label || typeKey
 }
 
@@ -126,9 +122,13 @@ function handleClick(inquiryId: number) {
 }
 
 // Auto-expand if defaultExpanded is true
-watch(() => props.groupedInquiries, (newGroups) => {
-  if (props.defaultExpanded && newGroups) {
-    expandedTypes.value = Object.keys(newGroups)
-  }
-}, { immediate: true })
+watch(
+  () => props.groupedInquiries,
+  (newGroups) => {
+    if (props.defaultExpanded && newGroups) {
+      expandedTypes.value = Object.keys(newGroups)
+    }
+  },
+  { immediate: true }
+)
 </script>

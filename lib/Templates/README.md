@@ -15,6 +15,7 @@ The Agora template system allows administrators to load custom configuration dat
 ## How It Works
 
 1. **Template contains embedded translations**:
+
    ```json
    {
      "label": {
@@ -38,7 +39,9 @@ The Agora template system allows administrators to load custom configuration dat
 A template JSON file consists of the following sections:
 
 ### template_info (required)
+
 Basic metadata about the template:
+
 ```json
 {
   "template_info": {
@@ -53,7 +56,9 @@ Basic metadata about the template:
 ```
 
 ### inquiry_families (optional)
+
 Define inquiry family types with multi-language labels:
+
 ```json
 {
   "inquiry_families": [
@@ -77,7 +82,9 @@ Define inquiry family types with multi-language labels:
 ```
 
 ### inquiry_types (optional)
+
 Define specific inquiry types:
+
 ```json
 {
   "inquiry_types": [
@@ -103,7 +110,9 @@ Define specific inquiry types:
 ```
 
 ### inquiry_statuses (optional)
+
 Define status workflows for inquiry types:
+
 ```json
 {
   "inquiry_statuses": [
@@ -129,7 +138,9 @@ Define status workflows for inquiry types:
 ```
 
 ### option_types (optional)
+
 Define option types for different inquiry families:
+
 ```json
 {
   "option_types": [
@@ -154,7 +165,9 @@ Define option types for different inquiry families:
 ```
 
 ### inquiry_group_types (optional)
+
 Define how inquiries can be grouped:
+
 ```json
 {
   "inquiry_group_types": [
@@ -178,7 +191,9 @@ Define how inquiries can be grouped:
 ```
 
 ### categories (optional)
+
 Define categorization options:
+
 ```json
 {
   "categories": [
@@ -201,7 +216,9 @@ Define categorization options:
 ```
 
 ### locations (optional)
+
 Define location options:
+
 ```json
 {
   "locations": [
@@ -234,6 +251,7 @@ occ agora:db:load-template --list
 ```
 
 This will display detailed information about each template including:
+
 - Template name, version, and author
 - Description and use case
 - Available languages
@@ -254,17 +272,21 @@ This removes all existing data including user-created content, configuration dat
 ### 3. Load a Template
 
 #### Load the default template with interactive language selection:
+
 ```bash
 occ agora:db:load-template --default
 ```
+
 You will be prompted to choose from available languages (en, fr, de).
 
 #### Load the default template with a specific language:
+
 ```bash
 occ agora:db:load-template --default --language=fr
 ```
 
 #### Load a custom template:
+
 ```bash
 occ agora:db:load-template /path/to/your/template.json --language=en
 ```
@@ -272,6 +294,7 @@ occ agora:db:load-template /path/to/your/template.json --language=en
 ### 4. Verify the Results
 
 The command will output detailed information about:
+
 - Template name and description
 - Selected language
 - Which sections were loaded
@@ -279,6 +302,7 @@ The command will output detailed information about:
 - Any errors or warnings encountered
 
 Example output:
+
 ```
 Loading template from: /path/to/template.json
 Selected language: fr
@@ -317,6 +341,7 @@ Every user-facing text field (label, description) should be an object mapping la
 ### Language Codes
 
 Use ISO 639-1 two-letter language codes:
+
 - `en` - English
 - `fr` - French
 - `de` - German
@@ -327,6 +352,7 @@ Use ISO 639-1 two-letter language codes:
 - etc.
 
 For regional variants, you can use:
+
 - `en-US` - American English
 - `en-GB` - British English
 - `fr-CA` - Canadian French
@@ -335,6 +361,7 @@ For regional variants, you can use:
 ### Fallback Behavior
 
 If a requested language is not available in a field, the system falls back to:
+
 1. English (`en`) if available
 2. The first available language
 3. Empty string if no languages are defined
@@ -344,6 +371,7 @@ If a requested language is not available in a field, the system falls back to:
 For user-facing enum fields (e.g., priority, category selectors), you can provide localized labels for each enum value. This ensures users see translated labels instead of raw identifiers like `"low"` or `"critical"`.
 
 **Simple enum (technical values, not user-facing):**
+
 ```json
 {
   "key": "layout_zone",
@@ -353,6 +381,7 @@ For user-facing enum fields (e.g., priority, category selectors), you can provid
 ```
 
 **Localized enum (user-facing values):**
+
 ```json
 {
   "key": "priority",
@@ -363,29 +392,33 @@ For user-facing enum fields (e.g., priority, category selectors), you can provid
   "type": "enum",
   "required": true,
   "allowed_values": [
-    {"value": "low", "label": {"en": "Low", "de": "Niedrig", "fr": "Basse"}},
-    {"value": "medium", "label": {"en": "Medium", "de": "Mittel", "fr": "Moyenne"}},
-    {"value": "high", "label": {"en": "High", "de": "Hoch", "fr": "Haute"}},
-    {"value": "critical", "label": {"en": "Critical", "de": "Kritisch", "fr": "Critique"}}
+    { "value": "low", "label": { "en": "Low", "de": "Niedrig", "fr": "Basse" } },
+    { "value": "medium", "label": { "en": "Medium", "de": "Mittel", "fr": "Moyenne" } },
+    { "value": "high", "label": { "en": "High", "de": "Hoch", "fr": "Haute" } },
+    { "value": "critical", "label": { "en": "Critical", "de": "Kritisch", "fr": "Critique" } }
   ]
 }
 ```
 
 When the template is loaded with a specific language:
+
 - The `value` field is stored as the internal identifier (used in database/code)
 - The `label` field is extracted for the selected language (shown to users)
 
 **Example:** Loading with `--language=de` stores:
+
 - Internal value: `"high"`
 - Displayed label: `"Hoch"`
 
 **When to use localized enums:**
+
 - Priority selectors (low, medium, high, critical)
 - Status types (pending, approved, rejected)
 - Category types (public, internal, confidential)
 - Any dropdown where users see and select values
 
 **When to keep simple enums:**
+
 - Technical configuration options (render_mode, layout_zone, open_mode)
 - System identifiers that administrators configure
 
@@ -477,6 +510,7 @@ You can create templates for different organizational contexts:
 ## Examples
 
 See the included templates:
+
 - `default_citizen_participation.json` - Default citizen participation template with en, fr, de translations
 
 ## Technical Details
@@ -484,6 +518,7 @@ See the included templates:
 ### Template Loader Service
 
 The `TemplateLoader` service (`lib/Service/TemplateLoader.php`) handles:
+
 - JSON parsing and validation
 - Language extraction from multi-language fields
 - Entity creation and database insertion
@@ -494,6 +529,7 @@ The `extractText()` method extracts the appropriate language from field objects.
 ### Database Mappers
 
 Templates use the following database mappers:
+
 - `CategoryMapper`
 - `InquiryFamilyMapper`
 - `InquiryGroupTypeMapper`
@@ -516,6 +552,7 @@ Templates use the following database mappers:
 Unlike the Nextcloud interface which supports per-user language preferences, Agora configuration data (families, types, categories, etc.) is displayed in the single language that was imported.
 
 This approach was chosen because:
+
 1. Custom templates can define their own terminology
 2. Templates are portable and can be shared easily
 3. No dependency on translation management systems like Transifex
@@ -524,6 +561,7 @@ This approach was chosen because:
 ### Updating Translations
 
 To update the language or translations:
+
 1. Clean the instance: `occ agora:db:clean-instance`
 2. Reload the template with the desired language: `occ agora:db:load-template --default --language=<code>`
 
@@ -532,22 +570,26 @@ To update the language or translations:
 ## Troubleshooting
 
 ### Template won't load
+
 - Verify JSON syntax is valid
 - Check that all required fields are present
 - Ensure `template_info` section exists
 - Verify `available_languages` array is populated
 
 ### Language not available
+
 - Check the `available_languages` array in template_info
 - Verify all label/description objects contain the requested language
 - Use `--language=en` as a safe fallback (most templates should include English)
 
 ### Labels showing in wrong language
+
 - The language is selected once during import
 - All subsequent users see the same language
 - To change, clean the instance and reload with a different language
 
 ### Missing translations
+
 - Check that all label/description fields are objects (not strings)
 - Verify each object contains entries for all advertised languages
 - The system will fallback to English or the first available language
@@ -555,6 +597,7 @@ To update the language or translations:
 ## Future Enhancements
 
 Planned improvements:
+
 - Web-based wizard UI for template selection and language choice
 - Template validation command
 - Template export functionality from existing configuration
@@ -564,5 +607,6 @@ Planned improvements:
 ## Support
 
 For issues, questions, or contributions:
+
 - GitHub: https://github.com/vinimoz/agora
 - Issues: https://github.com/vinimoz/agora/issues

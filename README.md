@@ -14,39 +14,38 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 
 ---
 
-
-- 🧱 **Architecture Database** – New database design for better scalability and structure  
-- 🎨 **New UX Landing Page** – A more modern and user-friendly entry point  
-- 🆔 **Cover ID for Inquiries** – Visual cover and unique identifiers  
-- 🧩 **Linked Families** – Inquiries are now linked to families; create your own families  
-- ⚙️ **Custom Inquiry Types** – Define reply formats and transformation possibilities  
-- 🧑⚖️ **Real Moderation Mode** – Fully functional moderation (can be deactivated)  
+- 🧱 **Architecture Database** – New database design for better scalability and structure
+- 🎨 **New UX Landing Page** – A more modern and user-friendly entry point
+- 🆔 **Cover ID for Inquiries** – Visual cover and unique identifiers
+- 🧩 **Linked Families** – Inquiries are now linked to families; create your own families
+- ⚙️ **Custom Inquiry Types** – Define reply formats and transformation possibilities
+- 🧑⚖️ **Real Moderation Mode** – Fully functional moderation (can be deactivated)
 
 ---
 
 ## ✨ Features
 
-- 💬 Comments and discussions  
-- 👍 Supports (likes/upvotes standard)  
-- 👍 Supports (ternary support)  
+- 💬 Comments and discussions
+- 👍 Supports (likes/upvotes standard)
+- 👍 Supports (ternary support)
 - 🤖 Create your own inquiries family.
-- 🧩 Reply and transform inquiries.  
-- 🔗 Attach files with your inquiries. 
-- 🧾 Multiple inquiry types and customization (proposals, debates, petitions, projects,.... )  
-- 📂 Categorization and filtering by location/family  
-- 🔒 Secure and private – all data stays on your Nextcloud server  
-- 🔗 Link with other Nextcloud apps : Forms, Polls, Deck, Cospend and Collectives.  
-- 🏛 Collectives → Organize your inquiry group. 
+- 🧩 Reply and transform inquiries.
+- 🔗 Attach files with your inquiries.
+- 🧾 Multiple inquiry types and customization (proposals, debates, petitions, projects,.... )
+- 📂 Categorization and filtering by location/family
+- 🔒 Secure and private – all data stays on your Nextcloud server
+- 🔗 Link with other Nextcloud apps : Forms, Polls, Deck, Cospend and Collectives.
+- 🏛 Collectives → Organize your inquiry group.
 
 ---
 
 ## 🧭 Roadmap
 
-- 🗣 Real debate features (structured replies, multi-thread discussions)  
-- 📜 Project law reading with article-level comments and supports  
-- 🏛 Collectives → Submit group of inquiries to Polls application for consultation or referendum  
-- 🧮 Quorums and workflow automation  
-- 🧰 Better permission control and moderation tools  
+- 🗣 Real debate features (structured replies, multi-thread discussions)
+- 📜 Project law reading with article-level comments and supports
+- 🏛 Collectives → Submit group of inquiries to Polls application for consultation or referendum
+- 🧮 Quorums and workflow automation
+- 🧰 Better permission control and moderation tools
 
 ---
 
@@ -54,7 +53,7 @@ It allows communities and organizations to collaborate on **proposals, debates, 
 
 ### Requirements
 
-- Nextcloud 31+  
+- Nextcloud 31+
 - PHP 8.1+
 
 ### Install Latest Release
@@ -77,38 +76,38 @@ occ app:enable agora
 
 ## ⚙ Useful OCC Commands
 
-| Command | Description |
-| ------- | ----------- |
-| `agora:db:clean-migrations` | Remove obsolete migrations |
-| `agora:db:purge` | Drop all Agora tables & config |
-| `agora:db:rebuild` | Rebuild database including indices |
-| `agora:db:init-default` | Create default categories, locations, moderation |
-| `agora:index:create` | Create database indices |
-| `agora:index:remove` | Remove indices |
-| `agora:inquiry:transfer-ownership <source> <target>` | Transfer ownership of an inquiry |
-| `agora:share:add / remove` | Add or remove user/group/email to shares |
+| Command                                              | Description                                      |
+| ---------------------------------------------------- | ------------------------------------------------ |
+| `agora:db:clean-migrations`                          | Remove obsolete migrations                       |
+| `agora:db:purge`                                     | Drop all Agora tables & config                   |
+| `agora:db:rebuild`                                   | Rebuild database including indices               |
+| `agora:db:init-default`                              | Create default categories, locations, moderation |
+| `agora:index:create`                                 | Create database indices                          |
+| `agora:index:remove`                                 | Remove indices                                   |
+| `agora:inquiry:transfer-ownership <source> <target>` | Transfer ownership of an inquiry                 |
+| `agora:share:add / remove`                           | Add or remove user/group/email to shares         |
 
 ---
 
 ## 🖼 Screenshots
 
-| Creation | Edit Inquiry | Edit Group | Group view | Group view 2 | Inquiry Type | Family | Grid View | Grid 2 | List View |  Settings | Settings Inquiry |
-| :-------: | :----------: | :-----------: | :-----: | :-------: | :-----: | :-------: | :------: | :---------------: |
-| ![Creation](screenshots/Creation.png) | ![Edit Inquiry](screenshots/EditInquiry.png) | ![Edit Group](screenshots/EditGroup.png) | ![Group view](screenshots/GroupView.png) |![Group view](screenshots/GroupView2.png) | ![Inquiry Type](screenshots/SettingInquiryType.png) | ![Family](screenshots/Family.png) | ![Grid](screenshots/Grid.png) | ![Grid2](screenshots/Grid2.png) | ![List](screenshots/ListView.png)  | ![Settings](screenshots/Settings.png) | ![Settings Inquiry](screenshots/SettingsInquiry.png) |
+|               Creation                |                 Edit Inquiry                 |                Edit Group                |                Group view                |               Group view 2                |                     Inquiry Type                    |              Family               |           Grid View           |             Grid 2              | List View                         | Settings                              | Settings Inquiry                                     |
+| :-----------------------------------: | :------------------------------------------: | :--------------------------------------: | :--------------------------------------: | :---------------------------------------: | :-------------------------------------------------: | :-------------------------------: | :---------------------------: | :-----------------------------: | --------------------------------- | ------------------------------------- | ---------------------------------------------------- |
+| ![Creation](screenshots/Creation.png) | ![Edit Inquiry](screenshots/EditInquiry.png) | ![Edit Group](screenshots/EditGroup.png) | ![Group view](screenshots/GroupView.png) | ![Group view](screenshots/GroupView2.png) | ![Inquiry Type](screenshots/SettingInquiryType.png) | ![Family](screenshots/Family.png) | ![Grid](screenshots/Grid.png) | ![Grid2](screenshots/Grid2.png) | ![List](screenshots/ListView.png) | ![Settings](screenshots/Settings.png) | ![Settings Inquiry](screenshots/SettingsInquiry.png) |
 
 ---
 
 ## 📚 Documentation
 
-| User Guide | API Guide |
-| :--------: | :-------: |
+|             User Guide              |            API Guide            |
+| :---------------------------------: | :-----------------------------: |
 | [USER_GUIDE.md](docs/USER_GUIDE.md) | [API_v1.0.md](docs/API_v1.0.md) |
 
 ---
 
 ## 🛠 Support
 
-- Report bugs or request features: [GitHub Issues](https://github.com/vinimoz/agora/issues)  
+- Report bugs or request features: [GitHub Issues](https://github.com/vinimoz/agora/issues)
 - Community support: [Nextcloud Help](https://help.vinimoz.com/c/apps/agora/)
 
 ---

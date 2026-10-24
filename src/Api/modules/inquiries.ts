@@ -98,11 +98,9 @@ const inquiries = {
       method: 'PUT',
       url: `inquiry/updateaccess/${inquiryId}/${inquiryAccess}`,
       cancelToken:
-        cancelTokenHandlerObject[this.updateAccess.name].handleRequestCancellation()
-          .token,
+        cancelTokenHandlerObject[this.updateAccess.name].handleRequestCancellation().token,
     })
   },
-
 
   updateInquiryStatus(
     inquiryId: number,
@@ -112,43 +110,37 @@ const inquiries = {
       method: 'PUT',
       url: `inquiry/updatestatus/${inquiryId}/${inquiryStatus}`,
       cancelToken:
-        cancelTokenHandlerObject[this.updateInquiryStatus.name].handleRequestCancellation()
-          .token,
+        cancelTokenHandlerObject[this.updateInquiryStatus.name].handleRequestCancellation().token,
     })
   },
 
-  submitInquiry(
-    inquiryId: number,
-    action: string
-  ): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
+  submitInquiry(inquiryId: number, action: string): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
     return httpInstance.request({
       method: 'PUT',
       url: `inquiry/submitinquiry/${inquiryId}`,
       data: { action },
       cancelToken:
-        cancelTokenHandlerObject[this.submitInquiry.name].handleRequestCancellation()
-          .token,
+        cancelTokenHandlerObject[this.submitInquiry.name].handleRequestCancellation().token,
     })
   },
 
   updateInquiryConfig(
-  inquiryId: number,
-  inquiryConfiguration: InquiryConfiguration
-): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
-  console.log(' INTO WRITE ID DE L4A PIIIII ', inquiryConfiguration)
+    inquiryId: number,
+    inquiryConfiguration: InquiryConfiguration
+  ): Promise<AxiosResponse<{ inquiry: Inquiry }>> {
+    console.log(' INTO WRITE ID DE L4A PIIIII ', inquiryConfiguration)
 
-  // Convert Proxy to plain object before sending
-  const plainConfig = JSON.parse(JSON.stringify(inquiryConfiguration));
+    // Convert Proxy to plain object before sending
+    const plainConfig = JSON.parse(JSON.stringify(inquiryConfiguration))
 
-  return httpInstance.request({
-    method: 'PUT',
-    url: `inquiry/updateconfig/${inquiryId}`,
-    data: { inquiryConfiguration: plainConfig }, 
-    cancelToken:
-      cancelTokenHandlerObject[this.updateInquiryConfig.name].handleRequestCancellation().token,
-  })
-},
-
+    return httpInstance.request({
+      method: 'PUT',
+      url: `inquiry/updateconfig/${inquiryId}`,
+      data: { inquiryConfiguration: plainConfig },
+      cancelToken:
+        cancelTokenHandlerObject[this.updateInquiryConfig.name].handleRequestCancellation().token,
+    })
+  },
 
   addInquiry(dataInquiry: {
     type: string
@@ -319,33 +311,32 @@ const inquiries = {
     })
   },
 
-updateMiscField(inquiryId: number, updateData: { key: string, value: string }): Promise<AxiosResponse<{ miscField: string }>> {
+  updateMiscField(
+    inquiryId: number,
+    updateData: { key: string; value: string }
+  ): Promise<AxiosResponse<{ miscField: string }>> {
     if (!updateData.key || updateData.key.trim() === '') {
-        throw new Error('Key cannot be null or empty for misc field update');
+      throw new Error('Key cannot be null or empty for misc field update')
     }
 
     return httpInstance.request({
-        method: 'PUT',
-        data: updateData,
-        url: `inquiry/${inquiryId}/updatemiscfield`,
-        cancelToken: cancelTokenHandlerObject[this.updateMiscField.name].handleRequestCancellation().token,
+      method: 'PUT',
+      data: updateData,
+      url: `inquiry/${inquiryId}/updatemiscfield`,
+      cancelToken:
+        cancelTokenHandlerObject[this.updateMiscField.name].handleRequestCancellation().token,
     })
-},
-
+  },
 
   enhanceText(text: string): Promise<AxiosResponse<{ text: string }>> {
-	  return httpInstance.request({
-		  method: 'POST',
-		  url: 'inquiry/get-text-ai',
-		  data: { text },
-		  cancelToken:
-			  cancelTokenHandlerObject[this.enhanceText.name]
-		  .handleRequestCancellation()
-		  .token,
-	  })
-  }
-
-
+    return httpInstance.request({
+      method: 'POST',
+      url: 'inquiry/get-text-ai',
+      data: { text },
+      cancelToken:
+        cancelTokenHandlerObject[this.enhanceText.name].handleRequestCancellation().token,
+    })
+  },
 }
 
 const cancelTokenHandlerObject = createCancelTokenHandler(inquiries)

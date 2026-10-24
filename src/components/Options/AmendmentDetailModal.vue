@@ -3,12 +3,7 @@
   SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-  <NcModal
-    v-if="show && amendmentId"
-    :name="modalTitle"
-    size="large"
-    @close="closeModal"
-  >
+  <NcModal v-if="show && amendmentId" :name="modalTitle" size="large" @close="closeModal">
     <div class="amendment-detail-modal">
       <!-- Loading state -->
       <div v-if="loading" class="loading-state">
@@ -44,7 +39,7 @@
               </div>
             </div>
           </div>
-          
+
           <div class="header-right">
             <!-- Quick actions -->
             <div class="quick-actions">
@@ -54,17 +49,13 @@
                 class="support-icon"
                 @click="toggleSupport"
               />
-              
-              <NcButton
-                type="tertiary"
-                class="comment-btn"
-                @click="scrollToComments"
-              >
+
+              <NcButton type="tertiary" class="comment-btn" @click="scrollToComments">
                 <component :is="InquiryOptionIcons.Comment" :size="16" />
                 <span>{{ amendment.comment_count || 0 }}</span>
               </NcButton>
             </div>
-            
+
             <!-- Status actions -->
             <NcActions
               v-if="canChangeStatus"
@@ -83,33 +74,26 @@
                 {{ status.label }}
               </NcActionButton>
             </NcActions>
-            
+
             <!-- Main actions -->
             <NcActions
               v-if="canEditOrDelete"
               :force-menu="true"
               :aria-label="t('agora', 'Amendment actions')"
             >
-              <NcActionButton
-                v-if="canEdit"
-                :close-after-click="true"
-                @click="editAmendment"
-              >
+              <NcActionButton v-if="canEdit" :close-after-click="true" @click="editAmendment">
                 <template #icon>
                   <component :is="InquiryOptionIcons.Edit" :size="20" />
                 </template>
                 {{ t('agora', 'Edit') }}
               </NcActionButton>
-              
-              <NcActionButton
-                v-if="canAddResponse"
-                :is-menu="true"
-              >
+
+              <NcActionButton v-if="canAddResponse" :is-menu="true">
                 <template #icon>
                   <component :is="InquiryOptionIcons.Plus" :size="20" />
                 </template>
                 {{ t('agora', 'Add response') }}
-                
+
                 <!-- Response type submenu -->
                 <NcActionButton
                   v-for="responseType in availableResponseTypes"
@@ -123,14 +107,10 @@
                   {{ responseType.label }}
                 </NcActionButton>
               </NcActionButton>
-              
+
               <NcActionSeparator v-if="canDelete" />
-              
-              <NcActionButton
-                v-if="canDelete"
-                :close-after-click="true"
-                @click="confirmDelete"
-              >
+
+              <NcActionButton v-if="canDelete" :close-after-click="true" @click="confirmDelete">
                 <template #icon>
                   <component :is="InquiryOptionIcons.Delete" :size="20" />
                 </template>
@@ -151,11 +131,7 @@
             <div class="article-info">
               <component :is="getOptionTypeIcon('article')" :size="20" />
               <span class="article-title">{{ parentArticle.label }}</span>
-              <NcButton
-                type="tertiary"
-                size="small"
-                @click="viewParentArticle"
-              >
+              <NcButton type="tertiary" size="small" @click="viewParentArticle">
                 {{ t('agora', 'View article') }}
               </NcButton>
             </div>
@@ -171,7 +147,7 @@
                 required
                 full-width
               />
-              
+
               <NcTextField
                 v-model="editForm.text"
                 :label="t('agora', 'Amendment text')"
@@ -180,7 +156,7 @@
                 :rows="6"
                 full-width
               />
-              
+
               <div class="edit-actions">
                 <NcButton type="tertiary" @click="cancelEdit">
                   {{ t('agora', 'Cancel') }}
@@ -190,7 +166,7 @@
                 </NcButton>
               </div>
             </div>
-            
+
             <div v-else class="content-display">
               <div v-if="amendment.text" class="text-content">
                 <h4>{{ t('agora', 'Proposed Change') }}</h4>
@@ -198,7 +174,7 @@
                   {{ amendment.text }}
                 </div>
               </div>
-              
+
               <!-- Article reference field -->
               <div v-if="amendment.article_ref" class="article-ref-display">
                 <h4>{{ t('agora', 'Article Reference') }}</h4>
@@ -214,28 +190,25 @@
             <h4>{{ t('agora', 'Support') }}</h4>
             <div class="support-stats">
               <div class="stat-item positive">
-                <TernarySupportIcon
-                  :support-value="1"
-                  :size="20"
-                />
+                <TernarySupportIcon :support-value="1" :size="20" />
                 <div class="stat-content">
-                  <span class="stat-value">{{ amendment.status?.countPositiveSupports || amendment.support_for || 0 }}</span>
+                  <span class="stat-value">{{
+                    amendment.status?.countPositiveSupports || amendment.support_for || 0
+                  }}</span>
                   <span class="stat-label">{{ t('agora', 'In favor') }}</span>
                 </div>
               </div>
-              
+
               <div class="stat-item negative">
-                <TernarySupportIcon
-                  :support-value="-1"
-                  :size="20"
-                  :invert="true"
-                />
+                <TernarySupportIcon :support-value="-1" :size="20" :invert="true" />
                 <div class="stat-content">
-                  <span class="stat-value">{{ amendment.status?.countNegativeSupports || amendment.support_against || 0 }}</span>
+                  <span class="stat-value">{{
+                    amendment.status?.countNegativeSupports || amendment.support_against || 0
+                  }}</span>
                   <span class="stat-label">{{ t('agora', 'Against') }}</span>
                 </div>
               </div>
-              
+
               <div class="stat-actions">
                 <TernarySupportIcon
                   :support-value="numericSupportValue"
@@ -253,14 +226,14 @@
             <div class="section-header">
               <h4>{{ t('agora', 'Responses') }}</h4>
             </div>
-            
+
             <div class="responses-list">
               <div v-if="responses.length === 0" class="empty-responses">
                 <component :is="InquiryOptionIcons.MessageText" :size="48" />
                 <h5>{{ t('agora', 'No responses yet') }}</h5>
                 <p>{{ t('agora', 'Be the first to respond to this amendment') }}</p>
               </div>
-              
+
               <div v-else class="response-items">
                 <OptionCard
                   v-for="response in responses"
@@ -278,17 +251,17 @@
           <div v-if="allowComment" ref="commentsSection" class="comments-section">
             <div class="section-header">
               <h4>{{ t('agora', 'Comments') }}</h4>
-              <NcButton
-                type="primary"
-                @click="showCommentForm = !showCommentForm"
-              >
+              <NcButton type="primary" @click="showCommentForm = !showCommentForm">
                 <template #icon>
-                  <component :is="showCommentForm ? InquiryOptionIcons.Close : InquiryOptionIcons.Comment" :size="16" />
+                  <component
+                    :is="showCommentForm ? InquiryOptionIcons.Close : InquiryOptionIcons.Comment"
+                    :size="16"
+                  />
                 </template>
                 {{ showCommentForm ? t('agora', 'Cancel') : t('agora', 'Add comment') }}
               </NcButton>
             </div>
-            
+
             <!-- Comment form -->
             <transition name="fade">
               <div v-if="showCommentForm" class="comment-form">
@@ -299,15 +272,12 @@
                 />
               </div>
             </transition>
-            
+
             <!-- Comments list -->
             <div v-if="amendment.comment_count > 0" class="comments-list">
-              <Comments
-                :inquiry-id="inquiryId"
-                :option-id="amendment.id"
-              />
+              <Comments :inquiry-id="inquiryId" :option-id="amendment.id" />
             </div>
-            
+
             <div v-else-if="!showCommentForm" class="no-comments">
               <component :is="InquiryOptionIcons.Comment" :size="48" />
               <h5>{{ t('agora', 'No comments yet') }}</h5>
@@ -318,7 +288,7 @@
       </div>
     </div>
   </NcModal>
-  
+
   <!-- Response detail modal -->
   <OptionDetailModal
     v-if="showResponseModal"
@@ -328,7 +298,7 @@
     @updated="handleResponseUpdated"
     @deleted="handleResponseDeleted"
   />
-  
+
   <!-- Add response modal -->
   <AddOptionModal
     v-if="showAddResponseModal"
@@ -397,7 +367,7 @@ const showCommentForm = ref(false)
 const isEditing = ref(false)
 const editForm = ref({
   label: '',
-  text: ''
+  text: '',
 })
 const showResponseModal = ref(false)
 const selectedResponseId = ref<number | null>(null)
@@ -407,20 +377,18 @@ const selectedResponseType = ref<string | null>(null)
 const commentsSection = ref<HTMLElement | null>(null)
 
 // Get all option types
-const allOptionTypes = computed(() => {
-  return sessionStore.appSettings?.inquiryOptionTypeTab || []
-})
+const allOptionTypes = computed(() => sessionStore.appSettings?.inquiryOptionTypeTab || [])
 
 // Get amendment type data
-const amendmentTypeData = computed(() => {
-  return getOptionTypeData('amendment', allOptionTypes.value, 'amendment')
-})
+const amendmentTypeData = computed(() =>
+  getOptionTypeData('amendment', allOptionTypes.value, 'amendment')
+)
 
 // Get option type icon
 const getOptionTypeIcon = (type: string) => {
   const optionTypeData = getOptionTypeData(type, allOptionTypes.value, type)
   const iconName = optionTypeData?.icon || 'File'
-  
+
   if (iconName in InquiryOptionIcons) {
     return InquiryOptionIcons[iconName as keyof typeof InquiryOptionIcons]
   }
@@ -430,7 +398,7 @@ const getOptionTypeIcon = (type: string) => {
 // Amendment icon
 const optionIcon = computed(() => {
   const iconName = amendmentTypeData.value?.icon || 'FileDocumentEdit'
-  
+
   if (iconName in InquiryOptionIcons) {
     return InquiryOptionIcons[iconName as keyof typeof InquiryOptionIcons]
   }
@@ -438,20 +406,16 @@ const optionIcon = computed(() => {
 })
 
 // Feature checks
-const hasSupportFeature = computed(() => {
-  return amendmentTypeData.value?.support_feature === 'ternary'
-})
+const hasSupportFeature = computed(() => amendmentTypeData.value?.support_feature === 'ternary')
 
-const allowComment = computed(() => {
-  return amendmentTypeData.value?.allow_comment || false
-})
+const allowComment = computed(() => amendmentTypeData.value?.allow_comment || false)
 
 // Get allowed responses
 const allowedResponses = computed(() => {
   if (!amendmentTypeData.value?.allowed_response) return []
 
   let responses: string[] = []
-  
+
   if (typeof amendmentTypeData.value.allowed_response === 'string') {
     try {
       responses = JSON.parse(amendmentTypeData.value.allowed_response)
@@ -461,31 +425,31 @@ const allowedResponses = computed(() => {
   } else if (Array.isArray(amendmentTypeData.value.allowed_response)) {
     responses = amendmentTypeData.value.allowed_response
   }
-  
-  return responses.filter(responseType => 
-    allOptionTypes.value.some(opt => 
-      opt.option_type === responseType || opt.optionType === responseType
+
+  return responses.filter((responseType) =>
+    allOptionTypes.value.some(
+      (opt) => opt.option_type === responseType || opt.optionType === responseType
     )
   )
 })
 
-const hasAllowedResponses = computed(() => {
-  return allowedResponses.value.length > 0
-})
+const hasAllowedResponses = computed(() => allowedResponses.value.length > 0)
 
 const availableResponseTypes = computed(() => {
   if (!allowedResponses.value?.length) return []
-  
+
   return allowedResponses.value
-    .map(responseType => {
-      const optionType = allOptionTypes.value.find(opt =>
-        opt.option_type === responseType || opt.optionType === responseType
+    .map((responseType) => {
+      const optionType = allOptionTypes.value.find(
+        (opt) => opt.option_type === responseType || opt.optionType === responseType
       )
-      return optionType ? {
-        option_type: optionType.option_type || optionType.optionType || responseType,
-        label: optionType.label || responseType,
-        icon: optionType.icon || 'File'
-      } : null
+      return optionType
+        ? {
+            option_type: optionType.option_type || optionType.optionType || responseType,
+            label: optionType.label || responseType,
+            icon: optionType.icon || 'File',
+          }
+        : null
     })
     .filter((type): type is { option_type: string; label: string; icon: string } => type !== null)
     .sort((a, b) => a.label.localeCompare(b.label))
@@ -501,9 +465,7 @@ const numericSupportValue = computed(() => {
 })
 
 // Computed
-const modalTitle = computed(() => {
-  return amendment.value?.label || t('agora', 'Amendment Details')
-})
+const modalTitle = computed(() => amendment.value?.label || t('agora', 'Amendment Details'))
 
 const canEdit = computed(() => {
   if (!amendment.value?.owner) return false
@@ -515,37 +477,33 @@ const canDelete = computed(() => {
   return sessionStore.currentUser?.id === amendment.value.owner.id
 })
 
-const canAddResponse = computed(() => {
-  return hasAllowedResponses.value && sessionStore.currentUser?.id !== undefined
-})
+const canAddResponse = computed(
+  () => hasAllowedResponses.value && sessionStore.currentUser?.id !== undefined
+)
 
-const canEditOrDelete = computed(() => {
-  return canEdit.value || canDelete.value || canAddResponse.value
-})
+const canEditOrDelete = computed(() => canEdit.value || canDelete.value || canAddResponse.value)
 
 const canChangeStatus = computed(() => {
   // Check if user can change amendment status (e.g., article owner or admin)
   if (!amendment.value?.parentId || !parentArticle.value) return false
-  
+
   // Article owner can change amendment status
   return parentArticle.value.owner?.id === sessionStore.currentUser?.id
 })
 
-const canSaveEdit = computed(() => {
-  return editForm.value.label.trim().length > 0
-})
+const canSaveEdit = computed(() => editForm.value.label.trim().length > 0)
 
 const availableStatuses = computed(() => {
   const statuses = [
     { value: 'proposed', label: t('agora', 'Proposed'), icon: 'Lightbulb' },
     { value: 'under_review', label: t('agora', 'Under Review'), icon: 'ClockOutline' },
     { value: 'accepted', label: t('agora', 'Accepted'), icon: 'Check' },
-    { value: 'rejected', label: t('agora', 'Rejected'), icon: 'Cancel' }
+    { value: 'rejected', label: t('agora', 'Rejected'), icon: 'Cancel' },
   ]
-  
+
   // Filter out current status
   const currentStatus = amendment.value?.status || 'proposed'
-  return statuses.filter(status => status.value !== currentStatus)
+  return statuses.filter((status) => status.value !== currentStatus)
 })
 
 // Methods
@@ -555,37 +513,37 @@ const formatDate = (dateString: string) => {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   }).format(date)
 }
 
 const getStatusText = (status: string) => {
   const statusMap: Record<string, string> = {
-    'proposed': t('agora', 'Proposed'),
-    'under_review': t('agora', 'Under Review'),
-    'accepted': t('agora', 'Accepted'),
-    'rejected': t('agora', 'Rejected'),
-    'draft': t('agora', 'Draft'),
-    'published': t('agora', 'Published')
+    proposed: t('agora', 'Proposed'),
+    under_review: t('agora', 'Under Review'),
+    accepted: t('agora', 'Accepted'),
+    rejected: t('agora', 'Rejected'),
+    draft: t('agora', 'Draft'),
+    published: t('agora', 'Published'),
   }
   return statusMap[status] || status
 }
 
 const getStatusIcon = (status: string) => {
   const iconMap: Record<string, any> = {
-    'proposed': InquiryOptionIcons.Lightbulb,
-    'under_review': InquiryOptionIcons.ClockOutline,
-    'accepted': InquiryOptionIcons.Check,
-    'rejected': InquiryOptionIcons.Cancel,
-    'draft': InquiryOptionIcons.Pencil,
-    'published': InquiryOptionIcons.CheckCircle
+    proposed: InquiryOptionIcons.Lightbulb,
+    under_review: InquiryOptionIcons.ClockOutline,
+    accepted: InquiryOptionIcons.Check,
+    rejected: InquiryOptionIcons.Cancel,
+    draft: InquiryOptionIcons.Pencil,
+    published: InquiryOptionIcons.CheckCircle,
   }
   return iconMap[status] || InquiryOptionIcons.Circle
 }
 
 const formatArticleRef = (articleRef: any) => {
   if (typeof articleRef === 'number') {
-    const article = optionsStore.options.find(opt => opt.id === articleRef)
+    const article = optionsStore.options.find((opt) => opt.id === articleRef)
     return article?.label || `Article #${articleRef}`
   }
   return articleRef.toString()
@@ -600,37 +558,38 @@ const getSupportHint = () => {
 
 const loadAmendment = async () => {
   if (!props.amendmentId) return
-  
+
   loading.value = true
   error.value = null
-  
+
   try {
     // Find amendment in store
-    const foundAmendment = optionsStore.options.find(opt => opt.id === props.amendmentId)
+    const foundAmendment = optionsStore.options.find((opt) => opt.id === props.amendmentId)
     if (foundAmendment) {
       amendment.value = foundAmendment
       editForm.value = {
         label: foundAmendment.label || '',
-        text: foundAmendment.text || ''
+        text: foundAmendment.text || '',
       }
-      
+
       // Load parent article
       if (foundAmendment.parentId) {
-        parentArticle.value = optionsStore.options.find(opt => opt.id === foundAmendment.parentId) || null
-        
+        parentArticle.value =
+          optionsStore.options.find((opt) => opt.id === foundAmendment.parentId) || null
+
         // Also check article_ref field
         if (foundAmendment.article_ref && !parentArticle.value) {
-          parentArticle.value = optionsStore.options.find(opt => 
-            opt.id === foundAmendment.article_ref || 
-            opt.id === parseInt(foundAmendment.article_ref)
-          ) || null
+          parentArticle.value =
+            optionsStore.options.find(
+              (opt) =>
+                opt.id === foundAmendment.article_ref ||
+                opt.id === parseInt(foundAmendment.article_ref)
+            ) || null
         }
       }
-      
+
       // Load responses
-      responses.value = optionsStore.options.filter(opt => 
-        opt.parentId === foundAmendment.id
-      )
+      responses.value = optionsStore.options.filter((opt) => opt.parentId === foundAmendment.id)
     } else {
       error.value = t('agora', 'Amendment not found')
     }
@@ -651,10 +610,10 @@ const closeModal = () => {
 
 const toggleSupport = () => {
   if (!amendment.value) return
-  
+
   const currentSupport = amendment.value.user_support
   let newSupport: 'for' | 'against' | null = null
-  
+
   if (!currentSupport) {
     newSupport = 'for'
     amendment.value.support_for = (amendment.value.support_for || 0) + 1
@@ -670,20 +629,20 @@ const toggleSupport = () => {
       amendment.value.support_against--
     }
   }
-  
+
   amendment.value.user_support = newSupport
-  
+
   // Update in store
-  const index = optionsStore.options.findIndex(opt => opt.id === amendment.value?.id)
+  const index = optionsStore.options.findIndex((opt) => opt.id === amendment.value?.id)
   if (index >= 0) {
     optionsStore.options[index] = {
       ...optionsStore.options[index],
       user_support: newSupport,
       support_for: amendment.value.support_for,
-      support_against: amendment.value.support_against
+      support_against: amendment.value.support_against,
     }
   }
-  
+
   emit('updated', amendment.value)
 }
 
@@ -702,31 +661,31 @@ const cancelEdit = () => {
   if (amendment.value) {
     editForm.value = {
       label: amendment.value.label || '',
-      text: amendment.value.text || ''
+      text: amendment.value.text || '',
     }
   }
 }
 
 const saveEdit = async () => {
   if (!amendment.value || !canSaveEdit.value) return
-  
+
   try {
     // Update amendment in store
     const updatedAmendment = {
       ...amendment.value,
       label: editForm.value.label,
       text: editForm.value.text,
-      modified: new Date().toISOString()
+      modified: new Date().toISOString(),
     }
-    
-    const index = optionsStore.options.findIndex(opt => opt.id === amendment.value?.id)
+
+    const index = optionsStore.options.findIndex((opt) => opt.id === amendment.value?.id)
     if (index >= 0) {
       optionsStore.options[index] = updatedAmendment
     }
-    
+
     amendment.value = updatedAmendment
     isEditing.value = false
-    
+
     emit('updated', updatedAmendment)
   } catch (err) {
     console.error('Error saving edit:', err)
@@ -736,21 +695,21 @@ const saveEdit = async () => {
 
 const changeStatus = async (status: string) => {
   if (!amendment.value) return
-  
+
   try {
     const updatedAmendment = {
       ...amendment.value,
-      status: status,
-      modified: new Date().toISOString()
+      status,
+      modified: new Date().toISOString(),
     }
-    
-    const index = optionsStore.options.findIndex(opt => opt.id === amendment.value?.id)
+
+    const index = optionsStore.options.findIndex((opt) => opt.id === amendment.value?.id)
     if (index >= 0) {
       optionsStore.options[index] = updatedAmendment
     }
-    
+
     amendment.value = updatedAmendment
-    
+
     emit('updated', updatedAmendment)
   } catch (err) {
     console.error('Error changing status:', err)
@@ -766,14 +725,14 @@ const confirmDelete = () => {
 
 const deleteAmendment = async () => {
   if (!amendment.value) return
-  
+
   try {
     // Remove from store
-    const index = optionsStore.options.findIndex(opt => opt.id === amendment.value?.id)
+    const index = optionsStore.options.findIndex((opt) => opt.id === amendment.value?.id)
     if (index >= 0) {
       optionsStore.options.splice(index, 1)
     }
-    
+
     emit('deleted', amendment.value.id)
     closeModal()
   } catch (err) {
@@ -817,7 +776,7 @@ const closeResponseModal = () => {
 
 const handleResponseUpdated = (updatedResponse: Option) => {
   // Update response in store
-  const index = optionsStore.options.findIndex(opt => opt.id === updatedResponse.id)
+  const index = optionsStore.options.findIndex((opt) => opt.id === updatedResponse.id)
   if (index >= 0) {
     optionsStore.options[index] = updatedResponse
   }
@@ -825,11 +784,11 @@ const handleResponseUpdated = (updatedResponse: Option) => {
 
 const handleResponseDeleted = (deletedResponseId: number) => {
   // Remove response from store
-  const index = optionsStore.options.findIndex(opt => opt.id === deletedResponseId)
+  const index = optionsStore.options.findIndex((opt) => opt.id === deletedResponseId)
   if (index >= 0) {
     optionsStore.options.splice(index, 1)
   }
-  
+
   // Reload amendment to update responses list
   loadAmendment()
 }
@@ -838,13 +797,13 @@ const handleCommentAdded = () => {
   // Update comment count
   if (amendment.value) {
     amendment.value.comment_count = (amendment.value.comment_count || 0) + 1
-    
+
     // Update in store
-    const index = optionsStore.options.findIndex(opt => opt.id === amendment.value?.id)
+    const index = optionsStore.options.findIndex((opt) => opt.id === amendment.value?.id)
     if (index >= 0) {
       optionsStore.options[index] = amendment.value
     }
-    
+
     emit('updated', amendment.value)
   }
 }
@@ -854,11 +813,14 @@ onMounted(() => {
   loadAmendment()
 })
 
-watch(() => props.amendmentId, (newId) => {
-  if (newId) {
-    loadAmendment()
+watch(
+  () => props.amendmentId,
+  (newId) => {
+    if (newId) {
+      loadAmendment()
+    }
   }
-})
+)
 </script>
 
 <style scoped lang="scss">
@@ -877,7 +839,7 @@ watch(() => props.amendmentId, (newId) => {
     flex: 1;
     padding: 40px;
     text-align: center;
-    
+
     p {
       margin-top: 16px;
       color: var(--color-text-lighter);
@@ -944,22 +906,22 @@ watch(() => props.amendmentId, (newId) => {
             padding: 2px 8px;
             border-radius: 8px;
             font-weight: 600;
-            
+
             &.status-proposed {
               background: var(--color-warning-light);
               color: var(--color-warning);
             }
-            
+
             &.status-under_review {
               background: var(--color-info-light);
               color: var(--color-info);
             }
-            
+
             &.status-accepted {
               background: var(--color-success-light);
               color: var(--color-success);
             }
-            
+
             &.status-rejected {
               background: var(--color-error-light);
               color: var(--color-error);
@@ -983,7 +945,7 @@ watch(() => props.amendmentId, (newId) => {
           cursor: pointer;
           color: var(--color-text-light);
           transition: color 0.2s ease;
-          
+
           &:hover {
             color: var(--color-primary-element);
           }
@@ -1159,7 +1121,7 @@ watch(() => props.amendmentId, (newId) => {
             cursor: pointer;
             color: var(--color-text-lighter);
             transition: color 0.2s ease;
-            
+
             &:hover {
               color: var(--color-primary-element);
             }

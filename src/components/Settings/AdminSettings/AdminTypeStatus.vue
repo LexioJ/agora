@@ -52,7 +52,7 @@ const availableIcons = computed(() =>
 
 // Get statuses for the selected inquiry type
 const statuses = computed(() =>
-  props.selectedType 
+  props.selectedType
     ? appSettingsStore.getStatusesForInquiryType(props.selectedType.inquiry_type)
     : []
 )
@@ -95,10 +95,14 @@ const editStatus = (status) => {
 
 const saveUpdateStatus = () => {
   if (editingStatus.value && props.selectedType) {
-    appSettingsStore.updateStatusForInquiryType(props.selectedType.inquiry_type, editingStatus.value.id, {
-      ...editingStatus.value,
-      icon: editingStatus.value.icon?.id || String(editingStatus.value.icon),
-    })
+    appSettingsStore.updateStatusForInquiryType(
+      props.selectedType.inquiry_type,
+      editingStatus.value.id,
+      {
+        ...editingStatus.value,
+        icon: editingStatus.value.icon?.id || String(editingStatus.value.icon),
+      }
+    )
     editingStatus.value = null
   }
 }
@@ -140,7 +144,9 @@ const cancelEdit = () => {
 
     <div v-if="selectedType" class="status-management">
       <p class="description">
-        {{ t('agora', 'Manage statuses for this inquiry type Statuses define the workflow stages') }}
+        {{
+          t('agora', 'Manage statuses for this inquiry type Statuses define the workflow stages')
+        }}
       </p>
 
       <!-- Status list for current inquiry type -->

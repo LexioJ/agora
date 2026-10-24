@@ -3,7 +3,7 @@
   - SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <script setup lang="ts">
-import { watch,ref, computed, onMounted } from 'vue'
+import { watch, ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { t } from '@nextcloud/l10n'
 import { emit } from '@nextcloud/event-bus'
@@ -13,13 +13,13 @@ import NcAppNavigation from '@nextcloud/vue/components/NcAppNavigation'
 import NcAppNavigationList from '@nextcloud/vue/components/NcAppNavigationList'
 import InquiryCreateDlg from '../components/Create/InquiryCreateDlg.vue'
 import InquiryGroupCreateDlg from '../components/Create/InquiryGroupCreateDlg.vue'
-import { InquiryGeneralIcons,NavigationIcons } from '../utils/icons.ts'
+import { InquiryGeneralIcons, NavigationIcons } from '../utils/icons.ts'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
 import { usePreferencesStore } from '../stores/preferences.ts'
 import { Event } from '../Types/index.ts'
 import type { InquiryGroupType } from '../stores/inquiryGroups.types.ts'
-import { 
+import {
   getInquiryItemData,
   getInquiryTypeData,
   getInquiryTypesByFamily,
@@ -29,10 +29,7 @@ import {
   type InquiryType,
 } from '../helpers/modules/InquiryHelper.ts'
 
-import {
-  accessFamilyMenu,
-  canCreateInquiryGroupInGeneral,
-} from '../utils/permissions.ts'
+import { accessFamilyMenu, canCreateInquiryGroupInGeneral } from '../utils/permissions.ts'
 
 const preferencesStore = usePreferencesStore()
 const router = useRouter()
@@ -44,9 +41,7 @@ const selectedInquiryTypeForCreation = ref<InquiryType | null>(null)
 const selectedInquiryGroupTypeForCreation = ref(null)
 
 // Add this computed property to check if user can create groups
-const canUserCreateInquiryGroup = computed(() => 
-  canCreateInquiryGroupInGeneral()
-)
+const canUserCreateInquiryGroup = computed(() => canCreateInquiryGroupInGeneral())
 
 // Function to check if user can create inquiry group for current family
 function canCreateInquiryGroupForFamily(familyType: string): boolean {
@@ -64,12 +59,11 @@ function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
   if (!canCreateInquiryGroupForFamily(selectedFamily.value)) {
     showError(t('agora', 'You do not have permission to create inquiry groups for this family'))
     return false
-  } 
+  }
 
   selectedInquiryGroupTypeForCreation.value = inquiryGroupType.group_type
   createGroupDlgToggle.value = true
 }
-
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -86,7 +80,9 @@ const selectedFamily = ref<string | null>(inquiriesStore.familyType || null)
 const expandedFamilies = ref<Set<string>>(new Set())
 
 // Computed for available families
-const inquiryFamilies = computed((): InquiryFamily[] => sessionStore.appSettings.inquiryFamilyTab || [])
+const inquiryFamilies = computed(
+  (): InquiryFamily[] => sessionStore.appSettings.inquiryFamilyTab || []
+)
 
 // Computed for recent inquiries
 const recentInquiries = computed(() => inquiriesStore.inquiries.slice(0, 5))
@@ -100,13 +96,13 @@ const shouldRedirectToGroupView = (familyType: string) => {
 // Computed for all inquiry types
 const allInquiryTypes = computed((): InquiryType[] => {
   const types = sessionStore.appSettings.inquiryTypeTab || []
-  return types.filter(type => type.is_root === true)
+  return types.filter((type) => type.is_root === true)
 })
 
 // Computed pour les types de groupes d'enquête racines seulement
 const allInquiryGroupTypes = computed((): InquiryGroupType[] => {
   const groupTypes = sessionStore.appSettings.inquiryGroupTypeTab || []
-  return groupTypes.filter(groupType => groupType.is_root === true)
+  return groupTypes.filter((groupType) => groupType.is_root === true)
 })
 
 // Computed for inquiry types grouped by family
@@ -122,7 +118,9 @@ const inquiryGroupTypesByFamily = computed(() => {
 })
 
 // Computed for default view mode from app settings
-const defaultViewMode = computed(() => preferencesStore.user.defaultDisplayMode === 'view' ? 'view' : 'create')
+const defaultViewMode = computed(() =>
+  preferencesStore.user.defaultDisplayMode === 'view' ? 'view' : 'create'
+)
 
 // DEBUG: Check data
 onMounted(() => {
@@ -179,27 +177,27 @@ function showSettings() {
 
 // Function to navigate to family inquiries
 function navigateToFamilyInquiries(familyType: string) {
-  if (accessFamilyMenu(familyType) ) {
+  if (accessFamilyMenu(familyType)) {
     inquiriesStore.setFamilyType(familyType)
     selectedFamily.value = familyType
     if (shouldRedirectToGroupView(inquiriesStore.advancedFilters.familyType)) {
-        router.push({
-          name: 'group-list',
-          params: {
-            slug: 'none'
-          },
-          query: {
-            viewMode: 'group',
-          }
-        })
-       } else {
-        router.push({
+      router.push({
+        name: 'group-list',
+        params: {
+          slug: 'none',
+        },
+        query: {
+          viewMode: 'group',
+        },
+      })
+    } else {
+      router.push({
         name: defaultViewMode.value === 'create' ? 'menu' : 'list',
         params: defaultViewMode.value === 'view' ? { type: 'relevant' } : {},
-        query: { viewMode: defaultViewMode.value }
-    })
+        query: { viewMode: defaultViewMode.value },
+      })
     }
-  } else showError("You are not allowed to access this family")
+  } else showError('You are not allowed to access this family')
 }
 
 // Function to create new inquiry from type
@@ -207,7 +205,6 @@ function createInquiry(inquiryType: InquiryType) {
   selectedInquiryTypeForCreation.value = inquiryType
   createDlgToggle.value = true
 }
-
 
 // Function to handle inquiry added
 function inquiryAdded(payload: { id: number; title: string }) {
@@ -308,20 +305,25 @@ watch(
 
           <template #counter>
             <span class="family-counter">
-              {{ getInquiryTypesForCurrentFamily(family.family_type).length +
-              getInquiryGroupTypesForCurrentFamily(family.family_type).length }}
+              {{
+                getInquiryTypesForCurrentFamily(family.family_type).length +
+                getInquiryGroupTypesForCurrentFamily(family.family_type).length
+              }}
             </span>
           </template>
 
           <!-- Inquiry Types for this family -->
           <NcAppNavigationList class="navigation-sublist">
-            <h4 v-if="getInquiryGroupTypesForCurrentFamily(family.family_type).length > 0" class="navigation-subcaption">
+            <h4
+              v-if="getInquiryGroupTypesForCurrentFamily(family.family_type).length > 0"
+              class="navigation-subcaption"
+            >
               {{ t('agora', 'Inquiries') }}
             </h4>
             <NcAppNavigationItem
               v-for="inquiryType in accessFamilyMenu(family.family_type)
-                      ? getInquiryTypesForCurrentFamily(family.family_type)
-                      : []"
+                ? getInquiryTypesForCurrentFamily(family.family_type)
+                : []"
               :key="inquiryType.id"
               :name="t('agora', getInquiryTypeDisplayData(inquiryType).label)"
               class="navigation-subitem"
@@ -355,13 +357,13 @@ watch(
 
             <NcAppNavigationItem
               v-for="inquiryGroupType in accessFamilyMenu(family.family_type)
-                      ? getInquiryGroupTypesForCurrentFamily(family.family_type)
-                      : []"
+                ? getInquiryGroupTypesForCurrentFamily(family.family_type)
+                : []"
               :key="inquiryGroupType.id"
               :name="t('agora', getInquiryGroupTypeDisplayData(inquiryGroupType).label)"
               :class="{
                 'navigation-subitem': true,
-                'disabled-item': !canUserCreateInquiryGroup
+                'disabled-item': !canUserCreateInquiryGroup,
               }"
               @click="canUserCreateInquiryGroup ? createInquiryGroup(inquiryGroupType) : null"
             >
@@ -369,7 +371,10 @@ watch(
                 <component :is="getInquiryGroupTypeDisplayData(inquiryGroupType).icon" />
               </template>
 
-              <template v-if="getInquiryGroupTypeDisplayData(inquiryGroupType).description" #description>
+              <template
+                v-if="getInquiryGroupTypeDisplayData(inquiryGroupType).description"
+                #description
+              >
                 {{ t('agora', getInquiryGroupTypeDisplayData(inquiryGroupType).description) }}
               </template>
 
@@ -437,23 +442,23 @@ watch(
 
 <style lang="scss">
 .agora-navigation {
-    padding: 12px 0;
+  padding: 12px 0;
 }
 
 .navigation-caption {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--color-text-lighter);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 0 12px 8px 12px;
-    padding: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-text-lighter);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 12px 8px 12px;
+  padding: 0;
 }
 
 .navigation-subitem.disabled-item {
   opacity: 0.6;
   cursor: not-allowed;
-  
+
   &:hover {
     background-color: transparent !important;
   }
@@ -466,120 +471,120 @@ watch(
 }
 
 .navigation-subcaption {
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--color-text-light);
-    text-transform: uppercase;
-    letter-spacing: 0.3px;
-    margin: 12px 12px 4px 12px;
-    padding: 0;
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 4px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--color-text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  margin: 12px 12px 4px 12px;
+  padding: 0;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 4px;
 }
 
-          .navigation-item {
-              margin: 2px 8px;
-              border-radius: 8px;
+.navigation-item {
+  margin: 2px 8px;
+  border-radius: 8px;
 
-              &:hover {
-                  background-color: var(--color-background-hover);
-              }
+  &:hover {
+    background-color: var(--color-background-hover);
+  }
 
-              &.active {
-                  background-color: var(--color-primary-light);
+  &.active {
+    background-color: var(--color-primary-light);
 
-                  :deep(.app-navigation-entry__title) {
-                      font-weight: 600;
-                  }
-              }
-          }
+    :deep(.app-navigation-entry__title) {
+      font-weight: 600;
+    }
+  }
+}
 
-          .navigation-subitem {
-              margin: 1px 4px;
-              border-radius: 6px;
-              font-size: 13px;
+.navigation-subitem {
+  margin: 1px 4px;
+  border-radius: 6px;
+  font-size: 13px;
 
-              &:hover {
-                  background-color: var(--color-background-hover);
-              }
-          }
+  &:hover {
+    background-color: var(--color-background-hover);
+  }
+}
 
-          .navigation-counter {
-              font-weight: 600;
-          }
+.navigation-counter {
+  font-weight: 600;
+}
 
-          .navigation-sublist {
-              margin-left: 8px;
-              border-left: 1px solid var(--color-border);
-              padding: 0;
+.navigation-sublist {
+  margin-left: 8px;
+  border-left: 1px solid var(--color-border);
+  padding: 0;
 
-              :deep(.app-navigation-entry) {
-                  padding-left: 16px;
+  :deep(.app-navigation-entry) {
+    padding-left: 16px;
 
-                  .app-navigation-entry__description {
-                      font-size: 11px;
-                      color: var(--color-text-lighter);
-                      margin-top: 1px;
-                  }
-              }
-          }
+    .app-navigation-entry__description {
+      font-size: 11px;
+      color: var(--color-text-lighter);
+      margin-top: 1px;
+    }
+  }
+}
 
-          .navigation-empty {
-              opacity: 0.7;
-              font-style: italic;
-          }
+.navigation-empty {
+  opacity: 0.7;
+  font-style: italic;
+}
 
-          // Override default navigation styles without :deep() nesting
-              :deep(.app-navigation__body) {
-              overflow: revert;
-          }
+// Override default navigation styles without :deep() nesting
+:deep(.app-navigation__body) {
+  overflow: revert;
+}
 
-          :deep(.app-navigation-entry-icon),
-          :deep(.app-navigation-entry__title) {
-              transition: opacity 0.2s ease;
-          }
+:deep(.app-navigation-entry-icon),
+:deep(.app-navigation-entry__title) {
+  transition: opacity 0.2s ease;
+}
 
-          :deep(.app-navigation-entry.active .app-navigation-entry-icon),
-          :deep(.app-navigation-entry.active .app-navigation-entry__title) {
-              opacity: 1;
-          }
+:deep(.app-navigation-entry.active .app-navigation-entry-icon),
+:deep(.app-navigation-entry.active .app-navigation-entry__title) {
+  opacity: 1;
+}
 
-          .closed {
-              :deep(.app-navigation-entry-icon),
-              :deep(.app-navigation-entry__title) {
-                  opacity: 0.6;
-              }
-          }
+.closed {
+  :deep(.app-navigation-entry-icon),
+  :deep(.app-navigation-entry__title) {
+    opacity: 0.6;
+  }
+}
 
-          .force-not-active {
-              :deep(.app-navigation-entry.active) {
-                  background-color: transparent !important;
+.force-not-active {
+  :deep(.app-navigation-entry.active) {
+    background-color: transparent !important;
 
-                  * {
-                      color: unset !important;
-                  }
-              }
-          }
+    * {
+      color: unset !important;
+    }
+  }
+}
 
-          // Responsive adjustments
-      @media (max-width: 768px) {
-              .agora-navigation {
-                  padding: 8px 0;
-              }
+// Responsive adjustments
+@media (max-width: 768px) {
+  .agora-navigation {
+    padding: 8px 0;
+  }
 
-              .navigation-sublist {
-                  margin-left: 4px;
+  .navigation-sublist {
+    margin-left: 4px;
 
-                  :deep(.app-navigation-entry) {
-                      padding-left: 12px;
-                  }
-              }
-          }
+    :deep(.app-navigation-entry) {
+      padding-left: 12px;
+    }
+  }
+}
 
-          // Dark theme adjustments
-              .theme--dark {
-              .navigation-sublist {
-                  background: var(--color-background-darker);
-              }
-          }
-    </style>
+// Dark theme adjustments
+.theme--dark {
+  .navigation-sublist {
+    background: var(--color-background-darker);
+  }
+}
+</style>

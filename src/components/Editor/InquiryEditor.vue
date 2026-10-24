@@ -56,7 +56,7 @@
         </NcButton>
 
         <!-- Heading selector - Fixed version -->
-        <select 
+        <select
           v-model="selectedHeading"
           :title="t('agora', 'Text heading')"
           :aria-label="t('agora', 'Text heading')"
@@ -264,9 +264,9 @@
         />
 
         <!-- AI integration -->
-        <NcAssistantButton 
-          :title="t('agora', 'Generate with AI')" 
-          :aria-label="t('agora', 'Generate with AI')" 
+        <NcAssistantButton
+          :title="t('agora', 'Generate with AI')"
+          :aria-label="t('agora', 'Generate with AI')"
           :disabled="aiLoading"
           @click="openAIModal"
         />
@@ -279,7 +279,11 @@
     </div>
 
     <!-- AI Modal using NcModal -->
-    <NcModal v-if="showAIModal" :name="t('agora', 'Generate content with AI')" @close="closeAIModal">
+    <NcModal
+      v-if="showAIModal"
+      :name="t('agora', 'Generate content with AI')"
+      @close="closeAIModal"
+    >
       <NcAssistantContent>
         <div class="container">
           <NcAssistantIcon />
@@ -287,13 +291,15 @@
             <h3 class="heading">
               {{ t('agora', 'Generate content with AI') }}
             </h3>
-            
+
             <div class="form-group">
               <label for="ai-prompt">{{ t('agora', 'Describe what you want to generate') }}</label>
               <NcTextField
                 id="ai-prompt"
                 v-model:value="aiPrompt"
-                :placeholder="t('agora', 'e.g. Write a professional introduction for a business inquiry about')"
+                :placeholder="
+                  t('agora', 'e.g. Write a professional introduction for a business inquiry about')
+                "
                 type="textarea"
                 label="Prompt for AI"
                 :rows="4"
@@ -306,7 +312,11 @@
               <div class="preview-content">
                 <p>{{ t('agora', 'AI generated content is ready to be inserted') }}</p>
                 <div class="content-length">
-                  {{ t('agora', 'Content length: {length} characters', { length: aiGeneratedContent.length }) }}
+                  {{
+                    t('agora', 'Content length: {length} characters', {
+                      length: aiGeneratedContent.length,
+                    })
+                  }}
                 </div>
                 <div class="content-summary">
                   <strong>{{ t('agora', 'Summary') }}</strong>
@@ -316,21 +326,18 @@
             </div>
 
             <div class="modal-actions">
-              <NcButton
-                type="secondary"
-                @click="closeAIModal">
+              <NcButton type="secondary" @click="closeAIModal">
                 {{ t('agora', 'Cancel') }}
               </NcButton>
-              <NcAssistantButton 
-                :disabled="!aiPrompt.trim() || aiLoading"
-                @click="generateWithAI">
+              <NcAssistantButton :disabled="!aiPrompt.trim() || aiLoading" @click="generateWithAI">
                 {{ aiLoading ? t('agora', 'Generating…') : t('agora', 'Generate') }}
               </NcAssistantButton>
-              <NcButton 
+              <NcButton
                 v-if="aiGeneratedContent"
                 :disabled="aiLoading"
                 type="primary"
-                @click="insertAIContent">
+                @click="insertAIContent"
+              >
                 {{ t('agora', 'Insert content') }}
               </NcButton>
             </div>
@@ -406,7 +413,10 @@ const triggerImageUpload = () => {
 
 const getContentSummary = (content) => {
   if (!content) return ''
-  const text = content.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim()
+  const text = content
+    .replace(/<[^>]*>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
 
   if (text.length <= 150) return text
 
@@ -419,20 +429,22 @@ const handleImageUpload = async (event) => {
 
   try {
     const response = await attachmentsStore.upload(inquiryStore.id, file)
-    
+
     // Use preview URL with original image dimensions
     const imageUrl = getNextcloudPreviewUrl(response.fileId, 1920, 1080, true)
 
     if (editor.value) {
       // Insert the image with original size and centered by default
-      editor.value.chain()
+      editor.value
+        .chain()
         .focus()
-        .insertContent(`<img src="${imageUrl}" alt="${response.name}" class="editor-image image-align-center" data-file-id="${response.fileId}" />`)
+        .insertContent(
+          `<img src="${imageUrl}" alt="${response.name}" class="editor-image image-align-center" data-file-id="${response.fileId}" />`
+        )
         .run()
 
       showSuccess(t('agora', 'Image inserted'))
     }
-
   } catch (error) {
     console.error('Image upload failed:', error)
     showError(t('agora', 'Image upload failed'))
@@ -448,14 +460,14 @@ const CustomImage = Image.extend({
       ...this.parent?.(),
       align: {
         default: 'center',
-        parseHTML: element => element.getAttribute('data-align') || 'center',
-        renderHTML: attributes => ({
-            'data-align': attributes.align,
-            class: `editor-image image-align-${attributes.align}`
-          })
-      }
+        parseHTML: (element) => element.getAttribute('data-align') || 'center',
+        renderHTML: (attributes) => ({
+          'data-align': attributes.align,
+          class: `editor-image image-align-${attributes.align}`,
+        }),
+      },
     }
-  }
+  },
 })
 
 const editor = useEditor({
@@ -509,7 +521,7 @@ const editor = useEditor({
     handleDOMEvents: {
       drop: (view, event) => {
         const files = Array.from(event.dataTransfer?.files || [])
-        const imageFile = files.find(file => file.type.startsWith('image'))
+        const imageFile = files.find((file) => file.type.startsWith('image'))
         if (imageFile) {
           handlePastedImage(imageFile)
           return true
@@ -520,7 +532,7 @@ const editor = useEditor({
 
     handlePaste: (view, event) => {
       const items = Array.from(event.clipboardData?.items || [])
-      const imageItem = items.find(item => item.type.startsWith('image'))
+      const imageItem = items.find((item) => item.type.startsWith('image'))
 
       if (imageItem) {
         const file = imageItem.getAsFile()
@@ -533,7 +545,7 @@ const editor = useEditor({
     },
     handleDrop: (view, event) => {
       const files = Array.from(event.dataTransfer?.files || [])
-      const imageFile = files.find(file => file.type.startsWith('image'))
+      const imageFile = files.find((file) => file.type.startsWith('image'))
 
       if (imageFile) {
         handlePastedImage(imageFile)
@@ -553,7 +565,7 @@ const editor = useEditor({
 
 const handlePastedImage = async (file) => {
   try {
-    const response = await attachmentsStore.upload(inquiryStore.id, file,false)
+    const response = await attachmentsStore.upload(inquiryStore.id, file, false)
 
     const imageUrl = getNextcloudPreviewUrl(response.fileId, 1920, 1080, true)
 
@@ -565,15 +577,17 @@ const handlePastedImage = async (file) => {
     }
 
     if (editor.value) {
-      editor.value.chain()
+      editor.value
+        .chain()
         .focus()
-        .insertContent(`<img src="${imageUrl}" alt="${response.name}" class="editor-image image-align-center" data-file-id="${response.fileId}" />`)
+        .insertContent(
+          `<img src="${imageUrl}" alt="${response.name}" class="editor-image image-align-center" data-file-id="${response.fileId}" />`
+        )
         .run()
 
       attachmentsStore.attachments = [...attachmentsStore.attachments, attachment]
       showSuccess(t('agora', 'Image inserted'))
     }
-
   } catch (error) {
     console.error('Pasted image upload failed:', error)
     showError(t('agora', 'Failed to insert image'))
@@ -589,28 +603,25 @@ const isImageSelected = computed(() => {
 // Get current image alignment
 const getSelectedImageAlign = () => {
   if (!editor.value || !isImageSelected.value) return 'center'
-  
+
   const { state } = editor.value
   const { from } = state.selection
-  
+
   // Find the image node at the current position
   const node = state.doc.nodeAt(from)
   if (node && node.type.name === 'image') {
     return node.attrs.align || 'center'
   }
-  
+
   return 'center'
 }
 
 // Align image - proper TipTap way
 const alignImage = (alignment) => {
   if (!editor.value || !isImageSelected.value) return
-  
+
   // Update the image attributes with the new alignment
-  editor.value.chain()
-    .focus()
-    .updateAttributes('image', { align: alignment })
-    .run()
+  editor.value.chain().focus().updateAttributes('image', { align: alignment }).run()
 }
 
 // Sync store changes to editor
@@ -630,20 +641,24 @@ watch(
 const selectedHeading = ref('paragraph')
 
 // Watch for heading changes with safety checks
-watch(() => {
-  if (!editor.value) return null
-  return editor.value.getAttributes('heading')
-}, (attrs) => {
-  if (attrs && attrs.level) {
-    selectedHeading.value = `h${attrs.level}`
-  } else {
-    selectedHeading.value = 'paragraph'
-  }
-}, { immediate: true })
+watch(
+  () => {
+    if (!editor.value) return null
+    return editor.value.getAttributes('heading')
+  },
+  (attrs) => {
+    if (attrs && attrs.level) {
+      selectedHeading.value = `h${attrs.level}`
+    } else {
+      selectedHeading.value = 'paragraph'
+    }
+  },
+  { immediate: true }
+)
 
 const setHeading = () => {
   if (!editor.value) return
-  
+
   if (selectedHeading.value === 'paragraph') {
     editor.value.chain().focus().setParagraph().run()
   } else {
@@ -692,7 +707,9 @@ const handleWordImport = async (event) => {
 const openAIModal = () => {
   const currentText = editor.value.getText()
   if (currentText && currentText.trim().length > 0) {
-    aiPrompt.value = t('agora', 'Improve and expand on: {text}', { text: `${currentText.substring(0, 100)}...` })
+    aiPrompt.value = t('agora', 'Improve and expand on: {text}', {
+      text: `${currentText.substring(0, 100)}...`,
+    })
   }
   showAIModal.value = true
   aiGeneratedContent.value = ''
@@ -898,8 +915,12 @@ onUnmounted(() => {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Image alignment styles */
@@ -940,7 +961,7 @@ onUnmounted(() => {
   background: white;
 }
 
-:deep(img[src*="agora"]) {
+:deep(img[src*='agora']) {
   display: block !important;
   visibility: visible !important;
   opacity: 1 !important;

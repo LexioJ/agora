@@ -21,19 +21,19 @@ const newFamily = ref({
   label: '',
   description: '',
   icon: null,
-  sort_order: 0
+  sort_order: 0,
 })
 
 // Helper to find icon object by id
 const findIconById = (iconId) => {
   if (!iconId) return null
-  return availableIcons.value.find(icon => icon.id === iconId) || null
+  return availableIcons.value.find((icon) => icon.id === iconId) || null
 }
 
 const startEditing = (family) => {
-  editingFamily.value = { 
+  editingFamily.value = {
     ...family,
-    icon: findIconById(family.icon) // Convert string icon to object for NcSelect
+    icon: findIconById(family.icon), // Convert string icon to object for NcSelect
   }
 }
 
@@ -50,16 +50,18 @@ const availableIcons = computed(() =>
 const getIconComponent = (iconName) => InquiryGeneralIcons[iconName] || InquiryGeneralIcons.default
 
 // Calculate types count for each family
-const familiesWithStats = computed(() => appSettingsStore.inquiryFamilyTab.map(family => {
+const familiesWithStats = computed(() =>
+  appSettingsStore.inquiryFamilyTab.map((family) => {
     const typesCount = appSettingsStore.inquiryTypeTab.filter(
-      type => type.family === family.family_type
+      (type) => type.family === family.family_type
     ).length
-    
+
     return {
       ...family,
-      typesCount
+      typesCount,
     }
-  }))
+  })
+)
 
 const extractIconId = (icon) => {
   if (!icon) return ''
@@ -69,25 +71,25 @@ const extractIconId = (icon) => {
 }
 
 const addFamily = async () => {
-  if (!newFamily.value.family_type ) {
-  	showError(t('agora', 'Inquiry family type is mandatory'), { timeout: 2000 })
- 	return 
+  if (!newFamily.value.family_type) {
+    showError(t('agora', 'Inquiry family type is mandatory'), { timeout: 2000 })
+    return
   }
-  
+
   await appSettingsStore.addFamily({
     ...newFamily.value,
     icon: extractIconId(newFamily.value.icon),
-    created: Date.now()
-  })    
-          
-  // Reset form 
+    created: Date.now(),
+  })
+
+  // Reset form
   newFamily.value = {
     family_type: '',
     label: '',
     description: '',
     icon: '',
-    sort_order: appSettingsStore.inquiryFamilyTab.length
-  }         
+    sort_order: appSettingsStore.inquiryFamilyTab.length,
+  }
 }
 
 const updateFamily = async (family) => {
@@ -96,7 +98,7 @@ const updateFamily = async (family) => {
     icon: extractIconId(family.icon),
   })
   editingFamily.value = null
-}         
+}
 
 const deleteFamily = async (familyId) => {
   if (confirm(t('agora', 'Are you sure you want to delete this family?'))) {
@@ -113,21 +115,26 @@ const selectFamily = (family) => {
   <div class="families-manager">
     <h2>{{ t('agora', 'Inquiry Families Management') }}</h2>
     <p class="description">
-      {{ t('agora', 'Manage inquiry families to organize different types of inquiries. Each family can contain multiple inquiry types.') }}
+      {{
+        t(
+          'agora',
+          'Manage inquiry families to organize different types of inquiries. Each family can contain multiple inquiry types.'
+        )
+      }}
     </p>
 
     <!-- Families List -->
     <div class="families-list">
       <h3>{{ t('agora', 'Existing Families') }}</h3>
-      <div 
-        v-for="family in familiesWithStats" 
-        :key="family.id" 
+      <div
+        v-for="family in familiesWithStats"
+        :key="family.id"
         class="family-item"
         @click="selectFamily(family)"
       >
         <div class="family-content">
           <div class="family-icon">
-	  	<component :is="getIconComponent(family.icon)" :size="20" />
+            <component :is="getIconComponent(family.icon)" :size="20" />
           </div>
           <div class="family-info">
             <h4>{{ family.label }}</h4>
@@ -165,33 +172,33 @@ const selectFamily = (family) => {
             required
             class="form-field"
           />
-          
+
           <NcInputField
             v-model="newFamily.label"
             :label="t('agora', 'Display Label')"
             :placeholder="t('agora', 'e.g., Deliberative Process')"
             required
-           class="form-field"
+            class="form-field"
           />
-          
+
           <NcSelect
             v-model="newFamily.icon"
             :options="availableIcons"
-	    :clearable="false"
-	    track-by="id"
+            :clearable="false"
+            track-by="id"
             :placeholder="t('agora', 'Select an icon')"
             class="form-field"
           />
         </div>
-        
+
         <NcInputField
-	  v-model="newFamily.description"
+          v-model="newFamily.description"
           :label="t('agora', 'Description')"
           :placeholder="t('agora', 'Optional description')"
           type="textarea"
           class="full-width"
         />
-        
+
         <NcInputField
           v-model="newFamily.sort_order"
           :label="t('agora', 'Sort Order')"
@@ -199,10 +206,10 @@ const selectFamily = (family) => {
           :min="0"
           class="form-field"
         />
-        
+
         <div class="form-actions">
-          <NcButton 
-            type="primary" 
+          <NcButton
+            type="primary"
             :disabled="!newFamily.family_type || !newFamily.label"
             @click="addFamily"
           >
@@ -233,16 +240,16 @@ const selectFamily = (family) => {
             <NcSelect
               v-model="editingFamily.icon"
               :options="availableIcons"
-	      track-by="id"
-	      :clearable="false"
+              track-by="id"
+              :clearable="false"
               :placeholder="t('agora', 'Select an icon')"
               class="form-field"
-          />
+            />
+          </div>
         </div>
-        </div>
-	<div>
+        <div>
           <NcInputField
-	   v-model="editingFamily.description"
+            v-model="editingFamily.description"
             :label="t('agora', 'Description')"
             type="textarea"
             class="full-width"
@@ -251,10 +258,7 @@ const selectFamily = (family) => {
             <NcButton @click="editingFamily = null">
               {{ t('agora', 'Cancel') }}
             </NcButton>
-            <NcButton 
-              type="primary" 
-              @click="updateFamily(editingFamily)"
-            >
+            <NcButton type="primary" @click="updateFamily(editingFamily)">
               {{ t('agora', 'Save Changes') }}
             </NcButton>
           </div>

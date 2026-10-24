@@ -10,10 +10,7 @@
         <button
           v-for="family in familiesWithOptions"
           :key="family.key"
-          :class="[
-            'family-tab',
-            { 'active': activeFamily === family.key }
-          ]"
+          :class="['family-tab', { active: activeFamily === family.key }]"
           @click="setActiveFamily(family.key)"
         >
           <div class="tab-icon" :style="{ color: getFamilyColor(family.key) }">
@@ -44,7 +41,10 @@
           >
             <template #icon>
               <!-- Direct icon lookup from InquiryOptionIcons -->
-              <component :is="InquiryOptionIcons[optionType.icon] || InquiryOptionIcons.File" :size="18" />
+              <component
+                :is="InquiryOptionIcons[optionType.icon] || InquiryOptionIcons.File"
+                :size="18"
+              />
             </template>
             + {{ optionType.label || optionType.option_type }}
           </NcButton>
@@ -173,11 +173,7 @@
 
         <!-- STRUCTURE Family Layout -->
         <div v-else-if="activeFamily === 'structure'" class="structure-layout">
-              <OptionTreeNode
-    :inquiry-id="inquiryStore.id"
-    :use-title="true"
-    :use-description="true"
-  />
+          <OptionTreeNode :inquiry-id="inquiryStore.id" :use-title="true" :use-description="true" />
         </div>
 
         <!-- CONSENSUS Family Layout -->
@@ -298,7 +294,7 @@
     <div v-else-if="!hasVisibleFamilies && inquiryStore.type" class="no-families">
       <component :is="InquiryOptionIcons.Options" :size="64" />
       <h3>{{ t('agora', 'No option families available') }}</h3>
-      <p>{{ t('agora', 'This inquiry type doesn\'t support any option families') }}</p>
+      <p>{{ t('agora', "This inquiry type doesn't support any option families") }}</p>
     </div>
 
     <!-- Modals -->
@@ -311,17 +307,15 @@
       @created="handleOptionCreated"
     />
     <OptionDetailModal
-  v-if="showOptionDetail"
-  :option-id="selectedOptionId"
-  :inquiry-id="inquiryStore.id"
-  @close="closeOptionDetail"
-  @updated="handleOptionUpdated"
-  @deleted="handleOptionDeleted"
-/>
-
+      v-if="showOptionDetail"
+      :option-id="selectedOptionId"
+      :inquiry-id="inquiryStore.id"
+      @close="closeOptionDetail"
+      @updated="handleOptionUpdated"
+      @deleted="handleOptionDeleted"
+    />
   </div>
 </template>
-
 
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue'
@@ -331,12 +325,11 @@ import NcButton from '@nextcloud/vue/components/NcButton'
 import { useInquiryStore } from '../../stores/inquiry'
 import { useOptionsStore } from '../../stores/options'
 import { useSessionStore } from '../../stores/session'
-import { InquiryGeneralIcons } from '../../utils/icons.ts'
-import { InquiryOptionIcons } from '../../utils/icons.ts'
+import { InquiryGeneralIcons, InquiryOptionIcons } from '../../utils/icons.ts'
 import {
   getFamiliesWithOptionTypes,
   getFamilyIconComponent,
-  getFamilyColor
+  getFamilyColor,
 } from '../../helpers/modules/InquiryOptionHelper'
 import { getFamily } from '../../stores/option.type.ts'
 
@@ -350,7 +343,6 @@ import type { InquiryType, OptionType } from '../../Types/index.ts'
 
 // Helper methods
 const getFamilyIcon = (familyKey: string) => getFamilyIconComponent(familyKey)
-
 
 // Props
 const props = defineProps<{
@@ -371,26 +363,26 @@ const selectedParentId = ref<number | null>(null)
 const selectedOptionId = ref<number | null>(null)
 
 // Computed
-const allInquiryTypes = computed<InquiryType[]>(() =>
-  sessionStore.appSettings?.inquiryTypeTab || []
+const allInquiryTypes = computed<InquiryType[]>(
+  () => sessionStore.appSettings?.inquiryTypeTab || []
 )
 
-const allOptionTypes = computed<OptionType[]>(() =>
-  sessionStore.appSettings?.inquiryOptionTypeTab || []
+const allOptionTypes = computed<OptionType[]>(
+  () => sessionStore.appSettings?.inquiryOptionTypeTab || []
 )
 
 // Debug logging
 const debugInfo = computed(() => {
-  console.log("=== DEBUG INFO ===")
-  console.log("Inquiry type:", inquiryStore.type)
-  console.log("All inquiry types:", allInquiryTypes.value?.length)
-  console.log("All option types:", allOptionTypes.value?.length)
-  console.log("=== END DEBUG ===")
+  console.log('=== DEBUG INFO ===')
+  console.log('Inquiry type:', inquiryStore.type)
+  console.log('All inquiry types:', allInquiryTypes.value?.length)
+  console.log('All option types:', allOptionTypes.value?.length)
+  console.log('=== END DEBUG ===')
 
   return {
     inquiryType: inquiryStore.type,
     hasInquiryTypes: !!allInquiryTypes.value?.length,
-    hasOptionTypes: !!allOptionTypes.value?.length
+    hasOptionTypes: !!allOptionTypes.value?.length,
   }
 })
 
@@ -398,10 +390,10 @@ const debugInfo = computed(() => {
 const familiesWithOptions = computed(() => {
   const inquiryTypeKey = inquiryStore.type
   if (!inquiryTypeKey || !allInquiryTypes.value?.length || !allOptionTypes.value?.length) {
-    console.log("Missing data for families:", {
+    console.log('Missing data for families:', {
       inquiryTypeKey,
       inquiryTypes: allInquiryTypes.value?.length,
-      optionTypes: allOptionTypes.value?.length
+      optionTypes: allOptionTypes.value?.length,
     })
     return []
   }
@@ -412,14 +404,14 @@ const familiesWithOptions = computed(() => {
     allOptionTypes.value
   )
 
-  console.log("Families found:", families)
+  console.log('Families found:', families)
 
   // Translate labels
-  return families.map(family => ({
+  return families.map((family) => ({
     ...family,
     name: t('agora', family.name),
     label: t('agora', family.label),
-    text: t('agora', family.text)
+    text: t('agora', family.text),
   }))
 })
 
@@ -427,15 +419,15 @@ const hasVisibleFamilies = computed(() => familiesWithOptions.value.length > 0)
 
 const activeFamilyData = computed(() => {
   if (!activeFamily.value) return null
-  return familiesWithOptions.value.find(f => f.key === activeFamily.value)
+  return familiesWithOptions.value.find((f) => f.key === activeFamily.value)
 })
 
 // Count options by family
 const familyCounts = computed(() => {
   const counts: Record<string, number> = {}
-  familiesWithOptions.value.forEach(family => {
-    const familyOptionTypeKeys = family.optionTypes.map(opt => opt.option_type)
-    counts[family.key] = optionsStore.options.filter(option =>
+  familiesWithOptions.value.forEach((family) => {
+    const familyOptionTypeKeys = family.optionTypes.map((opt) => opt.option_type)
+    counts[family.key] = optionsStore.options.filter((option) =>
       familyOptionTypeKeys.includes(option.type)
     ).length
   })
@@ -446,54 +438,71 @@ const familyCounts = computed(() => {
 const activeFamilyOptions = computed(() => {
   if (!activeFamilyData.value) return []
 
-  const familyOptionTypeKeys = activeFamilyData.value.optionTypes.map(opt => opt.option_type)
+  const familyOptionTypeKeys = activeFamilyData.value.optionTypes.map((opt) => opt.option_type)
 
-  return optionsStore.options.filter(option =>
-    familyOptionTypeKeys.includes(option.type)
-  )
+  return optionsStore.options.filter((option) => familyOptionTypeKeys.includes(option.type))
 })
 
 // Family-specific computed properties
-const positionsFor = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'position_for'))
-const positionsAgainst = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'position_against'))
-const argumentsFor = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'argument_for'))
-const argumentsAgainst = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'argument_against'))
-const alternatives = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'alternative'))
-const messages = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'message'))
-const chapters = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'chapter'))
-const objections = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'objection'))
-const exceptions = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'exception'))
-const consultationQuestions = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'consultation_question'))
-const officialResults = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'official_result'))
-const pollOptions = computed(() => activeFamilyOptions.value.filter(opt => opt.type === 'poll_option'))
+const positionsFor = computed(() =>
+  activeFamilyOptions.value.filter((opt) => opt.type === 'position_for')
+)
+const positionsAgainst = computed(() =>
+  activeFamilyOptions.value.filter((opt) => opt.type === 'position_against')
+)
+const argumentsFor = computed(() =>
+  activeFamilyOptions.value.filter((opt) => opt.type === 'argument_for')
+)
+const argumentsAgainst = computed(() =>
+  activeFamilyOptions.value.filter((opt) => opt.type === 'argument_against')
+)
+const alternatives = computed(() =>
+  activeFamilyOptions.value.filter((opt) => opt.type === 'alternative')
+)
+const messages = computed(() => activeFamilyOptions.value.filter((opt) => opt.type === 'message'))
+const chapters = computed(() => activeFamilyOptions.value.filter((opt) => opt.type === 'chapter'))
+const objections = computed(() =>
+  activeFamilyOptions.value.filter((opt) => opt.type === 'objection')
+)
+const exceptions = computed(() =>
+  activeFamilyOptions.value.filter((opt) => opt.type === 'exception')
+)
+const consultationQuestions = computed(() =>
+  activeFamilyOptions.value.filter((opt) => opt.type === 'consultation_question')
+)
+const officialResults = computed(() =>
+  activeFamilyOptions.value.filter((opt) => opt.type === 'official_result')
+)
+const pollOptions = computed(() =>
+  activeFamilyOptions.value.filter((opt) => opt.type === 'poll_option')
+)
 
 // Helper methods
 const getChildOptions = (parentId: number, type?: string) => {
-  const children = optionsStore.options.filter(opt => opt.parentId === parentId)
+  const children = optionsStore.options.filter((opt) => opt.parentId === parentId)
   if (type) {
-    return children.filter(opt => opt.type === type)
+    return children.filter((opt) => opt.type === type)
   }
   return children
 }
 
-
 const getOptionTypeLabel = (optionTypeKey: string): string => {
-  const optionType = allOptionTypes.value.find(opt => 
-    opt.option_type === optionTypeKey || opt.optionType === optionTypeKey
+  const optionType = allOptionTypes.value.find(
+    (opt) => opt.option_type === optionTypeKey || opt.optionType === optionTypeKey
   )
   return optionType?.label || optionTypeKey
 }
 
 const getOptionTypeIcon = (optionTypeKey: string) => {
-  const optionType = allOptionTypes.value.find(opt => 
-    opt.option_type === optionTypeKey || opt.optionType === optionTypeKey
+  const optionType = allOptionTypes.value.find(
+    (opt) => opt.option_type === optionTypeKey || opt.optionType === optionTypeKey
   )
-  
+
   if (optionType?.icon) {
     // Direct icon lookup from InquiryOptionIcons
     return InquiryOptionIcons[optionType.icon] || InquiryOptionIcons.File
   }
-  
+
   return InquiryOptionIcons.File
 }
 
@@ -531,14 +540,14 @@ const handleOptionCreated = (newOption: any) => {
 }
 
 const handleOptionUpdated = (updatedOption: any) => {
-  const index = optionsStore.options.findIndex(opt => opt.id === updatedOption.id)
+  const index = optionsStore.options.findIndex((opt) => opt.id === updatedOption.id)
   if (index >= 0) {
     optionsStore.options[index] = updatedOption
   }
 }
 
 const handleOptionDeleted = (deletedOptionId: number) => {
-  const index = optionsStore.options.findIndex(opt => opt.id === deletedOptionId)
+  const index = optionsStore.options.findIndex((opt) => opt.id === deletedOptionId)
   if (index >= 0) {
     optionsStore.options.splice(index, 1)
   }
@@ -547,7 +556,7 @@ const handleOptionDeleted = (deletedOptionId: number) => {
 
 // Initialize
 onMounted(() => {
-  console.log("OptionEditView mounted")
+  console.log('OptionEditView mounted')
   optionsStore.load(inquiryStore.id)
 
   if (familiesWithOptions.value.length > 0) {
@@ -556,19 +565,25 @@ onMounted(() => {
 })
 
 // Watch for inquiry changes
-watch(() => inquiryStore.id, (newId) => {
-  if (newId) {
-    optionsStore.load(newId)
+watch(
+  () => inquiryStore.id,
+  (newId) => {
+    if (newId) {
+      optionsStore.load(newId)
+    }
   }
-})
+)
 
-watch(() => inquiryStore.type, (newType) => {
-  console.log("Inquiry type changed to:", newType)
-  activeFamily.value = ''
-  if (familiesWithOptions.value.length > 0) {
-    activeFamily.value = familiesWithOptions.value[0].key
+watch(
+  () => inquiryStore.type,
+  (newType) => {
+    console.log('Inquiry type changed to:', newType)
+    activeFamily.value = ''
+    if (familiesWithOptions.value.length > 0) {
+      activeFamily.value = familiesWithOptions.value[0].key
+    }
   }
-})
+)
 
 // Log debug info
 watch(debugInfo, () => {}, { immediate: true })
@@ -619,7 +634,7 @@ watch(debugInfo, () => {}, { immediate: true })
         background: var(--color-primary-light);
         border-color: var(--color-primary-element);
         color: var(--color-primary-element);
-        
+
         .tab-icon {
           background: var(--color-primary-element);
           color: white !important;
@@ -877,7 +892,7 @@ watch(debugInfo, () => {}, { immediate: true })
 
   .family-actions-bar {
     flex-direction: column;
-    
+
     .create-option-btn {
       width: 100%;
       justify-content: center;

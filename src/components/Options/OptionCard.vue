@@ -3,20 +3,20 @@
   SPDX-License-Identifier: AGPL-3.0-or-later
 -->
 <template>
-  <div 
+  <div
     :class="[
       'option-card',
       `type-${option.type}`,
-      { 
-        'compact': compact,
-        'official': official,
-        'highlight': highlight,
+      {
+        compact: compact,
+        official: official,
+        highlight: highlight,
         'show-poll': showPoll,
         'has-support': hasSupportFeature,
-        'has-comments': hasComments
-      }
+        'has-comments': hasComments,
+      },
     ]"
-    @click="handleCardClick"Firsti
+    Firsti@click="handleCardClick"
   >
     <!-- First Box: Header with icon, date, and actions -->
     <div class="card-header">
@@ -25,13 +25,13 @@
         <div class="type-icon" :style="{ color: optionTypeColor }">
           <component :is="optionIcon" :size="compact ? 16 : 20" />
         </div>
-        
+
         <div class="header-meta">
           <span class="option-type-label">{{ optionTypeLabel }}</span>
           <span class="timestamp">{{ formatDate(option.status.created) }}</span>
         </div>
       </div>
-      
+
       <!-- Right side: Actions menu -->
       <div class="header-right" @click.stop>
         <NcActions
@@ -41,11 +41,7 @@
           class="card-actions"
         >
           <!-- Delete action -->
-          <NcActionButton
-            v-if="canDelete"
-            :close-after-click="true"
-            @click="confirmDelete"
-          >
+          <NcActionButton v-if="canDelete" :close-after-click="true" @click="confirmDelete">
             <template #icon>
               <component :is="InquiryOptionIcons.Delete" :size="20" />
             </template>
@@ -61,7 +57,7 @@
       <div v-if="showTitle" class="content-section title-section">
         <h3 class="card-title">{{ option.label || option.title }}</h3>
       </div>
-      
+
       <!-- Description -->
       <div v-if="option.text && !compact" class="content-section description-section">
         <div class="card-text">
@@ -90,29 +86,34 @@
             :size="16"
             class="feature-icon"
           />
-          
+
           <div class="feature-stats">
             <!-- Support stats -->
             <div v-if="supportFeature === 'ternary'" class="support-stats">
-              <span class="stat-value positive">{{ option.status.countPositiveSupports || 0 }}</span>
+              <span class="stat-value positive">{{
+                option.status.countPositiveSupports || 0
+              }}</span>
               <span class="stat-separator">/</span>
-              <span class="stat-value negative">{{ option.status.countNegativeSupports || 0 }}</span>
+              <span class="stat-value negative">{{
+                option.status.countNegativeSupports || 0
+              }}</span>
             </div>
-            
+
             <!-- Binary support stats -->
             <div v-else-if="supportFeature === 'binary'" class="support-stats binary">
-              <ThumbIcon
-                :supported="true"
-                :size="12"
-              />
+              <ThumbIcon :supported="true" :size="12" />
               <span class="stat-value">{{ option.status.countSupports || 0 }}</span>
             </div>
           </div>
         </div>
       </div>
-      
+
       <!-- Comments feature -->
-      <div v-if="allowComment" class="feature-item comments-feature" @click.stop="emit('comment', option)">
+      <div
+        v-if="allowComment"
+        class="feature-item comments-feature"
+        @click.stop="emit('comment', option)"
+      >
         <div class="feature-content">
           <component :is="InquiryOptionIcons.Comment" :size="16" class="feature-icon" />
           <span class="feature-count">{{ option.status.countComments || 0 }}</span>
@@ -126,15 +127,15 @@
         <component :is="InquiryOptionIcons.MessageReplyText" :size="14" />
         <span class="responses-title">{{ t('agora', 'Responses') }}</span>
       </div>
-      
+
       <div class="responses-list">
         <div v-if="childCountsTotal === 0" class="no-responses">
           <span class="no-responses-text">{{ t('agora', 'None') }}</span>
         </div>
-        
+
         <div v-else class="responses-summary">
-          <div 
-            v-for="responseType in allowedResponses" 
+          <div
+            v-for="responseType in allowedResponses"
             :key="responseType"
             class="response-type-summary"
             @click.stop="emit('viewResponses', option, responseType)"
@@ -151,13 +152,15 @@
     <!-- Owner info footer -->
     <div class="card-footer">
       <div class="owner-info">
-        <NcAvatar 
-          v-if="option.owner?.id" 
-          :user="option.owner.id" 
-          :display-name="option.owner.displayName" 
-          :size="18" 
+        <NcAvatar
+          v-if="option.owner?.id"
+          :user="option.owner.id"
+          :display-name="option.owner.displayName"
+          :size="18"
         />
-        <span class="owner-name">{{ option.owner?.displayName || t('agora', 'Unknown owner') }}</span>
+        <span class="owner-name">{{
+          option.owner?.displayName || t('agora', 'Unknown owner')
+        }}</span>
       </div>
     </div>
   </div>
@@ -177,17 +180,14 @@ import { useSupportsStore } from '../../stores/supports'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import { InquiryOptionIcons } from '../../utils/icons.ts'
 import { TernarySupportIcon, ThumbIcon } from '../AppIcons'
-import { 
-  getOptionTypeData,
-  getFamilyColor
-} from '../../helpers/modules/InquiryOptionHelper'
+import { getOptionTypeData, getFamilyColor } from '../../helpers/modules/InquiryOptionHelper'
 
-import { 
+import {
   createOptionContext,
   canEditOption,
   canDeleteOption,
   canCommentOption,
-  canSupportOption
+  canSupportOption,
 } from '../../utils/permissions.ts'
 
 // Types
@@ -255,19 +255,14 @@ const canSupport = computed(() => {
   return canSupportOption(optionContext.value)
 })
 
-const canEditOrDelete = computed(() => {
-  return canEdit.value || canDelete.value
-})
+const canEditOrDelete = computed(() => canEdit.value || canDelete.value)
 
 // Get option types from session store
-const allOptionTypes = computed(() => {
-  return sessionStore.appSettings?.inquiryOptionTypeTab || []
-})
-
+const allOptionTypes = computed(() => sessionStore.appSettings?.inquiryOptionTypeTab || [])
 
 const optionTypeData = computed(() => {
   const data = getOptionTypeData(props.option.type, allOptionTypes.value, props.option.type)
-  
+
   // Fallback/default option type data if not found
   if (!data) {
     return {
@@ -278,26 +273,23 @@ const optionTypeData = computed(() => {
       support_feature: 'none',
       allow_comment: false,
       allowed_response: [],
-      fields: []
+      fields: [],
     }
   }
   return data
 })
 
-
 // Computed properties - USING optionTypeData ONLY
-const optionTypeLabel = computed(() => {
-  return optionTypeData.value.label || props.option.type || ''
-})
+const optionTypeLabel = computed(() => optionTypeData.value.label || props.option.type || '')
 
 const optionIcon = computed(() => {
-    const iconName = optionTypeData.value?.icon
-  
-    if (iconName in InquiryOptionIcons) {
+  const iconName = optionTypeData.value?.icon
+
+  if (iconName in InquiryOptionIcons) {
     const icon = InquiryOptionIcons[iconName as keyof typeof InquiryOptionIcons]
     return icon
   }
-    
+
   console.log('DEBUG - Icon not found, using File')
   return InquiryOptionIcons.File
 })
@@ -307,32 +299,24 @@ const optionTypeColor = computed(() => {
   return getFamilyColor(optionTypeData.value.family)
 })
 
-const showTitle = computed(() => {
-  return optionTypeData.value?.use_title !== false
-})
+const showTitle = computed(() => optionTypeData.value?.use_title !== false)
 
-const supportFeature = computed(() => {
-  return optionTypeData.value?.support_feature || 'none'
-})
+const supportFeature = computed(() => optionTypeData.value?.support_feature || 'none')
 
-const allowComment = computed(() => {
-  return optionTypeData.value?.allow_comment || false
-})
+const allowComment = computed(() => optionTypeData.value?.allow_comment || false)
 
-const hasSupportFeature = computed(() => {
-  return supportFeature.value !== 'none'
-})
+const hasSupportFeature = computed(() => supportFeature.value !== 'none')
 
-const hasComments = computed(() => {
-  return allowComment.value && (props.option.status?.countComments || 0) > 0
-})
+const hasComments = computed(
+  () => allowComment.value && (props.option.status?.countComments || 0) > 0
+)
 
 // Get allowed responses from option type data
 const allowedResponses = computed(() => {
   if (!optionTypeData.value?.allowed_response) return []
 
   let responses: string[] = []
-  
+
   if (typeof optionTypeData.value.allowed_response === 'string') {
     try {
       responses = JSON.parse(optionTypeData.value.allowed_response)
@@ -342,50 +326,48 @@ const allowedResponses = computed(() => {
   } else if (Array.isArray(optionTypeData.value.allowed_response)) {
     responses = optionTypeData.value.allowed_response
   }
-  
+
   // Filter out any invalid response types
-  return responses.filter(responseType => 
-    allOptionTypes.value.some(opt => 
-      opt.option_type === responseType || opt.optionType === responseType
+  return responses.filter((responseType) =>
+    allOptionTypes.value.some(
+      (opt) => opt.option_type === responseType || opt.optionType === responseType
     )
   )
 })
 
-const hasAllowedResponses = computed(() => {
-  return allowedResponses.value.length > 0
-})
+const hasAllowedResponses = computed(() => allowedResponses.value.length > 0)
 
 // Get child options
 const childOptions = computed(() => {
   if (!props.option?.id) return []
-  return optionsStore.options.filter(opt => opt.parentId === props.option.id)
+  return optionsStore.options.filter((opt) => opt.parentId === props.option.id)
 })
 
 const childCounts = computed(() => {
   const counts: Record<string, number> = {}
-  
+
   if (!props.option.id) return counts
-  
+
   const children = childOptions.value
-  
+
   // Initialize counts for allowed responses
   allowedResponses.value.forEach((type: string) => {
     counts[type] = 0
   })
-  
+
   // Count children by type
-  children.forEach(child => {
+  children.forEach((child) => {
     if (counts[child.type] !== undefined) {
       counts[child.type]++
     }
   })
-  
+
   return counts
 })
 
-const childCountsTotal = computed(() => {
-  return Object.values(childCounts.value).reduce((sum, count) => sum + count, 0)
-})
+const childCountsTotal = computed(() =>
+  Object.values(childCounts.value).reduce((sum, count) => sum + count, 0)
+)
 
 // Support value computation - FIXED: Return numeric values
 const numericSupportValue = computed(() => {
@@ -398,27 +380,27 @@ const numericSupportValue = computed(() => {
 
 // Helper methods
 const formatDate = (timestamp: number) => {
-  let date=new Date()
-  if (timestamp)  date = new Date(timestamp * 1000)
+  let date = new Date()
+  if (timestamp) date = new Date(timestamp * 1000)
   return new Intl.DateTimeFormat(undefined, {
     month: 'short',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   }).format(date)
 }
 
 const truncateText = (text: string, maxLength: number) => {
   if (!text) return ''
   if (text.length <= maxLength) return text
-  return text.substring(0, maxLength) + '...'
+  return `${text.substring(0, maxLength)}...`
 }
 
 const getOptionTypeIcon = (type: string) => {
-  const optionType = allOptionTypes.value.find(opt => 
-    opt.option_type === type || opt.optionType === type
+  const optionType = allOptionTypes.value.find(
+    (opt) => opt.option_type === type || opt.optionType === type
   )
-  
+
   if (optionType?.icon) {
     return InquiryOptionIcons[optionType.icon] || InquiryOptionIcons.File
   }
@@ -447,11 +429,11 @@ const confirmDelete = () => {
 const deleteOption = async () => {
   try {
     // Remove from store
-    const index = optionsStore.options.findIndex(opt => opt.id === props.option.id)
+    const index = optionsStore.options.findIndex((opt) => opt.id === props.option.id)
     if (index >= 0) {
       optionsStore.options.splice(index, 1)
     }
-    
+
     emit('delete', props.option.id)
   } catch (err) {
     console.error('Error deleting option:', err)
@@ -461,16 +443,21 @@ const deleteOption = async () => {
 
 const toggleSupport = async () => {
   if (!canSupport.value || !sessionStore.currentUser?.id) return
-  
+
   const hadSupportedBefore = props.option.currentUserStatus?.hasSupported || false
   const supportValueBefore = props.option.currentUserStatus?.supportValue || null
-  
+
   try {
-    await supportsStore.toggleSupport(props.option.id, sessionStore.currentUser.id, props.option, optionsStore)
-    
+    await supportsStore.toggleSupport(
+      props.option.id,
+      sessionStore.currentUser.id,
+      props.option,
+      optionsStore
+    )
+
     const hasSupportedAfter = props.option.currentUserStatus?.hasSupported || false
     const supportValueAfter = props.option.currentUserStatus?.supportValue || null
-    
+
     // Show appropriate messages
     if (supportFeature.value === 'binary') {
       if (hasSupportedAfter && !hadSupportedBefore) {
@@ -502,9 +489,13 @@ const toggleSupport = async () => {
 }
 
 // Watch for option updates
-watch(() => props.option, (newOption) => {
-  // React to option changes if needed
-}, { deep: true })
+watch(
+  () => props.option,
+  (newOption) => {
+    // React to option changes if needed
+  },
+  { deep: true }
+)
 </script>
 
 <style scoped lang="scss">
@@ -526,7 +517,7 @@ watch(() => props.option, (newOption) => {
 
   &.compact {
     padding: 12px;
-    
+
     .card-features,
     .card-responses,
     .card-footer {
@@ -651,7 +642,7 @@ watch(() => props.option, (newOption) => {
     .feature-item {
       display: flex;
       align-items: center;
-      
+
       &.support-feature {
         .feature-content {
           display: flex;
@@ -661,48 +652,48 @@ watch(() => props.option, (newOption) => {
           padding: 4px 8px;
           border-radius: 6px;
           transition: background-color 0.2s ease;
-          
+
           &:hover {
             background: var(--color-background-hover);
           }
-          
+
           .feature-icon {
             color: var(--color-text-lighter);
           }
-          
+
           .feature-stats {
             display: flex;
             align-items: center;
             gap: 4px;
-            
+
             .support-stats {
               display: flex;
               align-items: center;
               gap: 2px;
               font-size: 12px;
-              
+
               .stat-value {
                 font-weight: 600;
-                
+
                 &.positive {
                   color: var(--color-success);
                 }
-                
+
                 &.negative {
                   color: var(--color-error);
                 }
               }
-              
+
               .stat-separator {
                 color: var(--color-text-lighter);
                 margin: 0 2px;
               }
-              
+
               &.binary {
                 display: flex;
                 align-items: center;
                 gap: 4px;
-                
+
                 .stat-value {
                   color: var(--color-text-light);
                 }
@@ -711,7 +702,7 @@ watch(() => props.option, (newOption) => {
           }
         }
       }
-      
+
       &.comments-feature {
         .feature-content {
           display: flex;
@@ -721,15 +712,15 @@ watch(() => props.option, (newOption) => {
           padding: 4px 8px;
           border-radius: 6px;
           transition: background-color 0.2s ease;
-          
+
           &:hover {
             background: var(--color-background-hover);
           }
-          
+
           .feature-icon {
             color: var(--color-text-lighter);
           }
-          
+
           .feature-count {
             font-size: 12px;
             font-weight: 600;

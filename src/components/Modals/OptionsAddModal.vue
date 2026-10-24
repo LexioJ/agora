@@ -12,7 +12,6 @@ import { subscribe, unsubscribe } from '@nextcloud/event-bus'
 
 import DateInquiryIcon from 'vue-material-design-icons/CalendarBlank.vue'
 
-
 import { useInquiryStore } from '../../stores/inquiry'
 import { Event } from '../../Types'
 

@@ -8,14 +8,9 @@
     <!-- Main Content -->
     <div class="full-view-wrapper">
       <div class="full-view-content">
-        
         <!-- Cover Image -->
         <div v-if="coverUrl" class="cover-image-section">
-          <img
-            :src="coverUrl"
-            :alt="t('agora', 'Inquiry cover image')"
-            class="cover-image"
-          />
+          <img :src="coverUrl" :alt="t('agora', 'Inquiry cover image')" class="cover-image" />
         </div>
 
         <!-- Title Section -->
@@ -25,16 +20,16 @@
               <component :is="typeIconComponent" class="type-icon" :size="20" />
               <span class="type-label">{{ inquiryTypeData.label }}</span>
             </div>
-            
+
             <!-- Status Badge -->
             <div v-if="currentInquiryStatus" class="status-badge">
               <component :is="statusIconComponent" class="status-icon" :size="14" />
               {{ statusText }}
             </div>
           </div>
-          
+
           <h1 class="inquiry-title">{{ storeInquiry.title }}</h1>
-          
+
           <!-- Author and Metadata -->
           <div class="author-meta-section">
             <div class="author-info">
@@ -75,7 +70,14 @@
               </div>
               <div class="meta-content">
                 <div class="meta-label">{{ t('agora', 'Location') }}</div>
-                <div class="meta-value">{{ getHierarchyPath(sessionStore.appSettings.locationTab, storeInquiry.locationId) || t('agora', 'Inherited from parent') }}</div>
+                <div class="meta-value">
+                  {{
+                    getHierarchyPath(
+                      sessionStore.appSettings.locationTab,
+                      storeInquiry.locationId
+                    ) || t('agora', 'Inherited from parent')
+                  }}
+                </div>
               </div>
             </div>
 
@@ -86,7 +88,14 @@
               </div>
               <div class="meta-content">
                 <div class="meta-label">{{ t('agora', 'Category') }}</div>
-                <div class="meta-value">{{ getHierarchyPath(sessionStore.appSettings.categoryTab, storeInquiry.categoryId) || t('agora', 'Inherited from parent') }}</div>
+                <div class="meta-value">
+                  {{
+                    getHierarchyPath(
+                      sessionStore.appSettings.categoryTab,
+                      storeInquiry.categoryId
+                    ) || t('agora', 'Inherited from parent')
+                  }}
+                </div>
               </div>
             </div>
 
@@ -154,9 +163,9 @@
           <!-- Supports Counter -->
           <div v-if="canSupportValue" class="stat-item supports-stat" @click.stop="onToggleSupport">
             <div class="stat-icon-container">
-              <component 
-                :is="supportIconComponent" 
-                class="stat-icon" 
+              <component
+                :is="supportIconComponent"
+                class="stat-icon"
                 :size="24"
                 :supported="isSupported"
                 :support-value="currentSupportValue"
@@ -165,9 +174,7 @@
             <div class="stat-content">
               <div class="stat-value">
                 {{ storeInquiry.status?.countSupports || 0 }}
-                <span v-if="hasQuorum" class="quorum-text">
-                  / {{ quorumValue }}
-                </span>
+                <span v-if="hasQuorum" class="quorum-text"> / {{ quorumValue }} </span>
               </div>
               <div class="stat-label">
                 {{ t('agora', 'Supports') }}
@@ -180,9 +187,10 @@
 
           <!-- Ternary Details Button -->
           <div
-v-if="canSupportValue && storeInquiry.configuration?.supportFeature === 'ternary'" 
-               class="ternary-details-button"
-               @click.stop="openTernaryDetails">
+            v-if="canSupportValue && storeInquiry.configuration?.supportFeature === 'ternary'"
+            class="ternary-details-button"
+            @click.stop="openTernaryDetails"
+          >
             <NcButton
               type="tertiary"
               class="details-button"
@@ -219,7 +227,10 @@ v-if="canSupportValue && storeInquiry.configuration?.supportFeature === 'ternary
         </div>
 
         <!-- Ternary Support Buttons -->
-        <div v-if="canSupportValue && storeInquiry.configuration?.supportFeature === 'ternary'" class="ternary-support-section">
+        <div
+          v-if="canSupportValue && storeInquiry.configuration?.supportFeature === 'ternary'"
+          class="ternary-support-section"
+        >
           <div class="section-header">
             <h3 class="section-title">{{ t('agora', 'Express your position') }}</h3>
           </div>
@@ -231,7 +242,10 @@ v-if="canSupportValue && storeInquiry.configuration?.supportFeature === 'ternary
               @click.stop="toggleSupport(1)"
             >
               <template #icon>
-                <TernarySupportIcon :support-value="currentSupportValue === 1 ? 1 : null" :size="20" />
+                <TernarySupportIcon
+                  :support-value="currentSupportValue === 1 ? 1 : null"
+                  :size="20"
+                />
               </template>
               {{ getSupportButtonText(1) }}
             </NcButton>
@@ -243,7 +257,10 @@ v-if="canSupportValue && storeInquiry.configuration?.supportFeature === 'ternary
               @click.stop="toggleSupport(0)"
             >
               <template #icon>
-                <TernarySupportIcon :support-value="currentSupportValue === 0 ? 0 : null" :size="20" />
+                <TernarySupportIcon
+                  :support-value="currentSupportValue === 0 ? 0 : null"
+                  :size="20"
+                />
               </template>
               {{ getSupportButtonText(0) }}
             </NcButton>
@@ -255,7 +272,10 @@ v-if="canSupportValue && storeInquiry.configuration?.supportFeature === 'ternary
               @click.stop="toggleSupport(-1)"
             >
               <template #icon>
-                <TernarySupportIcon :support-value="currentSupportValue === -1 ? -1 : null" :size="20" />
+                <TernarySupportIcon
+                  :support-value="currentSupportValue === -1 ? -1 : null"
+                  :size="20"
+                />
               </template>
               {{ getSupportButtonText(-1) }}
             </NcButton>
@@ -272,13 +292,8 @@ v-if="canSupportValue && storeInquiry.configuration?.supportFeature === 'ternary
       @close="showTernaryModal = false"
     />
 
-        <!-- Comments Modal -->
-    <NcModal
-      v-if="showSidebar"
-      :name="storeInquiry.title"
-      :size="'large'"
-      @close="closeSidebar"
-    >
+    <!-- Comments Modal -->
+    <NcModal v-if="showSidebar" :name="storeInquiry.title" :size="'large'" @close="closeSidebar">
       <template #header>
         <div class="modal-header">
           <h2 class="modal-title">{{ storeInquiry.title }}</h2>
@@ -295,7 +310,7 @@ v-if="canSupportValue && storeInquiry.configuration?.supportFeature === 'ternary
 </template>
 
 <script setup lang="ts">
-    import { ref, computed, watch } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { t } from '@nextcloud/l10n'
 import { showSuccess, showError } from '@nextcloud/dialogs'
 import NcButton from '@nextcloud/vue/components/NcButton'
@@ -328,7 +343,6 @@ interface Props {
 
 const props = defineProps<Props>()
 
-
 const sessionStore = useSessionStore()
 const supportsStore = useSupportsStore()
 const inquiriesStore = useInquiriesStore()
@@ -336,7 +350,6 @@ const inquiriesStore = useInquiriesStore()
 // State
 const showSidebar = ref(false)
 const currentSupportValue = ref(props.inquiry.currentUserStatus?.supportValue || null)
-
 
 // Update openComments function
 function openSidebar() {
@@ -349,30 +362,30 @@ function closeSidebar() {
 
 // Create permission context
 const context = computed(() => ({
-    canSupport: canSupport({
-      inquiryType: props.inquiry.type,
-      inquiryStatus: props.inquiry.status?.inquiryStatus || 'open',
-      isOwner: props.inquiry.currentUserStatus?.isOwner || false,
-      isModerator: sessionStore.currentUser.isModerator,
-      isLocked: props.inquiry.status?.isLocked || false,
-      isExpired: props.inquiry.status?.isExpired || false,
-      isArchived: props.inquiry.status?.inquiryStatus === 'archived',
-      hasDeletionDate: props.inquiry.status?.deletionDate > 0,
-      isPublic: props.inquiry.configuration?.access === 'public',
-      supportFeature: props.inquiry.configuration?.supportFeature,
-    }),
-    canComment: canComment({
-      inquiryType: props.inquiry.type,
-      inquiryStatus: props.inquiry.status?.inquiryStatus || 'open',
-      isOwner: props.inquiry.currentUserStatus?.isOwner || false,
-      isModerator: sessionStore.currentUser.isModerator,
-      isLocked: props.inquiry.status?.isLocked || false,
-      isExpired: props.inquiry.status?.isExpired || false,
-      isArchived: props.inquiry.status?.inquiryStatus === 'archived',
-      hasDeletionDate: props.inquiry.status?.deletionDate > 0,
-      isPublic: props.inquiry.configuration?.access === 'public',
-    }),
-  }))
+  canSupport: canSupport({
+    inquiryType: props.inquiry.type,
+    inquiryStatus: props.inquiry.status?.inquiryStatus || 'open',
+    isOwner: props.inquiry.currentUserStatus?.isOwner || false,
+    isModerator: sessionStore.currentUser.isModerator,
+    isLocked: props.inquiry.status?.isLocked || false,
+    isExpired: props.inquiry.status?.isExpired || false,
+    isArchived: props.inquiry.status?.inquiryStatus === 'archived',
+    hasDeletionDate: props.inquiry.status?.deletionDate > 0,
+    isPublic: props.inquiry.configuration?.access === 'public',
+    supportFeature: props.inquiry.configuration?.supportFeature,
+  }),
+  canComment: canComment({
+    inquiryType: props.inquiry.type,
+    inquiryStatus: props.inquiry.status?.inquiryStatus || 'open',
+    isOwner: props.inquiry.currentUserStatus?.isOwner || false,
+    isModerator: sessionStore.currentUser.isModerator,
+    isLocked: props.inquiry.status?.isLocked || false,
+    isExpired: props.inquiry.status?.isExpired || false,
+    isArchived: props.inquiry.status?.inquiryStatus === 'archived',
+    hasDeletionDate: props.inquiry.status?.deletionDate > 0,
+    isPublic: props.inquiry.configuration?.access === 'public',
+  }),
+}))
 
 const showTernaryModal = ref(false)
 
@@ -380,7 +393,9 @@ const showTernaryModal = ref(false)
 const canSupportValue = computed(() => context.value.canSupport)
 const canCommentValue = computed(() => context.value.canComment)
 
-const inquiryTypeData = computed(() => getInquiryTypeData(props.inquiry.type, sessionStore.appSettings?.inquiryTypeTab || []))
+const inquiryTypeData = computed(() =>
+  getInquiryTypeData(props.inquiry.type, sessionStore.appSettings?.inquiryTypeTab || [])
+)
 
 const typeIconComponent = computed(() => {
   if (inquiryTypeData.value?.icon) {
@@ -394,15 +409,15 @@ const typeIconComponent = computed(() => {
   }
 
   const iconMap = {
-    'proposal': InquiryGeneralIcons.Scale,
-    'survey': InquiryGeneralIcons.ClipboardList,
-    'poll': InquiryGeneralIcons.CheckCircle,
-    'question': InquiryGeneralIcons.Question,
-    'discussion': InquiryGeneralIcons.MessageSquare,
-    'news': InquiryGeneralIcons.Newspaper,
-    'announcement': InquiryGeneralIcons.Megaphone,
-    'meeting': InquiryGeneralIcons.Users,
-    'document': InquiryGeneralIcons.Document,
+    proposal: InquiryGeneralIcons.Scale,
+    survey: InquiryGeneralIcons.ClipboardList,
+    poll: InquiryGeneralIcons.CheckCircle,
+    question: InquiryGeneralIcons.Question,
+    discussion: InquiryGeneralIcons.MessageSquare,
+    news: InquiryGeneralIcons.Newspaper,
+    announcement: InquiryGeneralIcons.Megaphone,
+    meeting: InquiryGeneralIcons.Users,
+    document: InquiryGeneralIcons.Document,
   }
 
   return iconMap[props.inquiry.type] || InquiryGeneralIcons.FolderMultiple
@@ -410,23 +425,23 @@ const typeIconComponent = computed(() => {
 
 // Status
 const currentInquiryStatus = computed(() => {
-   if (!storeInquiry.value.status?.inquiryStatus) return null
+  if (!storeInquiry.value.status?.inquiryStatus) return null
 
   const specialStatuses = {
-    'draft': {
+    draft: {
       statusKey: 'draft',
       label: 'Draft',
       icon: 'draft',
       inquiryType: props.inquiry.type,
       order: 0,
     },
-    'waiting_approval': {
+    waiting_approval: {
       statusKey: 'waiting_approval',
       label: 'Waiting Approval',
       icon: 'waitingapproval',
       inquiryType: props.inquiry.type,
       order: 1,
-    }
+    },
   }
 
   const currentStatus = props.inquiry.status.inquiryStatus
@@ -434,16 +449,20 @@ const currentInquiryStatus = computed(() => {
     return specialStatuses[currentStatus]
   }
 
-  const statusesFromSettings = sessionStore.appSettings?.inquiryStatusTab
-    ?.filter((status) => status.inquiryType === props.inquiry.type) || []
+  const statusesFromSettings =
+    sessionStore.appSettings?.inquiryStatusTab?.filter(
+      (status) => status.inquiryType === props.inquiry.type
+    ) || []
 
-  return statusesFromSettings.find(
-    (status) => status.statusKey === currentStatus
-  ) || specialStatuses.draft
+  return (
+    statusesFromSettings.find((status) => status.statusKey === currentStatus) ||
+    specialStatuses.draft
+  )
 })
 
-
-const statusText = computed(() => currentInquiryStatus.value?.label ? t('agora', currentInquiryStatus.value.label) : '')
+const statusText = computed(() =>
+  currentInquiryStatus.value?.label ? t('agora', currentInquiryStatus.value.label) : ''
+)
 
 const statusIconComponent = computed(() => {
   if (!currentInquiryStatus.value?.icon) return StatusIcons.Default
@@ -464,14 +483,16 @@ const supportIconComponent = computed(() => {
 // Replace all props.inquiry references with storeInquiry computed property
 const storeInquiry = computed(() => {
   // First try to find the inquiry in the inquiries store
-  const fromStore = inquiriesStore.inquiries.find(i => i.id === props.inquiry.id)
+  const fromStore = inquiriesStore.inquiries.find((i) => i.id === props.inquiry.id)
   // If not found, use the prop (fallback)
   return fromStore || props.inquiry
 })
 
 // Quorum
 
-const hasQuorum = computed(() => storeInquiry.value.configuration?.quorum && storeInquiry.value.configuration.quorum > 0)
+const hasQuorum = computed(
+  () => storeInquiry.value.configuration?.quorum && storeInquiry.value.configuration.quorum > 0
+)
 const quorumValue = computed(() => storeInquiry.value.configuration?.quorum || 0)
 
 // Cover image
@@ -479,7 +500,6 @@ const coverUrl = computed(() => {
   if (!storeInquiry.value.coverId || storeInquiry.value.coverId === 0) return ''
   return getNextcloudPreviewUrl(storeInquiry.value.coverId)
 })
-
 
 function getNextcloudPreviewUrl(fileId: number, x = 1200, y = 400, autoScale = true) {
   const baseUrl = window.location.origin
@@ -518,7 +538,9 @@ function getHierarchyPath(items, targetId) {
 const formattedCreationDate = computed(() => {
   if (!props.inquiry.status?.created) return ''
   try {
-    return DateTime.fromMillis(props.inquiry.status.created * 1000).toLocaleString(DateTime.DATE_FULL)
+    return DateTime.fromMillis(props.inquiry.status.created * 1000).toLocaleString(
+      DateTime.DATE_FULL
+    )
   } catch {
     return ''
   }
@@ -531,12 +553,12 @@ const formattedLastInteraction = computed(() => {
     const now = DateTime.now()
 
     if (date.hasSame(now, 'day')) {
-      return `${t('agora', 'Today')  } ${  date.toLocaleString(DateTime.TIME_SIMPLE)}`
-    } if (date.hasSame(now.minus({ days: 1 }), 'day')) {
-      return `${t('agora', 'Yesterday')  } ${  date.toLocaleString(DateTime.TIME_SIMPLE)}`
-    } 
-      return date.toRelative()
-
+      return `${t('agora', 'Today')} ${date.toLocaleString(DateTime.TIME_SIMPLE)}`
+    }
+    if (date.hasSame(now.minus({ days: 1 }), 'day')) {
+      return `${t('agora', 'Yesterday')} ${date.toLocaleString(DateTime.TIME_SIMPLE)}`
+    }
+    return date.toRelative()
   } catch {
     return ''
   }
@@ -553,10 +575,9 @@ const timeExpirationRelative = computed(() => {
 // Participants count
 const participantsCount = computed(() => storeInquiry.value.status?.countParticipants || 0)
 
-
 // Content
 const sanitizedContent = computed(() => {
- const content = storeInquiry.value.descriptionSafe || storeInquiry.value.description
+  const content = storeInquiry.value.descriptionSafe || storeInquiry.value.description
   if (!content || content.trim() === '') {
     return `<div class="no-content">
               <p>${t('agora', 'No description available')}</p>
@@ -565,31 +586,65 @@ const sanitizedContent = computed(() => {
 
   return DOMPurify.sanitize(content, {
     ALLOWED_TAGS: [
-      'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
-      'p', 'br', 'strong', 'em', 'u', 's',
-      'ul', 'ol', 'li',
-      'blockquote', 'pre', 'code',
-      'img', 'figure', 'figcaption',
-      'table', 'thead', 'tbody', 'tr', 'th', 'td',
-      'a', 'span', 'div',
-      'hr'
+      'h1',
+      'h2',
+      'h3',
+      'h4',
+      'h5',
+      'h6',
+      'p',
+      'br',
+      'strong',
+      'em',
+      'u',
+      's',
+      'ul',
+      'ol',
+      'li',
+      'blockquote',
+      'pre',
+      'code',
+      'img',
+      'figure',
+      'figcaption',
+      'table',
+      'thead',
+      'tbody',
+      'tr',
+      'th',
+      'td',
+      'a',
+      'span',
+      'div',
+      'hr',
     ],
     ALLOWED_ATTR: [
-      'href', 'target', 'rel', 'title',
-      'src', 'alt', 'width', 'height', 'loading',
-      'class', 'id', 'style'
-    ]
+      'href',
+      'target',
+      'rel',
+      'title',
+      'src',
+      'alt',
+      'width',
+      'height',
+      'loading',
+      'class',
+      'id',
+      'style',
+    ],
   })
 })
 
 // Resources
-const hasResources = computed(() => storeInquiry.value.miscFields && Object.keys(storeInquiry.value.miscFields).length > 0)
+const hasResources = computed(
+  () => storeInquiry.value.miscFields && Object.keys(storeInquiry.value.miscFields).length > 0
+)
 
 // Helper to get available fields
 function getAvailableFields(inquiryType: string, inquiryTypeTab: InquiryType[]) {
   if (!inquiryTypeTab || !Array.isArray(inquiryTypeTab)) return []
 
-  const typeConfig = inquiryTypeTab.find(tab => tab.key === inquiryType)
+  const typeConfig = inquiryTypeTab.find((tab) => tab.key === inquiryType)
   if (!typeConfig || !typeConfig.fields) return []
 
   return typeConfig.fields
@@ -637,7 +692,7 @@ function getDisplayValue(value: unknown, field: FieldConfig): string {
   }
 
   if (field.type === 'enum' && field.allowed_values) {
-    const enumValue = field.allowed_values.find(v => 
+    const enumValue = field.allowed_values.find((v) =>
       typeof v === 'object' ? v.value === value : v === value
     )
 
@@ -646,9 +701,7 @@ function getDisplayValue(value: unknown, field: FieldConfig): string {
     }
 
     if (typeof value === 'string') {
-      return value
-        .replace(/_/g, ' ')
-        .replace(/\b\w/g, l => l.toUpperCase())
+      return value.replace(/_/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase())
     }
   }
 
@@ -701,28 +754,31 @@ const dynamicFields = computed(() => {
   }
 })
 
-
 // Get fields that should be displayed
-const displayFields = computed(() => dynamicFields.value
-    .map(field => {
+const displayFields = computed(() =>
+  dynamicFields.value
+    .map((field) => {
       const value = getMiscValue(field.key)
       return {
         ...field,
         value,
         displayValue: getDisplayValue(value, field),
-        hasValue: field.type === 'boolean' ? true : shouldDisplayField(field, value)
+        hasValue: field.type === 'boolean' ? true : shouldDisplayField(field, value),
       }
     })
-    .filter(field => field.hasValue))
+    .filter((field) => field.hasValue)
+)
 
 // Handlers
 
 function getSupportButtonText(value: number) {
   if (value === 1) {
     return currentSupportValue.value === 1 ? t('agora', 'Supported') : t('agora', 'Support')
-  } if (value === 0) {
+  }
+  if (value === 0) {
     return currentSupportValue.value === 0 ? t('agora', 'Neutral') : t('agora', 'Neutral')
-  } if (value === -1) {
+  }
+  if (value === -1) {
     return currentSupportValue.value === -1 ? t('agora', 'Opposed') : t('agora', 'Oppose')
   }
   return ''
@@ -733,18 +789,18 @@ async function toggleSupport(value: number) {
   try {
     // Pass null as the third parameter to prevent double updates
     await supportsStore.toggleSupport(
-      props.inquiry.id, 
-      sessionStore.currentUser.id, 
-      null,  
+      props.inquiry.id,
+      sessionStore.currentUser.id,
+      null,
       inquiriesStore
     )
 
-    const updatedInquiry = inquiriesStore.inquiries.find(i => i.id === props.inquiry.id)
-    
+    const updatedInquiry = inquiriesStore.inquiries.find((i) => i.id === props.inquiry.id)
+
     // Show success messages
     const newSupportValue = updatedInquiry?.currentUserStatus?.supportValue || value
     const hadSupportedBefore = storeInquiry.value.currentUserStatus?.hasSupported
-    
+
     if (storeInquiry.value.configuration?.supportFeature === 'binary') {
       if (newSupportValue === 1) {
         showSuccess(t('agora', 'Inquiry supported, thanks for your support!'), { timeout: 2000 })
@@ -762,7 +818,6 @@ async function toggleSupport(value: number) {
         showSuccess(t('agora', 'Participation removed!'), { timeout: 2000 })
       }
     }
-
   } catch (error) {
     console.error('Failed to toggle support:', error)
     showError(t('agora', 'Failed to update support status'))
@@ -780,14 +835,15 @@ function openTernaryDetails() {
   showTernaryModal.value = true
 }
 
-
 // Watch for changes in support value
 // Watch for changes in support value - now watching storeInquiry
-watch(() => storeInquiry.value.currentUserStatus?.supportValue, (newValue) => {
-  currentSupportValue.value = newValue || null
-}, { immediate: true })
-
-
+watch(
+  () => storeInquiry.value.currentUserStatus?.supportValue,
+  (newValue) => {
+    currentSupportValue.value = newValue || null
+  },
+  { immediate: true }
+)
 </script>
 <style lang="scss" scoped>
 /* This component only provides internal layout, typography, and component styling */
@@ -847,7 +903,11 @@ watch(() => storeInquiry.value.currentUserStatus?.supportValue, (newValue) => {
       align-items: center;
       gap: 10px;
       padding: 8px 16px;
-      background: linear-gradient(135deg, var(--color-primary-element-light), rgba(var(--color-primary-rgb), 0.1));
+      background: linear-gradient(
+        135deg,
+        var(--color-primary-element-light),
+        rgba(var(--color-primary-rgb), 0.1)
+      );
       border-radius: 24px;
       font-size: 14px;
       font-weight: 600;
@@ -1091,7 +1151,8 @@ watch(() => storeInquiry.value.currentUserStatus?.supportValue, (newValue) => {
       line-height: 1.8;
     }
 
-    :deep(ul), :deep(ol) {
+    :deep(ul),
+    :deep(ol) {
       padding-left: 24px;
       margin: 16px 0;
 
@@ -1351,14 +1412,14 @@ watch(() => storeInquiry.value.currentUserStatus?.supportValue, (newValue) => {
   gap: 4px;
   padding: 16px 24px;
   border-bottom: 1px solid var(--color-border);
-  
+
   .modal-title {
     font-size: 20px;
     font-weight: 700;
     color: var(--color-main-text);
     margin: 0;
   }
-  
+
   .modal-subtitle {
     font-size: 14px;
     color: var(--color-text-lighter);
@@ -1501,4 +1562,3 @@ watch(() => storeInquiry.value.currentUserStatus?.supportValue, (newValue) => {
   }
 }
 </style>
-

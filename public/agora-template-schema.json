@@ -171,7 +171,21 @@
                 },
                 "type": {
                   "type": "string",
-                  "enum": ["string", "text", "integer", "float", "boolean", "datetime", "date", "enum", "json", "users", "groups", "location", "list"],
+                  "enum": [
+                    "string",
+                    "text",
+                    "integer",
+                    "float",
+                    "boolean",
+                    "datetime",
+                    "date",
+                    "enum",
+                    "json",
+                    "users",
+                    "groups",
+                    "location",
+                    "list"
+                  ],
                   "description": "Field data type"
                 },
                 "required": {

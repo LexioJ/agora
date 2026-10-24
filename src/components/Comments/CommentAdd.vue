@@ -34,22 +34,22 @@ const currentInquiry = computed(() => {
   if (inquiryStore.id) {
     return inquiryStore
   }
-  
+
   // Otherwise, try to find the inquiry by ID in the store or use minimal data
   if (props.inquiryId) {
     return {
       id: props.inquiryId,
       configuration: {
-        forceConfidentialComments: false
+        forceConfidentialComments: false,
       },
       // Default owner is the current user if not available
-      owner: inquiryStore.inquiry?.owner || { 
-        id: sessionStore.currentUser.id, 
-        displayName: sessionStore.currentUser.displayName 
-      }
+      owner: inquiryStore.inquiry?.owner || {
+        id: sessionStore.currentUser.id,
+        displayName: sessionStore.currentUser.displayName,
+      },
     }
   }
-  
+
   return null
 })
 
@@ -63,12 +63,12 @@ if (props.inquiryId && (!inquiryStore.inquiry?.id || inquiryStore.inquiry.id !==
 // Confidential text based on inquiry owner
 const confidentialText = computed(() => {
   if (!currentInquiry.value) return t('agora', 'Only visible to me')
-  
+
   const owner = currentInquiry.value.owner
   if (!owner || owner.id === sessionStore.currentUser.id) {
     return t('agora', 'Only visible to me')
   }
-  
+
   return t('agora', 'Only visible to {displayName}', {
     displayName: owner.displayName || t('agora', 'the owner'),
   })
@@ -84,29 +84,29 @@ const isConfidentialForced = computed(() => {
  * Write a comment
  */
 async function writeComment() {
-  
   if (!comment.value || !currentInquiry.value) {
     return
   }
 
   try {
     const inquiryId = currentInquiry.value.id
-    
-    await commentsStore.add({
-      message: comment.value,
-      confidential: confidential.value || isConfidentialForced.value,
-      optionId: props.optionId,
-    },inquiryId)
-    
+
+    await commentsStore.add(
+      {
+        message: comment.value,
+        confidential: confidential.value || isConfidentialForced.value,
+        optionId: props.optionId,
+      },
+      inquiryId
+    )
+
     comment.value = ''
     confidential.value = false
-    
+
     // Reload comments to show the new one
-    if (props.optionId){
-        commentsStore.load(inquiryId,props.optionId)
-    }
-    else commentsStore.load(inquiryId)
-    
+    if (props.optionId) {
+      commentsStore.load(inquiryId, props.optionId)
+    } else commentsStore.load(inquiryId)
   } catch (error) {
     console.error('Error saving comment:', error)
     showError(t('agora', 'Error while saving comment'))
@@ -116,10 +116,7 @@ async function writeComment() {
 
 <template>
   <div class="comment-add">
-    <UserItem 
-      :user="sessionStore.currentUser" 
-      hide-names 
-    />
+    <UserItem :user="sessionStore.currentUser" hide-names />
     <div class="comment-add__input">
       <InputDiv
         v-model="comment"
@@ -129,7 +126,7 @@ async function writeComment() {
         :disabled="!currentInquiry"
         @submit="writeComment()"
       />
-      
+
       <NcCheckboxRadioSwitch
         v-if="!isConfidentialForced"
         v-model="confidential"
@@ -138,12 +135,8 @@ async function writeComment() {
       >
         {{ confidentialText }}
       </NcCheckboxRadioSwitch>
-      
-      <div 
-        v-else 
-        class="confidential-forced"
-        :class="{ 'disabled': !currentInquiry }"
-      >
+
+      <div v-else class="confidential-forced" :class="{ disabled: !currentInquiry }">
         <span class="confidential-icon">🔒</span>
         {{ confidentialText }}
       </div>
@@ -159,12 +152,12 @@ async function writeComment() {
   .user-item {
     align-items: first baseline;
   }
-  
+
   .comment-add__input {
     margin-inline-start: 8px;
     flex: 1;
     align-items: center;
-    
+
     .confidential-forced {
       display: flex;
       align-items: center;
@@ -172,11 +165,11 @@ async function writeComment() {
       margin-top: 8px;
       font-size: 13px;
       color: var(--color-text-lighter);
-      
+
       &.disabled {
         opacity: 0.5;
       }
-      
+
       .confidential-icon {
         font-size: 14px;
       }

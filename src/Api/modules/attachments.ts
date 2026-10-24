@@ -15,7 +15,7 @@ const attachments = {
     const formData = new FormData()
     formData.append('file', file)
     formData.append('coverId', coverId)
-    
+
     return httpInstance.request({
       method: 'POST',
       url: `inquiry/${inquiryId}/attachment`,
@@ -37,7 +37,7 @@ const attachments = {
     const formData = new FormData()
     formData.append('file', file)
     formData.append('coverId', coverId)
-    
+
     return httpInstance.request({
       method: 'POST',
       url: `group/${groupId}/attachment`,

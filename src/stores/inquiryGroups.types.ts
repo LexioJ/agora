@@ -6,7 +6,7 @@ import { User } from '../Types/index.ts'
 
 export type InquiryGroupType = {
   id: number | string
-  group_type: string 
+  group_type: string
   label: string
   family: string
   icon?: string
@@ -21,7 +21,7 @@ export type InquiryGroupType = {
 export type InquiryGroup = {
   id: number
   cover_id: number | null
-  type: string // 
+  type: string //
   parent_id: number | null
   created: number
   deleted: number
@@ -31,9 +31,9 @@ export type InquiryGroup = {
   group_status: string
   protected: number | boolean
   owner: User
-  title: string 
-  titleExt: string | null 
+  title: string
+  titleExt: string | null
   inquiryIds: number[]
   allowEdit: boolean
-  expire: number | null 
+  expire: number | null
 }

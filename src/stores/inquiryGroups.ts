@@ -20,36 +20,30 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
   const updating = ref(false)
   const currentGroupType = ref<string>('assembly')
 
+  function addInquiryGroup(group: InquiryGroup) {
+    const exists = inquiryGroups.value.some((g) => g.id === group.id)
+    if (!exists) {
+      inquiryGroups.value.push(group)
+    }
+  }
 
-   function addInquiryGroup(group: InquiryGroup) {
-        const exists = inquiryGroups.value.some(g => g.id === group.id)
-        if (!exists) {
-            inquiryGroups.value.push(group)
-        }
+  function updateInquiryGroup(updatedGroup: InquiryGroup) {
+    const index = inquiryGroups.value.findIndex((g) => g.id === updatedGroup.id)
+
+    if (index === -1) {
+      inquiryGroups.value.push(updatedGroup)
+      return
     }
 
-     function updateInquiryGroup(updatedGroup: InquiryGroup) {
-        const index = inquiryGroups.value.findIndex(
-            g => g.id === updatedGroup.id
-        )
-
-        if (index === -1) {
-            inquiryGroups.value.push(updatedGroup)
-            return
-        }
-
-        inquiryGroups.value[index] = {
-            ...inquiryGroups.value[index],
-            ...updatedGroup,
-        }
+    inquiryGroups.value[index] = {
+      ...inquiryGroups.value[index],
+      ...updatedGroup,
     }
+  }
 
-    function removeInquiryGroup(groupId: number) {
-        inquiryGroups.value = inquiryGroups.value.filter(
-            g => g.id !== groupId
-        )
-    }
-
+  function removeInquiryGroup(groupId: number) {
+    inquiryGroups.value = inquiryGroups.value.filter((g) => g.id !== groupId)
+  }
 
   /**
    * Get inquiry group by slug
@@ -60,33 +54,31 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
     if (!slug || slug === 'none' || slug === 'undefined') {
       return undefined
     }
-    
+
     // First try exact match
-    let group = inquiryGroups.value.find(g => g.slug === slug)
-    
+    let group = inquiryGroups.value.find((g) => g.slug === slug)
+
     // If not found, try case-insensitive search
     if (!group) {
       const lowerSlug = slug.toLowerCase()
-      group = inquiryGroups.value.find(g => 
-        g.slug?.toLowerCase() === lowerSlug
-      )
+      group = inquiryGroups.value.find((g) => g.slug?.toLowerCase() === lowerSlug)
     }
-    
+
     // Try to find by name if slug not found
     if (!group) {
       const slugFromName = slug.toLowerCase().replace(/[^a-z0-9]/g, '-')
-      group = inquiryGroups.value.find(g => {
+      group = inquiryGroups.value.find((g) => {
         if (!g.name) return false
         const groupSlug = g.name.toLowerCase().replace(/[^a-z0-9]/g, '-')
         return groupSlug === slugFromName
       })
     }
-    
+
     // If still not found and slug is numeric, try by ID
     if (!group && !isNaN(Number(slug))) {
-      group = inquiryGroups.value.find(g => g.id === Number(slug))
+      group = inquiryGroups.value.find((g) => g.id === Number(slug))
     }
-    
+
     return group
   }
 
@@ -95,7 +87,8 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
    * @param {number} id - The ID to search for
    * @return {InquiryGroup | undefined} The inquiry group with matching ID, or undefined if not found
    */
-  const byId = (id: number): InquiryGroup | undefined => inquiryGroups.value.find(g => g.id === id)
+  const byId = (id: number): InquiryGroup | undefined =>
+    inquiryGroups.value.find((g) => g.id === id)
 
   const setCurrentGroupType = (type: string) => {
     currentGroupType.value = type
@@ -106,23 +99,27 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
    * @param {string} type - The group type to filter by
    * @return {InquiryGroup[]} Array of inquiry groups with matching type
    */
-  const byType = (type: string): InquiryGroup[] => inquiryGroups.value.filter(g => g.type === type)
+  const byType = (type: string): InquiryGroup[] =>
+    inquiryGroups.value.filter((g) => g.type === type)
 
   /**
    * Get inquiry groups by parent ID
    * @param {number | null} parentId - The parent ID to filter by (null for root groups)
    * @return {InquiryGroup[]} Array of inquiry groups with matching parent ID
    */
-  const byParentId = (parentId: number | null): InquiryGroup[] => inquiryGroups.value.filter(g => g.parentId === parentId)
+  const byParentId = (parentId: number | null): InquiryGroup[] =>
+    inquiryGroups.value.filter((g) => g.parentId === parentId)
 
   /**
    * Get inquiry groups with their child groups populated
    * @return {InquiryGroup[]} Array of inquiry groups with children property
    */
-  const withChildren = computed((): InquiryGroup[] => inquiryGroups.value.map(group => ({
+  const withChildren = computed((): InquiryGroup[] =>
+    inquiryGroups.value.map((group) => ({
       ...group,
-      children: inquiryGroups.value.filter(g => g.parentId === group.id).map(g => g.id)
-    })))
+      children: inquiryGroups.value.filter((g) => g.parentId === group.id).map((g) => g.id),
+    }))
+  )
 
   /**
    * Currently selected inquiry group or undefined if not in an inquiry group route
@@ -150,10 +147,10 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
    */
   const parentGroups = computed((): InquiryGroup[] => {
     if (!currentInquiryGroup.value) return []
-    
+
     const parents: InquiryGroup[] = []
     let currentGroup = currentInquiryGroup.value
-    
+
     while (currentGroup.parentId) {
       const parent = byId(currentGroup.parentId)
       if (parent) {
@@ -163,7 +160,7 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
         break
       }
     }
-    
+
     return parents
   })
 
@@ -176,7 +173,6 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
     return byParentId(currentInquiryGroup.value.id)
   })
 
-
   /**
    * All descendant groups (children, grandchildren, etc.)
    * @return {InquiryGroup[]} Array of all descendant groups
@@ -184,9 +180,12 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
   const descendantGroups = computed((): InquiryGroup[] => {
     const getDescendants = (groupId: number): InquiryGroup[] => {
       const children = byParentId(groupId)
-      return children.reduce((descendants, child) => [...descendants, child, ...getDescendants(child.id)], [] as InquiryGroup[])
+      return children.reduce(
+        (descendants, child) => [...descendants, child, ...getDescendants(child.id)],
+        [] as InquiryGroup[]
+      )
     }
-    
+
     if (!currentInquiryGroup.value) return []
     return getDescendants(currentInquiryGroup.value.id)
   })
@@ -201,17 +200,15 @@ export const useInquiryGroupsStore = defineStore('inquiryGroups', () => {
    * Sort inquiry groups by title in ascending order
    * @return {InquiryGroup[]} Sorted inquiry groups, sorted by title in ascending order
    */
-const inquiryGroupsSorted = computed((): InquiryGroup[] =>
-  orderBy(
-    inquiryGroups.value.filter((group) =>
-      group.type === 'private' &&
-      countInquiriesInInquiryGroups.value[group.id] > 0
-    ),
-    ['title'],
-    ['asc']
+  const inquiryGroupsSorted = computed((): InquiryGroup[] =>
+    orderBy(
+      inquiryGroups.value.filter(
+        (group) => group.type === 'private' && countInquiriesInInquiryGroups.value[group.id] > 0
+      ),
+      ['title'],
+      ['asc']
+    )
   )
-)
-
 
   const inquiriesInCurrentInquiryGroup = computed((): Inquiry[] => {
     const inquiriesStore = useInquiriesStore()
@@ -239,111 +236,111 @@ const inquiryGroupsSorted = computed((): InquiryGroup[] =>
     return counts
   })
 
+  /**
+   * Load a specific group by slug - first checks store, loads from server if needed
+   * @param {string} slug - The slug of the group to load
+   * @param {boolean} forceRefresh - Whether to force reload from server
+   * @return {Promise<InquiryGroup | null>} The loaded group or null if not found
+   */
+  async function loadGroup(
+    slug: string,
+    forceRefresh: boolean = false
+  ): Promise<InquiryGroup | null> {
+    try {
+      updating.value = true
 
-/**
- * Load a specific group by slug - first checks store, loads from server if needed
- * @param {string} slug - The slug of the group to load
- * @param {boolean} forceRefresh - Whether to force reload from server
- * @return {Promise<InquiryGroup | null>} The loaded group or null if not found
- */
-async function loadGroup(slug: string, forceRefresh: boolean = false): Promise<InquiryGroup | null> {
-  try {
-    updating.value = true
-   
-     
-    // If we're forcing a refresh or store is empty, fetch from server
-    if (forceRefresh || inquiryGroups.value.length === 0) {
-      return await loadGroupFromServer(slug)
-    }
-    
-    // Check in local store first
-    const localGroup = bySlug(slug)
-    if (localGroup) {
-      return localGroup
-    }
-    
-    // Try alternative slug formats
-    
-    // Not found locally, try server
-    // return await loadGroupFromServer(slug)
-    
-  } catch (error) {
-    Logger.error('Error loading group by slug', {
-      error,
-      slug
-    })
-    return null
-  } finally {
-    updating.value = false
-  }
-}
+      // If we're forcing a refresh or store is empty, fetch from server
+      if (forceRefresh || inquiryGroups.value.length === 0) {
+        return await loadGroupFromServer(slug)
+      }
 
-/**
- * Load group from server (if API endpoint exists)
- * @param slug
- */
-async function loadGroupFromServer(slug: string): Promise<InquiryGroup | null> {
-  try {
-    const response = await InquiryGroupsAPI.getGroupBySlug(slug)
-    
-    if (response.data?.inquiryGroup) {
-      addOrUpdateInquiryGroupInList({
-        inquiryGroup: response.data.inquiryGroup
+      // Check in local store first
+      const localGroup = bySlug(slug)
+      if (localGroup) {
+        return localGroup
+      }
+
+      // Try alternative slug formats
+
+      // Not found locally, try server
+      // return await loadGroupFromServer(slug)
+    } catch (error) {
+      Logger.error('Error loading group by slug', {
+        error,
+        slug,
       })
-      return response.data.inquiryGroup
-    }
-    
-    return null
-  } catch (error) {
-    if ((error as AxiosError)?.code === 'ERR_CANCELED') {
       return null
+    } finally {
+      updating.value = false
     }
-    
-    // If 404, group doesn't exist
-    if ((error as AxiosError)?.response?.status === 404) {
-      Logger.info(`Group with slug "${slug}" not found on server`)
-      return null
-    }
-    
-    Logger.error('Error loading group from server', {
-      error,
-      slug
-    })
-    throw error
   }
-}
 
-/**
- * Load all groups from server (if needed)
- */
-async function fetchAllGroups(): Promise<InquiryGroup[]> {
-  try {
-    updating.value = true
-    
-    // Check if API method exists
-    if (typeof InquiryGroupsAPI.getAllGroups !== 'function') {
-      Logger.warn('getAllGroups API method not available')
-      return inquiryGroups.value
+  /**
+   * Load group from server (if API endpoint exists)
+   * @param slug
+   */
+  async function loadGroupFromServer(slug: string): Promise<InquiryGroup | null> {
+    try {
+      const response = await InquiryGroupsAPI.getGroupBySlug(slug)
+
+      if (response.data?.inquiryGroup) {
+        addOrUpdateInquiryGroupInList({
+          inquiryGroup: response.data.inquiryGroup,
+        })
+        return response.data.inquiryGroup
+      }
+
+      return null
+    } catch (error) {
+      if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+        return null
+      }
+
+      // If 404, group doesn't exist
+      if ((error as AxiosError)?.response?.status === 404) {
+        Logger.info(`Group with slug "${slug}" not found on server`)
+        return null
+      }
+
+      Logger.error('Error loading group from server', {
+        error,
+        slug,
+      })
+      throw error
     }
-    
-    const response = await InquiryGroupsAPI.getAllGroups()
-    const groups = response.data.groups || []
-    
-    inquiryGroups.value = groups
-    ensureSlugs()
-    
-    return groups
-  } catch (error) {
-    if ((error as AxiosError)?.code === 'ERR_CANCELED') {
-      return inquiryGroups.value
-    }
-    
-    Logger.error('Error fetching all groups', { error })
-    throw error
-  } finally {
-    updating.value = false
   }
-}
+
+  /**
+   * Load all groups from server (if needed)
+   */
+  async function fetchAllGroups(): Promise<InquiryGroup[]> {
+    try {
+      updating.value = true
+
+      // Check if API method exists
+      if (typeof InquiryGroupsAPI.getAllGroups !== 'function') {
+        Logger.warn('getAllGroups API method not available')
+        return inquiryGroups.value
+      }
+
+      const response = await InquiryGroupsAPI.getAllGroups()
+      const groups = response.data.groups || []
+
+      inquiryGroups.value = groups
+      ensureSlugs()
+
+      return groups
+    } catch (error) {
+      if ((error as AxiosError)?.code === 'ERR_CANCELED') {
+        return inquiryGroups.value
+      }
+
+      Logger.error('Error fetching all groups', { error })
+      throw error
+    } finally {
+      updating.value = false
+    }
+  }
 
   /**
    * Generate a slug from a string
@@ -353,33 +350,33 @@ async function fetchAllGroups(): Promise<InquiryGroup[]> {
    */
   function generateSlug(text: string, id?: number): string {
     if (!text) return ''
-    
+
     // Convert to lowercase, remove accents, replace non-alphanumeric with hyphens
     let slug = text
       .toLowerCase()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // Remove accents
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '') // Remove accents
       .replace(/[^a-z0-9]+/g, '-') // Replace non-alphanumeric with hyphens
       .replace(/^-+|-+$/g, '') // Trim hyphens from start/end
       .replace(/-+/g, '-') // Replace multiple hyphens with single
-    
+
     // Append ID if provided for uniqueness
     if (id) {
       slug = `${slug}-${id}`
     }
-    
+
     return slug
   }
-
 
   /**
    * Ensure all groups have slugs
    */
   function ensureSlugs(): void {
-    inquiryGroups.value = inquiryGroups.value.map(group => {
+    inquiryGroups.value = inquiryGroups.value.map((group) => {
       if (!group.slug) {
         return {
           ...group,
-          slug: generateSlug(group.name || group.title || '', group.id)
+          slug: generateSlug(group.name || group.title || '', group.id),
         }
       }
       return group
@@ -425,7 +422,7 @@ async function fetchAllGroups(): Promise<InquiryGroup[]> {
       }
       return group
     })
-   }
+  }
 
   async function writeCurrentInquiryGroup(): Promise<InquiryGroup | undefined> {
     if (!currentInquiryGroup.value) {
@@ -454,7 +451,6 @@ async function fetchAllGroups(): Promise<InquiryGroup[]> {
     }
   }
 
-    
   function addOrUpdateInquiryGroupInList(payload: { inquiryGroup: InquiryGroup }) {
     inquiryGroups.value = inquiryGroups.value
       .filter((g) => g.id !== payload.inquiryGroup.id)
@@ -555,13 +551,13 @@ async function fetchAllGroups(): Promise<InquiryGroup[]> {
     rootGroups,
     withChildren,
     fetchAllGroups,
-    getInquiryGroupName, 
+    getInquiryGroupName,
     // Getter functions
     bySlug,
     byId,
     byType,
     byParentId,
-    
+
     // Action functions
     addableInquiryGroups,
     addInquiryGroup,
@@ -574,7 +570,7 @@ async function fetchAllGroups(): Promise<InquiryGroup[]> {
     loadGroup,
     generateSlug,
     ensureSlugs,
-     currentGroupType,
-    setCurrentGroupType
+    currentGroupType,
+    setCurrentGroupType,
   }
 })

@@ -19,7 +19,7 @@ import { AgoraAppIcon } from '../components/AppIcons/index.ts'
 import { useSessionStore } from '../stores/session.ts'
 import { useInquiriesStore } from '../stores/inquiries.ts'
 import { usePreferencesStore } from '../stores/preferences.ts'
-import { 
+import {
   getInquiryItemData,
   getInquiryTypeData,
   getInquiryTypesByFamily,
@@ -29,9 +29,10 @@ import {
   getInquiryGroupTypesForFamily,
   type InquiryFamily,
   type InquiryType,
-  type InquiryGroupType
+  type InquiryGroupType,
 } from '../helpers/modules/InquiryHelper.ts'
-import { accessFamilyMenu,
+import {
+  accessFamilyMenu,
   canCreateInquiryGroupInGeneral,
   createPermissionContextForContent,
   ContentType,
@@ -49,15 +50,13 @@ const selectedGroups = ref<string[]>([])
 const preferencesStore = usePreferencesStore()
 
 const canUserCreateInquiryGroup = computed(() => {
-    canCreateInquiryGroupInGeneral()
+  canCreateInquiryGroupInGeneral()
 })
-
-
 
 // ViewMode state
 // const viewMode = ref<string>((route.query.viewMode as string) || (preferencesStore.user?.defaultDisplayMode || 'view'))
 const viewMode = ref<string>(
-  (route.query.viewMode as string) || (preferencesStore.user?.defaultDisplayMode || 'view')
+  (route.query.viewMode as string) || preferencesStore.user?.defaultDisplayMode || 'view'
 )
 
 watch(viewMode, (value) => {
@@ -68,8 +67,6 @@ watch(viewMode, (value) => {
     },
   })
 })
-
-
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -83,25 +80,26 @@ const availableGroups = computed(() => {
 const selectedFamily = ref<string | null>(inquiriesStore.familyType || null)
 
 // Computed for available families
-const inquiryFamilies = computed((): InquiryFamily[] => sessionStore.appSettings.inquiryFamilyTab || [])
+const inquiryFamilies = computed(
+  (): InquiryFamily[] => sessionStore.appSettings.inquiryFamilyTab || []
+)
 
 // Computed for all inquiry types (templates)
 const allInquiryTypes = computed((): InquiryType[] => {
   const types = sessionStore.appSettings.inquiryTypeTab || []
-  return types.filter(type => type.is_root === true)
+  return types.filter((type) => type.is_root === true)
 })
 
 // Computed for all inquiry group types
 const allInquiryGroupTypes = computed((): InquiryGroupType[] => {
   const groupTypes = sessionStore.appSettings.inquiryGroupTypeTab || []
-  return groupTypes.filter(groupType => groupType.is_root === true)
+  return groupTypes.filter((groupType) => groupType.is_root === true)
 })
 
 const inquiryTypesByFamily = computed(() => {
   const types = allInquiryTypes.value
   return getInquiryTypesByFamily(types)
-}
-)
+})
 const inquiryGroupTypesByFamily = computed(() => {
   const types = allInquiryGroupTypes.value
   return getInquiryGroupTypesByFamily(types)
@@ -110,27 +108,27 @@ const inquiryGroupTypesByFamily = computed(() => {
 // Computed for inquiry types filtered by selected family
 const filteredInquiryTypes = computed(() => {
   if (!selectedFamily.value) return []
-  
-  const family = inquiryFamilies.value.find(f => f.family_type === selectedFamily.value)
+
+  const family = inquiryFamilies.value.find((f) => f.family_type === selectedFamily.value)
   if (!family) return []
-  
+
   return getInquiryTypesForFamily(family.family_type, inquiryTypesByFamily.value)
 })
 
 // Computed for inquiry group types filtered by selected family
 const filteredInquiryGroupTypes = computed(() => {
   if (!selectedFamily.value) return []
-  
-  const family = inquiryFamilies.value.find(f => f.family_type === selectedFamily.value)
+
+  const family = inquiryFamilies.value.find((f) => f.family_type === selectedFamily.value)
   if (!family) return []
-  
+
   return getInquiryGroupTypesForFamily(family.family_type, inquiryGroupTypesByFamily.value)
 })
 
 // DEBUG: Check data
 onMounted(() => {
   inquiriesStore.load(false)
-   if (inquiriesStore.advancedFilters.familyType) {
+  if (inquiriesStore.advancedFilters.familyType) {
     selectedFamily.value = inquiriesStore.advancedFilters.familyType
   }
 })
@@ -138,11 +136,13 @@ onMounted(() => {
 // Get family by ID
 const currentFamily = computed(() => {
   if (!selectedFamily.value) return null
-  return inquiryFamilies.value.find(f => f.family_type === selectedFamily.value)
+  return inquiryFamilies.value.find((f) => f.family_type === selectedFamily.value)
 })
 
 // Get current family data (icon, label, description)
-const currentFamilyData = computed(() => getInquiryItemData(currentFamily.value, t('agora', 'Inquiry Types')))
+const currentFamilyData = computed(() =>
+  getInquiryItemData(currentFamily.value, t('agora', 'Inquiry Types'))
+)
 
 // Watch for preferences changes
 watch(
@@ -156,7 +156,7 @@ watch(
   { immediate: true }
 )
 
-// Watch for store familyType changes 
+// Watch for store familyType changes
 watch(
   () => inquiriesStore.advancedFilters.familyType,
   (newFamilyType) => {
@@ -169,43 +169,45 @@ watch(
 
 // Function to select a family
 function selectFamily(familyType: string) {
-  if (accessFamilyMenu(familyType) ) {
+  if (accessFamilyMenu(familyType)) {
     selectedFamily.value = familyType
     inquiriesStore.setFamilyType(familyType)
-    
-  if (viewMode.value === 'view') {
+
+    if (viewMode.value === 'view') {
       if (shouldRedirectToGroupView(familyType)) {
         router.push({
           name: 'group-list',
           params: {
-            slug: 'none'
+            slug: 'none',
           },
           query: {
             viewMode: 'group',
-          }
+          },
         })
-        } else {
-         router.push({
-            name: 'list',
-            params: { type: 'relevant' }
-            })
-         }
-    }else {
+      } else {
         router.push({
-            name: 'menu',
-            query: { viewMode: 'create' }
+          name: 'list',
+          params: { type: 'relevant' },
+        })
+      }
+    } else {
+      router.push({
+        name: 'menu',
+        query: { viewMode: 'create' },
       })
     }
-  } else { showError("You are not allowed to access this family") }
+  } else {
+    showError('You are not allowed to access this family')
+  }
 }
 
 // Function to clear family selection
 function clearFamilySelection() {
   inquiriesStore.setFamilyType('')
   selectedFamily.value = null
-  router.push({ 
+  router.push({
     name: 'menu',
-    query: { viewMode: viewMode.value }
+    query: { viewMode: viewMode.value },
   })
 }
 
@@ -214,31 +216,31 @@ watch(
   () => selectedFamily.value,
   (newFamilyId) => {
     if (!newFamilyId) return
-   
-   inquiriesStore.setFamilyType(newFamilyId)
+
+    inquiriesStore.setFamilyType(newFamilyId)
     // Navigate based on current viewMode
-    if (viewMode.value === 'create' ) {
+    if (viewMode.value === 'create') {
       router.push({
         name: 'menu',
-        query: { viewMode: 'create' }
+        query: { viewMode: 'create' },
       })
     } else if (shouldRedirectToGroupView(inquiriesStore.advancedFilters.familyType)) {
-        router.push({
-          name: 'group-list',
-          params: {
-            slug: 'none'
-          },
-          query: {
-            viewMode: 'group',
-          }
-        })
-        }else {
+      router.push({
+        name: 'group-list',
+        params: {
+          slug: 'none',
+        },
+        query: {
+          viewMode: 'group',
+        },
+      })
+    } else {
       router.push({
         name: 'list',
         params: { type: 'relevant' },
-        query: { viewMode: 'view' }
+        query: { viewMode: 'view' },
       })
-      }
+    }
   }
 )
 
@@ -248,29 +250,27 @@ const shouldRedirectToGroupView = (familyType: string) => {
   return hasGroupTypes
 }
 
-
-
 // Function to handle view mode change
 function handleViewModeChange(mode: string) {
   viewMode.value = mode
   inquiriesStore.setFamilyType(selectedFamily.value)
-  
+
   // If family is selected, navigate with new mode
   if (selectedFamily.value) {
     if (mode === 'create') {
       router.push({
         name: 'menu',
-        query: { viewMode: 'create' }
+        query: { viewMode: 'create' },
       })
-      } else {
-        router.push({
-          name: 'list',
-          params: { type: 'relevant' },
-          query: { viewMode: 'view' }
-        })
-      }
+    } else {
+      router.push({
+        name: 'list',
+        params: { type: 'relevant' },
+        query: { viewMode: 'view' },
+      })
     }
   }
+}
 
 // Get inquiry group types for a specific family
 function getInquiryGroupTypesForCurrentFamily(familyInquiryType: string) {
@@ -278,18 +278,16 @@ function getInquiryGroupTypesForCurrentFamily(familyInquiryType: string) {
   return groupTypes
 }
 
-
 // Function to check if user can create inquiry group for current family
 function canCreateInquiryGroupForFamily(familyType: string): boolean {
   // First check if user has access to this family
   if (!accessFamilyMenu(familyType)) {
     return false
   }
-  
+
   // Then check if user can create inquiry groups in general
   return canUserCreateInquiryGroup.value
 }
-
 
 // Function to create new inquiry from type
 function createInquiry(inquiryType: InquiryType) {
@@ -299,7 +297,7 @@ function createInquiry(inquiryType: InquiryType) {
 
 // Function to create new inquiry group from type
 function createInquiryGroup(inquiryGroupType: InquiryGroupType) {
-if (!selectedFamily.value || !canCreateInquiryGroupForFamily(selectedFamily.value)) {
+  if (!selectedFamily.value || !canCreateInquiryGroupForFamily(selectedFamily.value)) {
     showError(t('agora', 'You do not have permission to create inquiry groups for this family'))
     return
   }
@@ -307,14 +305,14 @@ if (!selectedFamily.value || !canCreateInquiryGroupForFamily(selectedFamily.valu
   createGroupDlgToggle.value = true
 }
 
-// Function to add inquiry 
+// Function to add inquiry
 function inquiryAdded(payLoad: { id: number; title: string }) {
   createDlgToggle.value = false
   selectedInquiryTypeForCreation.value = null
   router.push({
     name: 'inquiry',
     params: { id: payLoad.id },
-    query: { viewMode: viewMode.value }
+    query: { viewMode: viewMode.value },
   })
 }
 
@@ -325,13 +323,13 @@ function inquiryGroupAdded(payLoad: { id: number; slug: string }) {
   router.push({
     name: 'group',
     params: { id: payLoad.id },
-    query: { viewMode: viewMode.value }
+    query: { viewMode: viewMode.value },
   })
 }
 
 // Empty content props
 const emptyContentProps = computed(() => ({
-  name: selectedFamily.value 
+  name: selectedFamily.value
     ? t('agora', 'No inquiry types found for this family')
     : t('agora', 'No inquiry families configured'),
   description: selectedFamily.value
@@ -353,119 +351,123 @@ function handleCloseGroupDialog() {
 </script>
 
 <template>
-    <NcAppContent class="inquiry-menu">
+  <NcAppContent class="inquiry-menu">
     <template #title>
-        {{ selectedFamily 
-        ? currentFamilyData.label
-        : t('agora', 'Select Inquiry Family') 
-        }}
+      {{ selectedFamily ? currentFamilyData.label : t('agora', 'Select Inquiry Family') }}
     </template>
 
     <!-- Header Actions Container -->
     <div class="header-actions">
-        <!-- Back Button (conditionally shown) -->
-        <NcButton 
-         v-if="selectedFamily" 
-         class="back-button" 
-         @click="clearFamilySelection"
-         >
-         <span class="back-button__icon">←</span>
-         {{ t('agora', 'Back to families') }}
-        </NcButton>
+      <!-- Back Button (conditionally shown) -->
+      <NcButton v-if="selectedFamily" class="back-button" @click="clearFamilySelection">
+        <span class="back-button__icon">←</span>
+        {{ t('agora', 'Back to families') }}
+      </NcButton>
 
-        <!-- View Mode Switcher (always shown, aligned to right) -->
-        <div v-if="selectedFamily" class="view-mode-switcher">
-            <NcCheckboxRadioSwitch
-                    :button-variant="true"
-                    :model-value="viewMode"
-                    value="create"
-                    name="view_mode_radio"
-                    type="radio"
-                    button-variant-grouped="horizontal"
-                    @update:model-value="handleViewModeChange"
-                    >
-                    {{ t('agora', 'Create Mode') }}
-            </NcCheckboxRadioSwitch>
-            <NcCheckboxRadioSwitch
-                    :button-variant="true"
-                    :model-value="viewMode"
-                    value="view"
-                    name="view_mode_radio"
-                    type="radio"
-                    button-variant-grouped="horizontal"
-                    @update:model-value="handleViewModeChange"
-                    >
-                    {{ t('agora', 'View Mode') }}
-            </NcCheckboxRadioSwitch>
-        </div>
+      <!-- View Mode Switcher (always shown, aligned to right) -->
+      <div v-if="selectedFamily" class="view-mode-switcher">
+        <NcCheckboxRadioSwitch
+          :button-variant="true"
+          :model-value="viewMode"
+          value="create"
+          name="view_mode_radio"
+          type="radio"
+          button-variant-grouped="horizontal"
+          @update:model-value="handleViewModeChange"
+        >
+          {{ t('agora', 'Create Mode') }}
+        </NcCheckboxRadioSwitch>
+        <NcCheckboxRadioSwitch
+          :button-variant="true"
+          :model-value="viewMode"
+          value="view"
+          name="view_mode_radio"
+          type="radio"
+          button-variant-grouped="horizontal"
+          @update:model-value="handleViewModeChange"
+        >
+          {{ t('agora', 'View Mode') }}
+        </NcCheckboxRadioSwitch>
+      </div>
     </div>
 
     <!-- Family Selection Grid -->
     <div v-if="!selectedFamily" class="families-grid-container">
-        <div class="families-grid">
-            <div
-                    v-for="family in inquiryFamilies"
-                    :key="family.id"
-                    class="family-card-large"
-                    @click="selectFamily(family.family_type)"
-                    >
-                    <div class="family-card-large__icon">
-                        <component :is="getInquiryItemData(family).icon" />
-                    </div>
-                <div class="family-card-large__content">
-                    <h3 class="family-card-large__title">{{ t('agora', getInquiryItemData(family).label) }}</h3>
-                    <p v-if="getInquiryItemData(family).description" class="family-card-large__description">
-                    {{ t('agora', getInquiryItemData(family).description) }}
-                    </p>
-                </div>
-            </div>
+      <div class="families-grid">
+        <div
+          v-for="family in inquiryFamilies"
+          :key="family.id"
+          class="family-card-large"
+          @click="selectFamily(family.family_type)"
+        >
+          <div class="family-card-large__icon">
+            <component :is="getInquiryItemData(family).icon" />
+          </div>
+          <div class="family-card-large__content">
+            <h3 class="family-card-large__title">
+              {{ t('agora', getInquiryItemData(family).label) }}
+            </h3>
+            <p v-if="getInquiryItemData(family).description" class="family-card-large__description">
+              {{ t('agora', getInquiryItemData(family).description) }}
+            </p>
+          </div>
         </div>
+      </div>
 
-        <NcEmptyContent 
-                                                                     v-if="inquiryFamilies.length === 0" 
-                                                                     v-bind="emptyContentProps"
-                                                                     >
-                                                                     <template #icon>
-                                                                         <AgoraAppIcon />
-                                                                     </template>
-        </NcEmptyContent>
+      <NcEmptyContent v-if="inquiryFamilies.length === 0" v-bind="emptyContentProps">
+        <template #icon>
+          <AgoraAppIcon />
+        </template>
+      </NcEmptyContent>
     </div>
 
     <!-- Inquiry Types and Groups for Selected Family -->
     <div v-else class="inquiry-types-container">
-        <div class="inquiry-types-header">
-            <div class="selected-family-info">
-                <h2>{{ t('agora', currentFamilyData.label) }}</h2>
-                <p v-if="currentFamilyData.description">{{ t('agora', currentFamilyData.description) }}</p>
-            </div>
+      <div class="inquiry-types-header">
+        <div class="selected-family-info">
+          <h2>{{ t('agora', currentFamilyData.label) }}</h2>
+          <p v-if="currentFamilyData.description">
+            {{ t('agora', currentFamilyData.description) }}
+          </p>
         </div>
+      </div>
 
-        <!-- Inquiry Types Section -->
-        <div v-if="filteredInquiryTypes.length > 0" class="inquiry-section">
-            <h3 class="section-title">{{ t('agora', 'Inquiry Types') }}</h3>
-            <div class="inquiry-types-grid">
-                <div
-                        v-for="inquiryType in filteredInquiryTypes"
-                        :key="inquiryType.id"
-                        class="inquiry-type-card"
-                        @click="createInquiry(inquiryType)"
-                        >
-                        <div class="inquiry-type-card__icon">
-                            <component :is="getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).icon" />
-                        </div>
-                    <div class="inquiry-type-card__content">
-                        <h4 class="inquiry-type-card__title">
-                            {{ t('agora', getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).label) }}
-                        </h4>
-                        <p v-if="getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description" class="inquiry-type-card__description">
-                        {{ t('agora', getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description) }}
-                        </p>
-                    </div>
-                </div>
+      <!-- Inquiry Types Section -->
+      <div v-if="filteredInquiryTypes.length > 0" class="inquiry-section">
+        <h3 class="section-title">{{ t('agora', 'Inquiry Types') }}</h3>
+        <div class="inquiry-types-grid">
+          <div
+            v-for="inquiryType in filteredInquiryTypes"
+            :key="inquiryType.id"
+            class="inquiry-type-card"
+            @click="createInquiry(inquiryType)"
+          >
+            <div class="inquiry-type-card__icon">
+              <component :is="getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).icon" />
             </div>
+            <div class="inquiry-type-card__content">
+              <h4 class="inquiry-type-card__title">
+                {{
+                  t('agora', getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).label)
+                }}
+              </h4>
+              <p
+                v-if="getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description"
+                class="inquiry-type-card__description"
+              >
+                {{
+                  t(
+                    'agora',
+                    getInquiryTypeData(inquiryType.inquiry_type, allInquiryTypes).description
+                  )
+                }}
+              </p>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <!-- Inquiry Group Types Section 
+      <!-- Inquiry Group Types Section 
         <div v-if="filteredInquiryGroupTypes.length > 0" class="inquiry-section">
             <h3 class="section-title">{{ t('agora', 'Inquiry Groups') }}</h3>
             <div class="inquiry-types-grid">
@@ -489,335 +491,361 @@ function handleCloseGroupDialog() {
                 </div>
             </div>
         </div> -->
-        <!-- Inquiry Group Types Section -->
-  <div v-if="filteredInquiryGroupTypes.length > 0" class="inquiry-section">
-    <h3 class="section-title">{{ t('agora', 'Inquiry Groups') }}</h3>
-    <div class="inquiry-types-grid">
-      <div
-        v-for="inquiryGroupType in filteredInquiryGroupTypes"
-        :key="inquiryGroupType.id"
-        class="inquiry-type-card"
-        :class="{ 'disabled-card': !canUserCreateInquiryGroup }"
-        @click="canUserCreateInquiryGroup ? createInquiryGroup(inquiryGroupType) : null"
-      >
-        <div class="inquiry-type-card__icon">
-          <component :is="getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes).icon" />
-        </div>
-        <div class="inquiry-type-card__content">
-          <h4 class="inquiry-type-card__title">
-            {{ t('agora', getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes).label) }}
-          </h4>
-          <p v-if="getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes).description" class="inquiry-type-card__description">
-            {{ t('agora', getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes).description) }}
-          </p>
+      <!-- Inquiry Group Types Section -->
+      <div v-if="filteredInquiryGroupTypes.length > 0" class="inquiry-section">
+        <h3 class="section-title">{{ t('agora', 'Inquiry Groups') }}</h3>
+        <div class="inquiry-types-grid">
+          <div
+            v-for="inquiryGroupType in filteredInquiryGroupTypes"
+            :key="inquiryGroupType.id"
+            class="inquiry-type-card"
+            :class="{ 'disabled-card': !canUserCreateInquiryGroup }"
+            @click="canUserCreateInquiryGroup ? createInquiryGroup(inquiryGroupType) : null"
+          >
+            <div class="inquiry-type-card__icon">
+              <component
+                :is="
+                  getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes).icon
+                "
+              />
+            </div>
+            <div class="inquiry-type-card__content">
+              <h4 class="inquiry-type-card__title">
+                {{
+                  t(
+                    'agora',
+                    getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes).label
+                  )
+                }}
+              </h4>
+              <p
+                v-if="
+                  getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes)
+                    .description
+                "
+                class="inquiry-type-card__description"
+              >
+                {{
+                  t(
+                    'agora',
+                    getInquiryGroupTypeData(inquiryGroupType.group_type, allInquiryGroupTypes)
+                      .description
+                  )
+                }}
+              </p>
 
-          <!-- Permission warning for users who can't create -->
-          <div v-if="!canUserCreateInquiryGroup" class="permission-warning">
-            <small>{{ t('agora', 'You do not have permission to create inquiry groups') }}</small>
+              <!-- Permission warning for users who can't create -->
+              <div v-if="!canUserCreateInquiryGroup" class="permission-warning">
+                <small>{{
+                  t('agora', 'You do not have permission to create inquiry groups')
+                }}</small>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
 
-
-        <NcEmptyContent 
-                                                                                                                         v-if="filteredInquiryTypes.length === 0 && filteredInquiryGroupTypes.length === 0" 
-                                                                                                                         v-bind="emptyContentProps"
-                                                                                                                         >
-                                                                                                                         <template #icon>
-                                                                                                                             <AgoraAppIcon />
-                                                                                                                         </template>
-        </NcEmptyContent>
+      <NcEmptyContent
+        v-if="filteredInquiryTypes.length === 0 && filteredInquiryGroupTypes.length === 0"
+        v-bind="emptyContentProps"
+      >
+        <template #icon>
+          <AgoraAppIcon />
+        </template>
+      </NcEmptyContent>
     </div>
 
     <!-- Inquiry Creation Dialog -->
     <NcDialog
-            v-if="createDlgToggle"
-            :name="t('agora', 'Create New Inquiry')"
-            :enable-slide-up="false"
-            @close="handleCloseDialog"
-            >
-            <InquiryCreateDlg
-                    :inquiry-type="selectedInquiryTypeForCreation"
-                    :selected-groups="selectedGroups"
-                    :available-groups="availableGroups"
-                    @added="inquiryAdded"
-                    @close="handleCloseDialog"
-                    @update:selected-groups="selectedGroups = $event"
-                    />
+      v-if="createDlgToggle"
+      :name="t('agora', 'Create New Inquiry')"
+      :enable-slide-up="false"
+      @close="handleCloseDialog"
+    >
+      <InquiryCreateDlg
+        :inquiry-type="selectedInquiryTypeForCreation"
+        :selected-groups="selectedGroups"
+        :available-groups="availableGroups"
+        @added="inquiryAdded"
+        @close="handleCloseDialog"
+        @update:selected-groups="selectedGroups = $event"
+      />
     </NcDialog>
 
     <!-- Inquiry Group Creation Dialog -->
     <NcDialog
-            v-if="createGroupDlgToggle"
-            :name="t('agora', 'Create New Inquiry Group')"
-            :enable-slide-up="false"
-            @close="handleCloseGroupDialog"
-            >
-            <InquiryGroupCreateDlg
-                    :inquiry-group-type="selectedInquiryGroupTypeForCreation"
-                    :selected-groups="selectedGroups"
-                    :available-groups="availableGroups"
-                    @added="inquiryGroupAdded"
-                    @close="handleCloseGroupDialog"
-                    @update:selected-groups="selectedGroups = $event"
-                    />
+      v-if="createGroupDlgToggle"
+      :name="t('agora', 'Create New Inquiry Group')"
+      :enable-slide-up="false"
+      @close="handleCloseGroupDialog"
+    >
+      <InquiryGroupCreateDlg
+        :inquiry-group-type="selectedInquiryGroupTypeForCreation"
+        :selected-groups="selectedGroups"
+        :available-groups="availableGroups"
+        @added="inquiryGroupAdded"
+        @close="handleCloseGroupDialog"
+        @update:selected-groups="selectedGroups = $event"
+      />
     </NcDialog>
-    </NcAppContent>
+  </NcAppContent>
 </template>
 
 <style lang="scss" scoped>
 .inquiry-menu {
-    .area__main {
-        width: 100%;
-    }
+  .area__main {
+    width: 100%;
+  }
 }
 
-                            // Header Actions Container
-                                .header-actions {
-                                display: flex;
-                                align-items: center;
-                                justify-content: flex-end;
-                                gap: 16px;
-                                width: 100%;
-                                margin-left: auto;
+// Header Actions Container
+.header-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  width: 100%;
+  margin-left: auto;
 
-                                // Back button styles
-                                    .back-button {
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 8px;
-                                    background: none;
-                                    border: 1px solid var(--color-border);
-                                    border-radius: 10px;
-                                    padding: 10px 18px;
-                                    cursor: pointer;
-                                    color: var(--color-text-lighter);
-                                    transition: all 0.2s ease;
-                                    flex-shrink: 0;
-                                    margin-right: auto;
+  // Back button styles
+  .back-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    padding: 10px 18px;
+    cursor: pointer;
+    color: var(--color-text-lighter);
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    margin-right: auto;
 
-                                    &:hover {
-                                        background: var(--color-background-dark);
-                                        color: var(--color-main-text);
-                                        border-color: var(--color-primary-element);
-                                    }
+    &:hover {
+      background: var(--color-background-dark);
+      color: var(--color-main-text);
+      border-color: var(--color-primary-element);
+    }
 
-                                    &__icon {
-                                        font-size: 18px;
-                                        font-weight: 600;
-                                    }
-                                }
+    &__icon {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
 
-                                // View Mode Switcher styles
-                                    .view-mode-switcher {
-                                    display: flex;
-                                    align-items: center;
-                                    gap: 0;
-                                    background: var(--color-background-dark);
-                                    border-radius: 10px;
-                                    padding: 4px;
-                                    border: 1px solid var(--color-border);
-                                    overflow: hidden;
-                                }
-                            }
+  // View Mode Switcher styles
+  .view-mode-switcher {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: var(--color-background-dark);
+    border-radius: 10px;
+    padding: 4px;
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+  }
+}
 
-                            .families-grid-container {
-                                padding: 20px;
-                            }
+.families-grid-container {
+  padding: 20px;
+}
 
-                            .families-grid {
-                                display: grid;
-                                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-                                gap: 24px;
-                                max-width: 1400px;
-                                margin: 0 auto;
-                            }
+.families-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
 
-                            .family-card-large {
-                                background: var(--color-main-background);
-                                border: 2px solid var(--color-border);
-                                border-radius: 20px;
-                                padding: 32px;
-                                cursor: pointer;
-                                transition: all 0.3s ease;
-                                display: flex;
-                                flex-direction: column;
-                                align-items: center;
-                                text-align: center;
-                                min-height: 240px;
-                                justify-content: center;
-                                position: relative;
+.family-card-large {
+  background: var(--color-main-background);
+  border: 2px solid var(--color-border);
+  border-radius: 20px;
+  padding: 32px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 240px;
+  justify-content: center;
+  position: relative;
 
-                                &:hover {
-                                    border-color: var(--color-primary-element);
-                                    transform: translateY(-6px);
-                                    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
-                                }
+  &:hover {
+    border-color: var(--color-primary-element);
+    transform: translateY(-6px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+  }
 
-                                &__icon {
-                                    width: 80px;
-                                    height: 80px;
-                                    background: linear-gradient(135deg, var(--color-primary-element), var(--color-primary-element-hover));
-                                    border-radius: 50%;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    margin-bottom: 20px;
-                                }
+  &__icon {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(
+      135deg,
+      var(--color-primary-element),
+      var(--color-primary-element-hover)
+    );
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
 
-                                &__title {
-                                    font-size: 22px;
-                                    font-weight: 700;
-                                    margin-bottom: 12px;
-                                    color: var(--color-main-text);
-                                    line-height: 1.3;
-                                }
+  &__title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: var(--color-main-text);
+    line-height: 1.3;
+  }
 
-                                &__description {
-                                    color: var(--color-text-lighter);
-                                    font-size: 16px;
-                                    line-height: 1.5;
-                                    margin-bottom: 16px;
-                                }
-                            }
+  &__description {
+    color: var(--color-text-lighter);
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+}
 
-                            /* Inquiry Types Container Styles */
-                            .inquiry-types-container {
-                                padding: 20px;
-                            }
+/* Inquiry Types Container Styles */
+.inquiry-types-container {
+  padding: 20px;
+}
 
-                            .inquiry-types-header {
-                                display: flex;
-                                align-items: flex-start;
-                                gap: 24px;
-                                margin-bottom: 32px;
-                                padding-bottom: 20px;
-                                border-bottom: 1px solid var(--color-border);
+.inquiry-types-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 24px;
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--color-border);
 
-                                .selected-family-info {
-                                    flex: 1;
+  .selected-family-info {
+    flex: 1;
 
-                                    h2 {
-                                        font-size: 28px;
-                                        font-weight: 700;
-                                        margin-bottom: 8px;
-                                        color: var(--color-main-text);
-                                    }
+    h2 {
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--color-main-text);
+    }
 
-                                    p {
-                                        color: var(--color-text-lighter);
-                                        font-size: 16px;
-                                        line-height: 1.5;
-                                        margin-bottom: 12px;
-                                    }
-                                }
-                            }
+    p {
+      color: var(--color-text-lighter);
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+  }
+}
 
-                            .inquiry-section {
-                                margin-bottom: 40px;
+.inquiry-section {
+  margin-bottom: 40px;
 
-                                .section-title {
-                                    font-size: 22px;
-                                    font-weight: 600;
-                                    margin-bottom: 20px;
-                                    color: var(--color-main-text);
-                                    padding-bottom: 10px;
-                                    border-bottom: 1px solid var(--color-border);
-                                }
-                            }
+  .section-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    color: var(--color-main-text);
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--color-border);
+  }
+}
 
-                            .inquiry-types-grid {
-                                display: grid;
-                                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                                gap: 20px;
-                                max-width: 1200px;
-                                margin: 0 auto;
-                            }
+.inquiry-types-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
 
-                            .inquiry-type-card {
-                                background: var(--color-main-background);
-                                border: 1px solid var(--color-border);
-                                border-radius: 16px;
-                                padding: 24px;
-                                cursor: pointer;
-                                transition: all 0.2s ease;
-                                display: flex;
-                                align-items: flex-start;
-                                gap: 16px;
-                                min-height: 140px;
+.inquiry-type-card {
+  background: var(--color-main-background);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  padding: 24px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-height: 140px;
 
-                                &:hover {
-                                    border-color: var(--color-primary-element);
-                                    transform: translateY(-2px);
-                                    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-                                }
+  &:hover {
+    border-color: var(--color-primary-element);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  }
 
-                                &__icon {
-                                    width: 48px;
-                                    height: 48px;
-                                    background: var(--color-background-dark);
-                                    border-radius: 12px;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                    flex-shrink: 0;
-                                }
+  &__icon {
+    width: 48px;
+    height: 48px;
+    background: var(--color-background-dark);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
 
-                                &__content {
-                                    flex: 1;
-                                }
+  &__content {
+    flex: 1;
+  }
 
-                                &__title {
-                                    font-size: 18px;
-                                    font-weight: 600;
-                                    margin-bottom: 8px;
-                                    color: var(--color-main-text);
-                                    line-height: 1.3;
-                                }
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--color-main-text);
+    line-height: 1.3;
+  }
 
-                                &__description {
-                                    color: var(--color-text-lighter);
-                                    font-size: 14px;
-                                    line-height: 1.4;
-                                    margin-bottom: 12px;
-                                }
-                            }
+  &__description {
+    color: var(--color-text-lighter);
+    font-size: 14px;
+    line-height: 1.4;
+    margin-bottom: 12px;
+  }
+}
 
-                            /* Responsive Design */
-                            @media (max-width: 768px) {
-                                .header-actions {
-                                    flex-direction: column;
-                                    align-items: stretch;
-                                    gap: 12px;
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
 
-                                    .back-button {
-                                        margin-right: 0;
-                                        order: 1;
-                                    }
+    .back-button {
+      margin-right: 0;
+      order: 1;
+    }
 
-                                    .view-mode-switcher {
-                                        order: 2;
-                                        justify-content: center;
-                                    }
-                                }
+    .view-mode-switcher {
+      order: 2;
+      justify-content: center;
+    }
+  }
 
-                                .families-grid {
-                                    grid-template-columns: 1fr;
-                                }
+  .families-grid {
+    grid-template-columns: 1fr;
+  }
 
-                                .inquiry-types-header {
-                                    flex-direction: column;
-                                    gap: 16px;
+  .inquiry-types-header {
+    flex-direction: column;
+    gap: 16px;
 
-                                    .selected-family-info h2 {
-                                        font-size: 24px;
-                                    }
-                                }
+    .selected-family-info h2 {
+      font-size: 24px;
+    }
+  }
 
-                                .inquiry-types-grid {
-                                    grid-template-columns: 1fr;
-                                }
-                            }
+  .inquiry-types-grid {
+    grid-template-columns: 1fr;
+  }
+}
 </style>

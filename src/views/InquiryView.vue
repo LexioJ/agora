@@ -24,8 +24,6 @@ import type { CollapsibleProps } from '../components/Base/modules/Collapsible.vu
 import InquiryInfoCards from '../components/Cards/InquiryInfoCards.vue'
 import { createInquiryContext, ContentType, canEdit } from '../utils/permissions.ts'
 
-
-
 const forceRenderKey = ref(0)
 const selectedMode = ref('response')
 const route = useRoute()
@@ -42,9 +40,7 @@ const selectedGroups = ref([])
 const isSaving = ref(false)
 
 // Context for permissions
-const context = computed(() => {
-  return createInquiryContext(inquiryStore, sessionStore.appSettings)
-})
+const context = computed(() => createInquiryContext(inquiryStore, sessionStore.appSettings))
 
 const availableGroups = computed(() => {
   const groups = sessionStore.currentUser.groups || {}
@@ -61,9 +57,8 @@ async function routeChild(childId: string) {
 async function loadInquiry(id: string) {
   try {
     await inquiryStore.load(id)
-    const result = inquiriesStore.inquiries.filter(i => 
-      i.parentId === Number(id) &&
-      i.configuration.access !== 'private'
+    const result = inquiriesStore.inquiries.filter(
+      (i) => i.parentId === Number(id) && i.configuration.access !== 'private'
     )
     inquiryStore.childs = result
 
@@ -76,7 +71,7 @@ async function loadInquiry(id: string) {
     }
     await nextTick()
     forceRenderKey.value += 1
-  } catch  {
+  } catch {
     showError(t('agora', 'Failed to load inquiry'))
   } finally {
     isAppLoaded.value = true
@@ -95,7 +90,11 @@ watch(
 // Compute isReadonly
 const isReadonly = computed(() => {
   const user = sessionStore.currentUser
-  if (inquiryStore.status.moderationStatus === 'rejected' || inquiryStore.status.moderationStatus === 'pending') return true
+  if (
+    inquiryStore.status.moderationStatus === 'rejected' ||
+    inquiryStore.status.moderationStatus === 'pending'
+  )
+    return true
   if (!user) {
     return true
   }
@@ -105,11 +104,10 @@ const isReadonly = computed(() => {
 })
 
 const isReadonlyDescription = computed(() => {
-
   if (inquiryStore.type === 'debate') {
     return false
   }
-   return isReadonly.value
+  return isReadonly.value
 })
 
 const enableEditMode = () => {
@@ -172,13 +170,13 @@ const handleSave = async () => {
 }
 
 const handleAllowedResponse = (responseType: string) => {
-  selectedMode.value = 'response' 
+  selectedMode.value = 'response'
   selectedInquiryTypeForCreation.value = responseType
   createDlgToggle.value = true
 }
 
 const handleAllowedTransformation = (transformType: string) => {
-  selectedMode.value = 'transform' 
+  selectedMode.value = 'transform'
   selectedInquiryTypeForCreation.value = transformType
   createDlgToggle.value = true
 }
@@ -192,7 +190,7 @@ const inquiryAdded = (inquiry) => {
   showSuccess(t('agora', 'Inquiry {title} added', { title: inquiry.title }))
   createDlgToggle.value = false
   selectedInquiryTypeForCreation.value = ''
-  
+
   // Navigate to the new inquiry
   router.push({
     name: 'inquiry',
@@ -222,13 +220,12 @@ const handleGroupUpdate = (groups) => {
     />
 
     <div class="area__main">
-
       <div class="view-content">
-        <InquiryEditViewForm 
-	  v-if="editMode" 
-	  :is-readonly-description="isReadonlyDescription"
-	  :is-readonly="isReadonly"
-	  />
+        <InquiryEditViewForm
+          v-if="editMode"
+          :is-readonly-description="isReadonlyDescription"
+          :is-readonly="isReadonly"
+        />
         <InquiryTransition
           v-else
           :is-loaded-parent="isAppLoaded"
@@ -247,9 +244,11 @@ const handleGroupUpdate = (groups) => {
       :selected-mode="selectedMode"
       :available-groups="availableGroups"
       :parent-inquiry-id="inquiryStore.id"
-      :default-title="selectedInquiryTypeForCreation === 'official' 
-        ? t('agora', 'Official response for: {title}', { title: inquiryStore.title })
-        : t('agora', 'Response for: {title}', { title: inquiryStore.title })"
+      :default-title="
+        selectedInquiryTypeForCreation === 'official'
+          ? t('agora', 'Official response for: {title}', { title: inquiryStore.title })
+          : t('agora', 'Response for: {title}', { title: inquiryStore.title })
+      "
       @close="handleCloseDialog"
       @added="inquiryAdded"
       @update:selected-groups="handleGroupUpdate"

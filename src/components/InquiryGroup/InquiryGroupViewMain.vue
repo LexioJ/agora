@@ -34,7 +34,12 @@
             >
               <!-- Type Inquiries Grid -->
               <div class="type-inquiries">
-                <div class="inquiry-grid main-grid" :class="{ 'single-full-item': typeGroup.length === 1 && isFullInquiry(typeGroup[0]) }">
+                <div
+                  class="inquiry-grid main-grid"
+                  :class="{
+                    'single-full-item': typeGroup.length === 1 && isFullInquiry(typeGroup[0]),
+                  }"
+                >
                   <template v-for="inquiry in typeGroup" :key="inquiry.id">
                     <component
                       :is="getInquiryComponent(inquiry, 'main')"
@@ -76,7 +81,6 @@
             :key="typeKey"
             class="sidebar-type-group"
           >
-
             <!-- Sidebar Type Inquiries -->
             <div class="sidebar-inquiries">
               <template v-for="inquiry in typeGroup" :key="inquiry.id">
@@ -168,7 +172,7 @@ const popupInquiry = ref<Inquiry | null>(null)
 const inquiries = computed(() => {
   const allInquiries = inquiriesStore.inquiries || []
   return props.inquiryIds
-    .map(id => allInquiries.find(inquiry => inquiry.id === id))
+    .map((id) => allInquiries.find((inquiry) => inquiry.id === id))
     .filter(Boolean) as Inquiry[]
 })
 
@@ -193,7 +197,7 @@ const layoutCompatibility = {
   sidebar: ['cards', 'list', 'summary'],
   main: ['rich_html', 'full', 'summary', 'cards', 'list'],
   footer: ['cards', 'summary', 'list'],
-  header: ['cards', 'summary', 'list']
+  header: ['cards', 'summary', 'list'],
 }
 
 // Get layout zone for inquiry
@@ -218,7 +222,7 @@ function getLayoutZone(inquiry: Inquiry): string {
 
   // Priority order
   const priorityOrder = ['main', 'header', 'sidebar', 'footer']
-  return priorityOrder.find(layout => compatibleLayouts.includes(layout)) || 'main'
+  return priorityOrder.find((layout) => compatibleLayouts.includes(layout)) || 'main'
 }
 
 // Get appropriate render mode for layout zone
@@ -240,7 +244,7 @@ const componentMap = {
   list: InquiryListItem,
   full: InquiryFull,
   rich_html: InquiryRichHTML,
-  summary: InquirySummary
+  summary: InquirySummary,
 }
 
 // Get component for inquiry
@@ -253,7 +257,7 @@ function getInquiryComponent(inquiry: Inquiry, layoutZone: string) {
 function groupInquiriesByType(inquiryList: Inquiry[]) {
   const grouped: Record<string, Inquiry[]> = {}
 
-  inquiryList.forEach(inquiry => {
+  inquiryList.forEach((inquiry) => {
     const type = inquiry.type || 'default'
     if (!grouped[type]) grouped[type] = []
     grouped[type].push(inquiry)
@@ -264,19 +268,19 @@ function groupInquiriesByType(inquiryList: Inquiry[]) {
 
 // Get inquiries for each layout zone
 const sidebarInquiries = computed(() =>
-  inquiries.value.filter(inquiry => getLayoutZone(inquiry) === 'sidebar')
+  inquiries.value.filter((inquiry) => getLayoutZone(inquiry) === 'sidebar')
 )
 
 const headerInquiries = computed(() =>
-  inquiries.value.filter(inquiry => getLayoutZone(inquiry) === 'header')
+  inquiries.value.filter((inquiry) => getLayoutZone(inquiry) === 'header')
 )
 
 const mainInquiries = computed(() =>
-  inquiries.value.filter(inquiry => getLayoutZone(inquiry) === 'main')
+  inquiries.value.filter((inquiry) => getLayoutZone(inquiry) === 'main')
 )
 
 const footerInquiries = computed(() =>
-  inquiries.value.filter(inquiry => getLayoutZone(inquiry) === 'footer')
+  inquiries.value.filter((inquiry) => getLayoutZone(inquiry) === 'footer')
 )
 
 // Grouped inquiries
@@ -289,28 +293,28 @@ const hasSidebarInquiries = computed(() => sidebarInquiries.value.length > 0)
 // Handle inquiry click - with open_mode support
 function handleInquiryClick(inquiry: Inquiry) {
   const openMode = getOpenMode(inquiry)
-  
+
   switch (openMode) {
     case 'modal':
       modalInquiry.value = inquiry
       showModal.value = true
       break
-      
+
     case 'popup':
       popupInquiry.value = inquiry
       showPopup.value = true
       break
-      
+
     case 'page':
     default:
       // Navigate to edit page using router
       router.push({
         name: 'inquiry',
-        params: { id: inquiry.id }
+        params: { id: inquiry.id },
       })
       break
   }
-  
+
   // Emit the viewInquiry event for parent components
   emit('viewInquiry', inquiry.id)
 }
@@ -346,14 +350,14 @@ function closePopup() {
   // background: var(--color-main-background);
   background: transparent;
 
-  box-shadow: 
+  box-shadow:
     0 2px 8px rgba(0, 0, 0, 0.05),
     0 1px 2px rgba(0, 0, 0, 0.03);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
   overflow: hidden;
   position: relative;
-  
+
   /* Subtle gradient overlay on hover */
   &::before {
     content: '';
@@ -372,46 +376,46 @@ function closePopup() {
     pointer-events: none;
     z-index: 1;
   }
-  
+
   /* Hover effects - ENVELOPE ONLY */
   &:hover {
     border-color: var(--color-primary-element);
-    box-shadow: 
+    box-shadow:
       0 8px 24px rgba(0, 0, 0, 0.1),
       0 4px 12px rgba(var(--color-primary-rgb), 0.05);
     transform: translateY(-3px);
-    
+
     &::before {
       opacity: 1;
     }
   }
-  
+
   /* Active/Selected state */
   &.active {
     border-color: var(--color-primary-element);
     background: rgba(var(--color-primary-rgb), 0.03);
-    box-shadow: 
+    box-shadow:
       0 4px 16px rgba(var(--color-primary-rgb), 0.1),
       inset 0 0 0 1px rgba(var(--color-primary-rgb), 0.1);
   }
-  
+
   /* Different section accents */
   &.header-item:hover {
     border-color: #3b82f6; /* Blue accent */
   }
-  
+
   &.main-item:hover {
     border-color: var(--color-primary-element); /* Primary color */
   }
-  
+
   &.footer-item:hover {
     border-color: #10b981; /* Green accent */
   }
-  
+
   &.sidebar-item:hover {
     border-color: #8b5cf6; /* Purple accent */
   }
-  
+
   /* === INSIDE THE ENVELOPE - Child components have full control === */
   /* Remove any deep styling that affects child components */
   :deep(*) {
@@ -424,7 +428,7 @@ function closePopup() {
        - Component-specific layouts
     */
   }
-  
+
   /* Only set the wrapper for child components */
   :deep(.inquiry-full-view),
   :deep(.inquiry-card),
@@ -465,18 +469,18 @@ function closePopup() {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: 24px;
-    
+
     .full-width {
       grid-column: 1 / -1;
     }
   }
-  
+
   &.header-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
   }
-  
+
   &.footer-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -490,7 +494,7 @@ function closePopup() {
   border-width: 1.5px;
   border-radius: 12px;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
-  
+
   &:hover {
     transform: translateY(-2px);
   }
@@ -504,12 +508,12 @@ function closePopup() {
   .main-item {
     border-width: 1.5px;
     border-radius: 12px;
-    
+
     &:hover {
       transform: translateY(-2px);
     }
   }
-  
+
   .inquiry-grid.main-grid {
     grid-template-columns: 1fr;
     gap: 20px;

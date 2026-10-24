@@ -5,12 +5,7 @@
     "description": "Comprehensive template for citizen participation and democratic processes matching Agora default configuration",
     "author": "Agora Team",
     "use_case": "citizen_participation",
-    "available_languages": [
-      "en",
-      "fr",
-      "de",
-      "gsw"
-    ]
+    "available_languages": ["en", "fr", "de", "gsw"]
   },
   "inquiry_families": [
     {
@@ -152,27 +147,113 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "quorum", "label": "Quorum", "type": "integer", "required": false, "default": null, "rules": []},
-        {"key": "parent_law_id", "label": "Parent Law", "type": "integer", "required": false, "default": null, "rules": []},
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "form_schema", "label": "Form Schema", "type": "json", "required": false, "default": null, "rules": []},
-        {"key": "type_of_vote", "label": "Type of Vote", "type": "enum", "required": false, "default": "simple", "allowed_values": ["simple", "majority_judgement_beneficial", "majority_judgement_number"], "rules": []},
-        {"key": "support_start", "label": "Supporting Start", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "quorum",
+          "label": "Quorum",
+          "type": "integer",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "parent_law_id",
+          "label": "Parent Law",
+          "type": "integer",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "form_schema",
+          "label": "Form Schema",
+          "type": "json",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "type_of_vote",
+          "label": "Type of Vote",
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "majority_judgement_beneficial",
+            "majority_judgement_number"
+          ],
+          "rules": []
+        },
+        {
+          "key": "support_start",
+          "label": "Supporting Start",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "support_end",
+          "label": "Supporting End",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "objection",
-        "suggestion",
-        "official_citizen_participation"
-      ],
-      "allowed_transformation": [
-        "law_proposal"
-      ]
+      "allowed_response": ["objection", "suggestion", "official_citizen_participation"],
+      "allowed_transformation": ["law_proposal"]
     },
     {
       "inquiry_type": "petition",
@@ -192,23 +273,97 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "form_schema", "label": "Form Schema", "type": "json", "required": false, "default": null, "rules": []},
-        {"key": "type_of_vote", "label": "Type of Vote", "type": "enum", "required": false, "default": "simple", "allowed_values": ["simple", "majority_judgement_beneficial", "majority_judgement_number"], "rules": []},
-        {"key": "support_start", "label": "Supporting Start", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "form_schema",
+          "label": "Form Schema",
+          "type": "json",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "type_of_vote",
+          "label": "Type of Vote",
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "majority_judgement_beneficial",
+            "majority_judgement_number"
+          ],
+          "rules": []
+        },
+        {
+          "key": "support_start",
+          "label": "Supporting Start",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "support_end",
+          "label": "Supporting End",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "official_citizen_participation"
-      ],
-      "allowed_transformation": [
-        "initiative"
-      ]
+      "allowed_response": ["official_citizen_participation"],
+      "allowed_transformation": ["initiative"]
     },
     {
       "inquiry_type": "initiative",
@@ -228,28 +383,113 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "co_owners", "label": "Co-owners", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "quorum", "label": "Quorum", "type": "integer", "required": false, "default": null, "rules": []},
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "form_schema", "label": "Form Schema", "type": "json", "required": false, "default": null, "rules": []},
-        {"key": "type_of_vote", "label": "Type of Vote", "type": "enum", "required": false, "default": "simple", "allowed_values": ["simple", "majority_judgement_beneficial", "majority_judgement_number"], "rules": []},
-        {"key": "support_start", "label": "Supporting Start", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "co_owners",
+          "label": "Co-owners",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "quorum",
+          "label": "Quorum",
+          "type": "integer",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "form_schema",
+          "label": "Form Schema",
+          "type": "json",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "type_of_vote",
+          "label": "Type of Vote",
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "majority_judgement_beneficial",
+            "majority_judgement_number"
+          ],
+          "rules": []
+        },
+        {
+          "key": "support_start",
+          "label": "Supporting Start",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "support_end",
+          "label": "Supporting End",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "proposal",
-        "objection",
-        "suggestion",
-        "official_citizen_participation"
-      ],
-      "allowed_transformation": [
-        "law_proposal"
-      ]
+      "allowed_response": ["proposal", "objection", "suggestion", "official_citizen_participation"],
+      "allowed_transformation": ["law_proposal"]
     },
     {
       "inquiry_type": "debate",
@@ -269,29 +509,113 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
-        {"key": "quorum", "label": "Quorum", "type": "integer", "required": false, "default": null, "rules": []},
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "form_schema", "label": "Form Schema", "type": "json", "required": false, "default": null, "rules": []},
-        {"key": "type_of_vote", "label": "Type of Vote", "type": "enum", "required": false, "default": "simple", "allowed_values": ["simple", "majority_judgement_beneficial", "majority_judgement_number"], "rules": []},
-        {"key": "support_start", "label": "Supporting Start", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "facilitator_id",
+          "label": "Facilitator",
+          "type": "users",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "quorum",
+          "label": "Quorum",
+          "type": "integer",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "form_schema",
+          "label": "Form Schema",
+          "type": "json",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "type_of_vote",
+          "label": "Type of Vote",
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "majority_judgement_beneficial",
+            "majority_judgement_number"
+          ],
+          "rules": []
+        },
+        {
+          "key": "support_start",
+          "label": "Supporting Start",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "support_end",
+          "label": "Supporting End",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "suggestion",
-        "proposal",
-        "petition",
-        "official_citizen_participation"
-      ],
-      "allowed_transformation": [
-        "law_proposal",
-        "policy_consultation"
-      ]
+      "allowed_response": ["suggestion", "proposal", "petition", "official_citizen_participation"],
+      "allowed_transformation": ["law_proposal", "policy_consultation"]
     },
     {
       "inquiry_type": "deliberation",
@@ -311,18 +635,59 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
-        {"key": "participants_list", "label": "Participants List", "type": "groups", "required": true, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "facilitator_id",
+          "label": "Facilitator",
+          "type": "users",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "participants_list",
+          "label": "Participants List",
+          "type": "groups",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "proposal",
-        "suggestion",
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["proposal", "suggestion", "official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -343,14 +708,43 @@
       },
       "is_root": false,
       "fields": [
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "suggestion"
-      ],
+      "allowed_response": ["suggestion"],
       "allowed_transformation": null
     },
     {
@@ -371,16 +765,44 @@
       },
       "is_root": false,
       "fields": [
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
       "allowed_response": null,
-      "allowed_transformation": [
-        "proposal",
-        "law_proposal"
-      ]
+      "allowed_transformation": ["proposal", "law_proposal"]
     },
     {
       "inquiry_type": "project",
@@ -400,19 +822,118 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "budget", "label": "Budget", "type": "integer", "required": true, "default": null, "rules": []},
-        {"key": "deadline", "label": "Deadline", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "assigned_unit", "label": "Assigned Unit", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "form_schema", "label": "Form Schema", "type": "json", "required": false, "default": null, "rules": []},
-        {"key": "type_of_vote", "label": "Type of Vote", "type": "enum", "required": false, "default": "simple", "allowed_values": ["simple", "majority_judgement_beneficial", "majority_judgement_number"], "rules": []},
-        {"key": "support_start", "label": "Supporting Start", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "budget",
+          "label": "Budget",
+          "type": "integer",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "deadline",
+          "label": "Deadline",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "assigned_unit",
+          "label": "Assigned Unit",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "form_schema",
+          "label": "Form Schema",
+          "type": "json",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "type_of_vote",
+          "label": "Type of Vote",
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "majority_judgement_beneficial",
+            "majority_judgement_number"
+          ],
+          "rules": []
+        },
+        {
+          "key": "support_start",
+          "label": "Supporting Start",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "support_end",
+          "label": "Supporting End",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
       "allowed_response": [
         "project_review",
@@ -440,18 +961,52 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "horizon_year", "label": "Horizon Year", "type": "integer", "required": false, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "horizon_year",
+          "label": "Horizon Year",
+          "type": "integer",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "suggestion"
-      ],
-      "allowed_transformation": [
-        "roadmap"
-      ]
+      "allowed_response": ["suggestion"],
+      "allowed_transformation": ["roadmap"]
     },
     {
       "inquiry_type": "hearing",
@@ -471,16 +1026,51 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "suggestion",
-        "objection"
-      ],
+      "allowed_response": ["suggestion", "objection"],
       "allowed_transformation": null
     },
     {
@@ -501,16 +1091,59 @@
       },
       "is_root": false,
       "fields": [
-        {"key": "project_id", "label": "Project ID", "type": "integer", "required": true, "default": null, "rules": []},
-        {"key": "evaluation", "label": "Evaluation", "type": "text", "required": false, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "project_id",
+          "label": "Project ID",
+          "type": "integer",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "evaluation",
+          "label": "Evaluation",
+          "type": "text",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "suggestion"
-      ],
+      "allowed_response": ["suggestion"],
       "allowed_transformation": null
     },
     {
@@ -531,26 +1164,129 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "parent_law_id", "label": "Parent Law", "type": "integer", "required": false, "default": null, "rules": []},
-        {"key": "article_map", "label": "Article Map", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "legal_status", "label": "Legal Status", "type": "enum", "required": true, "default": "pending", "allowed_values": ["pending", "validated", "rejected"], "rules": []},
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "form_schema", "label": "Form Schema", "type": "json", "required": false, "default": null, "rules": []},
-        {"key": "type_of_vote", "label": "Type of Vote", "type": "enum", "required": false, "default": "simple", "allowed_values": ["simple", "majority_judgement_beneficial", "majority_judgement_number"], "rules": []},
-        {"key": "support_start", "label": "Supporting Start", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "support_end", "label": "Supporting End", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "parent_law_id",
+          "label": "Parent Law",
+          "type": "integer",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "article_map",
+          "label": "Article Map",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "legal_status",
+          "label": "Legal Status",
+          "type": "enum",
+          "required": true,
+          "default": "pending",
+          "allowed_values": ["pending", "validated", "rejected"],
+          "rules": []
+        },
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "form_schema",
+          "label": "Form Schema",
+          "type": "json",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "type_of_vote",
+          "label": "Type of Vote",
+          "type": "enum",
+          "required": false,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "majority_judgement_beneficial",
+            "majority_judgement_number"
+          ],
+          "rules": []
+        },
+        {
+          "key": "support_start",
+          "label": "Supporting Start",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "support_end",
+          "label": "Supporting End",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "facilitator_id",
+          "label": "Facilitator",
+          "type": "users",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "amendment",
-        "objection",
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["amendment", "objection", "official_citizen_participation"],
       "allowed_transformation": []
     },
     {
@@ -571,14 +1307,73 @@
       },
       "is_root": false,
       "fields": [
-        {"key": "parent_law_id", "label": "Parent Law", "type": "integer", "required": true, "default": null, "rules": []},
-        {"key": "article_ref", "label": "Article Reference", "type": "integer", "required": true, "default": null, "rules": []},
-        {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "parent_law_id",
+          "label": "Parent Law",
+          "type": "integer",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "article_ref",
+          "label": "Article Reference",
+          "type": "integer",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "facilitator_id",
+          "label": "Facilitator",
+          "type": "users",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
       "allowed_response": null,
       "allowed_transformation": null
@@ -601,18 +1396,75 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "draft_text", "label": "Draft Text", "type": "text", "required": true, "default": null, "rules": []},
-        {"key": "article_map", "label": "Article Map", "type": "json", "required": false, "default": null, "rules": []},
-        {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "draft_text",
+          "label": "Draft Text",
+          "type": "text",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "article_map",
+          "label": "Article Map",
+          "type": "json",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "facilitator_id",
+          "label": "Facilitator",
+          "type": "users",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "law_proposal"
-      ],
+      "allowed_response": ["law_proposal"],
       "allowed_transformation": null
     },
     {
@@ -633,19 +1485,67 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "policy_area", "label": "Policy Area", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "impact_assessment", "label": "Impact Assessment", "type": "text", "required": false, "default": null, "rules": []},
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "policy_area",
+          "label": "Policy Area",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "impact_assessment",
+          "label": "Impact Assessment",
+          "type": "text",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "law_proposal",
-        "suggestion",
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["law_proposal", "suggestion", "official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -666,20 +1566,91 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "request_type", "label": "Request Type", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "assigned_unit", "label": "Assigned Unit", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "processing_deadline", "label": "Processing Deadline", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "resolution_date", "label": "Resolution Date", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "auto_load", "label": "Auto load forms", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "request_type",
+          "label": "Request Type",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "assigned_unit",
+          "label": "Assigned Unit",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "processing_deadline",
+          "label": "Processing Deadline",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "resolution_date",
+          "label": "Resolution Date",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_load",
+          "label": "Auto load forms",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -700,19 +1671,83 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "severity", "label": "Severity", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "assigned_unit", "label": "Assigned Unit", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "resolution_date", "label": "Resolution Date", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "auto_load", "label": "Auto load forms", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "severity",
+          "label": "Severity",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "assigned_unit",
+          "label": "Assigned Unit",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "resolution_date",
+          "label": "Resolution Date",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_load",
+          "label": "Auto load forms",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -733,17 +1768,64 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "support_type", "label": "Support Type", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "eligibility", "label": "Eligibility", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "assigned_unit", "label": "Assigned Unit", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "processing_deadline", "label": "Processing Deadline", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "resolution_date", "label": "Resolution Date", "type": "datetime", "required": false, "default": null, "rules": []},
-        {"key": "auto_load", "label": "Auto load forms", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []}
+        {
+          "key": "support_type",
+          "label": "Support Type",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "eligibility",
+          "label": "Eligibility",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "assigned_unit",
+          "label": "Assigned Unit",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "processing_deadline",
+          "label": "Processing Deadline",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "resolution_date",
+          "label": "Resolution Date",
+          "type": "datetime",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_load",
+          "label": "Auto load forms",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -764,23 +1846,91 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "quorum", "label": "Quorum", "type": "integer", "required": false, "default": null, "rules": []},
-        {"key": "meeting_frequency", "label": "Meeting Frequency", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "voting_rules", "label": "Voting Rules", "type": "text", "required": false, "default": null, "rules": []},
-        {"key": "agenda", "label": "Agenda", "type": "text", "required": true, "default": null, "rules": []},
-        {"key": "facilitator_id", "label": "Facilitator", "type": "users", "required": false, "default": null, "rules": []},
-        {"key": "location", "label": "Location", "type": "location", "required": false, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "quorum",
+          "label": "Quorum",
+          "type": "integer",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "meeting_frequency",
+          "label": "Meeting Frequency",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "voting_rules",
+          "label": "Voting Rules",
+          "type": "text",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "agenda",
+          "label": "Agenda",
+          "type": "text",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "facilitator_id",
+          "label": "Facilitator",
+          "type": "users",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "location",
+          "label": "Location",
+          "type": "location",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "deliberation",
-        "consultation",
-        "proposal",
-        "law_proposal"
-      ],
+      "allowed_response": ["deliberation", "consultation", "proposal", "law_proposal"],
       "allowed_transformation": null
     },
     {
@@ -801,18 +1951,59 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "mandate", "label": "Mandate", "type": "text", "required": false, "default": null, "rules": []},
-        {"key": "deadline", "label": "Deadline", "type": "date", "required": false, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "mandate",
+          "label": "Mandate",
+          "type": "text",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "deadline",
+          "label": "Deadline",
+          "type": "date",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "proposal",
-        "law_proposal",
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["proposal", "law_proposal", "official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -833,22 +2024,117 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "voting_start", "label": "Voting Start", "type": "datetime", "required": true, "default": null, "rules": []},
-        {"key": "voting_end", "label": "Voting End", "type": "datetime", "required": true, "default": null, "rules": []},
-        {"key": "poll_method", "label": "Poll Method", "type": "enum", "required": true, "default": "simple", "allowed_values": ["simple", "majority_judgement_beneficial", "majority_judgement_number", "condorcet", "approval", "nauru"], "rules": []},
-        {"key": "allow_multiple_choices", "label": "Allow Multiple Choices", "type": "boolean", "required": true, "default": false, "rules": []},
-        {"key": "tie_break_rule", "label": "Tie Break Rule", "type": "enum", "required": true, "default": "random", "allowed_values": ["random", "condorcet_priority", "highest_median"], "rules": []},
-        {"key": "result_visibility", "label": "Result Visibility", "type": "enum", "required": true, "default": "after_close", "allowed_values": ["always", "after_close", "partial"], "rules": []},
-        {"key": "vote_secret", "label": "Secret Vote", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "voting_start",
+          "label": "Voting Start",
+          "type": "datetime",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "voting_end",
+          "label": "Voting End",
+          "type": "datetime",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "poll_method",
+          "label": "Poll Method",
+          "type": "enum",
+          "required": true,
+          "default": "simple",
+          "allowed_values": [
+            "simple",
+            "majority_judgement_beneficial",
+            "majority_judgement_number",
+            "condorcet",
+            "approval",
+            "nauru"
+          ],
+          "rules": []
+        },
+        {
+          "key": "allow_multiple_choices",
+          "label": "Allow Multiple Choices",
+          "type": "boolean",
+          "required": true,
+          "default": false,
+          "rules": []
+        },
+        {
+          "key": "tie_break_rule",
+          "label": "Tie Break Rule",
+          "type": "enum",
+          "required": true,
+          "default": "random",
+          "allowed_values": ["random", "condorcet_priority", "highest_median"],
+          "rules": []
+        },
+        {
+          "key": "result_visibility",
+          "label": "Result Visibility",
+          "type": "enum",
+          "required": true,
+          "default": "after_close",
+          "allowed_values": ["always", "after_close", "partial"],
+          "rules": []
+        },
+        {
+          "key": "vote_secret",
+          "label": "Secret Vote",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -869,10 +2155,41 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
       "allowed_response": [],
       "allowed_transformation": null
@@ -895,10 +2212,41 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
       "allowed_response": [],
       "allowed_transformation": null
@@ -921,10 +2269,41 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
       "allowed_response": [],
       "allowed_transformation": null
@@ -947,16 +2326,59 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "location", "label": "Location", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "meeting_date", "label": "Meeting Date", "type": "datetime", "required": true, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "location",
+          "label": "Location",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "meeting_date",
+          "label": "Meeting Date",
+          "type": "datetime",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "suggestion"
-      ],
+      "allowed_response": ["suggestion"],
       "allowed_transformation": null
     },
     {
@@ -977,16 +2399,59 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "location", "label": "Location", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "start", "label": "Start Date", "type": "datetime", "required": true, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "location",
+          "label": "Location",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "start",
+          "label": "Start Date",
+          "type": "datetime",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "suggestion"
-      ],
+      "allowed_response": ["suggestion"],
       "allowed_transformation": null
     },
     {
@@ -1007,16 +2472,59 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "topic", "label": "Topic", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "speakers", "label": "Speakers", "type": "json", "required": false, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "topic",
+          "label": "Topic",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "speakers",
+          "label": "Speakers",
+          "type": "json",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "suggestion"
-      ],
+      "allowed_response": ["suggestion"],
       "allowed_transformation": null
     },
     {
@@ -1037,19 +2545,67 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "title", "label": "Title", "type": "string", "required": true, "default": null, "rules": []},
-        {"key": "mandate", "label": "Mandate", "type": "text", "required": false, "default": null, "rules": []},
-        {"key": "jury_id", "label": "Jury ID", "type": "users", "required": true, "default": null, "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "title",
+          "label": "Title",
+          "type": "string",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "mandate",
+          "label": "Mandate",
+          "type": "text",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "jury_id",
+          "label": "Jury ID",
+          "type": "users",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "proposal",
-        "law_proposal",
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["proposal", "law_proposal", "official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -1070,15 +2626,48 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "student_id", "label": "Student ID", "type": "users", "required": true, "default": null, "rules": []},
-        {"key": "requested_amount", "label": "Requested Amount", "type": "integer", "required": true, "default": null, "rules": []},
-        {"key": "assigned_unit", "label": "Assigned Unit", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "auto_load", "label": "Auto load forms", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []}
+        {
+          "key": "student_id",
+          "label": "Student ID",
+          "type": "users",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "requested_amount",
+          "label": "Requested Amount",
+          "type": "integer",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "assigned_unit",
+          "label": "Assigned Unit",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_load",
+          "label": "Auto load forms",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -1099,14 +2688,40 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "child_id", "label": "Child ID", "type": "users", "required": true, "default": null, "rules": []},
-        {"key": "assigned_unit", "label": "Assigned Unit", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "auto_load", "label": "Auto load forms", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []}
+        {
+          "key": "child_id",
+          "label": "Child ID",
+          "type": "users",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "assigned_unit",
+          "label": "Assigned Unit",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_load",
+          "label": "Auto load forms",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -1127,15 +2742,48 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "applicant_id", "label": "Applicant ID", "type": "users", "required": true, "default": null, "rules": []},
-        {"key": "priority_status", "label": "Priority Status", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "assigned_unit", "label": "Assigned Unit", "type": "string", "required": false, "default": null, "rules": []},
-        {"key": "auto_load", "label": "Auto load forms", "type": "boolean", "required": true, "default": true, "rules": []},
-        {"key": "auto_reminder", "label": "Auto Reminder", "type": "boolean", "required": true, "default": true, "rules": []}
+        {
+          "key": "applicant_id",
+          "label": "Applicant ID",
+          "type": "users",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "priority_status",
+          "label": "Priority Status",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "assigned_unit",
+          "label": "Assigned Unit",
+          "type": "string",
+          "required": false,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "auto_load",
+          "label": "Auto load forms",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        },
+        {
+          "key": "auto_reminder",
+          "label": "Auto Reminder",
+          "type": "boolean",
+          "required": true,
+          "default": true,
+          "rules": []
+        }
       ],
-      "allowed_response": [
-        "official_citizen_participation"
-      ],
+      "allowed_response": ["official_citizen_participation"],
       "allowed_transformation": null
     },
     {
@@ -1156,12 +2804,58 @@
       },
       "is_root": true,
       "fields": [
-        {"key": "responder_id", "label": "Responder", "type": "users", "required": true, "default": null, "rules": []},
-        {"key": "resolution_status", "label": "Resolution Status", "type": "enum", "required": true, "default": "pending", "allowed_values": ["pending", "accepted", "rejected"], "rules": []},
-        {"key": "layout_zone", "label": "Position display into the layout", "type": "enum", "required": false, "default": "footer", "allowed_values": ["sidebar", "main", "footer", "header"], "rules": []},
-        {"key": "render_mode", "label": "Render mode of inquiries", "type": "enum", "required": false, "default": "rich_html", "allowed_values": ["cards", "list", "full", "summary", "rich_html"], "rules": []},
-        {"key": "open_mode", "label": "Open Mode", "type": "enum", "required": false, "default": "page", "allowed_values": ["page", "modal", "popup"], "rules": []},
-        {"key": "allow_anonymous", "label": "Allow Anonymous Feedback", "type": "boolean", "required": false, "default": false, "rules": []}
+        {
+          "key": "responder_id",
+          "label": "Responder",
+          "type": "users",
+          "required": true,
+          "default": null,
+          "rules": []
+        },
+        {
+          "key": "resolution_status",
+          "label": "Resolution Status",
+          "type": "enum",
+          "required": true,
+          "default": "pending",
+          "allowed_values": ["pending", "accepted", "rejected"],
+          "rules": []
+        },
+        {
+          "key": "layout_zone",
+          "label": "Position display into the layout",
+          "type": "enum",
+          "required": false,
+          "default": "footer",
+          "allowed_values": ["sidebar", "main", "footer", "header"],
+          "rules": []
+        },
+        {
+          "key": "render_mode",
+          "label": "Render mode of inquiries",
+          "type": "enum",
+          "required": false,
+          "default": "rich_html",
+          "allowed_values": ["cards", "list", "full", "summary", "rich_html"],
+          "rules": []
+        },
+        {
+          "key": "open_mode",
+          "label": "Open Mode",
+          "type": "enum",
+          "required": false,
+          "default": "page",
+          "allowed_values": ["page", "modal", "popup"],
+          "rules": []
+        },
+        {
+          "key": "allow_anonymous",
+          "label": "Allow Anonymous Feedback",
+          "type": "boolean",
+          "required": false,
+          "default": false,
+          "rules": []
+        }
       ],
       "allowed_response": null,
       "allowed_transformation": null
@@ -2459,11 +4153,7 @@
         "de": "Argument dafür",
         "gsw": "Argumänt defür"
       },
-      "allowed_response": [
-        "suggestion",
-        "proposal",
-        "official_citizen_participation"
-      ]
+      "allowed_response": ["suggestion", "proposal", "official_citizen_participation"]
     },
     {
       "family": "debate",
@@ -2481,11 +4171,7 @@
         "de": "Argument dagegen",
         "gsw": "Argumänt dergege"
       },
-      "allowed_response": [
-        "suggestion",
-        "proposal",
-        "official_citizen_participation"
-      ]
+      "allowed_response": ["suggestion", "proposal", "official_citizen_participation"]
     },
     {
       "family": "debate",
@@ -2521,10 +4207,7 @@
         "de": "Gesetzeskapitel",
         "gsw": "Gsetzeskapitel"
       },
-      "allowed_response": [
-        "article",
-        "official_citizen_participation"
-      ]
+      "allowed_response": ["article", "official_citizen_participation"]
     },
     {
       "family": "law_proposal",
@@ -2542,10 +4225,7 @@
         "de": "Gesetzesartikel",
         "gsw": "Gsetzesartikel"
       },
-      "allowed_response": [
-        "amendment",
-        "official_citizen_participation"
-      ]
+      "allowed_response": ["amendment", "official_citizen_participation"]
     }
   ],
   "inquiry_group_types": [

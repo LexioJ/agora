@@ -13,9 +13,7 @@ import NcAppNavigationItem from '@nextcloud/vue/components/NcAppNavigationItem'
 import { Inquiry } from '../../Types/index.ts'
 import { InquiryGeneralIcons } from '../../utils/icons.ts'
 import { useSessionStore } from '../../stores/session.ts'
-import { 
-  getInquiryTypeData
-} from '../../helpers/modules/InquiryHelper.ts'
+import { getInquiryTypeData } from '../../helpers/modules/InquiryHelper.ts'
 
 import {
   canArchive,
@@ -39,7 +37,6 @@ const inquiryTypeData = computed(() => {
 })
 
 const context = createInquiryContext(inquiry, sessionStore.appSettings)
-
 </script>
 
 <template>
@@ -58,13 +55,22 @@ const context = createInquiryContext(inquiry, sessionStore.appSettings)
       <!-- Archive/Restore Button -->
       <NcActionButton
         v-if="canArchive(context)"
-        :name="inquiry.status.isArchived ? t('agora', 'Restore inquiry') : t('agora', 'Archive inquiry')"
-        :aria-label="inquiry.status.isArchived ? t('agora', 'Restore inquiry') : t('agora', 'Archive inquiry')"
+        :name="
+          inquiry.status.isArchived ? t('agora', 'Restore inquiry') : t('agora', 'Archive inquiry')
+        "
+        :aria-label="
+          inquiry.status.isArchived ? t('agora', 'Restore inquiry') : t('agora', 'Archive inquiry')
+        "
         close-after-click
         @click="emit('toggleArchive')"
       >
         <template #icon>
-          <component :is="inquiry.status.isArchived ? InquiryGeneralIcons.Restore : InquiryGeneralIcons.Archive" :size="20" />
+          <component
+            :is="
+              inquiry.status.isArchived ? InquiryGeneralIcons.Restore : InquiryGeneralIcons.Archive
+            "
+            :size="20"
+          />
         </template>
       </NcActionButton>
 

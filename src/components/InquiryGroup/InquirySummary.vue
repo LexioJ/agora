@@ -45,15 +45,20 @@
 
           <div class="compact-stats">
             <div
-v-if="inquiry.status?.countSupports"
-                 class="stat-item supports"
-                 :class="{ 'is-supported': isSupported }">
+              v-if="inquiry.status?.countSupports"
+              class="stat-item supports"
+              :class="{ 'is-supported': isSupported }"
+            >
               <component :is="supportIconComponent" class="support-icon" :size="10" />
               <span>{{ inquiry.status.countSupports }}</span>
             </div>
 
             <div v-if="inquiry.status?.countComments" class="stat-item comments">
-              <component :is="InquiryGeneralIconsComponents.Comment" class="comments-icon" :size="10" />
+              <component
+                :is="InquiryGeneralIconsComponents.Comment"
+                class="comments-icon"
+                :size="10"
+              />
               <span>{{ inquiry.status.countComments }}</span>
             </div>
           </div>
@@ -93,8 +98,7 @@ v-if="inquiry.status?.countSupports"
 
         <!-- Safe Description -->
         <!-- eslint-disable-next-line vue/no-v-html -->
-        <div v-if="safeDescription" class="summary-description" v-html="safeDescription">
-        </div>
+        <div v-if="safeDescription" class="summary-description" v-html="safeDescription"></div>
 
         <!-- Location & Category -->
         <div class="summary-meta">
@@ -102,7 +106,7 @@ v-if="inquiry.status?.countSupports"
             <component :is="InquiryGeneralIconsComponents.Location" class="meta-icon" :size="12" />
             <span class="meta-text">{{ truncatedLocation }}</span>
           </div>
-          
+
           <div v-if="categoryPath" class="meta-item category">
             <component :is="InquiryGeneralIconsComponents.Category" class="meta-icon" :size="12" />
             <span class="meta-text">{{ truncatedCategory }}</span>
@@ -132,7 +136,11 @@ v-if="inquiry.status?.countSupports"
           <div class="author-info">
             <div class="author-name">{{ ownerDisplayName }}</div>
             <div class="post-time">
-              <component :is="InquiryGeneralIconsComponents.Calendar" class="calendar-icon" :size="12" />
+              <component
+                :is="InquiryGeneralIconsComponents.Calendar"
+                class="calendar-icon"
+                :size="12"
+              />
               <span>{{ formattedTime }}</span>
             </div>
           </div>
@@ -141,15 +149,20 @@ v-if="inquiry.status?.countSupports"
         <!-- Stats Icons -->
         <div class="footer-stats">
           <div
-v-if="inquiry.status?.countSupports"
-               class="stat-item supports"
-               :class="{ 'is-supported': isSupported }">
+            v-if="inquiry.status?.countSupports"
+            class="stat-item supports"
+            :class="{ 'is-supported': isSupported }"
+          >
             <component :is="supportIconComponent" class="support-icon" :size="16" />
             <span>{{ inquiry.status.countSupports }}</span>
           </div>
 
           <div v-if="inquiry.status?.countComments" class="stat-item comments">
-            <component :is="InquiryGeneralIconsComponents.Comment" class="comments-icon" :size="16" />
+            <component
+              :is="InquiryGeneralIconsComponents.Comment"
+              class="comments-icon"
+              :size="16"
+            />
             <span>{{ inquiry.status.countComments }}</span>
           </div>
         </div>
@@ -176,7 +189,7 @@ interface Props {
 
 const props = withDefaults(defineProps<Props>(), {
   compact: false,
-  interactive: true
+  interactive: true,
 })
 
 const emit = defineEmits<{
@@ -195,7 +208,7 @@ const summaryClasses = computed(() => ({
   'is-compact': props.compact,
   'is-interactive': props.interactive,
   'has-expiry': showExpiryBadge.value,
-  'has-cover': !!coverUrl.value
+  'has-cover': !!coverUrl.value,
 }))
 
 // Get type data
@@ -216,17 +229,17 @@ const typeIconComponent = computed(() => {
   }
 
   const iconMap = {
-    'survey': 'ClipboardList',
-    'poll': 'CheckCircle',
-    'question': 'Question',
-    'discussion': 'MessageSquare',
-    'news': 'Newspaper',
-    'announcement': 'Megaphone',
-    'meeting': 'Users',
-    'document': 'Document',
-    'proposal': 'Scale',
-    'general': 'FolderMultiple',
-    'draft': 'Empty',
+    survey: 'ClipboardList',
+    poll: 'CheckCircle',
+    question: 'Question',
+    discussion: 'MessageSquare',
+    news: 'Newspaper',
+    announcement: 'Megaphone',
+    meeting: 'Users',
+    document: 'Document',
+    proposal: 'Scale',
+    general: 'FolderMultiple',
+    draft: 'Empty',
   }
 
   const iconName = iconMap[props.inquiry.type?.toLowerCase()] || 'FolderMultiple'
@@ -245,15 +258,14 @@ const supportIconComponent = computed(() => {
   if (props.inquiry.configuration?.supportFeature === 'ternary') {
     return TernarySupportIcon
   }
-  else if (props.inquiry.configuration?.supportFeature === 'binary') {
-  return ThumbIcon
+  if (props.inquiry.configuration?.supportFeature === 'binary') {
+    return ThumbIcon
   }
-
 })
 
 // Owner display
-const ownerDisplayName = computed(() => 
-  props.inquiry.ownedGroup || props.inquiry.owner?.displayName || ''
+const ownerDisplayName = computed(
+  () => props.inquiry.ownedGroup || props.inquiry.owner?.displayName || ''
 )
 
 // Truncated text
@@ -266,9 +278,7 @@ const truncatedTitle = computed(() => {
 
 const truncatedAuthorName = computed(() => {
   const name = ownerDisplayName.value
-  return name.length > 15
-    ? `${name.substring(0, 15)}…`
-    : name
+  return name.length > 15 ? `${name.substring(0, 15)}…` : name
 })
 
 // Safe description handling
@@ -302,7 +312,9 @@ function handleImageLoad() {
 }
 
 // Expiry handling
-const showExpiryBadge = computed(() => !!props.inquiry.configuration?.expire && props.inquiry.configuration.expire > 0)
+const showExpiryBadge = computed(
+  () => !!props.inquiry.configuration?.expire && props.inquiry.configuration.expire > 0
+)
 
 const expiryText = computed(() => {
   if (!props.inquiry.configuration?.expire) return ''
@@ -315,10 +327,11 @@ const expiryText = computed(() => {
 
   if (days > 0) {
     return t('agora', '{days}d', { days })
-  } if (hours > 0) {
+  }
+  if (hours > 0) {
     return t('agora', '{hours}h', { hours })
-  } 
-    return t('agora', 'Soon')
+  }
+  return t('agora', 'Soon')
 })
 
 const expiryBadgeClass = computed(() => {
@@ -347,20 +360,23 @@ const formattedTime = computed(() => {
 
   if (days > 30) {
     return created.toLocaleDateString()
-  } if (days > 0) {
+  }
+  if (days > 0) {
     return t('agora', '{days} days ago', { days })
-  } if (hours > 0) {
+  }
+  if (hours > 0) {
     return t('agora', '{hours} hours ago', { hours })
-  } if (minutes > 0) {
+  }
+  if (minutes > 0) {
     return t('agora', '{minutes} minutes ago', { minutes })
-  } 
-    return t('agora', 'Just now')
+  }
+  return t('agora', 'Just now')
 })
 
 // Location and Category paths
 function getHierarchyPath(items, targetId) {
   if (!items || !Array.isArray(items)) return ''
-  
+
   const itemMap = {}
 
   items.forEach((item) => {
@@ -385,20 +401,24 @@ function getHierarchyPath(items, targetId) {
   return buildPath(itemMap[targetId])
 }
 
-const locationPath = computed(() => getHierarchyPath(sessionStore.appSettings?.locationTab, props.inquiry.locationId))
-const categoryPath = computed(() => getHierarchyPath(sessionStore.appSettings?.categoryTab, props.inquiry.categoryId))
+const locationPath = computed(() =>
+  getHierarchyPath(sessionStore.appSettings?.locationTab, props.inquiry.locationId)
+)
+const categoryPath = computed(() =>
+  getHierarchyPath(sessionStore.appSettings?.categoryTab, props.inquiry.categoryId)
+)
 
 const truncatedLocation = computed(() => {
   if (!locationPath.value) return ''
-  return locationPath.value.length > 20 
-    ? `${locationPath.value.substring(0, 20)}…` 
+  return locationPath.value.length > 20
+    ? `${locationPath.value.substring(0, 20)}…`
     : locationPath.value
 })
 
 const truncatedCategory = computed(() => {
   if (!categoryPath.value) return ''
-  return categoryPath.value.length > 20 
-    ? `${categoryPath.value.substring(0, 20)}…` 
+  return categoryPath.value.length > 20
+    ? `${categoryPath.value.substring(0, 20)}…`
     : categoryPath.value
 })
 
@@ -411,17 +431,17 @@ function handleClick() {
 .inquiry-summary {
   font-family: var(--font-family);
   background: transparent;
-  
+
   &.is-interactive {
     cursor: pointer;
-    
+
     &:hover {
       .summary-regular {
         transform: translateY(-4px);
         box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
         border-color: var(--color-primary-element);
       }
-      
+
       .summary-compact {
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
@@ -429,14 +449,14 @@ function handleClick() {
       }
     }
   }
-  
+
   &.has-expiry {
     .summary-regular,
     .summary-compact {
       border-left: 4px solid var(--color-warning);
     }
   }
-  
+
   &.has-cover {
     .summary-regular {
       padding-top: 0;
@@ -452,12 +472,12 @@ function handleClick() {
   padding: 12px 16px;
   border: 2px solid var(--color-border);
   border-radius: 12px;
-    
+
   background: transparent;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   min-height: 72px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  
+
   .compact-type-badge {
     flex-shrink: 0;
     width: 32px;
@@ -468,19 +488,19 @@ function handleClick() {
     justify-content: center;
     background: linear-gradient(135deg, #3b82f6, #60a5fa);
     box-shadow: 0 2px 6px rgba(59, 130, 246, 0.3);
-    
+
     .compact-type-icon {
       width: 16px;
       height: 16px;
       color: white;
     }
   }
-  
+
   .compact-content {
     flex: 1;
     min-width: 0;
   }
-  
+
   .compact-title-row {
     display: flex;
     justify-content: space-between;
@@ -488,7 +508,7 @@ function handleClick() {
     gap: 8px;
     margin-bottom: 8px;
   }
-  
+
   .compact-title {
     flex: 1;
     font-size: 14px;
@@ -499,7 +519,7 @@ function handleClick() {
     text-overflow: ellipsis;
     line-height: 1.3;
   }
-  
+
   .compact-expiry-badge {
     flex-shrink: 0;
     display: flex;
@@ -511,49 +531,49 @@ function handleClick() {
     font-weight: 600;
     background: var(--color-background-darker);
     border: 1px solid var(--color-border);
-    
+
     &.expiry-soon {
       background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(239, 68, 68, 0.06));
       color: #ef4444;
       border: 1px solid rgba(239, 68, 68, 0.2);
     }
-    
+
     &.expiry-warning {
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.06));
       color: #f59e0b;
       border: 1px solid rgba(245, 158, 11, 0.2);
     }
-    
+
     &.expiry-normal {
       background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.06));
       color: #10b981;
       border: 1px solid rgba(16, 185, 129, 0.2);
     }
-    
+
     .expiry-icon {
       color: inherit;
     }
   }
-  
+
   .compact-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 8px;
   }
-  
+
   .compact-author {
     display: flex;
     align-items: center;
     gap: 8px;
     flex: 1;
-    
+
     .author-avatar {
       flex-shrink: 0;
       border: 2px solid white;
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
     }
-    
+
     .author-name {
       font-size: 12px;
       color: var(--color-text-lighter);
@@ -563,12 +583,12 @@ function handleClick() {
       font-weight: 500;
     }
   }
-  
+
   .compact-stats {
     display: flex;
     align-items: center;
     gap: 16px;
-    
+
     .stat-item {
       display: flex;
       align-items: center;
@@ -581,28 +601,28 @@ function handleClick() {
       border-radius: 8px;
       background: var(--color-background-dark);
       border: 1px solid var(--color-border);
-      
+
       .support-icon,
       .comments-icon {
         color: inherit;
       }
-      
+
       &.supports {
         cursor: pointer;
-        
+
         &:hover {
           color: var(--color-primary-element);
           background: rgba(var(--color-primary-rgb), 0.1);
           border-color: rgba(var(--color-primary-rgb), 0.2);
         }
-        
+
         &.is-supported {
           color: var(--color-primary-element);
           background: rgba(var(--color-primary-rgb), 0.15);
           border-color: rgba(var(--color-primary-rgb), 0.3);
         }
       }
-      
+
       &.comments:hover {
         color: #3b82f6;
         background: rgba(59, 130, 246, 0.1);
@@ -632,14 +652,14 @@ function handleClick() {
   margin: -24px -24px 20px -24px;
   overflow: hidden;
   border-radius: 14px 14px 0 0;
-  
+
   .cover-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.5s ease;
   }
-  
+
   .cover-overlay {
     position: absolute;
     top: 0;
@@ -648,7 +668,7 @@ function handleClick() {
     bottom: 0;
     background: linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.3));
   }
-  
+
   &:hover .cover-image {
     transform: scale(1.05);
   }
@@ -674,7 +694,7 @@ function handleClick() {
   font-weight: 600;
   color: #3b82f6;
   border: 1px solid rgba(59, 130, 246, 0.2);
-  
+
   .type-icon {
     color: #3b82f6;
   }
@@ -696,25 +716,25 @@ function handleClick() {
   font-weight: 600;
   background: var(--color-background-darker);
   border: 1px solid var(--color-border);
-  
+
   &.expiry-soon {
     background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(239, 68, 68, 0.06));
     color: #ef4444;
     border: 1px solid rgba(239, 68, 68, 0.2);
   }
-  
+
   &.expiry-warning {
     background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(245, 158, 11, 0.06));
     color: #f59e0b;
     border: 1px solid rgba(245, 158, 11, 0.2);
   }
-  
+
   &.expiry-normal {
     background: linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(16, 185, 129, 0.06));
     color: #10b981;
     border: 1px solid rgba(16, 185, 129, 0.2);
   }
-  
+
   .expiry-icon {
     color: inherit;
   }
@@ -743,7 +763,7 @@ function handleClick() {
   color: var(--color-text-lighter);
   margin: 20px 0;
   flex: 1;
-  
+
   :deep(*) {
     margin: 0;
     padding: 0;
@@ -751,27 +771,27 @@ function handleClick() {
     line-height: inherit;
     color: inherit;
   }
-  
+
   :deep(a) {
     color: var(--color-primary-element);
     text-decoration: none;
     font-weight: 500;
-    
+
     &:hover {
       text-decoration: underline;
     }
   }
-  
+
   :deep(ul),
   :deep(ol) {
     padding-left: 20px;
     margin: 12px 0;
   }
-  
+
   :deep(li) {
     margin-bottom: 6px;
   }
-  
+
   :deep(p) {
     margin: 12px 0;
   }
@@ -782,7 +802,7 @@ function handleClick() {
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 16px;
-  
+
   .meta-item {
     display: inline-flex;
     align-items: center;
@@ -793,19 +813,19 @@ function handleClick() {
     background: var(--color-background-dark);
     border-radius: 12px;
     border: 1px solid var(--color-border);
-    
+
     .meta-icon {
       opacity: 0.7;
     }
-    
+
     &.location .meta-icon {
       color: #3b82f6;
     }
-    
+
     &.category .meta-icon {
       color: #8b5cf6;
     }
-    
+
     .meta-text {
       max-width: 120px;
       white-space: nowrap;
@@ -831,17 +851,17 @@ function handleClick() {
   gap: 12px;
   flex: 1;
   min-width: 0;
-  
+
   .author-avatar {
     flex-shrink: 0;
     border: 2px solid white;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
-  
+
   .author-info {
     min-width: 0;
   }
-  
+
   .author-name {
     font-size: 14px;
     font-weight: 600;
@@ -851,7 +871,7 @@ function handleClick() {
     text-overflow: ellipsis;
     margin-bottom: 4px;
   }
-  
+
   .post-time {
     display: flex;
     align-items: center;
@@ -859,7 +879,7 @@ function handleClick() {
     font-size: 12px;
     font-weight: 500;
     color: var(--color-text-maxcontrast);
-    
+
     .calendar-icon {
       color: var(--color-text-maxcontrast);
       opacity: 0.7;
@@ -871,7 +891,7 @@ function handleClick() {
   display: flex;
   align-items: center;
   gap: 20px;
-  
+
   .stat-item {
     display: flex;
     align-items: center;
@@ -885,26 +905,26 @@ function handleClick() {
     transition: all 0.2s ease;
     cursor: pointer;
     border: 1px solid var(--color-border);
-    
+
     .support-icon,
     .comments-icon {
       color: inherit;
     }
-    
+
     &.supports {
       &:hover {
         background: rgba(var(--color-primary-rgb), 0.1);
         color: var(--color-primary-element);
         border-color: rgba(var(--color-primary-rgb), 0.2);
       }
-      
+
       &.is-supported {
         background: rgba(var(--color-primary-rgb), 0.15);
         color: var(--color-primary-element);
         border-color: rgba(var(--color-primary-rgb), 0.3);
       }
     }
-    
+
     &.comments:hover {
       background: rgba(59, 130, 246, 0.1);
       color: #3b82f6;
@@ -919,43 +939,43 @@ function handleClick() {
     padding: 20px;
     border-radius: 12px;
   }
-  
+
   .summary-cover {
     height: 140px;
     margin: -20px -20px 16px -20px;
     border-radius: 12px 12px 0 0;
   }
-  
+
   .summary-title {
     font-size: 18px;
   }
-  
+
   .summary-description {
     font-size: 14px;
   }
-  
+
   .footer-stats {
     gap: 12px;
-    
+
     .stat-item {
       padding: 6px 12px;
       font-size: 13px;
     }
   }
-  
+
   .summary-footer {
     flex-direction: column;
     align-items: stretch;
     gap: 16px;
   }
-  
+
   .footer-stats {
     justify-content: center;
   }
-  
+
   .compact-stats {
     gap: 12px;
-    
+
     .stat-item {
       padding: 3px 8px;
       font-size: 11px;
@@ -969,18 +989,18 @@ function handleClick() {
     align-items: flex-start;
     gap: 8px;
   }
-  
+
   .header-right {
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .compact-meta {
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
   }
-  
+
   .compact-stats {
     width: 100%;
     justify-content: flex-start;

@@ -53,7 +53,6 @@ import {
 const showSidebar = ref(window.innerWidth > 920)
 const activeTab = ref(t('agora', 'Comments').toLowerCase())
 
-
 onMounted(() => {
   subscribe(Event.SidebarToggle, (payload) => {
     showSidebar.value = payload?.open ?? !showSidebar.value
@@ -79,42 +78,33 @@ function closeSideBar() {
 </script>
 
 <template>
-    <aside>
-        <NcAppSidebar
-                v-show="showSidebar"
-                v-model="activeTab"
-                :name="t('agora', 'Details')"
-                @close="closeSideBar()"
-                >
-                <NcAppSidebarTab id="configuration" :order="1" :name="t('agora', 'Configuration')"> 
-                <template #icon> 
-                    <component :is="InquiryGeneralIcons.Wrench" />
-                </template> 
-                <SideBarTabConfigurationInquiryGroup /> 
-                </NcAppSidebarTab>
+  <aside>
+    <NcAppSidebar
+      v-show="showSidebar"
+      v-model="activeTab"
+      :name="t('agora', 'Details')"
+      @close="closeSideBar()"
+    >
+      <NcAppSidebarTab id="configuration" :order="1" :name="t('agora', 'Configuration')">
+        <template #icon>
+          <component :is="InquiryGeneralIcons.Wrench" />
+        </template>
+        <SideBarTabConfigurationInquiryGroup />
+      </NcAppSidebarTab>
 
-                <NcAppSidebarTab
-                        id="misc"
-                        :order="2"
-                        :name="t('agora', 'Settings')"
-                        >
-                        <template #icon>
-                            <component :is="InquiryGeneralIcons.Map" />
-                        </template>
-                 <SideBarTabGroupMisc /> 
-                </NcAppSidebarTab>
+      <NcAppSidebarTab id="misc" :order="2" :name="t('agora', 'Settings')">
+        <template #icon>
+          <component :is="InquiryGeneralIcons.Map" />
+        </template>
+        <SideBarTabGroupMisc />
+      </NcAppSidebarTab>
 
-                <NcAppSidebarTab
-                        id="sharing"
-                        :order="3"
-                        :name="t('agora', 'Sharing')"
-                        >
-                        <template #icon>
-                            <component :is="InquiryGeneralIcons.Share" />
-                        </template>
-                <SideBarTabInquiryGroupShare />
-                </NcAppSidebarTab>
-
-        </NcAppSidebar>
-    </aside>
+      <NcAppSidebarTab id="sharing" :order="3" :name="t('agora', 'Sharing')">
+        <template #icon>
+          <component :is="InquiryGeneralIcons.Share" />
+        </template>
+        <SideBarTabInquiryGroupShare />
+      </NcAppSidebarTab>
+    </NcAppSidebar>
+  </aside>
 </template>

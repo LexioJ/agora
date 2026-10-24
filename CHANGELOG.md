@@ -4,69 +4,81 @@
 -->
 
 # Changelog
+
 All notable changes to this project will be documented in this file.
+
 # [1.6.1] - 2025-12-22
+
 - Fix: Table for POSTGRES; Editing inquiry group ( refresh )
 
 # [1.6.0] - 2025-12-22
+
 - Fix: Update and forms in link form.
 - Features: Add ternary support choice
 - Collective group management
 
-
 # [1.5.5] - 2025-11-15
+
 - Fix: Administration type management popup fixed.
 - Fix: Misc settings type users not handled properly
 - Fix: run lint.
 
 # [1.5.4] - 2025-11-14
+
 - All resources implemented.
 - Need to be fixed : upate side bar. Forms creation
 
 - Fix: SideBar rights
+
 # [1.5.3] - 2025-11-10
+
 - First implementation of Resources, with integrating SibeBarAttachment.
 - Features: Address fetch to link with Location
 - Fix: SideBar rights
 
-
 # [1.5.2] - 2025-11-09
+
 - Fix: Variable name thanks to contributor
 
 # [1.5.1] - 2025-11-04
-- Add Misc fields features 
+
+- Add Misc fields features
 - FIX support hashes when upgrading
 
 # [1.5.0] - 2025-10-31
+
 - FIX unused settings
 - FIX info.xml
 
 # [1.5.0-rc2] - 2025-10-31
+
 - FIX permissions rights
 - FIX archiving
 
 # [1.5.0-rc1] - 2025-10-27
+
 - UPDATE: New database architecture
 - IMPROVEMENT:
-    - CoverId : Let u put an image for inquiry
-    - Moderation status :
-    - Possibility to create inquiries types and families types.
-    - New UX design.
- 
+  - CoverId : Let u put an image for inquiry
+  - Moderation status :
+  - Possibility to create inquiries types and families types.
+  - New UX design.
 
 # [1.1.0] - 2025-10-02
+
 - UPDATE: Most of Nc style have been used ( NcButton, NcSelect,..)
 - FIX: insert image now working in tiptap,.
 - FIX: IA in tiptap, has been change to use the Nextcloud IA ( not finalized yet )
 - IMPROVEMENT: updated search bar.
 
-
 # [1.0.0] - 2025-10-02
+
 - FIX CSRF
 - FIX Attachment issues, sharing now only files.
 - FIX icons and screenshoot
 
 # [1.0.0-rc5] - 2025-09-06
+
 - Fix UI bugs in edit and display
 - Add first language EN and DE ( not finalized )
 - Private childs inquiries are displayed.

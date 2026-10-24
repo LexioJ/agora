@@ -20,17 +20,15 @@ const settingsModalOpen = ref(false)
 
 // Navigation breadcrumb
 const breadcrumb = computed(() => {
-  const items = [
-    { label: t('agora', 'Inquiry Families'), view: 'families' }
-  ]
-  
+  const items = [{ label: t('agora', 'Inquiry Families'), view: 'families' }]
+
   if (selectedFamily.value) {
-    items.push({ 
-      label: selectedFamily.value.label, 
-      view: 'types' 
+    items.push({
+      label: selectedFamily.value.label,
+      view: 'types',
     })
   }
-  
+
   return items
 })
 
@@ -74,11 +72,7 @@ const currentComponent = computed(() => {
   <div class="admin-settings-container">
     <!-- Breadcrumb Navigation -->
     <div v-if="breadcrumb.length > 0" class="breadcrumb">
-      <span
-        v-for="(item, index) in breadcrumb"
-        :key="item.view"
-        class="breadcrumb-item"
-      >
+      <span v-for="(item, index) in breadcrumb" :key="item.view" class="breadcrumb-item">
         <button
           v-if="index < breadcrumb.length - 1"
           class="breadcrumb-link"
@@ -89,15 +83,13 @@ const currentComponent = computed(() => {
         <span v-else class="breadcrumb-current">
           {{ item.label }}
         </span>
-        <span v-if="index < breadcrumb.length - 1" class="breadcrumb-separator">
-          /
-        </span>
+        <span v-if="index < breadcrumb.length - 1" class="breadcrumb-separator"> / </span>
       </span>
     </div>
 
     <!-- Main Content -->
     <div class="settings-content">
-      <component 
+      <component
         :is="currentComponent"
         :selected-family="selectedFamily"
         @family-selected="handleFamilySelected"

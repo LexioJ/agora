@@ -4,8 +4,12 @@
  */
 import { AxiosResponse } from '@nextcloud/axios'
 import { httpInstance, createCancelTokenHandler } from './HttpApi.js'
-import type { InquiryLink, CreateLinkData, UpdateLinkData, CreateAppResourceData } from '../stores/inquiryLink.ts'
-
+import type {
+  InquiryLink,
+  CreateLinkData,
+  UpdateLinkData,
+  CreateAppResourceData,
+} from '../stores/inquiryLink.ts'
 
 const inquiryLinks = {
   /**
@@ -17,7 +21,8 @@ const inquiryLinks = {
       method: 'GET',
       url: `inquiry/${inquiryId}/links`,
       params: { time: +new Date() },
-      cancelToken: cancelTokenHandlerObject[this.getLinksByInquiry.name].handleRequestCancellation().token,
+      cancelToken:
+        cancelTokenHandlerObject[this.getLinksByInquiry.name].handleRequestCancellation().token,
     })
   },
 
@@ -28,15 +33,16 @@ const inquiryLinks = {
    * @param targetId
    */
   getLinksByTarget(
-    targetApp: string, 
-    targetType: string, 
+    targetApp: string,
+    targetType: string,
     targetId: string
   ): Promise<AxiosResponse<{ links: InquiryLink[] }>> {
     return httpInstance.request({
       method: 'GET',
       url: `links/target/${targetApp}/${targetType}/${targetId}`,
       params: { time: +new Date() },
-      cancelToken: cancelTokenHandlerObject[this.getLinksByTarget.name].handleRequestCancellation().token,
+      cancelToken:
+        cancelTokenHandlerObject[this.getLinksByTarget.name].handleRequestCancellation().token,
     })
   },
 
@@ -49,7 +55,8 @@ const inquiryLinks = {
       method: 'GET',
       url: `links/target-app/${targetApp}`,
       params: { time: +new Date() },
-      cancelToken: cancelTokenHandlerObject[this.getLinksByTargetApp.name].handleRequestCancellation().token,
+      cancelToken:
+        cancelTokenHandlerObject[this.getLinksByTargetApp.name].handleRequestCancellation().token,
     })
   },
 
@@ -93,14 +100,15 @@ const inquiryLinks = {
    * @param links
    */
   createMultipleLinks(
-    inquiryId: number, 
+    inquiryId: number,
     links: Omit<CreateLinkData, 'inquiryId'>[]
   ): Promise<AxiosResponse<{ links: InquiryLink[] }>> {
     return httpInstance.request({
       method: 'POST',
       url: `inquiry/${inquiryId}/links`,
       data: { links },
-      cancelToken: cancelTokenHandlerObject[this.createMultipleLinks.name].handleRequestCancellation().token,
+      cancelToken:
+        cancelTokenHandlerObject[this.createMultipleLinks.name].handleRequestCancellation().token,
     })
   },
 
@@ -144,7 +152,8 @@ const inquiryLinks = {
     return httpInstance.request({
       method: 'DELETE',
       url: `inquiry/${inquiryId}/links`,
-      cancelToken: cancelTokenHandlerObject[this.deleteLinksByInquiry.name].handleRequestCancellation().token,
+      cancelToken:
+        cancelTokenHandlerObject[this.deleteLinksByInquiry.name].handleRequestCancellation().token,
     })
   },
 
@@ -193,7 +202,8 @@ const inquiryLinks = {
         description: data.description || '',
         stackId: data.stackId || 1,
       },
-      cancelToken: cancelTokenHandlerObject[this.createDeckCard.name].handleRequestCancellation().token,
+      cancelToken:
+        cancelTokenHandlerObject[this.createDeckCard.name].handleRequestCancellation().token,
     })
   },
 
@@ -201,7 +211,9 @@ const inquiryLinks = {
    * Create a Cospend expense resource
    * @param data
    */
-  createCospendExpense(data: CreateAppResourceData): Promise<AxiosResponse<{ app: string; id: number }>> {
+  createCospendExpense(
+    data: CreateAppResourceData
+  ): Promise<AxiosResponse<{ app: string; id: number }>> {
     return httpInstance.request({
       method: 'POST',
       url: 'link/cospend-expense',
@@ -209,7 +221,8 @@ const inquiryLinks = {
         amount: data.amount || 0,
         description: data.description || '',
       },
-      cancelToken: cancelTokenHandlerObject[this.createCospendExpense.name].handleRequestCancellation().token,
+      cancelToken:
+        cancelTokenHandlerObject[this.createCospendExpense.name].handleRequestCancellation().token,
     })
   },
 }
